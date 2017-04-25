@@ -16,8 +16,7 @@ sleep 5
 check_command scripts/get_selenium.sh 
 sleep 5
 check_command scripts/get_chromedriver.sh 
-sleep 10
+sleep 5
 check_command scripts/selenium_connect.sh 
-sleep 10
-
+sleep 3
 exit $EXIT_STATUS

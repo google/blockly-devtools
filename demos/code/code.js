@@ -200,8 +200,14 @@ Code.bindClick = function(el, func) {
  * Load the Prettify CSS and JavaScript.
  */
 Code.importPrettify = function() {
+  //<link rel="stylesheet" href="../prettify.css">
+  //<script src="../prettify.js"></script>
+  var link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.setAttribute('href', '../prettify.css');
+  document.head.appendChild(link);
   var script = document.createElement('script');
-  script.setAttribute('src', 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js');
+  script.setAttribute('src', '../prettify.js');
   document.head.appendChild(script);
 };
 
@@ -307,41 +313,41 @@ Code.renderContent = function() {
   } else if (content.id == 'content_javascript') {
     var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
     content.textContent = code;
-    if (typeof PR.prettyPrintOne == 'function') {
+    if (typeof prettyPrintOne == 'function') {
       code = content.textContent;
-      code = PR.prettyPrintOne(code, 'js');
+      code = prettyPrintOne(code, 'js');
       content.innerHTML = code;
     }
   } else if (content.id == 'content_python') {
     code = Blockly.Python.workspaceToCode(Code.workspace);
     content.textContent = code;
-    if (typeof PR.prettyPrintOne == 'function') {
+    if (typeof prettyPrintOne == 'function') {
       code = content.textContent;
-      code = PR.prettyPrintOne(code, 'py');
+      code = prettyPrintOne(code, 'py');
       content.innerHTML = code;
     }
   } else if (content.id == 'content_php') {
     code = Blockly.PHP.workspaceToCode(Code.workspace);
     content.textContent = code;
-    if (typeof PR.prettyPrintOne == 'function') {
+    if (typeof prettyPrintOne == 'function') {
       code = content.textContent;
-      code = PR.prettyPrintOne(code, 'php');
+      code = prettyPrintOne(code, 'php');
       content.innerHTML = code;
     }
   } else if (content.id == 'content_dart') {
     code = Blockly.Dart.workspaceToCode(Code.workspace);
     content.textContent = code;
-    if (typeof PR.prettyPrintOne == 'function') {
+    if (typeof prettyPrintOne == 'function') {
       code = content.textContent;
-      code = PR.prettyPrintOne(code, 'dart');
+      code = prettyPrintOne(code, 'dart');
       content.innerHTML = code;
     }
   } else if (content.id == 'content_lua') {
     code = Blockly.Lua.workspaceToCode(Code.workspace);
     content.textContent = code;
-    if (typeof PR.prettyPrintOne == 'function') {
+    if (typeof prettyPrintOne == 'function') {
       code = content.textContent;
-      code = PR.prettyPrintOne(code, 'lua');
+      code = prettyPrintOne(code, 'lua');
       content.innerHTML = code;
     }
   }
@@ -381,12 +387,12 @@ Code.init = function() {
   // format (eg. `<category name="%{BKY_CATLOGIC}">`).
   // These message keys need to be defined in `Blockly.Msg` in order to
   // be decoded by the library. Therefore, we'll use the `MSG` dictionary that's
-  // been defined for each language to import each category name message
+  // been defined for each language to import each category name message 
   // into `Blockly.Msg`.
   // TODO: Clean up the message files so this is done explicitly instead of
   // through this for-loop.
   for (var messageKey in MSG) {
-    if (goog.string.startsWith(messageKey, 'cat')) {
+    if (messageKey.startsWith('cat')) {
       Blockly.Msg[messageKey.toUpperCase()] = MSG[messageKey];
     }
   }
