@@ -56,7 +56,7 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
        length: 3,
        colour: '#ccc',
        snap: true},
-       media: '../../media/',
+       media: 'media/',
        toolbox: this.toolbox
      });
 
@@ -67,7 +67,7 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
        length: 3,
        colour: '#ccc',
        snap: true},
-     media: '../../media/',
+     media: 'media/',
      toolbox: '<xml></xml>',
      zoom:
        {controls: true,

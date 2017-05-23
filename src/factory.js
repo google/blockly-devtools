@@ -145,7 +145,7 @@ BlockFactory.updatePreview = function() {
     var rtl = newDir == 'rtl';
     BlockFactory.previewWorkspace = Blockly.inject('preview',
         {rtl: rtl,
-         media: '../../media/',
+         media: 'media/',
          scrollbars: true});
     BlockFactory.oldDir = newDir;
   }
