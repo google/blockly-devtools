@@ -1,0 +1,16 @@
+﻿{
+	"name": "test",
+	"version": "0.1.0",
+	"main": "main.js",
+	"dependencies": {
+		"electron":"^1.6.6"
+	},
+  "keywords": [
+    "Electron",
+    "quick",
+    "start"
+  ],
+  "scripts":{
+    "start":"electron ."
+  }
+}
