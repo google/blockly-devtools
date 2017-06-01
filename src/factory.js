@@ -253,9 +253,13 @@ BlockFactory.disableEnableLink = function() {
 
 /**
  * Render starter block (factory_base).
+ * celine_bookmarked
  */
 BlockFactory.showStarterBlock = function() {
   BlockFactory.mainWorkspace.clear();
+  // celine_change[REVERTED]: added new variable, from prompt.
+  // [R] console.log("this line runs!");
+  // [R] var blockNameTest = prompt("[INTERNAL] block name?");
   var xml = Blockly.Xml.textToDom(BlockFactory.STARTER_BLOCK_XML_TEXT);
   Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
 };

@@ -23,13 +23,22 @@
  */
 'use strict';
 
+// celine_changes[REVERTED]: added a prompt
+// [OLD CHANGE]: var block_name = prompt("Block name?");
+
+var block_name = function(){
+  var bn = prompt("[INTERNAL 2] Block name?");
+  return (bn || "block_wao");
+};
+
 Blockly.Blocks['factory_base'] = {
   // Base of new block.
+  // celine_changes
   init: function() {
     this.setColour(120);
     this.appendDummyInput()
         .appendField('name')
-        .appendField(new Blockly.FieldTextInput('block_type'), 'NAME');
+        .appendField(new Blockly.FieldTextInput(block_name(), 'NAME'));
     this.appendStatementInput('INPUTS')
         .setCheck('Input')
         .appendField('inputs');
@@ -77,7 +86,7 @@ Blockly.Blocks['factory_base'] = {
   },
   spawnOutputShadow_: function(option) {
     // Helper method for deciding which type of outputs this block needs
-    // to attach shaddow blocks to.
+    // to attach shadow blocks to.
     switch (option) {
       case 'LEFT':
         this.connectOutputShadow_('OUTPUTTYPE');

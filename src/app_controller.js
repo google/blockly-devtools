@@ -524,6 +524,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
         }
       });
 
+  // celine_bookmarked: when you click the "make new block" button, it goes here.
   document.getElementById('createNewBlockButton')
     .addEventListener('click', function() {
       // If there are unsaved changes warn user, check if they'd like to
