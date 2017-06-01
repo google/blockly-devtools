@@ -23,14 +23,6 @@
  */
 'use strict';
 
-// celine_changes[REVERTED]: added a prompt
-// [OLD CHANGE]: var block_name = prompt("Block name?");
-
-var block_name = function(){
-  var bn = prompt("[INTERNAL 2] Block name?");
-  return (bn || "block_wao");
-};
-
 Blockly.Blocks['factory_base'] = {
   // Base of new block.
   // celine_changes
@@ -38,7 +30,7 @@ Blockly.Blocks['factory_base'] = {
     this.setColour(120);
     this.appendDummyInput()
         .appendField('name')
-        .appendField(new Blockly.FieldTextInput(block_name(), 'NAME'));
+        .appendField(new Blockly.FieldTextInput('block_type'), 'NAME');
     this.appendStatementInput('INPUTS')
         .setCheck('Input')
         .appendField('inputs');

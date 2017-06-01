@@ -669,6 +669,7 @@ AppController.prototype.modalName_ = null;
 
 /**
  * Initialize Blockly and layout.  Called on page load.
+ * celine_bookmarked
  */
 AppController.prototype.init = function() {
   // Block Factory has a dependency on bits of Closure that core Blockly
@@ -685,52 +686,66 @@ AppController.prototype.init = function() {
     return;
   }
 
+  // celine_changes
+  $("#popup").css('display','inline');
+  
   var self = this;
-  // Handle Blockly Storage with App Engine.
-  if ('BlocklyStorage' in window) {
-    this.initializeBlocklyStorage();
-  }
 
-  // Assign click handlers.
-  this.assignExporterClickHandlers();
-  this.assignLibraryClickHandlers();
-  this.assignBlockFactoryClickHandlers();
-  // Hide and show the block library dropdown.
-  document.getElementById('modalShadow').addEventListener('click',
-      function() {
-        self.closeModal();
-      });
+  $("#submit_block").click(function(event){
+    event.preventDefault();
+    $("#popup").css('display','none');
+    
+    // collects block's name as given by user
+    var blockname = $("#block_name").val();
+    var input_type = $("#input_type").val();
 
-  this.onresize();
-  window.addEventListener('resize', function() {
+    // Handle Blockly Storage with App Engine.
+    if ('BlocklyStorage' in window) {
+      self.initializeBlocklyStorage();
+    }
+
+    // Assign click handlers.
+    self.assignExporterClickHandlers();
+    self.assignLibraryClickHandlers();
+    self.assignBlockFactoryClickHandlers();
+    // Hide and show the block library dropdown.
+    document.getElementById('modalShadow').addEventListener('click',
+        function() {
+          self.closeModal();
+        });
+
     self.onresize();
-  });
+    window.addEventListener('resize', function() {
+      self.onresize();
+    });
 
-  // Inject Block Factory Main Workspace.
-  var toolbox = document.getElementById('blockfactory_toolbox');
-  BlockFactory.mainWorkspace = Blockly.inject('blockly',
-      {collapse: false,
-       toolbox: toolbox,
-       media: 'media/'});
+    // Inject Block Factory Main Workspace.
+    var toolbox = document.getElementById('blockfactory_toolbox');
+    BlockFactory.mainWorkspace = Blockly.inject('blockly',
+        {collapse: false,
+         toolbox: toolbox,
+         media: 'media/'});
 
-  // Add tab handlers for switching between Block Factory and Block Exporter.
-  this.addTabHandlers(this.tabMap);
+    // Add tab handlers for switching between Block Factory and Block Exporter.
+    self.addTabHandlers(self.tabMap);
 
-  // Assign exporter change listeners.
-  this.assignExporterChangeListeners();
+    // Assign exporter change listeners.
+    self.assignExporterChangeListeners();
 
-  // Create the root block on Block Factory main workspace.
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
-    BlocklyStorage.retrieveXml(window.location.hash.substring(1),
-                               BlockFactory.mainWorkspace);
-  } else {
-    BlockFactory.showStarterBlock();
-  }
-  BlockFactory.mainWorkspace.clearUndo();
+    // Create the root block on Block Factory main workspace.
+    if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+      BlocklyStorage.retrieveXml(window.location.hash.substring(1),
+                                 BlockFactory.mainWorkspace);
+    } else {
+      BlockFactory.showStarterBlock(input_type);
+    }
+    BlockFactory.mainWorkspace.clearUndo();
 
-  // Add Block Factory event listeners.
-  this.addBlockFactoryEventListeners();
+    // Add Block Factory event listeners.
+    self.addBlockFactoryEventListeners();
 
-  // Workspace Factory init.
-  WorkspaceFactoryInit.initWorkspaceFactory(this.workspaceFactoryController);
+    // Workspace Factory init.
+    WorkspaceFactoryInit.initWorkspaceFactory(self.workspaceFactoryController);
+    });
+  // end celine_changes
 };

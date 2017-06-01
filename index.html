@@ -756,6 +756,31 @@
     <category name="Block Library" colour="260" id="blockLibCategory"></category>
   </xml>
 
+<!-- celine_changes: adding popup html -->
+<div id="popup">
+  <div id="box">
+    <h1>wow hi popup</h1>
+    <form type=POST>
+      Block name: <input type="text" id="block_name"><br>
+      Block type:
+      <select id="input_type">
+        <option value="input_statement">statement input</option>
+        <option value="input_value">value input</option>
+        <option value="input_dummy">dummy input</option>
+      </select><br>
+      <button id="submit_block">start blockly</button>
+    </form>
+    <br>
+    <hr>
+    Statement input:<br>
+    <img src="https://developers.google.com/blockly/images/language03.png" width="100%" height="auto"/><br>
+    Value input:<br>
+    <img src="https://developers.google.com/blockly/images/variables-set.png" width="30%" height="auto"/><br>
+    Dummy input:<br>
+    <img src="https://developers.google.com/blockly/images/language05.png" width="30%" height="auto"/><br>
+  </div>
+</div>
+
 </body>
 <!-- Trying to make popup work. -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
