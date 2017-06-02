@@ -692,6 +692,39 @@ AppController.prototype.init = function() {
 
   var self = this;
 
+  // Handle Blockly Storage with App Engine.
+  if ('BlocklyStorage' in window) {
+    self.initializeBlocklyStorage();
+  }
+
+  // Assign click handlers.
+  self.assignExporterClickHandlers();
+  self.assignLibraryClickHandlers();
+  self.assignBlockFactoryClickHandlers();
+  // Hide and show the block library dropdown.
+  document.getElementById('modalShadow').addEventListener('click',
+      function() {
+        self.closeModal();
+      });
+
+  self.onresize();
+  window.addEventListener('resize', function() {
+    self.onresize();
+  });
+
+  // Inject Block Factory Main Workspace.
+  var toolbox = document.getElementById('blockfactory_toolbox');
+  BlockFactory.mainWorkspace = Blockly.inject('blockly',
+      {collapse: false,
+       toolbox: toolbox,
+       media: 'media/'});
+
+  // Add tab handlers for switching between Block Factory and Block Exporter.
+  self.addTabHandlers(self.tabMap);
+
+  // Assign exporter change listeners.
+  self.assignExporterChangeListeners();
+
   $("#submit_block").click(function(event){
     event.preventDefault();
     $("#popup").css('display','none');
@@ -700,39 +733,6 @@ AppController.prototype.init = function() {
     var blockname = $("#block_name").val();
     var input_type = $("input[name='input_type']:checked").val();
     var block_text = $("#block_text").val();
-
-    // Handle Blockly Storage with App Engine.
-    if ('BlocklyStorage' in window) {
-      self.initializeBlocklyStorage();
-    }
-
-    // Assign click handlers.
-    self.assignExporterClickHandlers();
-    self.assignLibraryClickHandlers();
-    self.assignBlockFactoryClickHandlers();
-    // Hide and show the block library dropdown.
-    document.getElementById('modalShadow').addEventListener('click',
-        function() {
-          self.closeModal();
-        });
-
-    self.onresize();
-    window.addEventListener('resize', function() {
-      self.onresize();
-    });
-
-    // Inject Block Factory Main Workspace.
-    var toolbox = document.getElementById('blockfactory_toolbox');
-    BlockFactory.mainWorkspace = Blockly.inject('blockly',
-        {collapse: false,
-         toolbox: toolbox,
-         media: 'media/'});
-
-    // Add tab handlers for switching between Block Factory and Block Exporter.
-    self.addTabHandlers(self.tabMap);
-
-    // Assign exporter change listeners.
-    self.assignExporterChangeListeners();
 
     // Create the root block on Block Factory main workspace.
     if ('BlocklyStorage' in window && window.location.hash.length > 1) {
