@@ -25,6 +25,7 @@
 
 Blockly.Blocks['factory_base'] = {
   // Base of new block.
+  // celine_changes
   init: function() {
     this.setColour(120);
     this.appendDummyInput()
@@ -77,7 +78,7 @@ Blockly.Blocks['factory_base'] = {
   },
   spawnOutputShadow_: function(option) {
     // Helper method for deciding which type of outputs this block needs
-    // to attach shaddow blocks to.
+    // to attach shadow blocks to.
     switch (option) {
       case 'LEFT':
         this.connectOutputShadow_('OUTPUTTYPE');

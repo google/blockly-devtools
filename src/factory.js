@@ -78,6 +78,38 @@ BlockFactory.STARTER_BLOCK_XML_TEXT = '<xml><block type="factory_base" ' +
     '<field name="HUE">230</field>' +
     '</block></value></block></xml>';
 
+/*
+ * celine_change: created new function
+ * Edits starter block XML text to include an input type block.
+*/
+BlockFactory.insertXMLInputs = function(input_type, block_starter_text, block_type_name){
+  input_type = input_type || 'input_statement'
+  block_type_name = block_type_name || 'my_block';
+  block_starter_text = block_starter_text || 'your text here';
+
+  var CUSTOM_XML_STARTER = '<xml><block type="factory_base" ' +
+    'deletable="false" movable="false">' +
+    '<field name="NAME">' + block_type_name + '</field>' +
+    '<value name="INPUTS">' +
+    '<block type="' + input_type + '">' +
+    '<value name="FIELDS">' +
+    '<block type="field_static">' +
+    '<field name="TEXT">' + block_starter_text + '</field></block></value>' +
+    '</block></value>' +
+    '<value name="TOOLTIP">' +
+    '<block type="text" deletable="false" movable="false">' +
+    '<field name="TEXT"></field></block></value>' +
+    '<value name="HELPURL">' +
+    '<block type="text" deletable="false" movable="false">' +
+    '<field name="TEXT"></field></block></value>' +
+    '<value name="COLOUR">' +
+    '<block type="colour_hue">' +
+    '<mutation colour="#5b67a5"></mutation>' +
+    '<field name="HUE">230</field>' +
+    '</block></value></block></xml>';
+  return CUSTOM_XML_STARTER;
+};
+
 /**
  * Change the language code format.
  */
@@ -253,10 +285,15 @@ BlockFactory.disableEnableLink = function() {
 
 /**
  * Render starter block (factory_base).
+ * celine_bookmarked
+ * celine_change: function() -> function(name)
  */
-BlockFactory.showStarterBlock = function() {
+BlockFactory.showStarterBlock = function(input_type, block_starter_text, block_type_name) {
   BlockFactory.mainWorkspace.clear();
-  var xml = Blockly.Xml.textToDom(BlockFactory.STARTER_BLOCK_XML_TEXT);
+  // old xml var
+  var init_xml = Blockly.Xml.textToDom(BlockFactory.STARTER_BLOCK_XML_TEXT);
+  // new xml var using insertXMLInputs()
+  var xml = Blockly.Xml.textToDom(BlockFactory.insertXMLInputs(input_type, block_starter_text, block_type_name));
   Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
 };
 

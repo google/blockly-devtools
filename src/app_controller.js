@@ -524,6 +524,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
         }
       });
 
+  // celine_bookmarked: when you click the "make new block" button, it goes here.
   document.getElementById('createNewBlockButton')
     .addEventListener('click', function() {
       // If there are unsaved changes warn user, check if they'd like to
@@ -668,6 +669,7 @@ AppController.prototype.modalName_ = null;
 
 /**
  * Initialize Blockly and layout.  Called on page load.
+ * celine_bookmarked
  */
 AppController.prototype.init = function() {
   // Block Factory has a dependency on bits of Closure that core Blockly
@@ -675,6 +677,7 @@ AppController.prototype.init = function() {
   // it breaks it non-obvious ways.  Warning about this for now until the
   // dependency is broken.
   // TODO: #668.
+
   if (!window.goog.dom.xml) {
     alert('Sorry: Closure dependency not found. We are working on removing ' +
       'this dependency.  In the meantime, you can use our hosted demo\n ' +
@@ -684,23 +687,27 @@ AppController.prototype.init = function() {
     return;
   }
 
+  // celine_changes: load the rest of the blockly dev page under an eventlistener.
+  $("#popup").css('display','inline');
+
   var self = this;
+
   // Handle Blockly Storage with App Engine.
   if ('BlocklyStorage' in window) {
-    this.initializeBlocklyStorage();
+    self.initializeBlocklyStorage();
   }
 
   // Assign click handlers.
-  this.assignExporterClickHandlers();
-  this.assignLibraryClickHandlers();
-  this.assignBlockFactoryClickHandlers();
+  self.assignExporterClickHandlers();
+  self.assignLibraryClickHandlers();
+  self.assignBlockFactoryClickHandlers();
   // Hide and show the block library dropdown.
   document.getElementById('modalShadow').addEventListener('click',
       function() {
         self.closeModal();
       });
 
-  this.onresize();
+  self.onresize();
   window.addEventListener('resize', function() {
     self.onresize();
   });
@@ -713,23 +720,34 @@ AppController.prototype.init = function() {
        media: 'media/'});
 
   // Add tab handlers for switching between Block Factory and Block Exporter.
-  this.addTabHandlers(this.tabMap);
+  self.addTabHandlers(self.tabMap);
 
   // Assign exporter change listeners.
-  this.assignExporterChangeListeners();
+  self.assignExporterChangeListeners();
 
-  // Create the root block on Block Factory main workspace.
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
-    BlocklyStorage.retrieveXml(window.location.hash.substring(1),
-                               BlockFactory.mainWorkspace);
-  } else {
-    BlockFactory.showStarterBlock();
-  }
-  BlockFactory.mainWorkspace.clearUndo();
+  $("#submit_block").click(function(event){
+    event.preventDefault();
+    $("#popup").css('display','none');
+    
+    // collects block's name as given by user
+    var blockname = $("#block_name").val();
+    var input_type = $("input[name='input_type']:checked").val();
+    var block_text = $("#block_text").val();
 
-  // Add Block Factory event listeners.
-  this.addBlockFactoryEventListeners();
+    // Create the root block on Block Factory main workspace.
+    if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+      BlocklyStorage.retrieveXml(window.location.hash.substring(1),
+                                 BlockFactory.mainWorkspace);
+    } else {
+      BlockFactory.showStarterBlock(input_type, block_text, blockname); // edits made here
+    }
+    BlockFactory.mainWorkspace.clearUndo();
 
-  // Workspace Factory init.
-  WorkspaceFactoryInit.initWorkspaceFactory(this.workspaceFactoryController);
+    // Add Block Factory event listeners.
+    self.addBlockFactoryEventListeners();
+
+    // Workspace Factory init.
+    WorkspaceFactoryInit.initWorkspaceFactory(self.workspaceFactoryController);
+    });
+  // end celine_changes
 };
