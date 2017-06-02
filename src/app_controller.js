@@ -698,7 +698,7 @@ AppController.prototype.init = function() {
     
     // collects block's name as given by user
     var blockname = $("#block_name").val();
-    var input_type = $("#input_type").val();
+    var input_type = $("input[name='input_type']:checked").val();
     var block_text = $("#block_text").val();
 
     // Handle Blockly Storage with App Engine.

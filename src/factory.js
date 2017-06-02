@@ -82,38 +82,19 @@ BlockFactory.STARTER_BLOCK_XML_TEXT = '<xml><block type="factory_base" ' +
  * celine_change: created new function
  * Edits starter block XML text to include an input type block.
 */
-BlockFactory.insertXMLInputs = function(input_type, text_starter, name){
-  var sample_text_xml = "";
+BlockFactory.insertXMLInputs = function(input_type, block_starter_text, block_type_name){
+  input_type = input_type || 'input_statement'
+  block_type_name = block_type_name || 'my_block';
+  block_starter_text = block_starter_text || 'your text here';
 
-  /*
-  switch(input_type) {
-    case "input_value":
-      sample_text_xml = 
-        '<field name="TEXT"></field>';
-      break;
-    case "input_statement":
-      sample_text_xml = "";
-      break;
-    case "input_dummy":
-      sample_text_xml = "";
-      break;
-  }
-  */
-
-  sample_text_xml = 
+  var CUSTOM_XML_STARTER = '<xml><block type="factory_base" ' +
+    'deletable="false" movable="false">' +
+    '<field name="NAME">' + block_type_name + '</field>' +
+    '<value name="INPUTS">' +
+    '<block type="' + input_type + '">' +
     '<value name="FIELDS">' +
     '<block type="field_static">' +
-    '<field name="TEXT">' + text_starter + '</field>'+
-    '</block>' +
-    '</value>';
-
-  BlockFactory.STARTER_BLOCK_XML_TEXT = '<xml><block type="factory_base" ' +
-    'deletable="false" movable="false">' +
-    '<field name="TEXT">' + name + '</field>' + // TODO: this line is broken. either delete or fix.
-                                                // trying to also change the NAME of the block upon popup.
-    '<value name="INPUTS">' +
-    '<block type="' + input_type + '" deletable="false" movable="false">' +
-    sample_text_xml + // !!!
+    '<field name="TEXT">' + block_starter_text + '</field></block></value>' +
     '</block></value>' +
     '<value name="TOOLTIP">' +
     '<block type="text" deletable="false" movable="false">' +
@@ -126,7 +107,7 @@ BlockFactory.insertXMLInputs = function(input_type, text_starter, name){
     '<mutation colour="#5b67a5"></mutation>' +
     '<field name="HUE">230</field>' +
     '</block></value></block></xml>';
-  return BlockFactory.STARTER_BLOCK_XML_TEXT;
+  return CUSTOM_XML_STARTER;
 };
 
 /**
@@ -307,12 +288,12 @@ BlockFactory.disableEnableLink = function() {
  * celine_bookmarked
  * celine_change: function() -> function(name)
  */
-BlockFactory.showStarterBlock = function(input_type, txt, typename) {
+BlockFactory.showStarterBlock = function(input_type, block_starter_text, block_type_name) {
   BlockFactory.mainWorkspace.clear();
   // old xml var
   var init_xml = Blockly.Xml.textToDom(BlockFactory.STARTER_BLOCK_XML_TEXT);
   // new xml var using insertXMLInputs()
-  var xml = Blockly.Xml.textToDom(BlockFactory.insertXMLInputs(input_type, txt, typename));
+  var xml = Blockly.Xml.textToDom(BlockFactory.insertXMLInputs(input_type, block_starter_text, block_type_name));
   Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
 };
 
