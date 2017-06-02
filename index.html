@@ -43,6 +43,7 @@
       blocklyFactory = new AppController();
       blocklyFactory.init();
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
+      FactoryUtils.createAndDownloadFile("hi","filename","xml");
     };
     window.addEventListener('load', init);
   </script>
