@@ -45,7 +45,6 @@ table {
   border-collapse: collapse;
   height: 100%;
   margin: 0;
-  padding: 0;
   width: 100%;
 }
 
@@ -143,8 +142,9 @@ button, .buttonStyle {
 
 #blockFactoryContent {
   height: 85%;
-  width: 100%;
+  width: 80%;
   overflow: hidden;
+  float:right;
 }
 
 #blockFactoryPreview {
@@ -606,4 +606,10 @@ td.taboff:hover {
 .shadowBlock>.blocklyPathLight,
 .shadowBlock>.blocklyPathDark {
   display: none;
+}
+
+#navigationTree{
+  float: right;
+  width: 20%;
+  height: 45%;
 }

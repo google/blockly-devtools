@@ -129,6 +129,7 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
  * Saves current block to local storage and updates dropdown.
  */
 BlockLibraryController.prototype.saveToBlockLibrary = function() {
+  // TODO: svouse: add block to tree
   var blockType = this.getCurrentBlockType();
   // If user has not changed the name of the starter block.
   if (blockType == 'block_type') {
@@ -319,3 +320,5 @@ BlockLibraryController.prototype.updateButtons = function(savedChanges) {
   var isInLibrary = this.has(blockType);
   this.view.updateButtons(blockType, isInLibrary, savedChanges);
 };
+
+

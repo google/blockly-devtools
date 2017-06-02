@@ -201,7 +201,7 @@ AppController.prototype.formatBlockLibraryForImport_ = function(xmlText) {
     var blockType = this.getBlockTypeFromXml_(xmlText).toLowerCase();
     // Some names are invalid so fix them up.
     blockType = FactoryUtils.cleanBlockType(blockType);
-    
+
     blockXmlTextMap[blockType] = xmlText;
   }
 
@@ -712,6 +712,9 @@ AppController.prototype.init = function() {
        toolbox: toolbox,
        media: 'media/'});
 
+  // Generate tree navigation
+  this.initTree();
+
   // Add tab handlers for switching between Block Factory and Block Exporter.
   this.addTabHandlers(this.tabMap);
 
@@ -733,3 +736,50 @@ AppController.prototype.init = function() {
   // Workspace Factory init.
   WorkspaceFactoryInit.initWorkspaceFactory(this.workspaceFactoryController);
 };
+
+/**
+ * Return a JSON string of all blocks in Library
+ * @return the block library as a JSON string
+ */
+AppController.prototype.makeLibraryJSON = function(){
+  // TODO: svouse: give libraries names
+  // TODO: svouse: upon giving libraries names add them as roots
+   var libraryTreeJSON = '{ "core" : { "data" : [ { "text" : "LIBRARYNAME", +
+   "children" : [';
+    var types= this.blockLibraryController.storage.getBlockTypes();
+    var i = 1;
+    var x = 0;
+    for(;types[i];){
+      libraryTreeJSON += '{ "text" :' + "\"" + types[i-1] + "\"" + '},';
+      i++;
+      x++;
+    }
+    libraryTreeJSON += '{ "text" :' + "\"" + types[x] + "\"" + '} ] } ] } }';
+    return libraryTreeJSON;
+};
+
+/**
+ * Populate tree and ready it for listening
+ */
+AppController.prototype.initTree = function(){
+  var libraryTreeJSON= this.makeLibraryJSON();
+    var x= JSON.parse(libraryTreeJSON);
+    this.makeTreeListener();
+     $('#navigationTree').jstree(x);
+};
+
+/**
+* Listen for block selected in tree
+*/
+AppController.prototype.makeTreeListener = function(){
+    $('#navigationTree')
+    .on('changed.jstree', function (e, data){
+      // collect data of all selected blocks
+      var i, j, r = [];
+      for(i = 0, j = data.selected.length; i < j; i++){
+        r.push(data.instance.get_node(data.selected[i]).text);
+      }
+      // load the blocks
+      blocklyFactory.blockLibraryController.openBlock(r.join(', '));
+    });
+  };
