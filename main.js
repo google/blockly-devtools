@@ -9,17 +9,14 @@ let win
 
 function createWindow() {
 	// Creates browser window
-	win = new BrowserWindow({width:800, height:600})
+	win = new BrowserWindow({width:1500, height:1000});
 
 	// load index.html of app
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
     protocol:'file:',
     slashes:true
-  }))
-
-  // open devtools
-  win.webContents.openDevTools();
+  }));
 
   // emitted when window is closed.
   win.on('closed',function(){

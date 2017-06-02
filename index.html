@@ -4,6 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="target-densitydpi=device-dpi, height=660, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Blockly Demo: Blockly Developer Tools</title>
+  <script>
+  // For importing outside libraries.
+  if (typeof module === 'object') {
+    window.module = module;
+    module = undefined;
+  }
+  </script>
+  <script src="lib/jQuery.js"></script>
   <script src="lib/blockly_compressed.js"></script>
   <script src="lib/javascript_compressed.js"></script>
   <script src="msg/js/en.js"></script>
@@ -37,6 +45,12 @@
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
     };
     window.addEventListener('load', init);
+  </script>
+  <script>
+  // for importing outside libraries
+  if (window.module) {
+    module = window.module;
+  }
   </script>
 </head>
 <body>
@@ -759,15 +773,16 @@
 <!-- celine_changes: adding popup html -->
 <div id="popup">
   <div id="box">
-    <h1>wow hi popup</h1>
+    <h1>Create a New Block</h1>
     <form type=POST>
-      Block name: <input type="text" id="block_name"><br>
+      Block name: <input type="text" id="block_name" placeholder="block_type"><br>
       Block type:
       <select id="input_type">
         <option value="input_statement">statement input</option>
         <option value="input_value">value input</option>
         <option value="input_dummy">dummy input</option>
       </select><br>
+      Starter text: <input type="text" id="block_text" placeholder="My Block"><br>
       <button id="submit_block">start blockly</button>
     </form>
     <br>
@@ -782,7 +797,4 @@
 </div>
 
 </body>
-<!-- Trying to make popup work. -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="src/devtoolsv2.js"></script>
 </html>

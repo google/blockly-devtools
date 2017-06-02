@@ -677,6 +677,7 @@ AppController.prototype.init = function() {
   // it breaks it non-obvious ways.  Warning about this for now until the
   // dependency is broken.
   // TODO: #668.
+
   if (!window.goog.dom.xml) {
     alert('Sorry: Closure dependency not found. We are working on removing ' +
       'this dependency.  In the meantime, you can use our hosted demo\n ' +
@@ -686,9 +687,9 @@ AppController.prototype.init = function() {
     return;
   }
 
-  // celine_changes
+  // celine_changes: load the rest of the blockly dev page under an eventlistener.
   $("#popup").css('display','inline');
-  
+
   var self = this;
 
   $("#submit_block").click(function(event){
@@ -698,6 +699,7 @@ AppController.prototype.init = function() {
     // collects block's name as given by user
     var blockname = $("#block_name").val();
     var input_type = $("#input_type").val();
+    var block_text = $("#block_text").val();
 
     // Handle Blockly Storage with App Engine.
     if ('BlocklyStorage' in window) {
@@ -737,7 +739,7 @@ AppController.prototype.init = function() {
       BlocklyStorage.retrieveXml(window.location.hash.substring(1),
                                  BlockFactory.mainWorkspace);
     } else {
-      BlockFactory.showStarterBlock(input_type);
+      BlockFactory.showStarterBlock(input_type, block_text, blockname); // edits made here
     }
     BlockFactory.mainWorkspace.clearUndo();
 

@@ -82,11 +82,38 @@ BlockFactory.STARTER_BLOCK_XML_TEXT = '<xml><block type="factory_base" ' +
  * celine_change: created new function
  * Edits starter block XML text to include an input type block.
 */
-BlockFactory.insertXMLInputs = function(input_type){
+BlockFactory.insertXMLInputs = function(input_type, text_starter, name){
+  var sample_text_xml = "";
+
+  /*
+  switch(input_type) {
+    case "input_value":
+      sample_text_xml = 
+        '<field name="TEXT"></field>';
+      break;
+    case "input_statement":
+      sample_text_xml = "";
+      break;
+    case "input_dummy":
+      sample_text_xml = "";
+      break;
+  }
+  */
+
+  sample_text_xml = 
+    '<value name="FIELDS">' +
+    '<block type="field_static">' +
+    '<field name="TEXT">' + text_starter + '</field>'+
+    '</block>' +
+    '</value>';
+
   BlockFactory.STARTER_BLOCK_XML_TEXT = '<xml><block type="factory_base" ' +
     'deletable="false" movable="false">' +
+    '<field name="TEXT">' + name + '</field>' + // TODO: this line is broken. either delete or fix.
+                                                // trying to also change the NAME of the block upon popup.
     '<value name="INPUTS">' +
     '<block type="' + input_type + '" deletable="false" movable="false">' +
+    sample_text_xml + // !!!
     '</block></value>' +
     '<value name="TOOLTIP">' +
     '<block type="text" deletable="false" movable="false">' +
@@ -280,10 +307,12 @@ BlockFactory.disableEnableLink = function() {
  * celine_bookmarked
  * celine_change: function() -> function(name)
  */
-BlockFactory.showStarterBlock = function(name) {
+BlockFactory.showStarterBlock = function(input_type, txt, typename) {
   BlockFactory.mainWorkspace.clear();
+  // old xml var
   var init_xml = Blockly.Xml.textToDom(BlockFactory.STARTER_BLOCK_XML_TEXT);
-  var xml = Blockly.Xml.textToDom(BlockFactory.insertXMLInputs(name));
+  // new xml var using insertXMLInputs()
+  var xml = Blockly.Xml.textToDom(BlockFactory.insertXMLInputs(input_type, txt, typename));
   Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
 };
 
