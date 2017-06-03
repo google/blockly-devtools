@@ -68,6 +68,8 @@ AppController = function() {
   this.lastSelectedTab = null;
   // Selected tab.
   this.selectedTab = AppController.BLOCK_FACTORY;
+  // Tree control
+  this.treeControl;
 };
 
 // Constant values representing the three tabs in the controller.
