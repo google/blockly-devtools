@@ -43,7 +43,6 @@
       blocklyFactory = new AppController();
       blocklyFactory.init();
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
-      FactoryUtils.createAndDownloadFile("hi","filename","xml");
     };
     window.addEventListener('load', init);
   </script>
@@ -66,21 +65,6 @@
     <div id="blocklibraryExporter_tab" class="tab taboff">Block Exporter</div>
     <div id="workspaceFactory_tab" class="tab taboff">Workspace Factory</div>
   </div>
-
-  <!-- Attempt at File Tree ===================================
-  <link rel="stylesheet" href="lib/jquery_filetree/jqueryFileTree.css">
-  <script src="lib/jquery_filetree/jquery.js"></script>
-  <script src="lib/jquery_filetree/jqueryFileTree.js"></script>
-  filetree start
-  <script>
-  $(document).ready( function() {
-    $('#filetree').jstree();
-  });
-  </script>
-  <div id="#filetree">
-  </div>
-  filetree end
-  =================================== End of file tree attempt -->
 
   <!-- Exporter tab -->
   <div id="blockLibraryExporter">
@@ -771,9 +755,13 @@
     <category name="Block Library" colour="260" id="blockLibCategory"></category>
   </xml>
 
-<!-- celine_changes: adding popup html -->
+<!-- 
+celine_changes: 
+New Block Popup 
+-->
 <div id="popup">
   <div id="box">
+    <div id="exit">x</div>
     <h1>Create a New Block</h1>
     <form type=POST>
       Block name: <input type="text" id="block_name" placeholder="block_type"></input><br>

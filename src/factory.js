@@ -286,7 +286,7 @@ BlockFactory.disableEnableLink = function() {
 /**
  * Render starter block (factory_base).
  * celine_bookmarked
- * celine_change: function() -> function(name)
+ * celine_change: function() -> function(input_type, block_starter_text, block_type_name)
  */
 BlockFactory.showStarterBlock = function(input_type, block_starter_text, block_type_name) {
   BlockFactory.mainWorkspace.clear();

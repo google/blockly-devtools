@@ -535,7 +535,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
         return;
       }
 
-      BlockFactory.showStarterBlock();
+      AppController.prototype.createBlocklyInitPopup(false);
       self.blockLibraryController.setNoneSelected();
 
       // Close the Block Library Dropdown.
@@ -669,7 +669,6 @@ AppController.prototype.modalName_ = null;
 
 /**
  * Initialize Blockly and layout.  Called on page load.
- * celine_bookmarked
  */
 AppController.prototype.init = function() {
   // Block Factory has a dependency on bits of Closure that core Blockly
@@ -686,9 +685,6 @@ AppController.prototype.init = function() {
       'https://developers.google.com/blockly/guides/modify/web/closure');
     return;
   }
-
-  // celine_changes: load the rest of the blockly dev page under an eventlistener.
-  $("#popup").css('display','inline');
 
   var self = this;
 
@@ -725,29 +721,61 @@ AppController.prototype.init = function() {
   // Assign exporter change listeners.
   self.assignExporterChangeListeners();
 
-  $("#submit_block").click(function(event){
+  // Create the root block on Block Factory main workspace.
+  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+    BlocklyStorage.retrieveXml(window.location.hash.substring(1),
+                               BlockFactory.mainWorkspace);
+  } else {
+    AppController.prototype.createBlocklyInitPopup(true);
+  }
+  BlockFactory.mainWorkspace.clearUndo();
+
+  // Add Block Factory event listeners.
+  self.addBlockFactoryEventListeners();
+
+  // Workspace Factory init.
+  WorkspaceFactoryInit.initWorkspaceFactory(self.workspaceFactoryController);
+};
+
+/**
+ * Creates popup for initializing blockly workspace, and then renders
+ * starter block. 
+ * 
+ * Helper function of init() and listener for Create New Block click.
+ * @param {boolean} whether function is being called on page load.
+ */
+AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
+  $("#popup").css('display','inline');
+
+  if(!firstLoad) {
+    // Show exit button
+    $("#exit").css('display','inline');
+
+    // Listener to x out popup
+    $("#exit").click(function(){
+      $("#popup").css('display','none');
+    });
+  }
+
+  $("#block_name").change(function(){
+    // TODO: If name already exists, trigger warning.
+    // NOT WORKING!!!! celine_bookmarked[error]
+    if(this.blockLibraryController.has($("#block_name").val())) {
+      $("#block_name").css({
+        'border':'1px solid red'
+      });
+      $("#block_name").val("Taken!");
+    }
+  });
+
+  $("#submit_block").click(function(event) {
     event.preventDefault();
     $("#popup").css('display','none');
-    
-    // collects block's name as given by user
-    var blockname = $("#block_name").val();
-    var input_type = $("input[name='input_type']:checked").val();
-    var block_text = $("#block_text").val();
 
-    // Create the root block on Block Factory main workspace.
-    if ('BlocklyStorage' in window && window.location.hash.length > 1) {
-      BlocklyStorage.retrieveXml(window.location.hash.substring(1),
-                                 BlockFactory.mainWorkspace);
-    } else {
-      BlockFactory.showStarterBlock(input_type, block_text, blockname); // edits made here
-    }
-    BlockFactory.mainWorkspace.clearUndo();
+    const blockname = $("#block_name").val();
+    const input_type = $("input[name='input_type']:checked").val();
+    const block_text = $("#block_text").val();
 
-    // Add Block Factory event listeners.
-    self.addBlockFactoryEventListeners();
-
-    // Workspace Factory init.
-    WorkspaceFactoryInit.initWorkspaceFactory(self.workspaceFactoryController);
-    });
-  // end celine_changes
-};
+    BlockFactory.showStarterBlock(input_type, block_text, blockname);
+  });
+}

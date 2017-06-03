@@ -1,5 +1,4 @@
 ﻿{
 	"name": "Blockly V1",
-	"node-main": "main.js",
-  "main": "index.html"
+	"main": "index.html"
 }
