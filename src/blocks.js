@@ -25,7 +25,6 @@
 
 Blockly.Blocks['factory_base'] = {
   // Base of new block.
-  // celine_changes
   init: function() {
     this.setColour(120);
     this.appendDummyInput()

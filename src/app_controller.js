@@ -524,7 +524,6 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
         }
       });
 
-  // celine_bookmarked: when you click the "make new block" button, it goes here.
   document.getElementById('createNewBlockButton')
     .addEventListener('click', function() {
       // If there are unsaved changes warn user, check if they'd like to
@@ -748,27 +747,38 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   $("#popup").css('display','inline');
 
   if(!firstLoad) {
-    // Show exit button
+    // Show exit button.
     $("#exit").css('display','inline');
 
-    // Listener to x out popup
+    // Listener to x out popup.
     $("#exit").click(function(){
       $("#popup").css('display','none');
     });
   }
 
   $("#block_name").change(function(){
-    // TODO: If name already exists, trigger warning.
-    // NOT WORKING!!!! celine_bookmarked[error]
+    // TODO: If block type name already exists, trigger warning.
+
+    /* Print logs for testing -- will delete after this functionality is completed.
+    console.log("change!");
+    console.log("this.BLName: " + this.blockLibraryName);
+    console.log("AC.BLName: " + AppController.blockLibraryName);
+    console.log("BLName: " + blockLibraryName);
+    console.log("has " + $("#block_name").val() + ": " + AppController.blockLibraryController.has($("#block_name").val()));
+    */
+    
+    /* Working on TODO -- will be completed by next pull request.
     if(this.blockLibraryController.has($("#block_name").val())) {
       $("#block_name").css({
         'border':'1px solid red'
       });
       $("#block_name").val("Taken!");
     }
+    */
   });
 
   $("#submit_block").click(function(event) {
+    // Gathers and renders blocks properly in dev tools editor.
     event.preventDefault();
     $("#popup").css('display','none');
 
@@ -777,5 +787,8 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
     const block_text = $("#block_text").val();
 
     BlockFactory.showStarterBlock(input_type, block_text, blockname);
+
+    $("#block_name").val("");
+    $("#block_text").val("");
   });
 }

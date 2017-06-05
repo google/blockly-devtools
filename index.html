@@ -755,26 +755,27 @@
     <category name="Block Library" colour="260" id="blockLibCategory"></category>
   </xml>
 
-<!-- 
-celine_changes: 
-New Block Popup 
--->
+<!-- New Block Popup -->
 <div id="popup">
+  <div id="bkg"></div>
   <div id="box">
     <div id="exit">x</div>
     <h1>Create a New Block</h1>
     <form type=POST>
-      Block name: <input type="text" id="block_name" placeholder="block_type"></input><br>
-      Block type:<br>
-        <input type="radio" name="input_type" value="input_statement">statement input</input>
+      Block name<span style="color:red;">*</span><br>
+        <input type="text" id="block_name" placeholder="block_type"></input><br><br>
+      Block type<span style="color:red;">*</span><br>
+        <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
         <input type="radio" name="input_type" value="input_value">value input</input>
         <input type="radio" name="input_type" value="input_dummy">dummy input</input>
-        <br>
-      Starter text: <input type="text" id="block_text" placeholder="My Block"><br>
+        <br><br>
+      Starter text<br>
+        <input type="text" id="block_text" placeholder="Optional"><br><br>
       <button type="submit" id="submit_block">Start Blockly</button>
     </form>
     <br>
     <hr>
+    <h3>Examples</h3>
     Statement input:<br>
     <img src="https://developers.google.com/blockly/images/language03.png" width="100%" height="auto"/><br>
     Value input:<br>

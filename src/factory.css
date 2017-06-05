@@ -608,38 +608,52 @@ td.taboff:hover {
   display: none;
 }
 
- /* celine_changes */
  /* New block popup */
+ 
 #popup {
-  display:none;
-  position:absolute;
-  top:0; left:0;
-  z-index:99999999999999999999999999999;
-  width:100%;
-  height:100%;
-  background:white;
+  display: none;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 99999999999999999999999999999;
 }
+
 #popup #box {
-  margin:10% 20% 0 20%;
-  position:absolute;
-  top:0; left:0;
-  width:60%;height:auto;
-  background:white;
-  opacity:1;
-  border:1px solid gray;
-  border-radius:20px;
-  padding:20px;
+  background: white;
+  border: 1px solid #8c8c8c;
+  left: 0;
+  margin: 10% 20%;
+  max-height: 80%;
+  overflow: scroll;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  width: 60%;
+  z-index: 999999999999999999999999999
 }
-/* Probably not necessary; will delete eventually */
+
+#popup #bkg {
+  background: white;
+  height: 100%;
+  left: 0;
+  opacity: .6;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 999999999999999999;
+}
+
 #exit {
-  display:none;
-  float:right;
-  width:15px;
-  height:15px;
-  border:1px solid black;
-  color:red;
-  padding:10px;
-  border-radius:50%;
-  opacity:0.4;
-  cursor:pointer;
+  border: 1px solid black;
+  border-radius: 50%;
+  color: f00;
+  cursor: pointer;
+  display: none;
+  float: right;
+  height: 15px;
+  opacity: .4;
+  padding: 10px;
+  width: 15px;
 }

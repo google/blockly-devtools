@@ -1,4 +1,8 @@
 ﻿{
 	"name": "Blockly V1",
-	"main": "index.html"
+	"main": "index.html",
+	"window": {
+		"width":1500,
+		"height":1000
+	}
 }
