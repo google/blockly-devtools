@@ -85,11 +85,10 @@ BlockFactory.insertXMLInputs = function(input_type, block_starter_text, block_ty
   input_type = input_type || 'input_statement';
   block_type_name = block_type_name || 'my_block';
 
-  if(block_starter_text.trim() === "") {
-    var text_starter_xml = "";
-  }
-  else {
-    var text_starter_xml = '<value name="FIELDS">' +
+  var text_starter_xml = '';
+
+  if(block_starter_text.trim() === '') {
+    text_starter_xml = '<value name="FIELDS">' +
     '<block type="field_static">' +
     '<field name="TEXT">' + block_starter_text + '</field></block></value>';
   }
@@ -290,6 +289,9 @@ BlockFactory.disableEnableLink = function() {
 
 /**
  * Render starter block (factory_base).
+ * @param {string} input_type Type of input (statement, value, dummy).
+ * @param {string} block_starter_text Starter text to place on block, given by user (optional).
+ * @param {string} block_type_name Name of block, given by user.
  */
 BlockFactory.showStarterBlock = function(input_type, block_starter_text, block_type_name) {
   BlockFactory.mainWorkspace.clear();

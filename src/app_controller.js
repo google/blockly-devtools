@@ -100,7 +100,7 @@ AppController.prototype.importBlockLibraryFromFile = function() {
         // Parse the file to get map of block type to XML text.
         blockXmlTextMap = self.formatBlockLibraryForImport_(fileContents);
       } catch (e) {
-        var message = 'Could not load your block library file.\n'
+        var message = 'Could not load your block library file.\n';
         window.alert(message + '\nFile Name: ' + file.name);
         return;
       }
@@ -201,7 +201,7 @@ AppController.prototype.formatBlockLibraryForImport_ = function(xmlText) {
     var blockType = this.getBlockTypeFromXml_(xmlText).toLowerCase();
     // Some names are invalid so fix them up.
     blockType = FactoryUtils.cleanBlockType(blockType);
-    
+
     blockXmlTextMap[blockType] = xmlText;
   }
 
@@ -738,25 +738,25 @@ AppController.prototype.init = function() {
 
 /**
  * Creates popup for initializing blockly workspace, and then renders
- * starter block. 
- * 
+ * starter block.
+ *
  * Helper function of init() and listener for Create New Block click.
  * @param {boolean} whether function is being called on page load.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
-  $("#popup").css('display','inline');
+  $('#popup').css('display','inline');
 
   if(!firstLoad) {
     // Show exit button.
-    $("#exit").css('display','inline');
+    $('#exit').css('display','inline');
 
     // Listener to x out popup.
-    $("#exit").click(function(){
-      $("#popup").css('display','none');
+    $('#exit').click(function(){
+      $('#popup').css('display','none');
     });
   }
 
-  $("#block_name").change(function(){
+  $('#block_name').change(function(){
     // TODO: If block type name already exists, trigger warning.
 
     /* Print logs for testing -- will delete after this functionality is completed.
@@ -764,9 +764,10 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
     console.log("this.BLName: " + this.blockLibraryName);
     console.log("AC.BLName: " + AppController.blockLibraryName);
     console.log("BLName: " + blockLibraryName);
-    console.log("has " + $("#block_name").val() + ": " + AppController.blockLibraryController.has($("#block_name").val()));
+    console.log("has " + $("#block_name").val() + ": " +
+      AppController.blockLibraryController.has($("#block_name").val()));
     */
-    
+
     /* Working on TODO -- will be completed by next pull request.
     if(this.blockLibraryController.has($("#block_name").val())) {
       $("#block_name").css({
@@ -777,18 +778,18 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
     */
   });
 
-  $("#submit_block").click(function(event) {
-    // Gathers and renders blocks properly in dev tools editor.
+  $('#submit_block').click(function(event) {
+    // Gathers and renders blocks properly in devtools editor.
     event.preventDefault();
-    $("#popup").css('display','none');
+    $('#popup').css('display','none');
 
-    const blockname = $("#block_name").val();
-    const input_type = $("input[name='input_type']:checked").val();
-    const block_text = $("#block_text").val();
+    var blockname = $('#block_name').val();
+    var input_type = $('input[name="input_type"]:checked').val();
+    var block_text = $('#block_text').val();
 
     BlockFactory.showStarterBlock(input_type, block_text, blockname);
 
-    $("#block_name").val("");
-    $("#block_text").val("");
+    $('#block_name').val('');
+    $('#block_text').val('');
   });
-}
+};
