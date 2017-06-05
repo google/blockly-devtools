@@ -12,7 +12,7 @@ Want to contribute? Great! First, read [our guidelines for contributors](https:/
 
 ### Install node and NW.js
 
-In order to properly run and test Blockly's devtools, install [node](https://nodejs.org/en/download/) on your computer, as well as [NW.js](https://nwjs.io/downloads/). Instructions for installation can be found on the linked sites.
+In order to properly run and test Blockly's devtools, install [node.js](https://nodejs.org/en/download/) and [NW.js](https://nwjs.io/downloads/) on your computer. Instructions for installation can be found on the linked sites.
 
 ### Running Devtools
 
@@ -23,3 +23,7 @@ nwjs/nw .
 ```
 
 Doing so will run devtools as an NW.js application on your computer.
+
+### Closure dependency error
+
+If you get an error upon loading the devtools app that there is a closure dependency error, visit [this page](https://developers.google.com/blockly/guides/modify/web/closure) to find a link to download the closure library. Place the library into the `blockly-devtools` directory, next to `lib` and `src`. We are currently working on removing this dependency, but this will fix the issue until then.
