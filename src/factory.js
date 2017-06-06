@@ -51,8 +51,8 @@ BlockFactory.mainWorkspace = null;
 BlockFactory.previewWorkspace = null;
 
 /**
- * Name of block if not named.
- */
+ * Name of block if not named
+. */
 BlockFactory.UNNAMED = 'unnamed';
 
 /**
@@ -64,27 +64,30 @@ BlockFactory.oldDir = null;
  * The starting XML for the Block Factory main workspace. Contains the
  * unmovable, undeletable factory_base block. Allows user input to change XML
  * starter block.
+ * @param {string} inputType Type of input (statement, value, dummy).
+ * @param {string} blockStarterText Starter text to place on block, given by user (optional).
+ * @param {string} blockTypeName Name of block, given by user.
 */
-BlockFactory.insertXMLInputs = function(input_type, block_starter_text, block_type_name){
-  input_type = input_type || 'input_statement';
-  block_type_name = block_type_name || 'my_block';
-  var text_starter_xml = '';
+BlockFactory.insertXMLInputs = function(inputType, blockStarterText, blockTypeName) {
+  inputType = inputType || 'input_statement';
+  blockTypeName = blockTypeName || 'my_block';
+  var textXMLStarter = '';
 
   // Adds optional text to custom block.
-  if(block_starter_text.trim() !== '') {
-    text_starter_xml = '<value name="FIELDS">' +
+  if(blockStarterText.trim() !== '') {
+    textXMLStarter = '<value name="FIELDS">' +
     '<block type="field_static">' +
-    '<field name="TEXT">' + block_starter_text + '</field></block></value>';
+    '<field name="TEXT">' + blockStarterText + '</field></block></value>';
   }
 
-  console.log("txt: " + text_starter_xml);
+  console.log("txt: " + textXMLStarter);
 
   var CUSTOM_XML_STARTER = '<xml><block type="factory_base" ' +
     'deletable="false" movable="false">' +
-    '<field name="NAME">' + block_type_name + '</field>' +
+    '<field name="NAME">' + blockTypeName + '</field>' +
     '<value name="INPUTS">' +
-    '<block type="' + input_type + '">' +
-    text_starter_xml +
+    '<block type="' + inputType + '">' +
+    textXMLStarter +
     '</block></value>' +
     '<value name="TOOLTIP">' +
     '<block type="text" deletable="false" movable="false">' +
@@ -276,13 +279,13 @@ BlockFactory.disableEnableLink = function() {
 
 /**
  * Render starter block (factory_base).
- * @param {string} input_type Type of input (statement, value, dummy).
- * @param {string} block_starter_text Starter text to place on block, given by user (optional).
- * @param {string} block_type_name Name of block, given by user.
+ * @param {string} inputType Type of input (statement, value, dummy).
+ * @param {string} blockStarterText Starter text to place on block, given by user (optional).
+ * @param {string} blockTypeName Name of block, given by user.
  */
-BlockFactory.showStarterBlock = function(input_type, block_starter_text, block_type_name) {
+BlockFactory.showStarterBlock = function(inputType, blockStarterText, blockTypeName) {
   BlockFactory.mainWorkspace.clear();
-  var xml = Blockly.Xml.textToDom(BlockFactory.insertXMLInputs(input_type, block_starter_text, block_type_name));
+  var xml = Blockly.Xml.textToDom(BlockFactory.insertXMLInputs(inputType, blockStarterText, blockTypeName));
   Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
 };
 

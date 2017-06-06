@@ -689,20 +689,20 @@ AppController.prototype.init = function() {
 
   // Handle Blockly Storage with App Engine.
   if ('BlocklyStorage' in window) {
-    self.initializeBlocklyStorage();
+    this.initializeBlocklyStorage();
   }
 
   // Assign click handlers.
-  self.assignExporterClickHandlers();
-  self.assignLibraryClickHandlers();
-  self.assignBlockFactoryClickHandlers();
+  this.assignExporterClickHandlers();
+  this.assignLibraryClickHandlers();
+  this.assignBlockFactoryClickHandlers();
   // Hide and show the block library dropdown.
   document.getElementById('modalShadow').addEventListener('click',
       function() {
         self.closeModal();
       });
 
-  self.onresize();
+  this.onresize();
   window.addEventListener('resize', function() {
     self.onresize();
   });
@@ -715,25 +715,25 @@ AppController.prototype.init = function() {
        media: 'media/'});
 
   // Add tab handlers for switching between Block Factory and Block Exporter.
-  self.addTabHandlers(self.tabMap);
+  this.addTabHandlers(this.tabMap);
 
   // Assign exporter change listeners.
-  self.assignExporterChangeListeners();
+  this.assignExporterChangeListeners();
 
   // Create the root block on Block Factory main workspace.
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1),
                                BlockFactory.mainWorkspace);
   } else {
-    self.createBlocklyInitPopup(true);
+    this.createBlocklyInitPopup(true);
   }
   BlockFactory.mainWorkspace.clearUndo();
 
   // Add Block Factory event listeners.
-  self.addBlockFactoryEventListeners();
+  this.addBlockFactoryEventListeners();
 
   // Workspace Factory init.
-  WorkspaceFactoryInit.initWorkspaceFactory(self.workspaceFactoryController);
+  WorkspaceFactoryInit.initWorkspaceFactory(this.workspaceFactoryController);
 };
 
 /**
@@ -777,11 +777,11 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
     event.preventDefault();
     $('#popup').css('display','none');
 
-    var blockname = $('#block_name').val();
-    var input_type = $('input[name="input_type"]:checked').val();
-    var block_text = $('#block_text').val();
+    var blockName = $('#block_name').val();
+    var inputType = $('input[name="input_type"]:checked').val();
+    var blockText = $('#block_text').val();
 
-    BlockFactory.showStarterBlock(input_type, block_text, blockname);
+    BlockFactory.showStarterBlock(inputType, blockText, blockName);
 
     $('#block_name').val('');
     $('#block_text').val('');
