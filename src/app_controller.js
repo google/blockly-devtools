@@ -725,7 +725,7 @@ AppController.prototype.init = function() {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1),
                                BlockFactory.mainWorkspace);
   } else {
-    AppController.prototype.createBlocklyInitPopup(true);
+    self.createBlocklyInitPopup(true);
   }
   BlockFactory.mainWorkspace.clearUndo();
 
@@ -744,6 +744,8 @@ AppController.prototype.init = function() {
  * @param {boolean} whether function is being called on page load.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
+  var self = this;
+
   $('#popup').css('display','inline');
 
   if(!firstLoad) {
@@ -756,26 +758,22 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
     });
   }
 
+  // Checks for block name type duplicates.
   $('#block_name').change(function(){
-    // TODO: If block type name already exists, trigger warning.
-
-    /* Print logs for testing -- will delete after this functionality is completed.
-    console.log("change!");
-    console.log("this.BLName: " + this.blockLibraryName);
-    console.log("AC.BLName: " + AppController.blockLibraryName);
-    console.log("BLName: " + blockLibraryName);
-    console.log("has " + $("#block_name").val() + ": " +
-      AppController.blockLibraryController.has($("#block_name").val()));
-    */
-
-    /* Working on TODO -- will be completed by next pull request.
-    if(this.blockLibraryController.has($("#block_name").val())) {
+    if(self.blockLibraryController.has($("#block_name").val())) {
       $("#block_name").css({
         'border':'1px solid red'
       });
-      $("#block_name").val("Taken!");
+      $('#warning_text').css('display', 'inline');
+      $('#submit_block').attr('disabled','disabled');
     }
-    */
+    else {
+      $("#block_name").css({
+        'border':'1px solid gray'
+      });
+      $('#warning_text').css('display', 'none');
+      $('#submit_block').removeAttr('disabled');
+    }
   });
 
   $('#submit_block').click(function(event) {

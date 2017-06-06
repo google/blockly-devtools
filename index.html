@@ -763,7 +763,8 @@
     <h1>Create a New Block</h1>
     <form type=POST>
       Block name<span style="color:red;">*</span><br>
-        <input type="text" id="block_name" placeholder="block_type"></input><br><br>
+        <input type="text" id="block_name" placeholder="block_type"></input>
+        <span id="warning_text" style="color: red; display: none;">This block already exists!</span><br><br>
       Block type<span style="color:red;">*</span><br>
         <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
         <input type="radio" name="input_type" value="input_value">value input</input>

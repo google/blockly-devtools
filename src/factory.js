@@ -71,11 +71,13 @@ BlockFactory.insertXMLInputs = function(input_type, block_starter_text, block_ty
   var text_starter_xml = '';
 
   // Adds optional text to custom block.
-  if(block_starter_text.trim() === '') {
+  if(block_starter_text.trim() !== '') {
     text_starter_xml = '<value name="FIELDS">' +
     '<block type="field_static">' +
     '<field name="TEXT">' + block_starter_text + '</field></block></value>';
   }
+
+  console.log("txt: " + text_starter_xml);
 
   var CUSTOM_XML_STARTER = '<xml><block type="factory_base" ' +
     'deletable="false" movable="false">' +
