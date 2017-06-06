@@ -738,8 +738,8 @@ AppController.prototype.init = function() {
 };
 
 /**
- * Return a JSON string of all blocks in Library
- * @return the block library as a JSON string
+ * Return a JSON object of all blocks in Library
+ * @return the block library as a JSON object
  */
 AppController.prototype.makeLibraryJSON = function(){
   // TODO: svouse: give libraries names
@@ -755,6 +755,7 @@ AppController.prototype.makeLibraryJSON = function(){
       x++;
     }
     libraryTreeJSON += '{ "text" :' + "\"" + types[x] + "\"" + '} ] } ] } }';
+    libraryTreeJSON = JSON.parse(libraryTreeJSON);
     return libraryTreeJSON;
 };
 
@@ -763,9 +764,8 @@ AppController.prototype.makeLibraryJSON = function(){
  */
 AppController.prototype.initTree = function(){
   var libraryTreeJSON= this.makeLibraryJSON();
-    var x= JSON.parse(libraryTreeJSON);
     this.makeTreeListener();
-     $('#navigationTree').jstree(x);
+     $('#navigationTree').jstree(libraryTreeJSON);
 };
 
 /**
