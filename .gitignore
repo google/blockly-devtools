@@ -6,3 +6,4 @@ npm-debug.log
 *.pyc
 *.komodoproject
 /nbproject/private/
+closure-library
