@@ -62,31 +62,15 @@ BlockFactory.oldDir = null;
 
 /*
  * The starting XML for the Block Factory main workspace. Contains the
- * unmovable, undeletable factory_base block.
- */
-BlockFactory.STARTER_BLOCK_XML_TEXT = '<xml><block type="factory_base" ' +
-    'deletable="false" movable="false">' +
-    '<value name="TOOLTIP">' +
-    '<block type="text" deletable="false" movable="false">' +
-    '<field name="TEXT"></field></block></value>' +
-    '<value name="HELPURL">' +
-    '<block type="text" deletable="false" movable="false">' +
-    '<field name="TEXT"></field></block></value>' +
-    '<value name="COLOUR">' +
-    '<block type="colour_hue">' +
-    '<mutation colour="#5b67a5"></mutation>' +
-    '<field name="HUE">230</field>' +
-    '</block></value></block></xml>';
-
-/*
- * Edits starter block XML text to include an input type block.
+ * unmovable, undeletable factory_base block. Allows user input to change XML
+ * starter block.
 */
 BlockFactory.insertXMLInputs = function(input_type, block_starter_text, block_type_name){
   input_type = input_type || 'input_statement';
   block_type_name = block_type_name || 'my_block';
-
   var text_starter_xml = '';
 
+  // Adds optional text to custom block.
   if(block_starter_text.trim() === '') {
     text_starter_xml = '<value name="FIELDS">' +
     '<block type="field_static">' +
@@ -111,6 +95,7 @@ BlockFactory.insertXMLInputs = function(input_type, block_starter_text, block_ty
     '<mutation colour="#5b67a5"></mutation>' +
     '<field name="HUE">230</field>' +
     '</block></value></block></xml>';
+
   return CUSTOM_XML_STARTER;
 };
 
