@@ -761,16 +761,12 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   // Checks for block name type duplicates.
   $('#block_name').change(function(){
     if(self.blockLibraryController.has($("#block_name").val())) {
-      $("#block_name").css({
-        'border':'1px solid red'
-      });
+      $("#block_name").css('border','1px solid red');
       $('#warning_text').css('display', 'inline');
       $('#submit_block').attr('disabled','disabled');
     }
     else {
-      $("#block_name").css({
-        'border':'1px solid gray'
-      });
+      $("#block_name").css('border','1px solid gray');
       $('#warning_text').css('display', 'none');
       $('#submit_block').removeAttr('disabled');
     }
