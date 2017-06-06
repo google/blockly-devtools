@@ -744,8 +744,8 @@ AppController.prototype.init = function() {
 AppController.prototype.makeLibraryJSON = function(){
   // TODO: svouse: give libraries names
   // TODO: svouse: upon giving libraries names add them as roots
-   var libraryTreeJSON = '{ "core" : { "data" : [ { "text" : "LIBRARYNAME", +
-   "children" : [';
+   var libraryTreeJSON = '{ "core" : { "data" : [ { "text" : "LIBRARYNAME",' +
+   '"children" : [';
     var types= this.blockLibraryController.storage.getBlockTypes();
     var i = 1;
     var x = 0;
