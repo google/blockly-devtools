@@ -35,6 +35,12 @@ goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
 
+// Here for test purposes. Will delete when task is completed.
+// const x = require('./hi.js');
+// console.log(x);
+// console.log(x.speak);
+// const FileManagerController = require('./FileManagerController');
+
 
 /**
  * Controller for the Blockly Factory
@@ -54,6 +60,9 @@ AppController = function() {
   // Initialize Block Exporter
   this.exporter =
       new BlockExporterController(this.blockLibraryController.storage);
+
+  // TODO(celinechoo): Initialize Block Manager
+  //this.fileManagerController = new FileManagerController();
 
   // Map of tab type to the div element for the tab.
   this.tabMap = Object.create(null);
@@ -726,6 +735,7 @@ AppController.prototype.init = function() {
                                BlockFactory.mainWorkspace);
   } else {
     this.createBlocklyInitPopup(true);
+    //this.BlockManagerView.createBlocklyInitPopup(true);
   }
   BlockFactory.mainWorkspace.clearUndo();
 
@@ -744,8 +754,6 @@ AppController.prototype.init = function() {
  * @param {boolean} whether function is being called on page load.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
-  var self = this;
-
   $('#popup').css('display','inline');
 
   if(!firstLoad) {
@@ -760,13 +768,13 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
 
   // Checks for block name type duplicates.
   $('#block_name').change(function(){
-    if(self.blockLibraryController.has($("#block_name").val())) {
+    if(this.blockLibraryController.has($("#block_name").val())) {
       $("#block_name").css('border','1px solid red');
       $('#warning_text').css('display', 'inline');
       $('#submit_block').attr('disabled','disabled');
     }
     else {
-      $("#block_name").css('border','1px solid gray');
+      $("#block_name").css('border', '1px solid gray');
       $('#warning_text').css('display', 'none');
       $('#submit_block').removeAttr('disabled');
     }
@@ -783,7 +791,33 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
 
     BlockFactory.showStarterBlock(inputType, blockText, blockName);
 
-    $('#block_name').val('');
-    $('#block_text').val('');
+    this.resetPopup();
   });
 };
+
+/**
+ *
+ */
+AppController.prototype.checkDuplicate = function() {
+  if(this.blockLibraryController.has($("#block_name").val())) {
+    $("#block_name").css('border','1px solid red');
+    $('#warning_text').css('display', 'inline');
+    $('#submit_block').attr('disabled','disabled');
+  }
+  else {
+    $("#block_name").css('border', '1px solid gray');
+    $('#warning_text').css('display', 'none');
+    $('#submit_block').removeAttr('disabled');
+  }
+};
+
+/**
+ *
+ */
+AppController.prototype.resetPopup = function() {
+  $('#block_name').val('');
+  $('#block_text').val('');
+  $('input[name="input_type"]').attr('checked','checked');
+};
+
+module.exports = AppController;

@@ -6,3 +6,4 @@ npm-debug.log
 *.komodoproject
 /nbproject/private/
 closure-library
+node_modules

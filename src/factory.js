@@ -80,8 +80,6 @@ BlockFactory.insertXMLInputs = function(inputType, blockStarterText, blockTypeNa
     '<field name="TEXT">' + blockStarterText + '</field></block></value>';
   }
 
-  console.log("txt: " + textXMLStarter);
-
   var CUSTOM_XML_STARTER = '<xml><block type="factory_base" ' +
     'deletable="false" movable="false">' +
     '<field name="NAME">' + blockTypeName + '</field>' +

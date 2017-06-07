@@ -609,7 +609,7 @@ td.taboff:hover {
 }
 
  /* New block popup */
- 
+
 #popup {
   display: none;
   height: 100%;
@@ -617,7 +617,6 @@ td.taboff:hover {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 99999999999999999999999999999;
 }
 
 #popup #box {
@@ -631,7 +630,7 @@ td.taboff:hover {
   position: absolute;
   top: 0;
   width: 60%;
-  z-index: 999999999999999999999999999
+  z-index:2;
 }
 
 #popup #bkg {
@@ -642,7 +641,7 @@ td.taboff:hover {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 999999999999999999;
+  z-index: 1;
 }
 
 #exit {

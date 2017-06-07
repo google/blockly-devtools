@@ -4,13 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="target-densitydpi=device-dpi, height=660, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Blockly Demo: Blockly Developer Tools</title>
-  <script>
-  // For importing outside libraries.
-  if (typeof module === 'object') {
-    window.module = module;
-    module = undefined;
-  }
-  </script>
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="lib/blockly_compressed.js"></script>
   <script src="lib/javascript_compressed.js"></script>
   <script src="msg/js/en.js"></script>
@@ -36,7 +30,6 @@
   <script src="../storage.js"></script>
   <link rel="stylesheet" href="src/factory.css">
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
     var blocklyFactory;
     var init = function() {
@@ -45,12 +38,6 @@
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
     };
     window.addEventListener('load', init);
-  </script>
-  <script>
-  // for importing outside libraries
-  if (window.module) {
-    module = window.module;
-  }
   </script>
 </head>
 <body>
