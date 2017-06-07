@@ -141,10 +141,12 @@ button, .buttonStyle {
 }
 
 #blockFactoryContent {
+  position: absolute;
+  right: 2px;
   height: 85%;
   width: 80%;
   overflow: hidden;
-  float:right;
+
 }
 
 #blockFactoryPreview {
@@ -609,7 +611,8 @@ td.taboff:hover {
 }
 
 #navigationTree{
-  float: right;
+  position: absolute;
+  left: 0px;
   width: 20%;
   height: 45%;
 }
