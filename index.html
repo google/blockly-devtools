@@ -38,7 +38,6 @@
       blocklyFactory = new AppController();
       blocklyFactory.init();
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
-      nw.Window.get().showDevTools()
     };
 
     window.addEventListener('load', init);

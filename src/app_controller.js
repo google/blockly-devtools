@@ -757,6 +757,9 @@ AppController.prototype.makeLibraryJSON = function(){
     if (x > 0) {
       libraryTreeJSON += '{ "text" :' + "\"" + types[x] + "\"" + '} ] } ] } }';
     }
+    else {
+      libraryTreeJSON  = '{ }'
+    }
     libraryTreeJSON = JSON.parse(libraryTreeJSON);
     return libraryTreeJSON;
 };
