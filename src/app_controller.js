@@ -64,6 +64,9 @@ AppController = function() {
   this.tabMap[AppController.EXPORTER] =
       document.getElementById('blocklibraryExporter_tab');
 
+  // Generate tree navigation
+  this.initTree();
+
   // Last selected tab.
   this.lastSelectedTab = null;
   // Selected tab.
@@ -712,9 +715,6 @@ AppController.prototype.init = function() {
        toolbox: toolbox,
        media: 'media/'});
 
-  // Generate tree navigation
-  this.initTree();
-
   // Add tab handlers for switching between Block Factory and Block Exporter.
   this.addTabHandlers(this.tabMap);
 
@@ -749,12 +749,14 @@ AppController.prototype.makeLibraryJSON = function(){
     var types= this.blockLibraryController.storage.getBlockTypes();
     var i = 1;
     var x = 0;
-    for(;types[i];){
+    for (;types[i];) {
       libraryTreeJSON += '{ "text" :' + "\"" + types[i-1] + "\"" + '},';
       i++;
       x++;
     }
-    libraryTreeJSON += '{ "text" :' + "\"" + types[x] + "\"" + '} ] } ] } }';
+    if (x > 0) {
+      libraryTreeJSON += '{ "text" :' + "\"" + types[x] + "\"" + '} ] } ] } }';
+    }
     libraryTreeJSON = JSON.parse(libraryTreeJSON);
     return libraryTreeJSON;
 };
@@ -776,7 +778,7 @@ AppController.prototype.makeTreeListener = function(){
     .on('changed.jstree', function (e, data){
       // collect data of all selected blocks
       var i, j, r = [];
-      for(i = 0, j = data.selected.length; i < j; i++){
+      for (i = 0, j = data.selected.length; i < j; i++) {
         r.push(data.instance.get_node(data.selected[i]).text);
       }
       // load the blocks
