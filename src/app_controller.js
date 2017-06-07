@@ -64,9 +64,6 @@ AppController = function() {
   this.tabMap[AppController.EXPORTER] =
       document.getElementById('blocklibraryExporter_tab');
 
-  // Generate tree navigation
-  this.initTree();
-
   // Last selected tab.
   this.lastSelectedTab = null;
   // Selected tab.
@@ -736,55 +733,3 @@ AppController.prototype.init = function() {
   // Workspace Factory init.
   WorkspaceFactoryInit.initWorkspaceFactory(this.workspaceFactoryController);
 };
-
-/**
- * Return a JSON object of all blocks in Library
- * @return the block library as a JSON object
- */
-AppController.prototype.makeLibraryJSON = function(){
-  // TODO: svouse: give libraries names
-  // TODO: svouse: upon giving libraries names add them as roots
-   var libraryTreeJSON = '{ "core" : { "data" : [ { "text" : "LIBRARYNAME",' +
-   '"children" : [';
-    var types= this.blockLibraryController.storage.getBlockTypes();
-    var i = 1;
-    var x = 0;
-    for (;types[i];) {
-      libraryTreeJSON += '{ "text" :' + "\"" + types[i-1] + "\"" + '},';
-      i++;
-      x++;
-    }
-    if (x > 0) {
-      libraryTreeJSON += '{ "text" :' + "\"" + types[x] + "\"" + '} ] } ] } }';
-    }
-    else {
-      libraryTreeJSON  = '{ }'
-    }
-    libraryTreeJSON = JSON.parse(libraryTreeJSON);
-    return libraryTreeJSON;
-};
-
-/**
- * Populate tree and ready it for listening
- */
-AppController.prototype.initTree = function(){
-  var libraryTreeJSON= this.makeLibraryJSON();
-    this.makeTreeListener();
-     $('#navigationTree').jstree(libraryTreeJSON);
-};
-
-/**
-* Listen for block selected in tree
-*/
-AppController.prototype.makeTreeListener = function(){
-    $('#navigationTree')
-    .on('changed.jstree', function (e, data){
-      // collect data of all selected blocks
-      var i, j, r = [];
-      for (i = 0, j = data.selected.length; i < j; i++) {
-        r.push(data.instance.get_node(data.selected[i]).text);
-      }
-      // load the blocks
-      blocklyFactory.blockLibraryController.openBlock(r.join(', '));
-    });
-  };

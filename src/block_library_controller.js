@@ -54,6 +54,10 @@ BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
   // The BlockLibraryView object handles the proper updating and formatting of
   // the block library dropdown.
   this.view = new BlockLibraryView();
+
+  // Generate tree navigation
+  this.initTree();
+
 };
 
 /**
@@ -322,3 +326,55 @@ BlockLibraryController.prototype.updateButtons = function(savedChanges) {
 };
 
 
+/**
+ * Return a JSON object of all blocks in Library
+ * @return the block library as a JSON object
+ */
+BlockLibraryController.prototype.makeLibraryJSON = function(){
+  // TODO: svouse: give libraries names
+  // TODO: svouse: upon giving libraries names add them as roots
+   var libraryTreeJSON = '{ "core" : { "data" : [ { "text" : "LIBRARYNAME",' +
+   '"children" : [';
+    var types= this.storage.getBlockTypes();
+    var i = 1;
+    var x = 0;
+    for (;types[i];) {
+      libraryTreeJSON += '{ "text" :' + "\"" + types[i-1] + "\"" + '},';
+      i++;
+      x++;
+    }
+    if (x > 0) {
+      libraryTreeJSON += '{ "text" :' + "\"" + types[x] + "\"" + '} ] } ] } }';
+    }
+    // Loaded Library is empty
+    else {
+      libraryTreeJSON  = '{}';
+    }
+    libraryTreeJSON = JSON.parse(libraryTreeJSON);
+    return libraryTreeJSON;
+};
+
+/**
+ * Populate tree and ready it for listening
+ */
+BlockLibraryController.prototype.initTree = function(){
+  var libraryTreeJSON= this.makeLibraryJSON();
+    this.makeTreeListener();
+    $('#navigationTree').jstree(libraryTreeJSON);
+};
+
+/**
+* Listen for block selected in tree
+*/
+BlockLibraryController.prototype.makeTreeListener = function(){
+    $('#navigationTree')
+    .on('changed.jstree', function (e, data){
+      // collect data of all selected blocks
+      var i, j, r = [];
+      for (i = 0, j = data.selected.length; i < j; i++) {
+        r.push(data.instance.get_node(data.selected[i]).text);
+      }
+      // load the blocks
+      blocklyFactory.blockLibraryController.openBlock(r.join(', '));
+    });
+  };
