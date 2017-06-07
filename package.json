@@ -1,5 +1,5 @@
 {
-  "name": "Blockly Developer Tools",
+  "name": "blocklydevelopertools",
   "main": "index.html",
   "dependencies": {
   	"jstree": "git://github.com/vakata/jstree.git",
