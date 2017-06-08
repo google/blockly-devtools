@@ -80,24 +80,34 @@ BlockFactory.insertXMLInputs = function(inputType, blockStarterText, blockTypeNa
     '<field name="TEXT">' + blockStarterText + '</field></block></value>';
   }
 
-  var CUSTOM_XML_STARTER = `<xml><block type="factory_base"
-    deletable="false" movable="false">
-    <field name="NAME">` + blockTypeName + `</field>
-    <value name="INPUTS">
-    <block type="` inputType + `">` +
-    textXMLStarter
-    `</block></value>
-    <value name="TOOLTIP">
-    <block type="text" deletable="false" movable="false">
-    <field name="TEXT"></field></block></value>
-    <value name="HELPURL">
-    <block type="text" deletable="false" movable="false">
-    <field name="TEXT"></field></block></value>
-    <value name="COLOUR">
-    <block type="colour_hue">
-    <mutation colour="#5b67a5"></mutation>
-    <field name="HUE">230</field>
-    </block></value></block></xml>`;
+  var CUSTOM_XML_STARTER = `<xml>
+    <block type="factory_base" deletable="false" movable="false">
+      <field name="NAME">` + blockTypeName + `</field>
+      <value name="INPUTS">
+        <block type="` + inputType + `">` +
+          textXMLStarter +
+        `</block>
+      </value>
+      <value name="TOOLTIP">
+        <block type="text" deletable="false" movable="false">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+      <value name="HELPURL">
+        <block type="text" deletable="false" movable="false">
+          <field name="TEXT"></field>
+        </block>
+      </value>
+      <value name="COLOUR">
+        <block type="colour_hue">
+          <mutation colour="#5b67a5"></mutation>
+          <field name="HUE">230</field>
+        </block>
+      </value>
+    </block>
+  </xml>`
+
+  console.log(CUSTOM_XML_STARTER);
 
   return CUSTOM_XML_STARTER;
 };

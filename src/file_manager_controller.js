@@ -27,9 +27,6 @@
 
 'use strict';
 
-var BlockFactory = require('./factory.js');
-var FileManagerView = require('./file_manager_view.js');
-
 class FileManagerController {
   constructor(fileManagerName, ) {
     // TODO(celinechoo): add constructor.
@@ -37,5 +34,3 @@ class FileManagerController {
     this.view = new FileManagerView();
   }
 }
-
-module.exports = FileManagerController;

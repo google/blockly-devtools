@@ -35,12 +35,7 @@ goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
 
-// Here for test purposes. Will delete when task is completed.
-// const x = require('./hi.js');
-// console.log(x);
-// console.log(x.speak);
-// const FileManagerController = require('./FileManagerController');
-
+//import { FileManagerController } from 'src/file_manager_controller';
 
 /**
  * Controller for the Blockly Factory
@@ -62,7 +57,7 @@ AppController = function() {
       new BlockExporterController(this.blockLibraryController.storage);
 
   // TODO(celinechoo): Initialize Block Manager
-  //this.fileManagerController = new FileManagerController();
+  this.fileManagerController = new FileManagerController();
 
   // Map of tab type to the div element for the tab.
   this.tabMap = Object.create(null);
@@ -734,8 +729,9 @@ AppController.prototype.init = function() {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1),
                                BlockFactory.mainWorkspace);
   } else {
+    //TODO(celinechoo): Create separate class for popup, FileManagerController/View.
     this.createBlocklyInitPopup(true);
-    //this.BlockManagerView.createBlocklyInitPopup(true);
+    //this.FileManagerController.createBlocklyInitPopup(true);
   }
   BlockFactory.mainWorkspace.clearUndo();
 
@@ -755,6 +751,7 @@ AppController.prototype.init = function() {
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   $('#popup').css('display','inline');
+  var self = this;
 
   if(!firstLoad) {
     // Show exit button.
@@ -768,7 +765,7 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
 
   // Checks for block name type duplicates.
   $('#block_name').change(function() {
-    if(this.blockLibraryController.has($("#block_name").val())) {
+    if(self.blockLibraryController.has($("#block_name").val())) {
       $("#block_name").css('border','1px solid red');
       $('#warning_text').css('display', 'inline');
       $('#submit_block').attr('disabled','disabled');
@@ -790,12 +787,13 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
 
     BlockFactory.showStarterBlock(inputType, blockText, blockName);
 
-    this.resetPopup();
+    self.resetPopup();
   });
 };
 
 /**
- *
+ * Checks if user is trying to create a block under a name that is
+ * already taken. Shows error and disables submit if taken.
  */
 AppController.prototype.checkDuplicate = function() {
   if(this.blockLibraryController.has($("#block_name").val())) {
@@ -811,12 +809,10 @@ AppController.prototype.checkDuplicate = function() {
 };
 
 /**
- *
+ * Resets popup form fields to be empty upon creating another block.
  */
 AppController.prototype.resetPopup = function() {
   $('#block_name').val('');
   $('#block_text').val('');
   $('input[name="input_type"]').attr('checked','checked');
 };
-
-module.exports = AppController;

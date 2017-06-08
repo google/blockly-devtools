@@ -27,9 +27,6 @@
 
 'use strict';
 
-import {FileManagerController} from 'file_manager_controller';
-import {BlocklyFactory} from 'factory';
-
 class FileManagerView {
   constructor() {
     //TODO(celinechoo): Complete FileManagerView constructor.
