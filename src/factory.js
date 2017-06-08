@@ -107,8 +107,6 @@ BlockFactory.insertXMLInputs = function(inputType, blockStarterText, blockTypeNa
     </block>
   </xml>`
 
-  console.log(CUSTOM_XML_STARTER);
-
   return CUSTOM_XML_STARTER;
 };
 

@@ -748,6 +748,11 @@ AppController.prototype.init = function() {
  *
  * Helper function of init() and listener for Create New Block click.
  * @param {boolean} firstLoad Whether function is being called on page load.
+ *
+ * TODO(celinechoo): Will move functions below to a separate file,
+ * FileManagerController, so that all file/block related popups can be controlled
+ * in one location. UI will also be modified so popup doesn't occur immediately
+ * upon starting the app.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   $('#popup').css('display','inline');
