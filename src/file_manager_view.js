@@ -92,8 +92,7 @@ class FileManagerView {
       $("#block_name").css('border','1px solid red');
       $('#warning_text').css('display', 'inline');
       $('#submit_block').attr('disabled','disabled');
-    }
-    else {
+    } else {
       $("#block_name").css('border', '1px solid gray');
       $('#warning_text').css('display', 'none');
       $('#submit_block').removeAttr('disabled');
