@@ -3,6 +3,6 @@
   "main": "index.html",
   "dependencies": {
     "jstree": "git://github.com/vakata/jstree.git",
-    "jquery": "~3.2.1"
+    "jquery": "^3.2.1"
   }
 }
