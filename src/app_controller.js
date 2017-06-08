@@ -728,9 +728,7 @@ AppController.prototype.init = function() {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1),
                                BlockFactory.mainWorkspace);
   } else {
-    //TODO(celinechoo): Create separate class for popup, FileManagerController/View.
     this.createBlocklyInitPopup(true);
-    //this.FileManagerController.createBlocklyInitPopup(true);
   }
   BlockFactory.mainWorkspace.clearUndo();
 
