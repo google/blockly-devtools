@@ -751,7 +751,7 @@ AppController.prototype.init = function() {
  * starter block.
  *
  * Helper function of init() and listener for Create New Block click.
- * @param {boolean} whether function is being called on page load.
+ * @param {boolean} firstLoad Whether function is being called on page load.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   $('#popup').css('display','inline');
@@ -760,20 +760,19 @@ AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
     // Show exit button.
     $('#exit').css('display','inline');
 
-    // Listener to x out popup.
+    // Listener to close popup.
     $('#exit').click(function(){
       $('#popup').css('display','none');
     });
   }
 
   // Checks for block name type duplicates.
-  $('#block_name').change(function(){
+  $('#block_name').change(function() {
     if(this.blockLibraryController.has($("#block_name").val())) {
       $("#block_name").css('border','1px solid red');
       $('#warning_text').css('display', 'inline');
       $('#submit_block').attr('disabled','disabled');
-    }
-    else {
+    } else {
       $("#block_name").css('border', '1px solid gray');
       $('#warning_text').css('display', 'none');
       $('#submit_block').removeAttr('disabled');

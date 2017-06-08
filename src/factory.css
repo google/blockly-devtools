@@ -656,3 +656,11 @@ td.taboff:hover {
   padding: 10px;
   width: 15px;
 }
+
+#warning_text {
+  color:red;
+  display:none;
+}
+.red {
+  color:red;
+}

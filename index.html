@@ -748,11 +748,11 @@
   <div id="box">
     <div id="exit">x</div>
     <h1>Create a New Block</h1>
-    <form type=POST>
-      Block name<span style="color:red;">*</span><br>
+    <form>
+      Block name<span class="red">*</span><br>
         <input type="text" id="block_name" placeholder="block_type"></input>
-        <span id="warning_text" style="color: red; display: none;">This block already exists!</span><br><br>
-      Block type<span style="color:red;">*</span><br>
+        <span id="warning_text">This block already exists!</span><br><br>
+      Block type<span class="red">*</span><br>
         <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
         <input type="radio" name="input_type" value="input_value">value input</input>
         <input type="radio" name="input_type" value="input_dummy">dummy input</input>
@@ -763,13 +763,14 @@
     </form>
     <br>
     <hr>
+    <!-- TODO: Replace images with uneditable Blockly workspace -->
     <h3>Examples</h3>
     Statement input:<br>
-    <img src="https://developers.google.com/blockly/images/language03.png" width="100%" height="auto"/><br>
+    <img src="../media/input_statement.png" width="30%" height="auto"/><br>
     Value input:<br>
-    <img src="https://developers.google.com/blockly/images/variables-set.png" width="30%" height="auto"/><br>
+    <img src="../media/input_value.png" width="30%" height="auto"/><br>
     Dummy input:<br>
-    <img src="https://developers.google.com/blockly/images/language05.png" width="30%" height="auto"/><br>
+    <img src="../media/input_dummy.png" width="30%" height="auto"/><br>
   </div>
 </div>
 
