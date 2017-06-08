@@ -157,7 +157,7 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
   // Save block.
   this.storage.addBlock(blockType, xmlElement);
   this.storage.saveToLocalStorage();
-
+  this.initTree();
   // Show saved block without other stray blocks sitting in Block Factory's
   // main workspace.
   this.openBlock(blockType);
@@ -325,32 +325,36 @@ BlockLibraryController.prototype.updateButtons = function(savedChanges) {
   this.view.updateButtons(blockType, isInLibrary, savedChanges);
 };
 
+/**
+ * Return a string of all blockTypes for building a library JSON
+ * @return '[ {"text" : <blockType> } , ... , {"text" : <blockType> }, ]'
+ */
+BlockLibraryController.prototype.makeTreeBlockTypeString = function() {
+  var treeBlockTypeString= '[ ';
+  var types= this.storage.getBlockTypes();
+  var iterationIndex = 1;
+  var finalIndex = 0;
+  for (;types[iterationIndex];) {
+    treeBlockTypeString += '{ "text" :' + "\"" + types[iterationIndex - 1] + "\"" + '},';
+    iterationIndex++;
+    finalIndex++;
+  }
+  treeBlockTypeString += '{ "text" :' + "\"" + types[finalIndex] + "\"" + '} ]';
+  return treeBlockTypeString;
+};
 
 /**
  * Return a JSON object of all blocks in Library
  * @return the block library as a JSON object
  */
-BlockLibraryController.prototype.makeLibraryJSON = function(){
+BlockLibraryController.prototype.makeLibraryJSON = function() {
   // TODO: svouse: give libraries names
   // TODO: svouse: upon giving libraries names add them as roots
-   var libraryTreeJSON = '{ "core" : { "data" : [ { "text" : "LIBRARYNAME",' +
-   '"children" : [';
-    var types= this.storage.getBlockTypes();
-    var i = 1;
-    var x = 0;
-    for (;types[i];) {
-      libraryTreeJSON += '{ "text" :' + "\"" + types[i-1] + "\"" + '},';
-      i++;
-      x++;
-    }
-    if (x > 0) {
-      libraryTreeJSON += '{ "text" :' + "\"" + types[x] + "\"" + '} ] } ] } }';
-    }
-    // Loaded Library is empty
-    else {
-      libraryTreeJSON  = '{}';
-    }
-    libraryTreeJSON = JSON.parse(libraryTreeJSON);
+    var head = '{ "core" : { "data" : [ { "text" : "LIBRARYNAME", "children" :';
+    var data = this.makeTreeBlockTypeString();
+    var tail = '} ] } }';
+    var libraryString = head + data + tail;
+    var libraryTreeJSON =  JSON.parse(libraryString);
     return libraryTreeJSON;
 };
 
@@ -359,22 +363,22 @@ BlockLibraryController.prototype.makeLibraryJSON = function(){
  */
 BlockLibraryController.prototype.initTree = function(){
   var libraryTreeJSON= this.makeLibraryJSON();
-    this.makeTreeListener();
-    $('#navigationTree').jstree(libraryTreeJSON);
+  this.makeTreeListener();
+  $('#navigationTree').jstree(libraryTreeJSON);
 };
 
 /**
 * Listen for block selected in tree
 */
-BlockLibraryController.prototype.makeTreeListener = function(){
-    $('#navigationTree')
+BlockLibraryController.prototype.makeTreeListener = function() {
+  $('#navigationTree')
     .on('changed.jstree', function (e, data){
       // collect data of all selected blocks
       var i, j, r = [];
       for (i = 0, j = data.selected.length; i < j; i++) {
         r.push(data.instance.get_node(data.selected[i]).text);
       }
-      // load the blocks
+     // load the blocks
       blocklyFactory.blockLibraryController.openBlock(r.join(', '));
     });
   };
