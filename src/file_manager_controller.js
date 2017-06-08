@@ -29,7 +29,6 @@
 class FileManagerController {
   /* @constructor */
   constructor(fileManagerName, blockLibraryController) {
-    // TODO(celinechoo): add constructor.
     this.name = fileManagerName;
     this.view = new FileManagerView();
     this.blockLibraryController = blockLibraryController;
@@ -43,8 +42,13 @@ class FileManagerController {
    * @returns {boolean} True if successful.
    */
   newBlock(firstLoad) {
+    console.log("FileManagerController Popup Called.");
+    // nw.Window.open('begin.html', {}, (new_win) => {
+    //   var popup = new_win;
+    // });
     $('#popup').css('display','inline');
 
+    /*
     if(!firstLoad) {
       // Show exit button.
       $('#exit').css('display','inline');
@@ -54,16 +58,19 @@ class FileManagerController {
         $('#popup').css('display','none');
       });
     }
+    */
 
     // Checks for block name type duplicates.
     $('#block_name').change(() => {
-      this.view.checkDuplicates(this.blockLibraryController);
+      this.view.checkDuplicate(this.blockLibraryController);
     });
 
     $('#submit_block').click((event) => {
       // Gathers and renders blocks properly in devtools editor.
       event.preventDefault();
       $('#popup').css('display','none');
+      console.log("Closing");
+      // popup.close();
 
       var blockName = $('#block_name').val();
       var inputType = $('input[name="input_type"]:checked').val();

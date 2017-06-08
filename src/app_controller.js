@@ -71,6 +71,12 @@ AppController = function() {
   this.lastSelectedTab = null;
   // Selected tab.
   this.selectedTab = AppController.BLOCK_FACTORY;
+
+  // TODO(celinechoo): Tidy up the code below.
+  // Currently trying to create a cleaner interface for multi-window
+  // application.
+  this.win = nw.Window.get();
+  this.setMenu();
 };
 
 // Constant values representing the three tabs in the controller.
@@ -728,9 +734,7 @@ AppController.prototype.init = function() {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1),
                                BlockFactory.mainWorkspace);
   } else {
-    //TODO(celinechoo): Create separate class for popup, FileManagerController/View.
     this.createBlocklyInitPopup(true);
-    //this.FileManagerController.createBlocklyInitPopup(true);
   }
   BlockFactory.mainWorkspace.clearUndo();
 
@@ -749,5 +753,26 @@ AppController.prototype.init = function() {
  * @param {boolean} firstLoad Whether function is being called on page load.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
+  console.log("AppController popup called.");
   this.fileManagerController.newBlock(firstLoad);
 };
+
+AppController.prototype.newWindow = function() {
+  // TODO(celinechoo): new window fcn.
+}
+
+AppController.prototype.setMenu = function() {
+  let menu = new nw.Menu({type: 'menubar'});
+  menu.append(new nw.MenuItem({ label: 'File' }));
+  menu.append(new nw.MenuItem({ label: 'Edit' }));
+
+  let file = new nw.Menu();
+  file.append(new nw.MenuItem({ label: 'New' }));
+  file.append(new nw.MenuItem({ label: 'Open' }));
+  file.append(new nw.MenuItem({ label: 'Save' }));
+
+  let file_new = new nw.Menu();
+  file_new.append(new nw.MenuItem({ label: 'New Project' }));
+  file_new.append(new nw.MenuItem({ label: 'New Block' }));
+  this.win.menu = menu;
+}

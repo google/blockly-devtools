@@ -2,8 +2,8 @@
   "name": "blockly-devtools",
   "main": "index.html",
   "window": {
-    "width": 1500,
-    "height": 1000
+    "width": 800,
+    "height": 600
   },
   "dependencies": {
     "jquery": "^3.2.1"
