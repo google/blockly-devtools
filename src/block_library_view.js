@@ -32,7 +32,6 @@ goog.provide('BlockLibraryView');
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
 
-
 /**
  * BlockLibraryView Class
  * @constructor

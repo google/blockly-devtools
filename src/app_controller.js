@@ -2,7 +2,7 @@
  * @license
  * Blockly Demos: Block Factory
  *
- * Copyright 2016 Google Inc.
+ * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,8 +35,6 @@ goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
 
-//import { FileManagerController } from 'src/file_manager_controller';
-
 /**
  * Controller for the Blockly Factory
  * @constructor
@@ -56,8 +54,9 @@ AppController = function() {
   this.exporter =
       new BlockExporterController(this.blockLibraryController.storage);
 
-  // TODO(celinechoo): Initialize Block Manager
-  this.fileManagerController = new FileManagerController();
+  // Initialize Window Manager
+  this.fileManagerController =
+      new FileManagerController('fileManager', this.blockLibraryController);
 
   // Map of tab type to the div element for the tab.
   this.tabMap = Object.create(null);
@@ -748,76 +747,7 @@ AppController.prototype.init = function() {
  *
  * Helper function of init() and listener for Create New Block click.
  * @param {boolean} firstLoad Whether function is being called on page load.
- *
- * TODO(celinechoo): Will move functions below to a separate file,
- * FileManagerController, so that all file/block related popups can be controlled
- * in one location. UI will also be modified so popup doesn't occur immediately
- * upon starting the app.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
-  $('#popup').css('display','inline');
-  var self = this;
-
-  if(!firstLoad) {
-    // Show exit button.
-    $('#exit').css('display','inline');
-
-    // Listener to close popup.
-    $('#exit').click(function(){
-      $('#popup').css('display','none');
-    });
-  }
-
-  // Checks for block name type duplicates.
-  $('#block_name').change(function() {
-    if(self.blockLibraryController.has($("#block_name").val())) {
-      $("#block_name").css('border','1px solid red');
-      $('#warning_text').css('display', 'inline');
-      $('#submit_block').attr('disabled','disabled');
-    } else {
-      $("#block_name").css('border', '1px solid gray');
-      $('#warning_text').css('display', 'none');
-      $('#submit_block').removeAttr('disabled');
-    }
-  });
-
-  $('#submit_block').click(function(event) {
-    // Gathers and renders blocks properly in devtools editor.
-    event.preventDefault();
-    $('#popup').css('display','none');
-
-    var blockName = $('#block_name').val();
-    var inputType = $('input[name="input_type"]:checked').val();
-    var blockText = $('#block_text').val();
-
-    BlockFactory.showStarterBlock(inputType, blockText, blockName);
-
-    self.resetPopup();
-  });
-};
-
-/**
- * Checks if user is trying to create a block under a name that is
- * already taken. Shows error and disables submit if taken.
- */
-AppController.prototype.checkDuplicate = function() {
-  if(this.blockLibraryController.has($("#block_name").val())) {
-    $("#block_name").css('border','1px solid red');
-    $('#warning_text').css('display', 'inline');
-    $('#submit_block').attr('disabled','disabled');
-  }
-  else {
-    $("#block_name").css('border', '1px solid gray');
-    $('#warning_text').css('display', 'none');
-    $('#submit_block').removeAttr('disabled');
-  }
-};
-
-/**
- * Resets popup form fields to be empty upon creating another block.
- */
-AppController.prototype.resetPopup = function() {
-  $('#block_name').val('');
-  $('#block_text').val('');
-  $('input[name="input_type"]').attr('checked','checked');
+  this.fileManagerController.newBlock(firstLoad);
 };

@@ -2,7 +2,7 @@
  * @license
  * Blockly Demos: Block Factory
  *
- * Copyright 2016 Google Inc.
+ * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -71,41 +71,40 @@ BlockFactory.oldDir = null;
 BlockFactory.insertXMLInputs = function(inputType, blockStarterText, blockTypeName) {
   inputType = inputType || 'input_statement';
   blockTypeName = blockTypeName || 'my_block';
-  var textXMLStarter = '';
+  var textXmlStarter = '';
 
   // Adds optional text to custom block.
   if(blockStarterText.trim() !== '') {
-    textXMLStarter = '<value name="FIELDS">' +
+    textXmlStarter = '<value name="FIELDS">' +
     '<block type="field_static">' +
     '<field name="TEXT">' + blockStarterText + '</field></block></value>';
   }
 
-  var CUSTOM_XML_STARTER = `<xml>
-    <block type="factory_base" deletable="false" movable="false">
-      <field name="NAME">` + blockTypeName + `</field>
-      <value name="INPUTS">
-        <block type="` + inputType + `">` +
-          textXMLStarter +
-        `</block>
-      </value>
-      <value name="TOOLTIP">
-        <block type="text" deletable="false" movable="false">
-          <field name="TEXT"></field>
+  var CUSTOM_XML_STARTER =
+      `<xml>
+        <block type="factory_base" deletable="false" movable="false">
+          <field name="NAME">${blockTypeName}</field>
+          <value name="INPUTS">
+            <block type="${inputType}">${textXmlStarter}</block>
+          </value>
+          <value name="TOOLTIP">
+            <block type="text" deletable="false" movable="false">
+              <field name="TEXT"></field>
+            </block>
+          </value>
+          <value name="HELPURL">
+            <block type="text" deletable="false" movable="false">
+              <field name="TEXT"></field>
+            </block>
+          </value>
+          <value name="COLOUR">
+            <block type="colour_hue">
+              <mutation colour="#5b67a5"></mutation>
+              <field name="HUE">230</field>
+            </block>
+          </value>
         </block>
-      </value>
-      <value name="HELPURL">
-        <block type="text" deletable="false" movable="false">
-          <field name="TEXT"></field>
-        </block>
-      </value>
-      <value name="COLOUR">
-        <block type="colour_hue">
-          <mutation colour="#5b67a5"></mutation>
-          <field name="HUE">230</field>
-        </block>
-      </value>
-    </block>
-  </xml>`
+      </xml>`
 
   return CUSTOM_XML_STARTER;
 };

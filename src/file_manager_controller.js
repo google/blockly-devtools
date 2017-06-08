@@ -2,7 +2,7 @@
  * @license
  * Blockly Demos: Block Factory
  *
- * Copyright 2016 Google Inc.
+ * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,67 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
  * @fileoverview FileManagerController manages the UI for creating new blocks and
  * projects.
  *
  * @author celinechoo (Celine Choo)
  */
-
-'use strict';
-
 class FileManagerController {
-  constructor(fileManagerName, ) {
+  /* @constructor */
+  constructor(fileManagerName, blockLibraryController) {
     // TODO(celinechoo): add constructor.
     this.name = fileManagerName;
     this.view = new FileManagerView();
+    this.blockLibraryController = blockLibraryController;
+  }
+
+  /**
+   * Creates popup
+   */
+  openNew(fileName) {
+    nw.Window.open(fileName + '.html');
+  }
+
+  /**
+   * New window to create new block.
+   *
+   * @param {string} firstLoad Whether new block is the first block upon creating
+   * a new project, or not.
+   * @returns {boolean} True if successful.
+   */
+  newBlock(firstLoad) {
+    $('#popup').css('display','inline');
+
+    if(!firstLoad) {
+      // Show exit button.
+      $('#exit').css('display','inline');
+
+      // Listener to close popup.
+      $('#exit').click(function(){
+        $('#popup').css('display','none');
+      });
+    }
+
+    // Checks for block name type duplicates.
+    $('#block_name').change(() => {
+      this.view.checkDuplicates(this.blockLibraryController);
+    });
+
+    $('#submit_block').click((event) => {
+      // Gathers and renders blocks properly in devtools editor.
+      event.preventDefault();
+      $('#popup').css('display','none');
+
+      var blockName = $('#block_name').val();
+      var inputType = $('input[name="input_type"]:checked').val();
+      var blockText = $('#block_text').val();
+
+      BlockFactory.showStarterBlock(inputType, blockText, blockName);
+
+      this.resetPopup();
+    });
   }
 }

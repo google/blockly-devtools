@@ -2,7 +2,7 @@
  * @license
  * Blockly Demos: Block Factory
  *
- * Copyright 2016 Google Inc.
+ * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,7 @@
  */
 
 /**
- * @fileoverview BlockManagerView deals with the UI for creating new blocks and
+ * @fileoverview FileManagerView deals with the UI for creating new blocks and
  * projects.
  *
  * @author celinechoo (Celine Choo)
@@ -27,28 +27,48 @@
 
 'use strict';
 
+/* FileManagerView class. */
 class FileManagerView {
+  /* @constructor */
   constructor() {
     //TODO(celinechoo): Complete FileManagerView constructor.
+    // For now, nothing is necessary here.
   }
 
-  static createBlocklyInitPopup(firstLoad) {
-    $('#popup').css('display', 'inline');
+  /**
+   * Creates popup for initializing blockly workspace, and then renders
+   * starter block.
+   *
+   * Helper function of init() and listener for Create New Block click.
+   * @param {boolean} firstLoad Whether function is being called on page load.
+   */
+  createBlocklyInitPopup(firstLoad) {
+    $('#popup').css('display','inline');
 
     if(!firstLoad) {
       // Show exit button.
       $('#exit').css('display','inline');
 
-      // Listener to x out popup.
+      // Listener to close popup.
       $('#exit').click(function(){
         $('#popup').css('display','none');
       });
     }
 
     // Checks for block name type duplicates.
-    $('#block_name').change(this.checkDuplicate);
+    $('#block_name').change(() => {
+      if(this.blockLibraryController.has($("#block_name").val())) {
+        $("#block_name").css('border','1px solid red');
+        $('#warning_text').css('display', 'inline');
+        $('#submit_block').attr('disabled','disabled');
+      } else {
+        $("#block_name").css('border', '1px solid gray');
+        $('#warning_text').css('display', 'none');
+        $('#submit_block').removeAttr('disabled');
+      }
+    });
 
-    $('#submit_block').click(function(event) {
+    $('#submit_block').click((event) => {
       // Gathers and renders blocks properly in devtools editor.
       event.preventDefault();
       $('#popup').css('display','none');
@@ -59,8 +79,33 @@ class FileManagerView {
 
       BlockFactory.showStarterBlock(inputType, blockText, blockName);
 
-      $('#block_name').val('');
-      $('#block_text').val('');
+      this.resetPopup();
     });
   }
+
+  /**
+   * Checks if user is trying to create a block under a name that is
+   * already taken. Shows error and disables submit if taken.
+   */
+  checkDuplicate(blockLibraryController) {
+    if(blockLibraryController.has($("#block_name").val())) {
+      $("#block_name").css('border','1px solid red');
+      $('#warning_text').css('display', 'inline');
+      $('#submit_block').attr('disabled','disabled');
+    }
+    else {
+      $("#block_name").css('border', '1px solid gray');
+      $('#warning_text').css('display', 'none');
+      $('#submit_block').removeAttr('disabled');
+    }
+  }
+
+  /**
+   * Resets popup form fields to be empty upon creating another block.
+   */
+  resetPopup() {
+    $('#block_name').val('');
+    $('#block_text').val('');
+    $('input[name="input_type"]').attr('checked','checked');
+  };
 }
