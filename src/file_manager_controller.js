@@ -36,13 +36,6 @@ class FileManagerController {
   }
 
   /**
-   * Creates popup
-   */
-  openNew(fileName) {
-    nw.Window.open(fileName + '.html');
-  }
-
-  /**
    * New window to create new block.
    *
    * @param {string} firstLoad Whether new block is the first block upon creating
