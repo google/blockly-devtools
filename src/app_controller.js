@@ -2,7 +2,7 @@
  * @license
  * Blockly Demos: Block Factory
  *
- * Copyright 2017 Google Inc.
+ * Copyright 2016 Google Inc.
  * https://developers.google.com/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,9 +54,9 @@ AppController = function() {
   this.exporter =
       new BlockExporterController(this.blockLibraryController.storage);
 
-  // Initialize Window Manager
-  this.fileManagerController =
-      new FileManagerController('fileManager', this.blockLibraryController);
+  // Initialize New Block Dialog Controller
+  this.newBlockDialogController =
+      new NewBlockDialogController('blockDialog', this.blockLibraryController);
 
   // Map of tab type to the div element for the tab.
   this.tabMap = Object.create(null);
@@ -533,8 +533,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
         }
       });
 
-  document.getElementById('createNewBlockButton')
-    .addEventListener('click', function() {
+  $('#createNewBlockButton').click(() => {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
       var proceedWithUnsavedChanges =
@@ -543,7 +542,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
         return;
       }
 
-      AppController.prototype.createBlocklyInitPopup(false);
+      this.createBlocklyInitPopup(false);
       self.blockLibraryController.setNoneSelected();
 
       // Close the Block Library Dropdown.
@@ -753,8 +752,7 @@ AppController.prototype.init = function() {
  * @param {boolean} firstLoad Whether function is being called on page load.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
-  console.log("AppController popup called.");
-  this.fileManagerController.newBlock(firstLoad);
+  this.newBlockDialogController.showNewBlockDialog(firstLoad);
 };
 
 AppController.prototype.newWindow = function() {

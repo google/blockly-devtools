@@ -70,7 +70,7 @@ p {
 
 #blockly {
   position: absolute;
-  z-index:-1;
+  z-index:0;
 }
 
 #blocklyMask {
@@ -79,7 +79,7 @@ p {
   display: none;
   position: fixed;
   opacity: 0.2;
-  z-index:9;
+  z-index: 9;
 }
 
 #preview {
@@ -650,7 +650,6 @@ td.taboff:hover {
   border-radius: 50%;
   color: f00;
   cursor: pointer;
-  display: none;
   float: right;
   height: 15px;
   opacity: .4;

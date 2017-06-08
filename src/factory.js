@@ -2,7 +2,7 @@
  * @license
  * Blockly Demos: Block Factory
  *
- * Copyright 2017 Google Inc.
+ * Copyright 2016 Google Inc.
  * https://developers.google.com/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -68,7 +68,7 @@ BlockFactory.oldDir = null;
  * @param {string} blockStarterText Starter text to place on block, given by user (optional).
  * @param {string} blockTypeName Name of block, given by user.
 */
-BlockFactory.insertXMLInputs = function(inputType, blockStarterText, blockTypeName) {
+BlockFactory.buildStartXml = function(inputType, blockStarterText, blockTypeName) {
   inputType = inputType || 'input_statement';
   blockTypeName = blockTypeName || 'my_block';
   var textXmlStarter = '';
@@ -80,7 +80,7 @@ BlockFactory.insertXMLInputs = function(inputType, blockStarterText, blockTypeNa
     '<field name="TEXT">' + blockStarterText + '</field></block></value>';
   }
 
-  var CUSTOM_XML_STARTER =
+  var customXmlStarter =
       `<xml>
         <block type="factory_base" deletable="false" movable="false">
           <field name="NAME">${blockTypeName}</field>
@@ -106,7 +106,7 @@ BlockFactory.insertXMLInputs = function(inputType, blockStarterText, blockTypeNa
         </block>
       </xml>`
 
-  return CUSTOM_XML_STARTER;
+  return customXmlStarter;
 };
 
 /**
@@ -290,7 +290,7 @@ BlockFactory.disableEnableLink = function() {
  */
 BlockFactory.showStarterBlock = function(inputType, blockStarterText, blockTypeName) {
   BlockFactory.mainWorkspace.clear();
-  var xml = Blockly.Xml.textToDom(BlockFactory.insertXMLInputs(inputType, blockStarterText, blockTypeName));
+  var xml = Blockly.Xml.textToDom(BlockFactory.buildStartXml(inputType, blockStarterText, blockTypeName));
   Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
 };
 
