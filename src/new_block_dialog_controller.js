@@ -57,10 +57,7 @@ class NewBlockDialogController {
    * that already exists in the library, warn user.
    */
    checkDuplicate() {
-    if (this.blockLibraryController.has($("#block_name").val())) {
-      this.view.showWarning();
-    } else {
-      this.view.hideWarning();
-    }
+    let hasDuplicate = this.blockLibraryController.has($("#block_name").val());
+    this.view.showWarning(hasDuplicate);
    }
 }
