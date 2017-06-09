@@ -26,11 +26,12 @@
  *
  * @author celinechoo (Celine Choo)
  */
-class FileManagerController {
+class NewBlockDialogController {
   /* @constructor */
   constructor(fileManagerName, blockLibraryController) {
+    // TODO(celinechoo): add constructor.
     this.name = fileManagerName;
-    this.view = new FileManagerView();
+    this.view = new NewBlockDialogView();
     this.blockLibraryController = blockLibraryController;
   }
 
@@ -39,38 +40,31 @@ class FileManagerController {
    *
    * @param {string} firstLoad Whether new block is the first block upon creating
    * a new project, or not.
-   * @returns {boolean} True if successful.
+   *
+   * TODO(celinechoo): Make popup in a new window and not as an overlayed div.
    */
-  newBlock(firstLoad) {
-    console.log("FileManagerController Popup Called.");
-    // nw.Window.open('begin.html', {}, (new_win) => {
-    //   var popup = new_win;
-    // });
-    $('#popup').css('display','inline');
-
-    /*
-    if(!firstLoad) {
-      // Show exit button.
-      $('#exit').css('display','inline');
-
-      // Listener to close popup.
-      $('#exit').click(function(){
-        $('#popup').css('display','none');
-      });
-    }
-    */
+  showNewBlockDialog(firstLoad) {
+    console.log("Beginning of BlockController, firstLoad: " + firstLoad);
+    $('#popup').css('display', 'inline');
 
     // Checks for block name type duplicates.
     $('#block_name').change(() => {
-      this.view.checkDuplicate(this.blockLibraryController);
+      this.view.warnDuplicate(this.blockLibraryController);
+    });
+
+    $('#exit').click(() => {
+      console.log("BlockController level, firstLoad BEFORE: " + firstLoad);
+      if(firstLoad) {
+        console.log("BlockController level, firstLoad: " + firstLoad);
+        BlockFactory.showStarterBlock('input_statement', 'block1', 'block_type');
+      }
+      this.closeDialog();
     });
 
     $('#submit_block').click((event) => {
       // Gathers and renders blocks properly in devtools editor.
       event.preventDefault();
-      $('#popup').css('display','none');
-      console.log("Closing");
-      // popup.close();
+      this.closeDialog();
 
       var blockName = $('#block_name').val();
       var inputType = $('input[name="input_type"]:checked').val();
@@ -78,7 +72,15 @@ class FileManagerController {
 
       BlockFactory.showStarterBlock(inputType, blockText, blockName);
 
-      this.resetPopup();
+      this.view.resetPopup();
     });
+  }
+
+  /**
+   * Closes new block popup. Currently as a CSS function but will manually close
+   * the dialog once the new block popup becomes a new window. (See: above TODO).
+   */
+  closeDialog() {
+    $('#popup').css('display', 'none');
   }
 }
