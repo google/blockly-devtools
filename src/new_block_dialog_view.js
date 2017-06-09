@@ -20,6 +20,8 @@
 
 'use strict';
 
+var Emitter = require('component-emitter');
+
 /**
  * @fileoverview NewBlockDialogView deals with the UI for creating new blocks and
  * projects.
@@ -27,58 +29,70 @@
  * @author celinechoo (Celine Choo)
  */
 class NewBlockDialogView {
-  constructor() { }
+  constructor() {
+    this.firstLoad = true;
+    this.blockName = 'block_type';
+    this.inputType = 'input_statement';
+    this.blockText = 'MY_BLOCK';
+    Emitter(NewBlockDialogView.prototype);
 
-  /**
-   * Opens new block dialog popup.
-   */
-  openDialog() {
-    $('#popup').css('display', 'inline');
-  }
-
-  /**
-   * Closes new block popup after user input (either submit or close).
-   */
-  closeDialog(firstLoad) {
     $('#exit').click(() => {
-      // See above TODO for note about logs.
-      // console.log("BlockController level, firstLoad BEFORE: " + firstLoad);
-      if (firstLoad) {
-        // console.log("BlockController level, firstLoad: " + firstLoad);
-        BlockFactory.showStarterBlock('input_statement', 'block1', 'block_type');
+      if (this.firstLoad) {
+        BlockFactory.showStarterBlock(this.inputType, this.blockText, this.blockName);
       }
-      $('#popup').css('display', 'none');
+      this.closeDialog();
     });
 
     $('#submit_block').click((event) => {
       // Gathers and renders blocks properly in devtools editor.
       event.preventDefault();
-      $('#popup').css('display', 'none');
 
-      var blockName = $('#block_name').val();
-      var inputType = $('input[name="input_type"]:checked').val();
-      var blockText = $('#block_text').val();
+      this.blockName = $('#block_name').val();
+      this.inputType = $('input[name="input_type"]:checked').val();
+      this.blockText = $('#block_text').val();
 
-      BlockFactory.showStarterBlock(inputType, blockText, blockName);
+      this.closeDialog();
+
+      this.emit('exit', this);
+
+      BlockFactory.showStarterBlock(this.inputType, this.blockText, this.blockName);
     });
   }
 
   /**
-   * Checks if user is trying to create a block under a name that is
-   * already taken. Shows error and disables submit if taken.
+   * Opens new block dialog popup.
+   * @param {boolean} firstLoad Whether dialog is opening upon the first launch
+   * of the application.
    */
-  warnDuplicate(blockLibraryController) {
-    $('#block_name').change(() => {
-      if(blockLibraryController.has($("#block_name").val())) {
-        $("#block_name").css('border','1px solid red');
-        $('#warning_text').css('display', 'inline');
-        $('#submit_block').attr('disabled','disabled');
-      } else {
-        $("#block_name").css('border', '1px solid gray');
-        $('#warning_text').css('display', 'none');
-        $('#submit_block').removeAttr('disabled');
-      }
-    });
+  openDialog(firstLoad) {
+    this.firstLoad = firstLoad;
+    $('#popup').css('display', 'inline');
+  }
+
+  /**
+   * Closes new block popup, resets fields in form.
+   */
+  closeDialog() {
+    $('#popup').css('display', 'none');
+    this.resetPopup();
+  }
+
+  /**
+   * Displays warning message for duplicate block type.
+   */
+  showWarning() {
+    $('#block_name').css('border', '1px solid red');
+    $('#warning_text').css('display', 'inline');
+    $('#submit_block').attr('disabled','disabled');
+  }
+
+  /**
+   * Hides warning message for duplicate block type.
+   */
+  hideWarning() {
+    $('#block_name').css('border', '1px solid gray');
+    $('#warning_text').css('display', 'none');
+    $('#submit_block').removeAttr('disabled');
   }
 
   /**
@@ -88,5 +102,11 @@ class NewBlockDialogView {
     $('#block_name').val('');
     $('#block_text').val('');
     $('input[name="input_type"]').attr('checked','checked');
+
+    this.blockName = 'block_type';
+    this.inputType = 'input_statement';
+    this.blockText = 'MY_BLOCK';
+
+    this.hideWarning();
   };
 }

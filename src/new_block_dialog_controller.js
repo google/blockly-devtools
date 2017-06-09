@@ -21,17 +21,25 @@
 'use strict';
 
 /**
- * @fileoverview NewBlockDialogrController manages the UI for creating new blocks and
+ * @fileoverview NewBlockDialogController manages the UI for creating new blocks and
  * projects.
  *
  * @author celinechoo (Celine Choo)
  */
 class NewBlockDialogController {
   constructor(dialogName, blockLibraryController) {
-    // TODO(celinechoo): add constructor.
     this.name = dialogName;
     this.view = new NewBlockDialogView();
     this.blockLibraryController = blockLibraryController;
+
+    $('#block_name').change(() => {
+      this.checkDuplicate();
+    });
+
+    this.view.on('exit', () => {
+      BlockFactory.showStarterBlock(this.view.inputType, this.view.blockText,
+          this.view.blockName);
+    });
   }
 
   /**
@@ -41,15 +49,18 @@ class NewBlockDialogController {
    * a new project, or not.
    */
   showNewBlockDialog(firstLoad) {
-    // TODO(celinechoo): Fix bug regarding new blocks on !firstLoad. Will remove
-    // logs once this bug is fixed.
-    // console.log("Beginning of BlockController, firstLoad: " + firstLoad);
-    this.view.openDialog();
-
-    // Checks for block name type duplicates.
-    this.view.warnDuplicate(this.blockLibraryController);
-
-    // Closes dialog after user input.
-    this.view.closeDialog(firstLoad);
+    this.view.openDialog(firstLoad);
   }
+
+  /**
+   * Checks for duplicate block type. If user is trying to create a block under a type name
+   * that already exists in the library, warn user.
+   */
+   checkDuplicate() {
+    if (this.blockLibraryController.has($("#block_name").val())) {
+      this.view.showWarning();
+    } else {
+      this.view.hideWarning();
+    }
+   }
 }
