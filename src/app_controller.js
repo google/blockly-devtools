@@ -44,7 +44,6 @@ AppController = function() {
   this.blockLibraryName = 'blockLibrary';
   this.blockLibraryController =
       new BlockLibraryController(this.blockLibraryName);
-  this.blockLibraryController.populateBlockLibrary();
 
   // Construct Workspace Factory Controller.
   this.workspaceFactoryController = new WorkspaceFactoryController
@@ -487,12 +486,6 @@ AppController.prototype.assignLibraryClickHandlers = function() {
   document.getElementById('clearBlockLibraryButton').addEventListener('click',
       function() {
         self.blockLibraryController.clearBlockLibrary();
-      });
-
-  // Hide and show the block library dropdown.
-  document.getElementById('button_blockLib').addEventListener('click',
-      function() {
-        self.openModal('dropdownDiv_blockLib');
       });
 };
 
