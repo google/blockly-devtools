@@ -89,5 +89,4 @@ class NewBlockDialogView {
     $('#block_text').val('');
     $('input[name="input_type"]').attr('checked','checked');
   };
-
 }
