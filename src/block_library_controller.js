@@ -56,7 +56,7 @@ BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
   this.view = new BlockLibraryView();
 
   // Generate tree navigation
-  this.initTree();
+  this.buildTree();
 
 };
 
@@ -129,7 +129,7 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
      $('#navigationTree').jstree("destroy");
      // currently remaking tree; otherwise, when creating a block after clearing
      // the library, creates  dummy node with the same title as the created node
-    this.initTree();
+    this.buildTree();
   }
 };
 
@@ -162,7 +162,7 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
   // Save block.
   this.storage.addBlock(blockType, xmlElement);
   this.storage.saveToLocalStorage();
-  this.initTree();
+
   // Show saved block without other stray blocks sitting in Block Factory's
   // main workspace.
   this.openBlock(blockType);
@@ -253,7 +253,6 @@ BlockLibraryController.prototype.warnIfUnsavedChanges = function() {
  */
 BlockLibraryController.prototype.addOptionSelectHandler = function(blockType) {
   var self = this;
-
   // Click handler for a block option. Sets the block option as the selected
   // option and opens the block for edit in Block Factory.
   var setSelectedAndOpen_ = function(blockOption) {
@@ -291,73 +290,72 @@ BlockLibraryController.prototype.updateButtons = function(savedChanges) {
   this.view.updateButtons(blockType, isInLibrary, savedChanges);
 };
 
-
 /**
- * Return blockType JSON
+ * Returns JSON object of library's blocktypes.
  * @return JSON of all block types
  */
 BlockLibraryController.prototype.makeBlockTypeJSON= function() {
-  if(this.hasEmptyBlockLibrary()){
+  if (this.hasEmptyBlockLibrary()) {
     return '';
   }
-  var treeBlockTypeString = [];
+  var treeBlockTypeJSON = [];
   var types= this.storage.getBlockTypes();
   var iterationIndex = 1;
   var finalIndex = 0;
   var toAdd;
   var blockType;
-  for (;types[iterationIndex];) {
+  while (types[iterationIndex]) {
     blockType= types[iterationIndex - 1];
     toAdd = {"text" : blockType, "id" : blockType};
-    treeBlockTypeString.push(toAdd);
+    treeBlockTypeJSON.push(toAdd);
     iterationIndex++;
     finalIndex++;
   }
-   blockType = types[finalIndex];
+  blockType = types[finalIndex];
   toAdd = { "text" : blockType, "id" : blockType};
-  treeBlockTypeString.push(toAdd);
-  return treeBlockTypeString;
+  treeBlockTypeJSON.push(toAdd);
+  return treeBlockTypeJSON;
 };
 
 /**
- * Return a JSON object for initial tree
+ * Returns a JSON object for initial tree.
  * @return the JSON necessary to load the tree
  */
 BlockLibraryController.prototype.makeTreeJSON = function() {
   // TODO: svouse: give libraries names
   // TODO: svouse: upon giving libraries names add them as roots
-    var data = this.makeBlockTypeJSON();
-    var library = {
-      "core" : {
-        "check_callback" : true,
-        "data" : data
-      },
-      "plugins" : [ "contextmenu", "dnd", "crrm"],
-      "contextmenu": {
-        "items": {
-          "create": {
-            "label": "Add",
-            "action": function (obj) {
-              $('#navigationTree').jstree().create_node('#' , { "id" :
-                "ajason5", "text" : "new_block"}, "last", null);
-            },
+  var data = this.makeBlockTypeJSON();
+  var library = {
+    "core" : {
+      "check_callback" : true,
+      "data" : data
+    },
+    "plugins" : [ "contextmenu", "dnd", "crrm"],
+    "contextmenu": {
+      "items": {
+        "create": {
+          "label": "Add",
+          "action": function (obj) {
+            $('#navigationTree').jstree().create_node('#' , { "id" :
+              "ajason5", "text" : "new_block"}, "last", null);
           },
-          "delete": {
-            "label" : "Delete Block",
-            "action": function(obj) {
-              $('#navigationTree').jstree().delete_node('#nodeId');
-            }
+        },
+        "delete": {
+          "label" : "Delete Block",
+          "action": function(obj) {
+            $('#navigationTree').jstree().delete_node('#nodeId');
           }
         }
       }
-    };
-    return library;
+    }
+  };
+  return library;
 };
 
 /**
  * Populate tree and ready it for listening
  */
-BlockLibraryController.prototype.initTree = function(){
+BlockLibraryController.prototype.buildTree = function() {
   var treeJSON= this.makeTreeJSON();
   this.makeTreeListener();
   $('#navigationTree').jstree(treeJSON);
@@ -367,14 +365,13 @@ BlockLibraryController.prototype.initTree = function(){
 * Listen for block selected in tree
 */
 BlockLibraryController.prototype.makeTreeListener = function() {
-  $('#navigationTree')
-    .on('changed.jstree', function (e, data){
-      // collect data of all selected blocks
-      var i, j, r = [];
-      for (i = 0, j = data.selected.length; i < j; i++) {
-        r.push(data.instance.get_node(data.selected[i]).text);
-      }
-     // load the blocks
-      blocklyFactory.blockLibraryController.openBlock(r.join(', '));
-    });
-  };
+  $('#navigationTree').on('changed.jstree', function (e, data) {
+    // collect data of all selected blocks
+    var i, j, r = [];
+    for (i = 0, j = data.selected.length; i < j; i++) {
+      r.push(data.instance.get_node(data.selected[i]).text);
+    }
+    // load the blocks
+    this.openBlock(r.join(', '));
+  });
+};
