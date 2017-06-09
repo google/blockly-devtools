@@ -62,21 +62,51 @@ BlockFactory.oldDir = null;
 
 /*
  * The starting XML for the Block Factory main workspace. Contains the
- * unmovable, undeletable factory_base block.
- */
-BlockFactory.STARTER_BLOCK_XML_TEXT = '<xml><block type="factory_base" ' +
-    'deletable="false" movable="false">' +
-    '<value name="TOOLTIP">' +
-    '<block type="text" deletable="false" movable="false">' +
-    '<field name="TEXT"></field></block></value>' +
-    '<value name="HELPURL">' +
-    '<block type="text" deletable="false" movable="false">' +
-    '<field name="TEXT"></field></block></value>' +
-    '<value name="COLOUR">' +
-    '<block type="colour_hue">' +
-    '<mutation colour="#5b67a5"></mutation>' +
-    '<field name="HUE">230</field>' +
-    '</block></value></block></xml>';
+ * unmovable, undeletable factory_base block. Allows user input to change XML
+ * starter block.
+ * @param {string} inputType Type of input (statement, value, dummy).
+ * @param {string} blockStarterText Starter text to place on block, given by user (optional).
+ * @param {string} blockTypeName Name of block, given by user.
+*/
+BlockFactory.buildStartXml = function(inputType, blockStarterText, blockTypeName) {
+  inputType = inputType || 'input_statement';
+  blockTypeName = blockTypeName || 'my_block';
+  var textXmlStarter = '';
+
+  // Adds optional text to custom block.
+  if (blockStarterText.trim() !== '') {
+    textXmlStarter = '<value name="FIELDS">' +
+    '<block type="field_static">' +
+    '<field name="TEXT">' + blockStarterText + '</field></block></value>';
+  }
+
+  var customXmlStarter = `<xml>
+<block type="factory_base" deletable="false" movable="false">
+  <field name="NAME">${blockTypeName}</field>
+  <value name="INPUTS">
+    <block type="${inputType}">${textXmlStarter}</block>
+  </value>
+  <value name="TOOLTIP">
+    <block type="text" deletable="false" movable="false">
+      <field name="TEXT"></field>
+    </block>
+  </value>
+  <value name="HELPURL">
+    <block type="text" deletable="false" movable="false">
+      <field name="TEXT"></field>
+    </block>
+  </value>
+  <value name="COLOUR">
+    <block type="colour_hue">
+      <mutation colour="#5b67a5"></mutation>
+      <field name="HUE">230</field>
+    </block>
+  </value>
+</block>
+</xml>`
+
+  return customXmlStarter;
+};
 
 /**
  * Change the language code format.
@@ -253,10 +283,13 @@ BlockFactory.disableEnableLink = function() {
 
 /**
  * Render starter block (factory_base).
+ * @param {string} inputType Type of input (statement, value, dummy).
+ * @param {string} blockStarterText Starter text to place on block, given by user (optional).
+ * @param {string} blockTypeName Name of block, given by user.
  */
-BlockFactory.showStarterBlock = function() {
+BlockFactory.showStarterBlock = function(inputType, blockStarterText, blockTypeName) {
   BlockFactory.mainWorkspace.clear();
-  var xml = Blockly.Xml.textToDom(BlockFactory.STARTER_BLOCK_XML_TEXT);
+  var xml = Blockly.Xml.textToDom(BlockFactory.buildStartXml(inputType, blockStarterText, blockTypeName));
   Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
 };
 

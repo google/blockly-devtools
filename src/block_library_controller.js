@@ -117,8 +117,12 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     this.storage.saveToLocalStorage();
     // Update dropdown.
     this.view.clearOptions();
+
+    // TODO(celinechoo): Popup for new block.
+
     // Show default block.
-    BlockFactory.showStarterBlock();
+    BlockFactory.showStarterBlock('input_statement', 'new_block', 'block_type');
+
     // User may not save the starter block, but will get explicit instructions
     // upon clicking the red save button.
     this.view.updateButtons(null);

@@ -35,7 +35,6 @@ goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
 
-
 /**
  * Controller for the Blockly Factory
  * @constructor
@@ -54,6 +53,10 @@ AppController = function() {
   // Initialize Block Exporter
   this.exporter =
       new BlockExporterController(this.blockLibraryController.storage);
+
+  // Initialize New Block Dialog Controller
+  this.newBlockDialogController =
+      new NewBlockDialogController('blockDialog', this.blockLibraryController);
 
   // Map of tab type to the div element for the tab.
   this.tabMap = Object.create(null);
@@ -100,7 +103,7 @@ AppController.prototype.importBlockLibraryFromFile = function() {
         // Parse the file to get map of block type to XML text.
         blockXmlTextMap = self.formatBlockLibraryForImport_(fileContents);
       } catch (e) {
-        var message = 'Could not load your block library file.\n'
+        var message = 'Could not load your block library file.\n';
         window.alert(message + '\nFile Name: ' + file.name);
         return;
       }
@@ -201,7 +204,7 @@ AppController.prototype.formatBlockLibraryForImport_ = function(xmlText) {
     var blockType = this.getBlockTypeFromXml_(xmlText).toLowerCase();
     // Some names are invalid so fix them up.
     blockType = FactoryUtils.cleanBlockType(blockType);
-    
+
     blockXmlTextMap[blockType] = xmlText;
   }
 
@@ -524,8 +527,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
         }
       });
 
-  document.getElementById('createNewBlockButton')
-    .addEventListener('click', function() {
+  $('#createNewBlockButton').click(() => {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
       var proceedWithUnsavedChanges =
@@ -534,7 +536,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
         return;
       }
 
-      BlockFactory.showStarterBlock();
+      this.createBlocklyInitPopup(false);
       self.blockLibraryController.setNoneSelected();
 
       // Close the Block Library Dropdown.
@@ -675,6 +677,7 @@ AppController.prototype.init = function() {
   // it breaks it non-obvious ways.  Warning about this for now until the
   // dependency is broken.
   // TODO: #668.
+
   if (!window.goog.dom.xml) {
     alert('Sorry: Closure dependency not found. We are working on removing ' +
       'this dependency.  In the meantime, you can use our hosted demo\n ' +
@@ -685,6 +688,7 @@ AppController.prototype.init = function() {
   }
 
   var self = this;
+
   // Handle Blockly Storage with App Engine.
   if ('BlocklyStorage' in window) {
     this.initializeBlocklyStorage();
@@ -723,7 +727,7 @@ AppController.prototype.init = function() {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1),
                                BlockFactory.mainWorkspace);
   } else {
-    BlockFactory.showStarterBlock();
+    this.createBlocklyInitPopup(true);
   }
   BlockFactory.mainWorkspace.clearUndo();
 
@@ -732,4 +736,15 @@ AppController.prototype.init = function() {
 
   // Workspace Factory init.
   WorkspaceFactoryInit.initWorkspaceFactory(this.workspaceFactoryController);
+};
+
+/**
+ * Creates popup for initializing blockly workspace, and then renders
+ * starter block.
+ *
+ * Helper function of init() and listener for Create New Block click.
+ * @param {boolean} firstLoad Whether function is being called on page load.
+ */
+AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
+  this.newBlockDialogController.showNewBlockDialog(firstLoad);
 };
