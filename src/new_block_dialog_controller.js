@@ -56,11 +56,8 @@ class NewBlockDialogController {
    * Checks for duplicate block type. If user is trying to create a block under a type name
    * that already exists in the library, warn user.
    */
-   checkDuplicate() {
-    if (this.blockLibraryController.has($("#block_name").val())) {
-      this.view.showWarning();
-    } else {
-      this.view.hideWarning();
-    }
-   }
+  checkDuplicate() {
+    let hasDuplicate = this.blockLibraryController.has($("#block_name").val());
+    this.view.showWarning(hasDuplicate);
+  }
 }

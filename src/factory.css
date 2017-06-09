@@ -51,7 +51,6 @@ table {
   border-collapse: collapse;
   height: 100%;
   margin: 0;
-  padding: 0;
   width: 100%;
 }
 
@@ -149,9 +148,12 @@ button, .buttonStyle {
 }
 
 #blockFactoryContent {
+  position: absolute;
+  right: 2px;
   height: 85%;
-  width: 100%;
+  width: 80%;
   overflow: hidden;
+
 }
 
 #blockFactoryPreview {
@@ -314,11 +316,6 @@ button, .buttonStyle {
 }
 
 /* Block Library */
-
-#dropdownDiv_blockLib {
-  max-height: 65%;
-  overflow-y: scroll;
-}
 
 #button_blockLib {
   border-color: darkgrey;
@@ -670,4 +667,11 @@ td.taboff:hover {
 
 .red {
   color:red;
+}
+
+#navigationTree{
+  position: absolute;
+  left: 0px;
+  width: 20%;
+  height: 45%;
 }

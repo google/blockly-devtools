@@ -51,11 +51,9 @@ class NewBlockDialogView {
       this.inputType = $('input[name="input_type"]:checked').val();
       this.blockText = $('#block_text').val();
 
-      this.closeDialog();
-
       this.emit('exit', this);
 
-      BlockFactory.showStarterBlock(this.inputType, this.blockText, this.blockName);
+      this.closeDialog();
     });
   }
 
@@ -78,21 +76,19 @@ class NewBlockDialogView {
   }
 
   /**
-   * Displays warning message for duplicate block type.
+   * Displays warning message for duplicate block type, only if there is a
+   * duplicate.
    */
-  showWarning() {
-    $('#block_name').css('border', '1px solid red');
-    $('#warning_text').css('display', 'inline');
-    $('#submit_block').attr('disabled','disabled');
-  }
-
-  /**
-   * Hides warning message for duplicate block type.
-   */
-  hideWarning() {
-    $('#block_name').css('border', '1px solid gray');
-    $('#warning_text').css('display', 'none');
-    $('#submit_block').removeAttr('disabled');
+  showWarning(hasDuplicate) {
+    if (hasDuplicate) {
+      $('#block_name').css('border', '1px solid red');
+      $('#warning_text').css('display', 'inline');
+      $('#submit_block').attr('disabled','disabled');
+    } else {
+      $('#block_name').css('border', '1px solid gray');
+      $('#warning_text').css('display', 'none');
+      $('#submit_block').removeAttr('disabled');
+    }
   }
 
   /**
@@ -107,6 +103,6 @@ class NewBlockDialogView {
     this.inputType = 'input_statement';
     this.blockText = 'MY_BLOCK';
 
-    this.hideWarning();
+    this.showWarning(false);
   };
 }
