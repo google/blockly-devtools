@@ -301,17 +301,20 @@ BlockLibraryController.prototype.makeBlockTypeJSON= function() {
     return '';
   }
   var treeBlockTypeString = [];
-  var toAdd;
   var types= this.storage.getBlockTypes();
   var iterationIndex = 1;
   var finalIndex = 0;
+  var toAdd;
+  var blockType;
   for (;types[iterationIndex];) {
-    toAdd= {"text" : types[iterationIndex - 1]};
+    blockType= types[iterationIndex - 1];
+    toAdd = {"text" : blockType, "id" : blockType};
     treeBlockTypeString.push(toAdd);
     iterationIndex++;
     finalIndex++;
   }
-  toAdd= { "text" : types[finalIndex]};
+   blockType = types[finalIndex];
+  toAdd = { "text" : blockType, "id" : blockType};
   treeBlockTypeString.push(toAdd);
   return treeBlockTypeString;
 };
