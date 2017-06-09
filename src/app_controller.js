@@ -752,25 +752,44 @@ AppController.prototype.init = function() {
  * @param {boolean} firstLoad Whether function is being called on page load.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
+  console.log("AppController level, firstLoad: " + firstLoad);
   this.newBlockDialogController.showNewBlockDialog(firstLoad);
 };
 
 AppController.prototype.newWindow = function() {
   // TODO(celinechoo): new window fcn.
-}
+};
 
 AppController.prototype.setMenu = function() {
   let menu = new nw.Menu({type: 'menubar'});
-  menu.append(new nw.MenuItem({ label: 'File' }));
-  menu.append(new nw.MenuItem({ label: 'Edit' }));
 
   let file = new nw.Menu();
-  file.append(new nw.MenuItem({ label: 'New' }));
-  file.append(new nw.MenuItem({ label: 'Open' }));
-  file.append(new nw.MenuItem({ label: 'Save' }));
-
   let file_new = new nw.Menu();
-  file_new.append(new nw.MenuItem({ label: 'New Project' }));
-  file_new.append(new nw.MenuItem({ label: 'New Block' }));
+  addMenuItem(file_new, 'New Project', null, null);
+  addMenuItem(file_new, 'New Block', null, () => {
+    this.createBlocklyInitPopup(false);
+  });
+
+  addMenuItem(file, 'New', file_new, null);
+  addMenuItem(file, 'Open', null, null);
+  addMenuItem(file, 'Save', null, null);
+
+  addMenuItem(menu, 'File', file, null);
+  addMenuItem(menu, 'Edit', null, null);
+  addMenuItem(menu, 'Help', null, null);
+
   this.win.menu = menu;
-}
+};
+
+var addMenuItem = function(menu, name, sub, onclick) {
+  let menuDetails = {
+    label: name
+  }
+  if (onclick !== null) {
+    menuDetails.click = onclick;
+  }
+  if (sub !== null) {
+    menuDetails.submenu = sub;
+  }
+  menu.append(new nw.MenuItem(menuDetails));
+};
