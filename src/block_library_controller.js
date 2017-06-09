@@ -294,11 +294,11 @@ BlockLibraryController.prototype.updateButtons = function(savedChanges) {
  * Returns JSON object of library's blocktypes.
  * @return JSON of all block types
  */
-BlockLibraryController.prototype.makeBlockTypeJSON= function() {
+BlockLibraryController.prototype.makeBlockTypeJson= function() {
   if (this.hasEmptyBlockLibrary()) {
     return '';
   }
-  var treeBlockTypeJSON = [];
+  var treeBlockTypeJson = [];
   var types= this.storage.getBlockTypes();
   var iterationIndex = 1;
   var finalIndex = 0;
@@ -307,24 +307,24 @@ BlockLibraryController.prototype.makeBlockTypeJSON= function() {
   while (types[iterationIndex]) {
     blockType= types[iterationIndex - 1];
     toAdd = {"text" : blockType, "id" : blockType};
-    treeBlockTypeJSON.push(toAdd);
+    treeBlockTypeJson.push(toAdd);
     iterationIndex++;
     finalIndex++;
   }
   blockType = types[finalIndex];
   toAdd = { "text" : blockType, "id" : blockType};
-  treeBlockTypeJSON.push(toAdd);
-  return treeBlockTypeJSON;
+  treeBlockTypeJson.push(toAdd);
+  return treeBlockTypeJson;
 };
 
 /**
  * Returns a JSON object for initial tree.
  * @return the JSON necessary to load the tree
  */
-BlockLibraryController.prototype.makeTreeJSON = function() {
+BlockLibraryController.prototype.makeTreeJson = function() {
   // TODO: svouse: give libraries names
   // TODO: svouse: upon giving libraries names add them as roots
-  var data = this.makeBlockTypeJSON();
+  var data = this.makeBlockTypeJson();
   var library = {
     "core" : {
       "check_callback" : true,
@@ -356,9 +356,9 @@ BlockLibraryController.prototype.makeTreeJSON = function() {
  * Populate tree and ready it for listening
  */
 BlockLibraryController.prototype.buildTree = function() {
-  var treeJSON= this.makeTreeJSON();
+  var treeJson= this.makeTreeJson();
   this.makeTreeListener();
-  $('#navigationTree').jstree(treeJSON);
+  $('#navigationTree').jstree(treeJson);
 };
 
 /**
