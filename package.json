@@ -6,7 +6,10 @@
     "height": 600
   },
   "dependencies": {
+    "component-emitter": "github:component/emitter",
     "jquery": "^3.2.1"
   },
-  "presets": ["es2015"]
+  "presets": [
+    "es2015"
+  ]
 }

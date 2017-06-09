@@ -30,6 +30,12 @@ body {
   overflow: hidden;
 }
 
+header {
+  font-weight:bold;
+  font-size:140%;
+  text-align:center;
+}
+
 h1 {
   font-weight: normal;
   font-size: 140%;

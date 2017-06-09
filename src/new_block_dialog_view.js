@@ -18,37 +18,81 @@
  * limitations under the License.
  */
 
+'use strict';
+
+var Emitter = require('component-emitter');
+
 /**
- * @fileoverview FileManagerView deals with the UI for creating new blocks and
+ * @fileoverview NewBlockDialogView deals with the UI for creating new blocks and
  * projects.
  *
  * @author celinechoo (Celine Choo)
  */
-
-'use strict';
-
-/* FileManagerView class. */
 class NewBlockDialogView {
-  /* @constructor */
   constructor() {
-    // TODO(celinechoo): Complete FileManagerView constructor.
-    // For now, nothing is necessary here.
+    this.firstLoad = true;
+    this.blockName = 'block_type';
+    this.inputType = 'input_statement';
+    this.blockText = 'MY_BLOCK';
+    Emitter(NewBlockDialogView.prototype);
+
+    $('#exit').click(() => {
+      if (this.firstLoad) {
+        BlockFactory.showStarterBlock(this.inputType, this.blockText, this.blockName);
+      }
+      this.closeDialog();
+    });
+
+    $('#submit_block').click((event) => {
+      // Gathers and renders blocks properly in devtools editor.
+      event.preventDefault();
+
+      this.blockName = $('#block_name').val();
+      this.inputType = $('input[name="input_type"]:checked').val();
+      this.blockText = $('#block_text').val();
+
+      this.closeDialog();
+
+      this.emit('exit', this);
+
+      BlockFactory.showStarterBlock(this.inputType, this.blockText, this.blockName);
+    });
   }
 
   /**
-   * Checks if user is trying to create a block under a name that is
-   * already taken. Shows error and disables submit if taken.
+   * Opens new block dialog popup.
+   * @param {boolean} firstLoad Whether dialog is opening upon the first launch
+   * of the application.
    */
-  warnDuplicate(blockLibraryController) {
-    if(blockLibraryController.has($("#block_name").val())) {
-      $("#block_name").css('border','1px solid red');
-      $('#warning_text').css('display', 'inline');
-      $('#submit_block').attr('disabled','disabled');
-    } else {
-      $("#block_name").css('border', '1px solid gray');
-      $('#warning_text').css('display', 'none');
-      $('#submit_block').removeAttr('disabled');
-    }
+  openDialog(firstLoad) {
+    this.firstLoad = firstLoad;
+    $('#popup').css('display', 'inline');
+  }
+
+  /**
+   * Closes new block popup, resets fields in form.
+   */
+  closeDialog() {
+    $('#popup').css('display', 'none');
+    this.resetPopup();
+  }
+
+  /**
+   * Displays warning message for duplicate block type.
+   */
+  showWarning() {
+    $('#block_name').css('border', '1px solid red');
+    $('#warning_text').css('display', 'inline');
+    $('#submit_block').attr('disabled','disabled');
+  }
+
+  /**
+   * Hides warning message for duplicate block type.
+   */
+  hideWarning() {
+    $('#block_name').css('border', '1px solid gray');
+    $('#warning_text').css('display', 'none');
+    $('#submit_block').removeAttr('disabled');
   }
 
   /**
@@ -58,5 +102,11 @@ class NewBlockDialogView {
     $('#block_name').val('');
     $('#block_text').val('');
     $('input[name="input_type"]').attr('checked','checked');
+
+    this.blockName = 'block_type';
+    this.inputType = 'input_statement';
+    this.blockText = 'MY_BLOCK';
+
+    this.hideWarning();
   };
 }

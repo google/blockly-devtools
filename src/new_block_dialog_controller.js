@@ -21,66 +21,46 @@
 'use strict';
 
 /**
- * @fileoverview FileManagerController manages the UI for creating new blocks and
+ * @fileoverview NewBlockDialogController manages the UI for creating new blocks and
  * projects.
  *
  * @author celinechoo (Celine Choo)
  */
 class NewBlockDialogController {
-  /* @constructor */
-  constructor(fileManagerName, blockLibraryController) {
-    this.name = fileManagerName;
+  constructor(dialogName, blockLibraryController) {
+    this.name = dialogName;
     this.view = new NewBlockDialogView();
     this.blockLibraryController = blockLibraryController;
+
+    $('#block_name').change(() => {
+      this.checkDuplicate();
+    });
+
+    this.view.on('exit', () => {
+      BlockFactory.showStarterBlock(this.view.inputType, this.view.blockText,
+          this.view.blockName);
+    });
   }
 
   /**
-   * New window to create new block.
+   * This shows a dialog to create a new block.
    *
    * @param {string} firstLoad Whether new block is the first block upon creating
    * a new project, or not.
-   *
-   * TODO(celinechoo): Make popup in a new window and not as an overlayed div.
    */
   showNewBlockDialog(firstLoad) {
-    console.log("Beginning of BlockController, firstLoad: " + firstLoad);
-    $('#popup').css('display', 'inline');
-
-    // Checks for block name type duplicates.
-    $('#block_name').change(() => {
-      this.view.warnDuplicate(this.blockLibraryController);
-    });
-
-    $('#exit').click(() => {
-      console.log("BlockController level, firstLoad BEFORE: " + firstLoad);
-      if(firstLoad) {
-        console.log("BlockController level, firstLoad: " + firstLoad);
-        BlockFactory.showStarterBlock('input_statement', 'block1', 'block_type');
-      }
-      this.closeDialog();
-      return;
-    });
-
-    $('#submit_block').click((event) => {
-      // Gathers and renders blocks properly in devtools editor.
-      event.preventDefault();
-      this.closeDialog();
-
-      var blockName = $('#block_name').val();
-      var inputType = $('input[name="input_type"]:checked').val();
-      var blockText = $('#block_text').val();
-
-      BlockFactory.showStarterBlock(inputType, blockText, blockName);
-
-      this.view.resetPopup();
-    });
+    this.view.openDialog(firstLoad);
   }
 
   /**
-   * Closes new block popup. Currently as a CSS function but will manually close
-   * the dialog once the new block popup becomes a new window. (See: above TODO).
+   * Checks for duplicate block type. If user is trying to create a block under a type name
+   * that already exists in the library, warn user.
    */
-  closeDialog() {
-    $('#popup').css('display', 'none');
-  }
+   checkDuplicate() {
+    if (this.blockLibraryController.has($("#block_name").val())) {
+      this.view.showWarning();
+    } else {
+      this.view.hideWarning();
+    }
+   }
 }
