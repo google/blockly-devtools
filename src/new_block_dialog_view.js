@@ -51,11 +51,9 @@ class NewBlockDialogView {
       this.inputType = $('input[name="input_type"]:checked').val();
       this.blockText = $('#block_text').val();
 
-      this.closeDialog();
-
       this.emit('exit', this);
 
-      BlockFactory.showStarterBlock(this.inputType, this.blockText, this.blockName);
+      this.closeDialog();
     });
   }
 
