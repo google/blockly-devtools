@@ -45,7 +45,6 @@ AppController = function() {
   this.blockLibraryName = 'blockLibrary';
   this.blockLibraryController =
       new BlockLibraryController(this.blockLibraryName);
-  this.blockLibraryController.populateBlockLibrary();
 
   // Construct Workspace Factory Controller.
   this.workspaceFactoryController = new WorkspaceFactoryController
@@ -201,7 +200,7 @@ AppController.prototype.formatBlockLibraryForImport_ = function(xmlText) {
     var blockType = this.getBlockTypeFromXml_(xmlText).toLowerCase();
     // Some names are invalid so fix them up.
     blockType = FactoryUtils.cleanBlockType(blockType);
-    
+
     blockXmlTextMap[blockType] = xmlText;
   }
 
@@ -485,12 +484,6 @@ AppController.prototype.assignLibraryClickHandlers = function() {
       function() {
         self.blockLibraryController.clearBlockLibrary();
       });
-
-  // Hide and show the block library dropdown.
-  document.getElementById('button_blockLib').addEventListener('click',
-      function() {
-        self.openModal('dropdownDiv_blockLib');
-      });
 };
 
 /**
@@ -535,7 +528,6 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       }
 
       BlockFactory.showStarterBlock();
-      self.blockLibraryController.setNoneSelected();
 
       // Close the Block Library Dropdown.
       self.closeModal();
