@@ -18,21 +18,49 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
- * @fileoverview FileManagerView deals with the UI for creating new blocks and
+ * @fileoverview NewBlockDialogView deals with the UI for creating new blocks and
  * projects.
  *
  * @author celinechoo (Celine Choo)
  */
-
-'use strict';
-
-/* FileManagerView class. */
 class NewBlockDialogView {
-  /* @constructor */
-  constructor() {
-    // TODO(celinechoo): Complete FileManagerView constructor.
-    // For now, nothing is necessary here.
+  constructor() { }
+
+  /**
+   * Opens new block dialog popup.
+   */
+  openDialog() {
+    $('#popup').css('display', 'inline');
+  }
+
+  /**
+   * Closes new block popup after user input (either submit or close).
+   */
+  closeDialog(firstLoad) {
+    $('#exit').click(() => {
+      // See above TODO for note about logs.
+      // console.log("BlockController level, firstLoad BEFORE: " + firstLoad);
+      if (firstLoad) {
+        // console.log("BlockController level, firstLoad: " + firstLoad);
+        BlockFactory.showStarterBlock('input_statement', 'block1', 'block_type');
+      }
+      $('#popup').css('display', 'none');
+    });
+
+    $('#submit_block').click((event) => {
+      // Gathers and renders blocks properly in devtools editor.
+      event.preventDefault();
+      $('#popup').css('display', 'none');
+
+      var blockName = $('#block_name').val();
+      var inputType = $('input[name="input_type"]:checked').val();
+      var blockText = $('#block_text').val();
+
+      BlockFactory.showStarterBlock(inputType, blockText, blockName);
+    });
   }
 
   /**
@@ -40,15 +68,17 @@ class NewBlockDialogView {
    * already taken. Shows error and disables submit if taken.
    */
   warnDuplicate(blockLibraryController) {
-    if(blockLibraryController.has($("#block_name").val())) {
-      $("#block_name").css('border','1px solid red');
-      $('#warning_text').css('display', 'inline');
-      $('#submit_block').attr('disabled','disabled');
-    } else {
-      $("#block_name").css('border', '1px solid gray');
-      $('#warning_text').css('display', 'none');
-      $('#submit_block').removeAttr('disabled');
-    }
+    $('#block_name').change(() => {
+      if(blockLibraryController.has($("#block_name").val())) {
+        $("#block_name").css('border','1px solid red');
+        $('#warning_text').css('display', 'inline');
+        $('#submit_block').attr('disabled','disabled');
+      } else {
+        $("#block_name").css('border', '1px solid gray');
+        $('#warning_text').css('display', 'none');
+        $('#submit_block').removeAttr('disabled');
+      }
+    });
   }
 
   /**
@@ -59,4 +89,5 @@ class NewBlockDialogView {
     $('#block_text').val('');
     $('input[name="input_type"]').attr('checked','checked');
   };
+
 }
