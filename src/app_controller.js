@@ -752,7 +752,6 @@ AppController.prototype.init = function() {
  * @param {boolean} firstLoad Whether function is being called on page load.
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
-  console.log("AppController level, firstLoad: " + firstLoad);
   this.newBlockDialogController.showNewBlockDialog(firstLoad);
 };
 
