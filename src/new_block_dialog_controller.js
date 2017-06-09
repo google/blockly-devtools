@@ -29,7 +29,6 @@
 class NewBlockDialogController {
   /* @constructor */
   constructor(fileManagerName, blockLibraryController) {
-    // TODO(celinechoo): add constructor.
     this.name = fileManagerName;
     this.view = new NewBlockDialogView();
     this.blockLibraryController = blockLibraryController;
@@ -59,6 +58,7 @@ class NewBlockDialogController {
         BlockFactory.showStarterBlock('input_statement', 'block1', 'block_type');
       }
       this.closeDialog();
+      return;
     });
 
     $('#submit_block').click((event) => {
