@@ -81,8 +81,8 @@ BlockLibraryController.prototype.removeFromBlockLibrary = function() {
   var blockType = this.getCurrentBlockType();
   this.storage.removeBlock(blockType);
   this.storage.saveToLocalStorage();
-  this.populateBlockLibrary();
   this.view.updateButtons(blockType, false, false);
+  $('#navigationTree').jstree().delete_node(blockType);
 };
 
 /**
@@ -119,13 +119,17 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     // Clear Block Library Storage.
     this.storage.clear();
     this.storage.saveToLocalStorage();
-    // Update dropdown.
-    this.view.clearOptions();
     // Show default block.
     BlockFactory.showStarterBlock();
     // User may not save the starter block, but will get explicit instructions
     // upon clicking the red save button.
     this.view.updateButtons(null);
+    // TODO: make more elegant
+    // clear the tree
+     $('#navigationTree').jstree("destroy");
+     // currently remaking tree; otherwise, when creating a block after clearing
+     // the library, creates  dummy node with the same title as the created node
+    this.initTree();
   }
 };
 
@@ -149,9 +153,10 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
   var block = FactoryUtils.getRootBlock(BlockFactory.mainWorkspace);
   xmlElement.appendChild(Blockly.Xml.blockToDomWithXY(block));
 
-  // Do not add option again if block type is already in library.
+  // Do not add node again if block type is already in library.
   if (!this.has(blockType)) {
-    this.view.addOption(blockType, true, true);
+    $('#navigationTree').jstree().create_node('#' , {"id" : blockType,
+      "text" : blockType }, "last", null);
   }
 
   // Save block.
@@ -174,19 +179,6 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
 BlockLibraryController.prototype.has = function(blockType) {
   var blockLibrary = this.storage.blocks;
   return (blockType in blockLibrary && blockLibrary[blockType] != null);
-};
-
-/**
- * Populates the dropdown menu.
- */
-BlockLibraryController.prototype.populateBlockLibrary = function() {
-  this.view.clearOptions();
-  // Add an unselected option for each saved block.
-  var blockLibrary = this.storage.blocks;
-  for (var blockType in blockLibrary) {
-    this.view.addOption(blockType, false);
-  }
-  this.addOptionSelectHandlers();
 };
 
 /**
@@ -241,13 +233,6 @@ BlockLibraryController.prototype.getStoredBlockTypes = function() {
 };
 
 /**
- * Sets the currently selected block option to none.
- */
-BlockLibraryController.prototype.setNoneSelected = function() {
-  this.view.setSelectedBlockType(null);
-};
-
-/**
  * If there are unsaved changes to the block in open in Block Factory
  * and the block is not the starter block, check if user wants to proceed,
  * knowing that it will cause them to lose their changes.
@@ -273,10 +258,8 @@ BlockLibraryController.prototype.addOptionSelectHandler = function(blockType) {
   // option and opens the block for edit in Block Factory.
   var setSelectedAndOpen_ = function(blockOption) {
     var blockType = blockOption.textContent;
-    self.view.setSelectedBlockType(blockType);
     self.openBlock(blockType);
     // The block is saved in the block library and all changes have been saved
-    // when the user opens a block from the block library dropdown.
     // Thus, the buttons show up as a disabled update button and an enabled
     // delete.
     self.view.updateButtons(blockType, true, true);
@@ -295,23 +278,6 @@ BlockLibraryController.prototype.addOptionSelectHandler = function(blockType) {
       setSelectedAndOpen_(blockOption);
     };
   };
-
-  // Assign a click handler to the block option.
-  var blockOption = this.view.optionMap[blockType];
-  // Use an additional closure to correctly assign the tab callback.
-  blockOption.addEventListener(
-      'click', makeOptionSelectHandler_(blockOption));
-};
-
-/**
- * Add select handlers to each option to update the view and the selected
- * blocks accordingly.
- */
-BlockLibraryController.prototype.addOptionSelectHandlers = function() {
-  // Assign a click handler to each block option.
-  for (var blockType in this.view.optionMap) {
-    this.addOptionSelectHandler(blockType);
-  }
 };
 
 /**
@@ -325,46 +291,73 @@ BlockLibraryController.prototype.updateButtons = function(savedChanges) {
   this.view.updateButtons(blockType, isInLibrary, savedChanges);
 };
 
+
 /**
- * Return a string of all blockTypes for building a library JSON
- * @return '[ {"text" : <blockType> } , ... , {"text" : <blockType> }, ]'
+ * Return blockType JSON
+ * @return JSON of all block types
  */
-BlockLibraryController.prototype.makeTreeBlockTypeString = function() {
-  var treeBlockTypeString= '[ ';
+BlockLibraryController.prototype.makeBlockTypeJSON= function() {
+  if(this.hasEmptyBlockLibrary()){
+    return '';
+  }
+  var treeBlockTypeString = [];
+  var toAdd;
   var types= this.storage.getBlockTypes();
   var iterationIndex = 1;
   var finalIndex = 0;
   for (;types[iterationIndex];) {
-    treeBlockTypeString += '{ "text" :' + "\"" + types[iterationIndex - 1] + "\"" + '},';
+    toAdd= {"text" : types[iterationIndex - 1]};
+    treeBlockTypeString.push(toAdd);
     iterationIndex++;
     finalIndex++;
   }
-  treeBlockTypeString += '{ "text" :' + "\"" + types[finalIndex] + "\"" + '} ]';
+  toAdd= { "text" : types[finalIndex]};
+  treeBlockTypeString.push(toAdd);
   return treeBlockTypeString;
 };
 
 /**
- * Return a JSON object of all blocks in Library
- * @return the block library as a JSON object
+ * Return a JSON object for initial tree
+ * @return the JSON necessary to load the tree
  */
-BlockLibraryController.prototype.makeLibraryJSON = function() {
+BlockLibraryController.prototype.makeTreeJSON = function() {
   // TODO: svouse: give libraries names
   // TODO: svouse: upon giving libraries names add them as roots
-    var head = '{ "core" : { "data" : [ { "text" : "LIBRARYNAME", "children" :';
-    var data = this.makeTreeBlockTypeString();
-    var tail = '} ] } }';
-    var libraryString = head + data + tail;
-    var libraryTreeJSON =  JSON.parse(libraryString);
-    return libraryTreeJSON;
+    var data = this.makeBlockTypeJSON();
+    var library = {
+      "core" : {
+        "check_callback" : true,
+        "data" : data
+      },
+      "plugins" : [ "contextmenu", "dnd", "crrm"],
+      "contextmenu": {
+        "items": {
+          "create": {
+            "label": "Add",
+            "action": function (obj) {
+              $('#navigationTree').jstree().create_node('#' , { "id" :
+                "ajason5", "text" : "new_block"}, "last", null);
+            },
+          },
+          "delete": {
+            "label" : "Delete Block",
+            "action": function(obj) {
+              $('#navigationTree').jstree().delete_node('#nodeId');
+            }
+          }
+        }
+      }
+    };
+    return library;
 };
 
 /**
  * Populate tree and ready it for listening
  */
 BlockLibraryController.prototype.initTree = function(){
-  var libraryTreeJSON= this.makeLibraryJSON();
+  var treeJSON= this.makeTreeJSON();
   this.makeTreeListener();
-  $('#navigationTree').jstree(libraryTreeJSON);
+  $('#navigationTree').jstree(treeJSON);
 };
 
 /**
