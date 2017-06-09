@@ -1,8 +1,16 @@
 {
   "name": "blockly-devtools",
   "main": "index.html",
+  "window": {
+    "width": 1500,
+    "height": 1000
+  },
   "dependencies": {
-    "jstree": "git://github.com/vakata/jstree.git",
-    "jquery": "^3.2.1"
-  }
+    "component-emitter": "github:component/emitter",
+    "jquery": "^3.2.1",
+    "jstree": "git://github.com/vakata/jstree.git"
+  },
+  "presets": [
+    "es2015"
+  ]
 }

@@ -813,7 +813,7 @@ FactoryUtils.parseJsonBlockDefinitions = function(blockDefsString) {
     }
     else if (currentChar == '}') {
       unbalancedBracketCount--;
-      if (unbalancedBracketCount == 0 && i > 0) {
+      if (unbalancedBracketCount === 0 && i > 0) {
         // The brackets are balanced. We've got a complete block defintion.
         var blockDef = blockDefsString.substring(defStart, i + 1);
         blockDefArray.push(blockDef);

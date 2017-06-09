@@ -30,6 +30,12 @@ body {
   overflow: hidden;
 }
 
+header {
+  font-weight:bold;
+  font-size:140%;
+  text-align:center;
+}
+
 h1 {
   font-weight: normal;
   font-size: 140%;
@@ -69,6 +75,7 @@ p {
 
 #blockly {
   position: absolute;
+  z-index:0;
 }
 
 #blocklyMask {
@@ -603,6 +610,63 @@ td.taboff:hover {
 .shadowBlock>.blocklyPathLight,
 .shadowBlock>.blocklyPathDark {
   display: none;
+}
+
+ /* New block popup */
+
+#popup {
+  display: none;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+#popup #box {
+  background: white;
+  border: 1px solid #8c8c8c;
+  left: 0;
+  margin: 10% 20%;
+  max-height: 80%;
+  overflow: scroll;
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  width: 60%;
+  z-index:2;
+}
+
+#popup #bkg {
+  background: white;
+  height: 100%;
+  left: 0;
+  opacity: .6;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+#exit {
+  border: 1px solid black;
+  border-radius: 50%;
+  color: f00;
+  cursor: pointer;
+  float: right;
+  height: 15px;
+  opacity: .4;
+  padding: 10px;
+  width: 15px;
+}
+
+#warning_text {
+  color:red;
+  display:none;
+}
+
+.red {
+  color:red;
 }
 
 #navigationTree{

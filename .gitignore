@@ -1,4 +1,3 @@
-node_modules
 npm-debug.log
 .DS_Store
 .settings
@@ -7,3 +6,5 @@ npm-debug.log
 *.komodoproject
 /nbproject/private/
 closure-library
+node_modules
+package-lock.json
