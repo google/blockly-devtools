@@ -365,6 +365,7 @@ BlockLibraryController.prototype.buildTree = function() {
 * Listen for block selected in tree
 */
 BlockLibraryController.prototype.makeTreeListener = function() {
+  var lib = this;
   $('#navigationTree').on('changed.jstree', function (e, data) {
     // collect data of all selected blocks
     var i, j, r = [];
@@ -372,6 +373,6 @@ BlockLibraryController.prototype.makeTreeListener = function() {
       r.push(data.instance.get_node(data.selected[i]).text);
     }
     // load the blocks
-    this.openBlock(r.join(', '));
+    lib.openBlock(r.join(', '));
   });
 };
