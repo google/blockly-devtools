@@ -72,7 +72,7 @@ BlockFactory.buildStartXml = function(inputType, blockStarterText, blockTypeName
   inputType = inputType || 'input_statement';
   blockTypeName = blockTypeName || 'my_block';
   var textXmlStarter = '';
-
+//FLAG1
   // Adds optional text to custom block.
   if (blockStarterText.trim() !== '') {
     textXmlStarter = '<value name="FIELDS">' +

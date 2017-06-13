@@ -96,6 +96,7 @@ BlockLibraryController.prototype.openBlock = function(blockType) {
     Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
     BlockFactory.mainWorkspace.clearUndo();
   } else {
+    //FLAG3
     BlockFactory.showStarterBlock();
     this.view.setSelectedBlockType(null);
   }
@@ -119,13 +120,8 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     // Clear Block Library Storage.
     this.storage.clear();
     this.storage.saveToLocalStorage();
-
-    // Update dropdown.
-    this.view.clearOptions();
-
     // Show default block.
-    BlockFactory.showStarterBlock('input_statement', 'new_block', 'block_type');
-
+    BlockFactory.showStarterBlock();
     // User may not save the starter block, but will get explicit instructions
     // upon clicking the red save button.
     this.view.updateButtons(null);
@@ -370,7 +366,7 @@ BlockLibraryController.prototype.buildTree = function() {
 * Listen for block selected in tree
 */
 BlockLibraryController.prototype.makeTreeListener = function() {
-  var lib = this;
+  var lib= this;
   $('#navigationTree').on('changed.jstree', function (e, data) {
     // collect data of all selected blocks
     var i, j, r = [];
@@ -378,6 +374,7 @@ BlockLibraryController.prototype.makeTreeListener = function() {
       r.push(data.instance.get_node(data.selected[i]).text);
     }
     // load the blocks
+    //FLAG4
     lib.openBlock(r.join(', '));
   });
 };

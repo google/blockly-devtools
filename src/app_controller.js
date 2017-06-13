@@ -65,10 +65,7 @@ AppController = function() {
       document.getElementById('workspaceFactory_tab');
   this.tabMap[AppController.EXPORTER] =
       document.getElementById('blocklibraryExporter_tab');
-  this.tabMap[AppController.LIBRARY] =
-      document.getElementById('navigationTree');
-  this.tabMap[AppController.TOOLBOXES] =
-      document.getElementById('toolTree');
+
 
   // Last selected tab.
   this.lastSelectedTab = null;
@@ -534,10 +531,10 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       }
 
       this.createBlocklyInitPopup(false);
-      self.blockLibraryController.setNoneSelected();
+    //  FLAG; REMOVED self.blockLibraryController.setNoneSelected();
 
       // Close the Block Library Dropdown.
-      self.closeModal();
+     // FLAG; REMOVED self.closeModal();
     });
 };
 
@@ -696,10 +693,10 @@ AppController.prototype.init = function() {
   this.assignLibraryClickHandlers();
   this.assignBlockFactoryClickHandlers();
   // Hide and show the block library dropdown.
-  document.getElementById('modalShadow').addEventListener('click',
-      function() {
-        self.closeModal();
-      });
+ // document.getElementById('modalShadow').addEventListener('click',
+  //    function() {
+   //     self.closeModal();
+  //    });
 
   this.onresize();
   window.addEventListener('resize', function() {
