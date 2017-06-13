@@ -65,6 +65,10 @@ AppController = function() {
       document.getElementById('workspaceFactory_tab');
   this.tabMap[AppController.EXPORTER] =
       document.getElementById('blocklibraryExporter_tab');
+  this.tabMap[AppController.LIBRARY] =
+      document.getElementById('navigationTree');
+  this.tabMap[AppController.TOOLBOXES] =
+      document.getElementById('toolTree');
 
   // Last selected tab.
   this.lastSelectedTab = null;

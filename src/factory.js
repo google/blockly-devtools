@@ -299,6 +299,9 @@ BlockFactory.showStarterBlock = function(inputType, blockStarterText, blockTypeN
 BlockFactory.isStarterBlock = function() {
   var rootBlock = FactoryUtils.getRootBlock(BlockFactory.mainWorkspace);
   // The starter block does not have blocks nested into the factory_base block.
+  if(rootBlock == null){
+    return false;
+  }
   return !(rootBlock.getChildren().length > 0 ||
       // The starter block's name is the default, 'block_type'.
       rootBlock.getFieldValue('NAME').trim().toLowerCase() != 'block_type' ||

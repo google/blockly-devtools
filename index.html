@@ -36,6 +36,7 @@
   <script src="node_modules/jstree/dist/jstree.min.js"></script>
   <link rel="stylesheet" href="node_modules/jstree/dist/themes/default/style.min.css"/>
   <script>
+  nw.Window.get().showDevTools()
     var blocklyFactory;
     var init = function() {
       blocklyFactory = new AppController();
@@ -770,7 +771,15 @@
   </div>
 </div>
   <!-- Navigation Tree -->
-  <div id="navigationTree"></div>
-
+  <div id= "treePanels">
+    <div id="libraryTreeTab" class= "tab taboff">
+        Library
+        <div id= "navigationTree"></div>
+    </div>
+    <div id="toolBoxTreeTab" class= "tab tabon">
+      Toolboxes
+      <div id= "toolTree"></div>
+    </div>
+  </div>
 </body>
 </html>
