@@ -48,7 +48,9 @@
 WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
   // Toolbox XML element for the editing workspace.
   this.toolbox = document.getElementById(toolboxName);
-  this.exportToolbox = '';
+
+  // Toolbox XML string to export for user's application.
+  this.exportToolbox = {};
 
   // Workspace for user to drag blocks in for a certain category.
   this.toolboxWorkspace = Blockly.inject(toolboxDiv,

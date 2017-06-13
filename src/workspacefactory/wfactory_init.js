@@ -208,7 +208,11 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
   document.getElementById('dropdown_exportOptions').addEventListener
       ('click',
       function() {
-        controller.exportInjectFile();
+        if (controller.exportToolbox !== '' ||
+            confirm('You do not have any blocks in your toolbox. Make sure ' +
+            'you have saved your toolbox. Are you sure you want to continue?')) {
+          controller.exportInjectFile();
+        }
         blocklyFactory.closeModal();
       });
   document.getElementById('dropdown_saveToolbox').addEventListener

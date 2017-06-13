@@ -163,11 +163,11 @@ WorkspaceFactoryGenerator.prototype.generateInjectString = function(toolboxXml) 
 
   var attributes = addAttributes(this.model.options, '\t');
   if (!this.model.options['readOnly']) {
-    attributes = '\ttoolbox : toolboxString, \n' +
+    attributes = '\ttoolbox : TOOLBOX_EXPORT, \n' +
       attributes;
   }
 
-  var xmlString = this.xmlToJavaScript(toolboxXml);
+  var xmlString = this.removeNewline(toolboxXml);
 
   var finalStr = '/* TODO: Change toolbox XML ID if necessary. Can export ' +
       'toolbox XML from Workspace Factory. */\n' +
@@ -179,12 +179,12 @@ WorkspaceFactoryGenerator.prototype.generateInjectString = function(toolboxXml) 
 };
 
 /**
- *
+ * Used to convert XML string with newlines to one-line string. Removes trouble
+ * in dealing with newlines when trying to inject XML into HTML.
  */
-WorkspaceFactoryGenerator.prototype.xmlToJavaScript = function(xmlString) {
-  // TODO(celinechoo): Convert string representation of XML into JavaScript string.
-  var totalString = 'var toolboxString = \'' +
-      xmlString.replace(/\n/g, '') + '\';';
+WorkspaceFactoryGenerator.prototype.removeNewline = function(xmlString) {
+  var totalString = 'const TOOLBOX_EXPORT = \'' +
+      xmlString.replace(/> *\n* *</g, '>\' +\n    \'<') + '\';';
   return totalString;
 };
 
