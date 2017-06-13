@@ -48,6 +48,7 @@
 WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
   // Toolbox XML element for the editing workspace.
   this.toolbox = document.getElementById(toolboxName);
+  this.exportToolbox = '';
 
   // Workspace for user to drag blocks in for a certain category.
   this.toolboxWorkspace = Blockly.inject(toolboxDiv,
@@ -351,6 +352,41 @@ WorkspaceFactoryController.prototype.exportXmlFile = function(exportMode) {
  };
 
 /**
+ * Saves toolbox XML representation onto exportToolbox variable. Used for
+ * injecting toolbox into workspace for exportInjectFile().
+ * @param {string} name Name of toolbox.
+ * @param {string} exportMode The type of file to export
+ *    (WorkspaceFactoryController.MODE_TOOLBOX for the toolbox configuration,
+ *    and WorkspaceFactoryController.MODE_PRELOAD for the pre-loaded workspace
+ *    configuration)
+ */
+WorkspaceFactoryController.prototype.saveToolbox = function(exportMode) {
+  var configXml = '';
+
+  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
+    // Export the toolbox XML.
+    if (this.exportToolbox !== '' &&
+        !confirm('There is already a toolbox saved for export. Would you like' +
+        ' to rewrite this toolbox?')) {
+      return;
+    }
+    configXml = Blockly.Xml.domToPrettyText
+        (this.generator.generateToolboxXml());
+    this.view.confirmSavedToolbox();
+  } else if (exportMode == WorkspaceFactoryController.MODE_PRELOAD) {
+    // Export the pre-loaded block XML.
+    configXml = Blockly.Xml.domToPrettyText
+        (this.generator.generateWorkspaceXml());
+    this.view.confirmSavedToolbox();
+  } else {
+    // Unknown mode. Throw error.
+    throw new Error ('Unknown Export mode: ' + exportMode);
+  }
+
+  this.exportToolbox = configXml;
+};
+
+/**
  * Export the options object to be used for the Blockly inject call. Gets a
  * file name from the user and downloads the options object to that file.
  */
@@ -363,7 +399,7 @@ WorkspaceFactoryController.prototype.exportInjectFile = function() {
   // Generate new options to remove toolbox XML from options object (if
   // necessary).
   this.generateNewOptions();
-  var printableOptions = this.generator.generateInjectString()
+  var printableOptions = this.generator.generateInjectString(this.exportToolbox);
   var data = new Blob([printableOptions], {type: 'text/javascript'});
   this.view.createAndDownloadFile(fileName, data);
 };

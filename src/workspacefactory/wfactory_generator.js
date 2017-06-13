@@ -136,10 +136,10 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceXml = function() {
 
 /**
  * Generates a string representation of the options object for injecting the
- * workspace and starter code.
+ * workspace and starter code. Auto-injects added toolbox into the inject function.
  * @return {string} String representation of starter code for injecting.
  */
-WorkspaceFactoryGenerator.prototype.generateInjectString = function() {
+WorkspaceFactoryGenerator.prototype.generateInjectString = function(toolboxXml) {
   var addAttributes = function(obj, tabChar) {
     if (!obj) {
       return '{}\n';
@@ -163,23 +163,29 @@ WorkspaceFactoryGenerator.prototype.generateInjectString = function() {
 
   var attributes = addAttributes(this.model.options, '\t');
   if (!this.model.options['readOnly']) {
-    attributes = '\ttoolbox : toolbox, \n' +
+    attributes = '\ttoolbox : toolboxString, \n' +
       attributes;
   }
+
+  var xmlString = this.xmlToJavaScript(toolboxXml);
+
   var finalStr = '/* TODO: Change toolbox XML ID if necessary. Can export ' +
       'toolbox XML from Workspace Factory. */\n' +
-      'var toolbox = document.getElementById("toolbox");\n\n';
+      xmlString + '\n\n';
   finalStr += 'var options = { \n' + attributes + '};';
   finalStr += '\n\n/* Inject your workspace */ \nvar workspace = Blockly.' +
       'inject(/* TODO: Add ID of div to inject Blockly into */, options);';
-  finalStr += '\n\n/* Load Workspace Blocks from XML to workspace. ' +
-      'Remove all code below if no blocks to load */\n\n' +
-      '/* TODO: Change workspace blocks XML ID if necessary. Can export' +
-      ' workspace blocks XML from Workspace Factory. */\n' +
-      'var workspaceBlocks = document.getElementById("workspaceBlocks"); \n\n' +
-      '/* Load blocks to workspace. */\n' +
-      'Blockly.Xml.domToWorkspace(workspace, workspaceBlocks);';
   return finalStr;
+};
+
+/**
+ *
+ */
+WorkspaceFactoryGenerator.prototype.xmlToJavaScript = function(xmlString) {
+  // TODO(celinechoo): Convert string representation of XML into JavaScript string.
+  var totalString = 'var toolboxString = \'' +
+      xmlString.replace(/\n/g, '') + '\';';
+  return totalString;
 };
 
 /**

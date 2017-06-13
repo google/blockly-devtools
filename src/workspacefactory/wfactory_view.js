@@ -434,3 +434,15 @@ WorkspaceFactoryView.prototype.setCategoryOptions = function(hasCategories) {
   document.getElementById('option_scrollbars_checkbox').checked = hasCategories;
   document.getElementById('option_trashcan_checkbox').checked = hasCategories;
 };
+
+/**
+ * Animates a "Saved Toolbox" message as a confirmation to user when they click
+ * save toolbox button.
+ */
+WorkspaceFactoryView.prototype.confirmSavedToolbox = function() {
+  $('#saved_message').append('Saved toolbox.');
+  console.log("save");
+  setTimeout(() => {
+    $('#saved_message').empty();
+  }, 1000);
+};

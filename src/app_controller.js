@@ -70,12 +70,6 @@ AppController = function() {
   this.lastSelectedTab = null;
   // Selected tab.
   this.selectedTab = AppController.BLOCK_FACTORY;
-
-  // TODO(celinechoo): Tidy up the code below.
-  // Currently trying to create a cleaner interface for multi-window
-  // application.
-  this.win = nw.Window.get();
-  this.setMenu();
 };
 
 // Constant values representing the three tabs in the controller.
@@ -746,64 +740,4 @@ AppController.prototype.init = function() {
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   this.newBlockDialogController.showNewBlockDialog(firstLoad);
-};
-
-AppController.prototype.newWindow = function() {
-  // TODO(celinechoo): new window fcn.
-};
-
-/**
- * Creates the menu on the main window.
- */
-AppController.prototype.setMenu = function() {
-  let menu = new nw.Menu({type: 'menubar'});
-
-  let file = new nw.Menu();
-  let file_new = new nw.Menu();
-  addMenuItem(file_new, 'New Project', null, null);
-  addMenuItem(file_new, 'New Block', null, () => {
-    this.createBlocklyInitPopup(false);
-  });
-
-  addMenuItem(file, 'New', file_new, null);
-  addMenuItem(file, 'Open', null, () => {
-    this.promptOpenProject();
-  });
-  addMenuItem(file, 'Save', null, null);
-
-  addMenuItem(menu, 'File', file, null);
-  addMenuItem(menu, 'Edit', null, null);
-  addMenuItem(menu, 'Help', null, null);
-
-  this.win.menu = menu;
-};
-
-/**
- * Adds a clickable element to a given menu. Can be a submenu (opens up
- * to another menu). This is a helper function for setMenu().
- *
- * @param {nw.MenuItem} menu Menu to add elements to.
- * @param {string} name Name of element added to menu.
- * @param {nw.Menu} sub A Menu object to create a submenu. null if DNE.
- * @param {function} onclick Actions to take on element click.
- */
-var addMenuItem = function(menu, name, sub, onclick) {
-  let menuDetails = {
-    label: name
-  }
-  if (onclick !== null) {
-    menuDetails.click = onclick;
-  }
-  if (sub !== null) {
-    menuDetails.submenu = sub;
-  }
-  menu.append(new nw.MenuItem(menuDetails));
-};
-
-/**
- * This creates and manages the open project prompt.
- * Entrypoint is the ___
- */
-AppController.prototype.promptOpenProject() = function() {
-  // TODO(celinechoo): Open a project. Entrypoint is
 };

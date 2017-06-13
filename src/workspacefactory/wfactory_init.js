@@ -211,10 +211,10 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
         controller.exportInjectFile();
         blocklyFactory.closeModal();
       });
-  document.getElementById('dropdown_exportToolbox').addEventListener
+  document.getElementById('dropdown_saveToolbox').addEventListener
       ('click',
       function() {
-        controller.exportXmlFile(WorkspaceFactoryController.MODE_TOOLBOX);
+        controller.saveToolbox(WorkspaceFactoryController.MODE_TOOLBOX);
         blocklyFactory.closeModal();
       });
   document.getElementById('dropdown_exportPreload').addEventListener
