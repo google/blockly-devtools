@@ -135,6 +135,20 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceXml = function() {
 };
 
 /**
+ * Generates a string representation of XML in JavaScript for Toolbox JavaScript
+ * code.
+ * @return {string} String representation of toolbox JavaScript code.
+ */
+WorkspaceFactoryGenerator.prototype.generateToolboxJs =
+    function(toolboxXml, toolboxName) {
+  let toolboxJs =
+      'TOOLBOX_XML[' + toolboxName + '] = \'' +
+      this.removeNewline(toolboxXml) +
+      '\';';
+  return toolboxJs;
+};
+
+/**
  * Generates a string representation of the options object for injecting the
  * workspace and starter code. Auto-injects added toolbox into the inject function.
  * @return {string} String representation of starter code for injecting.
@@ -163,11 +177,14 @@ WorkspaceFactoryGenerator.prototype.generateInjectString = function(toolboxXml) 
 
   var attributes = addAttributes(this.model.options, '\t');
   if (!this.model.options['readOnly']) {
-    attributes = '\ttoolbox : TOOLBOX_EXPORT, \n' +
-      attributes;
+    attributes = '\ttoolbox : TOOLBOX_XML[ /* Name of toolbox to display ' +
+      'here */ ], \n' + attributes;
   }
 
-  var xmlString = this.removeNewline(toolboxXml);
+  // Initializing toolbox
+  var xmlString = `/* DO NOT EDIT THE CODE BELOW */
+var TOOLBOX_EXPORT = {};
+/* DO NOT EDIT THE CODE ABOVE */`;
 
   var finalStr = '/* TODO: Change toolbox XML ID if necessary. Can export ' +
       'toolbox XML from Workspace Factory. */\n' +
@@ -183,8 +200,7 @@ WorkspaceFactoryGenerator.prototype.generateInjectString = function(toolboxXml) 
  * in dealing with newlines when trying to inject XML into HTML.
  */
 WorkspaceFactoryGenerator.prototype.removeNewline = function(xmlString) {
-  var totalString = 'const TOOLBOX_EXPORT = \'' +
-      xmlString.replace(/> *\n* *</g, '>\' +\n    \'<') + '\';';
+  var totalString = xmlString.replace(/> *\n* *</g, '>\' +\n    \'<');
   return totalString;
 };
 

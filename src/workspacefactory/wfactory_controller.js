@@ -351,7 +351,33 @@ WorkspaceFactoryController.prototype.exportXmlFile = function(exportMode) {
   // Download file.
   var data = new Blob([configXml], {type: 'text/xml'});
   this.view.createAndDownloadFile(fileName, data);
- };
+};
+
+/**
+ * Tied to "Export" button. Gets a file name from user and downloads the
+ * corresponding configuration JS to that file.
+ */
+WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
+  // Get file name.
+  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
+    var fileName = prompt('File name for toolbox JS:', 'toolbox.js');
+  } else {
+    var fileName = prompt('File name for pre-loaded workspace JS:',
+                          'workspace.js');
+  }
+  if (!fileName) { // If cancelled.
+    return;
+  }
+
+  // Generate JS.
+  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
+    // Get toolbox XML.
+    let configXml = Blockly.Xml.domToPrettyText
+        (this.generator.generateToolboxXml());
+    let configJs = this.generator.generateToolboxJs(configXml);
+  }
+
+};
 
 /**
  * Saves toolbox XML representation onto exportToolbox variable. Used for
