@@ -83,6 +83,8 @@ BlockLibraryController.prototype.removeFromBlockLibrary = function() {
   this.storage.saveToLocalStorage();
   this.view.updateButtons(blockType, false, false);
   $('#navigationTree').jstree().delete_node(blockType);
+  //FLAG
+  this.view.setSelectedBlockType(null);
 };
 
 /**
@@ -371,7 +373,7 @@ BlockLibraryController.prototype.buildTree = function() {
 */
 BlockLibraryController.prototype.makeTreeListener = function() {
   var lib = this;
-  $('#navigationTree').on('changed.jstree', function (e, data) {
+  $('#navigationTree').on('select_node.jstree', function (e, data) {
     // collect data of all selected blocks
     var i, j, r = [];
     for (i = 0, j = data.selected.length; i < j; i++) {
