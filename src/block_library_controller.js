@@ -126,7 +126,6 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     // Show default block.
     BlockFactory.showStarterBlock('input_statement', 'new_block', 'block_type');
 
-    BlockFactory.showStarterBlock();
     // User may not save the starter block, but will get explicit instructions
     // upon clicking the red save button.
     this.view.updateButtons(null);
