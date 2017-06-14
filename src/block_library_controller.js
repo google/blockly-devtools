@@ -96,7 +96,6 @@ BlockLibraryController.prototype.openBlock = function(blockType) {
     Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
     BlockFactory.mainWorkspace.clearUndo();
   } else {
-    //FLAG3
     BlockFactory.showStarterBlock();
     this.view.setSelectedBlockType(null);
   }
@@ -374,7 +373,6 @@ BlockLibraryController.prototype.makeTreeListener = function() {
       r.push(data.instance.get_node(data.selected[i]).text);
     }
     // load the blocks
-    //FLAG4
     lib.openBlock(r.join(', '));
   });
 };
