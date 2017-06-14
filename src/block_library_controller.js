@@ -120,16 +120,14 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     this.storage.clear();
     this.storage.saveToLocalStorage();
 
-    // Update dropdown.
-    this.view.clearOptions();
-
     // Show default block.
     BlockFactory.showStarterBlock('input_statement', 'new_block', 'block_type');
 
     // User may not save the starter block, but will get explicit instructions
     // upon clicking the red save button.
     this.view.updateButtons(null);
-    // TODO: make more elegant
+
+    // TODO(#25): make more elegant
     // clear the tree
      $('#navigationTree').jstree("destroy");
      // currently remaking tree; otherwise, when creating a block after clearing
@@ -142,7 +140,6 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
  * Saves current block to local storage and updates dropdown.
  */
 BlockLibraryController.prototype.saveToBlockLibrary = function() {
-  // TODO: svouse: add block to tree
   var blockType = this.getCurrentBlockType();
   // If user has not changed the name of the starter block.
   if (blockType == 'block_type') {
@@ -327,8 +324,8 @@ BlockLibraryController.prototype.makeBlockTypeJson= function() {
  * @return the JSON necessary to load the tree
  */
 BlockLibraryController.prototype.makeTreeJson = function() {
-  // TODO: svouse: give libraries names
-  // TODO: svouse: upon giving libraries names add them as roots
+  // TODO(#26) : give libraries names
+  // TODO(#27) : upon giving libraries names add them as roots under the project
   var data = this.makeBlockTypeJson();
   var library = {
     "core" : {
@@ -370,14 +367,13 @@ BlockLibraryController.prototype.buildTree = function() {
 * Listen for block selected in tree
 */
 BlockLibraryController.prototype.makeTreeListener = function() {
-  var lib = this;
-  $('#navigationTree').on('changed.jstree', function (e, data) {
+  $('#navigationTree').on('select_node.jstree', (e, data) => {
     // collect data of all selected blocks
     var i, j, r = [];
     for (i = 0, j = data.selected.length; i < j; i++) {
       r.push(data.instance.get_node(data.selected[i]).text);
     }
     // load the blocks
-    lib.openBlock(r.join(', '));
+    this.openBlock(r.join(', '));
   });
 };
