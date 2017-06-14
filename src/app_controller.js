@@ -40,6 +40,9 @@ goog.require('goog.ui.ColorPicker');
  * @constructor
  */
 AppController = function() {
+  // Initialize View
+  this.view = new AppView();
+
   // Initialize Block Library
   this.blockLibraryName = 'blockLibrary';
   this.blockLibraryController =
@@ -70,12 +73,6 @@ AppController = function() {
   this.lastSelectedTab = null;
   // Selected tab.
   this.selectedTab = AppController.BLOCK_FACTORY;
-
-  // TODO(celinechoo): Tidy up the code below.
-  // Currently trying to create a cleaner interface for multi-window
-  // application.
-  this.win = nw.Window.get();
-  this.setMenu();
 };
 
 // Constant values representing the three tabs in the controller.
@@ -746,42 +743,4 @@ AppController.prototype.init = function() {
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   this.newBlockDialogController.showNewBlockDialog(firstLoad);
-};
-
-AppController.prototype.newWindow = function() {
-  // TODO(celinechoo): new window fcn.
-};
-
-AppController.prototype.setMenu = function() {
-  let menu = new nw.Menu({type: 'menubar'});
-
-  let file = new nw.Menu();
-  let file_new = new nw.Menu();
-  addMenuItem(file_new, 'New Project', null, null);
-  addMenuItem(file_new, 'New Block', null, () => {
-    this.createBlocklyInitPopup(false);
-  });
-
-  addMenuItem(file, 'New', file_new, null);
-  addMenuItem(file, 'Open', null, null);
-  addMenuItem(file, 'Save', null, null);
-
-  addMenuItem(menu, 'File', file, null);
-  addMenuItem(menu, 'Edit', null, null);
-  addMenuItem(menu, 'Help', null, null);
-
-  this.win.menu = menu;
-};
-
-var addMenuItem = function(menu, name, sub, onclick) {
-  let menuDetails = {
-    label: name
-  }
-  if (onclick !== null) {
-    menuDetails.click = onclick;
-  }
-  if (sub !== null) {
-    menuDetails.submenu = sub;
-  }
-  menu.append(new nw.MenuItem(menuDetails));
 };
