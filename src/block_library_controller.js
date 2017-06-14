@@ -120,9 +120,6 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     this.storage.clear();
     this.storage.saveToLocalStorage();
 
-    // Update dropdown.
-    this.view.clearOptions();
-
     // Show default block.
     BlockFactory.showStarterBlock('input_statement', 'new_block', 'block_type');
 
@@ -370,14 +367,14 @@ BlockLibraryController.prototype.buildTree = function() {
 * Listen for block selected in tree
 */
 BlockLibraryController.prototype.makeTreeListener = function() {
-  var lib = this;
-  $('#navigationTree').on('select_node.jstree', function (e, data) {
+//  var lib = this;
+  $('#navigationTree').on('select_node.jstree', (e, data) => {
     // collect data of all selected blocks
     var i, j, r = [];
     for (i = 0, j = data.selected.length; i < j; i++) {
       r.push(data.instance.get_node(data.selected[i]).text);
     }
     // load the blocks
-    lib.openBlock(r.join(', '));
+    this.openBlock(r.join(', '));
   });
 };
