@@ -40,6 +40,10 @@ goog.require('goog.ui.ColorPicker');
  * @constructor
  */
 AppController = function() {
+  this.name = 'AppController';
+  // Initialize View
+  this.view = new AppView(this);
+
   // Initialize Block Library
   this.blockLibraryName = 'blockLibrary';
   this.blockLibraryController =
@@ -530,7 +534,6 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       }
 
       this.createBlocklyInitPopup(false);
-      self.blockLibraryController.setNoneSelected();
 
       // Close the Block Library Dropdown.
       self.closeModal();
@@ -740,4 +743,8 @@ AppController.prototype.init = function() {
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   this.newBlockDialogController.showNewBlockDialog(firstLoad);
+};
+
+AppController.prototype.newProject = function() {
+  console.log("New project!");
 };
