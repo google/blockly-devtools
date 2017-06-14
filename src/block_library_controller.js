@@ -367,7 +367,6 @@ BlockLibraryController.prototype.buildTree = function() {
 * Listen for block selected in tree
 */
 BlockLibraryController.prototype.makeTreeListener = function() {
-//  var lib = this;
   $('#navigationTree').on('select_node.jstree', (e, data) => {
     // collect data of all selected blocks
     var i, j, r = [];
