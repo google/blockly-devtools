@@ -368,17 +368,21 @@ BlockLibraryController.prototype.buildTree = function() {
 */
 BlockLibraryController.prototype.makeTreeListener = function() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   var lib = this;
   $('#navigationTree').on('changed.jstree', function (e, data) {
 =======
   $('#navigationTree').on('select_node.jstree', (e, data) => {
 >>>>>>> 050b6fdf89486ce587187f0a2efbd251239f7c27
+=======
+  $('#navigationTree').on('select_node.jstree', (e, data) => {
+>>>>>>> delete_debug
     // collect data of all selected blocks
     var i, j, r = [];
     for (i = 0, j = data.selected.length; i < j; i++) {
       r.push(data.instance.get_node(data.selected[i]).text);
     }
     // load the blocks
-    lib.openBlock(r.join(', '));
+    this.openBlock(r.join(', '));
   });
 };
