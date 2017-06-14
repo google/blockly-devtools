@@ -86,14 +86,10 @@ class AppView {
 
     // FILE > NEW dropdown.
     let file_new = new nw.Menu();
-    // this.menuTree['File']['New']['New Project'] =
-    //     this.addMenuItem(file_new, 'New Project', null, () => {
-    //       // TODO: Action for new project.
-    // });
-    this.addMenuAction(file_new, ['File','New','New Project'], () => {
-        // TODO: Action for new project.
-        console.log("New project clicked!");
-    })
+    this.menuTree['File']['New']['New Project'] =
+        this.addMenuItem(file_new, 'New Project', null, () => {
+          // TODO: Action for new project.
+    });
     this.menuTree['File']['New']['New Block'] =
         this.addMenuItem(file_new, 'New Block', null, () => {
           this.createBlocklyInitPopup(false);
@@ -207,7 +203,9 @@ class AppView {
    * @param {string[]} path Path to leaf node of MenuTree we are adding to.
    * @param {function} fcn Action to take when node is clicked.
    */
-  addMenuAction(menu, path, name, fcn) {
+  addMenuAction(menu, path, fcn) {
+    // TODO(celinechoo): Complete addMenuAction() to simplify adding actionable
+    // MenuItems to the menu tree.
     this.addMenuItem(
         this.getMenuItem(path),
         name,
