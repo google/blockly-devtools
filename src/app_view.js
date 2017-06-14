@@ -34,6 +34,7 @@ goog.require('goog.ui.ColorPicker');
  */
 class AppView {
   constructor(appController) {
+    // AppController
     this.controller = appController;
 
     // Main window of application.
@@ -71,8 +72,8 @@ class AppView {
     // nw.MenuItem's. Values are added in initMenuTree().
     this.menuItems = {};
 
-    this.mainMenu = new nw.Menu({type: 'menubar'});
     // Initializes menubar.
+    this.mainMenu = new nw.Menu({type: 'menubar'});
     this.initMenuTree(this.mainMenu, this.menuTree);
     this.win.menu = this.mainMenu;
   }
@@ -170,13 +171,10 @@ class AppView {
 
   /**
    * Initializes menu tree based off of menu tree written into
-   * this.menuTree. Hard-coded function references in this.menuTree are
-   * replaced by nw.MenuTree objects after this function is called. This is
-   * so that nw.MenuTree objects can be obtained for other use (such as
-   * enabling or disabling an nw.MenuItem.)
+   * this.menuTree.
    *
    * @param {!nw.Menu} menu Menu to add nodes to.
-   * @param {Object.<string,Object} tree Dictionary representation of menu tree.
+   * @param {Object.<string,Object>} tree Dictionary representation of menu tree.
    */
   initMenuTree(menu, tree) {
     // If menu is null, it means that we are at the end of the tree.
@@ -192,8 +190,7 @@ class AppView {
       } else {
         // When the child node is a function, no subMenu is necessary.
         // Replace node with MenuItem.
-        tree[key] = this.addMenuItem(menu, key, null, this.initMenuTree(null, tree[key]));
-        this.menuItems[key] = tree[key];
+        this.menuItems[key] = this.addMenuItem(menu, key, null, this.initMenuTree(null, tree[key]));
       }
 
     }
