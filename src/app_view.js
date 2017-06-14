@@ -18,6 +18,13 @@
  * limitations under the License.
  */
 
+/**
+ * @fileoverview The AppView Class deals with the visual parts of the main
+ * devtools application, such as the menubar.
+ *
+ * @author celinechoo (Celine Choo)
+ */
+
 goog.require('BlockFactory');
 goog.require('FactoryUtils');
 goog.require('BlockLibraryController');
@@ -26,12 +33,6 @@ goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
 
-/**
- * @fileoverview The AppView Class deals with the visual parts of the main
- * devtools application, such as the menubar.
- *
- * @author celinechoo (Celine Choo)
- */
 class AppView {
   constructor(appController) {
     // AppController
