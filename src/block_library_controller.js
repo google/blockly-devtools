@@ -120,7 +120,7 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     this.storage.clear();
     this.storage.saveToLocalStorage();
 
-    // Update dropdown
+    // Update dropdown.
     this.view.clearOptions();
 
     // Show default block.
