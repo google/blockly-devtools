@@ -531,10 +531,10 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       }
 
       this.createBlocklyInitPopup(false);
-    self.blockLibraryController.setNoneSelected();
+      self.blockLibraryController.setNoneSelected();
 
       // Close the Block Library Dropdown.
-     self.closeModal();
+      self.closeModal();
     });
 };
 
