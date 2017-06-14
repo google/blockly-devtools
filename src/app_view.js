@@ -35,12 +35,9 @@ goog.require('goog.ui.ColorPicker');
 class AppView {
   constructor(appController) {
     this.controller = appController;
-    console.log('Init name: ' + this.controller.name);
 
     // Main window of application.
     this.win = nw.Window.get();
-
-    // this.showNewBlock = function() { console.log("New Block."); };
 
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
     this.menuTree = {
@@ -70,13 +67,14 @@ class AppView {
       'Help': {}
     };
 
+    // Dictionary with all MenuItems. Keys are the labels, values are the
+    // nw.MenuItem's. Values are added in initMenuTree().
+    this.menuItems = {};
+
     this.mainMenu = new nw.Menu({type: 'menubar'});
     // Initializes menubar.
     this.initMenuTree(this.mainMenu, this.menuTree);
     this.win.menu = this.mainMenu;
-
-    console.log("Disabling New Block.");
-    this.enableMenuItem(['File','New','New Block'], false);
   }
 
   /**
@@ -172,7 +170,13 @@ class AppView {
 
   /**
    * Initializes menu tree based off of menu tree written into
-   * this.menuTree.
+   * this.menuTree. Hard-coded function references in this.menuTree are
+   * replaced by nw.MenuTree objects after this function is called. This is
+   * so that nw.MenuTree objects can be obtained for other use (such as
+   * enabling or disabling an nw.MenuItem.)
+   *
+   * @param {!nw.Menu} menu Menu to add nodes to.
+   * @param {Object.<string,Object} tree Dictionary representation of menu tree.
    */
   initMenuTree(menu, tree) {
     // If menu is null, it means that we are at the end of the tree.
@@ -180,16 +184,18 @@ class AppView {
       return tree;
     }
 
-    let subMenu;
     for (let key in tree) {
       if (typeof tree[key] !== 'function') {
         // If next node is not leaf, must create subMenu.
-        subMenu = new nw.Menu();
+        let subMenu = new nw.Menu();
+        this.menuItems[key] = this.addMenuItem(menu, key, subMenu, this.initMenuTree(subMenu, tree[key]));
       } else {
         // When the child node is a function, no subMenu is necessary.
-        subMenu = null;
+        // Replace node with MenuItem.
+        tree[key] = this.addMenuItem(menu, key, null, this.initMenuTree(null, tree[key]));
+        this.menuItems[key] = tree[key];
       }
-      this.addMenuItem(menu, key, subMenu, this.initMenuTree(subMenu, tree[key]));
+
     }
     return null;
   }
@@ -197,10 +203,11 @@ class AppView {
   /**
    * Helper function to add menu items to the main menubar.
    *
-   * @param {!nw.Menu} menu Menu object from NW.js to which we are adding an element.
+   * @param {!nw.Menu} menu Menu object from NW.js to which we are adding an
+   *     element.
    * @param {string} name Name of element being added to menu.
-   * @param {!nw.Menu} subMenu Menu object to be added if the added element will also
-   *      have its own sub-dropdown. Optional (if unused, will be null).
+   * @param {!nw.Menu} subMenu Menu object to be added if the added element will
+   *      also have its own sub-dropdown. Optional (if unused, will be null).
    * @param {function} onclick Function defining what actions to take upon click.
    *      Optional (if unused, will be null).
    *
@@ -223,39 +230,14 @@ class AppView {
   }
 
   /**
-   * Given an array of the click path to a desired menu item, this returns the
-   * MenuItem object that the path leads to.
-   *
-   * @param {string[]} pathToMenuItem Click path to desired menu item.
-   *
-   * @returns {!nw.MenuItem} MenuItem that the path leads to.
-   */
-  getMenuItem(pathToMenuItem) {
-    let menuItem = this.menuTree;
-    for (let i = 0; i < pathToMenuItem.length; i++) {
-      if (menuItem[pathToMenuItem[i]] === undefined) {
-        console.log("Undefined found: " + pathToMenuItem[i]);
-        menuItem.submenu = new nw.Menu();
-        menuItem = addMenuItem(menuItem, pathToMenuItem[i], null, null);
-        throw new Error('Trying to find path to a MenuItem that does not exist.');
-      } else {
-        console.log("Found: " + pathToMenuItem[i]);
-        menuItem = menuItem[pathToMenuItem[i]];
-      }
-    }
-    console.log("Menuitem: "+ menuItem.enabled);
-    return menuItem;
-  }
-
-  /**
    * Given a path to a menu item, this enables or disables the item so that
    * users cannot click on it to activate the associated action/function.
    *
-   * @param {string[]} pathToMenuItem Click path to desired menu item to toggle.
+   * @param {string} label Name of MenuItem to enable/disable.
    * @param {boolean} enable Whether to enable or disable the MenuItem (true is
    * to enable).
    */
-  enableMenuItem(pathToMenuItem, enable) {
-    this.getMenuItem(pathToMenuItem).enabled = enable;
+  enableMenuItem(label, enable) {
+    this.menuItems[label].enabled = enable;
   }
 }
