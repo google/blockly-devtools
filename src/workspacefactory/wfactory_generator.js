@@ -47,6 +47,7 @@ WorkspaceFactoryGenerator = function(model) {
   hiddenBlocks.style.display = 'none';
   document.body.appendChild(hiddenBlocks);
   this.hiddenWorkspace = Blockly.inject(hiddenBlocksId);
+  this.BLOCKLY_TOOLBOX_XML = {};
 };
 
 /**
@@ -141,11 +142,41 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceXml = function() {
  */
 WorkspaceFactoryGenerator.prototype.generateToolboxJs =
     function(toolboxXml, toolboxName) {
+  let beginningComment =
+      '/* BEGINNING TOOLBOX XML. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */';
+  let endComment =
+      '/* END TOOLBOX XML. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */';
   let toolboxJs =
-      'TOOLBOX_XML[' + toolboxName + '] = \'' +
+      'BLOCKLY_TOOLBOX_XML[\'' + toolboxName + '\'] = \'' +
       this.removeNewline(toolboxXml) +
       '\';';
-  return toolboxJs;
+  return beginningComment + '\n' + toolboxJs + '\n' + endComment + '\n';
+};
+
+/**
+ *
+ */
+WorkspaceFactoryGenerator.prototype.generateWorkspaceJs = function() {
+  // TODO
+};
+
+/**
+ *
+ */
+WorkspaceFactoryGenerator.prototype.extractToolbox = function(fileContents) {
+  // Find comments and remove them.
+  var extractedXml = fileContents.replace(
+      /\/\*.*BEGINNING.*(\n)*.*DEVTOOLS. *\*\/( *|(\n)*)*/g, '');
+  extractedXml = extractedXml.replace(
+      /\/\*.*END.*XML\. *\*\/( *|(\n)*)*/g, '');
+  extractedXml = 'this.' + extractedXml;
+  console.log("Extracted so far:\n" + extractedXml);
+  eval(extractedXml);
+
+  // Find toolbox name and return name.
+  let toolboxName = extractedXml.replace(/this.BLOCKLY_TOOLBOX_XML[/g, '');
+  toolboxName = toolboxName.replace(/\'].*/g, '');
+  return toolboxName;
 };
 
 /**
@@ -177,7 +208,7 @@ WorkspaceFactoryGenerator.prototype.generateInjectString = function(toolboxXml) 
 
   var attributes = addAttributes(this.model.options, '\t');
   if (!this.model.options['readOnly']) {
-    attributes = '\ttoolbox : TOOLBOX_XML[ /* Name of toolbox to display ' +
+    attributes = '\ttoolbox : BLOCKLY_TOOLBOX_XML[ /* Name of toolbox to display ' +
       'here */ ], \n' + attributes;
   }
 
