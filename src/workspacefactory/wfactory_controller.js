@@ -321,7 +321,7 @@ WorkspaceFactoryController.prototype.exportXmlFile = function(exportMode) {
   // Get file name.
   if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
     //TODO: @svouse support xml for other platforms
-    var fileName = prompt('File Name for toolbox JavaScript:', 'toolbox.js');
+    var fileName = prompt('File Name for toolbox XML:', 'toolbox.xml');
   } else {
     var fileName = prompt('File Name for pre-loaded workspace XML:',
                           'workspace.xml');
