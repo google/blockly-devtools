@@ -695,7 +695,7 @@ AppController.prototype.init = function() {
   // Hide and show the block library dropdown.
   document.getElementById('modalShadow').addEventListener('click',
       function() {
-       self.closeModal();
+        self.closeModal();
       });
 
   this.onresize();
