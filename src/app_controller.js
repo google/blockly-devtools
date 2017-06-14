@@ -693,10 +693,10 @@ AppController.prototype.init = function() {
   this.assignLibraryClickHandlers();
   this.assignBlockFactoryClickHandlers();
   // Hide and show the block library dropdown.
- // document.getElementById('modalShadow').addEventListener('click',
-  //    function() {
-   //     self.closeModal();
-  //    });
+  document.getElementById('modalShadow').addEventListener('click',
+      function() {
+       self.closeModal();
+      });
 
   this.onresize();
   window.addEventListener('resize', function() {
