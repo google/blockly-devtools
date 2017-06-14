@@ -83,8 +83,6 @@ BlockLibraryController.prototype.removeFromBlockLibrary = function() {
   this.storage.saveToLocalStorage();
   this.view.updateButtons(blockType, false, false);
   $('#navigationTree').jstree().delete_node(blockType);
-  //FLAG
-  this.view.setSelectedBlockType(null);
 };
 
 /**
