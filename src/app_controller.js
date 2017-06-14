@@ -40,8 +40,9 @@ goog.require('goog.ui.ColorPicker');
  * @constructor
  */
 AppController = function() {
+  this.name = 'AppController';
   // Initialize View
-  this.view = new AppView();
+  this.view = new AppView(this);
 
   // Initialize Block Library
   this.blockLibraryName = 'blockLibrary';
@@ -743,4 +744,8 @@ AppController.prototype.init = function() {
  */
 AppController.prototype.createBlocklyInitPopup = function(firstLoad) {
   this.newBlockDialogController.showNewBlockDialog(firstLoad);
+};
+
+AppController.prototype.newProject = function() {
+  console.log("New project!");
 };
