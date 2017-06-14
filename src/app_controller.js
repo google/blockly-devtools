@@ -66,7 +66,6 @@ AppController = function() {
   this.tabMap[AppController.EXPORTER] =
       document.getElementById('blocklibraryExporter_tab');
 
-
   // Last selected tab.
   this.lastSelectedTab = null;
   // Selected tab.
