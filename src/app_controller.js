@@ -530,7 +530,6 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       }
 
       this.createBlocklyInitPopup(false);
-      self.blockLibraryController.setNoneSelected();
 
       // Close the Block Library Dropdown.
       self.closeModal();
