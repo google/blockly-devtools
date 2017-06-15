@@ -819,12 +819,9 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode, fil
           // Import toolbox XML.
           controller.importToolboxFromTree_(tree);
         } else {
-          console.log('Uploaded text:');
-          // Import toolbox as JS.
-          // parse the file
-          console.log(reader.result);
+          // Extract XML from file, get name of toolbox from file.
           let toolboxName = this.generator.extractToolbox(reader.result);
-          console.log('XML RAW: ' + this.generator.BLOCKLY_TOOLBOX_XML[toolboxName]);
+          // Display toolbox on devtools workspace.
           controller.importToolboxFromTree_(
               Blockly.Xml.textToDom(
                 this.generator.BLOCKLY_TOOLBOX_XML[toolboxName]));
@@ -845,7 +842,7 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode, fil
           // Import pre-loaded workspace XML.
           controller.importPreloadFromTree_(tree);
         } else {
-          // Import pre-loaded workspace as JS.
+          // TODO: Import pre-loaded workspace as JS.
         }
       } else {
         // Throw error if invalid mode.

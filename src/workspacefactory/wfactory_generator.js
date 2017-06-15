@@ -138,7 +138,7 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceXml = function() {
 /**
  * Generates a string representation of XML in JavaScript for Toolbox JavaScript
  * code.
- * @return {string} String representation of toolbox JavaScript code.
+ * @returns {string} String representation of toolbox JavaScript code.
  */
 WorkspaceFactoryGenerator.prototype.generateToolboxJs =
     function(toolboxXml, toolboxName) {
@@ -154,14 +154,21 @@ WorkspaceFactoryGenerator.prototype.generateToolboxJs =
 };
 
 /**
- *
+ * Generates a string representation of XML in JavaScript for pre-loaded blocks
+ * in the workspace.
+ * @returns {string} String representation of workspace JavaScript code.
  */
 WorkspaceFactoryGenerator.prototype.generateWorkspaceJs = function() {
-  // TODO
+  // TODO: Write function.
 };
 
 /**
+ * Extracts XML string from fileContents using comments as beginning/end markers.
+ * Adds KV pair to BLOCKLY_TOOLBOX_XML where key is name of toolbox and value
+ * is the XML string.
  *
+ * @param {string} fileContents String representation of imported JS file.
+ * @returns {string} Name of toolbox.
  */
 WorkspaceFactoryGenerator.prototype.extractToolbox = function(fileContents) {
   // Find comments and remove them.
