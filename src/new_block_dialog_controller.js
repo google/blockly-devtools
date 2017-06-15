@@ -40,10 +40,6 @@ class NewBlockDialogController {
       BlockFactory.showStarterBlock(this.view.inputType, this.view.blockText,
           this.view.blockName);
     });
-
-    $('#pseudo_download').click(() => {
-      FactoryUtils.createAndDownloadFile('console.log("hi");', 'okay.js', 'javascript');
-    });
   }
 
   /**
