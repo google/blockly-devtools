@@ -41,13 +41,14 @@ goog.require('BlockFactory');
 
 /**
  * Block Library Controller Class
+ * @param {!JStree} tree Tree navigation, passed in by project_controller
  * @param {string} blockLibraryName Desired name of Block Library, also used
  *    to create the key for where it's stored in local storage.
  * @param {!BlockLibraryStorage} opt_blockLibraryStorage Optional storage
  *    object that allows user to import a block library.
  * @constructor
  */
-BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
+BlockLibraryController = function(tree, blockLibraryName, opt_blockLibraryStorage) {
   this.name = blockLibraryName;
   // Create a new, empty Block Library Storage object, or load existing one.
   this.storage = opt_blockLibraryStorage || new BlockLibraryStorage(this.name);
@@ -55,8 +56,9 @@ BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
   // the block library dropdown.
   this.view = new BlockLibraryView();
 
-  // Generate tree navigation
-  this.buildTree();
+  // the tree given by the ProjectController will be edited with changes to
+  // block storage
+  this.tree = tree;
 
 };
 
@@ -82,7 +84,7 @@ BlockLibraryController.prototype.removeFromBlockLibrary = function() {
   this.storage.removeBlock(blockType);
   this.storage.saveToLocalStorage();
   this.view.updateButtons(blockType, false, false);
-  $('#navigationTree').jstree().delete_node(blockType);
+  this.tree.delete_node(blockType);
 };
 
 /**
@@ -129,10 +131,10 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
 
     // TODO(#25): make more elegant
     // clear the tree
-     $('#navigationTree').jstree("destroy");
+    // $('#navigationTree').jstree("destroy");
      // currently remaking tree; otherwise, when creating a block after clearing
      // the library, creates  dummy node with the same title as the created node
-    this.buildTree();
+    //this.buildTree();
   }
 };
 
@@ -157,7 +159,7 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
 
   // Do not add node again if block type is already in library.
   if (!this.has(blockType)) {
-    $('#navigationTree').jstree().create_node('#' , {"id" : blockType,
+    this.tree.create_node('#' , {"id" : blockType,
       "text" : blockType }, "last", null);
   }
 
@@ -292,97 +294,4 @@ BlockLibraryController.prototype.updateButtons = function(savedChanges) {
   this.view.updateButtons(blockType, isInLibrary, savedChanges);
 };
 
-/**
- * Returns JSON object of library's blocktypes.
- * @return JSON of all block types
- */
-BlockLibraryController.prototype.makeBlockTypeJson= function() {
-  if (this.hasEmptyBlockLibrary()) {
-    return '';
-  }
-  var treeBlockTypeJson = [];
-  var types= this.storage.getBlockTypes();
-  var iterationIndex = 1;
-  var finalIndex = 0;
-  var toAdd;
-  var blockType;
-  while (types[iterationIndex]) {
-    blockType= types[iterationIndex - 1];
-    toAdd = {"text" : blockType, "id" : blockType};
-    treeBlockTypeJson.push(toAdd);
-    iterationIndex++;
-    finalIndex++;
-  }
-  blockType = types[finalIndex];
-  toAdd = { "text" : blockType, "id" : blockType};
-  treeBlockTypeJson.push(toAdd);
-  return treeBlockTypeJson;
-};
 
-/**
- * Returns a JSON object for initial tree.
- * @return the JSON necessary to load the tree
- */
-BlockLibraryController.prototype.makeTreeJson = function() {
-  // TODO(#26) : give libraries names
-  // TODO(#27) : upon giving libraries names add them as roots under the project
-  var data = this.makeBlockTypeJson();
-  var library = {
-    "core" : {
-      "check_callback" : true,
-      "data" : data
-    },
-    "plugins" : [ "contextmenu", "dnd", "crrm"],
-    "contextmenu": {
-      "items": {
-        "create": {
-          "label": "Add",
-          "action": function (obj) {
-            $('#navigationTree').jstree().create_node('#' , { "id" :
-              "ajason5", "text" : "new_block"}, "last", null);
-          },
-        },
-        "delete": {
-          "label" : "Delete Block",
-          "action": function(obj) {
-            $('#navigationTree').jstree().delete_node('#nodeId');
-          }
-        }
-      }
-    }
-  };
-  return library;
-};
-
-/**
- * Populate tree and ready it for listening
- */
-BlockLibraryController.prototype.buildTree = function() {
-  var treeJson= this.makeTreeJson();
-  this.makeTreeListener();
-  $('#navigationTree').jstree(treeJson);
-};
-
-/**
-* Listen for block selected in tree
-*/
-BlockLibraryController.prototype.makeTreeListener = function() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  var lib = this;
-  $('#navigationTree').on('changed.jstree', function (e, data) {
-=======
-  $('#navigationTree').on('select_node.jstree', (e, data) => {
->>>>>>> 050b6fdf89486ce587187f0a2efbd251239f7c27
-=======
-  $('#navigationTree').on('select_node.jstree', (e, data) => {
->>>>>>> delete_debug
-    // collect data of all selected blocks
-    var i, j, r = [];
-    for (i = 0, j = data.selected.length; i < j; i++) {
-      r.push(data.instance.get_node(data.selected[i]).text);
-    }
-    // load the blocks
-    this.openBlock(r.join(', '));
-  });
-};
