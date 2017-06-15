@@ -205,13 +205,23 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
       });
   document.getElementById('input_loadToolboxJS').addEventListener
       ('click', function() {blocklyFactory.closeModal()});
-  document.getElementById('input_loadPreload').addEventListener
+  document.getElementById('input_loadPreloadXML').addEventListener
       ('change',
       function() {
         controller.importFile(event.target.files[0],
-            WorkspaceFactoryController.MODE_PRELOAD);
+            WorkspaceFactoryController.MODE_PRELOAD,
+            WorkspaceFactoryController.MODE_XML);
       });
-  document.getElementById('input_loadPreload').addEventListener
+  document.getElementById('input_loadPreloadXML').addEventListener
+      ('click', function() {blocklyFactory.closeModal()});
+  document.getElementById('input_loadPreloadJS').addEventListener
+      ('change',
+      function() {
+        controller.importFile(event.target.files[0],
+            WorkspaceFactoryController.MODE_PRELOAD,
+            WorkspaceFactoryController.MODE_JS);
+      });
+  document.getElementById('input_loadPreloadJS').addEventListener
       ('click', function() {blocklyFactory.closeModal()});
 
   // Export button.
@@ -237,16 +247,16 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
         controller.exportJsFile(WorkspaceFactoryController.MODE_TOOLBOX);
         blocklyFactory.closeModal();
       });
-  document.getElementById('dropdown_saveToolbox').addEventListener
-      ('click',
-      function() {
-        controller.saveToolbox(WorkspaceFactoryController.MODE_TOOLBOX);
-        blocklyFactory.closeModal();
-      });
-  document.getElementById('dropdown_exportPreload').addEventListener
+  document.getElementById('dropdown_exportPreloadXML').addEventListener
       ('click',
       function() {
         controller.exportXmlFile(WorkspaceFactoryController.MODE_PRELOAD);
+        blocklyFactory.closeModal();
+      });
+  document.getElementById('dropdown_exportPreloadJS').addEventListener
+      ('click',
+      function() {
+        controller.exportJsFile(WorkspaceFactoryController.MODE_PRELOAD);
         blocklyFactory.closeModal();
       });
   document.getElementById('dropdown_exportAll').addEventListener
