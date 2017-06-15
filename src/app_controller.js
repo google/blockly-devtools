@@ -41,11 +41,13 @@ goog.require('goog.ui.ColorPicker');
  */
 AppController = function() {
   this.name = 'AppController';
+
   // Initialize View
   this.view = new AppView(this);
 
   // Initialize Block Library
   this.blockLibraryName = 'blockLibrary';
+
   this.blockLibraryController =
       new BlockLibraryController(this.blockLibraryName);
 
@@ -74,6 +76,9 @@ AppController = function() {
   this.lastSelectedTab = null;
   // Selected tab.
   this.selectedTab = AppController.BLOCK_FACTORY;
+
+  this.view.setLibraryTree(this.BlockLibraryController);
+  this.blockLibraryController.setTree(this.view.navTree);
 };
 
 // Constant values representing the three tabs in the controller.

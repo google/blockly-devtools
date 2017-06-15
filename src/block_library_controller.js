@@ -48,7 +48,7 @@ goog.require('BlockFactory');
  *    object that allows user to import a block library.
  * @constructor
  */
-BlockLibraryController = function(tree, blockLibraryName, opt_blockLibraryStorage) {
+BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
   this.name = blockLibraryName;
   // Create a new, empty Block Library Storage object, or load existing one.
   this.storage = opt_blockLibraryStorage || new BlockLibraryStorage(this.name);
@@ -56,12 +56,14 @@ BlockLibraryController = function(tree, blockLibraryName, opt_blockLibraryStorag
   // the block library dropdown.
   this.view = new BlockLibraryView();
 
-  // the tree given by the ProjectController will be edited with changes to
-  // block storage
-  this.tree = tree;
-
+  this.tree = null;
 };
 
+BlockLibraryController.prototype.setTree = function(tree){
+  // the navigation tree will be edited with changes to
+  // block storage
+  this.tree = tree;
+}
 /**
  * Returns the block type of the block the user is building.
  * @return {string} The current block's type.
@@ -84,7 +86,7 @@ BlockLibraryController.prototype.removeFromBlockLibrary = function() {
   this.storage.removeBlock(blockType);
   this.storage.saveToLocalStorage();
   this.view.updateButtons(blockType, false, false);
-  this.tree.delete_node(blockType);
+  this.tree.deleteBlockNode(blockType);
 };
 
 /**
@@ -129,12 +131,9 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     // upon clicking the red save button.
     this.view.updateButtons(null);
 
-    // TODO(#25): make more elegant
     // clear the tree
-    // $('#navigationTree').jstree("destroy");
-     // currently remaking tree; otherwise, when creating a block after clearing
-     // the library, creates  dummy node with the same title as the created node
-    //this.buildTree();
+    this.tree.clearLibrary();
+
   }
 };
 
@@ -159,8 +158,7 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
 
   // Do not add node again if block type is already in library.
   if (!this.has(blockType)) {
-    this.tree.create_node('#' , {"id" : blockType,
-      "text" : blockType }, "last", null);
+    this.tree.addBlockNode(blockType);
   }
 
   // Save block.
