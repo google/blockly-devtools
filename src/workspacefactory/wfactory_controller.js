@@ -824,6 +824,7 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode, fil
           // parse the file
           console.log(reader.result);
           let toolboxName = this.generator.extractToolbox(reader.result);
+          console.log('XML RAW: ' + this.generator.BLOCKLY_TOOLBOX_XML[toolboxName]);
           controller.importToolboxFromTree_(
               Blockly.Xml.textToDom(
                 this.generator.BLOCKLY_TOOLBOX_XML[toolboxName]));

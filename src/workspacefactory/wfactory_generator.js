@@ -166,16 +166,17 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceJs = function() {
 WorkspaceFactoryGenerator.prototype.extractToolbox = function(fileContents) {
   // Find comments and remove them.
   var extractedXml = fileContents.replace(
-      /\/\*.*BEGINNING.*(\n)*.*DEVTOOLS. *\*\/( *|(\n)*)*/g, '');
+      /\/\*.*BEGINNING.*(\n)*.*DEVTOOLS. *\*\/( |\n)*/g, '');
   extractedXml = extractedXml.replace(
-      /\/\*.*END.*XML\. *\*\/( *|(\n)*)*/g, '');
+      /\/\*.*END.*XML\. *\*\/( |\n)*/g, '');
   extractedXml = 'this.' + extractedXml;
   console.log("Extracted so far:\n" + extractedXml);
   eval(extractedXml);
 
   // Find toolbox name and return name.
-  let toolboxName = extractedXml.replace(/this.BLOCKLY_TOOLBOX_XML[/g, '');
-  toolboxName = toolboxName.replace(/\'].*/g, '');
+  let toolboxName = extractedXml.replace(/this.BLOCKLY_TOOLBOX_XML\[\'/g, '');
+  toolboxName = toolboxName.replace(/\'\](.|\n)*/g, '');
+  console.log('Toolbox name: ' + toolboxName);
   return toolboxName;
 };
 
