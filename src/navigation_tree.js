@@ -55,13 +55,13 @@ class NavigationTree {
     var blockType;
     while (types[iterationIndex]) {
       blockType= types[iterationIndex - 1];
-      toAdd = {'text' : blockType, 'id' : blockType};
+      toAdd = {'text': blockType, 'id': blockType};
       treeBlockTypeJson.push(toAdd);
       iterationIndex++;
       finalIndex++;
     }
     blockType = types[finalIndex];
-    toAdd = { 'text' : blockType, 'id' : blockType};
+    toAdd = { 'text': blockType, 'id': blockType};
     treeBlockTypeJson.push(toAdd);
     return treeBlockTypeJson;
   }
@@ -76,17 +76,17 @@ class NavigationTree {
     var data = this.makeBlockTypeJson();
     var tree = {
       'core': {
-        'check_callback' : true,
+        'check_callback': true,
         'data': data
       },
-      'plugins' : [ 'contextmenu', 'dnd', 'crrm'],
+      'plugins': [ 'contextmenu', 'dnd', 'crrm'],
       'contextmenu': {
         'items': {
           'create': {
             'label': 'Add',
             'action': function (obj) {
-              $('#navigationTree').jstree().create_node('#' , { 'id' :
-                'ajason5', 'text' : 'new_block'}, 'last', null);
+              $('#navigationTree').jstree().create_node('#' , { 'id':
+                'ajason5', 'text': 'new_block'}, 'last', null);
             },
           },
           'delete': {
@@ -148,7 +148,7 @@ class NavigationTree {
    * Adds a block to the tree.
    */
   addBlockNode(blockType) {
-    $('#navigationTree').jstree().create_node('#' , {'id' : blockType,
-      'text' : blockType }, 'last', null);
+    $('#navigationTree').jstree().create_node('#' , {'id': blockType,
+      'text': blockType }, 'last', null);
   }
 }

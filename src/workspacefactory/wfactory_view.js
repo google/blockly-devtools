@@ -137,11 +137,11 @@ WorkspaceFactoryView.prototype.createCategoryIdName = function(name) {
  */
 WorkspaceFactoryView.prototype.setCategoryTabSelection =
     function(id, selected) {
-  if (!this.tabMap[id]) {
-    return;   // Exit if tab does not exist.
-  }
-  this.tabMap[id].className = selected ? 'tabon' : 'taboff';
-};
+      if (!this.tabMap[id]) {
+        return;   // Exit if tab does not exist.
+      }
+      this.tabMap[id].className = selected ? 'tabon' : 'taboff';
+    };
 
 /**
  * Used to bind a click to a certain DOM element (used for category tabs).
@@ -165,17 +165,17 @@ WorkspaceFactoryView.prototype.bindClick = function(el, func) {
  */
 WorkspaceFactoryView.prototype.createAndDownloadFile =
     function(filename, data) {
-  var clickEvent = new MouseEvent('click', {
-    'view': window,
-    'bubbles': true,
-    'cancelable': false
-  });
-  var a = document.createElement('a');
-  a.href = window.URL.createObjectURL(data);
-  a.download = filename;
-  a.textContent = 'Download file!';
-  a.dispatchEvent(clickEvent);
-};
+      var clickEvent = new MouseEvent('click', {
+        'view': window,
+        'bubbles': true,
+        'cancelable': false
+      });
+      var a = document.createElement('a');
+      a.href = window.URL.createObjectURL(data);
+      a.download = filename;
+      a.textContent = 'Download file!';
+      a.dispatchEvent(clickEvent);
+    };
 
 /**
  * Given the ID of a certain category, updates the corresponding tab in
@@ -198,25 +198,25 @@ WorkspaceFactoryView.prototype.updateCategoryName = function(newName, id) {
  */
 WorkspaceFactoryView.prototype.moveTabToIndex =
     function(id, newIndex, oldIndex) {
-  var table = document.getElementById('categoryTable');
-  // Check that indexes are in bounds.
-  if (newIndex < 0 || newIndex >= table.rows.length || oldIndex < 0 ||
+      var table = document.getElementById('categoryTable');
+      // Check that indexes are in bounds.
+      if (newIndex < 0 || newIndex >= table.rows.length || oldIndex < 0 ||
       oldIndex >= table.rows.length) {
-    throw new Error('Index out of bounds when moving tab in the view.');
-  }
+        throw new Error('Index out of bounds when moving tab in the view.');
+      }
 
-  if (newIndex < oldIndex) {
-    // Inserting before.
-    var row = table.insertRow(newIndex);
-    row.appendChild(this.tabMap[id]);
-    table.deleteRow(oldIndex + 1);
-  } else {
-    // Inserting after.
-    var row = table.insertRow(newIndex + 1);
-    row.appendChild(this.tabMap[id]);
-    table.deleteRow(oldIndex);
-  }
-};
+      if (newIndex < oldIndex) {
+        // Inserting before.
+        var row = table.insertRow(newIndex);
+        row.appendChild(this.tabMap[id]);
+        table.deleteRow(oldIndex + 1);
+      } else {
+        // Inserting after.
+        var row = table.insertRow(newIndex + 1);
+        row.appendChild(this.tabMap[id]);
+        table.deleteRow(oldIndex);
+      }
+    };
 
 /**
  * Given a category ID and color, use that color to color the left border of the
@@ -296,7 +296,7 @@ WorkspaceFactoryView.prototype.clearToolboxTabs = function() {
   newCategoryTable.id = 'categoryTable';
   newCategoryTable.style.width = 'auto';
   oldCategoryTable.parentElement.replaceChild(newCategoryTable,
-      oldCategoryTable);
+    oldCategoryTable);
 };
 
 /**
@@ -324,7 +324,7 @@ WorkspaceFactoryView.prototype.markShadowBlock = function(block) {
   Blockly.utils.addClass(block.svgGroup_, 'shadowBlock');
   // If not a valid shadow block, add a warning message.
   if (!block.getSurroundParent()) {
-      block.setWarningText('Shadow blocks must be nested inside' +
+    block.setWarningText('Shadow blocks must be nested inside' +
           ' other blocks to be displayed.');
   }
   if (FactoryUtils.hasVariableField(block)) {
@@ -370,7 +370,7 @@ WorkspaceFactoryView.prototype.updateHelpText = function(mode) {
         'in your custom workspace.';
   } else {
     var helpText = 'Drag blocks into the workspace to pre-load them in your ' +
-        'custom workspace.'
+        'custom workspace.';
   }
   document.getElementById('editHelpText').textContent = helpText;
 };

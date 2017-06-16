@@ -74,8 +74,8 @@ class AppView {
     this.menuItems = {};
 
     // Initializes menubar.
-    this.mainMenu = new nw.Menu({type: 'menubar'})
-    this.initMenuTree(this.mainMenu, this.menuTree)
+    this.mainMenu = new nw.Menu({type: 'menubar'});
+    this.initMenuTree(this.mainMenu, this.menuTree);
     this.win.menu = this.mainMenu;
   }
 
@@ -249,5 +249,3 @@ class AppView {
   }
 
 }
-
-
