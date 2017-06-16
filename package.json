@@ -6,11 +6,11 @@
     "height": 1000
   },
   "dependencies": {
+    "component-emitter": "github:component/emitter",
     "jquery": "^3.2.1",
     "jstree": "git://github.com/vakata/jstree.git"
   },
   "devDependencies": {
-    "component-emitter": "github:component/emitter",
     "eslint": "^4.0.0"
   },
   "presets": [

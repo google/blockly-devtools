@@ -25,6 +25,9 @@
  * @author sagev (Sage Vouse)
  */
 
+/**
+ * @class NavigationTree manages the tree user interface.
+ */
 class NavigationTree {
 
 /**
@@ -36,7 +39,7 @@ class NavigationTree {
   constructor(libraryController) {
     this.libraryController = libraryController;
     var blocks = this.libraryController.getStoredBlockTypes();
-    this.buildTree(blocks);
+    this.makeTree(blocks);
   }
 
   /**
@@ -108,7 +111,7 @@ class NavigationTree {
   /**
    * Populates the tree and adds its listener.
    */
-  buildTree(blockTypes) {
+  makeTree(blockTypes) {
     var treeJson= this.makeTreeJson();
     this.makeTreeListener();
     $('#navigationTree').jstree(treeJson);
@@ -134,7 +137,7 @@ class NavigationTree {
    */
   clearLibrary() {
     $('#navigationTree').jstree('destroy');
-    this.buildTree(this.libraryController.getStoredBlockTypes());
+    this.makeTree(this.libraryController.getStoredBlockTypes());
   }
 
   /**
