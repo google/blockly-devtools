@@ -30,16 +30,16 @@ class NavigationTree {
 /**
  * NavigationTree Class
  * @param {!BlockLibraryController} libraryController allows tree to get blocks
-  * in library
+ * in library
  * @constructor
  */
   constructor(libraryController) {
     this.libraryController = libraryController;
     var blocks = this.libraryController.getStoredBlockTypes();
     this.buildTree(blocks);
- }
+  }
 
-    /**
+  /**
    * Returns JSON object of library's blocktypes.
    * @return JSON of all block types
    */
@@ -102,7 +102,7 @@ class NavigationTree {
   }
 
   /**
-   * Populate tree and ready it for listening
+   * Populates the tree and adds its listener.
    */
   buildTree(blockTypes) {
     var treeJson= this.makeTreeJson();
@@ -111,8 +111,8 @@ class NavigationTree {
   }
 
   /**
-  * Listen for block selected in tree
-  */
+   * Listens for block selected in tree.
+   */
   makeTreeListener() {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
       // collect data of all selected blocks
@@ -125,6 +125,9 @@ class NavigationTree {
     });
   }
 
+  /**
+   * Clears a block library from the tree.
+   */
   clearLibrary() {
     // TODO(#25): make more elegant
     // clear the tree
@@ -134,10 +137,16 @@ class NavigationTree {
     this.buildTree(this.libraryController.getStoredBlockTypes());
   }
 
+  /**
+   * Deletes a block from the tree.
+   */
   deleteBlockNode(blockType) {
     $('#navigationTree').jstree().delete_node(blockType);
   }
 
+  /**
+   * Adds a block to the tree.
+   */
   addBlockNode(blockType) {
     $('#navigationTree').jstree().create_node('#' , {"id" : blockType,
       "text" : blockType }, "last", null);
