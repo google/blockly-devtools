@@ -1313,7 +1313,7 @@ WorkspaceFactoryController.prototype.importBlocks = function(file, format) {
       alert('Cannot read blocks from file.');
       window.console.log(e);
     }
-  }
+  };
 
   // Read the file asynchronously.
   reader.readAsText(file);
