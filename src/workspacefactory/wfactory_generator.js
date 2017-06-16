@@ -151,7 +151,7 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceXml = function() {
  */
 WorkspaceFactoryGenerator.prototype.generateJsFromXml = function(xml, name, mode) {
   // Escape for ' when exporting to JS.
-  let groupName = name.replace(/\'/g, '\\\'');
+  let groupName = this.addEscape(name);
   let xmlStorageVariable = 'BLOCKLY_' + mode + '_XML';
 
   let jsFromXml = `// If ${xmlStorageVariable} does not exist.
@@ -163,6 +163,23 @@ if (!${xmlStorageVariable}) {
 ${xmlStorageVariable}['${groupName}'] = '${this.splitXmlWithNewline_(xml)}';
 /* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */`;
   return jsFromXml;
+};
+
+/**
+ * Adds escapes to special characters so that JavaScript code can be run
+ * correctly upon importing toolboxes or workspaces.
+ *
+ * @param {string} string String to escape.
+ */
+WorkspaceFactoryGenerator.prototype.addEscape = function(string) {
+  // Escape backslash
+  string = string.replace(/\\/g, '\\\\');
+  // Escape single quote
+  string = string.replace(/\'/g, '\\'+'\'');
+  // Escape double quote
+  // string = string.replace(/\"/g, '\\\"');
+
+  return string;
 };
 
 /**
@@ -178,9 +195,10 @@ ${xmlStorageVariable}['${groupName}'] = '${this.splitXmlWithNewline_(xml)}';
  *    WorkspaceFactoryController.MODE_PRELOAD.
  * @returns {string} Name of toolbox or preload workspace.
  */
-WorkspaceFactoryGenerator.prototype.storeXml =
+WorkspaceFactoryGenerator.prototype.loadXml =
     function(jsFileContents, importMode) {
-  // Assigns XML string to BLOCKLY_TOOLBOX_XML or BLOCKLY_PRELOAD_XML .
+  // Add "this." to access generator's this.BLOCKLY_TOOLBOX_XML or
+  //   this.BLOCKLY_PRELOAD_XML field when evaluating.
   if (importMode == WorkspaceFactoryController.MODE_TOOLBOX) {
     var scriptToRun = jsFileContents.replace(/BLOCKLY_TOOLBOX_XML/g,
         'this.BLOCKLY_TOOLBOX_XML');
@@ -190,17 +208,32 @@ WorkspaceFactoryGenerator.prototype.storeXml =
   }
 
   // Stores the XML string.
-  eval(scriptToRun);
+  scriptToRun = this.evaluateMarkedCode(scriptToRun);
 
   // Find toolbox name and return name.
-  if (importMode == WorkspaceFactoryController.MODE_TOOLBOX) {
-    var xmlToJsName = scriptToRun.replace(/(.|\n)*XML\[\'/g, '');
-  } else {
-    var xmlToJsName = scriptToRun.replace(/(.|\n)*XML\[\'/g, '');
-  }
+  var xmlToJsName = scriptToRun.replace(/(.|\n)*XML\[\'/g, '');
   xmlToJsName = xmlToJsName.replace(/\'\](.|\n)*/g, '');
 
+  // Removes extra escapes by evaluating.
+  eval('xmlToJsName = \'' + xmlToJsName + '\';');
   return xmlToJsName;
+};
+
+/**
+ * Strips any unnecessary code from given script and evaluates only code between
+ * commented part of JavaScript file.
+ *
+ * @param {string} code String representation of JavaScript code to run.
+ * @returns {string} JavaScript code between comments.
+ */
+WorkspaceFactoryGenerator.prototype.evaluateMarkedCode = function(code) {
+  // Removes code before beginning comment.
+  let esc = code.replace(/(.|\n)*\/\* *BEGINNING.*DEVTOOLS\. *\*\/( |\n)*/g, '');
+  // Removes code after end comment.
+  esc = esc.replace(/( |\n)*\/\* *END(.|\n)*/g, '');
+
+  eval(code);
+  return code;
 };
 
 /**

@@ -140,7 +140,8 @@ WorkspaceFactoryController.prototype.addCategory = function() {
  */
 WorkspaceFactoryController.prototype.createCategory = function(name) {
   // Create empty category
-  var category = new ListElement(ListElement.TYPE_CATEGORY, name);
+  var category = new ListElement(ListElement.TYPE_CATEGORY,
+      name.replace(/\\/g,'\\\\'));
   this.model.addElementToList(category);
   // Create new category.
   var tab = this.view.addCategoryRow(name, category.id);
@@ -374,7 +375,6 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
   if (!fileName) { // If cancelled.
     return;
   }
-
   if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
     // Get toolbox XML.
     var configXml = Blockly.Xml.domToPrettyText
@@ -390,7 +390,7 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
 
   // Generate JS.
   var configJs = this.generator.generateJsFromXml(configXml,
-      fileName.trim().replace(/.js/g, '').replace(/  */g, '_'),
+      fileName.trim().replace(/.js/g, ''),
       exportMode);
 
   // Download file.
@@ -792,7 +792,7 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode, fil
           controller.importToolboxFromTree_(tree);
         } else {
           // Run JS code to store XML, get toolboxName to retrieve XML.
-          let toolboxName = this.generator.storeXml(reader.result,
+          let toolboxName = this.generator.loadXml(reader.result,
               importMode);
 
           // Display toolbox on devtools workspace.
@@ -817,7 +817,7 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode, fil
           controller.importPreloadFromTree_(tree);
         } else {
           // Run JS code to store XML, get workspaceName to retrieve XML.
-          let workspaceName = this.generator.storeXml(reader.result,
+          let workspaceName = this.generator.loadXml(reader.result,
               importMode);
 
           // Display pre-loaded workspace on devtools workspace.
