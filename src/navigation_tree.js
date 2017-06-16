@@ -75,23 +75,23 @@ class NavigationTree {
     // TODO(#27) : upon giving libraries names add them as roots under the project
     var data = this.makeBlockTypeJson();
     var tree = {
-      "core": {
-        "check_callback" : true,
-        "data" : data
+      'core': {
+        'check_callback' : true,
+        'data': data
       },
-      "plugins" : [ "contextmenu", "dnd", "crrm"],
-      "contextmenu": {
-        "items": {
-          "create": {
-            "label": "Add",
-            "action": function (obj) {
-              $('#navigationTree').jstree().create_node('#' , { "id" :
-                "ajason5", "text" : "new_block"}, "last", null);
+      'plugins' : [ 'contextmenu', 'dnd', 'crrm'],
+      'contextmenu': {
+        'items': {
+          'create': {
+            'label': 'Add',
+            'action': function (obj) {
+              $('#navigationTree').jstree().create_node('#' , { 'id' :
+                'ajason5', 'text' : 'new_block'}, 'last', null);
             },
           },
-          "delete": {
-            "label" : "Delete Block",
-            "action": function(obj) {
+          'delete': {
+            'label': 'Delete Block',
+            'action': function(obj) {
               $('#navigationTree').jstree().delete_node('#nodeId');
             }
           }
