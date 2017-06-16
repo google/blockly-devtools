@@ -77,7 +77,10 @@ AppController = function() {
   // Selected tab.
   this.selectedTab = AppController.BLOCK_FACTORY;
 
-  this.view.setLibraryTree(this.BlockLibraryController);
+  // initialize tree for AppView
+  this.view.setLibraryTree(this.blockLibraryController);
+
+  //give instance of tree to library
   this.blockLibraryController.setTree(this.view.navTree);
 };
 
@@ -694,7 +697,6 @@ AppController.prototype.init = function() {
   if ('BlocklyStorage' in window) {
     this.initializeBlocklyStorage();
   }
-
   // Assign click handlers.
   this.assignExporterClickHandlers();
   this.assignLibraryClickHandlers();

@@ -79,9 +79,13 @@ class AppView {
     this.win.menu = this.mainMenu;
   }
 
-  setLibraryTree(library){
+  /**
+  * Initializes the tree for the session.
+  * @param {! BlockLibraryController} the libraryController for the session
+  */
+  setLibraryTree(libraryController){
     //initializes navigation tree with blocks in the library
-    this.navTree = new NavigationTree(library);
+    this.navTree = new NavigationTree(libraryController);
   }
 
   /**

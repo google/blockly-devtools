@@ -41,7 +41,6 @@ goog.require('BlockFactory');
 
 /**
  * Block Library Controller Class
- * @param {!JStree} tree Tree navigation, passed in by project_controller
  * @param {string} blockLibraryName Desired name of Block Library, also used
  *    to create the key for where it's stored in local storage.
  * @param {!BlockLibraryStorage} opt_blockLibraryStorage Optional storage
@@ -59,11 +58,14 @@ BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
   this.tree = null;
 };
 
+/**
+* Assigns a tree instance such that the navigation tree will be edited
+* with changes to block storage
+*/
 BlockLibraryController.prototype.setTree = function(tree){
-  // the navigation tree will be edited with changes to
-  // block storage
   this.tree = tree;
 }
+
 /**
  * Returns the block type of the block the user is building.
  * @return {string} The current block's type.

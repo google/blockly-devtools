@@ -19,17 +19,24 @@
  */
 
 /**
- * @fileoverview The AppView Class deals with the visual parts of the main
- * devtools application, such as the menubar.
+ * @fileoverview The NavigationTree manages all of the functions for changing
+ * the tree view
  *
  * @author sagev (Sage Vouse)
  */
 
 class NavigationTree{
 
-  constructor(library){
-   this.library = library;
-  this.buildTree(this.library.getStoredBlockTypes);
+/**
+ * NavigationTree Class
+ * @param {!BlockLibraryController) libraryController allows tree to get blocks
+  * in library
+ * @constructor
+ */
+  constructor(libraryController){
+   this.libraryController = libraryController;
+   var blocks = this.libraryController.getStoredBlockTypes();
+  this.buildTree(blocks);
  }
 
     /**
@@ -37,11 +44,11 @@ class NavigationTree{
    * @return JSON of all block types
    */
   makeBlockTypeJson() {
-    if (this.library.hasEmptyBlockLibrary()) {
+    if (this.libraryController.hasEmptyBlockLibrary()) {
       return '';
     }
     var treeBlockTypeJson = [];
-    var types= this.storage.getBlockTypes();
+    var types= this.libraryController.getStoredBlockTypes();
     var iterationIndex = 1;
     var finalIndex = 0;
     var toAdd;
@@ -114,7 +121,7 @@ class NavigationTree{
         r.push(data.instance.get_node(data.selected[i]).text);
       }
       // load the blocks
-      this.library.openBlock(r.join(', '));
+      this.libraryController.openBlock(r.join(', '));
     });
   }
 
@@ -124,7 +131,7 @@ class NavigationTree{
     $('#navigationTree').jstree("destroy");
     // currently remaking tree; otherwise, when creating a block after clearing
     // the library, creates  dummy node with the same title as the created node
-    this.buildTree(this.library.getStoredBlockTypes());
+    this.buildTree(this.libraryController.getStoredBlockTypes());
   }
 
   deleteBlockNode(blockType){
