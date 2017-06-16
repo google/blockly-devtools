@@ -20,6 +20,8 @@
 
 /**
  * @fileoverview Toolbox object. Contains references to controller and view.
+ *
+ * @author Celine Choo (celinechoo)
  */
 
 class Toolbox {
