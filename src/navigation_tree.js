@@ -151,7 +151,7 @@ class NavigationTree {
    * Adds a block to the tree.
    */
   addBlockNode(blockType) {
-    $('#navigationTree').jstree().create_node('#' , {'id': blockType,
-      'text': blockType }, 'last', null);
+    $('#navigationTree').jstree().create_node('#' ,
+      {'id': blockType, 'text': blockType }, 'last', null);
   }
 }
