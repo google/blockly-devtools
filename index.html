@@ -43,7 +43,6 @@
     var init = function() {
       blocklyFactory = new AppController();
       blocklyFactory.init();
-
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
     };
 
