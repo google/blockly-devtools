@@ -27,10 +27,10 @@
 
 class NavigationTree{
 
-  //constructor(library){
-  //  this.library = library;
-  //  this.buildTree(this.library.getStoredBlockTypes);
-  //}
+  constructor(library){
+   this.library = library;
+  this.buildTree(this.library.getStoredBlockTypes);
+ }
 
     /**
    * Returns JSON object of library's blocktypes.
