@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "component-emitter": "github:component/emitter",
+    "eslint": "^4.0.0",
     "jquery": "^3.2.1",
     "jstree": "git://github.com/vakata/jstree.git"
   },

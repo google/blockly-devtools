@@ -25,18 +25,18 @@
  * @author sagev (Sage Vouse)
  */
 
-class NavigationTree{
+class NavigationTree {
 
 /**
  * NavigationTree Class
- * @param {!BlockLibraryController) libraryController allows tree to get blocks
+ * @param {!BlockLibraryController} libraryController allows tree to get blocks
   * in library
  * @constructor
  */
-  constructor(libraryController){
-   this.libraryController = libraryController;
-   var blocks = this.libraryController.getStoredBlockTypes();
-  this.buildTree(blocks);
+  constructor(libraryController) {
+    this.libraryController = libraryController;
+    var blocks = this.libraryController.getStoredBlockTypes();
+    this.buildTree(blocks);
  }
 
     /**
@@ -125,7 +125,7 @@ class NavigationTree{
     });
   }
 
-  clearLibrary(){
+  clearLibrary() {
     // TODO(#25): make more elegant
     // clear the tree
     $('#navigationTree').jstree("destroy");
@@ -134,11 +134,11 @@ class NavigationTree{
     this.buildTree(this.libraryController.getStoredBlockTypes());
   }
 
-  deleteBlockNode(blockType){
+  deleteBlockNode(blockType) {
     $('#navigationTree').jstree().delete_node(blockType);
   }
 
-  addBlockNode(blockType){
+  addBlockNode(blockType) {
     $('#navigationTree').jstree().create_node('#' , {"id" : blockType,
       "text" : blockType }, "last", null);
   }
