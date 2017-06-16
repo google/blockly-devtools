@@ -63,9 +63,9 @@ BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
 * with changes to block storage
 * @param {!JSTree} tree the main navigation tree
 */
-BlockLibraryController.prototype.setTree = function(tree){
+BlockLibraryController.prototype.setTree = function(tree) {
   this.tree = tree;
-}
+};
 
 /**
  * Returns the block type of the block the user is building.
@@ -207,10 +207,10 @@ BlockLibraryController.prototype.getBlockXml = function(blockType) {
  * Set the block library storage object from which exporter exports.
  * @param {!BlockLibraryStorage} blockLibStorage Block Library Storage object.
  */
-BlockLibraryController.prototype.setBlockLibraryStorage
-    = function(blockLibStorage) {
-  this.storage = blockLibStorage;
-};
+BlockLibraryController.prototype.setBlockLibraryStorage =
+  function(blockLibStorage) {
+    this.storage = blockLibStorage;
+  };
 
 /**
  * Get the block library storage object from which exporter exports.

@@ -30,18 +30,18 @@ class NavigationTree {
 /**
  * NavigationTree Class
  * @param {!BlockLibraryController} libraryController allows tree to get blocks
-  * in library
+ *    in library
  * @constructor
  */
   constructor(libraryController) {
     this.libraryController = libraryController;
     var blocks = this.libraryController.getStoredBlockTypes();
     this.buildTree(blocks);
- }
+  }
 
-    /**
+  /**
    * Returns JSON object of library's blocktypes.
-   * @return JSON of all block types
+   * @return {!Object} the JSON of all block types
    */
   makeBlockTypeJson() {
     if (this.libraryController.hasEmptyBlockLibrary()) {
@@ -55,43 +55,47 @@ class NavigationTree {
     var blockType;
     while (types[iterationIndex]) {
       blockType= types[iterationIndex - 1];
-      toAdd = {"text" : blockType, "id" : blockType};
+      toAdd = {'text': blockType, 'id': blockType};
       treeBlockTypeJson.push(toAdd);
       iterationIndex++;
       finalIndex++;
     }
     blockType = types[finalIndex];
-    toAdd = { "text" : blockType, "id" : blockType};
+    toAdd = { 'text': blockType, 'id': blockType};
     treeBlockTypeJson.push(toAdd);
     return treeBlockTypeJson;
   }
 
   /**
    * Returns a JSON object for initial tree.
-   * @return the JSON necessary to load the tree
+   * @return {!Object} the JSON necessary to load the tree
    */
   makeTreeJson() {
     // TODO(#26) : give libraries names
     // TODO(#27) : upon giving libraries names add them as roots under the project
     var data = this.makeBlockTypeJson();
     var tree = {
-      "core" : {
-        "check_callback" : true,
-        "data" : data
+      'core': {
+        'check_callback': true,
+        'data': data
       },
-      "plugins" : [ "contextmenu", "dnd", "crrm"],
-      "contextmenu": {
-        "items": {
-          "create": {
-            "label": "Add",
-            "action": function (obj) {
-              $('#navigationTree').jstree().create_node('#' , { "id" :
-                "ajason5", "text" : "new_block"}, "last", null);
+      'plugins': [ 'contextmenu', 'dnd', 'crrm'],
+      'contextmenu': {
+        'items': {
+          'create': {
+            'label': 'Add',
+            'action': function (obj) {
+              $('#navigationTree').jstree().create_node(
+                '#',
+                { 'id': 'ajason5', 'text': 'new_block' },
+                'last',
+                null
+                );
             },
           },
-          "delete": {
-            "label" : "Delete Block",
-            "action": function(obj) {
+          'delete': {
+            'label': 'Delete Block',
+            'action': function(obj) {
               $('#navigationTree').jstree().delete_node('#nodeId');
             }
           }
@@ -102,7 +106,7 @@ class NavigationTree {
   }
 
   /**
-   * Populate tree and ready it for listening
+   * Populates the tree and adds its listener.
    */
   buildTree(blockTypes) {
     var treeJson= this.makeTreeJson();
@@ -111,8 +115,8 @@ class NavigationTree {
   }
 
   /**
-  * Listen for block selected in tree
-  */
+   * Listens for block selected in tree.
+   */
   makeTreeListener() {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
       // collect data of all selected blocks
@@ -125,21 +129,26 @@ class NavigationTree {
     });
   }
 
+  /**
+   * Clears a block library from the tree.
+   */
   clearLibrary() {
-    // TODO(#25): make more elegant
-    // clear the tree
-    $('#navigationTree').jstree("destroy");
-    // currently remaking tree; otherwise, when creating a block after clearing
-    // the library, creates  dummy node with the same title as the created node
+    $('#navigationTree').jstree('destroy');
     this.buildTree(this.libraryController.getStoredBlockTypes());
   }
 
+  /**
+   * Deletes a block from the tree.
+   */
   deleteBlockNode(blockType) {
     $('#navigationTree').jstree().delete_node(blockType);
   }
 
+  /**
+   * Adds a block to the tree.
+   */
   addBlockNode(blockType) {
-    $('#navigationTree').jstree().create_node('#' , {"id" : blockType,
-      "text" : blockType }, "last", null);
+    $('#navigationTree').jstree().create_node('#' , {'id': blockType,
+      'text': blockType }, 'last', null);
   }
 }
