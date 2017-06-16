@@ -61,6 +61,7 @@ BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
 /**
 * Assigns a tree instance such that the navigation tree will be edited
 * with changes to block storage
+* @param {!JSTree} tree the main navigation tree
 */
 BlockLibraryController.prototype.setTree = function(tree){
   this.tree = tree;
