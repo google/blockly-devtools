@@ -20,11 +20,29 @@
 
 /**
  * @fileoverview Toolbox object. Contains references to controller and view.
+ *
+ * @author Celine Choo (celinechoo)
  */
 
 class Toolbox {
   constructor(name) {
     this.name = name;
-    // TODO: complete constructor. Include toolbox xml info.
+    this.blocks = {};
+  }
+
+  /**
+   * Renames toolbox.
+   * @param {string} newName New name of toolbox.
+   */
+  setName(newName) {
+    this.name = newName;
+  }
+
+  /**
+   * Adds block to toolbox.
+   * @returns {boolean} True if added succesfully.
+   */
+  addBlock(blockName, xmlDefinition) {
+
   }
 }
