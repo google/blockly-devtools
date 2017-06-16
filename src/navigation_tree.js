@@ -55,13 +55,13 @@ class NavigationTree {
     var blockType;
     while (types[iterationIndex]) {
       blockType= types[iterationIndex - 1];
-      toAdd = {"text" : blockType, "id" : blockType};
+      toAdd = {'text' : blockType, 'id' : blockType};
       treeBlockTypeJson.push(toAdd);
       iterationIndex++;
       finalIndex++;
     }
     blockType = types[finalIndex];
-    toAdd = { "text" : blockType, "id" : blockType};
+    toAdd = { 'text' : blockType, 'id' : blockType};
     treeBlockTypeJson.push(toAdd);
     return treeBlockTypeJson;
   }
@@ -131,7 +131,7 @@ class NavigationTree {
   clearLibrary() {
     // TODO(#25): make more elegant
     // clear the tree
-    $('#navigationTree').jstree("destroy");
+    $('#navigationTree').jstree('destroy');
     // currently remaking tree; otherwise, when creating a block after clearing
     // the library, creates  dummy node with the same title as the created node
     this.buildTree(this.libraryController.getStoredBlockTypes());
@@ -148,7 +148,7 @@ class NavigationTree {
    * Adds a block to the tree.
    */
   addBlockNode(blockType) {
-    $('#navigationTree').jstree().create_node('#' , {"id" : blockType,
-      "text" : blockType }, "last", null);
+    $('#navigationTree').jstree().create_node('#' , {'id' : blockType,
+      'text' : blockType }, 'last', null);
   }
 }
