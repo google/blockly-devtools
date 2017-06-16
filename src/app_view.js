@@ -71,7 +71,7 @@ class AppView {
 
     // Dictionary with all MenuItems. Keys are the labels, values are the
     // nw.MenuItem's. Values are added in initMenuTree().
-    this.menuItems = {}
+    this.menuItems = {};
 
     // Initializes menubar.
     this.mainMenu = new nw.Menu({type: 'menubar'})
@@ -80,9 +80,9 @@ class AppView {
   }
 
   /**
-  * Initializes the tree for the session.
-  * @param {! BlockLibraryController} the libraryController for the session
-  */
+    * Initializes the tree for the session.
+    * @param {! BlockLibraryController} the libraryController for the session
+    */
   setLibraryTree(libraryController){
     //initializes navigation tree with blocks in the library
     this.navTree = new NavigationTree(libraryController);
