@@ -30,7 +30,7 @@ class NavigationTree {
 /**
  * NavigationTree Class
  * @param {!BlockLibraryController} libraryController allows tree to get blocks
- * in library
+ *    in library
  * @constructor
  */
   constructor(libraryController) {
@@ -41,7 +41,7 @@ class NavigationTree {
 
   /**
    * Returns JSON object of library's blocktypes.
-   * @return JSON of all block types
+   * @return {!Object} the JSON of all block types
    */
   makeBlockTypeJson() {
     if (this.libraryController.hasEmptyBlockLibrary()) {
@@ -68,7 +68,7 @@ class NavigationTree {
 
   /**
    * Returns a JSON object for initial tree.
-   * @return the JSON necessary to load the tree
+   * @return {!Object} the JSON necessary to load the tree
    */
   makeTreeJson() {
     // TODO(#26) : give libraries names
@@ -85,8 +85,12 @@ class NavigationTree {
           'create': {
             'label': 'Add',
             'action': function (obj) {
-              $('#navigationTree').jstree().create_node('#' , { 'id':
-                'ajason5', 'text': 'new_block'}, 'last', null);
+              $('#navigationTree').jstree().create_node(
+                '#',
+                { 'id': 'ajason5', 'text': 'new_block' },
+                'last',
+                null
+                );
             },
           },
           'delete': {
@@ -129,11 +133,7 @@ class NavigationTree {
    * Clears a block library from the tree.
    */
   clearLibrary() {
-    // TODO(#25): make more elegant
-    // clear the tree
     $('#navigationTree').jstree('destroy');
-    // currently remaking tree; otherwise, when creating a block after clearing
-    // the library, creates  dummy node with the same title as the created node
     this.buildTree(this.libraryController.getStoredBlockTypes());
   }
 
