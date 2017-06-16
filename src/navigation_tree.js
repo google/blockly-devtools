@@ -75,7 +75,7 @@ class NavigationTree {
     // TODO(#27) : upon giving libraries names add them as roots under the project
     var data = this.makeBlockTypeJson();
     var tree = {
-      "core" : {
+      "core": {
         "check_callback" : true,
         "data" : data
       },
