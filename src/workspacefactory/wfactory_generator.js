@@ -150,14 +150,18 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceXml = function() {
  * @returns {string} String representation of JavaScript file for export.
  */
 WorkspaceFactoryGenerator.prototype.generateJsFromXml = function(xml, name, mode) {
-  let jsFromXml = `// If BLOCKLY_${mode}_XML does not exist.
-if (!BLOCKLY_${mode}_XML) {
-  BLOCKLY_${mode}_XML = {};
+  // Escape for ' when exporting to JS.
+  let groupName = name.replace(/\'/g, '\\\'');
+  let xmlStorageVariable = 'BLOCKLY_' + mode + '_XML';
+
+  let jsFromXml = `// If ${xmlStorageVariable} does not exist.
+if (!${xmlStorageVariable}) {
+  ${xmlStorageVariable} = {};
 }
 
-/* BEGINNING ${mode} XML. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
-BLOCKLY_${mode}_XML['${name}'] = '${this.splitXmlWithNewline_(xml)}';
-/* END ${mode} XML. DO NOT EDIT. */`;
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+${xmlStorageVariable}['${groupName}'] = '${this.splitXmlWithNewline_(xml)}';
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */`;
   return jsFromXml;
 };
 
@@ -255,7 +259,8 @@ if(!BLOCKLY_TOOLBOX_XML) {
  * @private
  */
 WorkspaceFactoryGenerator.prototype.splitXmlWithNewline_ = function(xmlString) {
-  var totalString = xmlString.replace(/>( |\n)*</g, '>\' +\n    \'<');
+  var totalString = xmlString.replace(/\'/g, '\\\'');
+  totalString = totalString.replace(/\>( |\n)*\</g, '\>\' +\n    \'\<');
   return totalString;
 };
 

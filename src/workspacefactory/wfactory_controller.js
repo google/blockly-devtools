@@ -358,6 +358,10 @@ WorkspaceFactoryController.prototype.exportXmlFile = function(exportMode) {
 /**
  * Tied to "Export" button. Gets a file name from user and downloads the
  * corresponding configuration JS to that file.
+ *
+ * @param {string} exportMode Component of project being exported; either
+ *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
+ *     (WorkspaceFactoryController.MODE_PRELOAD).
  */
 WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
   // Get file name.
