@@ -111,7 +111,7 @@ class NavigationTree {
   /**
    * Populates the tree and adds its listener.
    */
-  makeTree(blockTypes) {
+  makeTree() {
     var treeJson= this.makeTreeJson();
     this.makeTreeListener();
     $('#navigationTree').jstree(treeJson);
@@ -137,7 +137,7 @@ class NavigationTree {
    */
   clearLibrary() {
     $('#navigationTree').jstree('destroy');
-    this.makeTree(this.libraryController.getStoredBlockTypes());
+    this.makeTree();
   }
 
   /**
