@@ -141,7 +141,7 @@ WorkspaceFactoryController.prototype.addCategory = function() {
 WorkspaceFactoryController.prototype.createCategory = function(name) {
   // Create empty category
   var category = new ListElement(ListElement.TYPE_CATEGORY,
-      name.replace(/\\/g,'\\\\'));
+      name);
   this.model.addElementToList(category);
   // Create new category.
   var tab = this.view.addCategoryRow(name, category.id);

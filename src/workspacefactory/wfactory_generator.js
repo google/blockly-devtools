@@ -151,7 +151,7 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceXml = function() {
  */
 WorkspaceFactoryGenerator.prototype.generateJsFromXml = function(xml, name, mode) {
   // Escape for ' when exporting to JS.
-  let groupName = this.addEscape(name);
+  let groupName = name;
   let xmlStorageVariable = 'BLOCKLY_' + mode + '_XML';
 
   let jsFromXml = `// If ${xmlStorageVariable} does not exist.
@@ -160,7 +160,8 @@ if (!${xmlStorageVariable}) {
 }
 
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
-${xmlStorageVariable}['${groupName}'] = '${this.splitXmlWithNewline_(xml)}';
+${xmlStorageVariable}['${groupName}'] =
+    ${this.splitXmlWithNewline_(xml)};
 /* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */`;
   return jsFromXml;
 };
@@ -232,6 +233,7 @@ WorkspaceFactoryGenerator.prototype.evaluateMarkedCode = function(code) {
   // Removes code after end comment.
   esc = esc.replace(/( |\n)*\/\* *END(.|\n)*/g, '');
 
+  console.log("eval code: " + code);
   eval(code);
   return code;
 };
@@ -287,13 +289,45 @@ if(!BLOCKLY_TOOLBOX_XML) {
  * Converts one-line XML string to multi-line string concatenation expression.
  * Used for making XML string more readable.
  *
+ * @param {string} xmlString XML code to be turned into a JS string.
  * @returns {string} XML string as string concatenation without unnecessary
  * whitespace between tags.
  * @private
  */
 WorkspaceFactoryGenerator.prototype.splitXmlWithNewline_ = function(xmlString) {
-  var totalString = xmlString.replace(/\'/g, '\\\'');
-  totalString = totalString.replace(/\>( |\n)*\</g, '\>\' +\n    \'\<');
+  var totalString = '';
+  var i, start;
+  var outside = true;
+  var newline = true;
+
+  for (i = 0; i < xmlString.length; i++) {
+    let cursor = xmlString.charAt(i);
+
+    if (outside) {
+      // If cursor is outside of xml tags. (Spaces or text)
+      if (cursor === '<') {
+        outside = false; // Enter an xml tag.
+        start = i; // Keep track of where xml tag began.
+      } else if (cursor == '\n') {
+        totalString += '\'';
+        if (i+1 !== xmlString.length) totalString += ' +\n    ';
+        newline = true;
+      } else totalString += cursor;
+    } else {
+      // If cursor is on a char that is between xml tags.
+      if (newline) {
+        totalString += '\'';
+        newline = false;
+      }
+      if (cursor === '>') {
+        outside = true; // Leave xml tag.
+        // Add escapes to xml tag, add to total string.
+        totalString += this.addEscape(xmlString.substring(start, i+1));
+      }
+    }
+  }
+  totalString += '\'';
+
   return totalString;
 };
 
