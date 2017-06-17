@@ -112,7 +112,7 @@ class NavigationTree {
    * Populates the tree and adds its listener.
    */
   makeTree() {
-    var treeJson= this.makeTreeJson();
+    var treeJson = this.makeTreeJson();
     this.makeTreeListener();
     $('#navigationTree').jstree(treeJson);
   }
