@@ -233,7 +233,6 @@ WorkspaceFactoryGenerator.prototype.evaluateMarkedCode = function(code) {
   // Removes code after end comment.
   esc = esc.replace(/( |\n)*\/\* *END(.|\n)*/g, '');
 
-  console.log("eval code: " + code);
   eval(code);
   return code;
 };

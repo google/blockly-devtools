@@ -375,6 +375,9 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
   if (!fileName) { // If cancelled.
     return;
   }
+  // Remove .js extension for name of toolbox
+  fileName = fileName.trim().replace(/.js/g, '');
+
   if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
     // Get toolbox XML.
     var configXml = Blockly.Xml.domToPrettyText
@@ -390,7 +393,7 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
 
   // Generate JS.
   var configJs = this.generator.generateJsFromXml(configXml,
-      fileName.trim().replace(/.js/g, ''),
+      this.generator.addEscape(fileName),
       exportMode);
 
   // Download file.
