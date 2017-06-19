@@ -154,7 +154,9 @@ WorkspaceFactoryGenerator.prototype.generateJsFromXml = function(xml, name, mode
   let groupName = name;
   let xmlStorageVariable = 'BLOCKLY_' + mode + '_XML';
 
-  let jsFromXml = `// If ${xmlStorageVariable} does not exist.
+  // XML ASSIGNMENT STRING (not to be executed)
+  let jsFromXml = `
+// If ${xmlStorageVariable} does not exist.
 if (!${xmlStorageVariable}) {
   ${xmlStorageVariable} = {};
 }
@@ -162,7 +164,8 @@ if (!${xmlStorageVariable}) {
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 ${xmlStorageVariable}['${groupName}'] =
     ${this.splitXmlWithNewline_(xml)};
-/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */`;
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
+`;
   return jsFromXml;
 };
 
@@ -233,8 +236,8 @@ WorkspaceFactoryGenerator.prototype.evaluateMarkedCode = function(code) {
   // Removes code after end comment.
   esc = esc.replace(/( |\n)*\/\* *END(.|\n)*/g, '');
 
-  eval(code);
-  return code;
+  eval(esc);
+  return esc;
 };
 
 /**
