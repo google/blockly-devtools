@@ -271,21 +271,25 @@ WorkspaceFactoryGenerator.prototype.generateInjectString = function(toolboxXml) 
 
   var attributes = addAttributes(this.model.options, '\t');
   if (!this.model.options['readOnly']) {
-    attributes = '\ttoolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
+    attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
       'imported toolbox to display here */], \n' + attributes;
   }
 
   // Initializing toolbox
-  var xmlString = `/* DO NOT EDIT THE CODE BELOW */
+  var finalStr = `
 if(!BLOCKLY_TOOLBOX_XML) {
   var BLOCKLY_TOOLBOX_XML = {};
 }
-/* DO NOT EDIT THE CODE ABOVE */`;
 
-  var finalStr = xmlString + '\n\n';
-  finalStr += 'var options = { \n' + attributes + '};';
-  finalStr += '\n\n/* Inject your workspace */ \nvar workspace = Blockly.' +
-      'inject(/* TODO: Add ID of div to inject Blockly into */, options);';
+var BLOCKLY_OPTIONS = {
+  ${attributes}
+};
+
+document.onload = function() {
+  /* Inject your workspace */
+  var workspace = Blockly.inject(/* TODO: Add ID of div to inject Blockly into */, BLOCKLY_OPTIONS);
+};
+`;
   return finalStr;
 };
 
