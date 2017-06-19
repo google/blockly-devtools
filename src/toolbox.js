@@ -43,6 +43,43 @@ class Toolbox {
    * @returns {boolean} True if added succesfully.
    */
   addBlock(blockName, xmlDefinition) {
+    if (null) {
+      return false;
+    } else if (blockName.trim() && xmlDefinition.trim()) {
+      this.blocks[blockName] = xmlDefinition;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Removes block from toolbox.
+   */
+  removeBlock(blockName) {
+    if (this.blocks[blockName]) {
+      delete this.blocks[blockName];
+    }
+  }
+
+  /**
+   * Exports toolbox as JS file.
+   */
+  exportJs() {
+    return;
+  }
+
+  /**
+   * Exports toolbox as XML file.
+   */
+  exportXml() {
+    return;
+  }
+
+  /**
+   *
+   */
+  moveCategory() {
 
   }
 }
