@@ -36,7 +36,7 @@ goog.require('goog.ui.ColorPicker');
 class AppView {
   constructor(appController) {
     // AppController
-    this.controller = appController;
+    this.appController = appController;
 
     // Main window of application.
     this.win = nw.Window.get();
@@ -80,10 +80,19 @@ class AppView {
   }
 
   /**
+   * Initializes the tree for the session.
+   * @param {! BlockLibraryController} the libraryController for the session
+   */
+  setLibraryTree(libraryController){
+    //initializes navigation tree with blocks in the library
+    this.navTree = new NavigationTree(libraryController);
+  }
+
+  /**
    * Opens popup when clicking on New Block in menubar.
    */
   showNewBlock() {
-    this.controller.createBlocklyInitPopup(false);
+    this.appController.createBlocklyInitPopup(false);
   }
 
   /**
@@ -238,4 +247,5 @@ class AppView {
   enableMenuItem(label, enable) {
     this.menuItems[label].enabled = enable;
   }
+
 }

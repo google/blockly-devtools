@@ -10,6 +10,9 @@
     "jquery": "^3.2.1",
     "jstree": "git://github.com/vakata/jstree.git"
   },
+  "devDependencies": {
+    "eslint": "^4.0.0"
+  },
   "presets": [
     "es2015"
   ]
