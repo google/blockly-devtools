@@ -376,7 +376,7 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
     return;
   }
   // Remove .js extension for name of toolbox
-  fileName = fileName.trim().replace(/\.js/g, '');
+  fileName = fileName.trim().replace(/(\.js)$/g,'');
 
   if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
     // Get toolbox XML.
