@@ -294,5 +294,3 @@ BlockLibraryController.prototype.updateButtons = function(savedChanges) {
   var isInLibrary = this.has(blockType);
   this.view.updateButtons(blockType, isInLibrary, savedChanges);
 };
-
-
