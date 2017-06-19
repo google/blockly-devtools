@@ -237,6 +237,13 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
         blocklyFactory.openModal('dropdownDiv_export');
       });
 
+  // Add toolbox button.
+  document.getElementById('button_addToolbox').addEventListener
+      ('click',
+      function() {
+        controller.addToolbox();
+      });
+
   // Clear button.
   document.getElementById('button_clear').addEventListener
       ('click',

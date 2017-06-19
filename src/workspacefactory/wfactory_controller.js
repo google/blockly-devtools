@@ -48,6 +48,12 @@
 WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
   // Toolbox XML element for the editing workspace.
   this.toolbox = document.getElementById(toolboxName);
+  // Dictionary of toolboxes. Has at least one (default) toolbox.
+  this.toolboxList = {
+    '': '<xml></xml>'
+  };
+  // Currently displayed toolbox.
+  this.currentToolbox = '';
 
   // Workspace for user to drag blocks in for a certain category.
   this.toolboxWorkspace = Blockly.inject(toolboxDiv,
@@ -68,7 +74,7 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
        colour: '#ccc',
        snap: true},
      media: 'media/',
-     toolbox: '<xml></xml>',
+     toolbox: this.toolboxList[this.currentToolbox],
      zoom:
        {controls: true,
         wheel: true}
@@ -96,6 +102,28 @@ WorkspaceFactoryController.MODE_TOOLBOX = 'toolbox';
 // Pre-loaded workspace editing mode. Changes the user makes to the workspace
 // udpates the pre-loaded blocks.
 WorkspaceFactoryController.MODE_PRELOAD = 'preload';
+
+/**
+ * Creates a new toolbox.
+ */
+WorkspaceFactoryController.prototype.addToolbox = function() {
+  // Check if current toolbox is the first toolbox.
+  if ()
+  // Ask if user wants to name first toolbox.
+  // Create new empty toolbox.
+  // Ask user to name new toolbox.
+};
+
+/**
+ * Changes view to display a different or new toolbox to edit.
+ *
+ * @param {string} name Name of toolbox to display.
+ */
+WorkspaceFactoryController.prototype.showToolbox = function(name) {
+  // Change currentToolbox pointer
+  this.currentToolbox = name;
+  // Display new toolbox.
+};
 
 /**
  * Currently prompts the user for a name, checking that it's valid (not used
