@@ -398,7 +398,7 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
 
   // Download file.
   var data = new Blob([configJs], {type: 'text/javascript'});
-  this.view.createAndDownloadFile(fileName, data);
+  this.view.createAndDownloadFile(fileName + '.js', data);
 };
 
 /**
