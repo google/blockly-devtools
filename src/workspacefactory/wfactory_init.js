@@ -187,40 +187,76 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
       function() {
         blocklyFactory.openModal('dropdownDiv_load');
       });
-  document.getElementById('input_loadToolbox').addEventListener
+  document.getElementById('input_loadToolboxXML').addEventListener
       ('change',
       function() {
         controller.importFile(event.target.files[0],
-            WorkspaceFactoryController.MODE_TOOLBOX);
+            WorkspaceFactoryController.MODE_TOOLBOX,
+            WorkspaceFactoryController.MODE_XML);
       });
-  document.getElementById('input_loadToolbox').addEventListener
+  document.getElementById('input_loadToolboxXML').addEventListener
       ('click', function() {blocklyFactory.closeModal()});
-  document.getElementById('input_loadPreload').addEventListener
+  document.getElementById('input_loadToolboxJS').addEventListener
       ('change',
       function() {
         controller.importFile(event.target.files[0],
-            WorkspaceFactoryController.MODE_PRELOAD);
+            WorkspaceFactoryController.MODE_TOOLBOX,
+            WorkspaceFactoryController.MODE_JS);
       });
-  document.getElementById('input_loadPreload').addEventListener
+  document.getElementById('input_loadToolboxJS').addEventListener
+      ('click', function() {blocklyFactory.closeModal()});
+  document.getElementById('input_loadPreloadXML').addEventListener
+      ('change',
+      function() {
+        controller.importFile(event.target.files[0],
+            WorkspaceFactoryController.MODE_PRELOAD,
+            WorkspaceFactoryController.MODE_XML);
+      });
+  document.getElementById('input_loadPreloadXML').addEventListener
+      ('click', function() {blocklyFactory.closeModal()});
+  document.getElementById('input_loadPreloadJS').addEventListener
+      ('change',
+      function() {
+        controller.importFile(event.target.files[0],
+            WorkspaceFactoryController.MODE_PRELOAD,
+            WorkspaceFactoryController.MODE_JS);
+      });
+  document.getElementById('input_loadPreloadJS').addEventListener
       ('click', function() {blocklyFactory.closeModal()});
 
   // Export button.
   document.getElementById('dropdown_exportOptions').addEventListener
       ('click',
       function() {
-        controller.exportInjectFile();
+        if (controller.exportToolbox !== '' ||
+            confirm('You do not have any blocks in your toolbox. Make sure ' +
+            'you have saved your toolbox. Are you sure you want to continue?')) {
+          controller.exportInjectFile();
+        }
         blocklyFactory.closeModal();
       });
-  document.getElementById('dropdown_exportToolbox').addEventListener
+  document.getElementById('dropdown_exportToolboxXML').addEventListener
       ('click',
       function() {
         controller.exportXmlFile(WorkspaceFactoryController.MODE_TOOLBOX);
         blocklyFactory.closeModal();
       });
-  document.getElementById('dropdown_exportPreload').addEventListener
+  document.getElementById('dropdown_exportToolboxJS').addEventListener
+      ('click',
+      function() {
+        controller.exportJsFile(WorkspaceFactoryController.MODE_TOOLBOX);
+        blocklyFactory.closeModal();
+      });
+  document.getElementById('dropdown_exportPreloadXML').addEventListener
       ('click',
       function() {
         controller.exportXmlFile(WorkspaceFactoryController.MODE_PRELOAD);
+        blocklyFactory.closeModal();
+      });
+  document.getElementById('dropdown_exportPreloadJS').addEventListener
+      ('click',
+      function() {
+        controller.exportJsFile(WorkspaceFactoryController.MODE_PRELOAD);
         blocklyFactory.closeModal();
       });
   document.getElementById('dropdown_exportAll').addEventListener
