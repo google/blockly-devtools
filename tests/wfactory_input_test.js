@@ -77,17 +77,16 @@ function test_addEscapeWithWords() {
  * WorkspaceFactoryGenerator.evaluateMarkedCode() test. Should fail if the code
  * within the fail variable is run.
  */
-function test_evaluateMarkedCode_simple() {
-  var generator = new WorkspaceFactoryGenerator(null);
-  var passedTest = false;
+function test_evaluateMarkedCode() {
+  let generator = new WorkspaceFactoryGenerator(null);
+  test_evaluateMarkedCode.passedTest = false;
 
-  var start = '/* BEGINNING BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */\n';
-  var pass = 'test_evaluateMarkedCode_simple.passedTest = true;';
-  var end = '/* END BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. */\n';
-  var fail = 'assertTrue(false);\n';
+  let start = '/* BEGINNING BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */\n';
+  let pass = 'test_evaluateMarkedCode.passedTest = true;';
+  let end = '/* END BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. */\n';
+  let fail = 'assertTrue(false);\n';
 
-  var runCode = fail + start + pass + end + fail;
-  console.log(runCode);
+  let runCode = fail + start + pass + end + fail;
   generator.evaluateMarkedCode(runCode);
-  assertTrue(test_evaluateMarkedCode_simple.passedTest);
+  assertTrue(test_evaluateMarkedCode.passedTest);
 }
