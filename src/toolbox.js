@@ -27,7 +27,7 @@
 class Toolbox {
   constructor(name) {
     this.name = name;
-    this.blocks = {};
+    this.categories = {};
   }
 
   /**
@@ -42,10 +42,9 @@ class Toolbox {
    * Adds block to toolbox.
    * @returns {boolean} True if added succesfully.
    */
-  addBlock(blockName, xmlDefinition) {
-    if (null) {
-      return false;
-    } else if (blockName.trim() && xmlDefinition.trim()) {
+  addBlock(categoryName, blockName, xmlDefinition) {
+    if (categoryName.trim() && blockName.trim() && xmlDefinition.trim()) {
+      if ()
       this.blocks[blockName] = xmlDefinition;
       return true;
     } else {
@@ -81,5 +80,12 @@ class Toolbox {
    */
   moveCategory() {
 
+  }
+}
+
+class Category {
+  constructor(name) {
+    this.name = name;
+    this.blocks = {};
   }
 }
