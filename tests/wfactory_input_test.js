@@ -26,13 +26,19 @@
 'use strict';
 
 // JS special characters that need escape sequences
-var specialChars = ['\'', '\\', '\\n', '\\0', '\\v', '\\r', '\\b', '\\t', '\\f'];
+var specialChars = ['\'', '\\', '\\n', '\\0',
+    '\\v', '\\r', '\\b', '\\t', '\\f'];
+
 // Literal representations needed to display the escape sequence for a special character
-var charLiteral = ['\\\'', '\\\\', '\\\\n', '\\\\0', '\\\\v', '\\\\r', '\\\\b', '\\\\t', '\\\\f'];
+var charLiteral = ['\\\'', '\\\\', '\\\\n', '\\\\0',
+    '\\\\v', '\\\\r', '\\\\b', '\\\\t', '\\\\f'];
+
 // Symbols
 var symbols = '~!@#$%^&*()_+`=-_+|{};:<>.,/';
+
 // Random words (to include alphabet in testing)
-var words = ['hello', 'blockly', 'wao', 'ep', 'penguin', 'ok', 'gergle blerkly'];
+var words = ['hello', 'blockly', 'test', 'education',
+    'penguin', 'Gergle Blerkly', '  ', 'MiXiT.'];
 
 /**
  * Iterates through specialChars, compares against charLiteral after passing
@@ -127,16 +133,24 @@ function generateName() {
   let randWord = random(0, words.length);
   let randChar = random(0, specialChars.length);
 
-  // Monster word
-  let jumble = symbols[randSymbol] + words[randWord] + specialChars[randChar] +
-      words[(randWord + 5)%words.length] + symbols[(randSymbol+5)%symbols.length] +
-      specialChars[(randChar + 5)%specialChars.length] +
-      words[(randWord - 5)%words.length];
+  // Generate large word
+  let jumble =
+      symbols[randSymbol] +
+      words[randWord] +
+      specialChars[randChar] +
+      words[(randWord + 5) % words.length] +
+      symbols[(randSymbol + 5) % symbols.length] +
+      specialChars[(randChar + 5) % specialChars.length] +
+      words[(randWord - 5) % words.length];
 
-  let correctJumble = symbols[randSymbol] + words[randWord] + charLiteral[randChar] +
-      words[(randWord + 5)%words.length] + symbols[(randSymbol+5)%symbols.length] +
+  let correctJumble =
+      symbols[randSymbol] +
+      words[randWord] +
+      charLiteral[randChar] +
+      words[(randWord + 5) % words.length] +
+      symbols[(randSymbol + 5) % symbols.length] +
       charLiteral[(randChar + 5)%charLiteral.length] +
-      words[(randWord - 5)%words.length]
+      words[(randWord - 5) % words.length]
 
   return [correctJumble, FactoryUtils.addEscape(jumble)];
 }
