@@ -274,17 +274,24 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
       });
 
   // Add toolbox button.
-  document.getElementById('button_addToolbox').addEventListener
+  document.getElementById('button_newToolbox').addEventListener
       ('click',
       function() {
-        controller.addToolbox();
+        controller.newToolbox();
+      });
+
+  // Add toolbox button.
+  document.getElementById('button_saveToolbox').addEventListener
+      ('click',
+      function() {
+        controller.saveToolbox();
       });
 
   // Clear button.
   document.getElementById('button_clear').addEventListener
       ('click',
       function() {
-        controller.clearAll();
+        controller.clearAll(true);
       });
 
   // Toolbox and Workspace tabs.

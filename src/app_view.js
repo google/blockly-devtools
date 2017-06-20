@@ -83,7 +83,7 @@ class AppView {
    * Initializes the tree for the session.
    * @param {! BlockLibraryController} the libraryController for the session
    */
-  setLibraryTree(libraryController){
+  setLibraryTree(libraryController) {
     //initializes navigation tree with blocks in the library
     this.navTree = new NavigationTree(libraryController);
   }
@@ -113,7 +113,7 @@ class AppView {
    * Action taken when new toolbox is created.
    */
   showNewToolbox() {
-    // TODO: Fill in action.
+    this.appController.workspaceFactoryController.addToolbox();
   }
 
   /**

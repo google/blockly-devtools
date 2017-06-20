@@ -110,31 +110,41 @@ WorkspaceFactoryController.MODE_XML = 'xml';
 /**
  * Creates a new toolbox.
  */
-WorkspaceFactoryController.prototype.addToolbox = function() {
+WorkspaceFactoryController.prototype.onAddToolbox = function() {
   console.log("Add toolbox called!");
+  let safeToAdd = true;
 
-  // Ask if user wants to name first toolbox.
-  let name = prompt('Default toolbox has no name, please name your first toolbox', 'Default');
-  delete this.toolboxList[''];
-  this.toolboxList[name] = Blockly.Xml.domToPrettyText
-        (this.generator.generateToolboxXml());
-  console.log('Default toolbox name: ' + name);
-  console.log('Toolbox xml, saved: ' + this.toolboxList[name]);
+  // If first toolbox
+  if (this.currentToolbox === '') {
+    let tbName = prompt('Default toolbox has no name, please name your first toolbox.', 'Default');
+    safeToAdd = this.renameToolbox(this.currentToolbox, tbName);
 
-  // Create new empty toolbox.
-  let newName = prompt('Name of new toolbox');
-  if (this.toolboxList[newName] !== undefined) {
-    newName = prompt('Name already exists. Please rename.');
-  } else if (!newName) {
-    return;
+    if (safeToAdd) {
+      delete this.toolboxList[''];
+    }
   }
-  console.log('New toolbox name: ' + newName);
 
-  // Add XML to new toolbox.
-  this.toolboxList[newName] = '<xml></xml>';
-  // Display newly created toolbox.
-  this.clearAll();
-  this.showToolbox(newName);
+  if (safeToAdd) {
+    // Saves into current toolbox key the toolbox XML currently displayed.
+    this.saveToolbox();
+    console.log('Default toolbox name: ' + this.currentToolbox);
+    console.log('Toolbox xml, saved: ' + this.toolboxList[this.currentToolbox]);
+  }
+};
+
+WorkspaceFactoryController.prototype.newToolbox = function() {
+  // If toolbox is empty, then confirm whether to make new.
+  // if (this.isEmptyToolbox(toolboxXml)) {
+  //   proceed = proceed && confirm('Your toolbox is empty. Are you sure you want to proceed?');
+  // }
+
+  // Make sure previous toolbox has been saved.
+  if (this.saveToolbox() && this.renameToolbox(this.currentToolbox, prompt('Name your toolbox.'))) {
+    this.clearAll(false);
+
+    this.toolboxList[''] = '<xml></xml>';
+    this.showToolbox('');
+  }
 };
 
 /**
@@ -143,11 +153,69 @@ WorkspaceFactoryController.prototype.addToolbox = function() {
  * @param {string} name Name of toolbox to display.
  */
 WorkspaceFactoryController.prototype.showToolbox = function(name) {
+  // Clear workspace.
+  this.clearAll(false);
   // Change currentToolbox pointer
   this.currentToolbox = name;
   // Display new toolbox.
   this.importToolboxFromTree_(
       Blockly.Xml.textToDom(this.toolboxList[this.currentToolbox]));
+};
+
+/**
+ * Saves XML currently in workspace into currently active toolbox under this.toolboxList.
+ *
+ * @returns {boolean} If saved successfully.
+ */
+WorkspaceFactoryController.prototype.saveToolbox = function() {
+  let proceed = true;
+
+  // Updates XML stored into this.currentToolbox.
+  let toolboxXml = Blockly.Xml.domToPrettyText(
+        this.generator.generateToolboxXml());
+
+  // If current toolbox hasn't yet been saved, prompt for a name.
+  if (this.currentToolbox === '' && !this.isEmptyToolbox(toolboxXml)) {
+    proceed = proceed && this.renameToolbox('', prompt('Your current toolbox is not ' +
+        'saved. Please provide a toolbox name.'));
+  }
+
+  return proceed;
+};
+
+/**
+ * Returns true if XML string of given toolbox contains no blocks nor
+ * categories.
+ *
+ * @param {string} xml XML String to be compared.
+ * @returns {boolean} If toolbox is empty.
+ */
+WorkspaceFactoryController.prototype.isEmptyToolbox = function(xml) {
+  return xml ===
+      '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;"></xml>' ||
+      xml === '<xml></xml>';
+};
+
+/**
+ * Renames current toolbox to given new name.
+ *
+ * @param {string} originalName Original name of toolbox.
+ * @param {string} newName New name of toolbox.
+ * @returns {boolean} True if successfully renamed.
+ */
+WorkspaceFactoryController.prototype.renameToolbox = function(originalName, newName) {
+  // If user does not give valid input, do not change the name. Warn user.
+  if (newName === null) {
+    return false;
+  } else if (newName.trim() === '') {
+    return this.renameToolbox(originalName, prompt('Invalid name. Please rename.'));
+  }
+
+  newName = newName.trim();
+  this.currentToolbox = FactoryUtils.addEscape(newName);
+  this.toolboxList[this.currentToolbox] = Blockly.Xml.domToPrettyText(
+        this.generator.generateToolboxXml());
+  return true;
 };
 
 /**
@@ -1013,9 +1081,12 @@ WorkspaceFactoryController.prototype.importPreloadFromTree_ = function(tree) {
  * Clears the editing area completely, deleting all categories and all
  * blocks in the model and view and all pre-loaded blocks. Tied to the
  * "Clear" button.
+ *
+ * @param {boolean} confirm Whether user should first confirm before clearing
+ *     workspace.
  */
-WorkspaceFactoryController.prototype.clearAll = function() {
-  if (!confirm('Are you sure you want to clear all of your work in Workspace' +
+WorkspaceFactoryController.prototype.clearAll = function(confirm) {
+  if (confirm && !confirm('Are you sure you want to clear all of your work in Workspace' +
       ' Factory?')) {
     return;
   }
