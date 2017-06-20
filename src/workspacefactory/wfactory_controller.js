@@ -442,7 +442,7 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
 
   // Generate JS.
   var configJs = this.generator.generateJsFromXml(configXml,
-      this.generator.addEscape(fileName),
+      FactoryUtils.addEscape(fileName),
       exportMode);
 
   // Download file.
