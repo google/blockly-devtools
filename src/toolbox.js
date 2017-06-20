@@ -81,6 +81,33 @@ class Toolbox {
   moveCategory() {
 
   }
+
+  /**
+   * Returns true if given category name already exists within toolbox.
+   *
+   * @param {string} categoryName Name of category.
+   */
+  categoryIsInToolbox() {
+
+  }
+
+  /**
+   * Returns true if given block name already exists within toolbox.
+   *
+   * @param {string} blockName Name of block.
+   */
+  blockIsInToolbox() {
+
+  }
+
+  /**
+   * Returns true if all blocks within this toolbox is empty.
+   *
+   * @returns {boolean} Whether the toolbox is empty.
+   */
+  isEmpty() {
+
+  }
 }
 
 class Category {
