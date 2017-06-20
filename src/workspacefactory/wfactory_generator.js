@@ -163,27 +163,10 @@ if (!${xmlStorageVariable}) {
 
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 ${xmlStorageVariable}['${groupName}'] =
-    ${this.splitXmlWithNewline_(xml)};
+    ${FactoryUtils.concatenateXmlString(xml)};
 /* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
 `;
   return jsFromXml;
-};
-
-/**
- * Adds escapes to special characters so that JavaScript code can be run
- * correctly upon importing toolboxes or workspaces.
- *
- * @param {string} string String to escape.
- */
-WorkspaceFactoryGenerator.prototype.addEscape = function(string) {
-  // Escape backslash
-  string = string.replace(/\\/g, '\\\\');
-  // Escape single quote
-  string = string.replace(/\'/g, '\\'+'\'');
-  // Escape double quote
-  // string = string.replace(/\"/g, '\\\"');
-
-  return string;
 };
 
 /**
@@ -291,52 +274,6 @@ document.onload = function() {
 };
 `;
   return finalStr;
-};
-
-/**
- * Converts one-line XML string to multi-line string concatenation expression.
- * Used for making XML string more readable.
- *
- * @param {string} xmlString XML code to be turned into a JS string.
- * @returns {string} XML string as string concatenation without unnecessary
- * whitespace between tags.
- * @private
- */
-WorkspaceFactoryGenerator.prototype.splitXmlWithNewline_ = function(xmlString) {
-  var totalString = '';
-  var i, start;
-  var outside = true;
-  var newline = true;
-
-  for (i = 0; i < xmlString.length; i++) {
-    let cursor = xmlString.charAt(i);
-
-    if (outside) {
-      // If cursor is outside of xml tags. (Spaces or text)
-      if (cursor === '<') {
-        outside = false; // Enter an xml tag.
-        start = i; // Keep track of where xml tag began.
-      } else if (cursor == '\n') {
-        totalString += '\'';
-        if (i+1 !== xmlString.length) totalString += ' +\n    ';
-        newline = true;
-      } else totalString += cursor;
-    } else {
-      // If cursor is on a char that is between xml tags.
-      if (newline) {
-        totalString += '\'';
-        newline = false;
-      }
-      if (cursor === '>') {
-        outside = true; // Leave xml tag.
-        // Add escapes to xml tag, add to total string.
-        totalString += this.addEscape(xmlString.substring(start, i+1));
-      }
-    }
-  }
-  totalString += '\'';
-
-  return totalString;
 };
 
 /**
