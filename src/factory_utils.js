@@ -1020,7 +1020,7 @@ FactoryUtils.splitXmlWithNewline = function(xmlString) {
       if (cursor === '<') {
         outside = false; // Enter an xml tag.
         start = i; // Keep track of where xml tag began.
-      } else if (cursor == '\n') {
+      } else if (cursor === '\n') {
         totalString += '\'';
         if (i+1 !== xmlString.length) totalString += ' +\n    ';
         newline = true;
