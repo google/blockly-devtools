@@ -59,40 +59,22 @@ function test_addEscape_simple() {
  * Checks against charLiteral after passing through addEscape().
  */
 function test_addEscapeWithWords() {
+  let specialChars = inputTestVar.specialChars;
+  let charLiteral = inputTestVar.charLiteral;
+  let symbols = inputTestVar.symbols;
+  let words = inputTestVar.words;
+
   for (let i = 0; i < inputTestVar.specialChars.length; i++) {
     let symbolIndex = i;
     let wordIndex = i;
     let charIndex = i;
 
-    test_addEscapeWithWords.expected = {
-      one: inputTestVar.words[wordIndex] + inputTestVar.symbols[symbolIndex] +
-        inputTestVar.charLiteral[charIndex],
-      two: inputTestVar.symbols[symbolIndex] + inputTestVar.charLiteral[charIndex] +
-        inputTestVar.words[wordIndex],
-      three: inputTestVar.charLiteral[charIndex] + inputTestVar.words[wordIndex] +
-        inputTestVar.symbols[symbolIndex]
-    };
-
-    test_addEscapeWithWords.actual = {
-      one: FactoryUtils.addEscape(inputTestVar.words[wordIndex] +
-        inputTestVar.symbols[symbolIndex] + inputTestVar.specialChars[charIndex]),
-      two: FactoryUtils.addEscape(inputTestVar.symbols[symbolIndex] +
-        inputTestVar.specialChars[charIndex] + inputTestVar.words[wordIndex]),
-      three: FactoryUtils.addEscape(inputTestVar.specialChars[charIndex] +
-        inputTestVar.words[wordIndex] + inputTestVar.symbols[symbolIndex])
-    };
-
-    assertEquals('[test_addEscapeWithWords] FAILED at ' + i + 'th iteration',
-      test_addEscapeWithWords.expected.one,
-      test_addEscapeWithWords.actual.one);
-
-    assertEquals('[test_addEscapeWithWords] FAILED at ' + i + 'th iteration',
-      test_addEscapeWithWords.expected.two,
-      test_addEscapeWithWords.actual.two);
-
-    assertEquals('[test_addEscapeWithWords] FAILED at ' + i + 'th iteration',
-      test_addEscapeWithWords.expected.three,
-      test_addEscapeWithWords.actual.three);
+    assertEquals(words[wordIndex] + symbols[symbolIndex] + charLiteral[charIndex],
+        FactoryUtils.addEscape(words[wordIndex] + symbols[symbolIndex] + specialChars[charIndex]));
+    assertEquals(symbols[symbolIndex] + charLiteral[charIndex] + words[wordIndex],
+        FactoryUtils.addEscape(symbols[symbolIndex] + specialChars[charIndex] + words[wordIndex]));
+    assertEquals(charLiteral[charIndex] + words[wordIndex] + symbols[symbolIndex],
+        FactoryUtils.addEscape(specialChars[charIndex] + words[wordIndex] + symbols[symbolIndex]));
   }
 }
 
