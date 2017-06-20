@@ -111,8 +111,6 @@ function test_evaluateMarkedCode_simple() {
   generator.evaluateMarkedCode(fail + start + pass + end + fail);
 }
 
-// HELPER FUNCTIONS
-
 /**
  * Generates random number from start (inclusive) to end (exclusive).
  */
