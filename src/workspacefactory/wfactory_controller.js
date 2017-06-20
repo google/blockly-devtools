@@ -111,18 +111,29 @@ WorkspaceFactoryController.MODE_XML = 'xml';
  * Creates a new toolbox.
  */
 WorkspaceFactoryController.prototype.addToolbox = function() {
-  // Check if current toolbox is the first toolbox.
-  if (this.currentToolbox === '') {
-    // Ask if user wants to name first toolbox.
-    var name = prompt('Default toolbox has no name, please name your first toolbox', 'Default');
-  }
+  console.log("Add toolbox called!");
+
+  // Ask if user wants to name first toolbox.
+  let name = prompt('Default toolbox has no name, please name your first toolbox', 'Default');
+  delete this.toolboxList[''];
+  this.toolboxList[name] = Blockly.Xml.domToPrettyText
+        (this.generator.generateToolboxXml());
+  console.log('Default toolbox name: ' + name);
+  console.log('Toolbox xml, saved: ' + this.toolboxList[name]);
 
   // Create new empty toolbox.
-  var newName = prompt('Name of new toolbox');
+  let newName = prompt('Name of new toolbox');
   if (this.toolboxList[newName] !== undefined) {
     newName = prompt('Name already exists. Please rename.');
+  } else if (!newName) {
+    return;
   }
+  console.log('New toolbox name: ' + newName);
+
+  // Add XML to new toolbox.
   this.toolboxList[newName] = '<xml></xml>';
+  // Display newly created toolbox.
+  this.clearAll();
   this.showToolbox(newName);
 };
 
@@ -135,6 +146,8 @@ WorkspaceFactoryController.prototype.showToolbox = function(name) {
   // Change currentToolbox pointer
   this.currentToolbox = name;
   // Display new toolbox.
+  this.importToolboxFromTree_(
+      Blockly.Xml.textToDom(this.toolboxList[this.currentToolbox]));
 };
 
 /**
