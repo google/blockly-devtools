@@ -25,30 +25,32 @@
 
 'use strict';
 
-// JS special characters that need escape sequences
-var specialChars = ['\'', '\\', '\\n', '\\0',
-    '\\v', '\\r', '\\b', '\\t', '\\f'];
+let inputTestVar = {
+  // JS special characters that need escape sequences
+  specialChars: ['\'', '\\', '\\n', '\\0',
+      '\\v', '\\r', '\\b', '\\t', '\\f'],
 
-// Literal representations needed to display the escape sequence for a special character
-var charLiteral = ['\\\'', '\\\\', '\\\\n', '\\\\0',
-    '\\\\v', '\\\\r', '\\\\b', '\\\\t', '\\\\f'];
+  // Literal representations needed to display the escape sequence for a special character
+  charLiteral: ['\\\'', '\\\\', '\\\\n', '\\\\0',
+      '\\\\v', '\\\\r', '\\\\b', '\\\\t', '\\\\f'],
 
-// Symbols
-var symbols = '~!@#$%^&*()_+`=-_+|{};:<>.,/';
+  // Symbols
+  symbols: '~!@#$%^&*()_+`=-_+|{};:<>.,/',
 
-// Random words (to include alphabet in testing)
-var words = ['supercalifragilisticexpialidocious', 'blockly', 'test',
-    'education', 'penguin', 'Gergle Blerkly', '  ', 'MiXiT.',
-    'Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch'];
+  // Random words (to include alphabet in testing)
+  words: ['supercalifragilisticexpialidocious', 'blockly', 'test',
+      'education', 'penguin', 'Gergle Blerkly', '  ', 'MiXiT.',
+      'Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch']
+};
 
 /**
  * Iterates through specialChars, compares against charLiteral after passing
  * through addEscape().
  */
 function test_addEscape_simple() {
-  for (var i = 0; i < specialChars.length; i++) {
-    assertEquals('a$' + charLiteral[i] + 'b@%$@#^',
-        'a$' + FactoryUtils.addEscape(specialChars[i]) + 'b@%$@#^');
+  for (let i = 0; i < inputTestVar.specialChars.length; i++) {
+    assertEquals(inputTestVar.charLiteral[i],
+        FactoryUtils.addEscape(inputTestVar.specialChars[i]));
   }
 }
 
@@ -57,19 +59,40 @@ function test_addEscape_simple() {
  * Checks against charLiteral after passing through addEscape().
  */
 function test_addEscapeWithWords() {
-  for (var i = 0; i < specialChars.length; i++) {
+  for (let i = 0; i < inputTestVar.specialChars.length; i++) {
     let symbolIndex = i;
     let wordIndex = i;
     let charIndex = i;
 
-    assertEquals(words[wordIndex] + symbols[symbolIndex] + charLiteral[charIndex],
-        FactoryUtils.addEscape(words[wordIndex] + symbols[symbolIndex] + specialChars[charIndex]));
+    test_addEscapeWithWords.expected = {
+      one: inputTestVar.words[wordIndex] + inputTestVar.symbols[symbolIndex] +
+        inputTestVar.charLiteral[charIndex],
+      two: inputTestVar.symbols[symbolIndex] + inputTestVar.charLiteral[charIndex] +
+        inputTestVar.words[wordIndex],
+      three: inputTestVar.charLiteral[charIndex] + inputTestVar.words[wordIndex] +
+        inputTestVar.symbols[symbolIndex]
+    };
 
-    assertEquals(symbols[symbolIndex] + charLiteral[charIndex] + words[wordIndex],
-        FactoryUtils.addEscape(symbols[symbolIndex] + specialChars[charIndex] + words[wordIndex]));
+    test_addEscapeWithWords.actual = {
+      one: FactoryUtils.addEscape(inputTestVar.words[wordIndex] +
+        inputTestVar.symbols[symbolIndex] + inputTestVar.specialChars[charIndex]),
+      two: FactoryUtils.addEscape(inputTestVar.symbols[symbolIndex] +
+        inputTestVar.specialChars[charIndex] + inputTestVar.words[wordIndex]),
+      three: FactoryUtils.addEscape(inputTestVar.specialChars[charIndex] +
+        inputTestVar.words[wordIndex] + inputTestVar.symbols[symbolIndex])
+    };
 
-    assertEquals(charLiteral[charIndex] + words[wordIndex] + symbols[symbolIndex],
-        FactoryUtils.addEscape(specialChars[charIndex] + words[wordIndex] + symbols[symbolIndex]));
+    assertEquals('[test_addEscapeWithWords] FAILED at ' + i + 'th iteration',
+      test_addEscapeWithWords.expected.one,
+      test_addEscapeWithWords.actual.one);
+
+    assertEquals('[test_addEscapeWithWords] FAILED at ' + i + 'th iteration',
+      test_addEscapeWithWords.expected.two,
+      test_addEscapeWithWords.actual.two);
+
+    assertEquals('[test_addEscapeWithWords] FAILED at ' + i + 'th iteration',
+      test_addEscapeWithWords.expected.three,
+      test_addEscapeWithWords.actual.three);
   }
 }
 

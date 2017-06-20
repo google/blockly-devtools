@@ -1004,7 +1004,7 @@ FactoryUtils.getHelpUrlFromRootBlock_ = function(rootBlock) {
  *
  * @param {string} xmlString XML code to be turned into a JS string.
  * @returns {string} XML string as string concatenation without unnecessary
- * whitespace between tags.
+ *     whitespace between tags.
  */
 FactoryUtils.concatenateXmlString = function(xmlString) {
   var totalString = '';
@@ -1022,9 +1022,13 @@ FactoryUtils.concatenateXmlString = function(xmlString) {
         start = i; // Keep track of where xml tag began.
       } else if (cursor === '\n') {
         totalString += '\'';
-        if (i+1 !== xmlString.length) totalString += ' +\n    ';
+        if (i + 1 !== xmlString.length) {
+          totalString += ' +\n    ';
+        }
         newline = true;
-      } else totalString += cursor;
+      } else {
+        totalString += cursor;
+      }
     } else {
       // If cursor is on a char that is between xml tags.
       if (newline) {
@@ -1034,7 +1038,7 @@ FactoryUtils.concatenateXmlString = function(xmlString) {
       if (cursor === '>') {
         outside = true; // Leave xml tag.
         // Add escapes to xml tag, add to total string.
-        totalString += FactoryUtils.addEscape(xmlString.substring(start, i+1));
+        totalString += FactoryUtils.addEscape(xmlString.substring(start, i + 1));
       }
     }
   }
