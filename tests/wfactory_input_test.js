@@ -37,8 +37,9 @@ var charLiteral = ['\\\'', '\\\\', '\\\\n', '\\\\0',
 var symbols = '~!@#$%^&*()_+`=-_+|{};:<>.,/';
 
 // Random words (to include alphabet in testing)
-var words = ['hello', 'blockly', 'test', 'education',
-    'penguin', 'Gergle Blerkly', '  ', 'MiXiT.'];
+var words = ['supercalifragilisticexpialidocious', 'blockly', 'test',
+    'education', 'penguin', 'Gergle Blerkly', '  ', 'MiXiT.',
+    'Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch'];
 
 /**
  * Iterates through specialChars, compares against charLiteral after passing
@@ -55,7 +56,7 @@ function test_addEscape_simple() {
  * Iterates through specialChars, creates a word including each special character.
  * Checks against charLiteral after passing through addEscape().
  */
-function test_addEscapeWithWords_ordered() {
+function test_addEscapeWithWords() {
   for (var i = 0; i < specialChars.length; i++) {
     let symbolIndex = i;
     let wordIndex = i;
@@ -73,84 +74,20 @@ function test_addEscapeWithWords_ordered() {
 }
 
 /**
- * addEscape() test with random words, large number of tests.
- */
-function test_addEscapeWithWords_random() {
-  for (var i = 0; i < 100; i++) {
-    let randSymbol = random(0, specialChars.length);
-    let randWord = random(0, words.length);
-    let randChar = random(0, specialChars.length);
-
-    assertEquals(words[randWord] + symbols[randSymbol] + charLiteral[randChar],
-        FactoryUtils.addEscape(words[randWord] + symbols[randSymbol] + specialChars[randChar]));
-
-    assertEquals(symbols[randSymbol] + charLiteral[randChar] + words[randWord],
-        FactoryUtils.addEscape(symbols[randSymbol] + specialChars[randChar] + words[randWord]));
-
-    assertEquals(charLiteral[randChar] + words[randWord] + symbols[randSymbol],
-        FactoryUtils.addEscape(specialChars[randChar] + words[randWord] + symbols[randSymbol]));
-  }
-}
-
-/**
- * addEscape() test with big words.
- */
-function test_addEscapeWithBigWords() {
-  for (var i = 0; i < 100; i++) {
-    let name = generateName();
-    assertEquals(name[0], name[1]);
-  }
-}
-
-/**
  * WorkspaceFactoryGenerator.evaluateMarkedCode() test. Should fail if the code
  * within the fail variable is run.
  */
 function test_evaluateMarkedCode_simple() {
   var generator = new WorkspaceFactoryGenerator(null);
+  var passedTest = false;
 
   var start = '/* BEGINNING BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */\n';
-  var pass = 'assertTrue(true);\n';
+  var pass = 'test_evaluateMarkedCode_simple.passedTest = true;';
   var end = '/* END BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. */\n';
   var fail = 'assertTrue(false);\n';
 
-  generator.evaluateMarkedCode(fail + start + pass + end + fail);
-}
-
-/**
- * Generates random number from start (inclusive) to end (exclusive).
- */
-function random(start, end) {
-  return Math.floor((Math.random() * (end - start)) + start);
-}
-
-/**
- * Generates random large word using a random collection of words, symbols, and
- * special characters.
- */
-function generateName() {
-  let randSymbol = random(0, specialChars.length);
-  let randWord = random(0, words.length);
-  let randChar = random(0, specialChars.length);
-
-  // Generate large word
-  let jumble =
-      symbols[randSymbol] +
-      words[randWord] +
-      specialChars[randChar] +
-      words[(randWord + 5) % words.length] +
-      symbols[(randSymbol + 5) % symbols.length] +
-      specialChars[(randChar + 5) % specialChars.length] +
-      words[(randWord - 5) % words.length];
-
-  let correctJumble =
-      symbols[randSymbol] +
-      words[randWord] +
-      charLiteral[randChar] +
-      words[(randWord + 5) % words.length] +
-      symbols[(randSymbol + 5) % symbols.length] +
-      charLiteral[(randChar + 5)%charLiteral.length] +
-      words[(randWord - 5) % words.length]
-
-  return [correctJumble, FactoryUtils.addEscape(jumble)];
+  var runCode = fail + start + pass + end + fail;
+  console.log(runCode);
+  generator.evaluateMarkedCode(runCode);
+  assertTrue(test_evaluateMarkedCode_simple.passedTest);
 }

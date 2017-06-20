@@ -163,7 +163,7 @@ if (!${xmlStorageVariable}) {
 
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 ${xmlStorageVariable}['${groupName}'] =
-    ${FactoryUtils.splitXmlWithNewline(xml)};
+    ${FactoryUtils.concatenateXmlString(xml)};
 /* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
 `;
   return jsFromXml;

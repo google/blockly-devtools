@@ -999,14 +999,14 @@ FactoryUtils.getHelpUrlFromRootBlock_ = function(rootBlock) {
 };
 
 /**
- * Converts one-line XML string to multi-line string concatenation expression.
+ * Converts multi-line XML string to multi-line string concatenation expression.
  * Used for making XML string more readable.
  *
  * @param {string} xmlString XML code to be turned into a JS string.
  * @returns {string} XML string as string concatenation without unnecessary
  * whitespace between tags.
  */
-FactoryUtils.splitXmlWithNewline = function(xmlString) {
+FactoryUtils.concatenateXmlString = function(xmlString) {
   var totalString = '';
   var i, start;
   var outside = true;
@@ -1044,8 +1044,8 @@ FactoryUtils.splitXmlWithNewline = function(xmlString) {
 };
 
 /**
- * Adds escapes to special characters so that JavaScript code can be run
- * correctly upon importing toolboxes or workspaces.
+ * Adds escapes to backslash and single quotes so that JavaScript code can be
+ * run correctly upon importing toolboxes or workspaces.
  *
  * @param {string} string String to escape.
  */
@@ -1054,8 +1054,6 @@ FactoryUtils.addEscape = function(string) {
   string = string.replace(/\\/g, '\\\\');
   // Escape single quote
   string = string.replace(/\'/g, '\\'+'\'');
-  // Escape double quote
-  // string = string.replace(/\"/g, '\\\"');
 
   return string;
 };
