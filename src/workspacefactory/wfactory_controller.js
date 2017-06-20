@@ -98,10 +98,14 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
 
 // Toolbox editing mode. Changes the user makes to the workspace updates the
 // toolbox.
-WorkspaceFactoryController.MODE_TOOLBOX = 'toolbox';
+WorkspaceFactoryController.MODE_TOOLBOX = 'TOOLBOX';
 // Pre-loaded workspace editing mode. Changes the user makes to the workspace
 // udpates the pre-loaded blocks.
-WorkspaceFactoryController.MODE_PRELOAD = 'preload';
+WorkspaceFactoryController.MODE_PRELOAD = 'PRELOAD';
+
+// Language for import/export. JS for web, XML for iOS and Android.
+WorkspaceFactoryController.MODE_JS = 'javascript';
+WorkspaceFactoryController.MODE_XML = 'xml';
 
 /**
  * Creates a new toolbox.
@@ -164,7 +168,8 @@ WorkspaceFactoryController.prototype.addCategory = function() {
  */
 WorkspaceFactoryController.prototype.createCategory = function(name) {
   // Create empty category
-  var category = new ListElement(ListElement.TYPE_CATEGORY, name);
+  var category = new ListElement(ListElement.TYPE_CATEGORY,
+      name);
   this.model.addElementToList(category);
   // Create new category.
   var tab = this.view.addCategoryRow(name, category.id);
@@ -377,7 +382,52 @@ WorkspaceFactoryController.prototype.exportXmlFile = function(exportMode) {
   // Download file.
   var data = new Blob([configXml], {type: 'text/xml'});
   this.view.createAndDownloadFile(fileName, data);
- };
+};
+
+/**
+ * Tied to "Export" button. Gets a file name from user and downloads the
+ * corresponding configuration JS to that file.
+ *
+ * @param {string} exportMode Component of project being exported; either
+ *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
+ *     (WorkspaceFactoryController.MODE_PRELOAD).
+ */
+WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
+  // Get file name.
+  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
+    var fileName = prompt('File name for toolbox JS:', 'toolbox.js');
+  } else {
+    var fileName = prompt('File name for pre-loaded workspace JS:',
+                          'workspace.js');
+  }
+  if (!fileName) { // If cancelled.
+    return;
+  }
+  // Remove .js extension for name of toolbox
+  fileName = fileName.trim().replace(/(\.js)$/g,'');
+
+  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
+    // Get toolbox XML.
+    var configXml = Blockly.Xml.domToPrettyText
+        (this.generator.generateToolboxXml());
+  } else if (exportMode == WorkspaceFactoryController.MODE_PRELOAD) {
+    // Export pre-loaded block XML.
+    var configXml = Blockly.Xml.domToPrettyText
+        (this.generator.generateWorkspaceXml());
+  } else {
+    // Unknown mode. Throw error.
+    throw new Error ("Unknown export mode: " + exportMode);
+  }
+
+  // Generate JS.
+  var configJs = this.generator.generateJsFromXml(configXml,
+      this.generator.addEscape(fileName),
+      exportMode);
+
+  // Download file.
+  var data = new Blob([configJs], {type: 'text/javascript'});
+  this.view.createAndDownloadFile(fileName + '.js', data);
+};
 
 /**
  * Export the options object to be used for the Blockly inject call. Gets a
@@ -392,7 +442,7 @@ WorkspaceFactoryController.prototype.exportInjectFile = function() {
   // Generate new options to remove toolbox XML from options object (if
   // necessary).
   this.generateNewOptions();
-  var printableOptions = this.generator.generateInjectString()
+  var printableOptions = this.generator.generateInjectString(this.exportToolbox);
   var data = new Blob([printableOptions], {type: 'text/javascript'});
   this.view.createAndDownloadFile(fileName, data);
 };
@@ -729,13 +779,17 @@ WorkspaceFactoryController.prototype.addSeparator = function() {
  * this function loads that XML to the workspace to be edited further. This
  * function switches mode to whatever the import mode is. Catches errors from
  * file reading and prints an error message alerting the user.
+ *
  * @param {string} file The path for the file to be imported into the workspace.
  *   Should contain valid toolbox XML.
  * @param {string} importMode The mode corresponding to the type of file the
  *   user is importing (WorkspaceFactoryController.MODE_TOOLBOX or
  *   WorkspaceFactoryController.MODE_PRELOAD).
+ * @param {string} fileType The language that the user is importing the toolbox
+ *   or workspace in (WorkspaceFactoryController.MODE_JS or
+ *   WorkspaceFactoryController.MODE_XML).
  */
-WorkspaceFactoryController.prototype.importFile = function(file, importMode) {
+WorkspaceFactoryController.prototype.importFile = function(file, importMode, fileType) {
   // Exit if cancelled.
   if (!file) {
     return;
@@ -746,7 +800,7 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode) {
   var reader = new FileReader();
 
   // To be executed when the reader has read the file.
-  reader.onload = function() {
+  reader.onload = () => {
     // Try to parse XML from file and load it into toolbox editing area.
     // Print error message if fail.
     try {
@@ -763,8 +817,20 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode) {
             'current toolbox.')) {
             return;
         }
-        // Import toolbox XML.
-        controller.importToolboxFromTree_(tree);
+
+        if (fileType == WorkspaceFactoryController.MODE_XML) {
+          // Import toolbox XML.
+          controller.importToolboxFromTree_(tree);
+        } else {
+          // Run JS code to store XML, get toolboxName to retrieve XML.
+          let toolboxName = this.generator.loadXml(reader.result,
+              importMode);
+
+          // Display toolbox on devtools workspace.
+          controller.importToolboxFromTree_(
+              Blockly.Xml.textToDom(
+                this.generator.BLOCKLY_TOOLBOX_XML[toolboxName]));
+        }
 
       } else if (importMode == WorkspaceFactoryController.MODE_PRELOAD) {
         // Switch mode.
@@ -777,8 +843,19 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode) {
             return;
         }
 
-        // Import pre-loaded workspace XML.
-        controller.importPreloadFromTree_(tree);
+        if (fileType == WorkspaceFactoryController.MODE_XML) {
+          // Import pre-loaded workspace XML.
+          controller.importPreloadFromTree_(tree);
+        } else {
+          // Run JS code to store XML, get workspaceName to retrieve XML.
+          let workspaceName = this.generator.loadXml(reader.result,
+              importMode);
+
+          // Display pre-loaded workspace on devtools workspace.
+          controller.importPreloadFromTree_(
+              Blockly.Xml.textToDom(
+                this.generator.BLOCKLY_PRELOAD_XML[workspaceName]));
+        }
       } else {
         // Throw error if invalid mode.
         throw new Error("Unknown import mode: " + importMode);
@@ -789,7 +866,7 @@ WorkspaceFactoryController.prototype.importFile = function(file, importMode) {
     } finally {
       Blockly.Events.enable();
     }
-  }
+  };
 
   // Read the file asynchronously.
   reader.readAsText(file);
@@ -1267,7 +1344,7 @@ WorkspaceFactoryController.prototype.importBlocks = function(file, format) {
       alert('Cannot read blocks from file.');
       window.console.log(e);
     }
-  }
+  };
 
   // Read the file asynchronously.
   reader.readAsText(file);
