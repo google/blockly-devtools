@@ -112,10 +112,18 @@ WorkspaceFactoryController.MODE_XML = 'xml';
  */
 WorkspaceFactoryController.prototype.addToolbox = function() {
   // Check if current toolbox is the first toolbox.
-  if ()
-  // Ask if user wants to name first toolbox.
+  if (this.currentToolbox === '') {
+    // Ask if user wants to name first toolbox.
+    var name = prompt('Default toolbox has no name, please name your first toolbox', 'Default');
+  }
+
   // Create new empty toolbox.
-  // Ask user to name new toolbox.
+  var newName = prompt('Name of new toolbox');
+  if (this.toolboxList[newName] !== undefined) {
+    newName = prompt('Name already exists. Please rename.');
+  }
+  this.toolboxList[newName] = '<xml></xml>';
+  this.showToolbox(newName);
 };
 
 /**
