@@ -30,7 +30,6 @@
 
 goog.require('FactoryUtils');
 
-
 /**
  * Class for a WorkspaceFactoryGenerator
  * @constructor
@@ -47,6 +46,12 @@ WorkspaceFactoryGenerator = function(model) {
   hiddenBlocks.style.display = 'none';
   document.body.appendChild(hiddenBlocks);
   this.hiddenWorkspace = Blockly.inject(hiddenBlocksId);
+  // Stores XML strings of all imported and loaded toolboxes. Keys are toolbox
+  // names given by user.
+  this.BLOCKLY_TOOLBOX_XML = {};
+  // Stores XML strings of all imported and loaded pre-load workspace blocks.
+  // Keys are preload workspace names given by user.
+  this.BLOCKLY_PRELOAD_XML = {};
 };
 
 /**
@@ -112,7 +117,6 @@ WorkspaceFactoryGenerator.prototype.generateToolboxXml = function() {
   return xmlDom;
  };
 
-
  /**
   * Generates XML for the workspace (different from generateConfigXml in that
   * it includes XY and ID attributes). Uses a workspace and converts user
@@ -135,11 +139,98 @@ WorkspaceFactoryGenerator.prototype.generateWorkspaceXml = function() {
 };
 
 /**
+ * Generates a string representation of XML in JavaScript for toolbox or
+ * pre-loaded workspace blocks. Used for exporting.
+ *
+ * @param {string} xml String representation of XML to be converted to JS.
+ * @param {string} name Name of toolbox or preloaded-workspace.
+ * @param {string} mode Editing mode information. Either
+ *     WorkspaceFactoryController.MODE_TOOLBOX or
+ *     WorkspaceFactoryController.MODE_PRELOAD.
+ * @returns {string} String representation of JavaScript file for export.
+ */
+WorkspaceFactoryGenerator.prototype.generateJsFromXml = function(xml, name, mode) {
+  // Escape for ' when exporting to JS.
+  let groupName = name;
+  let xmlStorageVariable = 'BLOCKLY_' + mode + '_XML';
+
+  // XML ASSIGNMENT STRING (not to be executed)
+  let jsFromXml = `
+// If ${xmlStorageVariable} does not exist.
+if (!${xmlStorageVariable}) {
+  ${xmlStorageVariable} = {};
+}
+
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+${xmlStorageVariable}['${groupName}'] =
+    ${FactoryUtils.concatenateXmlString(xml)};
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
+`;
+  return jsFromXml;
+};
+
+/**
+ * Evaluates and runs extracted JS script which contains XML string. Adds XML
+ * string to corresponding dictionary (either BLOCKLY_TOOLBOX_XML or
+ * BLOCKLY_PRELOAD_XML), depending on file type.
+ *
+ * @param {string} jsFileContents String representation of JS file. Contains
+ *    assignment of XML string to corresponding dictionary in
+ *    WorkspaceFactoryGenerator.
+ * @param {string} importMode Importing mode information. Either
+ *    WorkspaceFactoryController.MODE_TOOLBOX or
+ *    WorkspaceFactoryController.MODE_PRELOAD.
+ * @returns {string} Name of toolbox or preload workspace.
+ */
+WorkspaceFactoryGenerator.prototype.loadXml =
+    function(jsFileContents, importMode) {
+  // Add "this." to access generator's this.BLOCKLY_TOOLBOX_XML or
+  //   this.BLOCKLY_PRELOAD_XML field when evaluating.
+  if (importMode == WorkspaceFactoryController.MODE_TOOLBOX) {
+    var scriptToRun = jsFileContents.replace(/BLOCKLY_TOOLBOX_XML/g,
+        'this.BLOCKLY_TOOLBOX_XML');
+  } else {
+    var scriptToRun = jsFileContents.replace(/BLOCKLY_PRELOAD_XML/g,
+        'this.BLOCKLY_PRELOAD_XML');
+  }
+
+  // Stores the XML string.
+  scriptToRun = this.evaluateMarkedCode(scriptToRun);
+
+  // Find toolbox name and return name.
+  var xmlToJsName = scriptToRun.replace(/(.|\n)*XML\[\'/g, '');
+  xmlToJsName = xmlToJsName.replace(/\'\](.|\n)*/g, '');
+
+  // Removes extra escapes by evaluating.
+  eval('xmlToJsName = \'' + xmlToJsName + '\';');
+  return xmlToJsName;
+};
+
+/**
+ * Strips any unnecessary code from given script and evaluates only code between
+ * commented part of JavaScript file.
+ *
+ * @param {string} code String representation of JavaScript code to run.
+ * @returns {string} JavaScript code between comments.
+ */
+WorkspaceFactoryGenerator.prototype.evaluateMarkedCode = function(code) {
+  // Removes code before beginning comment.
+  let esc = code.replace(/(.|\n)*\/\* *BEGINNING.*DEVTOOLS\. *\*\/( |\n)*/g, '');
+  // Removes code after end comment.
+  esc = esc.replace(/( |\n)*\/\* *END(.|\n)*/g, '');
+
+  // TODO: Write test/update code to make sure evaluateMarkedCode() runs only
+  //   code between comments.
+  eval(esc);
+  return esc;
+};
+
+/**
  * Generates a string representation of the options object for injecting the
- * workspace and starter code.
+ * workspace and starter code. Auto-injects added toolbox into the inject function.
  * @return {string} String representation of starter code for injecting.
  */
-WorkspaceFactoryGenerator.prototype.generateInjectString = function() {
+WorkspaceFactoryGenerator.prototype.generateInjectString = function(toolboxXml) {
   var addAttributes = function(obj, tabChar) {
     if (!obj) {
       return '{}\n';
@@ -163,22 +254,25 @@ WorkspaceFactoryGenerator.prototype.generateInjectString = function() {
 
   var attributes = addAttributes(this.model.options, '\t');
   if (!this.model.options['readOnly']) {
-    attributes = '\ttoolbox : toolbox, \n' +
-      attributes;
+    attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
+      'imported toolbox to display here */], \n' + attributes;
   }
-  var finalStr = '/* TODO: Change toolbox XML ID if necessary. Can export ' +
-      'toolbox XML from Workspace Factory. */\n' +
-      'var toolbox = document.getElementById("toolbox");\n\n';
-  finalStr += 'var options = { \n' + attributes + '};';
-  finalStr += '\n\n/* Inject your workspace */ \nvar workspace = Blockly.' +
-      'inject(/* TODO: Add ID of div to inject Blockly into */, options);';
-  finalStr += '\n\n/* Load Workspace Blocks from XML to workspace. ' +
-      'Remove all code below if no blocks to load */\n\n' +
-      '/* TODO: Change workspace blocks XML ID if necessary. Can export' +
-      ' workspace blocks XML from Workspace Factory. */\n' +
-      'var workspaceBlocks = document.getElementById("workspaceBlocks"); \n\n' +
-      '/* Load blocks to workspace. */\n' +
-      'Blockly.Xml.domToWorkspace(workspace, workspaceBlocks);';
+
+  // Initializing toolbox
+  var finalStr = `
+if(!BLOCKLY_TOOLBOX_XML) {
+  var BLOCKLY_TOOLBOX_XML = {};
+}
+
+var BLOCKLY_OPTIONS = {
+  ${attributes}
+};
+
+document.onload = function() {
+  /* Inject your workspace */
+  var workspace = Blockly.inject(/* TODO: Add ID of div to inject Blockly into */, BLOCKLY_OPTIONS);
+};
+`;
   return finalStr;
 };
 
