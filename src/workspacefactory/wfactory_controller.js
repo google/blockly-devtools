@@ -33,6 +33,7 @@
  *
  * @author Emma Dauterman (evd2014)
  */
+ 'use strict';
 
  goog.require('FactoryUtils');
  goog.require('StandardCategories');
@@ -107,6 +108,10 @@ WorkspaceFactoryController.MODE_PRELOAD = 'PRELOAD';
 WorkspaceFactoryController.MODE_JS = 'javascript';
 WorkspaceFactoryController.MODE_XML = 'xml';
 
+/**
+ * Creates a new toolbox for editing. Saves previously edited toolbox, and prompts
+ * user if previous toolbox has not been saved under a user-specified name.
+ */
 WorkspaceFactoryController.prototype.newToolbox = function() {
   let prevToolbox = this.currentToolbox;
   console.log("About to create new toolbox. Current is " + prevToolbox + ".");
@@ -122,22 +127,6 @@ WorkspaceFactoryController.prototype.newToolbox = function() {
     }
   }
   console.log("New toolbox created. New toolbox name is " + this.currentToolbox);
-};
-
-/**
- * Changes view to display a different or new toolbox to edit.
- *
- * @param {string} name Name of toolbox to display.
- */
-WorkspaceFactoryController.prototype.showToolbox = function(name) {
-  // Clear workspace.
-  this.clearAll(false);
-  // Change currentToolbox pointer
-  this.currentToolbox = name;
-  console.log("Showing " + name);
-  // Display new toolbox.
-  this.importToolboxFromTree_(
-      Blockly.Xml.textToDom(this.toolboxList[this.currentToolbox]));
 };
 
 /**
@@ -182,7 +171,36 @@ WorkspaceFactoryController.prototype.isEmptyToolbox = function(xml) {
 };
 
 /**
- * Renames current toolbox to given new name.
+ * Changes view to display a different or new toolbox to edit.
+ *
+ * @param {string} name Name of toolbox to display.
+ * @returns {boolean} If toolbox name was valid and displayed succesfully onto
+ *     workspace.
+ */
+WorkspaceFactoryController.prototype.showToolbox = function(name) {
+  name = FactoryUtils.addEscape(name);
+
+  if (this.toolboxNameIsTaken(name)) {
+    // Clear workspace.
+    this.clearAll(false);
+    // Change currentToolbox pointer
+    this.currentToolbox = name;
+    console.log("Showing " + name);
+    // Display new toolbox.
+    this.importToolboxFromTree_(
+        Blockly.Xml.textToDom(this.toolboxList[this.currentToolbox]));
+    return true;
+  } else {
+    confirm('This toolbox name does not exist.');
+    return false;
+  }
+};
+
+/**
+ * Renames current toolbox to given new name. If name is taken, user has option to
+ * replace toolbox under that name or cancel. Renaming toolbox fails if new name is
+ * null, the empty string, or already taken. Prompts user again for new name
+ * if necessary.
  *
  * @param {string} originalName Original name of toolbox.
  * @param {string} newName New name of toolbox.
@@ -218,6 +236,10 @@ WorkspaceFactoryController.prototype.renameToolbox = function(originalName, newN
   return true;
 };
 
+/**
+ * Indicates whether a given toolbox name is already taken (i.e. user has already
+ * previously named a toolbox under that given name).
+ */
 WorkspaceFactoryController.prototype.toolboxNameIsTaken = function(name) {
   return this.toolboxList[name] !== undefined;
 };
@@ -1144,7 +1166,7 @@ WorkspaceFactoryController.prototype.importPreloadFromTree_ = function(tree) {
  */
 WorkspaceFactoryController.prototype.clearAll = function(conf) {
   if (conf && !confirm('Are you sure you want to clear all of your work in Workspace' +
-        ' Factory?')) {
+      ' Factory?')) {
     return;
   }
   var hasCategories = this.model.hasElements();

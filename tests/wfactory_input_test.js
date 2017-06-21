@@ -95,3 +95,111 @@ function test_evaluateMarkedCode() {
   generator.evaluateMarkedCode(runCode);
   assertTrue(test_evaluateMarkedCode.passedTest);
 }
+/**
+ * WorkspaceFactoryController.isEmptyToolbox() test. Makes sure that empty toolboxes
+ * are properly indicated as empty and non-empty toolboxes are properly indicated
+ * as non-empty.
+ */
+function test_isEmptyToolbox() {
+  let controller = new WorkspaceFactoryController('hi', 'bye', 'no');
+
+  // Confirm that empty toolboxes return true.
+  let empty_xmls = {
+    'space in between': '<xml> </xml>',
+    'newline in between': '<xml>\n</xml>',
+    'space and newline in between': '<xml> \n </xml>',
+    'space in between tags': '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">'
+  };
+
+  controller.clearAll(false);
+  empty_xmls['clearing of workspace'] = controller.importToolboxFromTree_(
+      Blockly.Xml.textToDom(controller.toolboxList[controller.currentToolbox]));
+
+  for (let key in empty_xmls) {
+    assertTrue('FAILED: this.isEmptyToolbox() returned false when there was ' + key + '.',
+        controller.isEmptyToolbox(empty_xmls[key]));
+  }
+
+  // Confirm that non-empty toolboxes return false.
+  let nonempty_xmls = {
+    'words in between': '<xml>Hello</xml>'
+  };
+
+  nonempty_xmls['a full toolbox'] =
+      '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">' +
+        '<block type="math_arithmetic">' +
+          '<field name="OP">ADD</field>' +
+          '<value name="A">' +
+            '<shadow type="math_number">' +
+              '<field name="NUM">1</field>' +
+            '</shadow>' +
+          '</value>' +
+          '<value name="B">' +
+            '<shadow type="math_number">' +
+              '<field name="NUM">1</field>' +
+            '</shadow>' +
+          '</value>' +
+        '</block>' +
+      '</xml>';
+
+  for (let key in nonempty_xmls) {
+    assertTrue('FAILED: this.isEmptyToolbox() returned true when there was ' + key + '.',
+        controller.isEmptyToolbox(nonempty_xmls[key]));
+  }
+}
+
+/**
+ * WorkspaceFactoryController.addToolbox() test. Goes through the back-end motions
+ * of adding a new toolbox to list of toolboxes, making sure every step is
+ * correctly executed.
+ */
+function test_addToolbox() {
+  let controller = new WorkspaceFactoryController('null', 'null', 'null');
+
+  // Making sure initial toolbox is an empty toolbox.
+  assertTrue('FAILED: Toolbox is not empty upon init.',
+      controller.isEmptyToolbox(controller.currentToolbox));
+
+  // Checking that no extra toolboxes are accidentally created/added upon init.
+  assertEquals('FAILED: controller.toolboxList has ' + len(controller) + ' elements.',
+      1, len(controller));
+
+  // Showing a toolbox should only be for preexisting toolbox names.
+  assertFalse('FAILED: Showing a toolbox that does not exist.',
+      controller.showToolbox('NonToolbox'));
+
+  // Renaming toolbox should be succesful.
+  assertTrue('',
+      controller.renameToolbox('', 'blockly'));
+
+  // Adding XML to sample toolbox called 'blockly'.
+  controller.toolboxList['blockly'] =
+      '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">' +
+        '<block type="math_arithmetic">' +
+          '<field name="OP">ADD</field>' +
+          '<value name="A">' +
+            '<shadow type="math_number">' +
+              '<field name="NUM">1</field>' +
+            '</shadow>' +
+          '</value>' +
+          '<value name="B">' +
+            '<shadow type="math_number">' +
+              '<field name="NUM">1</field>' +
+            '</shadow>' +
+          '</value>' +
+        '</block>' +
+      '</xml>';
+
+
+  assertFalse(controller.renameToolbox('NonToolbox', 'A Toolbox'));
+  assertTrue(1, len(controller));
+  assertTrue(controller.renameToolbox('A Toolbox', 'Another Toolbox'));
+  assertTrue(1, len(controller));
+}
+
+/**
+ * Returns how many toolboxes are saved into the controller.
+ */
+function len(controller) {
+  return controller.toolboxList.length;
+}
