@@ -6,8 +6,9 @@
     <script src="../lib/blockly_compressed.js"></script>
     <script src="../closure-library/closure/goog/base.js"></script>
     <script src="../src/factory_utils.js"></script>
-    <!--script src="../src/workspacefactory/wfactory_model.js"></script>
-    <script src="../src/standard_categories.js"></script-->
+    <script src="../src/workspacefactory/wfactory_model.js"></script>
+    <script src="../src/workspacefactory/wfactory_view.js"></script>
+    <script src="../src/standard_categories.js"></script>
     <script src="../src/workspacefactory/wfactory_controller.js"></script>
     <script src="../src/workspacefactory/wfactory_generator.js"></script>
     <script>goog.require('goog.testing.jsunit');</script>
@@ -15,4 +16,8 @@
   <body>
     <script src="wfactory_input_test.js"></script>
   </body>
+  <div style="display:none;">
+    <div id="toolboxDiv"></div>
+    <div id="previewDiv"></div>
+  </div>
 </html>

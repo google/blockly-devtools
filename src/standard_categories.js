@@ -34,6 +34,7 @@
  */
 goog.provide('StandardCategories');
 
+
 // Map of standard category information necessary to add a standard category
 // to the toolbox.
 StandardCategories.categoryMap = Object.create(null);

@@ -38,6 +38,7 @@
  goog.require('FactoryUtils');
  goog.require('StandardCategories');
 
+
 /**
  * Class for a WorkspaceFactoryController
  * @param {string} toolboxName Name of workspace toolbox XML.
@@ -158,15 +159,28 @@ WorkspaceFactoryController.prototype.saveToolbox = function() {
 
 /**
  * Returns true if XML string of given toolbox contains no blocks nor
- * categories.
+ * categories. A toolbox is considered empty if and only if the XML string contains
+ * only the opening and closing xml tags (with or without attributes) (e.g.
+ * '<xml></xml>' or '<xml id=""></xml>', etc.), and if there is only whitespace
+ * between the xml tags (and no alphanumeric/symbol values).
  *
  * @param {string} xml XML String to be compared.
  * @returns {boolean} If toolbox is empty.
  */
 WorkspaceFactoryController.prototype.isEmptyToolbox = function(xml) {
-  return xml ===
-      '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;"></xml>' ||
-      xml === '<xml></xml>';
+  try {
+    let noExtraCloseBracket = xml.match(/>/g).length == 2;
+    let noExtraOpenBracket = xml.match(/</g).length == 2;
+    let whitespace = />( |\n)*</g;
+    let onlyWhitepsaceBetweenBracket = whitespace.test(xml);
+    return (noExtraCloseBracket || false) &&
+        (noExtraOpenBracket || false) &&
+        (onlyWhitepsaceBetweenBracket || false);
+  } catch (e) {
+    // If null pointer exception (or other errors), there are no matches
+    // and we consider the toolbox not empty.
+    return false;
+  }
 };
 
 /**
