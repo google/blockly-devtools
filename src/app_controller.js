@@ -80,8 +80,6 @@ AppController = function() {
   // initialize tree for AppView
   this.view.setLibraryTree(this.blockLibraryController);
 
-  //give instance of tree to library
-  this.blockLibraryController.setTree(this.view.navTree);
 };
 
 // Constant values representing the three tabs in the controller.
@@ -479,25 +477,29 @@ AppController.prototype.ifCheckedEnable = function(enabled, idArray) {
  * Assign button click handlers for the block library.
  */
 AppController.prototype.assignLibraryClickHandlers = function() {
-  var self = this;
-
   // Button for saving block to library.
   document.getElementById('saveToBlockLibraryButton').addEventListener('click',
-      function() {
-        self.blockLibraryController.saveToBlockLibrary();
+      () => {
+        if (this.blockLibraryController.saveToBlockLibrary()) {
+          this.view.addBlockToTree();
+        }
       });
 
   // Button for removing selected block from library.
   document.getElementById('removeBlockFromLibraryButton').addEventListener(
     'click',
-      function() {
-        self.blockLibraryController.removeFromBlockLibrary();
+      () => {
+        if (this.blockLibraryController.removeFromBlockLibrary()) {
+          this.view.removeBlockFromTree();
+        }
       });
 
   // Button for clearing the block library.
   document.getElementById('clearBlockLibraryButton').addEventListener('click',
-      function() {
-        self.blockLibraryController.clearBlockLibrary();
+      () => {
+        if (this.blockLibraryController.clearBlockLibrary()) {
+          this.view.clearLibraryFromTree();
+        }
       });
 };
 

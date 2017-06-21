@@ -55,16 +55,6 @@ BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
   // the block library dropdown.
   this.view = new BlockLibraryView();
 
-  this.tree = null;
-};
-
-/**
- * Assigns a tree instance such that the navigation tree will be edited
- * with changes to block storage
- * @param {!JSTree} tree the main navigation tree
- */
-BlockLibraryController.prototype.setTree = function(tree) {
-  this.tree = tree;
 };
 
 /**
@@ -83,13 +73,14 @@ BlockLibraryController.prototype.getCurrentBlockType = function() {
  * Removes current block from Block Library and updates the save and delete
  * buttons so that user may save block to library and but not delete.
  * @param {string} blockType Type of block.
+ * @return {Boolean} sucess of operation (for use in appController listeners)
  */
 BlockLibraryController.prototype.removeFromBlockLibrary = function() {
   var blockType = this.getCurrentBlockType();
   this.storage.removeBlock(blockType);
   this.storage.saveToLocalStorage();
   this.view.updateButtons(blockType, false, false);
-  this.tree.deleteBlockNode(blockType);
+  return true;
 };
 
 /**
@@ -119,6 +110,7 @@ BlockLibraryController.prototype.getSelectedBlockType = function() {
 /**
  * Confirms with user before clearing the block library in local storage and
  * updating the dropdown and displaying the starter block (factory_base).
+ * @return {Boolean} sucess of operation (for use in appController listeners)
  */
 BlockLibraryController.prototype.clearBlockLibrary = function() {
   var check = confirm('Delete all blocks from library?');
@@ -134,14 +126,13 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     // upon clicking the red save button.
     this.view.updateButtons(null);
 
-    // clear the tree
-    this.tree.clearLibrary();
-
+    return true;
   }
 };
 
 /**
- * Saves current block to local storage and updates dropdown.
+ * Saves given or current block to local storage and updates dropdown.
+ * @return {Boolean} sucess of operation (for use in appController listeners)
  */
 BlockLibraryController.prototype.saveToBlockLibrary = function() {
   var blockType = this.getCurrentBlockType();
@@ -159,11 +150,6 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
   var block = FactoryUtils.getRootBlock(BlockFactory.mainWorkspace);
   xmlElement.appendChild(Blockly.Xml.blockToDomWithXY(block));
 
-  // Do not add node again if block type is already in library.
-  if (!this.has(blockType)) {
-    this.tree.addBlockNode(blockType);
-  }
-
   // Save block.
   this.storage.addBlock(blockType, xmlElement);
   this.storage.saveToLocalStorage();
@@ -174,6 +160,7 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
 
   // Add select handler to the new option.
   this.addOptionSelectHandler(blockType);
+  return true;
 };
 
 /**

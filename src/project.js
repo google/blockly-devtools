@@ -43,6 +43,7 @@
 	  */
 	  constructor(projectName, opt_libraryController, opt_toolbox,
 	  	opt_workspace_blocks) {
+	  	this.projectName = projectName;
 	  	this.libraries = opt_libraryControllers | new Object();
 	  	this.toolboxes = opt_toolboxes | new Object();
 	  	this.workspaceBlocks = opt_workspace_blocks | new Object();
@@ -52,7 +53,7 @@
 	   * Returns an array of all blocks in the project.
 	   * @return {!Array.<string>} array of all blockTypes.
 	   */
-	   getProjectBlocks() {
+	   getBlocks() {
 	   	var libraryName;
 	   	var numLibraries = 0;
 	   	var libraries = Object.keys(this.libraries);
@@ -67,6 +68,79 @@
 	   }
 
 	   /**
-	    *
+	    * Returns an array of all BlockLibraryController names (for storage).
+	    * @return {!Array.<string>} array of all library names
 	    */
+	    getLibraryNames() {
+	    	return Object.keys(this.libraries);
+	    }
+
+	   /**
+	    * Returns an array of all toolbox names (for storage).
+	    * @return {!Array.<string>} array of all toolbox names
+	    */
+	    getToolboxNames() {
+	    	return Object.keys(this.toolboxes);
+	    }
+
+	   /**
+	    * Returns an array of all workspace names (for storage).
+	    * @return {!Array.<string>} array of all workspace names
+	    */
+	    getWorkspaceNames() {
+	    	return Object.keys(this.workspaces);
+	    }
+
+	   /**
+	    * Sets the current library name, which cooresponds to a library in
+	    *   this.libraries.
+	    * @param {string} libraryName the name of the library to be set
+	    */
+	    setCurrentLibraryName(libraryName) {
+	    	this.currentLibrary = libraryName;
+	    }
+
+	   /**
+	    * Sets the current toolbox name, which cooresponds to toolbox in
+	    *   this.toolboxes.
+	    * @param {string} toolboxName the name of the current toolbox
+	    */
+	    setCurrentToolboxName(toolboxName) {
+	    	this.currentToolbox = toolboxName;
+	    }
+
+	   /**
+	    * Sets the current workspace name, which cooresponds to a workspace in
+	    *   this.workspaces.
+	    * @param {string} workspaceName the name of the current workspace
+	    */
+	    setCurrentWorkspaceName(workspaceName) {
+	    	this.currentWorkspace = workspaceName;
+	    }
+
+	   /**
+	    * Adds a library to the project.
+	    * @param {!BlockLibraryController} library the library to be added
+	    */
+	    addLibrary(library) {
+
+	    }
+
+	   /**
+	    * Adds a toolbox to the project.
+	    * @param {!Toolbox} toolbox the toolbox to be added
+	    */
+	    addToolbox(toolbox) {
+	    	//TODO: fill in action
+	    }
+
+	   /**
+	    * Adds a workspace to the project.
+	    * @return {!Workspace} workspace the workspace to be added
+	    */
+	    addWorkspace(workspace) {
+
+	    }
+
+
  }

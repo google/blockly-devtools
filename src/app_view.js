@@ -77,6 +77,8 @@ class AppView {
     this.mainMenu = new nw.Menu({type: 'menubar'});
     this.initMenuTree(this.mainMenu, this.menuTree);
     this.win.menu = this.mainMenu;
+
+    this.navTree = null;
   }
 
   /**
@@ -247,4 +249,31 @@ class AppView {
   enableMenuItem(label, enable) {
     this.menuItems[label].enabled = enable;
   }
+
+  /**
+   * Removes a block from the navigation tree.
+   */
+  removeBlockFromTree() {
+    var currentBlockType =
+      this.appController.blockLibraryController.getCurrentBlockType();
+    this.navTree.deleteBlockNode(currentBlockType);
+  }
+
+  /**
+   * Adds a block to the navigation tree.
+   */
+  addBlockToTree() {
+    var currentBlockType =
+      this.appController.blockLibraryController.getCurrentBlockType();
+    this.navTree.addBlockNode(currentBlockType);
+  }
+
+  /**
+   * Removes a library from the navigation tree.
+   */
+  clearLibraryFromTree() {
+    this.navTree.clearLibrary();
+  }
+
+
 }
