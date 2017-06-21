@@ -107,44 +107,21 @@ WorkspaceFactoryController.MODE_PRELOAD = 'PRELOAD';
 WorkspaceFactoryController.MODE_JS = 'javascript';
 WorkspaceFactoryController.MODE_XML = 'xml';
 
-/**
- * Creates a new toolbox.
- */
-WorkspaceFactoryController.prototype.onAddToolbox = function() {
-  console.log("Add toolbox called!");
-  let safeToAdd = true;
-
-  // If first toolbox
-  if (this.currentToolbox === '') {
-    let tbName = prompt('Default toolbox has no name, please name your first toolbox.', 'Default');
-    safeToAdd = this.renameToolbox(this.currentToolbox, tbName);
-
-    if (safeToAdd) {
-      delete this.toolboxList[''];
+WorkspaceFactoryController.prototype.newToolbox = function() {
+  let prevToolbox = this.currentToolbox;
+  console.log("About to create new toolbox. Current is " + prevToolbox + ".");
+  // Make sure previous toolbox has been saved.
+  if (this.saveToolbox()) {
+    this.currentToolbox = '';
+    let proceed = this.renameToolbox(this.currentToolbox, prompt('Name your new toolbox.'));
+    if (proceed) {
+      this.toolboxList[this.currentToolbox] = '<xml></xml>';
+      this.showToolbox(this.currentToolbox);
+    } else {
+      this.currentToolbox = prevToolbox;
     }
   }
-
-  if (safeToAdd) {
-    // Saves into current toolbox key the toolbox XML currently displayed.
-    this.saveToolbox();
-    console.log('Default toolbox name: ' + this.currentToolbox);
-    console.log('Toolbox xml, saved: ' + this.toolboxList[this.currentToolbox]);
-  }
-};
-
-WorkspaceFactoryController.prototype.newToolbox = function() {
-  // If toolbox is empty, then confirm whether to make new.
-  // if (this.isEmptyToolbox(toolboxXml)) {
-  //   proceed = proceed && confirm('Your toolbox is empty. Are you sure you want to proceed?');
-  // }
-
-  // Make sure previous toolbox has been saved.
-  if (this.saveToolbox() && this.renameToolbox(this.currentToolbox, prompt('Name your toolbox.'))) {
-    this.clearAll(false);
-
-    this.toolboxList[''] = '<xml></xml>';
-    this.showToolbox('');
-  }
+  console.log("New toolbox created. New toolbox name is " + this.currentToolbox);
 };
 
 /**
@@ -157,6 +134,7 @@ WorkspaceFactoryController.prototype.showToolbox = function(name) {
   this.clearAll(false);
   // Change currentToolbox pointer
   this.currentToolbox = name;
+  console.log("Showing " + name);
   // Display new toolbox.
   this.importToolboxFromTree_(
       Blockly.Xml.textToDom(this.toolboxList[this.currentToolbox]));
@@ -178,6 +156,13 @@ WorkspaceFactoryController.prototype.saveToolbox = function() {
   if (this.currentToolbox === '' && !this.isEmptyToolbox(toolboxXml)) {
     proceed = proceed && this.renameToolbox('', prompt('Your current toolbox is not ' +
         'saved. Please provide a toolbox name.'));
+  }
+
+  if (proceed) {
+    this.toolboxList[this.currentToolbox] = toolboxXml;
+    console.log("Successfully saved toolbox, " + this.currentToolbox + ".");
+    console.log("this.toolboxList after saving: ");
+    console.log(this.toolboxList);
   }
 
   return proceed;
@@ -206,16 +191,35 @@ WorkspaceFactoryController.prototype.isEmptyToolbox = function(xml) {
 WorkspaceFactoryController.prototype.renameToolbox = function(originalName, newName) {
   // If user does not give valid input, do not change the name. Warn user.
   if (newName === null) {
+    console.log("Rename from " + originalName + " to " + newName + " failed. newName is null.");
     return false;
   } else if (newName.trim() === '') {
+    console.log("Rename from " + originalName + " to " + newName + " failed. Asked for rename.");
     return this.renameToolbox(originalName, prompt('Invalid name. Please rename.'));
+  } else if (this.toolboxNameIsTaken(newName)) {
+    console.log("Rename from " + originalName + " to " + newName + " failed. Name already exists.");
+    if (confirm('A toolbox already exists under this name. Would you like to ' +
+        'replace it?')) {
+      delete this.toolboxList[newName];
+      return this.renameToolbox(originalName, newName);
+    } else {
+      return false;
+    }
   }
 
   newName = newName.trim();
   this.currentToolbox = FactoryUtils.addEscape(newName);
+  delete this.toolboxList[originalName];
   this.toolboxList[this.currentToolbox] = Blockly.Xml.domToPrettyText(
         this.generator.generateToolboxXml());
+  console.log("Renamed " + originalName + " to " + newName + " successfully.");
+  console.log("New this.toolboxList: ");
+  console.log(this.toolboxList);
   return true;
+};
+
+WorkspaceFactoryController.prototype.toolboxNameIsTaken = function(name) {
+  return this.toolboxList[name] !== undefined;
 };
 
 /**
@@ -516,6 +520,59 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
   // Download file.
   var data = new Blob([configJs], {type: 'text/javascript'});
   this.view.createAndDownloadFile(fileName + '.js', data);
+};
+
+/**
+ * Tied to "Export" button. Gets multiple file names from user to download
+ * all toolboxes defined within application. Downloads as XML file.
+ *
+ * @param {string} exportMode Component of project being exported; either
+ *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
+ *     (WorkspaceFactoryController.MODE_PRELOAD).
+ */
+WorkspaceFactoryController.prototype.exportAllXml = function(exportMode) {
+  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
+    for (let key in this.toolboxList) {
+      // Download file.
+      var data = new Blob([this.toolboxList[key]], {type: 'text/xml'});
+      this.view.createAndDownloadFile(key + '.xml', data);
+    }
+  } else if (exportMode == WorkspaceFactoryController.MODE_PRELOAD) {
+    // TODO: Allow multiple workspaces to be created and downloaded.
+  } else {
+    // Unknown mode. Throw error.
+    throw new Error ("Unknown export mode: " + exportMode);
+  }
+};
+
+/**
+ * Tied to "Export" button. Gets multiple file names from user to download
+ * all toolboxes defined within application. Downloads as JavaScript file.
+ *
+ * @param {string} exportMode Component of project being exported; either
+ *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
+ *     (WorkspaceFactoryController.MODE_PRELOAD).
+ */
+WorkspaceFactoryController.prototype.exportAllJs = function(exportMode) {
+  console.log('this.toolboxList: ' + this.toolboxList);
+  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
+    for (let key in this.toolboxList) {
+      console.log('Current key: ' + key);
+      // Generate JS.
+      let configJs = this.generator.generateJsFromXml(this.toolboxList[key],
+          key,
+          exportMode);
+
+      // Download file.
+      var data = new Blob([configJs], {type: 'text/javascript'});
+      this.view.createAndDownloadFile(key + '.js', data);
+    }
+  } else if (exportMode == WorkspaceFactoryController.MODE_PRELOAD) {
+    // TODO: Allow multiple workspaces to be created and downloaded.
+  } else {
+    // Unknown mode. Throw error.
+    throw new Error ("Unknown export mode: " + exportMode);
+  }
 };
 
 /**
@@ -1082,12 +1139,12 @@ WorkspaceFactoryController.prototype.importPreloadFromTree_ = function(tree) {
  * blocks in the model and view and all pre-loaded blocks. Tied to the
  * "Clear" button.
  *
- * @param {boolean} confirm Whether user should first confirm before clearing
+ * @param {boolean} conf Whether user should first confirm before clearing
  *     workspace.
  */
-WorkspaceFactoryController.prototype.clearAll = function(confirm) {
-  if (confirm && !confirm('Are you sure you want to clear all of your work in Workspace' +
-      ' Factory?')) {
+WorkspaceFactoryController.prototype.clearAll = function(conf) {
+  if (conf && !confirm('Are you sure you want to clear all of your work in Workspace' +
+        ' Factory?')) {
     return;
   }
   var hasCategories = this.model.hasElements();

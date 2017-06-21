@@ -247,6 +247,18 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
         controller.exportJsFile(WorkspaceFactoryController.MODE_TOOLBOX);
         blocklyFactory.closeModal();
       });
+  document.getElementById('dropdown_exportAllToolboxXML').addEventListener
+      ('click',
+      function() {
+        controller.exportAllXml(WorkspaceFactoryController.MODE_TOOLBOX);
+        blocklyFactory.closeModal();
+      });
+  document.getElementById('dropdown_exportAllToolboxJS').addEventListener
+      ('click',
+      function() {
+        controller.exportAllJs(WorkspaceFactoryController.MODE_TOOLBOX);
+        blocklyFactory.closeModal();
+      });
   document.getElementById('dropdown_exportPreloadXML').addEventListener
       ('click',
       function() {
