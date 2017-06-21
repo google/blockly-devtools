@@ -247,5 +247,4 @@ class AppView {
   enableMenuItem(label, enable) {
     this.menuItems[label].enabled = enable;
   }
-
 }
