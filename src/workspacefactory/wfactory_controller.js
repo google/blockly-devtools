@@ -38,7 +38,6 @@
  goog.require('FactoryUtils');
  goog.require('StandardCategories');
 
-
 /**
  * Class for a WorkspaceFactoryController
  * @param {string} toolboxName Name of workspace toolbox XML.
@@ -46,7 +45,7 @@
  * @param {string} previewDiv Name of div to inject preview workspace in.
  * @constructor
  */
-WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
+function WorkspaceFactoryController(toolboxName, toolboxDiv, previewDiv) {
   // Toolbox XML element for the editing workspace.
   this.toolbox = document.getElementById(toolboxName);
   // Dictionary of toolboxes. Has at least one (default) toolbox.
@@ -95,7 +94,7 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
   this.hasUnsavedToolboxChanges = false;
   // True if there are unsaved changes in the preloaded blocks, false otherwise.
   this.hasUnsavedPreloadChanges = false;
-};
+}
 
 // Toolbox editing mode. Changes the user makes to the workspace updates the
 // toolbox.
