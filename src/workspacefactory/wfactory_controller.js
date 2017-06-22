@@ -49,10 +49,6 @@
 function WorkspaceFactoryController(toolboxName, toolboxDiv, previewDiv) {
   // Toolbox XML element for the editing workspace.
   this.toolbox = document.getElementById(toolboxName);
-  // Dictionary of toolboxes. Has at least one (default) toolbox.
-  this.toolboxList = {
-    '': '<xml></xml>'
-  };
   // Currently displayed toolbox.
   this.currentToolbox = '';
 
@@ -128,20 +124,6 @@ WorkspaceFactoryController.prototype.saveToolbox = function() {
 };
 
 /**
- * Returns true if XML string of given toolbox contains no blocks nor
- * categories. A toolbox is considered empty if and only if the XML string contains
- * only the opening and closing xml tags (with or without attributes) (e.g.
- * '<xml></xml>' or '<xml id=""></xml>', etc.), and if there is only whitespace
- * between the xml tags (and no alphanumeric/symbol values).
- *
- * @param {string} xml XML String to be compared.
- * @returns {boolean} If toolbox is empty.
- */
-WorkspaceFactoryController.prototype.isEmptyToolbox = function(xml) {
-  // TODO: implement
-};
-
-/**
  * Changes view to display a different or new toolbox to edit.
  *
  * @param {string} name Name of toolbox to display.
@@ -166,13 +148,7 @@ WorkspaceFactoryController.prototype.renameToolbox = function(originalName, newN
   // TODO: implement
 };
 
-/**
- * Indicates whether a given toolbox name is already taken (i.e. user has already
- * previously named a toolbox under that given name).
- */
-WorkspaceFactoryController.prototype.toolboxNameIsTaken = function(name) {
-  // TODO: implement
-};
+
 
 /**
  * Currently prompts the user for a name, checking that it's valid (not used
@@ -476,55 +452,30 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
 
 /**
  * Tied to "Export" button. Gets multiple file names from user to download
- * all toolboxes defined within application. Downloads as XML file.
+ * all toolboxes defined within application. Downloads as XML files. Prompts
+ * user n number of times for n toolboxes in file (will be updated to more
+ * efficient method later).
  *
  * @param {string} exportMode Component of project being exported; either
  *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
  *     (WorkspaceFactoryController.MODE_PRELOAD).
  */
 WorkspaceFactoryController.prototype.exportAllXml = function(exportMode) {
-  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
-    for (let key in this.toolboxList) {
-      // Download file.
-      var data = new Blob([this.toolboxList[key]], {type: 'text/xml'});
-      this.view.createAndDownloadFile(key + '.xml', data);
-    }
-  } else if (exportMode == WorkspaceFactoryController.MODE_PRELOAD) {
-    // TODO: Allow multiple workspaces to be created and downloaded.
-  } else {
-    // Unknown mode. Throw error.
-    throw new Error ("Unknown export mode: " + exportMode);
-  }
+  // TODO: implement
 };
 
 /**
  * Tied to "Export" button. Gets multiple file names from user to download
  * all toolboxes defined within application. Downloads as JavaScript file.
+ * Prompts the user n number of times for n toolboxes in file (will be updated
+ * to more efficient method later).
  *
  * @param {string} exportMode Component of project being exported; either
  *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
  *     (WorkspaceFactoryController.MODE_PRELOAD).
  */
 WorkspaceFactoryController.prototype.exportAllJs = function(exportMode) {
-  console.log('this.toolboxList: ' + this.toolboxList);
-  if (exportMode == WorkspaceFactoryController.MODE_TOOLBOX) {
-    for (let key in this.toolboxList) {
-      console.log('Current key: ' + key);
-      // Generate JS.
-      let configJs = this.generator.generateJsFromXml(this.toolboxList[key],
-          key,
-          exportMode);
-
-      // Download file.
-      var data = new Blob([configJs], {type: 'text/javascript'});
-      this.view.createAndDownloadFile(key + '.js', data);
-    }
-  } else if (exportMode == WorkspaceFactoryController.MODE_PRELOAD) {
-    // TODO: Allow multiple workspaces to be created and downloaded.
-  } else {
-    // Unknown mode. Throw error.
-    throw new Error ("Unknown export mode: " + exportMode);
-  }
+  // TODO: implement
 };
 
 /**

@@ -239,10 +239,52 @@ function test_showToolbox() {
 }
 
 /**
- * Tests uploading new toolboxes from user's file system. If
+ * Tests process of importing a toolbox as JS file, then storing it into list of
+ * defined toolboxes with the proper name.
  */
-function test_something() {
+function test_importToolboxJs() {
+  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
 
+  // Hard code a file (a string representing JS file).
+  let readerFile = `
+// If BLOCKLY_TOOLBOX_XML does not exist.
+if (!BLOCKLY_TOOLBOX_XML) {
+  BLOCKLY_TOOLBOX_XML = {};
+}
+
+/* BEGINNING BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+BLOCKLY_TOOLBOX_XML['swag'] =
+    '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">' +
+      '<block type="math_arithmetic">' +
+        '<field name="OP">ADD</field>' +
+        '<value name="A">' +
+          '<shadow type="math_number">' +
+            '<field name="NUM">1</field>' +
+          '</shadow>' +
+        '</value>' +
+        '<value name="B">' +
+          '<shadow type="math_number">' +
+            '<field name="NUM">1</field>' +
+          '</shadow>' +
+        '</value>' +
+      '</block>' +
+    '</xml>';
+/* END BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. */
+`;
+
+  // Use functions to extract the toolbox name, store.
+  let toolboxName = controller.generator.loadXml(
+        readerFile, WorkspaceFactoryController.MODE_TOOLBOX);
+
+  // Use functions to extract the XML string, store.
+  controller.toolboxList = {}; // TODO: left off here
+  controller.importToolboxFromTree_(
+      Blockly.Xml.textToDom(
+        this.generator.BLOCKLY_TOOLBOX_XML[toolboxName]));
+
+  // Show toolbox.
+  // Assert that the XML retrieved from the view is equal to the XML stored into
+  //    the dictionary of defined toolboxes.
 }
 
 /**

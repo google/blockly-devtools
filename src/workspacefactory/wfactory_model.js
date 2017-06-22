@@ -57,8 +57,42 @@ WorkspaceFactoryModel = function() {
   this.libBlockTypes = [];
   // Imported block types.
   this.importedBlockTypes = [];
-  //
+  // Dictionary of toolboxes. Has at least one (default) toolbox.
+  this.toolboxList = {
+    '': '<xml></xml>'
+  };
 };
+
+// TOOLBOX METHODS.
+// TODO(#44): Refactor code to separate file.
+
+/**
+ * Creates a new toolbox for users to modify and edit.
+ */
+WorkspaceFactoryModel.prototype.newToolbox = function(name) {
+  // TODO: Implement.
+};
+
+/**
+ *
+ */
+WorkspaceFactoryModel.prototype.checkIfSaved = function() {
+  // TODO: Implement.
+};
+
+/**
+ *
+ */
+WorkspaceFactoryModel.prototype.updateToolbox = function(name) {
+  // TODO: Implement.
+}
+
+/**
+ *
+ */
+WorkspaceFactoryModel.prototype.renameToolbox = function(oldName, newName) {
+  // TODO: Implement.
+}
 
 /**
  * Given a name, determines if it is the name of a category already present.
