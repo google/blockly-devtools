@@ -507,7 +507,6 @@ AppController.prototype.assignLibraryClickHandlers = function() {
  * Assign button click handlers for the block factory.
  */
 AppController.prototype.assignBlockFactoryClickHandlers = function() {
-  var self = this;
   // Assign button event handlers for Block Factory.
   document.getElementById('localSaveButton')
       .addEventListener('click', function() {
@@ -538,7 +537,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
       var proceedWithUnsavedChanges =
-          self.blockLibraryController.warnIfUnsavedChanges();
+          this.blockLibraryController.warnIfUnsavedChanges();
       if (!proceedWithUnsavedChanges) {
         return;
       }
@@ -546,7 +545,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       this.createBlocklyInitPopup(false);
 
       // Close the Block Library Dropdown.
-      self.closeModal();
+      this.closeModal();
     });
 };
 
