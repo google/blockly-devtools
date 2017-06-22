@@ -147,15 +147,12 @@ function test_isEmptyToolbox() {
 }
 
 /**
- * WorkspaceFactoryController.addToolbox() test. Goes through the back-end motions
- * of adding a new toolbox to list of toolboxes, making sure every step is
- * correctly executed.
+ * Tests various toolbox functions in WorkspaceFactoryController. Goes through
+ * the back-end motions of adding a new toolbox to list of toolboxes, making sure
+ * every step (other function calls) is correctly executed.
  */
-function test_addToolbox() {
-  console.log('test_addToolbox started.');
-  let controller = new WorkspaceFactoryController('hi', 'toolboxDiv', 'previewDiv');
-
-  console.log('Hi');
+function test_toolboxFunctions() {
+  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
 
   // Making sure initial toolbox is an empty toolbox.
   assertTrue('FAILED: Toolbox is not empty upon init.',
@@ -191,11 +188,61 @@ function test_addToolbox() {
         '</block>' +
       '</xml>';
 
-
+  // Make sure that trying to rename a toolbox that DNE does not work.
   assertFalse(controller.renameToolbox('NonToolbox', 'A Toolbox'));
+  // Assert that no toolboxes have been accidentally added in the process.
   assertTrue(1, len(controller));
+
+  // Make sure that trying to rename a toolbox that does exists, works.
   assertTrue(controller.renameToolbox('A Toolbox', 'Another Toolbox'));
+  // Assert that no toolboxes have been accidentally added in the process.
   assertTrue(1, len(controller));
+}
+
+/**
+ * Tests WorkspaceFactoryController.showToolbox(). Used for showing toolboxes
+ * onto workspace. Makes sure that the back-end storage of toolbox XML matches
+ * with the toolbox displayed on page.
+ */
+function test_showToolbox() {
+  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
+
+  // Hard-code in a new toolbox.
+  controller.currentToolbox = 'New_toolbox';
+  controller.toolboxList[controller.currentToolbox] =
+      '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">' +
+        '<block type="math_arithmetic">' +
+          '<field name="OP">ADD</field>' +
+          '<value name="A">' +
+            '<shadow type="math_number">' +
+              '<field name="NUM">1</field>' +
+            '</shadow>' +
+          '</value>' +
+          '<value name="B">' +
+            '<shadow type="math_number">' +
+              '<field name="NUM">1</field>' +
+            '</shadow>' +
+          '</value>' +
+        '</block>' +
+      '</xml>';
+
+  // Show toolbox.
+  controller.showToolbox(New_toolbox);
+
+  // Toolbox retrieved from workspace should be equal to saved XML.
+  let actual = Blockly.Xml.domToPrettyText
+      (this.generator.generateToolboxXml());
+  let expected = controller.toolboxList[controller.currentToolbox];
+
+  assertEquals('FAILED: showToolbox() is displaying a different toolbox than expected.',
+      expected, actual);
+}
+
+/**
+ * Tests uploading new toolboxes from user's file system. If
+ */
+function test_something() {
+
 }
 
 /**
@@ -203,8 +250,6 @@ function test_addToolbox() {
  */
 function len(controller) {
   let listSize = 0;
-  console.log('toolboxList:');
-  console.log(controller.toolboxList);
   for (let key in controller.toolboxList) {
     listSize += 1;
   }
