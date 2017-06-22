@@ -68,6 +68,8 @@ WorkspaceFactoryModel = function() {
 
 /**
  * Creates a new toolbox for users to modify and edit.
+ *
+ * @param {string} name Name of new toolbox to add.
  */
 WorkspaceFactoryModel.prototype.addToolbox = function(name) {
   // TODO: Implement.
@@ -86,9 +88,12 @@ WorkspaceFactoryModel.prototype.ifNamedToolbox = function() {
  * Updates XML string stored under given toolbox name. XML string
  * retrieved from current workspace.
  *
+ * @param {string} name Name of toolbox to update workspace XML into.
+ * @param {string} xml String representation of XML to be stored into
+ *    toolboxList[name].
  * @returns {boolean} If updated successfully.
  */
-WorkspaceFactoryModel.prototype.updateToolbox = function(name) {
+WorkspaceFactoryModel.prototype.updateToolbox = function(name, xml) {
   // TODO: Implement.
 };
 

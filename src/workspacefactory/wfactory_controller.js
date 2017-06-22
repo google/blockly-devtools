@@ -54,6 +54,21 @@ function WorkspaceFactoryController(toolboxName, toolboxDiv, previewDiv) {
   // to rename this once they create multiple toolboxes.
   this.currentToolbox = '';
 
+  // Model to keep track of categories and blocks.
+  this.model = new WorkspaceFactoryModel();
+  // Updates the category tabs.
+  this.view = new WorkspaceFactoryView();
+  // Generates XML for categories.
+  this.generator = new WorkspaceFactoryGenerator(this.model);
+  // Tracks which editing mode the user is in. Toolbox mode on start.
+  this.selectedMode = WorkspaceFactoryController.MODE_TOOLBOX;
+  // True if key events are enabled, false otherwise.
+  this.keyEventsEnabled = true;
+  // True if there are unsaved changes in the toolbox, false otherwise.
+  this.hasUnsavedToolboxChanges = false;
+  // True if there are unsaved changes in the preloaded blocks, false otherwise.
+  this.hasUnsavedPreloadChanges = false;
+
   // Workspace for user to drag blocks in for a certain category.
   this.toolboxWorkspace = Blockly.inject(toolboxDiv,
     {grid:
@@ -73,26 +88,11 @@ function WorkspaceFactoryController(toolboxName, toolboxDiv, previewDiv) {
        colour: '#ccc',
        snap: true},
      media: 'media/',
-     toolbox: this.toolboxList[this.currentToolbox],
+     toolbox: this.model.toolboxList[this.currentToolbox],
      zoom:
        {controls: true,
         wheel: true}
     });
-
-  // Model to keep track of categories and blocks.
-  this.model = new WorkspaceFactoryModel();
-  // Updates the category tabs.
-  this.view = new WorkspaceFactoryView();
-  // Generates XML for categories.
-  this.generator = new WorkspaceFactoryGenerator(this.model);
-  // Tracks which editing mode the user is in. Toolbox mode on start.
-  this.selectedMode = WorkspaceFactoryController.MODE_TOOLBOX;
-  // True if key events are enabled, false otherwise.
-  this.keyEventsEnabled = true;
-  // True if there are unsaved changes in the toolbox, false otherwise.
-  this.hasUnsavedToolboxChanges = false;
-  // True if there are unsaved changes in the preloaded blocks, false otherwise.
-  this.hasUnsavedPreloadChanges = false;
 }
 
 // Toolbox editing mode. Changes the user makes to the workspace updates the

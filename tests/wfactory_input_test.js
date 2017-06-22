@@ -96,6 +96,10 @@ function test_evaluateMarkedCode() {
   assertTrue(test_evaluateMarkedCode.passedTest);
 }
 
+/**
+ * Tests whether the default toolbox is properly loaded and displayed upon opening
+ * DevTools.
+ */
 function test_toolboxInit() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
@@ -130,6 +134,10 @@ function test_addToolbox() {
       model.isEmptyToolbox(model.toolboxList['test']));
 }
 
+/**
+ * Tests if WorkspaceFactoryModel.ifNamedToolbox() can properly recognize the
+ * default toolbox (the empty string).
+ */
 function test_ifNamedToolbox() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
@@ -153,6 +161,10 @@ function test_ifNamedToolbox() {
       model.ifNamedToolbox());
 }
 
+/**
+ * Tests if WorkspaceFactoryModel.renameToolbox() can properly rename toolboxes
+ * and reject names when they are not valid.
+ */
 function test_renameToolbox() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
@@ -196,6 +208,10 @@ function test_renameToolbox() {
       numToolboxes, len(controller));
 }
 
+/**
+ * Checks whether WorkspaceFactoryModel.toolboxNameIsTaken() properly recognizes
+ * already taken toolbox names.
+ */
 function test_toolboxNameIsTaken() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;

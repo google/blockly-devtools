@@ -113,7 +113,7 @@ class AppView {
    * Action taken when new toolbox is created.
    */
   showNewToolbox() {
-    this.appController.workspaceFactoryController.addToolbox();
+    this.appController.workspaceFactoryController.newToolbox();
   }
 
   /**
