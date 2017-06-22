@@ -153,7 +153,6 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
 
   // Add select handler to the new option.
   this.addOptionSelectHandler(blockType);
-  //this.project.
 };
 
 /**
