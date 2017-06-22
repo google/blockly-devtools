@@ -567,10 +567,6 @@ AppController.prototype.addBlockFactoryEventListeners = function() {
     this.project.currentLibrary.updateButtons(FactoryUtils.savedBlockChanges(
         this.project.currentLibrary));
     });
- // {
-//    this.blockLibraryController.updateButtons(FactoryUtils.savedBlockChanges(
-//        this.blockLibraryController));
- //   });
 
   document.getElementById('direction')
       .addEventListener('change', BlockFactory.updatePreview);
@@ -638,7 +634,6 @@ AppController.prototype.onresize = function(event) {
 AppController.prototype.confirmLeavePage = function(e) {
   if ((!BlockFactory.isStarterBlock() &&
     !FactoryUtils.savedBlockChanges(blocklyFactory.project.currentLibrary)) ||
-    //  !FactoryUtils.savedBlockChanges(blocklyFactory.blockLibraryController)) ||
       blocklyFactory.workspaceFactoryController.hasUnsavedChanges()) {
 
     var confirmationMessage = 'You will lose any unsaved changes. ' +
