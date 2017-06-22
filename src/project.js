@@ -31,38 +31,38 @@
   *    a project.
   */
  class Project {
-  /**
-  * Represents a user's collection of Libraries, toolboxes, and workspaces
-  * @param {string} projectName Desired name of project
-  * @constructor
-  */
-  constructor(projectName) {
-  	this.projectName = projectName;
-  	this.libraries = new Object();
-  	this.toolboxes = new Object();
-  	this.workspaceBlocks = new Object();
-  	this.currentLibrary = null;
-  }
+    /**
+    * Represents a user's collection of Libraries, toolboxes, and workspaces
+    * @param {string} projectName Desired name of project
+    * @constructor
+    */
+    constructor(projectName) {
+    this.projectName = projectName;
+    this.libraries = new Object();
+    this.toolboxes = new Object();
+    this.workspaceBlocks = new Object();
+    this.currentLibrary = null;
+    }
 
-  /**
-   * Returns an array of all blocks in the project.
-   * @return {!Array.<string>} array of all blockTypes.
-   */
-   getBlockTypes() {
-   	var libraryName;
-   	var numLibraries = 0;
-   	var libraries = Object.keys(this.libraries);
-   	var blockTypes = [];
-   	while(libraries[numLibraries]) {
-   		libraryName = libraries[numLibraries];
-   		libraryController = this.libraries[libraryName];
-   		blockTypes = blockTypes.concat(
-   			libraryController.getStoredBlockTypes());
-   	  }
-   	return blockTypes;
-   }
+    /**
+    * Returns an array of all blocks in the project.
+    * @return {!Array.<string>} array of all blockTypes.
+    */
+    getBlockTypes() {
+    	var libraryName;
+    	var numLibraries = 0;
+    	var libraries = Object.keys(this.libraries);
+    	var blockTypes = [];
+    	while(libraries[numLibraries]) {
+    		libraryName = libraries[numLibraries];
+    		libraryController = this.libraries[libraryName];
+    		blockTypes = blockTypes.concat(
+    			libraryController.getStoredBlockTypes());
+    	  }
+    	return blockTypes;
+    }
 
-   /**
+    /**
     * Returns an array of all BlockLibraryController names (for storage).
     * @return {!Array.<string>} array of all library names
     */
@@ -70,7 +70,7 @@
     	return Object.keys(this.libraries);
     }
 
-   /**
+    /**
     * Returns an array of all toolbox names (for storage).
     * @return {!Array.<string>} array of all toolbox names
     */
@@ -78,7 +78,7 @@
     	return Object.keys(this.toolboxes);
     }
 
-   /**
+    /**
     * Returns an array of all workspace names (for storage).
     * @return {!Array.<string>} array of all workspace names
     */
@@ -86,7 +86,7 @@
     	return Object.keys(this.workspaces);
     }
 
-   /**
+    /**
     * Sets the current library.
     * @param {string} library the library to be set
     */
@@ -99,7 +99,7 @@
     	this.currentLibrary = library;
     }
 
-   /**
+    /**
     * Sets the current toolbox.
     * @param {string} toolboxName the name of the current toolbox
     */
@@ -107,7 +107,7 @@
     	this.currentToolbox = this.toolboxes[toolboxName];
     }
 
-   /**
+    /**
     * Sets the current workspace.
     * @param {string} workspaceName the name of the current workspace
     */
@@ -115,7 +115,7 @@
     	this.currentWorkspace = workspaceName;
     }
 
-   /**
+    /**
     * Adds a block to the project, by adding it to the current library.
     * @param {string} blockType the block to be added
     */
@@ -123,7 +123,7 @@
       //TODO: add functionality
     }
 
-   /**
+    /**
     * Adds a library to the project.
     * @param {!BlockLibraryController} library the library to be added
     */
@@ -132,7 +132,7 @@
     	this.libraries.push(toAdd);
     }
 
-   /**
+    /**
     * Adds a toolbox to the project.
     * @param {!Toolbox} toolbox the toolbox to be added
     */
@@ -140,7 +140,7 @@
     	//TODO: add functionality
     }
 
-   /**
+    /**
     * Adds a workspace to the project.
     * @return {!Workspace} workspace the workspace to be added
     */
