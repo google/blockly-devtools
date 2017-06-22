@@ -20,14 +20,14 @@
 
 /**
  * @fileoverview The Project class represents the project data structure.
- * A project can be defined as a collection of one or more libraries along with
- * any number of toolboxes and/or workspaces
+ * A project is a collection of one or more libraries along with
+ * any number of toolboxes and/or workspaces.
  *
- * @author sagev (Sage Vouse)
+ * @author sagev@google.com (Sage Vouse)
  */
 
  /**
-  * @class Project aggragates libraries, toolboxes, and workspaces to form
+  * @class Project aggregates libraries, toolboxes, and workspaces to form
   *    a project.
   */
  class Project {

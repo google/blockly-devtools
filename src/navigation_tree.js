@@ -22,7 +22,7 @@
  * @fileoverview The NavigationTree manages all of the functions for changing
  * the tree view
  *
- * @author sagev (Sage Vouse)
+ * @author sagev@google.com (Sage Vouse)
  */
 
 /**
