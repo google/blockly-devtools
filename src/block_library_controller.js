@@ -72,7 +72,6 @@ BlockLibraryController.prototype.getCurrentBlockType = function() {
 /**
  * Removes current block from Block Library and updates the save and delete
  * buttons so that user may save block to library and but not delete.
- * @param {string} blockType Type of block.
  * @return {Boolean} sucess of operation (for use in appController listeners)
  */
 BlockLibraryController.prototype.removeFromBlockLibrary = function() {
@@ -131,7 +130,7 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
 };
 
 /**
- * Saves given or current block to local storage and updates dropdown.
+ * Saves current block to local storage.
  * @return {Boolean} sucess of operation (for use in appController listeners)
  */
 BlockLibraryController.prototype.saveToBlockLibrary = function() {

@@ -109,7 +109,7 @@ AppController.prototype.importBlockLibraryFromFile = function() {
       var blockXmlTextMap = Object.create(null);
       try {
         // Parse the file to get map of block type to XML text.
-        blockXmlTextMap = self.formatBlockLibraryForImport_(fileContents);
+        blockXmlTextMap = this.formatBlockLibraryForImport_(fileContents);
       } catch (e) {
         var message = 'Could not load your block library file.\n';
         window.alert(message + '\nFile Name: ' + file.name);
@@ -138,7 +138,7 @@ AppController.prototype.importBlockLibraryFromFile = function() {
  */
 AppController.prototype.exportBlockLibraryToFile = function() {
   // Get map of block type to XML.
-  var blockLib = this.blockLibraryController.getBlockLibrary();
+  var blockLib = this.blockLibraryController.getBlockLibrary(); //FLAG
   // Concatenate the XMLs, each separated by a blank line.
   var blockLibText = this.formatBlockLibraryForExport_(blockLib);
   // Get file name.
@@ -272,10 +272,9 @@ AppController.prototype.setSelected_ = function(tabName) {
  * @private
  */
 AppController.prototype.makeTabClickHandler_ = function(tabName) {
-  var self = this;
-  return function() {
-    self.setSelected_(tabName);
-    self.onTab();
+  return () => {
+    this.setSelected_(tabName);
+    this.onTab();
   };
 };
 
@@ -349,7 +348,7 @@ AppController.prototype.onTab = function() {
     FactoryUtils.show('workspaceFactoryContent');
     // Update block library category.
     var categoryXml = this.exporter.getBlockLibraryCategory();
-    var blockTypes = this.blockLibraryController.getStoredBlockTypes();
+    var blockTypes = this.blockLibraryController.getStoredBlockTypes(); //FLAG
     this.workspaceFactoryController.setBlockLibCategory(categoryXml,
         blockTypes);
   }
@@ -473,7 +472,7 @@ AppController.prototype.ifCheckedEnable = function(enabled, idArray) {
 
 /**
  * Assign button click handlers for the block library.
- */
+ *////FLAGX3
 AppController.prototype.assignLibraryClickHandlers = function() {
   // Button for saving block to library.
   document.getElementById('saveToBlockLibraryButton').addEventListener('click',
@@ -535,7 +534,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
       var proceedWithUnsavedChanges =
-          this.blockLibraryController.warnIfUnsavedChanges();
+          this.blockLibraryController.warnIfUnsavedChanges(); //FLAG
       if (!proceedWithUnsavedChanges) {
         return;
       }
@@ -559,10 +558,9 @@ AppController.prototype.addBlockFactoryEventListeners = function() {
 
   // Update the buttons on the screen based on whether
   // changes have been saved.
-  var self = this;
-  BlockFactory.mainWorkspace.addChangeListener(function() {
-    self.blockLibraryController.updateButtons(FactoryUtils.savedBlockChanges(
-        self.blockLibraryController));
+  BlockFactory.mainWorkspace.addChangeListener(() => {
+    this.blockLibraryController.updateButtons(FactoryUtils.savedBlockChanges(
+        this.blockLibraryController));
     });
 
   document.getElementById('direction')
@@ -690,8 +688,6 @@ AppController.prototype.init = function() {
     return;
   }
 
-  var self = this;
-
   // Handle Blockly Storage with App Engine.
   if ('BlocklyStorage' in window) {
     this.initializeBlocklyStorage();
@@ -702,13 +698,13 @@ AppController.prototype.init = function() {
   this.assignBlockFactoryClickHandlers();
   // Hide and show the block library dropdown.
   document.getElementById('modalShadow').addEventListener('click',
-      function() {
-        self.closeModal();
+      () => {
+        this.closeModal();
       });
 
   this.onresize();
-  window.addEventListener('resize', function() {
-    self.onresize();
+  window.addEventListener('resize', () => {
+    this.onresize();
   });
 
   // Inject Block Factory Main Workspace.

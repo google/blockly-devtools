@@ -116,6 +116,13 @@
 	    }
 
 	   /**
+	    * Adds a block to the project.
+	    * @param {string} blockType the block to be added
+	    */
+	    addBlock(blockType) {
+
+	    }
+	   /**
 	    * Adds a library to the project.
 	    * @param {!BlockLibraryController} library the library to be added
 	    */
@@ -139,6 +146,39 @@
 	    	//TODO: fill in action
 	    }
 
+		/**
+		 * Returns current block library mapping block type to XML.
+		 * @return {Object} Object mapping block type to XML text.
+		 */
+		getBlockLibraryXmlMap() {
+		  return this.currentLibrary.storage.getBlockXmlTextMap();
+		};
+
+
+		/**
+		 * Removes current block from project
+		 * @return {Boolean} sucess of operation (for use in appController listeners)
+		 */
+		removeBlockFromProject() {
+		  return this.currentLibrary.removeFromBlockLibrary();
+		};
+
+		/**
+		 * Saves current block.
+		 * @return {Boolean} sucess of operation (for use in appController listeners)
+		 */
+		saveBlock() {
+		  return this.currentLibrary.saveToBlockLibrary();
+		};
+
+		/**
+		 * If there are unsaved changes to the project, checks if user wants to
+		 * proceed, knowing that they will lose their changes.
+		 * @return {boolean} Whether or not to proceed.
+		 */
+		warnIfUnsaved() {
+		  return this.currentLibrary.warnIfUnsavedChanges();
+		};
 
 
  }
