@@ -80,6 +80,7 @@ AppController = function() {
   // initialize tree for AppView
   this.view.setLibraryTree(this.blockLibraryController);
 
+  this.project = new Project();
 };
 
 // Constant values representing the three tabs in the controller.

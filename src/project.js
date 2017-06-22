@@ -41,7 +41,7 @@
 	  *    Workspaces
 	  * @constructor
 	  */
-	  constructor(projectName, opt_libraryController, opt_toolbox,
+	  constructor(projectName, opt_libraryControllers, opt_toolboxes,
 	  	opt_workspace_blocks) {
 	  	this.projectName = projectName;
 	  	this.libraries = opt_libraryControllers | new Object();
