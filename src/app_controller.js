@@ -80,9 +80,9 @@ AppController = function() {
   // initialize tree for AppView
   this.view.setLibraryTree(this.blockLibraryController);
 
-  this.project = new Project();
-
-  this.project.setCurrentLibrary(this.blockLibraryController);
+  this.project = new Project('TEST');
+  var that = this;
+  this.project.setCurrentLibrary(that.blockLibraryController);
 };
 
 // Constant values representing the three tabs in the controller.
@@ -141,7 +141,6 @@ AppController.prototype.importBlockLibraryFromFile = function() {
  */
 AppController.prototype.exportBlockLibraryToFile = function() {
   // Get map of block type to XML.
-  //var blockLib = this.blockLibraryController.getBlockLibrary(); //FLAG
   var blockLib = this.project.currentLibrary;
   // Concatenate the XMLs, each separated by a blank line.
   var blockLibText = this.formatBlockLibraryForExport_(blockLib);
@@ -297,7 +296,6 @@ AppController.prototype.onTab = function() {
       this.selectedTab != AppController.BLOCK_FACTORY) {
 
     var hasUnsavedChanges =
-       // !FactoryUtils.savedBlockChanges(this.blockLibraryController); //Flag
         !FactoryUtils.savedBlockChanges(this.project.currentLibrary);
     if (hasUnsavedChanges &&
         !confirm('You have unsaved changes in Block Factory.')) {
@@ -353,7 +351,6 @@ AppController.prototype.onTab = function() {
     FactoryUtils.show('workspaceFactoryContent');
     // Update block library category.
     var categoryXml = this.exporter.getBlockLibraryCategory();
-   // var blockTypes = this.blockLibraryController.getStoredBlockTypes(); //FLAG
     var blockTypes = this.project.getBlockTypes();
     this.workspaceFactoryController.setBlockLibCategory(categoryXml,
         blockTypes);
@@ -483,8 +480,7 @@ AppController.prototype.assignLibraryClickHandlers = function() {
   // Button for saving block to library.
   document.getElementById('saveToBlockLibraryButton').addEventListener('click',
       () => {
-        if (this.project.saveBlock) {
-          //this.blockLibraryController.saveToBlockLibrary()) {
+        if (this.project.saveBlock()) {
           this.view.addBlockToTree();
         }
       });
@@ -494,7 +490,6 @@ AppController.prototype.assignLibraryClickHandlers = function() {
     'click',
       () => {
         if (this.project.removeBlockFromProject()) {
-          //this.blockLibraryController.removeFromBlockLibrary()) {
           this.view.removeBlockFromTree();
         }
       });
@@ -503,7 +498,6 @@ AppController.prototype.assignLibraryClickHandlers = function() {
   document.getElementById('clearBlockLibraryButton').addEventListener('click',
       () => {
         if (this.project.clearLibrary()) {
-          //this.blockLibraryController.clearBlockLibrary()) {
           this.view.clearLibraryFromTree();
         }
       });
@@ -515,8 +509,8 @@ AppController.prototype.assignLibraryClickHandlers = function() {
 AppController.prototype.assignBlockFactoryClickHandlers = function() {
   // Assign button event handlers for Block Factory.
   document.getElementById('localSaveButton')
-      .addEventListener('click', function() {
-        self.exportBlockLibraryToFile();
+      .addEventListener('click', () => {
+        this.exportBlockLibraryToFile();
       });
 
   document.getElementById('helpButton').addEventListener('click',
@@ -526,12 +520,12 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       });
 
   document.getElementById('files').addEventListener('change',
-      function() {
+      () => {
         // Warn user.
         var replace = confirm('This imported block library will ' +
             'replace your current block library.');
         if (replace) {
-          self.importBlockLibraryFromFile();
+         this.importBlockLibraryFromFile();
           // Clear this so that the change event still fires even if the
           // same file is chosen again. If the user re-imports a file, we
           // want to reload the workspace with its contents.
@@ -543,7 +537,6 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
       var proceedWithUnsavedChanges =
-        //  this.blockLibraryController.warnIfUnsavedChanges(); //FLAG
         this.project.warnIfUnsaved();
       if (!proceedWithUnsavedChanges) {
         return;
@@ -568,6 +561,7 @@ AppController.prototype.addBlockFactoryEventListeners = function() {
 
   // Update the buttons on the screen based on whether
   // changes have been saved.
+ // var library = this.project.currentLibrary;
   BlockFactory.mainWorkspace.addChangeListener(() => {
     this.project.currentLibrary.updateButtons(FactoryUtils.savedBlockChanges(
         this.project.currentLibrary));

@@ -159,6 +159,7 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
 
   // Add select handler to the new option.
   this.addOptionSelectHandler(blockType);
+  //this.project. FLAGX
   return true;
 };
 
@@ -240,9 +241,8 @@ BlockLibraryController.prototype.warnIfUnsavedChanges = function() {
 /**
  * Add select handler for an option of a given block type. The handler will to
  * update the view and the selected block accordingly.
- * @param {string} blockType The type of block represented by the option is for.
  */
-BlockLibraryController.prototype.addOptionSelectHandler = function(blockType) {
+BlockLibraryController.prototype.addOptionSelectHandler = function() {
   var self = this;
   // Click handler for a block option. Sets the block option as the selected
   // option and opens the block for edit in Block Factory.
