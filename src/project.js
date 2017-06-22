@@ -92,26 +92,23 @@
 	    }
 
 	   /**
-	    * Sets the current library name, which cooresponds to a library in
-	    *   this.libraries.
-	    * @param {string} libraryName the name of the library to be set
+	    * Sets the current library.
+	    * @param {string} libraryName the name of the current library
 	    */
 	    setCurrentLibraryName(libraryName) {
-	    	this.currentLibrary = libraryName;
+	    	this.currentLibrary = this.libraries[libraryName];
 	    }
 
 	   /**
-	    * Sets the current toolbox name, which cooresponds to toolbox in
-	    *   this.toolboxes.
+	    * Sets the current toolbox.
 	    * @param {string} toolboxName the name of the current toolbox
 	    */
 	    setCurrentToolboxName(toolboxName) {
-	    	this.currentToolbox = toolboxName;
+	    	this.currentToolbox = this.toolboxes[toolboxName];
 	    }
 
 	   /**
-	    * Sets the current workspace name, which cooresponds to a workspace in
-	    *   this.workspaces.
+	    * Sets the current workspace.
 	    * @param {string} workspaceName the name of the current workspace
 	    */
 	    setCurrentWorkspaceName(workspaceName) {
@@ -139,8 +136,9 @@
 	    * @return {!Workspace} workspace the workspace to be added
 	    */
 	    addWorkspace(workspace) {
-
+	    	//TODO: fill in action
 	    }
+
 
 
  }

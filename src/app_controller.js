@@ -93,7 +93,6 @@ AppController.EXPORTER = 'EXPORTER';
  * block type to its XML text representation.
  */
 AppController.prototype.importBlockLibraryFromFile = function() {
-  var self = this;
   var files = document.getElementById('files');
   // If the file list is empty, the user likely canceled in the dialog.
   if (files.files.length > 0) {
@@ -104,7 +103,7 @@ AppController.prototype.importBlockLibraryFromFile = function() {
 
     // Create a map of block type to XML text from the file when it has been
     // read.
-    fileReader.addEventListener('load', function(event) {
+    fileReader.addEventListener('load', (event) => {
       var fileContents = event.target.result;
       // Create empty object to hold the read block library information.
       var blockXmlTextMap = Object.create(null);
@@ -119,15 +118,14 @@ AppController.prototype.importBlockLibraryFromFile = function() {
 
       // Create a new block library storage object with inputted block library.
       var blockLibStorage = new BlockLibraryStorage(
-          self.blockLibraryName, blockXmlTextMap);
+          this.blockLibraryName, blockXmlTextMap);
 
       // Update block library controller with the new block library
       // storage.
-      self.blockLibraryController.setBlockLibraryStorage(blockLibStorage);
-      // Update the block library dropdown.
-      self.blockLibraryController.populateBlockLibrary();
+      this.blockLibraryController.setBlockLibraryStorage(blockLibStorage);
+
       // Update the exporter's block library storage.
-      self.exporter.setBlockLibraryStorage(blockLibStorage);
+      this.exporter.setBlockLibraryStorage(blockLibStorage);
     });
     // Read the file.
     fileReader.readAsText(file);
