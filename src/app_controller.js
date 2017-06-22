@@ -81,6 +81,8 @@ AppController = function() {
   this.view.setLibraryTree(this.blockLibraryController);
 
   this.project = new Project();
+
+  this.project.setCurrentLibrary(this.blockLibraryController);
 };
 
 // Constant values representing the three tabs in the controller.
@@ -139,7 +141,8 @@ AppController.prototype.importBlockLibraryFromFile = function() {
  */
 AppController.prototype.exportBlockLibraryToFile = function() {
   // Get map of block type to XML.
-  var blockLib = this.blockLibraryController.getBlockLibrary(); //FLAG
+  //var blockLib = this.blockLibraryController.getBlockLibrary(); //FLAG
+  var blockLib = this.project.currentLibrary;
   // Concatenate the XMLs, each separated by a blank line.
   var blockLibText = this.formatBlockLibraryForExport_(blockLib);
   // Get file name.
@@ -294,7 +297,8 @@ AppController.prototype.onTab = function() {
       this.selectedTab != AppController.BLOCK_FACTORY) {
 
     var hasUnsavedChanges =
-        !FactoryUtils.savedBlockChanges(this.blockLibraryController);
+       // !FactoryUtils.savedBlockChanges(this.blockLibraryController); //Flag
+        !FactoryUtils.savedBlockChanges(this.project.currentLibrary);
     if (hasUnsavedChanges &&
         !confirm('You have unsaved changes in Block Factory.')) {
       // If the user doesn't want to switch tabs with unsaved changes,
@@ -349,7 +353,8 @@ AppController.prototype.onTab = function() {
     FactoryUtils.show('workspaceFactoryContent');
     // Update block library category.
     var categoryXml = this.exporter.getBlockLibraryCategory();
-    var blockTypes = this.blockLibraryController.getStoredBlockTypes(); //FLAG
+   // var blockTypes = this.blockLibraryController.getStoredBlockTypes(); //FLAG
+    var blockTypes = this.project.getBlockTypes();
     this.workspaceFactoryController.setBlockLibCategory(categoryXml,
         blockTypes);
   }
@@ -478,7 +483,8 @@ AppController.prototype.assignLibraryClickHandlers = function() {
   // Button for saving block to library.
   document.getElementById('saveToBlockLibraryButton').addEventListener('click',
       () => {
-        if (this.blockLibraryController.saveToBlockLibrary()) {
+        if (this.project.saveBlock) {
+          //this.blockLibraryController.saveToBlockLibrary()) {
           this.view.addBlockToTree();
         }
       });
@@ -487,7 +493,8 @@ AppController.prototype.assignLibraryClickHandlers = function() {
   document.getElementById('removeBlockFromLibraryButton').addEventListener(
     'click',
       () => {
-        if (this.blockLibraryController.removeFromBlockLibrary()) {
+        if (this.project.removeBlockFromProject()) {
+          //this.blockLibraryController.removeFromBlockLibrary()) {
           this.view.removeBlockFromTree();
         }
       });
@@ -495,7 +502,8 @@ AppController.prototype.assignLibraryClickHandlers = function() {
   // Button for clearing the block library.
   document.getElementById('clearBlockLibraryButton').addEventListener('click',
       () => {
-        if (this.blockLibraryController.clearBlockLibrary()) {
+        if (this.project.clearLibrary()) {
+          //this.blockLibraryController.clearBlockLibrary()) {
           this.view.clearLibraryFromTree();
         }
       });
@@ -535,7 +543,8 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
       var proceedWithUnsavedChanges =
-          this.blockLibraryController.warnIfUnsavedChanges(); //FLAG
+        //  this.blockLibraryController.warnIfUnsavedChanges(); //FLAG
+        this.project.warnIfUnsaved();
       if (!proceedWithUnsavedChanges) {
         return;
       }
@@ -560,9 +569,13 @@ AppController.prototype.addBlockFactoryEventListeners = function() {
   // Update the buttons on the screen based on whether
   // changes have been saved.
   BlockFactory.mainWorkspace.addChangeListener(() => {
-    this.blockLibraryController.updateButtons(FactoryUtils.savedBlockChanges(
-        this.blockLibraryController));
+    this.project.currentLibrary.updateButtons(FactoryUtils.savedBlockChanges(
+        this.project.currentLibrary));
     });
+ // {
+//    this.blockLibraryController.updateButtons(FactoryUtils.savedBlockChanges(
+//        this.blockLibraryController));
+ //   });
 
   document.getElementById('direction')
       .addEventListener('change', BlockFactory.updatePreview);
@@ -629,7 +642,8 @@ AppController.prototype.onresize = function(event) {
  */
 AppController.prototype.confirmLeavePage = function(e) {
   if ((!BlockFactory.isStarterBlock() &&
-      !FactoryUtils.savedBlockChanges(blocklyFactory.blockLibraryController)) ||
+    !FactoryUtils.savedBlockChanges(blocklyFactory.project.currentLibrary)) ||
+    //  !FactoryUtils.savedBlockChanges(blocklyFactory.blockLibraryController)) ||
       blocklyFactory.workspaceFactoryController.hasUnsavedChanges()) {
 
     var confirmationMessage = 'You will lose any unsaved changes. ' +

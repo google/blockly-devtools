@@ -53,7 +53,7 @@
 	   * Returns an array of all blocks in the project.
 	   * @return {!Array.<string>} array of all blockTypes.
 	   */
-	   getBlocks() {
+	   getBlockTypes() {
 	   	var libraryName;
 	   	var numLibraries = 0;
 	   	var libraries = Object.keys(this.libraries);
@@ -95,7 +95,7 @@
 	    * Sets the current library.
 	    * @param {string} libraryName the name of the current library
 	    */
-	    setCurrentLibraryName(libraryName) {
+	    setCurrentLibrary(libraryName) {
 	    	this.currentLibrary = this.libraries[libraryName];
 	    }
 
@@ -103,7 +103,7 @@
 	    * Sets the current toolbox.
 	    * @param {string} toolboxName the name of the current toolbox
 	    */
-	    setCurrentToolboxName(toolboxName) {
+	    setCurrentToolbox(toolboxName) {
 	    	this.currentToolbox = this.toolboxes[toolboxName];
 	    }
 
@@ -111,7 +111,7 @@
 	    * Sets the current workspace.
 	    * @param {string} workspaceName the name of the current workspace
 	    */
-	    setCurrentWorkspaceName(workspaceName) {
+	    setCurrentWorkspace(workspaceName) {
 	    	this.currentWorkspace = workspaceName;
 	    }
 
@@ -161,6 +161,14 @@
 		 */
 		removeBlockFromProject() {
 		  return this.currentLibrary.removeFromBlockLibrary();
+		};
+
+		/**
+		 * Clears the current library.
+		 * @return {Boolean} sucess of operation (for use in appController listeners)
+		 */
+		clearLibrary() {
+			return this.currentLibrary.clearBlockLibrary();
 		};
 
 		/**
