@@ -158,26 +158,23 @@
 
     /**
      * Removes current block from project
-     * @return {Boolean} sucess of operation (for use in appController listeners)
      */
     removeBlockFromProject() {
-      return this.currentLibrary.removeFromBlockLibrary();
+      this.currentLibrary.removeFromBlockLibrary();
     };
 
     /**
      * Clears the current library.
-     * @return {Boolean} sucess of operation (for use in appController listeners)
      */
     clearLibrary() {
-    	return this.currentLibrary.clearBlockLibrary();
+    	this.currentLibrary.clearBlockLibrary();
     };
 
     /**
      * Saves current block.
-     * @return {Boolean} sucess of operation (for use in appController listeners)
      */
     saveBlock() {
-      return this.currentLibrary.saveToBlockLibrary();
+      this.currentLibrary.saveToBlockLibrary();
     };
 
     /**

@@ -72,14 +72,12 @@ BlockLibraryController.prototype.getCurrentBlockType = function() {
 /**
  * Removes current block from Block Library and updates the save and delete
  * buttons so that user may save block to library and but not delete.
- * @return {Boolean} sucess of operation (for use in appController listeners)
  */
 BlockLibraryController.prototype.removeFromBlockLibrary = function() {
   var blockType = this.getCurrentBlockType();
   this.storage.removeBlock(blockType);
   this.storage.saveToLocalStorage();
   this.view.updateButtons(blockType, false, false);
-  return true;
 };
 
 /**
@@ -109,7 +107,6 @@ BlockLibraryController.prototype.getSelectedBlockType = function() {
 /**
  * Confirms with user before clearing the block library in local storage and
  * updating the dropdown and displaying the starter block (factory_base).
- * @return {Boolean} sucess of operation (for use in appController listeners)
  */
 BlockLibraryController.prototype.clearBlockLibrary = function() {
   var check = confirm('Delete all blocks from library?');
@@ -124,14 +121,11 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     // User may not save the starter block, but will get explicit instructions
     // upon clicking the red save button.
     this.view.updateButtons(null);
-
-    return true;
   }
 };
 
 /**
  * Saves current block to local storage.
- * @return {Boolean} sucess of operation (for use in appController listeners)
  */
 BlockLibraryController.prototype.saveToBlockLibrary = function() {
   var blockType = this.getCurrentBlockType();
@@ -159,8 +153,7 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
 
   // Add select handler to the new option.
   this.addOptionSelectHandler(blockType);
-  //this.project. FLAGX
-  return true;
+  //this.project.
 };
 
 /**

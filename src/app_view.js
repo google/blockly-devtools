@@ -269,7 +269,7 @@ class AppView {
   }
 
   /**
-   * Removes a library from the navigation tree.
+   * Clears the navigation tree.
    */
   clearLibraryFromTree() {
     this.navTree.clearLibrary();

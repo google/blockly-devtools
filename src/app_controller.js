@@ -80,7 +80,7 @@ AppController = function() {
   // initialize tree for AppView
   this.view.setLibraryTree(this.blockLibraryController);
 
-  // create project
+  // Creates the project.
   this.project = new Project('TEST');
 
   this.project.setCurrentLibrary(this.blockLibraryController);
@@ -481,26 +481,23 @@ AppController.prototype.assignLibraryClickHandlers = function() {
   // Button for saving block to library.
   document.getElementById('saveToBlockLibraryButton').addEventListener('click',
       () => {
-        if (this.project.saveBlock()) {
+          this.project.saveBlock();
           this.view.addBlockToTree();
-        }
       });
 
   // Button for removing selected block from library.
   document.getElementById('removeBlockFromLibraryButton').addEventListener(
     'click',
       () => {
-        if (this.project.removeBlockFromProject()) {
-          this.view.removeBlockFromTree();
-        }
+        this.project.removeBlockFromProject();
+        this.view.removeBlockFromTree();
       });
 
   // Button for clearing the block library.
   document.getElementById('clearBlockLibraryButton').addEventListener('click',
       () => {
-        if (this.project.clearLibrary()) {
-          this.view.clearLibraryFromTree();
-        }
+        this.project.clearLibrary();
+        this.view.clearLibraryFromTree();
       });
 };
 
@@ -562,7 +559,6 @@ AppController.prototype.addBlockFactoryEventListeners = function() {
 
   // Update the buttons on the screen based on whether
   // changes have been saved.
- // var library = this.project.currentLibrary;
   BlockFactory.mainWorkspace.addChangeListener(() => {
     this.project.currentLibrary.updateButtons(FactoryUtils.savedBlockChanges(
         this.project.currentLibrary));

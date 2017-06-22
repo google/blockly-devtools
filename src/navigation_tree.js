@@ -42,7 +42,6 @@ class NavigationTree {
     this.makeTree(blocks);
   }
 
-
   /**
    * Returns JSON object of library's blocktypes.
    * @return {!Object} the JSON of all block types
@@ -156,11 +155,4 @@ class NavigationTree {
       {'id': blockType, 'text': blockType }, 'last', null);
   }
 
-  /**
-   * Adds a library to the tree.
-   */
-  addLibraryNode(blockType) {
-    $('#navigationTree').jstree().create_node('inside' ,
-      {'id': blockType, 'text': blockType }, 'last', null);
-  }
 }
