@@ -476,7 +476,7 @@ AppController.prototype.ifCheckedEnable = function(enabled, idArray) {
 
 /**
  * Assign button click handlers for the block library.
- *////FLAGX3
+ */
 AppController.prototype.assignLibraryClickHandlers = function() {
   // Button for saving block to library.
   document.getElementById('saveToBlockLibraryButton').addEventListener('click',
