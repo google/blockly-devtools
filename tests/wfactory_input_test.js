@@ -96,6 +96,119 @@ function test_evaluateMarkedCode() {
   assertTrue(test_evaluateMarkedCode.passedTest);
 }
 
+function test_toolboxInit() {
+  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
+  let model = controller.model;
+
+  assertEquals('FAILED: toolboxList does not have just one element (has ' +
+        len(controller) + 'number of elements) upon init.',
+      1, len(controller));
+  assertTrue('FAILED: Default toolbox name does not exist upon init.',
+      model.toolboxNameIsTaken(''));
+  assertTrue('FAILED: Default toolbox is not empty.',
+      model.isEmptyToolbox(''));
+  assertFalse('FAILED: Default toolbox is not recognized as default.',
+      model.ifNamedToolbox());
+}
+
+/**
+ * Tests WorkspaceFactoryModel.addToolbox().
+ */
+function test_addToolbox() {
+  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
+  let model = controller.model;
+
+  assertEquals('FAILED: Toolbox has length of ' + len(controller) + '. Expected 1.',
+      1, len(controller));
+
+  model.addToolbox('test');
+
+  assertEquals('FAILED: Toolbox has length of ' + len(controller) + '. Expected 2.',
+      2, len(controller));
+
+  assertTrue('FAILED: Newly added toolbox is not an empty toolbox.',
+      model.isEmptyToolbox(model.toolboxList['test']));
+}
+
+function test_ifNamedToolbox() {
+  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
+  let model = controller.model;
+
+  assertFalse('FAILED: toolboxList should contain one unnamed toolbox upon init.',
+      model.ifNamedToolbox());
+
+  model.renameToolbox('', 'hello');
+
+  assertTrue('',
+      model.ifNamedToolbox());
+
+  model.renameToolbox('hello', 'ain\'t');
+
+  assertTrue('',
+      model.ifNamedToolbox());
+
+  model.renameToolbox('ain\'t', ' ');
+
+  assertTrue('',
+      model.ifNamedToolbox());
+}
+
+function test_renameToolbox() {
+  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
+  let model = controller.model;
+  // Number of toolboxes saved.
+  let numToolboxes = 1;
+
+  assertTrue('FAILED: Default toolbox name \'\' is not in toolboxList.',
+      model.toolboxNameIsTaken(''));
+  assertTrue('FAILED: Toolbox name "test2" is not saved into toolboxList.',
+      model.renameToolbox('', 'test2'));
+  assertFalse('FAILED: Default toolbox is still in list after deletion.',
+      model.toolboxNameIsTaken(''));
+  assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved.',
+      numToolboxes, len(controller));
+
+  model.addToolbox('anotherTest');
+  numToolboxes += 1;
+
+  assertFalse('FAILED: Toolbox names should not be able to be renamed to a ' +
+        'single space.',
+      model.renameToolbox('anotherTest', ' '));
+  assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved.',
+      numToolboxes, len(controller));
+
+  model.addToolbox('test3');
+  numToolboxes += 1;
+
+  assertFalse('Failed: Toolbox names should not be able to be renamed to a ' +
+        'newline.',
+      model.renameToolbox('test3', '\n'));
+  assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved.',
+      numToolboxes, len(controller));
+
+  model.addToolbox('test4');
+  numToolboxes += 1;
+
+  assertFalse('FAILED: Toolbox names should not be able to be renamed to a ' +
+        'newline or space.',
+      model.renameToolbox('test4', ' \n '));
+  assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved.',
+      numToolboxes, len(controller));
+}
+
+function test_toolboxNameIsTaken() {
+  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
+  let model = controller.model;
+
+  model.toolboxList['hello'] = '<xml></xml>';
+
+  assertTrue('FAILED: Toolbox name "hello" is not found in toolboxList.',
+      model.toolboxNameIsTaken('hello'));
+  assertFalse('FAILED: Toolbox name "bye" is found in toolboxList. "bye" should ' +
+        'not exist in list.',
+      model.toolboxNameIsTaken('bye'));
+}
+
 /**
  * WorkspaceFactoryController.isEmptyToolbox() test. Makes sure that empty toolboxes
  * are properly indicated as empty and non-empty toolboxes are properly indicated
@@ -103,6 +216,7 @@ function test_evaluateMarkedCode() {
  */
 function test_isEmptyToolbox() {
   let controller = new WorkspaceFactoryController('hi', 'toolboxDiv', 'previewDiv');
+  let model = controller.model;
 
   // Confirm that empty toolboxes return true.
   let empty_xmls = {
@@ -115,7 +229,7 @@ function test_isEmptyToolbox() {
 
   for (let key in empty_xmls) {
     assertTrue('FAILED: this.isEmptyToolbox() returned false when there was ' + key + '.',
-        controller.isEmptyToolbox(empty_xmls[key]));
+        model.isEmptyToolbox(empty_xmls[key]));
   }
 
   // Confirm that non-empty toolboxes return false.
@@ -142,7 +256,7 @@ function test_isEmptyToolbox() {
 
   for (let key in nonempty_xmls) {
     assertFalse('FAILED: this.isEmptyToolbox() returned true when there was ' + key + '.',
-        controller.isEmptyToolbox(nonempty_xmls[key]));
+        model.isEmptyToolbox(nonempty_xmls[key]));
   }
 }
 
@@ -153,10 +267,11 @@ function test_isEmptyToolbox() {
  */
 function test_toolboxFunctions() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
+  let model = controller.model;
 
   // Making sure initial toolbox is an empty toolbox.
   assertTrue('FAILED: Toolbox is not empty upon init.',
-      controller.isEmptyToolbox(controller.toolboxList[controller.currentToolbox]));
+      model.isEmptyToolbox(model.toolboxList[model.currentToolbox]));
 
   // Checking that no extra toolboxes are accidentally created/added upon init.
   assertEquals('FAILED: controller.toolboxList has ' + len(controller) + ' elements.',
@@ -171,7 +286,7 @@ function test_toolboxFunctions() {
       controller.renameToolbox('', 'blockly'));
 
   // Adding XML to sample toolbox called 'blockly'.
-  controller.toolboxList['blockly'] =
+  controller.model.toolboxList['blockly'] =
       '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">' +
         '<block type="math_arithmetic">' +
           '<field name="OP">ADD</field>' +
@@ -227,7 +342,7 @@ function test_showToolbox() {
       '</xml>';
 
   // Show toolbox.
-  controller.showToolbox(New_toolbox);
+  controller.showToolbox('New_toolbox');
 
   // Toolbox retrieved from workspace should be equal to saved XML.
   let actual = Blockly.Xml.domToPrettyText
@@ -239,60 +354,11 @@ function test_showToolbox() {
 }
 
 /**
- * Tests process of importing a toolbox as JS file, then storing it into list of
- * defined toolboxes with the proper name.
- */
-function test_importToolboxJs() {
-  let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
-
-  // Hard code a file (a string representing JS file).
-  let readerFile = `
-// If BLOCKLY_TOOLBOX_XML does not exist.
-if (!BLOCKLY_TOOLBOX_XML) {
-  BLOCKLY_TOOLBOX_XML = {};
-}
-
-/* BEGINNING BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
-BLOCKLY_TOOLBOX_XML['swag'] =
-    '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">' +
-      '<block type="math_arithmetic">' +
-        '<field name="OP">ADD</field>' +
-        '<value name="A">' +
-          '<shadow type="math_number">' +
-            '<field name="NUM">1</field>' +
-          '</shadow>' +
-        '</value>' +
-        '<value name="B">' +
-          '<shadow type="math_number">' +
-            '<field name="NUM">1</field>' +
-          '</shadow>' +
-        '</value>' +
-      '</block>' +
-    '</xml>';
-/* END BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. */
-`;
-
-  // Use functions to extract the toolbox name, store.
-  let toolboxName = controller.generator.loadXml(
-        readerFile, WorkspaceFactoryController.MODE_TOOLBOX);
-
-  // Use functions to extract the XML string, store.
-  controller.toolboxList = {}; // TODO: left off here
-  controller.importToolboxFromTree_(
-      Blockly.Xml.textToDom(
-        this.generator.BLOCKLY_TOOLBOX_XML[toolboxName]));
-
-  // Show toolbox.
-  // Assert that the XML retrieved from the view is equal to the XML stored into
-  //    the dictionary of defined toolboxes.
-}
-
-/**
  * Returns how many toolboxes are saved into the controller.
  */
 function len(controller) {
   let listSize = 0;
-  for (let key in controller.toolboxList) {
+  for (let key in controller.model.toolboxList) {
     listSize += 1;
   }
   return listSize;

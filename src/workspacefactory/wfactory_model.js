@@ -69,30 +69,62 @@ WorkspaceFactoryModel = function() {
 /**
  * Creates a new toolbox for users to modify and edit.
  */
-WorkspaceFactoryModel.prototype.newToolbox = function(name) {
+WorkspaceFactoryModel.prototype.addToolbox = function(name) {
   // TODO: Implement.
 };
 
 /**
+ * Verifies if current toolbox has yet been named by user.
  *
+ * @returns {boolean} If named.
  */
-WorkspaceFactoryModel.prototype.checkIfSaved = function() {
+WorkspaceFactoryModel.prototype.ifNamedToolbox = function() {
   // TODO: Implement.
 };
 
 /**
+ * Updates XML string stored under given toolbox name. XML string
+ * retrieved from current workspace.
  *
+ * @returns {boolean} If updated successfully.
  */
 WorkspaceFactoryModel.prototype.updateToolbox = function(name) {
   // TODO: Implement.
-}
+};
 
 /**
+ * Renames toolbox from oldName to newName. Catches for duplicates and invalid
+ * names (empty strings, etc.).
  *
+ * @returns {boolean} If renamed successfully.
  */
 WorkspaceFactoryModel.prototype.renameToolbox = function(oldName, newName) {
   // TODO: Implement.
-}
+};
+
+/**
+ * Indicates whether a given toolbox name is already taken (i.e. user has already
+ * previously named a toolbox under that given name).
+ *
+ * @returns {boolean} If toolbox name is taken.
+ */
+WorkspaceFactoryModel.prototype.toolboxNameIsTaken = function(name) {
+  // TODO: implement
+};
+
+/**
+ * Returns true if XML string of given toolbox contains no blocks nor
+ * categories. A toolbox is considered empty if and only if the XML string contains
+ * only the opening and closing xml tags (with or without attributes) (e.g.
+ * '<xml></xml>' or '<xml id=""></xml>', etc.), and if there is only whitespace
+ * between the xml tags (and no alphanumeric/symbol values).
+ *
+ * @param {string} xml XML String to be compared.
+ * @returns {boolean} If toolbox is empty.
+ */
+WorkspaceFactoryModel.prototype.isEmptyToolbox = function(xml) {
+
+};
 
 /**
  * Given a name, determines if it is the name of a category already present.

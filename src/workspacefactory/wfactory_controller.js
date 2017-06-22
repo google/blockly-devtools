@@ -49,7 +49,9 @@
 function WorkspaceFactoryController(toolboxName, toolboxDiv, previewDiv) {
   // Toolbox XML element for the editing workspace.
   this.toolbox = document.getElementById(toolboxName);
-  // Currently displayed toolbox.
+  // Currently displayed toolbox. Upon init, the current toolbox name is
+  // the default toolbox name, which is the empty string. Users are forced
+  // to rename this once they create multiple toolboxes.
   this.currentToolbox = '';
 
   // Workspace for user to drag blocks in for a certain category.
@@ -112,6 +114,11 @@ WorkspaceFactoryController.MODE_XML = 'xml';
  */
 WorkspaceFactoryController.prototype.newToolbox = function() {
   // TODO: implement
+  // Prompt user for name of new toolbox.
+  // Check if name is valid / taken.
+  // If taken, prompt again.
+  // If not taken, model.addToolbox(newName).
+  // Show toolbox after successful naming.
 };
 
 /**
@@ -121,6 +128,9 @@ WorkspaceFactoryController.prototype.newToolbox = function() {
  */
 WorkspaceFactoryController.prototype.saveToolbox = function() {
   // TODO: implement
+  // Check if current toolbox has a name (model.ifNamedToolbox()).
+  // If no name, prompt user to name current toolbox.
+  // If named, model.updateToolbox(model.currentToolbox).
 };
 
 /**
@@ -132,6 +142,9 @@ WorkspaceFactoryController.prototype.saveToolbox = function() {
  */
 WorkspaceFactoryController.prototype.showToolbox = function(name) {
   // TODO: implement
+  // Check if name exists (model.toolboxNameIsTaken()).
+  // If exists, display model.toolboxList[name].
+  // If name DNE within list, prompt user.
 };
 
 /**
@@ -146,9 +159,11 @@ WorkspaceFactoryController.prototype.showToolbox = function(name) {
  */
 WorkspaceFactoryController.prototype.renameToolbox = function(originalName, newName) {
   // TODO: implement
+  // Prompt user for new toolbox name
+  // Check if newName is valid (model.toolboxNameIsTaken())
+  // If valid, model.renameToolbox(originalName, newName)
+  // Else prompt again.
 };
-
-
 
 /**
  * Currently prompts the user for a name, checking that it's valid (not used
