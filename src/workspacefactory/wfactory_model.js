@@ -70,6 +70,8 @@ WorkspaceFactoryModel = function() {
  * Creates a new toolbox for users to modify and edit.
  *
  * @param {string} name Name of new toolbox to add.
+ * @param {Promise} Resolves with true if name is valid and successfully added
+ *     to list of toolboxes; rejects with error message if name is invalid.
  */
 WorkspaceFactoryModel.prototype.addToolbox = function(name) {
   // TODO: Implement.
@@ -91,9 +93,10 @@ WorkspaceFactoryModel.prototype.ifNamedToolbox = function() {
  * @param {string} name Name of toolbox to update workspace XML into.
  * @param {string} xml String representation of XML to be stored into
  *    toolboxList[name].
- * @returns {boolean} If updated successfully.
+ * @returns {Promise} Resolves if updated successfully, rejects if
+ *    name of toolbox is invalid or other errors arise.
  */
-WorkspaceFactoryModel.prototype.updateToolbox = function(name, xml) {
+WorkspaceFactoryModel.prototype.updateToolboxFromXml = function(name, xml) {
   // TODO: Implement.
 };
 
@@ -101,6 +104,8 @@ WorkspaceFactoryModel.prototype.updateToolbox = function(name, xml) {
  * Renames toolbox from oldName to newName. Catches for duplicates and invalid
  * names (empty strings, etc.).
  *
+ * @param {string} oldName Original name of toolbox to change to newName.
+ * @param {string} newName New name of toolbox to change from oldName.
  * @returns {boolean} If renamed successfully.
  */
 WorkspaceFactoryModel.prototype.renameToolbox = function(oldName, newName) {
@@ -111,7 +116,8 @@ WorkspaceFactoryModel.prototype.renameToolbox = function(oldName, newName) {
  * Indicates whether a given toolbox name is already taken (i.e. user has already
  * previously named a toolbox under that given name).
  *
- * @returns {boolean} If toolbox name is taken.
+ * @param {string} name Name of toolbox to check if taken.
+ * @returns {boolean} Whether toolbox name is taken.
  */
 WorkspaceFactoryModel.prototype.toolboxNameIsTaken = function(name) {
   // TODO: implement
@@ -125,7 +131,7 @@ WorkspaceFactoryModel.prototype.toolboxNameIsTaken = function(name) {
  * between the xml tags (and no alphanumeric/symbol values).
  *
  * @param {string} xml XML String to be compared.
- * @returns {boolean} If toolbox is empty.
+ * @returns {boolean} Whether toolbox is empty.
  */
 WorkspaceFactoryModel.prototype.isEmptyToolbox = function(xml) {
 

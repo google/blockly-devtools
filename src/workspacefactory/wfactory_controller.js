@@ -52,24 +52,39 @@ function WorkspaceFactoryController(toolboxName, toolboxDiv, previewDiv) {
   // Currently displayed toolbox. Upon init, the current toolbox name is
   // the default toolbox name, which is the empty string. Users are forced
   // to rename this once they create multiple toolboxes.
+  // @type {string}
   this.currentToolbox = '';
 
   // Model to keep track of categories and blocks.
+  // @type {WorkspaceFactoryModel}
   this.model = new WorkspaceFactoryModel();
+
   // Updates the category tabs.
+  // @type {WorkspaceFactoryView}
   this.view = new WorkspaceFactoryView();
+
   // Generates XML for categories.
+  // @type {WorkspaceFactoryGenerator}
   this.generator = new WorkspaceFactoryGenerator(this.model);
+
   // Tracks which editing mode the user is in. Toolbox mode on start.
+  // @type {string}
   this.selectedMode = WorkspaceFactoryController.MODE_TOOLBOX;
+
   // True if key events are enabled, false otherwise.
+  // @type {boolean}
   this.keyEventsEnabled = true;
+
   // True if there are unsaved changes in the toolbox, false otherwise.
+  // @type {boolean}
   this.hasUnsavedToolboxChanges = false;
+
   // True if there are unsaved changes in the preloaded blocks, false otherwise.
+  // @type {boolean}
   this.hasUnsavedPreloadChanges = false;
 
   // Workspace for user to drag blocks in for a certain category.
+  // @type {!Blockly.Workspace}
   this.toolboxWorkspace = Blockly.inject(toolboxDiv,
     {grid:
       {spacing: 25,
@@ -81,6 +96,7 @@ function WorkspaceFactoryController(toolboxName, toolboxDiv, previewDiv) {
      });
 
   // Workspace for user to preview their changes.
+  // @type {!Blockly.Workspace}
   this.previewWorkspace = Blockly.inject(previewDiv,
     {grid:
       {spacing: 25,
@@ -119,32 +135,37 @@ WorkspaceFactoryController.prototype.newToolbox = function() {
   // If taken, prompt again.
   // If not taken, model.addToolbox(newName).
   // Show toolbox after successful naming.
+  console.log('WorkspaceFactoryController.newToolbox() called!');
 };
 
 /**
  * Saves XML currently in workspace into currently active toolbox under this.toolboxList.
  *
- * @returns {boolean} If saved successfully.
+ * @returns {Promise} If saved successfully, resolve with true; else reject with
+ *     error message string.
  */
 WorkspaceFactoryController.prototype.saveToolbox = function() {
   // TODO: implement
   // Check if current toolbox has a name (model.ifNamedToolbox()).
   // If no name, prompt user to name current toolbox.
-  // If named, model.updateToolbox(model.currentToolbox).
+  // If named, model.updateToolboxFromXml(model.currentToolbox).
+  // Use Promise.then() to catch for failures.
+  console.log('WorkspaceFactoryController.saveToolbox() called!');
 };
 
 /**
  * Changes view to display a different or new toolbox to edit.
  *
  * @param {string} name Name of toolbox to display.
- * @returns {boolean} If toolbox name was valid and displayed succesfully onto
- *     workspace.
+ * @returns {Promise} If displayed successfully, resolve with true; else reject
+ *     with error message string.
  */
 WorkspaceFactoryController.prototype.showToolbox = function(name) {
   // TODO: implement
   // Check if name exists (model.toolboxNameIsTaken()).
   // If exists, display model.toolboxList[name].
   // If name DNE within list, prompt user.
+  console.log('WorkspaceFactoryController.showToolbox() called!');
 };
 
 /**
@@ -155,7 +176,8 @@ WorkspaceFactoryController.prototype.showToolbox = function(name) {
  *
  * @param {string} originalName Original name of toolbox.
  * @param {string} newName New name of toolbox.
- * @returns {boolean} True if successfully renamed.
+ * @returns {Promise} If renamed successfully, resolve with true; else reject with error
+ *     message string.
  */
 WorkspaceFactoryController.prototype.renameToolbox = function(originalName, newName) {
   // TODO: implement
@@ -163,6 +185,7 @@ WorkspaceFactoryController.prototype.renameToolbox = function(originalName, newN
   // Check if newName is valid (model.toolboxNameIsTaken())
   // If valid, model.renameToolbox(originalName, newName)
   // Else prompt again.
+  console.log('WorkspaceFactoryController.renameToolbox() called!');
 };
 
 /**
@@ -1057,28 +1080,33 @@ WorkspaceFactoryController.prototype.importPreloadFromTree_ = function(tree) {
  * blocks in the model and view and all pre-loaded blocks. Tied to the
  * "Clear" button.
  *
- * @param {boolean} conf Whether user should first confirm before clearing
+ * @param {boolean} shouldConfirm Whether user should first confirm before clearing
  *     workspace.
+ * @returns {Promise} Resolves if successfully cleared workspace; rejects if
+ *     user cancelled clearing.
  */
-WorkspaceFactoryController.prototype.clearAll = function(conf) {
-  if (conf && !confirm('Are you sure you want to clear all of your work in Workspace' +
-      ' Factory?')) {
-    return;
-  }
-  var hasCategories = this.model.hasElements();
-  this.model.clearToolboxList();
-  this.view.clearToolboxTabs();
-  this.model.savePreloadXml(Blockly.Xml.textToDom('<xml></xml>'));
-  this.view.addEmptyCategoryMessage();
-  this.view.updateState(-1, null);
-  this.toolboxWorkspace.clear();
-  this.toolboxWorkspace.clearUndo();
-  this.saveStateFromWorkspace();
-  this.hasUnsavedToolboxChanges = false;
-  this.hasUnsavedPreloadChanges = false;
-  this.view.setCategoryOptions(this.model.hasElements());
-  this.generateNewOptions();
-  this.updatePreview();
+WorkspaceFactoryController.prototype.clearAll = function(shouldConfirm) {
+  return new Promise((resolve, reject) => {
+    if (shouldConfirm && !confirm('Are you sure you want to clear all of your ' +
+        'work in Workspace Factory?')) {
+      reject();
+    }
+    var hasCategories = this.model.hasElements();
+    this.model.clearToolboxList();
+    this.view.clearToolboxTabs();
+    this.model.savePreloadXml(Blockly.Xml.textToDom('<xml></xml>'));
+    this.view.addEmptyCategoryMessage();
+    this.view.updateState(-1, null);
+    this.toolboxWorkspace.clear();
+    this.toolboxWorkspace.clearUndo();
+    this.saveStateFromWorkspace();
+    this.hasUnsavedToolboxChanges = false;
+    this.hasUnsavedPreloadChanges = false;
+    this.view.setCategoryOptions(this.model.hasElements());
+    this.generateNewOptions();
+    this.updatePreview();
+    resolve();
+  });
 };
 
 /*
