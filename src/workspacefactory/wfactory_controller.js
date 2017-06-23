@@ -497,6 +497,8 @@ WorkspaceFactoryController.prototype.exportJsFile = function(exportMode) {
  * @param {string} exportMode Component of project being exported; either
  *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
  *     (WorkspaceFactoryController.MODE_PRELOAD).
+ * @returns {Promise} Resolves if exported all files successfully, rejects if
+ *     exporting process ends incompletely.
  */
 WorkspaceFactoryController.prototype.exportAllXml = function(exportMode) {
   // TODO: implement
@@ -511,6 +513,8 @@ WorkspaceFactoryController.prototype.exportAllXml = function(exportMode) {
  * @param {string} exportMode Component of project being exported; either
  *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
  *     (WorkspaceFactoryController.MODE_PRELOAD).
+ * @returns {Promise} Resolves if exported all files successfully, rejects if
+ *     exporting process ends incompletely.
  */
 WorkspaceFactoryController.prototype.exportAllJs = function(exportMode) {
   // TODO: implement
