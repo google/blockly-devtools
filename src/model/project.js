@@ -86,7 +86,7 @@
 
   /**
    * Sets the current library.
-   * @param {string} library the library to be set
+   * @param {!BlockLibraryController} library the library to be set
    */
   setCurrentLibrary(library) {
   	var libraryName = library.name;
