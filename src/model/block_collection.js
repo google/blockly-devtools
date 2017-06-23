@@ -25,10 +25,9 @@
  */
 
 class BlockCollection {
-	constructor() {
+  constructor() {
 
-	}
+  }
 
-	//TODO: Add functions, attributes, etc.
-
+  //TODO: Add functions, attributes, etc.
 }
