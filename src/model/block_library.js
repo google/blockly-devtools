@@ -25,7 +25,7 @@
  * @author
  */
 
-class BlockLibrary extends BlockCollection {
+class BlockLibrary extends Resource {
   constructor() {
 
   }
