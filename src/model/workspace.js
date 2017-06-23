@@ -19,7 +19,8 @@
  */
 
 /**
- * @fileoverview Workspace object. Contains references to controller and view.
+ * @fileoverview Workspace object. Contains a set of positioned blocks, often
+ * used to initialize an app's blank workspace.
  *
  * @author
  */

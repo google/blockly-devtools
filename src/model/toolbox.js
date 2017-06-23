@@ -35,6 +35,8 @@ class Toolbox {
    * @param {string} newName New name of toolbox.
    */
   setName(newName) {
+    console.log('setName() called!')
+    // TODO: Implement function.
   }
 
   /**
@@ -42,62 +44,58 @@ class Toolbox {
    * @returns {boolean} True if added succesfully.
    */
   addBlock(categoryName, blockName, xmlDefinition) {
+    console.log('Add block called!');
+    // TODO: Implement function.
   }
 
   /**
    * Removes block from toolbox.
    */
   removeBlock(blockName) {
+    console.log('Remove block called!');
     if (this.blocks[blockName]) {
       delete this.blocks[blockName];
     }
   }
 
   /**
-   * Exports toolbox as JS file.
+   * Generates JavaScript string representation of toolbox for user to download.
+   * Does not deal with popups or file system access; just generates content.
+   *
+   * @returns {string} String representation of JS file to be exported.
    */
   exportJs() {
-    return;
+    // TODO: Implement function.
+    console.log('exportJs() called.');
   }
 
   /**
-   * Exports toolbox as XML file.
+   * Generates XML string representation of toolbox for user to download. Does
+   * not deal with popups or file system access; just generates content.
+   *
+   * @returns {string} String representation of XML file to be exported.
    */
   exportXml() {
-    return;
-  }
-
-  /**
-   *
-   */
-  moveCategory() {
-
+    // TODO: Implement function.
+    console.log('exportXml() called.');
   }
 
   /**
    * Returns true if given category name already exists within toolbox.
    *
    * @param {string} categoryName Name of category.
+   * @returns {boolean} Whether category name exists in toolbox.
    */
-  categoryIsInToolbox() {
-
+  categoryIsInToolbox(categoryName) {
+    // TODO: Implement function.
   }
 
   /**
-   * Returns true if given block name already exists within toolbox.
-   *
-   * @param {string} blockName Name of block.
-   */
-  blockIsInToolbox() {
-
-  }
-
-  /**
-   * Returns true if all blocks within this toolbox is empty.
+   * Returns true if this toolbox does not contain any blocks in any category.
    *
    * @returns {boolean} Whether the toolbox is empty.
    */
   isEmpty() {
-
+    // TODO: Implement function.
   }
 }
