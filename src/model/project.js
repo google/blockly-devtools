@@ -56,7 +56,7 @@ class Project {
   this.currentLibrary = null;
   // The current Toolbox being accessed.
   this.currentToolbox = null;
-  //TODO #54: rename this structure
+  // TODO #54: rename this structure
   // The current Workspace being accessed.
   this.currentWorkspace = null;
   }
