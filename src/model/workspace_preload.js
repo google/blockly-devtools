@@ -25,7 +25,7 @@
  * @author
  */
 
-class WorkspacePreload extends BlockCollection {
+class WorkspacePreload extends Resource {
   constructor() {
 
   }
