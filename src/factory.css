@@ -634,7 +634,7 @@ td.taboff:hover {
   position: absolute;
   top: 0;
   width: 60%;
-  z-index:2;
+  z-index:20;
 }
 
 #popup #bkg {
