@@ -19,12 +19,12 @@
  */
 
 /**
- * @fileoverview The BlockCollection class is a collection of blocks. It is the
- *    parent class for all potential groupings of blocks in Blockly DevTools.
+ * @fileoverview The Resource object is the abstract parent class for all
+ *   potential groupings of blocks in Blockly DevTools.
  *
  */
 
-class BlockCollection {
+class Resource {
   constructor() {
 
   }

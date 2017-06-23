@@ -19,12 +19,13 @@
  */
 
 /**
- * @fileoverview Library object. Contains references to controller and view.
+ * @fileoverview BlockLibrary object. Contains references to controller and
+ *    view.
  *
  * @author
  */
 
-class Library extends BlockCollection {
+class BlockLibrary extends BlockCollection {
   constructor() {
 
   }
