@@ -88,10 +88,12 @@
   }
 
   /**
-   * Sets the current library.
-   * @param {string} component The Toolbox, Workspace, or
-   *    BlockLibraryController which may or may not be in the project
-   * @param {!Array.<string>}
+   * Checks whether or not a given Toolbox, Workspace, or Library is contained
+   *   in the project.
+   * @param {!Object} component The Toolbox, Workspace, or
+   *    BlockLibraryController which may or may not be in the project.
+   * @param {!Array.<string>} componentArray The array of Library, Toolbox, or
+   *    Workspace names to check.
    */
   hasComponent(component, componentArray) {
     var componentName = component.name;
@@ -103,7 +105,7 @@
 
   /**
    * Sets the current library.
-   * @param {!BlockLibraryController} library The library to be set
+   * @param {!BlockLibraryController} library The library to be set.
    */
   setCurrentLibrary(library) {
   	if (this.hasComponent(library, this.getLibraryNames())) {
@@ -117,7 +119,7 @@
 
   /**
    * Sets the current toolbox.
-   * @param {!Toolbox} toolbox The toolbox to be set
+   * @param {!Toolbox} toolbox The toolbox to be set.
    */
   setCurrentToolbox(toolbox) {
   if (this.hasComponent(toolbox, this.getToolboxNames())) {
@@ -131,7 +133,7 @@
 
   /**
    * Sets the current workspace.
-   * @param {!Workspace} workspace The workspace to be set
+   * @param {!Workspace} workspace The workspace to be set.
    */
   setCurrentWorkspace(workspace) {
    if (this.hasComponent(workspace, this.getWorkspaceNames())) {
@@ -145,7 +147,7 @@
 
   /**
    * Adds a block to the project, by adding it to the current library.
-   * @param {string} blockType The name of the block to be added
+   * @param {string} blockType The name of the block to be added.
    */
   addBlockToProject(blockType) {
     //TODO: add functionality
@@ -153,7 +155,7 @@
 
   /**
    * Adds a library to the project.
-   * @param {!BlockLibraryController} library The library to be added
+   * @param {!BlockLibraryController} library The library to be added.
    */
   addLibrary(library) {
   	this.libraries[library.name] = library;
@@ -161,7 +163,7 @@
 
   /**
    * Adds a toolbox to the project.
-   * @param {!Toolbox} toolbox The toolbox to be added
+   * @param {!Toolbox} toolbox The toolbox to be added.
    */
   addToolbox(toolbox) {
   	this.toolboxes[toolbox.name] = toolbox;
@@ -169,7 +171,7 @@
 
   /**
    * Adds a workspace to the project.
-   * @return {!Workspace} workspace The workspace to be added
+   * @return {!Workspace} workspace The workspace to be added.
    */
   addWorkspace(workspace) {
     this.workspaces[workspace.name] = workspace;
@@ -205,11 +207,10 @@
   };
 
   /**
-   * If there are unsaved changes to the project, checks if user wants to
-   * proceed, knowing that they will lose their changes.
-   * @return {boolean} Whether or not to proceed.
+   * Returns whether or not there are unsaved elements in the project.
+   * @return {boolean} Whether or not unsaved elements exist.
    */
-   warnIfUnsaved() {
+   isDirty() {
     return this.currentLibrary.warnIfUnsavedChanges();
-  };
+  }
 }

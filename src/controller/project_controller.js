@@ -27,15 +27,24 @@
  */
 
  /**
-  * @class Project aggregates libraries, toolboxes, and workspaces to form
-  *    a project.
+  * @class ProjectController manages the DevTools Project object's information.
+  *    it controls opening and storing blocks, warning about unsaved changes
+  *    to libraries, and importing and exporting projects and the elements that
+  *    they contain.
   */
-class ProjectController {
-  constructor() {
-
-  }
-
   //TODO #44: refactor
   //TODO #50: manage project metadata
+class ProjectController {
+  constructor() {
+    this.project = project;
+  }
 
+  /**
+   * If there are unsaved changes to the project, checks if user wants to
+   * proceed, knowing that they will lose their changes.
+   * @return {boolean} Whether or not to proceed.
+   */
+   warnIfUnsaved() {
+    return this.project.isDirty();
+  };
 }
