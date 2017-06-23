@@ -21,7 +21,13 @@
 /**
  * @fileoverview The Project class represents the project data structure.
  * A project is a collection of one or more libraries along with
- * any number of toolboxes and/or workspaces.
+ *    any number of toolboxes and/or workspaces. In the course of designing an
+ *    application, a developer may want to work on any number of the
+ *    aforementioned groupings (library, workspace, toolbox) in various ways.
+ *    A project, by providing a structure in which those elements and the blocks
+ *    within them are linked, seeks to manage this cycle in a more organized
+ *    manner, allowing developers to import and export a structure created based
+ *    upon their workflow.
  *
  * @author sagev@google.com (Sage Vouse)
  */
@@ -33,17 +39,24 @@
   */
  class Project {
   /**
-   * Represents a user's collection of Libraries, toolboxes, and workspaces
-   * @param {string} projectName Desired name of project
+   * Represents a user's collection of Libraries, toolboxes, and workspaces.
+   * @param {string} projectName The desired name of project.
    * @constructor
    */
   constructor(projectName) {
     this.projectName = projectName;
+    // Dictionary mapping {string} library names to BlockLibraryControllers.
     this.libraries = {};
+    // Dictionary mapping {string} toolbox names to Toolboxes.
     this.toolboxes = {};
+    // Dictionary mapping {string} workspace names to Workspaces.
     this.workspaceBlocks = {};
+    // The current BlockLibraryController being accessed.
     this.currentLibrary = null;
+    // The current Toolbox being accessed.
     this.currentToolbox = null;
+    //TODO #54: rename this structure
+    // The current Workspace being accessed.
     this.currentWorkspace = null;
   }
 
