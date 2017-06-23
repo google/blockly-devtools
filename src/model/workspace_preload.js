@@ -19,16 +19,16 @@
  */
 
 /**
- * @fileoverview The BlockGroup class is a collection of blocks. It is the
- *    parent class for all potential groupings of blocks in Blockly DevTools.
+ * @fileoverview WorkspacePreload object. Contains a set of positioned blocks,
+ *   often used to initialize an app's blank workspace.
  *
+ * @author
  */
 
-class BlockGroup {
-	constructor() {
+class WorkspacePreload extends BlockCollection {
+  constructor() {
 
-	}
+  }
 
-	//TODO: Add functions, attributes, etc.
-
+  //TODO: Add functions.
 }

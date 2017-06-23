@@ -19,16 +19,16 @@
  */
 
 /**
- * @fileoverview Workspace object. Contains a set of positioned blocks, often
- * used to initialize an app's blank workspace.
+ * @fileoverview The BlockCollection class is a collection of blocks. It is the
+ *    parent class for all potential groupings of blocks in Blockly DevTools.
  *
- * @author
  */
 
-class Workspace extends BlockGroup {
-  constructor() {
+class BlockCollection {
+	constructor() {
 
-  }
+	}
 
-  //TODO: Add functions.
+	//TODO: Add functions, attributes, etc.
+
 }
