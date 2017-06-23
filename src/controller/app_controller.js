@@ -81,9 +81,12 @@ AppController = function() {
   this.view.setLibraryTree(this.blockLibraryController);
 
   // Creates the project.
+  //TODO #53: give only ProjectController
   this.project = new Project('TEST');
 
   this.project.setCurrentLibrary(this.blockLibraryController);
+
+  this.projectController = new ProjectController(this.project);
 };
 
 // Constant values representing the three tabs in the controller.
@@ -535,7 +538,7 @@ AppController.prototype.assignBlockFactoryClickHandlers = function() {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
       var proceedWithUnsavedChanges =
-        this.project.warnIfUnsaved();
+        this.projectController.warnIfUnsaved();
       if (!proceedWithUnsavedChanges) {
         return;
       }

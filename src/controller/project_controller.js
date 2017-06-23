@@ -35,15 +35,14 @@
   //TODO #44: refactor
   //TODO #50: manage project metadata
 class ProjectController {
-  constructor() {
+  constructor(project) {
     this.project = project;
   }
 
   /**
-   * If there are unsaved changes to the project, checks if user wants to
-   * proceed, knowing that they will lose their changes.
-   * @return {boolean} Whether or not to proceed.
+   * Return whether or not the project has unsaved changes.
    */
+   //TODO #52: move warning behavior here
    warnIfUnsaved() {
     return this.project.isDirty();
   };
