@@ -104,8 +104,7 @@ function test_toolboxInit() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
 
-  assertEquals('FAILED: toolboxList does not have just one element (has ' +
-        len(controller) + 'number of elements) upon init.',
+  assertEquals('FAILED: toolboxList does not have just one element upon init.',
       1, len(controller));
   assertTrue('FAILED: Default toolbox name does not exist upon init.',
       model.toolboxNameIsTaken(''));
@@ -122,7 +121,7 @@ function test_addToolbox_simple() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
 
-  assertEquals('FAILED: Toolbox has length of ' + len(controller) + '. Expected 1.',
+  assertEquals('FAILED: Toolbox count incorrect.',
       1, len(controller));
 
   model.addToolbox('test').then(
@@ -131,10 +130,10 @@ function test_addToolbox_simple() {
       },
       (errorMsg) => {
         // Rejected. Fail test.
-        assertTrue('FAILED: ' + errorMsg, false);
+        fail('FAILED: ' + errorMsg);
       });
 
-  assertEquals('FAILED: Toolbox has length of ' + len(controller) + '. Expected 2.',
+  assertEquals('FAILED: Toolbox count incorrect.',
       2, len(controller));
 
   assertTrue('FAILED: Newly added toolbox is not an empty toolbox.',
@@ -148,7 +147,7 @@ function test_addToolbox_specialChar() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
 
-  assertEquals('FAILED: Toolbox has length of ' + len(controller) + '. Expected 1.',
+  assertEquals('FAILED: Toolbox count incorrect.',
       1, len(controller));
 
   model.addToolbox('test').then(
@@ -157,7 +156,7 @@ function test_addToolbox_specialChar() {
       },
       (errorMsg) => {
         // Rejected. Fail test.
-        assertTrue('FAILED: ' + errorMsg, false);
+        fail('FAILED: ' + errorMsg);
       });
 
   let specialChars = inputTestVar.specialChars;
@@ -167,21 +166,16 @@ function test_addToolbox_specialChar() {
     model.addToolbox(specialChars[i]).then(
         (success) => {
           // Resolved. Check if it exists in toolboxList.
-          if (!model.toolboxNameIsTaken(specialChars[i])) {
-            assertTrue('FAILED: Adding specialChar ' + charLiteral[i] +
-                'successful, but not found in toolboxList.',
-                false);
-          }
+          assertTrue('FAILED: Adding specialChar ' + charLiteral[i] +
+              'successful, but not found in toolboxList.',
+              model.toolboxNameIsTaken(specialChars[i]));
         },
         (errorMsg) => {
           // Rejected. Fail test.
-          assertTrue(
-              'FAILED [iteration ' + i + ']: Failed in renaming to special character "' +
-                inputTestVar.charLiteral[i] + '" from "Test". Error message: ' + errorMsg,
-              false);
+          fail('FAILED [iteration ' + i + ']: Failed in adding special character "' +
+              charLiteral[i] + '" as a toolbox. Error message: ' + errorMsg);
         });
-    assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved. ' +
-          'Should have ' + (i + 1) + ' toolboxes.',
+    assertEquals('FAILED: Toolbox count incorrect',
         i + 1, len(controller));
   }
 }
@@ -237,17 +231,7 @@ function test_renameToolbox_simple() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
 
-  assertEquals('FAILED: Toolbox list should have 1 toolbox upon init.',
-      1, len(controller));
-
-  model.addToolbox('Test').then(
-      (success) => {
-        // Resolved. Do nothing.
-      },
-      (errorMsg) => {
-        // Rejected. Fail test.
-        assertTrue('FAILED [in addToolbox()]: ' + errorMsg, false);
-      });
+  initToolbox(model, 'Test');
 
   model.renameToolbox('Test', 'NewTest').then(
       (success) => {
@@ -255,10 +239,9 @@ function test_renameToolbox_simple() {
       },
       (errorMsg) => {
         // Rejected. Fail test.
-        assertTrue('FAILED: ' + errorMsg, false);
+        fail('FAILED: ' + errorMsg);
       });
-  assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved. ' +
-        'Should have two toolboxes.',
+  assertEquals('FAILED: Toolbox count incorrect.',
       2, len(controller));
 }
 
@@ -269,17 +252,7 @@ function test_renameToolbox_specialChar() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
 
-  assertEquals('FAILED: Toolbox list should have 1 toolbox upon init.',
-      1, len(controller));
-
-  model.addToolbox('Test').then(
-      (success) => {
-        // Resolved. Do nothing.
-      },
-      (errorMsg) => {
-        // Rejected. Fail test.
-        assertTrue('FAILED [in addToolbox()]: ' + errorMsg, false);
-      });
+  initToolbox(model, 'Test');
 
   let specialChars = inputTestVar.specialChars;
 
@@ -290,13 +263,11 @@ function test_renameToolbox_specialChar() {
         },
         (errorMsg) => {
           // Rejected. Fail test.
-          assertTrue(
+          fail(
               'FAILED [iteration ' + i + ']: Failed in renaming to special character "' +
-                inputTestVar.charLiteral[i] + '" from "Test". Error message: ' + errorMsg,
-              false);
+                inputTestVar.charLiteral[i] + '" from "Test". Error message: ' + errorMsg);
         });
-    assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved. ' +
-          'Should have two toolboxes.',
+    assertEquals('FAILED: Toolbox count incorrect.',
         2, len(controller));
 
     model.renameToolbox(specialChars[i], 'Test').then(
@@ -305,13 +276,11 @@ function test_renameToolbox_specialChar() {
         },
         (errorMsg) => {
           // Rejected. Fail test.
-          assertTrue(
+          fail(
               'FAILED [iteration ' + i + ']: Failed in renaming from special character "' +
-                inputTestVar.charLiteral[i] + '" to "Test". Error message: ' + errorMsg,
-              false);
+                inputTestVar.charLiteral[i] + '" to "Test". Error message: ' + errorMsg);
         });
-    assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved. ' +
-          'Should have two toolboxes.',
+    assertEquals('FAILED: Toolbox count incorrect.',
         2, len(controller));
   }
 }
@@ -324,29 +293,18 @@ function test_renameToolbox_space() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
 
-  assertEquals('FAILED: Toolbox list should have 1 toolbox upon init.',
-      1, len(controller));
-
-  model.addToolbox('Test').then(
-      (success) => {
-        // Resolved. Do nothing.
-      },
-      (errorMsg) => {
-        // Rejected. Fail test.
-        assertTrue('FAILED [in addToolbox()]: ' + errorMsg, false);
-      });
+  initToolbox(model, 'Test');
 
   model.renameToolbox('Test', ' ').then(
       (success) => {
         // Resolved. Fail test, since newspace should not be accepted.
-        assertTrue('FAILED: Toolbox names should not be able to be renamed to a ' +
-            'space.', false);
+        fail('FAILED: Toolbox names should not be able to be renamed to a ' +
+            'space.');
       },
       (errorMsg) => {
         // Rejected, as expected. Do nothing.
       });
-  assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved. ' +
-        'Should have two toolboxes.',
+  assertEquals('FAILED: Toolbox count incorrect.',
       2, len(controller));
 }
 
@@ -358,29 +316,18 @@ function test_renameToolbox_newline() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
 
-  assertEquals('FAILED: Toolbox list should have 1 toolbox upon init.',
-      1, len(controller));
-
-  model.addToolbox('Test').then(
-      (success) => {
-        // Resolved. Do nothing.
-      },
-      (errorMsg) => {
-        // Rejected. Fail test.
-        assertTrue('FAILED [in addToolbox()]: ' + errorMsg, false);
-      });
+  initToolbox(model, 'Test');
 
   model.renameToolbox('Test', '\n').then(
       (success) => {
         // Resolved. Fail test, since newspace should not be accepted.
-        assertTrue('FAILED: Toolbox names should not be able to be renamed to a ' +
-            'newline.', false);
+        fail('FAILED: Toolbox names should not be able to be renamed to a ' +
+            'newline.');
       },
       (errorMsg) => {
         // Rejected, as expected. Do nothing.
       });
-  assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved. ' +
-        'Should have two toolboxes.',
+  assertEquals('FAILED: Toolbox count incorrect.',
       2, len(controller));
 }
 
@@ -392,29 +339,18 @@ function test_renameToolbox_spaceAndNewline() {
   let controller = new WorkspaceFactoryController('name', 'toolboxDiv', 'previewDiv');
   let model = controller.model;
 
-  assertEquals('FAILED: Toolbox list should have 1 toolbox upon init.',
-      1, len(controller));
-
-  model.addToolbox('Test').then(
-      (success) => {
-        // Resolved. Do nothing.
-      },
-      (errorMsg) => {
-        // Rejected. Fail test.
-        assertTrue('FAILED [in addToolbox()]: ' + errorMsg, false);
-      });
+  initToolbox(model, 'Test');
 
   model.renameToolbox('Test', ' \n ').then(
       (success) => {
         // Resolved. Fail test, since newspace should not be accepted.
-        assertTrue('FAILED: Toolbox names should not be able to be renamed to a ' +
-            'newline or space.', false);
+        fail('FAILED: Toolbox names should not be able to be renamed to a ' +
+            'newline or space.');
       },
       (errorMsg) => {
         // Rejected, as expected. Do nothing.
       });
-  assertEquals('FAILED: Toolbox has ' + len(controller) + 'toolboxes saved. ' +
-        'Should have two toolboxes.',
+  assertEquals('FAILED: Toolbox count incorrect.',
       2, len(controller));
 }
 
@@ -588,4 +524,22 @@ function len(controller) {
     listSize += 1;
   }
   return listSize;
+}
+
+/**
+ * Initializes toolbox with default toolbox and a toolbox under toolboxName.
+ * Ends with two toolboxes in toolboxList.
+ */
+function initToolbox(model, toolboxName) {
+  assertEquals('FAILED: Toolbox list should have 1 toolbox upon init.',
+      1, len(controller));
+
+  model.addToolbox(toolboxName).then(
+      (success) => {
+        // Resolved. Do nothing.
+      },
+      (errorMsg) => {
+        // Rejected. Fail test.
+        fail('FAILED [in addToolbox()]: ' + errorMsg);
+      });
 }
