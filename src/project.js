@@ -53,7 +53,7 @@
     	var numLibraries = 0;
     	var libraries = Object.keys(this.libraries);
     	var blockTypes = [];
-    	while(libraries[numLibraries]) {
+    	while (libraries[numLibraries]) {
     		libraryName = libraries[numLibraries];
     		libraryController = this.libraries[libraryName];
     		blockTypes = blockTypes.concat(
