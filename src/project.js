@@ -37,11 +37,11 @@
      * @constructor
      */
     constructor(projectName) {
-    this.projectName = projectName;
-    this.libraries = new Object();
-    this.toolboxes = new Object();
-    this.workspaceBlocks = new Object();
-    this.currentLibrary = null;
+      this.projectName = projectName;
+      this.libraries = new Object();
+      this.toolboxes = new Object();
+      this.workspaceBlocks = new Object();
+      this.currentLibrary = null;
     }
 
     /**
