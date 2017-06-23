@@ -25,7 +25,8 @@
  *
  * @author sagev@google.com (Sage Vouse)
  */
-
+ //TODO #50: change methods for metadata
+ //TODO #44: differentiate Project and ProjectController for refactor
  /**
   * @class Project aggregates libraries, toolboxes, and workspaces to form
   *    a project.
@@ -38,15 +39,17 @@
    */
   constructor(projectName) {
     this.projectName = projectName;
-    this.libraries = new Object();
-    this.toolboxes = new Object();
-    this.workspaceBlocks = new Object();
+    this.libraries = {};
+    this.toolboxes = {};
+    this.workspaceBlocks = {};
     this.currentLibrary = null;
+    this.currentToolbox = null;
+    this.currentWorkspace = null;
   }
 
   /**
    * Returns an array of all blocks in the project.
-   * @return {!Array.<string>} array of all blockTypes.
+   * @return {!Array.<string>} Array of all blockTypes.
    */
   getBlockTypes() {
     var libraryController;
@@ -62,7 +65,7 @@
 
   /**
    * Returns an array of all BlockLibraryController names (for storage).
-   * @return {!Array.<string>} array of all library names
+   * @return {!Array.<string>} Array of all library names
    */
   getLibraryNames() {
     return Object.keys(this.libraries);
@@ -70,7 +73,7 @@
 
   /**
    * Returns an array of all toolbox names (for storage).
-   * @return {!Array.<string>} array of all toolbox names
+   * @return {!Array.<string>} Array of all toolbox names
    */
   getToolboxNames() {
     return Object.keys(this.toolboxes);
@@ -78,7 +81,7 @@
 
   /**
    * Returns an array of all workspace names (for storage).
-   * @return {!Array.<string>} array of all workspace names
+   * @return {!Array.<string>} Array of all workspace names
    */
   getWorkspaceNames() {
   	return Object.keys(this.workspaces);
@@ -86,36 +89,63 @@
 
   /**
    * Sets the current library.
-   * @param {!BlockLibraryController} library the library to be set
+   * @param {string} component The Toolbox, Workspace, or
+   *    BlockLibraryController which may or may not be in the project
+   * @param {!Array.<string>}
+   */
+  hasComponent(component, componentArray) {
+    var componentName = component.name;
+    if (!$.inArray(component, componentArray)) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Sets the current library.
+   * @param {!BlockLibraryController} library The library to be set
    */
   setCurrentLibrary(library) {
-  	var libraryName = library.name;
-  	var libraries = this.getLibraryNames();
-  	if (!$.inArray(libraryName, libraries)) {
-  		this.currentLibrary = this.libraries[libraryName];
+  	if (this.hasComponent(library, this.getLibraryNames())) {
+  		this.currentLibrary = this.libraries[library.name];
   	}
-  	this.currentLibrary = library;
+    else {
+      this.addLibrary(library);
+      this.currentLibrary = library;
+    }
   }
 
   /**
    * Sets the current toolbox.
-   * @param {string} toolboxName the name of the current toolbox
+   * @param {!Toolbox} toolbox The toolbox to be set
    */
-  setCurrentToolbox(toolboxName) {
-  	this.currentToolbox = this.toolboxes[toolboxName];
+  setCurrentToolbox(toolbox) {
+  if (this.hasComponent(toolbox, this.getToolboxNames())) {
+      this.currentToolbox = this.toolboxes[toolbox.name];
+    }
+    else {
+      this.addToolbox(toolbox);
+      this.currentToolbox = toolbox;
+    }
   }
 
   /**
    * Sets the current workspace.
-   * @param {string} workspaceName the name of the current workspace
+   * @param {!Workspace} workspace The workspace to be set
    */
-  setCurrentWorkspace(workspaceName) {
-  	this.currentWorkspace = workspaceName;
+  setCurrentWorkspace(workspace) {
+   if (this.hasComponent(workspace, this.getWorkspaceNames())) {
+      this.currentWorkspace = this.workspaces[workspace.name];
+    }
+    else {
+      this.addWorkspace(workspace);
+      this.currentWorkspace = workspace;
+    }
   }
 
   /**
    * Adds a block to the project, by adding it to the current library.
-   * @param {string} blockType the block to be added
+   * @param {string} blockType The name of the block to be added
    */
   addBlockToProject(blockType) {
     //TODO: add functionality
@@ -123,27 +153,26 @@
 
   /**
    * Adds a library to the project.
-   * @param {!BlockLibraryController} library the library to be added
+   * @param {!BlockLibraryController} library The library to be added
    */
   addLibrary(library) {
-  	var toAdd = { key: library.name, value: library};
-  	this.libraries.push(toAdd);
+  	this.libraries[library.name] = library;
   }
 
   /**
    * Adds a toolbox to the project.
-   * @param {!Toolbox} toolbox the toolbox to be added
+   * @param {!Toolbox} toolbox The toolbox to be added
    */
   addToolbox(toolbox) {
-  	//TODO: add functionality
+  	this.toolboxes[toolbox.name] = toolbox;
   }
 
   /**
    * Adds a workspace to the project.
-   * @return {!Workspace} workspace the workspace to be added
+   * @return {!Workspace} workspace The workspace to be added
    */
   addWorkspace(workspace) {
-    //TODO: add functionality
+    this.workspaces[workspace.name] = workspace;
   }
 
   /**
@@ -155,7 +184,7 @@
   };
 
   /**
-   * Removes current block from project
+   * Removes current block from project.
    */
   removeBlockFromProject() {
     this.currentLibrary.removeFromBlockLibrary();
@@ -180,7 +209,7 @@
    * proceed, knowing that they will lose their changes.
    * @return {boolean} Whether or not to proceed.
    */
-  warnIfUnsaved() {
+   warnIfUnsaved() {
     return this.currentLibrary.warnIfUnsavedChanges();
   };
- }
+}

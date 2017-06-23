@@ -21,13 +21,21 @@
 /**
  * @fileoverview The ProjectController Class controls the management of the
  *   information contained within projects (libraries, toolboxes, workspaces);
- *   when blocks are opened, storage, importing and exporting.
+ *   when blocks are opened, storage, warning behavior, importing and exporting.
+ *
+ * @author sagev@google.com (Sage Vouse)
  */
 
+ /**
+  * @class Project aggregates libraries, toolboxes, and workspaces to form
+  *    a project.
+  */
 class ProjectController {
   constructor() {
 
   }
 
   //TODO #44: refactor
+  //TODO #50: manage project metadata
+
 }
