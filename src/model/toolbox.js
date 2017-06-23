@@ -24,7 +24,7 @@
  * @author Celine Choo (celinechoo)
  */
 
-class Toolbox {
+class Toolbox extends BlockGroup {
   constructor(name) {
     this.name = name;
     this.xmlDefinitions = {};

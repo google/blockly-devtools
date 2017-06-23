@@ -24,7 +24,7 @@
  * @author
  */
 
-class Library {
+class Library extends BlockGroup {
   constructor() {
 
   }

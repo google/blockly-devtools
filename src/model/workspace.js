@@ -25,7 +25,7 @@
  * @author
  */
 
-class Workspace {
+class Workspace extends BlockGroup {
   constructor() {
 
   }

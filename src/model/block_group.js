@@ -19,15 +19,16 @@
  */
 
 /**
- * @fileoverview Project object. Contains references to controller and view.
+ * @fileoverview The BlockGroup class is a collection of blocks. It is the
+ *    parent class for all potential groupings of blocks in Blockly DevTools.
  *
- * @author
  */
 
-class Project extends BlockGroup {
-  constructor() {
+class BlockGroup {
+	constructor() {
 
-  }
+	}
 
-  //TODO: Add functions.
+	//TODO: Add functions, attributes, etc.
+
 }
