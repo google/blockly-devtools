@@ -49,12 +49,10 @@
      * @return {!Array.<string>} array of all blockTypes.
      */
     getBlockTypes() {
-    	var libraryName;
-    	var numLibraries = 0;
+      var libraryController;
     	var libraries = Object.keys(this.libraries);
     	var blockTypes = [];
-    	while (libraries[numLibraries]) {
-    		libraryName = libraries[numLibraries];
+    	for (const libraryName of libraries) {
     		libraryController = this.libraries[libraryName];
     		blockTypes = blockTypes.concat(
     			libraryController.getStoredBlockTypes());
