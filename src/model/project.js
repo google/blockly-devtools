@@ -33,10 +33,11 @@
  */
  //TODO #50: change methods for metadata
  //TODO #44: differentiate Project and ProjectController for refactor
- /**
-  * @class Project aggregates libraries, toolboxes, and workspaces to form
-  *    a project.
-  */
+
+/**
+ * @class Project aggregates libraries, toolboxes, and workspaces to form
+ *    a project.
+ */
 
 class Project {
   /**
