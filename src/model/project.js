@@ -92,14 +92,14 @@ class Project {
    */
   getToolboxNames() {
     return Object.keys(this.toolboxes);
-     }
+  }
 
   /**
    * Returns an array of all workspace names (for storage).
    * @return {!Array.<string>} Array of all workspace names
    */
   getWorkspaceNames() {
-  	return Object.keys(this.workspaces);
+    return Object.keys(this.workspaces);
   }
 
   /**
