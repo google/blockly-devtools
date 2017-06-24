@@ -26,6 +26,9 @@
  */
 
 class WorkspacePreload extends Resource {
+  constructor() {
+
+  }
 
   //TODO: Add functions.
 }
