@@ -25,14 +25,7 @@
  * @author
  */
 
-<<<<<<< HEAD
 class WorkspacePreload extends Resource {
-=======
-class WorkspacePreload extends BlockCollection {
->>>>>>> 6131d2297f3f777606ba719b836738feab92bab2
-  constructor() {
-
-  }
 
   //TODO: Add functions.
 }
