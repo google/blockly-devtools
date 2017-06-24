@@ -41,10 +41,10 @@
 
 class Project {
   /**
-  * Represents a user's collection of Libraries, toolboxes, and workspaces.
-  * @param {string} projectName The desired name of project.
-  * @constructor
-  */
+   * Represents a user's collection of Libraries, toolboxes, and workspaces.
+   * @param {string} projectName The desired name of project.
+   * @constructor
+   */
   constructor(projectName) {
   this.projectName = projectName;
   // Dictionary mapping {string} library names to BlockLibraryControllers.
