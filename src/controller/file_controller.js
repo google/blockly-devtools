@@ -19,20 +19,15 @@
  */
 
 /**
- * @fileoverview WorkspacePreload object. Contains a set of positioned blocks,
- *   often used to initialize an app's blank workspace.
- *
- * @author
+ * @fileoverview The FileController Class manages saving and opening projects
+ * from the local filesystem. This is different from the ProjectController class
+ * which does not deal with access to and from the filesystem.
  */
 
-<<<<<<< HEAD
-class WorkspacePreload extends Resource {
-=======
-class WorkspacePreload extends BlockCollection {
->>>>>>> 6131d2297f3f777606ba719b836738feab92bab2
+class FileController {
   constructor() {
 
   }
 
-  //TODO: Add functions.
+  //TODO #44: refactor
 }

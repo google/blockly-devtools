@@ -19,20 +19,14 @@
  */
 
 /**
- * @fileoverview WorkspacePreload object. Contains a set of positioned blocks,
- *   often used to initialize an app's blank workspace.
- *
- * @author
+ * @fileoverview The WorkspaceController Class deals with the Blockly workspaces
+ * that are used to generate block libraries, toolboxes, and preload-workspaces.
  */
 
-<<<<<<< HEAD
-class WorkspacePreload extends Resource {
-=======
-class WorkspacePreload extends BlockCollection {
->>>>>>> 6131d2297f3f777606ba719b836738feab92bab2
+class WorkspaceController {
   constructor() {
 
   }
 
-  //TODO: Add functions.
+  //TODO #44: refactor
 }
