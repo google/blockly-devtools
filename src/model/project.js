@@ -112,7 +112,7 @@ class Project {
    */
   hasComponent(component, componentArray) {
     var componentName = component.name;
-    if (!$.inArray(component, componentArray)) {
+    if (componentArray.includes(componentName)) {
       return true;
     }
     return false;
