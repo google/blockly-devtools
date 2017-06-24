@@ -274,6 +274,4 @@ class AppView {
   clearLibraryFromTree() {
     this.navTree.clearLibrary();
   }
-
-
 }
