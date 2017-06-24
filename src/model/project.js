@@ -68,9 +68,9 @@ class Project {
    */
   getBlockTypes() {
     var libraryController;
-  	var libraries = Object.keys(this.libraries);
-  	var blockTypes = [];
-  	for (const libraryName of libraries) {
+    var libraries = Object.keys(this.libraries);
+    var blockTypes = [];
+    for (const libraryName of libraries) {
       libraryController = this.libraries[libraryName];
       blockTypes = blockTypes.concat(
         libraryController.getStoredBlockTypes());
