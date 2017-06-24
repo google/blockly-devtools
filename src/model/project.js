@@ -46,20 +46,20 @@ class Project {
    * @constructor
    */
   constructor(projectName) {
-  this.projectName = projectName;
-  // Dictionary mapping {string} library names to BlockLibraryControllers.
-  this.libraries = {};
-  // Dictionary mapping {string} toolbox names to Toolboxes.
-  this.toolboxes = {};
-  // Dictionary mapping {string} workspace names to Workspaces.
-  this.workspaceBlocks = {};
-  // The current BlockLibraryController being accessed.
-  this.currentLibrary = null;
-  // The current Toolbox being accessed.
-  this.currentToolbox = null;
-  // TODO #54: rename this structure
-  // The current Workspace being accessed.
-  this.currentWorkspace = null;
+    this.projectName = projectName;
+    // Dictionary mapping {string} library names to BlockLibraryControllers.
+    this.libraries = {};
+    // Dictionary mapping {string} toolbox names to Toolboxes.
+    this.toolboxes = {};
+    // Dictionary mapping {string} workspace names to Workspaces.
+    this.workspaceBlocks = {};
+    // The current BlockLibraryController being accessed.
+    this.currentLibrary = null;
+    // The current Toolbox being accessed.
+    this.currentToolbox = null;
+    // TODO #54: rename this structure
+    // The current Workspace being accessed.
+    this.currentWorkspace = null;
   }
 
   /**
