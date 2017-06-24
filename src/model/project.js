@@ -165,7 +165,7 @@ class Project {
    * @param {string} blockType The name of the block to be added.
    */
   addBlockToProject(blockType) {
-    //TODO: add functionality
+    throw "unimplemented: addBlockToProject";
   }
 
   /**
