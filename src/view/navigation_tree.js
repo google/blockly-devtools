@@ -154,5 +154,4 @@ class NavigationTree {
     $('#navigationTree').jstree().create_node('#' ,
       {'id': blockType, 'text': blockType }, 'last', null);
   }
-
 }
