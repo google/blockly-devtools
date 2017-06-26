@@ -133,10 +133,7 @@ class Project {
    */
   hasComponent(component, componentArray) {
     var componentName = component.name;
-    if (componentArray.includes(componentName)) {
-      return true;
-    }
-    return false;
+    return componentArray.includes(component.name);
   }
 
   /**
