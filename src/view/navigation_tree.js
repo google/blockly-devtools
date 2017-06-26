@@ -22,7 +22,7 @@
  * @fileoverview The NavigationTree manages all of the functions for changing
  * the tree view
  *
- * @author sagev (Sage Vouse)
+ * @author sagev@google.com (Sage Vouse)
  */
 
 /**
@@ -32,12 +32,20 @@ class NavigationTree {
 
 /**
  * NavigationTree Class
- * @param {!BlockLibraryController} libraryController allows tree to get blocks
- *    in library
+ * @param {!BlockLibraryController} libraryController Allows the tree to get the
+ *    blocks currently in the library.
  * @constructor
  */
   constructor(libraryController) {
+    /**
+     * The BlockLibraryController the tree represents.
+     * @type {!BlockLibraryController}
+     */
     this.libraryController = libraryController;
+    /**
+     * The array of blockTypes that the tree will list.
+     * @type {!Array.<string>}
+     */
     var blocks = this.libraryController.getStoredBlockTypes();
     this.makeTree(blocks);
   }
