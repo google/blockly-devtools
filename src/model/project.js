@@ -38,7 +38,6 @@
  * @class Project aggregates libraries, toolboxes, and workspaces to form
  *    a project.
  */
-
 class Project {
   /**
    * Represents a user's collection of Libraries, toolboxes, and workspaces.
@@ -46,19 +45,41 @@ class Project {
    * @constructor
    */
   constructor(projectName) {
+    /**
+     * The name of the project.
+     * @type {string}
+     */
     this.projectName = projectName;
-    // Dictionary mapping {string} library names to BlockLibraryControllers.
+    /**
+     * Dictionary mapping libary names to library controllers.
+     * @type {!Object<string, !BlockLibraryController>}
+     */
     this.libraries = {};
-    // Dictionary mapping {string} toolbox names to Toolboxes.
+    /**
+     * Dictionary mapping toolbox names to toolbox controllers.
+     * @type {!Object<string, !Toolbox>}
+     */
     this.toolboxes = {};
-    // Dictionary mapping {string} workspace names to Workspaces.
+    /**
+     * Dictionary mapping workspace names to workspace controllers.
+     * @type {!Object<string, !Workspace>}
+     */
     this.workspaceBlocks = {};
-    // The current BlockLibraryController being accessed.
+    /**
+     * The current BlockLibraryController being accessed.
+     * @type {!BlockLibraryController}
+     */
     this.currentLibrary = null;
-    // The current Toolbox being accessed.
+    /**
+     * The current Toolbox being accessed.
+     * @type {!Toolbox}
+     */
     this.currentToolbox = null;
     // TODO #54: rename this structure
-    // The current Workspace being accessed.
+    /**
+     * The current Workspace being accessed.
+     * @type {!Workspace}
+     */
     this.currentWorkspace = null;
   }
 
@@ -125,8 +146,7 @@ class Project {
   setCurrentLibrary(library) {
   	if (this.hasComponent(library, this.getLibraryNames())) {
   		this.currentLibrary = this.libraries[library.name];
-  	}
-    else {
+  	} else {
       this.addLibrary(library);
       this.currentLibrary = library;
     }
@@ -139,8 +159,7 @@ class Project {
   setCurrentToolbox(toolbox) {
   if (this.hasComponent(toolbox, this.getToolboxNames())) {
       this.currentToolbox = this.toolboxes[toolbox.name];
-    }
-    else {
+    } else {
       this.addToolbox(toolbox);
       this.currentToolbox = toolbox;
     }
@@ -151,10 +170,9 @@ class Project {
    * @param {!Workspace} workspace The workspace to be set.
    */
   setCurrentWorkspace(workspace) {
-   if (this.hasComponent(workspace, this.getWorkspaceNames())) {
+    if (this.hasComponent(workspace, this.getWorkspaceNames())) {
       this.currentWorkspace = this.workspaces[workspace.name];
-    }
-    else {
+    } else {
       this.addWorkspace(workspace);
       this.currentWorkspace = workspace;
     }

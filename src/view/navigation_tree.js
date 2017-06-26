@@ -37,7 +37,15 @@ class NavigationTree {
  * @constructor
  */
   constructor(libraryController) {
+    /**
+     * The BlockLibraryController the tree represents.
+     * @type {!BlockLibraryController}
+     */
     this.libraryController = libraryController;
+    /**
+     * The array of blockTypes that the tree will list.
+     * @type {!Array.<string>}
+     */
     var blocks = this.libraryController.getStoredBlockTypes();
     this.makeTree(blocks);
   }

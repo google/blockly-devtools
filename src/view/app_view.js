@@ -33,16 +33,25 @@ goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
 
+/**
+ * @class AppView manages all UI elements for the DevTools Application.
+ */
 class AppView {
   constructor(appController) {
-    // AppController
+    /**
+     * The AppController for the DevTools session.
+     * @type {!AppController}
+     */
     this.appController = appController;
 
-    // Main window of application.
+    /**
+     * The main window of the application.
+     * @type {!HtmlElement}
+     */
     this.win = nw.Window.get();
 
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
-    this.menuTree = {
+    const menuTree = {
       'File': {
         'New': {
           'New Block': () => { this.showNewBlock(); },
@@ -69,15 +78,26 @@ class AppView {
       'Help': {}
     };
 
-    // Dictionary with all MenuItems. Keys are the labels, values are the
-    // nw.MenuItem's. Values are added in initMenuTree().
+    /**
+     * Dictionary with all MenuItems. Keys are the labels, values are the
+     *     nw.MenuItem's. Values are added in initMenuTree().
+     * @type {!Object<string, !HtmlElement>}
+     */
     this.menuItems = {};
 
     // Initializes menubar.
     this.mainMenu = new nw.Menu({type: 'menubar'});
-    this.initMenuTree(this.mainMenu, this.menuTree);
+    this.initMenuTree(this.mainMenu, menuTree);
+    /**
+     * The Menubar of the main window of the application.
+     * @type {!HtmlElement}
+     */
     this.win.menu = this.mainMenu;
 
+    /**
+     * The tree for the DevTools session.
+     * @type {!JSTree}
+     */
     this.navTree = null;
   }
 
@@ -182,8 +202,7 @@ class AppView {
   }
 
   /**
-   * Initializes menu tree based off of menu tree written into
-   * this.menuTree.
+   * Initializes menu tree based off of a given menu tree
    *
    * @param {!nw.Menu} menu Menu to add nodes to.
    * @param {Object.<string,Object>} tree Dictionary representation of menu tree.
