@@ -141,9 +141,9 @@ class Project {
    * @param {!BlockLibraryController} library The library to be set.
    */
   setCurrentLibrary(library) {
-  	if (this.hasComponent(library, this.getLibraryNames())) {
-  		this.currentLibrary = this.libraries[library.name];
-  	} else {
+    if (this.hasComponent(library, this.getLibraryNames())) {
+      this.currentLibrary = this.libraries[library.name];
+    } else {
       this.addLibrary(library);
       this.currentLibrary = library;
     }
@@ -154,7 +154,7 @@ class Project {
    * @param {!Toolbox} toolbox The toolbox to be set.
    */
   setCurrentToolbox(toolbox) {
-  if (this.hasComponent(toolbox, this.getToolboxNames())) {
+    if (this.hasComponent(toolbox, this.getToolboxNames())) {
       this.currentToolbox = this.toolboxes[toolbox.name];
     } else {
       this.addToolbox(toolbox);
@@ -196,7 +196,7 @@ class Project {
    * @param {!Toolbox} toolbox The toolbox to be added.
    */
   addToolbox(toolbox) {
-  	this.toolboxes[toolbox.name] = toolbox;
+    this.toolboxes[toolbox.name] = toolbox;
   }
 
   /**
@@ -226,7 +226,7 @@ class Project {
    * Clears the current library.
    */
   clearLibrary() {
-  	this.currentLibrary.clearBlockLibrary();
+    this.currentLibrary.clearBlockLibrary();
   };
 
   /**
