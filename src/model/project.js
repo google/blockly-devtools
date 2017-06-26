@@ -188,7 +188,7 @@ class Project {
    * @param {!BlockLibraryController} library The library to be added.
    */
   addLibrary(library) {
-  	this.libraries[library.name] = library;
+    this.libraries[library.name] = library;
   }
 
   /**
