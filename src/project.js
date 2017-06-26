@@ -21,7 +21,6 @@
 /**
  * @fileoverview stub formerly home to the Project class (now in model).
  *
- * @author sagev@google.com (Sage Vouse)
  */
 
 // method referred to in Projectcontroller class (now referring to method in
