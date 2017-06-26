@@ -484,8 +484,8 @@ AppController.prototype.assignLibraryClickHandlers = function() {
   // Button for saving block to library.
   document.getElementById('saveToBlockLibraryButton').addEventListener('click',
       () => {
-          this.project.saveBlock();
-          this.view.addBlockToTree();
+        this.project.saveBlock();
+        this.view.addBlockToTree();
       });
 
   // Button for removing selected block from library.
