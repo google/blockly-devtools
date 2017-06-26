@@ -632,7 +632,7 @@ AppController.prototype.onresize = function(event) {
  */
 AppController.prototype.confirmLeavePage = function(e) {
   if ((!BlockFactory.isStarterBlock() &&
-    !FactoryUtils.savedBlockChanges(blocklyFactory.project.currentLibrary)) ||
+      !FactoryUtils.savedBlockChanges(blocklyFactory.project.currentLibrary)) ||
       blocklyFactory.workspaceFactoryController.hasUnsavedChanges()) {
 
     var confirmationMessage = 'You will lose any unsaved changes. ' +
