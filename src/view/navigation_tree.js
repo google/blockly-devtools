@@ -32,8 +32,8 @@ class NavigationTree {
 
 /**
  * NavigationTree Class
- * @param {!BlockLibraryController} libraryController allows tree to get blocks
- *    in library
+ * @param {!BlockLibraryController} libraryController Allows the tree to get the
+ *    blocks currently in the library.
  * @constructor
  */
   constructor(libraryController) {

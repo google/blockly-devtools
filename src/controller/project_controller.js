@@ -34,8 +34,26 @@
   */
   //TODO #44: refactor
   //TODO #50: manage project metadata
+
+/**
+ * @class ProjectController manages warnings for unsaved project data when
+ *    exiting the application, access to Project metadata, import and export of
+ *    projects and their components, and management of project data on local
+ *    local filesystems between sessions.
+ */
 class ProjectController {
+
+  /**
+   * ProjectController class
+   * @param {!Project} project the project from which the data to be managed
+   *    comes from.
+   * @constructor
+   */
   constructor(project) {
+    /**
+     * The project to be managed.
+     * @type {!Project}
+     */
     this.project = project;
   }
 
