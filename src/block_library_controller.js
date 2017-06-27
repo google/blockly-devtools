@@ -55,16 +55,6 @@ BlockLibraryController = function(blockLibraryName, opt_blockLibraryStorage) {
   // the block library dropdown.
   this.view = new BlockLibraryView();
 
-  this.tree = null;
-};
-
-/**
- * Assigns a tree instance such that the navigation tree will be edited
- * with changes to block storage
- * @param {!JSTree} tree the main navigation tree
- */
-BlockLibraryController.prototype.setTree = function(tree) {
-  this.tree = tree;
 };
 
 /**
@@ -82,14 +72,12 @@ BlockLibraryController.prototype.getCurrentBlockType = function() {
 /**
  * Removes current block from Block Library and updates the save and delete
  * buttons so that user may save block to library and but not delete.
- * @param {string} blockType Type of block.
  */
 BlockLibraryController.prototype.removeFromBlockLibrary = function() {
   var blockType = this.getCurrentBlockType();
   this.storage.removeBlock(blockType);
   this.storage.saveToLocalStorage();
   this.view.updateButtons(blockType, false, false);
-  this.tree.deleteBlockNode(blockType);
 };
 
 /**
@@ -133,15 +121,11 @@ BlockLibraryController.prototype.clearBlockLibrary = function() {
     // User may not save the starter block, but will get explicit instructions
     // upon clicking the red save button.
     this.view.updateButtons(null);
-
-    // clear the tree
-    this.tree.clearLibrary();
-
   }
 };
 
 /**
- * Saves current block to local storage and updates dropdown.
+ * Saves current block to local storage.
  */
 BlockLibraryController.prototype.saveToBlockLibrary = function() {
   var blockType = this.getCurrentBlockType();
@@ -158,11 +142,6 @@ BlockLibraryController.prototype.saveToBlockLibrary = function() {
   var xmlElement = goog.dom.createDom('xml');
   var block = FactoryUtils.getRootBlock(BlockFactory.mainWorkspace);
   xmlElement.appendChild(Blockly.Xml.blockToDomWithXY(block));
-
-  // Do not add node again if block type is already in library.
-  if (!this.has(blockType)) {
-    this.tree.addBlockNode(blockType);
-  }
 
   // Save block.
   this.storage.addBlock(blockType, xmlElement);
@@ -254,9 +233,8 @@ BlockLibraryController.prototype.warnIfUnsavedChanges = function() {
 /**
  * Add select handler for an option of a given block type. The handler will to
  * update the view and the selected block accordingly.
- * @param {string} blockType The type of block represented by the option is for.
  */
-BlockLibraryController.prototype.addOptionSelectHandler = function(blockType) {
+BlockLibraryController.prototype.addOptionSelectHandler = function() {
   var self = this;
   // Click handler for a block option. Sets the block option as the selected
   // option and opens the block for edit in Block Factory.

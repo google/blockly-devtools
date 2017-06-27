@@ -21,13 +21,47 @@
 /**
  * @fileoverview The ProjectController Class controls the management of the
  *   information contained within projects (libraries, toolboxes, workspaces);
- *   when blocks are opened, storage, importing and exporting.
+ *   when blocks are opened, storage, warning behavior, importing and exporting.
+ *
+ * @author sagev@google.com (Sage Vouse)
  */
 
-class ProjectController {
-  constructor() {
+ /**
+  * @class ProjectController manages the DevTools Project object's information.
+  *    it controls opening and storing blocks, warning about unsaved changes
+  *    to libraries, and importing and exporting projects and the elements that
+  *    they contain.
+  */
+  //TODO #44: refactor
+  //TODO #50: manage project metadata
 
+/**
+ * @class ProjectController manages warnings for unsaved project data when
+ *    exiting the application, access to Project metadata, import and export of
+ *    projects and their components, and management of project data on local
+ *    local filesystems between sessions.
+ */
+class ProjectController {
+
+  /**
+   * ProjectController class
+   * @param {!Project} project the project from which the data to be managed
+   *    comes from.
+   * @constructor
+   */
+  constructor(project) {
+    /**
+     * The project to be managed.
+     * @type {!Project}
+     */
+    this.project = project;
   }
 
-  //TODO #44: refactor
+  /**
+   * Return whether or not the project has unsaved changes.
+   */
+   //TODO #52: move warning behavior here
+   warnIfUnsaved() {
+    return this.project.isDirty();
+  };
 }
