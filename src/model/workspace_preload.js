@@ -79,11 +79,11 @@ class WorkspacePreload extends Resource {
   };
 
   /**
-  * Returns the XML of given block type stored in current workspace preload
-  * (this.blocks).
-  * @param {string} blockType Type of block.
-  * @return {Element} The XML that represents the block type or null.
-  */
+   * Returns the XML of given block type stored in current workspace preload
+   * (this.blocks).
+   * @param {string} blockType Type of block.
+   * @return {Element} The XML that represents the block type or null.
+   */
   getBlockXml(blockType) {
     /*
      * TODO: impliment
@@ -95,11 +95,11 @@ class WorkspacePreload extends Resource {
   };
 
   /**
-  * Returns map of each block type to its corresponding XML stored in current
-  * workspace preload (this.blocks).
-  * @param {!Array.<string>} blockTypes Types of blocks.
-  * @return {!Object} Map of block types to corresponding XML.
-  */
+   * Returns map of each block type to its corresponding XML stored in current
+   * workspace preload (this.blocks).
+   * @param {!Array.<string>} blockTypes Types of blocks.
+   * @return {!Object} Map of block types to corresponding XML.
+   */
   getBlockXmlMap(blockTypes) {
     /*
      * TODO: impliment
@@ -111,8 +111,8 @@ class WorkspacePreload extends Resource {
   };
 
   /**
-  * Clears the current block workspace preload.
-  */
+   * Clears the current block workspace preload.
+   */
   clear() {
     /*
      * TODO: impliment
@@ -124,9 +124,9 @@ class WorkspacePreload extends Resource {
   };
 
   /**
-  * Removes block from current workspace preload (this.blocks).
-  * @param {string} blockType Type of block.
-  */
+   * Removes block from current workspace preload (this.blocks).
+   * @param {string} blockType Type of block.
+   */
   removeBlock(blockType) {
     /*
      * TODO: impliment
@@ -138,9 +138,9 @@ class WorkspacePreload extends Resource {
   };
 
   /**
-  * Checks to see if block workspace preload is empty.
-  * @return {boolean} True if empty, false otherwise.
-  */
+   * Checks to see if block workspace preload is empty.
+   * @return {boolean} True if empty, false otherwise.
+   */
   isEmpty() {
     /*
      * TODO: impliment
@@ -152,9 +152,9 @@ class WorkspacePreload extends Resource {
   };
 
   /**
-  * Returns array of all block types stored in current workspace preload.
-  * @return {!Array.<string>} Map of block type to corresponding XML text.
-  */
+   * Returns array of all block types stored in current workspace preload.
+   * @return {!Array.<string>} Map of block type to corresponding XML text.
+   */
   getBlockXmlTextMap() {
     /*
      * TODO: impliment
@@ -166,11 +166,11 @@ class WorkspacePreload extends Resource {
   };
 
   /**
-  * Returns boolean of whether or not a given blockType is stored in the
-  * workspace preload.
-  * @param {string} blockType Type of block.
-  * @return {boolean} Whether or not blockType is in the workspace preload.
-  */
+   * Returns boolean of whether or not a given blockType is stored in the
+   * workspace preload.
+   * @param {string} blockType Type of block.
+   * @return {boolean} Whether or not blockType is in the workspace preload.
+   */
   has(blockType) {
     /*
      * TODO: impliment
