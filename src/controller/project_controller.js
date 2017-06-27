@@ -49,12 +49,13 @@ class ProjectController {
    *    comes from.
    * @constructor
    */
-  constructor(project) {
+  constructor(projectName) {
     /**
      * The project to be managed.
      * @type {!Project}
      */
-    this.project = project;
+    this.project = new Project(projectName);
+
   }
 
   /**

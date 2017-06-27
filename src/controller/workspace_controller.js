@@ -25,8 +25,67 @@
 
 class WorkspaceController {
   constructor() {
+    /**
+     * Blockly workspace used to create blocks for block library.
+     * @type {!Blockly.Workspace}
+     */
+    this.libraryWorkspace = new Object(null);
 
+    /**
+     * Blockly workspace used to create toolboxes.
+     * @type {!Blockly.Workspace}
+     */
+    this.toolboxWorkspace = new Object(null);
+
+    this.toolboxPreviewWorkspace = new Object(null);
+
+    /**
+     * Blockly workspace used to create preload workspaces.
+     * @type {!Blockly.Workspace}
+     */
+    this.preloadWorkspace = new Object(null);
+
+    this.preloadPreviewWorkspace = new Object(null);
   }
 
-  //TODO #44: refactor
+  /**
+   *
+   */
+  libraryFactoryInit(libraryDiv) {
+    this.libraryWorkspace = Blockly.inject(libraryDiv,
+    {
+      grid: {
+        spacing: 25
+      }
+    });
+  }
+
+  toolboxFactoryInit(toolboxDiv) {
+    this.toolboxWorkspace = Blockly.inject(toolboxDiv,
+    {grid:
+      {spacing: 25,
+       length: 3,
+       colour: '#ccc',
+       snap: true},
+       media: 'media/',
+       toolbox: this.toolbox
+     });
+
+    this.toolboxPreviewWorkspace = Blockly.inject(previewDiv,
+    {grid:
+      {spacing: 25,
+       length: 3,
+       colour: '#ccc',
+       snap: true},
+     media: 'media/',
+     toolbox: '<xml></xml>',
+     zoom:
+       {controls: true,
+        wheel: true}
+    });
+  }
+
+  preloadFactoryInit(preloadDiv) {
+
+  }
 }
