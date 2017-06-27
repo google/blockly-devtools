@@ -30,7 +30,7 @@
 class Toolbox extends Resource {
   /**
    * Toolbox Class
-   * @param {string} libraryName The name for the new toolbox.
+   * @param {string} toolboxName The name for the new toolbox.
    * @constructor
    */
   constructor(toolboxName) {
