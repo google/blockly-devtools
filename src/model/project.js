@@ -38,7 +38,7 @@
  * @class Project aggregates libraries, toolboxes, and workspaces to form
  *    a project.
  */
-class Project {
+class Project extends Resource {
   /**
    * Represents a user's collection of Libraries, toolboxes, and workspaces.
    * @param {string} projectName The desired name of project.

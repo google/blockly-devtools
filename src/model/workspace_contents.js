@@ -19,157 +19,161 @@
  */
 
 /**
- * @fileoverview BlockLibrary object. A BlockLibrary provides the structure by
- *      which definitions of blocks are grouped. It is these definitions that
- *      are changed based upon user interaction with the DevTools Application,
- *      rather than the definitions contained within the other structures under
- *      Project. Moreover, block libraries cannot contain multiple blocks with
- *      the same type and definition.
+ * @fileoverview WorkspaceContents object. Contains a set of positioned blocks
+ *    specified by the developer and used to initialize an app's workspace.
+ *
  * @author
  */
 
-
 /**
- * @class BlockLibrary stores a group of block definitions.
+ * @class Workspacecontents stores a group of positioned blocks
  */
-class BlockLibrary extends Resource {
+class WorkspaceContents extends Resource {
   /**
-   * BlockLibrary Class
-   * @param {string} libraryName The name for the new library.
+   * Workspacecontents Class
+   * @param {string} workspacecontentsName The name for the workspace contents.
    * @constructor
    */
-  constructor(libraryName) {
+  constructor(workspacecontentsName) {
     /*
      * TODO: fully impliment
      *
      * References: N/A
      */
     /**
-     * The name of the library.
+     * The name of the workspace contents.
      * @type {string}
      */
-    this.name = libraryName;
-    /**
-     * An array of all block types stored in the current block library.
-     * @type {!Array.<string>}
-     */
-    this.blocks;
+    this.name = workspacecontentsName;
   }
 
   /**
-   * Saves block to block library.
+   * Saves block to block workspace contents.
    * @param {string} blockType Type of block.
-   * @param {Element} blockXML The block's XML pulled from workspace.
+   * @param {Element} blockXML The block's XML pulled from workspace contents.
    */
   addBlock(blockType, blockXML) {
+    /*
+     * TODO: impliment
+     *
+     * References: src/block_library_storage.js
+     * - addBlock(blockType, blockXML)
+     */
     throw "unimplimented: addBlock";
-  };
+  }
 
   /**
-   * Returns array of all block types stored in current block library.
-   * @return {!Array.<string>} Array of block types stored in block library.
+   * Returns array of all block types stored in current workspace contents.
+   * @return {!Array.<string>} Array of block types stored in workspace contents.
    */
   getBlockTypes() {
+    /*
+     * TODO: impliment
+     *
+     * References: src/block_library_storage.js
+     * - getBlockTypes
+     */
     throw "unimplimented: getBlockTypes";
-  };
+  }
 
   /**
-   * Returns the XML of given block type stored in current block library
+   * Returns the XML of given block type stored in current workspace contents
    * (this.blocks).
    * @param {string} blockType Type of block.
    * @return {Element} The XML that represents the block type or null.
    */
   getBlockXml(blockType) {
+    /*
+     * TODO: impliment
+     *
+     * References: src/block_library_storage.js
+     * - getBlockXmlMap(blockTypes)
+     */
     throw "unimplimented: getBlockXml";
-  };
+  }
 
   /**
    * Returns map of each block type to its corresponding XML stored in current
-   * block library (this.blocks).
+   * workspace contents (this.blocks).
    * @param {!Array.<string>} blockTypes Types of blocks.
-   * @return {!Object} Map of block type to corresponding XML.
+   * @return {!Object} Map of block types to corresponding XML.
    */
   getBlockXmlMap(blockTypes) {
     /*
-     * TODO: Move from src/block_library_storage.js
+     * TODO: impliment
      *
-     * References:
+     * References: src/block_library_storage.js
      * - getBlockXmlMap(blockTypes)
-     *
      */
     throw "unimplimented: getBlockXmlMap";
-  };
+  }
 
   /**
-   * Clears the current block library.
+   * Clears the current workspace contents.
    */
   clear() {
     /*
-     * TODO: Move from src/block_library_storage.js
+     * TODO: impliment
      *
-     * References:
+     * References: src/block_library_storage.js
      * - clear()
-     *
      */
     throw "unimplimented: clear";
-  };
+  }
 
   /**
-   * Removes block from current block library (this.blocks).
+   * Removes block from current workspace contents (this.blocks).
    * @param {string} blockType Type of block.
    */
   removeBlock(blockType) {
     /*
-     * TODO: Move from src/block_library_storage.js
+     * TODO: impliment
      *
-     * References:
+     * References: src/block_library_storage.js
      * - removeBlock(blockType)
-     *
      */
     throw "unimplimented: removeBlock";
-  };
+  }
 
   /**
-   * Checks to see if block library is empty.
+   * Checks to see if block workspace contents is empty.
    * @return {boolean} True if empty, false otherwise.
    */
   isEmpty() {
     /*
-     * TODO: Move from src/block_library_storage.js
+     * TODO: impliment
      *
-     * References:
+     * References: src/block_library_storage.js
      * - isEmpty()
-     *
      */
     throw "unimplimented: isEmpty";
-  };
+  }
 
   /**
-   * Returns array of all block types stored in current block library.
+   * Returns array of all block types stored in current workspace contents.
    * @return {!Array.<string>} Map of block type to corresponding XML text.
    */
   getBlockXmlTextMap() {
     /*
-     * TODO: Move from src/block_library_storage.js
+     * TODO: impliment
      *
-     * References:
+     * References: src/block_library_storage.js
      * - getBlockXmlTextMap()
-     *
      */
     throw "unimplimented: getBlockXmlTextMap";
-  };
+  }
 
   /**
-   * Returns boolean of whether or not a given blockType is stored in block
-   * library.
+   * Returns boolean of whether or not a given blockType is stored in the
+   * workspace contents.
    * @param {string} blockType Type of block.
-   * @return {boolean} Whether or not blockType is stored in block library.
+   * @return {boolean} Whether or not blockType is in the workspace contents.
    */
   has(blockType) {
     /*
-     * TODO: Move from src/block_library_storage.js
+     * TODO: impliment
      *
-     * References:
+     * References: src/block_library_storage.js
      * - has(blockType)
      *
      * Additional reference: src/block_library_controller.js
@@ -177,11 +181,11 @@ class BlockLibrary extends Resource {
      *
      */
     throw "unimplimented: has";
-  };
+  }
 
   /**
-   * Renames the library.
-   * @param {string} newName New name of the library.
+   * Renames the workspace contents.
+   * @param {string} newName New name of the workspace contents.
    */
   setName(newName) {
     /*
