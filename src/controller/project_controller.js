@@ -55,6 +55,15 @@ class ProjectController {
      */
     this.project = new Project(projectName);
 
+    /**
+     * Keeps track of the current Resource a user is editing.
+     * @type {!Object.<string, string>}
+     */
+    this.active = {
+      library: '',
+      toolbox: '',
+      workspace: ''
+    }
   }
 
   /**
@@ -63,7 +72,7 @@ class ProjectController {
    //TODO #52: move warning behavior here
   warnIfUnsaved() {
     return this.project.isDirty();
-  };
+  }
 
   /**
    * Retrieves information about project and collects together to download
@@ -127,4 +136,32 @@ class ProjectController {
     // TODO: Implement.
     return new Promise();
   }
+
+  /**
+   * Grabs options user has chosen through the checkboxes in workspace factory
+   * and generates an options object to be used for Blockly inject call. Used
+   * when generating starter code for user.
+   *
+   * @returns {!Blockly.Options} Options to be used in user's Blockly.inject.
+   */
+  getOptions() {
+    // TODO: Implement.
+  }
+
+  /**
+   * Export the options object to be used for the Blockly inject call. Gets a
+   * file name from the user and downloads the options object to that file.
+   */
+  exportInjectFile() {
+    /*
+     * TODO: Move from wfactory_controller
+     *
+     * References:
+     * - generateNewOptions();
+     * - generateInjectString();
+     * - createAndDownloadFile();
+     */
+  }
+
+
 }

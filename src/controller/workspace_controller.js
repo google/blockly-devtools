@@ -49,7 +49,7 @@ class WorkspaceController {
   }
 
   /**
-   *
+   * Injects block library editor workspace.
    */
   libraryFactoryInit(libraryDiv) {
     this.libraryWorkspace = Blockly.inject(libraryDiv,
@@ -60,7 +60,10 @@ class WorkspaceController {
     });
   }
 
-  toolboxFactoryInit(toolboxDiv) {
+  /**
+   * Injects toolbox editor workspace.
+   */
+  toolboxFactoryInit(toolboxDiv, previewDiv) {
     this.toolboxWorkspace = Blockly.inject(toolboxDiv,
     {grid:
       {spacing: 25,
@@ -85,8 +88,11 @@ class WorkspaceController {
     });
   }
 
+  /**
+   * Injects workspace(TBD?) editor workspace.
+   */
   preloadFactoryInit(preloadDiv) {
-
+    // TODO: Implement
   }
 
   // ===================== TOOLBOX FUNCTIONS =======================
@@ -96,10 +102,76 @@ class WorkspaceController {
    * before), and then creates a tab and switches to it.
    */
   addCategory {
-
+    /*
+     * TODO: Move from wfactory_controller.js
+     *
+     * References:
+     * - transferFlyoutBlocksToCategory();
+     * - hasElements();
+     * - promptForNewCategoryName();
+     * - createCategory();
+     * - switchElement();
+     * - setCategoryOptions();
+     * - generateNewOptions();
+     * - updatePreview();
+     */
   }
 
   /**
-   *
+   * Helper method for addCategory. Adds a category to the view given a name, ID,
+   * and a boolean for if it's the first category created. Assumes the category
+   * has already been created in the model. Does not switch to category.
+   * @param {string} name Name of category being added.
+   * @param {string} id The ID of the category being added.
    */
+  createCategory(name, id) {
+    /*
+     * TODO: Move from wfactory_controller.js
+     *
+     * References:
+     * - new ListElement();
+     * - addElementToList();
+     * - addCategoryRow();
+     * - addClickToSwitch();
+     */
+  }
+
+  /**
+   * Removes toolbox category element.
+   * Attached to "-" button. Checks if the user wants to delete
+   * the current element.  Removes the element and switches to another element.
+   * When the last element is removed, it switches to a single flyout mode.
+   */
+  removeElement() {
+    /*
+     * TODO: Move from wfactory_controller.js
+     *
+     * References:
+     * - getSelected();
+     * - getSelectedId();
+     * - getIndexElementById();
+     * - getElementByIndex();
+     * - hasElements();
+     * - clearAndLoadElement();
+     * - this.toolboxWorkspace.clear();
+     * - this.toolboxWorkspace.clearUndo();
+     * - createDefaultSelectedIfEmpty();
+     * - updatePreview();
+     */
+  }
+
+  /**
+   * Gets a valid name for a new category from the user.
+   * @param {string} promptString Prompt for the user to enter a name.
+   * @param {string=} opt_oldName The current name.
+   * @return {string?} Valid name for a new category, or null if cancelled.
+   */
+  promptForNewCategoryName(promptString, opt_oldName) {
+    /*
+     * TODO: Move from wfactory_controller.js
+     *
+     * References:
+     * - hasCategoryByName();
+     */
+  }
 }
