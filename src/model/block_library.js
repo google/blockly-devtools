@@ -56,38 +56,38 @@ class BlockLibrary extends Resource {
   }
 
   /**
-  * Saves block to block library.
-  * @param {string} blockType Type of block.
-  * @param {Element} blockXML The block's XML pulled from workspace.
-  */
+   * Saves block to block library.
+   * @param {string} blockType Type of block.
+   * @param {Element} blockXML The block's XML pulled from workspace.
+   */
   addBlock(blockType, blockXML) {
     throw "unimplimented: addBlock";
   };
 
   /**
-  * Returns array of all block types stored in current block library.
-  * @return {!Array.<string>} Array of block types stored in block library.
-  */
+   * Returns array of all block types stored in current block library.
+   * @return {!Array.<string>} Array of block types stored in block library.
+   */
   getBlockTypes() {
     throw "unimplimented: getBlockTypes";
   };
 
   /**
-  * Returns the XML of given block type stored in current block library
-  * (this.blocks).
-  * @param {string} blockType Type of block.
-  * @return {Element} The XML that represents the block type or null.
-  */
+   * Returns the XML of given block type stored in current block library
+   * (this.blocks).
+   * @param {string} blockType Type of block.
+   * @return {Element} The XML that represents the block type or null.
+   */
   getBlockXml(blockType) {
     throw "unimplimented: getBlockXml";
   };
 
   /**
-  * Returns map of each block type to its corresponding XML stored in current
-  * block library (this.blocks).
-  * @param {!Array.<string>} blockTypes Types of blocks.
-  * @return {!Object} Map of block type to corresponding XML.
-  */
+   * Returns map of each block type to its corresponding XML stored in current
+   * block library (this.blocks).
+   * @param {!Array.<string>} blockTypes Types of blocks.
+   * @return {!Object} Map of block type to corresponding XML.
+   */
   getBlockXmlMap(blockTypes) {
     /*
      * TODO: Move from src/block_library_storage.js
@@ -100,8 +100,8 @@ class BlockLibrary extends Resource {
   };
 
   /**
-  * Clears the current block library.
-  */
+   * Clears the current block library.
+   */
   clear() {
     /*
      * TODO: Move from src/block_library_storage.js
@@ -114,9 +114,9 @@ class BlockLibrary extends Resource {
   };
 
   /**
-  * Removes block from current block library (this.blocks).
-  * @param {string} blockType Type of block.
-  */
+   * Removes block from current block library (this.blocks).
+   * @param {string} blockType Type of block.
+   */
   removeBlock(blockType) {
     /*
      * TODO: Move from src/block_library_storage.js
@@ -129,9 +129,9 @@ class BlockLibrary extends Resource {
   };
 
   /**
-  * Checks to see if block library is empty.
-  * @return {boolean} True if empty, false otherwise.
-  */
+   * Checks to see if block library is empty.
+   * @return {boolean} True if empty, false otherwise.
+   */
   isEmpty() {
     /*
      * TODO: Move from src/block_library_storage.js
@@ -144,9 +144,9 @@ class BlockLibrary extends Resource {
   };
 
   /**
-  * Returns array of all block types stored in current block library.
-  * @return {!Array.<string>} Map of block type to corresponding XML text.
-  */
+   * Returns array of all block types stored in current block library.
+   * @return {!Array.<string>} Map of block type to corresponding XML text.
+   */
   getBlockXmlTextMap() {
     /*
      * TODO: Move from src/block_library_storage.js
@@ -159,11 +159,11 @@ class BlockLibrary extends Resource {
   };
 
   /**
-  * Returns boolean of whether or not a given blockType is stored in block
-  * library.
-  * @param {string} blockType Type of block.
-  * @return {boolean} Whether or not blockType is stored in block library.
-  */
+   * Returns boolean of whether or not a given blockType is stored in block
+   * library.
+   * @param {string} blockType Type of block.
+   * @return {boolean} Whether or not blockType is stored in block library.
+   */
   has(blockType) {
     /*
      * TODO: Move from src/block_library_storage.js
