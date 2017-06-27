@@ -24,9 +24,25 @@
  * @author Celine Choo (celinechoo)
  */
 
+/**
+ * @class Toolbox represents a toolbox object.
+ */
 class Toolbox extends Resource {
-  constructor(name) {
-    this.name = name;
+  /**
+   * Toolbox Class
+   * @param {string} libraryName The name for the new toolbox.
+   * @constructor
+   */
+  constructor(toolboxName) {
+    /**
+     * The name of the toolbox.
+     * @type {string}
+     */
+    this.name = toolboxName;
+    /**
+     * A map of each block type in the current toolbox to its corresponding XML.
+     * @type {!Object.<string, string>}
+     */
     this.xmlDefinitions = {};
   }
 
@@ -98,4 +114,24 @@ class Toolbox extends Resource {
   isEmpty() {
     // TODO: Implement function.
   }
+
+  /**
+  * Returns boolean of whether or not a given blockType is stored in the
+  * toolbox.
+  * @param {string} blockType Type of block.
+  * @return {boolean} Whether or not blockType is in the toolbox.
+  */
+  has(blockType) {
+    /*
+     * TODO: impliment
+     *
+     * References: src/block_library_storage.js
+     * - has(blockType)
+     *
+     * Additional reference: src/block_library_controller.js
+     * - has(blockType)
+     *
+     */
+    throw "unimplimented: has";
+  };
 }
