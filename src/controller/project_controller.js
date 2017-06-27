@@ -63,5 +63,5 @@ class ProjectController {
    //TODO #52: move warning behavior here
    warnIfUnsaved() {
     return this.project.isDirty();
-  };
+  }
 }

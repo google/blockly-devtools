@@ -213,28 +213,28 @@ class Project extends Resource {
    */
   getBlockLibraryXmlMap() {
     return this.currentLibrary.storage.getBlockXmlTextMap();
-  };
+  }
 
   /**
    * Removes current block from project.
    */
   removeBlockFromProject() {
     this.currentLibrary.removeFromBlockLibrary();
-  };
+  }
 
   /**
    * Clears the current library.
    */
   clearLibrary() {
     this.currentLibrary.clearBlockLibrary();
-  };
+  }
 
   /**
    * Saves current block.
    */
   saveBlock() {
     this.currentLibrary.saveToBlockLibrary();
-  };
+  }
 
   /**
    * Returns whether or not there are unsaved elements in the project.
@@ -243,5 +243,38 @@ class Project extends Resource {
    //TODO #52: move warning from BlockLibrayrController to ProjectController.
    isDirty() {
     return this.currentLibrary.warnIfUnsavedChanges();
+  }
+
+  /**
+   * Renames the project.
+   * @param {string} newName New name of the project.
+   */
+  setName(newName) {
+    /*
+     * TODO: impliment
+     *
+     * References: N/A
+     */
+    throw "unimplimented: setName";
+  }
+
+  /**
+   * Returns boolean of whether or not a given blockType is stored in the
+   *     project.
+   * @param {string} blockType Type of block.
+   * @return {boolean} Whether or not blockType is stored in block library.
+   */
+  has(blockType) {
+    /*
+     * TODO: impliment
+     *
+     * References: src/block_library_storage.js
+     * - has(blockType)
+     *
+     * Additional reference: src/block_library_controller.js
+     * - has(blockType)
+     *
+     */
+    throw "unimplimented: has";
   }
 }

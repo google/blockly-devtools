@@ -31,7 +31,6 @@
  *    presets.
  */
 class WorkspaceConfiguration {
-
   /**
    * Checks to see if no options have been changed/set.
    * @return {boolean} True if same as init options, false otherwise.
@@ -43,7 +42,7 @@ class WorkspaceConfiguration {
      * References: N/A
      */
     throw "unimplimented: isUnset";
-  };
+  }
 
   /**
    * Clears the current block library.
@@ -56,7 +55,7 @@ class WorkspaceConfiguration {
      *
      */
     throw "unimplimented: reset";
-  };
+  }
 
   /**
    * Renames the workspace configuration.

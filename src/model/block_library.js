@@ -63,7 +63,7 @@ class BlockLibrary extends Resource {
    */
   addBlock(blockType, blockXML) {
     throw "unimplimented: addBlock";
-  };
+  }
 
   /**
    * Returns array of all block types stored in current block library.
@@ -71,21 +71,21 @@ class BlockLibrary extends Resource {
    */
   getBlockTypes() {
     throw "unimplimented: getBlockTypes";
-  };
+  }
 
   /**
    * Returns the XML of given block type stored in current block library
-   * (this.blocks).
+   *     (this.blocks).
    * @param {string} blockType Type of block.
    * @return {Element} The XML that represents the block type or null.
    */
   getBlockXml(blockType) {
     throw "unimplimented: getBlockXml";
-  };
+  }
 
   /**
    * Returns map of each block type to its corresponding XML stored in current
-   * block library (this.blocks).
+   *     block library (this.blocks).
    * @param {!Array.<string>} blockTypes Types of blocks.
    * @return {!Object} Map of block type to corresponding XML.
    */
@@ -98,7 +98,7 @@ class BlockLibrary extends Resource {
      *
      */
     throw "unimplimented: getBlockXmlMap";
-  };
+  }
 
   /**
    * Clears the current block library.
@@ -112,7 +112,7 @@ class BlockLibrary extends Resource {
      *
      */
     throw "unimplimented: clear";
-  };
+  }
 
   /**
    * Removes block from current block library (this.blocks).
@@ -127,7 +127,7 @@ class BlockLibrary extends Resource {
      *
      */
     throw "unimplimented: removeBlock";
-  };
+  }
 
   /**
    * Checks to see if block library is empty.
@@ -142,7 +142,7 @@ class BlockLibrary extends Resource {
      *
      */
     throw "unimplimented: isEmpty";
-  };
+  }
 
   /**
    * Returns array of all block types stored in current block library.
@@ -157,11 +157,11 @@ class BlockLibrary extends Resource {
      *
      */
     throw "unimplimented: getBlockXmlTextMap";
-  };
+  }
 
   /**
-   * Returns boolean of whether or not a given blockType is stored in block
-   * library.
+   * Returns boolean of whether or not a given blockType is stored in  the block
+   *     library.
    * @param {string} blockType Type of block.
    * @return {boolean} Whether or not blockType is stored in block library.
    */
@@ -177,7 +177,7 @@ class BlockLibrary extends Resource {
      *
      */
     throw "unimplimented: has";
-  };
+  }
 
   /**
    * Renames the library.

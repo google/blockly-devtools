@@ -117,7 +117,7 @@ class Toolbox extends Resource {
 
   /**
    * Returns boolean of whether or not a given blockType is stored in the
-   * toolbox.
+   *     toolbox.
    * @param {string} blockType Type of block.
    * @return {boolean} Whether or not blockType is in the toolbox.
    */
