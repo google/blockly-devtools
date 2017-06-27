@@ -34,8 +34,22 @@
 // which will be refactored into this (and other) files.
 class AppController2 {
   constructor() {
-
+    this.workspaceController = new WorkspaceController();
   }
 
-  // TODO(#44): Add functions for refactoring.
+  /**
+   * Initializes Blockly editor workspaces. Injects Blockly workspaces into
+   * DevTools.
+   */
+  initWorkspaceController() {
+    let libraryDiv = 'libraryDiv';
+    let toolboxDiv = 'toolboxDiv';
+    let toolboxPreviewDiv = 'toolboxPreviewDiv';
+    let preloadDiv = 'preloadDiv';
+    let preloadPreviewDiv = 'preloadPreviewDiv';
+
+    this.workspaceController.libraryFactoryInit(libraryDiv);
+    this.workspaceController.toolboxFactoryInit(toolboxDiv, toolboxPreviewDiv);
+    this.workspaceController.preloadFactoryInit(preloadDiv, preloadPreviewDiv);
+  }
 }

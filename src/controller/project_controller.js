@@ -45,23 +45,149 @@ class ProjectController {
 
   /**
    * ProjectController class
-   * @param {!Project} project the project from which the data to be managed
-   *    comes from.
+   * @param {string} projectName Name of project loaded into DevTools.
    * @constructor
    */
-  constructor(project) {
+  constructor(projectName) {
     /**
      * The project to be managed.
      * @type {!Project}
      */
-    this.project = project;
+    this.project = new Project(projectName);
+
+    /**
+     * Keeps track of the current Resource a user is editing.
+     * @type {!Object.<string, string>}
+     */
+    this.active = {
+      library: '',
+      toolbox: '',
+      workspace: ''
+    };
   }
 
   /**
    * Return whether or not the project has unsaved changes.
    */
    //TODO #52: move warning behavior here
-   warnIfUnsaved() {
+  warnIfUnsaved() {
     return this.project.isDirty();
-  };
+  }
+
+  /**
+   * Retrieves information about project and collects together to download
+   * as one folder on user's filesystem. Called from AppController's save
+   * function.
+   *
+   * @returns {!Promise} Resolves with project name if successfully saved;
+   *     rejects with error message if user canceled or error came up.
+   */
+  saveToFile() {
+    // Save/store current work.
+    this.saveToolbox();
+    this.saveLibrary();
+    this.saveWorkspace();
+
+    // Prompt to save to filesystem.
+    // TODO: Implement
+    console.log('saveToFile() called in ProjectController');
+    return new Promise();
+  }
+
+  /**
+   * Exports sample starter code for user to begin with, in creating a Blockly
+   * application. Previously WorkspaceFactoryController.exportInjectFile().
+   *
+   * @returns {!Promise} Resolves with starter code name if successfully saved;
+   *     rejects with error message if user canceled or error came up.
+   */
+  exportStarterCode() {
+    /*
+     * TODO: Implement
+     *
+     * References: N/A
+     */
+    console.log('exportStarterCode() called in ProjectController');
+    return new Promise();
+  }
+
+  /**
+   * Saves XML currently in workspace into currently active toolbox under this.toolboxList.
+   *
+   * @returns {Promise} If saved successfully, resolve with name of toolbox saved;
+   *     else reject with error message string.
+   */
+  saveToolbox() {
+    /*
+     * TODO: Implement
+     *
+     * References: N/A
+     */
+    console.log('saveToolbox() called in ProjectController');
+    return new Promise();
+  }
+
+  /**
+   * Saves library.
+   *
+   * @returns {Promise} If saved successfully, resolve with name of library saved,
+   *     else reject with error message string.
+   */
+  saveLibrary() {
+    /*
+     * TODO: Implement
+     *
+     * References: N/A
+     */
+    console.log('saveLibrary() called in ProjectController');
+    return new Promise();
+  }
+
+  /**
+   * Saves workspace.
+   *
+   * @returns {Promise} If saved successfully, resolve with name of workspace saved,
+   *     else reject with error message string.
+   */
+  saveWorkspace() {
+    /*
+     * TODO: Implement.
+     *
+     * References: N/A
+     */
+    console.log('saveWorkspace() called in ProjectController');
+    return new Promise();
+  }
+
+  /**
+   * Grabs options user has chosen through the checkboxes in workspace factory
+   * and generates an options object to be used for Blockly inject call. Used
+   * when generating starter code for user.
+   *
+   * @returns {!Blockly.Options} Options to be used in user's Blockly.inject.
+   */
+  getOptions() {
+    /*
+     * TODO: Implement.
+     *
+     * References: N/A
+     */
+    console.log('getOptions() called in ProjectController');
+  }
+
+  /**
+   * Export the options object to be used for the Blockly inject call. Gets a
+   * file name from the user and downloads the options object to that file.
+   */
+  exportInjectFile() {
+    /*
+     * TODO: Move from wfactory_controller
+     *
+     * References:
+     * - generateNewOptions();
+     * - generateInjectString();
+     * - createAndDownloadFile();
+     */
+    console.log('exportInjectFile() called in ProjectController');
+  }
 }
