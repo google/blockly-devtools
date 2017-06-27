@@ -19,9 +19,8 @@
  */
 
 /**
- * @fileoverview WorkspacePreload object. Contains a set of positioned blocks
- *    and workspace settings, specified by the developer and used to initialize
- *    an app's workspace.
+ * @fileoverview WorkspaceConfiguration object. Contains a workspace settings,
+ *     specified by the developer and used to initialize an app's workspace.
  *
  * @author
  */
