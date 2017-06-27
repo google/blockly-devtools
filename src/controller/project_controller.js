@@ -45,8 +45,7 @@ class ProjectController {
 
   /**
    * ProjectController class
-   * @param {!Project} project the project from which the data to be managed
-   *    comes from.
+   * @param {string} projectName Name of project loaded into DevTools.
    * @constructor
    */
   constructor(projectName) {
@@ -62,7 +61,70 @@ class ProjectController {
    * Return whether or not the project has unsaved changes.
    */
    //TODO #52: move warning behavior here
-   warnIfUnsaved() {
+  warnIfUnsaved() {
     return this.project.isDirty();
   };
+
+  /**
+   * Retrieves information about project and collects together to download
+   * as one folder on user's filesystem. Called from AppController's save
+   * function.
+   *
+   * @returns {!Promise} Resolves with project name if successfully saved;
+   *     rejects with error message if user canceled or error came up.
+   */
+  saveToFile() {
+    // Save/store current work.
+    this.saveToolbox();
+    this.saveLibrary();
+    this.saveWorkspace();
+
+    // Prompt to save to filesystem.
+    // TODO: Implement
+    return new Promise();
+  }
+
+  /**
+   * Exports sample starter code for user to begin with, in creating a Blockly
+   * application. Previously WorkspaceFactoryController.exportInjectFile().
+   *
+   * @returns {!Promise} Resolves with starter code name if successfully saved;
+   *     rejects with error message if user canceled or error came up.
+   */
+  exportStarterCode() {
+    return new Promise();
+  }
+
+  /**
+   * Saves XML currently in workspace into currently active toolbox under this.toolboxList.
+   *
+   * @returns {Promise} If saved successfully, resolve with name of toolbox saved;
+   *     else reject with error message string.
+   */
+  saveToolbox() {
+    // TODO: Implement
+    return new Promise();
+  }
+
+  /**
+   * Saves library.
+   *
+   * @returns {Promise} If saved successfully, resolve with name of library saved,
+   *     else reject with error message string.
+   */
+  saveLibrary() {
+    // TODO: Implement
+    return new Promise();
+  }
+
+  /**
+   * Saves workspace.
+   *
+   * @returns {Promise} If saved successfully, resolve with name of workspace saved,
+   *     else reject with error message string.
+   */
+  saveWorkspace() {
+    // TODO: Implement.
+    return new Promise();
+  }
 }

@@ -31,5 +31,16 @@ class WorkspaceView {
 
   }
 
-  // TODO(#44): Add functions for refactor.
+  /**
+   * Given a tab and a ID to be associated to that tab, adds a listener to
+   * that tab so that when the user clicks on the tab, it switches to the
+   * element associated with that ID.
+   * @param {!Element} tab The DOM element to add the listener to.
+   * @param {string} id The ID of the element to switch to when tab is clicked.
+   */
+  addClickToSwitch(tab, id) {
+    // TODO: Add content.
+  }
+
+
 }
