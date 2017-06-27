@@ -88,4 +88,18 @@ class WorkspaceController {
   preloadFactoryInit(preloadDiv) {
 
   }
+
+  // ===================== TOOLBOX FUNCTIONS =======================
+
+  /**
+   * Currently prompts the user for a name, checking that it's valid (not used
+   * before), and then creates a tab and switches to it.
+   */
+  addCategory {
+
+  }
+
+  /**
+   *
+   */
 }

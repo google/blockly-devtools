@@ -34,8 +34,13 @@
 // which will be refactored into this (and other) files.
 class AppController2 {
   constructor() {
-
+    this.workspaceController = new WorkspaceController();
   }
 
+  initWorkspaceController() {
+    let toolboxDiv = 'toolboxDiv';
+    let libraryDiv = 'libraryDiv';
+    let preloadDiv = 'preloadDiv';
+  }
   // TODO(#44): Add functions for refactoring.
 }
