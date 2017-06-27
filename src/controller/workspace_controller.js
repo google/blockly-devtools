@@ -22,7 +22,6 @@
  * @fileoverview The WorkspaceController Class deals with the Blockly workspaces
  * that are used to generate block libraries, toolboxes, and preload-workspaces.
  */
-
 class WorkspaceController {
   constructor() {
     /**
@@ -50,6 +49,9 @@ class WorkspaceController {
 
   /**
    * Injects block library editor workspace.
+   *
+   * @param {string} libraryDiv ID of block library in HTML
+   *     page to inject the library editor workspace.
    */
   libraryFactoryInit(libraryDiv) {
     this.libraryWorkspace = Blockly.inject(libraryDiv,
@@ -62,6 +64,11 @@ class WorkspaceController {
 
   /**
    * Injects toolbox editor workspace.
+   *
+   * @param {string} toolboxDiv ID of toolbox in HTML page to inject
+   *     toolbox editor.
+   * @param {string} previewDiv ID of toolbox preview in HTML page to inject
+   *     toolbox previewer.
    */
   toolboxFactoryInit(toolboxDiv, previewDiv) {
     this.toolboxWorkspace = Blockly.inject(toolboxDiv,
@@ -90,18 +97,26 @@ class WorkspaceController {
 
   /**
    * Injects workspace(TBD?) editor workspace.
+   *
+   * @param {string} preloadDiv ID of preload-workspace in HTML page to inject
+   *     preload-workspace editor.
+   * @param {string} previewDiv ID of preload-workspace preview in HTML page
+   *     to inject the previewer for preload-workspace.
    */
-  preloadFactoryInit(preloadDiv) {
-    // TODO: Implement
+  preloadFactoryInit(preloadDiv, previewDiv) {
+    /*
+     * TODO: Implement
+     *
+     * References: N/A
+     */
+    console.log('preloadFactoryInit() called in WorkspaceController');
   }
-
-  // ===================== TOOLBOX FUNCTIONS =======================
 
   /**
    * Currently prompts the user for a name, checking that it's valid (not used
    * before), and then creates a tab and switches to it.
    */
-  addCategory {
+  addCategory() {
     /*
      * TODO: Move from wfactory_controller.js
      *
@@ -115,6 +130,7 @@ class WorkspaceController {
      * - generateNewOptions();
      * - updatePreview();
      */
+    console.log('addCategory() called in WorkspaceController');
   }
 
   /**
@@ -134,6 +150,7 @@ class WorkspaceController {
      * - addCategoryRow();
      * - addClickToSwitch();
      */
+    console.log('createCategory() called in WorkspaceController');
   }
 
   /**
@@ -158,6 +175,7 @@ class WorkspaceController {
      * - createDefaultSelectedIfEmpty();
      * - updatePreview();
      */
+    console.log('removeElement() called in WorkspaceController');
   }
 
   /**
@@ -173,5 +191,42 @@ class WorkspaceController {
      * References:
      * - hasCategoryByName();
      */
+    console.log('promptForNewCategoryName() called in WorkspaceController');
+  }
+
+  /**
+   * Switches to a new tab for the element given by ID. Stores XML and blocks
+   * to reload later, updates selected accordingly, and clears the workspace
+   * and clears undo, then loads the new element.
+   * @param {string} id ID of tab to be opened, must be valid element ID.
+   */
+  switchElement(id) {
+    /*
+     * TODO: Move from wfactory_controller.js
+     *
+     * References:
+     * - getSelectedId();
+     * - clearAndLoadElement();
+     */
+    console.log('switchElement() called in WorkspaceController');
+  }
+
+  /**
+   * Switches to a new tab for the element by ID. Helper for switchElement.
+   * Updates selected, clears the workspace and clears undo, loads a new element.
+   * @param {string} id ID of category to load.
+   */
+  clearAndLoadElement(id) {
+    /*
+     * TODO: Move from wfactory_controller.js
+     *
+     * References:
+     * - getSelectedId();
+     * - setCategoryTabSelection();
+     * - setSelectedById();
+     * - setCategoryTabSelection();
+     * - updateState();
+     */
+    console.log('clearAndLoadElement() called in WorkspaceController');
   }
 }

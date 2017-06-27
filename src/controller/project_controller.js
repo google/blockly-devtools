@@ -63,7 +63,7 @@ class ProjectController {
       library: '',
       toolbox: '',
       workspace: ''
-    }
+    };
   }
 
   /**
@@ -90,6 +90,7 @@ class ProjectController {
 
     // Prompt to save to filesystem.
     // TODO: Implement
+    console.log('saveToFile() called in ProjectController');
     return new Promise();
   }
 
@@ -101,6 +102,12 @@ class ProjectController {
    *     rejects with error message if user canceled or error came up.
    */
   exportStarterCode() {
+    /*
+     * TODO: Implement
+     *
+     * References: N/A
+     */
+    console.log('exportStarterCode() called in ProjectController');
     return new Promise();
   }
 
@@ -111,7 +118,12 @@ class ProjectController {
    *     else reject with error message string.
    */
   saveToolbox() {
-    // TODO: Implement
+    /*
+     * TODO: Implement
+     *
+     * References: N/A
+     */
+    console.log('saveToolbox() called in ProjectController');
     return new Promise();
   }
 
@@ -122,7 +134,12 @@ class ProjectController {
    *     else reject with error message string.
    */
   saveLibrary() {
-    // TODO: Implement
+    /*
+     * TODO: Implement
+     *
+     * References: N/A
+     */
+    console.log('saveLibrary() called in ProjectController');
     return new Promise();
   }
 
@@ -133,7 +150,12 @@ class ProjectController {
    *     else reject with error message string.
    */
   saveWorkspace() {
-    // TODO: Implement.
+    /*
+     * TODO: Implement.
+     *
+     * References: N/A
+     */
+    console.log('saveWorkspace() called in ProjectController');
     return new Promise();
   }
 
@@ -145,7 +167,12 @@ class ProjectController {
    * @returns {!Blockly.Options} Options to be used in user's Blockly.inject.
    */
   getOptions() {
-    // TODO: Implement.
+    /*
+     * TODO: Implement.
+     *
+     * References: N/A
+     */
+    console.log('getOptions() called in ProjectController');
   }
 
   /**
@@ -161,7 +188,6 @@ class ProjectController {
      * - generateInjectString();
      * - createAndDownloadFile();
      */
+    console.log('exportInjectFile() called in ProjectController');
   }
-
-
 }

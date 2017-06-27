@@ -39,8 +39,13 @@ class WorkspaceView {
    * @param {string} id The ID of the element to switch to when tab is clicked.
    */
   addClickToSwitch(tab, id) {
-    // TODO: Add content.
+    /*
+     * TODO: Move from wfactory_controller.js
+     *
+     * References:
+     * - switchElement();
+     * - bindClick();
+     */
+    console.log('addClickToSwitch() called in WorkspaceView');
   }
-
-
 }
