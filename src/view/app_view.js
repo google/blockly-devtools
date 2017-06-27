@@ -295,10 +295,10 @@ class AppView {
   }
 
   /**
-  * Returns the block type of the block the user is building.
-  * @return {string} The current block's type.
-  * @private
-  */
+   * Returns the block type of the block the user is building.
+   * @return {string} The current block's type.
+   * @private
+   */
   getCurrentBlockType() {
     /*
      * TODO: Move from src/block_library_controller.js
