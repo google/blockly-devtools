@@ -19,17 +19,18 @@
  */
 
 /**
- * @fileoverview WorkspaceConfiguration object. Contains a workspace settings,
+ * @fileoverview WorkspaceConfiguration object. Contains workspace settings,
  *     specified by the developer and used to initialize an app's workspace.
  *
  * @author
  */
 
 /**
- * @class WorkspacePreload stores a group of positioned blocks and workspace
- *    presets.
+ * @class WorkspaceConfiguration stores workspace presets.
  */
 class WorkspaceConfiguration {
+  //TODO: flesh out/impliment
+
   /**
    * Checks to see if no options have been changed/set.
    * @return {boolean} True if same as init options, false otherwise.

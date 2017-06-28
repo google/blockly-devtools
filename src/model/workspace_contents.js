@@ -26,12 +26,12 @@
  */
 
 /**
- * @class Workspacecontents stores a group of positioned blocks
+ * @class Workspacecontents stores a group of positioned blocks.
  */
 class WorkspaceContents extends Resource {
   /**
    * Workspacecontents Class
-   * @param {string} workspacecontentsName The name for the workspace contents.
+   * @param {string} workspaceContentsName The name for the workspace contents.
    * @constructor
    */
   constructor(workspacecontentsName) {

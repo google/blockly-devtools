@@ -28,6 +28,7 @@
  * @class Toolbox represents a toolbox object.
  */
 class Toolbox extends Resource {
+
   /**
    * Toolbox Class
    * @param {string} toolboxName The name for the new toolbox.
