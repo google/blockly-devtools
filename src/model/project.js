@@ -277,4 +277,62 @@ class Project extends Resource {
      */
     throw "unimplimented: has";
   }
+
+  /**
+   * Gets a named toolbox contained within the project.
+   * @param {string} toolboxName The name of the toolbox to be found.
+   * @return {!Toolbox} The found toolbox or null.
+   */
+  getToolbox(toolboxName) {
+    /*
+     * TODO: impliment
+     *
+     * References: N/A
+     */
+    throw "unimplimented: getToolbox";
+  }
+
+  /**
+   * Gets a named library contained within the project.
+   * @param {string} libraryName The name of the library to be found.
+   * @return {!BlockLibrary} The found library or null.
+   */
+  getLibrary(libraryName) {
+    /*
+     * TODO: impliment
+     *
+     * References: N/A
+     */
+    throw "unimplimented: getLibrary";
+  }
+
+  /**
+   * Gets a named workspace contents object contained within the project.
+   * @param {string} workspaceContentsName The name of the workspace contents
+   *     to be found.
+   * @return {!WorkspaceContents} The found workspace contents or null.
+   */
+  getWorkspaceContents(workspaceContentsName) {
+    /*
+     * TODO: impliment
+     *
+     * References: N/A
+     */
+    throw "unimplimented: getWorkspaceContents";
+  }
+
+  /**
+   * Gets a named workspace configurations object contained within the project.
+   * @param {string} workspaceConfigsName Name of the workspace configurations
+   *     to be found.
+   * @return {!WorkspaceContents} The found workspace configurations or null.
+   */
+  getWorkspaceConfigurations(workspaceConfigsName) {
+    /*
+     * TODO: impliment
+     *
+     * References: N/A
+     */
+    throw "unimplimented: getWorkspaceConfigurations";
+  }
 }

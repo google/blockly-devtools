@@ -133,5 +133,18 @@ class Toolbox extends Resource {
      *
      */
     throw "unimplimented: has";
-  };
+  }
+
+  /**
+   * Renames the project.
+   * @param {string} newName New name of the project.
+   */
+  getBlock(newName) {
+    /*
+     * TODO: impliment
+     *
+     * References: N/A
+     */
+    throw "unimplimented: setName";
+  }
 }

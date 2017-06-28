@@ -113,7 +113,7 @@ class Resource {
    * Returns whether or not there are unsaved elements in the resource.
    * @return {boolean} Whether or not unsaved elements exist.
    */
-   isDirty() {
+  isDirty() {
     throw "abstract method: isDirty";
   }
 
@@ -124,8 +124,8 @@ class Resource {
   }
 
   /**
-  * Writes the current block library (this.blocks) to local storage.
-  */
+   * Writes the resource to local storage.
+   */
   saveToLocalStorage() {
   }
 }
