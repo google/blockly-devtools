@@ -92,7 +92,7 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns map of each block type to its corresponding XML stored in thr
+   * Returns map of each block type to its corresponding XML stored in the
    *     workspace contents .
    * @param {!Array.<string>} blockTypes Types of blocks.
    * @return {!Object} Map of block types to corresponding XML.
