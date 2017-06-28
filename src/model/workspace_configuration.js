@@ -45,7 +45,7 @@ class WorkspaceConfiguration {
   }
 
   /**
-   * Clears the current block library.
+   * Clears the workspace configuration.
    */
   reset() {
     /*

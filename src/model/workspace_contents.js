@@ -63,7 +63,7 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns array of all block types stored in current workspace contents.
+   * Returns array of all block types stored in the workspace contents.
    * @return {!Array.<string>} Array of block types stored in workspace contents.
    */
   getBlockTypes() {
@@ -77,8 +77,7 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns the XML of given block type stored in current workspace contents
-   * (this.blocks).
+   * Returns the XML of given block type stored in the workspace contents
    * @param {string} blockType Type of block.
    * @return {Element} The XML that represents the block type or null.
    */
@@ -93,8 +92,8 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns map of each block type to its corresponding XML stored in current
-   * workspace contents (this.blocks).
+   * Returns map of each block type to its corresponding XML stored in thr
+   *     workspace contents (this.blocks).
    * @param {!Array.<string>} blockTypes Types of blocks.
    * @return {!Object} Map of block types to corresponding XML.
    */
@@ -109,7 +108,7 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Clears the current workspace contents.
+   * Clears the workspace contents.
    */
   clear() {
     /*
@@ -122,7 +121,7 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Removes block from current workspace contents (this.blocks).
+   * Removes block from the workspace contents (this.blocks).
    * @param {string} blockType Type of block.
    */
   removeBlock(blockType) {
@@ -150,7 +149,7 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns array of all block types stored in current workspace contents.
+   * Returns array of all block types stored in the workspace contents.
    * @return {!Array.<string>} Map of block type to corresponding XML text.
    */
   getBlockXmlTextMap() {
