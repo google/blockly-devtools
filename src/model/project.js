@@ -323,7 +323,7 @@ class Project extends Resource {
 
   /**
    * Gets a named workspace configuration object contained within the project.
-   * @param {string} workspaceConfigsName Name of the workspace configurations
+   * @param {string} workspaceConfigsName Name of the workspace configuration
    *     to be found.
    * @return {!WorkspaceContents} The found workspace configuration or null.
    */
