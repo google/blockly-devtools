@@ -34,7 +34,7 @@ class WorkspaceContents extends Resource {
    * @param {string} workspaceContentsName The name for the workspace contents.
    * @constructor
    */
-  constructor(workspacecontentsName) {
+  constructor(workspaCecontentsName) {
     /*
      * TODO: fully impliment
      *
@@ -44,7 +44,7 @@ class WorkspaceContents extends Resource {
      * The name of the workspace contents.
      * @type {string}
      */
-    this.name = workspacecontentsName;
+    this.name = workspaceContentsName;
   }
 
   /**

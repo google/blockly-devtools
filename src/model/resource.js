@@ -23,7 +23,7 @@
  *     potential groupings of blocks in Blockly DevTools. This abstract class
  *     is made knowing that these groupings can take many different forms
  *     (currently the DevTools Application supports Projects, Toolboxes,
- *     BlockLibraries, and Workspacecontents, all of which are, in the most
+ *     BlockLibraries, and WorkspaceContents, all of which are, in the most
  *     abstract sense, groups of blocks) and thus it is expected that they will
  *     have methods in addition to those provided by Resource; however, it is
  *     expected that the functions in Resource are defined by all classes which
