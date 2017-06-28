@@ -1,6 +1,6 @@
 {
   "name": "blockly-devtools",
-  "main": "index.html",
+  "main": "main.js",
   "window": {
     "width": 1500,
     "height": 1000
