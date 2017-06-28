@@ -34,6 +34,12 @@ class ToolboxController {
     this.project = project;
 
     /**
+     * ToolboxView associated with this instance of ToolboxController.
+     * @type {!ToolboxView}
+     */
+    this.view = new ToolboxView(this.project, this);
+
+    /**
      * Keeps track of which toolbox is currently being edited. Stores name of
      * toolbox.
      * @type {string}
@@ -47,9 +53,7 @@ class ToolboxController {
    * @param {string} toolboxName Name of new toolbox to add.
    */
   addToolbox(toolboxName) {
-    /*
-     * TODO: Implement
-     */
+    // TODO: Implement
   }
 
   /**
@@ -58,8 +62,6 @@ class ToolboxController {
    * @param {string} toolboxName Name of toolbox to remove.
    */
   removeToolbox(toolboxName) {
-    /*
-     * TODO: Implement
-     */
+    // TODO: Implement
   }
 }

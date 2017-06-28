@@ -35,6 +35,12 @@ class WorkspaceController {
     this.project = project;
 
     /**
+     * WorkspaceView associated with this instance of WorkspaceController.
+     * @type {!WorkspaceView}
+     */
+    this.view = new WorkspaceView(this.project, this);
+
+    /**
      * Keeps track of what WorkspaceContents is currently being edited. Stores
      * name of WorkspaceContents.
      * @type {string}

@@ -81,6 +81,15 @@ class ProjectController {
   }
 
   /**
+   * Gets project being currently edited in DevTools.
+   *
+   * @returns {!Project}
+   */
+  getProject() {
+    return this.project;
+  }
+
+  /**
    * Return whether or not the project has unsaved changes.
    */
    //TODO #52: move warning behavior here
