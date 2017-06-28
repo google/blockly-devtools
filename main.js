@@ -27,8 +27,8 @@ gui.App.argv.forEach(function (val, index, array) {
 });
 
 var options = {
-    "width": 1500,
-    "height": 1000
+    'width': 1500,
+    'height': 1000
 }
 // TODO: Check App.dataPath for prior saved window values. Overwrite if found.
 //       See https://github.com/nwjs/nw.js/wiki/save-persistent-data-in-app
