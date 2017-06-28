@@ -35,13 +35,31 @@
 class AppController2 {
   constructor() {
     this.projectName = this.openProject();
-    this.projectController = new ProjectController();
+    this.projectController = new ProjectController(this.projectName);
   }
 
   /**
    * Prompts user to either open a preexisting project or create a new project.
+   *
+   * @returns {string} Name of project that was opened or created.
    */
   openProject() {
+    // TODO: Implement.
+  }
 
+  /**
+   * Top-level function which is first called in order to save a project to
+   * developer's file system.
+   */
+  saveProject() {
+    // TODO: Implement.
+  }
+
+  /**
+   * Top-level function which is first called in order to create a sample
+   * Blockly application with user-defined workspace, toolbox, and blocks.
+   */
+  createSampleApplication() {
+    // TODO: Implement.
   }
 }
