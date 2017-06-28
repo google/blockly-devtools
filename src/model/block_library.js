@@ -73,8 +73,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns the XML of given block type stored in the block library
-   *     (this.blocks).
+   * Returns the XML of given block type stored in the block library.
    * @param {string} blockType Type of block.
    * @return {Element} The XML that represents the block type or null.
    */
@@ -84,7 +83,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Returns map of each block type to its corresponding XML stored in the
-   *     block library (this.blocks).
+   *     block library.
    * @param {!Array.<string>} blockTypes Types of blocks.
    * @return {!Object} Map of block type to corresponding XML.
    */
@@ -114,7 +113,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Removes block from the block library (this.blocks).
+   * Removes block from the block library.
    * @param {string} blockType Type of block.
    */
   removeBlock(blockType) {

@@ -93,7 +93,7 @@ class WorkspaceContents extends Resource {
 
   /**
    * Returns map of each block type to its corresponding XML stored in thr
-   *     workspace contents (this.blocks).
+   *     workspace contents .
    * @param {!Array.<string>} blockTypes Types of blocks.
    * @return {!Object} Map of block types to corresponding XML.
    */
@@ -121,7 +121,7 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Removes block from the workspace contents (this.blocks).
+   * Removes block from the workspace contents.
    * @param {string} blockType Type of block.
    */
   removeBlock(blockType) {
