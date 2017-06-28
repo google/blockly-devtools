@@ -49,7 +49,7 @@ class BlockLibrary extends Resource {
      */
     this.name = libraryName;
     /**
-     * An array of all block types stored in the current block library.
+     * An array of all block types stored in the block library.
      * @type {!Array.<string>}
      */
     this.blocks;
@@ -65,7 +65,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns array of all block types stored in current block library.
+   * Returns array of all block types stored in the block library.
    * @return {!Array.<string>} Array of block types stored in block library.
    */
   getBlockTypes() {
@@ -73,7 +73,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns the XML of given block type stored in current block library
+   * Returns the XML of given block type stored in the block library
    *     (this.blocks).
    * @param {string} blockType Type of block.
    * @return {Element} The XML that represents the block type or null.
@@ -83,7 +83,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns map of each block type to its corresponding XML stored in current
+   * Returns map of each block type to its corresponding XML stored in the
    *     block library (this.blocks).
    * @param {!Array.<string>} blockTypes Types of blocks.
    * @return {!Object} Map of block type to corresponding XML.
@@ -100,7 +100,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Clears the current block library.
+   * Clears the block library.
    */
   clear() {
     /*
@@ -114,7 +114,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Removes block from current block library (this.blocks).
+   * Removes block from the block library (this.blocks).
    * @param {string} blockType Type of block.
    */
   removeBlock(blockType) {
@@ -144,7 +144,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns array of all block types stored in current block library.
+   * Returns array of all block types stored in the block library.
    * @return {!Array.<string>} Map of block type to corresponding XML text.
    */
   getBlockXmlTextMap() {

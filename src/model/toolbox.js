@@ -41,7 +41,7 @@ class Toolbox extends Resource {
      */
     this.name = toolboxName;
     /**
-     * A map of each block type in the current toolbox to its corresponding XML.
+     * A map of each block type in the toolbox to its corresponding XML.
      * @type {!Object.<string, string>}
      */
     this.xmlDefinitions = {};
