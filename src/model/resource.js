@@ -130,12 +130,13 @@ class Resource {
    * Reads the resource from local storage.
    */
   loadFromLocalStorage() {
-        throw "abstract method: isDirty";
+    throw "abstract method: loadFromLocalStorage";
   }
 
   /**
    * Writes the resource to local storage.
    */
   saveToLocalStorage() {
+    throw "abstract method: saveFromLocalStorage";
   }
 }
