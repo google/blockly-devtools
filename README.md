@@ -55,9 +55,14 @@ Doing so will run devtools as an NW.js application on your computer.
 
 ### Closure dependency error
 
-If you get an error upon loading the devtools app that there is a closure
-dependency error, visit
-[this page](https://developers.google.com/blockly/guides/modify/web/closure) to
-find a link to download the closure library. Place the library into the
-`blockly-devtools` directory, next to `lib` and `src`. We are currently working
-on removing this dependency, but this will fix the issue until then.
+If you get an error about "closure" upon loading the app, it probably means the
+`blockly-devtools/closure-library/` directory has not been set up.
+Try running:
+
+    git submodule update --init --recursive
+
+Alternatively, install the [closure-library](https://developers.google.com/closure/library/)
+into that directory. If you are working with the web library, you may prefer to share a local
+copy via a [symlink](https://kb.iu.edu/d/abbe) (i.e., `ln -s path/to/closure-library`).
+
+We are currently working on removing this dependency, but this will fix the issue until then.
