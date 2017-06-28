@@ -1,0 +1,4 @@
+[submodule "closure-library"]
+	path = closure-library
+	url = https://github.com/google/closure-library.git
+	branch = npm-v20170521.0.0
