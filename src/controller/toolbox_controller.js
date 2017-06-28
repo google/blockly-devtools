@@ -18,5 +18,48 @@
  * limitations under the License.
  */
 
+/**
+ * @fileoverview ToolboxController manages user interaction with the toolbox
+ * editor, where users group together blocks that were defined within BlockLibrary
+ * as toolboxes for their desired Blockly application.
+ *
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
+ */
 class ToolboxController {
+  constructor(project) {
+    /**
+     * Project whose library is controlled by this BlockLibraryController instance.
+     * @type {!Project}
+     */
+    this.project = project;
+
+    /**
+     * Keeps track of which toolbox is currently being edited. Stores name of
+     * toolbox.
+     * @type {string}
+     */
+    this.currentToolboxName = '';
+  }
+
+  /**
+   * Creates new toolbox to this.project.
+   *
+   * @param {string} toolboxName Name of new toolbox to add.
+   */
+  addToolbox(toolboxName) {
+    /*
+     * TODO: Implement
+     */
+  }
+
+  /**
+   * Removes toolbox from this.project's toolboxList.
+   *
+   * @param {string} toolboxName Name of toolbox to remove.
+   */
+  removeToolbox(toolboxName) {
+    /*
+     * TODO: Implement
+     */
+  }
 }

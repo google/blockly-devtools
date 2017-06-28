@@ -23,45 +23,97 @@
  *   information contained within projects (libraries, toolboxes, workspaces);
  *   when blocks are opened, storage, warning behavior, importing and exporting.
  *
- * @author sagev@google.com (Sage Vouse)
+ * @author sagev (Sage Vouse), celinechoo (Celine Choo)
  */
-
- /**
-  * @class ProjectController manages the DevTools Project object's information.
-  *    it controls opening and storing blocks, warning about unsaved changes
-  *    to libraries, and importing and exporting projects and the elements that
-  *    they contain.
-  */
-  //TODO #44: refactor
-  //TODO #50: manage project metadata
 
 /**
- * @class ProjectController manages warnings for unsaved project data when
- *    exiting the application, access to Project metadata, import and export of
- *    projects and their components, and management of project data on local
- *    local filesystems between sessions.
+ * @class ProjectController manages the DevTools Project object's information.
+ *    it controls opening and storing blocks, warning about unsaved changes
+ *    to libraries, and importing and exporting projects and the elements that
+ *    they contain.
  */
+//TODO #44: refactor
+//TODO #50: manage project metadata
 class ProjectController {
-
   /**
    * ProjectController class
-   * @param {!Project} project the project from which the data to be managed
-   *    comes from.
+   * @param {string} projectName Name of project object which user is currently
+   *     editing.
    * @constructor
    */
-  constructor(project) {
+  constructor(projectName) {
     /**
      * The project to be managed.
      * @type {!Project}
      */
-    this.project = project;
+    this.project = new Project(projectName);
+
+    /**
+     * Toolbox Controller.
+     * @type {!ToolboxController}
+     */
+    this.toolboxController = new ToolboxController(this.project);
+
+    /**
+     * Workspace Controller.
+     * @type {!WorkspaceController}
+     */
+    this.workspaceController = new WorkspaceController(this.project);
+
+    /**
+     * BlockLibrary Controller
+     * @type {BlockLibraryController}
+     */
+    this.blockLibraryController = new BlockLibraryController(this.project);
+  }
+
+  /**
+   * Creates new project that the ProjectController is controlling.
+   *
+   * @param {string} newProjectName Name of new project to create that the user
+   *     will edit.
+   */
+  setProject(newProjectName) {
+    this.project = new Project(newProjectName);
+    this.toolboxController = new ToolboxController(this.project);
+    this.workspaceConfigController = new WorkspaceConfigController(this.project);
+    this.blockLibraryController = new BlockLibraryController(this.project);
   }
 
   /**
    * Return whether or not the project has unsaved changes.
    */
    //TODO #52: move warning behavior here
-   warnIfUnsaved() {
+  warnIfUnsaved() {
     return this.project.isDirty();
-  };
+  }
+
+  /**
+   * Getter for block library controller.
+   *
+   * @returns {!BlockLibraryController}
+   */
+  getBlockLibraryController() {
+    return this.blockLibraryController;
+  }
+
+  /**
+   * Getter for toolbox controller.
+   *
+   * @returns {!ToolboxController}
+   */
+  getToolboxController() {
+    return this.toolboxController;
+  }
+
+  /**
+   * Getter for workspace controller. Controls the (1) preloaded blocks,
+   * which are called the workspace contents, and the (2) workspace options,
+   * which include whether there is a trash can, a grid, etc.
+   *
+   * @returns {!WorkspaceController}
+   */
+  getWorkspaceController() {
+    return this.workspaceController;
+  }
 }

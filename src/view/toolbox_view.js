@@ -19,27 +19,26 @@
  */
 
 /**
- * @fileoverview WorkspaceView deals with the view elements of Blockly workspaces
- * that are used to generate block libraries, toolboxes, and preload-workspaces.
- * This includes EventHandlers, EventListeners, tab switching functions, etc.
+ * @fileoverview ToolboxView manages the visible parts of the application involved
+ * in creating toolboxes and categories for a user's Blockly application. ToolboxView
+ * contains EventHandlers and popups (prompts, etc.) necessary to create a toolbox.
  *
- * @authors celinechoo (Celine Choo), sagev (Sage Vouse)
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
-
-class WorkspaceView {
+class ToolboxView {
   constructor(project, controller) {
     /**
-     * Project associated with this instance of WorkspaceView.
+     * Project associated with this instance of ToolboxView.
      * @type {!Project}
      */
     this.project = project;
 
     /**
-     * WorkspaceController associated with this instance of WorkspaceView.
-     * @type {!WorkspaceController}
+     * ToolboxController associated with this instance of ToolboxView.
+     * @type {!ToolboxController}
      */
     this.controller = controller;
   }
 
-  // TODO(#44): Add functions for refactor.
+  // TODO: Add functions.
 }

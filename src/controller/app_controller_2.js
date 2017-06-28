@@ -34,8 +34,14 @@
 // which will be refactored into this (and other) files.
 class AppController2 {
   constructor() {
-
+    this.projectName = this.openProject();
+    this.projectController = new ProjectController();
   }
 
-  // TODO(#44): Add functions for refactoring.
+  /**
+   * Prompts user to either open a preexisting project or create a new project.
+   */
+  openProject() {
+
+  }
 }

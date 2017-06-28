@@ -19,14 +19,65 @@
  */
 
 /**
- * @fileoverview The WorkspaceController Class deals with the Blockly workspaces
- * that are used to generate block libraries, toolboxes, and preload-workspaces.
+ * @fileoverview WorkspaceController manages user interaction with the
+ * workspace configurations, which include (1) blocks that are pre-loaded onto a
+ * developer's Blockly workspace, and (2) Blockly.Options which configure the
+ * settings on a developer's workspace (e.g. trashcan, RTL/LTR, etc.).
+ *
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
-
 class WorkspaceController {
-  constructor() {
+  constructor(project) {
+    /**
+     * Project whose library is controlled by this BlockLibraryController instance.
+     * @type {!Project}
+     */
+    this.project = project;
 
+    /**
+     * Keeps track of what WorkspaceContents is currently being edited. Stores
+     * name of WorkspaceContents.
+     * @type {string}
+     */
+    this.currentWorkspaceContentsName = '';
   }
 
-  //TODO #44: refactor
+  /**
+   * Adds new WorkspaceContents to this.project.
+   *
+   * @param {string} workspaceContentsName Name of WorkspaceContents to add.
+   */
+  addWorkspaceContents(workspaceContentsName) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes WorkspaceContents object from this.project.
+   *
+   * @param {string} workspaceContentsName Name of WorkspaceContents object
+   *     to remove from project.
+   */
+  removeWorkspaceContents(workspaceContentsName) {
+    // TODO: Implement
+  }
+
+  /**
+   * Adds new WorkspaceOptions to this.project. Prompts user to select from
+   * a list of checkbox options and name the grouping of options.
+   *
+   * @param {string} workspaceOptionsName Name of WorkspaceOptions to add.
+   */
+  addWorkspaceOptions(workspaceOptionsName) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes WorkspaceOptions object from this.project.
+   *
+   * @param {string} workspaceOptionsName Name of WorkspaceOptions to remove from
+   *     project.
+   */
+  removeWorkspaceOptions(workspaceOptionsName) {
+    // TODO: Implement
+  }
 }
