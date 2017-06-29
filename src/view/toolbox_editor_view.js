@@ -19,25 +19,20 @@
  */
 
 /**
- * @fileoverview ToolboxView manages the visible parts of the application involved
- * in creating toolboxes and categories for a user's Blockly application. ToolboxView
- * contains EventHandlers and popups (prompts, etc.) necessary to create a toolbox.
+ * @fileoverview ToolboxEditorView manages the visible parts of the application involved
+ * in editing toolboxes, creating categories, and populating them with blocks for a
+ * user's Blockly application. ToolboxView contains EventHandlers and popups (prompts,
+ * etc.) necessary to create a toolbox.
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
-class ToolboxView {
-  constructor(project, controller) {
+class ToolboxEditorView {
+  constructor(toolbox) {
     /**
-     * Project associated with this instance of ToolboxView.
-     * @type {!Project}
+     * Toolbox associated with this instance of ToolboxView.
+     * @type {!Toolbox}
      */
-    this.project = project;
-
-    /**
-     * ToolboxController associated with this instance of ToolboxView.
-     * @type {!ToolboxController}
-     */
-    this.controller = controller;
+    this.toolbox = toolbox;
   }
 
   // TODO: Add functions.

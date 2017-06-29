@@ -34,16 +34,15 @@ class ToolboxController {
     this.project = project;
 
     /**
-     * ToolboxView associated with this instance of ToolboxController.
-     * @type {!ToolboxView}
-     */
-    this.view = new ToolboxView(this.project, this);
-
-    /**
-     * Keeps track of which toolbox is currently being edited. Stores name of
-     * toolbox.
+     * Keeps track of which toolbox is currently being edited.
      * @type {!Toolbox}
      */
     this.currentToolbox = null;
+
+    /**
+     * ToolboxEditorView associated with this instance of ToolboxController.
+     * @type {!ToolboxEditorView}
+     */
+    this.view = new ToolboxEditorView(this.currentToolbox);
   }
 }

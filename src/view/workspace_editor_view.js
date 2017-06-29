@@ -26,19 +26,19 @@
  * @authors celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 
-class WorkspaceView {
-  constructor(project, controller) {
+class WorkspaceEditorView {
+  constructor(workspaceContents, workspaceConfig) {
     /**
-     * Project associated with this instance of WorkspaceView.
-     * @type {!Project}
+     * WorkspaceContents associated with this instance of WorkspaceView.
+     * @type {!WorkspaceContents}
      */
-    this.project = project;
+    this.workspaceContents = workspaceContents;
 
     /**
-     * WorkspaceController associated with this instance of WorkspaceView.
-     * @type {!WorkspaceController}
+     * WorkspaceConfig associated with this instance of WorkspaceView.
+     * @type {!WorkspaceConfig}
      */
-    this.controller = controller;
+    this.workspaceConfig = workspaceConfig;
   }
 
   // TODO(#44): Add functions for refactor.
