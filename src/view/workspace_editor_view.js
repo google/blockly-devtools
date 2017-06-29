@@ -26,9 +26,19 @@
  * @authors celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 
-class WorkspaceView {
-  constructor() {
+class WorkspaceEditorView {
+  constructor(workspaceContents, workspaceConfig) {
+    /**
+     * WorkspaceContents associated with this instance of WorkspaceView.
+     * @type {!WorkspaceContents}
+     */
+    this.workspaceContents = workspaceContents;
 
+    /**
+     * WorkspaceConfig associated with this instance of WorkspaceView.
+     * @type {!WorkspaceConfig}
+     */
+    this.workspaceConfig = workspaceConfig;
   }
 
   // TODO(#44): Add functions for refactor.
