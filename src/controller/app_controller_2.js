@@ -38,7 +38,7 @@ class AppController2 {
      * Stores currently loaded project that user will edit.
      * @type {!Project}
      */
-    this.project = this.openProject();
+    this.project = new Project('');
 
     /**
      * ProjectController object associated with application.
@@ -46,18 +46,17 @@ class AppController2 {
      */
     this.projectController = new ProjectController(this.project);
 
+    /**
+     * EditorController object which encapsulates all editor controllers
+     */
     this.editorController = new EditorController(this.project);
   }
 
   /**
    * Prompts user to either open a preexisting project or create a new project.
-   *
-   * @returns {!Project} Project object containing data from either preexisting
-   *     project opened from file, or an empty/new project.
    */
   openProject() {
     // TODO: Implement.
-    return new Project('');
   }
 
   /**

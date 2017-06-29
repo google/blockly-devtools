@@ -33,37 +33,7 @@ class ToolboxEditorView {
      * @type {!Toolbox}
      */
     this.toolbox = toolbox;
-
-    /**
-     * Blockly workspace where developers create and define toolboxes.
-     * @type {!Blockly.Workspace}
-     */
-    this.editorWorkspace = Blockly.inject(toolboxDiv,
-      {
-        grid: {
-          spacing: 25,
-          length: 3,
-          colour: '#ccc',
-          snap: true},
-          media: 'media/',
-          toolbox: this.toolbox
-        }
-      });
   }
 
-  /**
-   * Changes toolbox reference to reflect the new toolbox being edited.
-   * @param {!Toolbox} toolbox Toolbox object to re-load into workspace.
-   */
-  setToolbox(toolbox) {
-    // TODO: Load new toolbox into editor.
-  }
-
-  /**
-   * Returns current Toolbox object that is being edited within the toolbox editor.
-   * @return {!Toolbox} Toolbox currently being edited.
-   */
-  getToolbox() {
-    return this.toolbox;
-  }
+  // TODO: Add functions.
 }
