@@ -47,24 +47,6 @@ class ProjectController {
      * @type {!Project}
      */
     this.project = project;
-
-    /**
-     * Toolbox Controller.
-     * @type {!ToolboxController}
-     */
-    this.toolboxController = new ToolboxController(this.project);
-
-    /**
-     * Workspace Controller.
-     * @type {!WorkspaceController}
-     */
-    this.workspaceController = new WorkspaceController(this.project);
-
-    /**
-     * BlockLibrary Controller
-     * @type {BlockLibraryController}
-     */
-    this.blockLibraryController = new BlockLibraryController(this.project);
   }
 
   /**
@@ -147,7 +129,7 @@ class ProjectController {
   /**
    * Adds new WorkspaceContents to this.project.
    *
-   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to 
+   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
    *     add to project.
    */
   addWorkspaceContents(workspaceContents) {
@@ -178,7 +160,7 @@ class ProjectController {
   /**
    * Removes WorkspaceOptions object from this.project.
    *
-   * @param {!WorkspaceOptions} workspaceOptions WorkspaceOptions object to 
+   * @param {!WorkspaceOptions} workspaceOptions WorkspaceOptions object to
    *     remove from project.
    */
   removeWorkspaceOptions(workspaceOptions) {

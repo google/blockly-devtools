@@ -39,23 +39,26 @@ class AppController2 {
      * load or create a new project.
      * @type {!Project}
      */
-    this.projectName = this.openProject();
+    this.project = this.openProject();
 
     /**
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
-    this.projectController = new ProjectController(this.projectName);
+    this.projectController = new ProjectController(this.project);
+
+    this.editorController = new EditorController(this.project);
   }
 
   /**
    * Prompts user to either open a preexisting project or create a new project.
    *
-   * @returns {string} Name of project that was opened or created.
+   * @returns {!Project} Project object containing data from either preexisting
+   *     project opened from file, or an empty/new project.
    */
   openProject() {
     // TODO: Implement.
-    return '';
+    return new Project('');
   }
 
   /**
