@@ -19,7 +19,7 @@
  */
 
 /**
- * @fileoverview WorkspaceView deals with the view elements of Blockly workspaces
+ * @fileoverview WorkspaceEditorView deals with the view elements of Blockly workspaces
  * that are used to generate block libraries, toolboxes, and preload-workspaces.
  * This includes EventHandlers, EventListeners, tab switching functions, etc.
  *
