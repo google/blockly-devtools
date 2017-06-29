@@ -92,17 +92,17 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns map of each block type to its corresponding XML stored in the
-   *     workspace contents .
+   * Returns map of each block type to its corresponding XML in the
+   *     block library.
    * @param {!Array.<string>} blockTypes Types of blocks.
-   * @return {!Object} Map of block types to corresponding XML.
+   * @return {!Object<string, Element>} Map of block type to corresponding XML.
    */
   getBlockXmlMap(blockTypes) {
     /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
+     * TODO: Move from src/block_library_storage.js, see if method necessary
+     * References:
      * - getBlockXmlMap(blockTypes)
+     *
      */
     throw "unimplemented: getBlockXmlMap";
   }
@@ -149,15 +149,16 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns array of all block types stored in the workspace contents.
-   * @return {!Array.<string>} Map of block type to corresponding XML text.
+   * Returns array of all block JSON stored in the block library.
+   * @return {{!Object<string, Object>} Map of block type to corresponding JSON.
    */
-  getBlockXmlTextMap() {
+  getBlockJsonMap() {
     /*
      * TODO: implement
      *
      * References: src/block_library_storage.js
      * - getBlockXmlTextMap()
+     *
      */
     throw "unimplemented: getBlockXmlTextMap";
   }

@@ -19,12 +19,10 @@
  */
 
 /**
- * @fileoverview BlockLibrary object. A BlockLibrary provides the structure by
- *      which definitions of blocks are grouped. It is these definitions that
- *      are changed based upon user interaction with the DevTools Application,
- *      rather than the definitions contained within the other structures under
- *      Project. Moreover, block libraries cannot contain multiple blocks with
- *      the same type and definition.
+ * @fileoverview BlockLibrary object. User interations with the DevTools
+ *     Application change definitions in the BlockLibrary. A BlockLibrary cannot
+ *     contain multiple blocks with the same type.
+ *
  * @author
  */
 
@@ -82,15 +80,23 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns map of each block type to its corresponding XML stored in the
+   * Returns the JSON of given block type stored in the block library.
+   * @param {string} blockType Type of block.
+   * @return {Object} The JSON that represents the block type or null.
+   */
+  getBlockJson(blockType) {
+    throw "unimplemented: getBlockJson";
+  }
+
+  /**
+   * Returns map of each block type to its corresponding XML in the
    *     block library.
    * @param {!Array.<string>} blockTypes Types of blocks.
-   * @return {!Object} Map of block type to corresponding XML.
+   * @return {!Object<string, Element>} Map of block type to corresponding XML.
    */
   getBlockXmlMap(blockTypes) {
-    /*
-     * TODO: Move from src/block_library_storage.js
-     *
+    /* TODO: handle the blockType not being contained within the library
+     * TODO: Move from src/block_library_storage.js, see if method necessary
      * References:
      * - getBlockXmlMap(blockTypes)
      *
@@ -143,14 +149,14 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns array of all block types stored in the block library.
-   * @return {!Array.<string>} Map of block type to corresponding XML text.
+   * Returns array of all block JSON stored in the block library.
+   * @return {{!Object<string, Object>} Map of block type to corresponding JSON.
    */
-  getBlockXmlTextMap() {
+  getBlockJsonMap() {
     /*
-     * TODO: Move from src/block_library_storage.js
+     * TODO: implement
      *
-     * References:
+     * References: src/block_library_storage.js
      * - getBlockXmlTextMap()
      *
      */

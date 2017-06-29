@@ -209,7 +209,7 @@ class Project extends Resource {
 
   /**
    * Returns current block library mapping block type to XML.
-   * @return {Object} Object mapping block type to XML text.
+   * @return {!Object<string, Element>} Object mapping block type to XML text.
    */
   getBlockLibraryXmlMap() {
     return this.currentLibrary.storage.getBlockXmlTextMap();
