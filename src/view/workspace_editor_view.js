@@ -41,9 +41,10 @@ class WorkspaceEditorView {
     this.workspaceConfig = workspaceConfig;
 
     /**
-     *
+     * Blockly workspace where users define a group of WorkspaceContents.
+     * @type {!Blockly.Workspace}
      */
-    this.editorWorkspace = Blockly.inject(workspaceDiv,
+    this.editorWorkspace = Blockly.inject('wContentsDiv',
       {
         grid: {
           spacing: 25,
@@ -51,7 +52,23 @@ class WorkspaceEditorView {
           colour: '#ccc',
           snap: true},
           media: 'media/',
-          toolbox: this.toolbox
+          toolbox: this.toolbox // TODO: Reference correct toolbox.
+        }
+      });
+
+    /**
+     * Blockly workspace where users can preview a defined WorkspaceContents.
+     * @type {!Blockly.Workspace}
+     */
+    this.previewWorkspace = Blockly.inject('workspacePreview',
+      {
+        grid: {
+          spacing: 25,
+          length: 3,
+          colour: '#ccc',
+          snap: true},
+          media: 'media/',
+          toolbox: '<xml></xml>'
         }
       });
   }
