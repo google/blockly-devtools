@@ -333,6 +333,6 @@ class Project extends Resource {
      *
      * References: N/A
      */
-    throw "unimplemented: getWorkspaceConfigurations";
+    throw "unimplemented: getWorkspaceConfiguration";
   }
 }
