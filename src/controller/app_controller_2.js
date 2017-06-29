@@ -34,8 +34,44 @@
 // which will be refactored into this (and other) files.
 class AppController2 {
   constructor() {
+    /**
+     * Stores currently loaded project that user will edit.
+     * @type {!Project}
+     */
+    this.project = new Project('');
 
+    /**
+     * ProjectController object associated with application.
+     * @type {!ProjectController}
+     */
+    this.projectController = new ProjectController(this.project);
+
+    /**
+     * EditorController object which encapsulates all editor controllers
+     */
+    this.editorController = new EditorController(this.project);
   }
 
-  // TODO(#44): Add functions for refactoring.
+  /**
+   * Prompts user to either open a preexisting project or create a new project.
+   */
+  openProject() {
+    // TODO: Implement.
+  }
+
+  /**
+   * Top-level function which is first called in order to save a project to
+   * developer's file system.
+   */
+  saveProject() {
+    // TODO: Implement.
+  }
+
+  /**
+   * Top-level function which is first called in order to create a sample
+   * Blockly application with user-defined workspace, toolbox, and blocks.
+   */
+  createSampleApplication() {
+    // TODO: Implement.
+  }
 }

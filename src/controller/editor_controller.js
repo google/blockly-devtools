@@ -19,30 +19,37 @@
  */
 
 /**
- * @fileoverview ToolboxController manages user interaction with the toolbox
- * editor, where users group together blocks that were defined within BlockLibrary
- * as toolboxes for their desired Blockly application.
+ * @fileoverview EditorController manages user interaction involving changes in
+ *     specific components of a project (Toolbox, Workspace (contents or configs),
+ *     or Block Library).
  *
- * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
+ * @author sagev (Sage Vouse), celinechoo (Celine Choo)
  */
-class ToolboxController {
+
+class EditorController {
   constructor(project) {
     /**
-     * Project whose library is controlled by this BlockLibraryController instance.
+     * Project object whose components are controlled by EditorController.
      * @type {!Project}
      */
     this.project = project;
 
     /**
-     * Keeps track of which toolbox is currently being edited.
-     * @type {!Toolbox}
+     * Toolbox Controller.
+     * @type {!ToolboxController}
      */
-    this.currentToolbox = null;
+    this.toolboxController = new ToolboxController(this.project);
 
     /**
-     * ToolboxEditorView associated with this instance of ToolboxController.
-     * @type {!ToolboxEditorView}
+     * Workspace Controller.
+     * @type {!WorkspaceController}
      */
-    this.view = new ToolboxEditorView(this.currentToolbox);
+    this.workspaceController = new WorkspaceController(this.project);
+
+    /**
+     * BlockLibrary Controller
+     * @type {BlockLibraryController}
+     */
+    this.blockLibraryController = new BlockLibraryController(this.project);
   }
 }
