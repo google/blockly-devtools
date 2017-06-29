@@ -18,9 +18,11 @@
  * limitations under the License.
  */
 
+ //TODO #50: change methods for metadata
+ //TODO #44: differentiate Project and ProjectController for refactor
+
 /**
- * @fileoverview The Project class represents the project data structure.
- * A project is a collection of one or more libraries along with
+ * @class Project is a collection of one or more libraries along with
  *    any number of toolboxes and/or workspaces. In the course of designing an
  *    application, a developer may want to work on any number of the
  *    aforementioned groupings (library, workspace, toolbox) in various ways.
@@ -28,15 +30,6 @@
  *    within them are linked, seeks to manage this cycle in a more organized
  *    manner, allowing developers to import and export a structure created based
  *    upon their workflow.
- *
- * @author sagev@google.com (Sage Vouse)
- */
- //TODO #50: change methods for metadata
- //TODO #44: differentiate Project and ProjectController for refactor
-
-/**
- * @class Project aggregates libraries, toolboxes, and workspaces to form
- *    a project.
  */
 class Project extends Resource {
   /**
@@ -49,7 +42,7 @@ class Project extends Resource {
      * The name of the project.
      * @type {string}
      */
-    this.projectName = projectName;
+    super(projectName);
     /**
      * Dictionary mapping libary names to library controllers.
      * @type {!Object<string, !BlockLibraryController>}
@@ -216,7 +209,8 @@ class Project extends Resource {
   }
 
   /**
-   * Removes current block from project.
+   * Removes block currently being edited from project.
+   *
    */
   removeBlockFromProject() {
     this.currentLibrary.removeFromBlockLibrary();
@@ -230,7 +224,7 @@ class Project extends Resource {
   }
 
   /**
-   * Saves current block.
+   * Saves block currently being edited.
    */
   saveBlock() {
     this.currentLibrary.saveToBlockLibrary();

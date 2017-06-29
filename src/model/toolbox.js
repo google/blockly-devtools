@@ -19,16 +19,13 @@
  */
 
 /**
- * @fileoverview Toolbox object. Contains references to controller and view.
+ * @class Toolbox represents a toolbox object. Contains references to controller
+ *     and view.
  *
  * @author Celine Choo (celinechoo)
- */
-
-/**
- * @class Toolbox represents a toolbox object.
+ *
  */
 class Toolbox extends Resource {
-
   /**
    * Toolbox Class
    * @param {string} toolboxName The name for the new toolbox.
@@ -39,7 +36,7 @@ class Toolbox extends Resource {
      * The name of the toolbox.
      * @type {string}
      */
-    this.name = toolboxName;
+    super(toolboxName);
     /**
      * A map of each block type in the toolbox to its corresponding XML.
      * @type {!Object.<string, string>}

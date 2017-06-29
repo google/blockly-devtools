@@ -19,16 +19,10 @@
  */
 
 /**
- * @fileoverview A BlockLibrary stores one or more block definitions. User
+ * @class BlockLibrary stores one or more block definitions. User
  *     interations with the DevTools Application change definitions in the
  *     BlockLibrary. A BlockLibrary cannot contain multiple blocks with the same
  *     type.
- *
- * @author
- */
-
-/**
- * @class BlockLibrary stores a group of block definitions.
  */
 class BlockLibrary extends Resource {
   /**
@@ -46,7 +40,7 @@ class BlockLibrary extends Resource {
      * The name of the library.
      * @type {string}
      */
-    this.name = libraryName;
+    super(libraryName);
     /**
      * An array of all block types stored in the block library.
      * @type {!Array.<string>}
@@ -150,7 +144,7 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns array of all block JSON stored in the block library.
+   * Returns map of blockType to associated JSON object.
    * @return {{!Object<string, Object>} Map of block type to corresponding JSON.
    */
   getBlockJsonMap() {

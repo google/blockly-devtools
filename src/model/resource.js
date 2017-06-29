@@ -19,15 +19,27 @@
  */
 
 /**
- * @fileoverview The Resource object is the abstract parent class for all
- *     potential groupings of blocks in Blockly DevTools.
- */
-
-/**
- * @class Resource provides method requirements for the Toolbox, BlockLibrary,
- *     and WorkspaceContents classes.
+ * @class Resource is the top level interface for the parts of a project,
+ *     including the project itself
  */
 class Resource {
+  /**
+   * Resource Class
+   * @param {string} workspaceContentsName The name for the workspace contents.
+   * @constructor
+   */
+  constructor(workspaceContentsName) {
+    /*
+     * TODO: fully implement
+     *
+     * References: N/A
+     */
+    /**
+     * The name of the workspace contents.
+     * @type {string}
+     */
+     super(workspaceContentsName);
+  }
   /**
    * Returns whether or not there are unsaved elements in the resource.
    * @return {boolean} Whether or not unsaved elements exist.

@@ -19,22 +19,16 @@
  */
 
 /**
- * @fileoverview WorkspaceContents object. Contains a set of positioned blocks
+ * @class Workspacecontents contains a set of positioned blocks
  *    specified by the developer and used to initialize an app's workspace.
- *
- * @author
- */
-
-/**
- * @class Workspacecontents stores a group of positioned blocks.
  */
 class WorkspaceContents extends Resource {
   /**
-   * Workspacecontents Class
+   * WorkspaceContents Class
    * @param {string} workspaceContentsName The name for the workspace contents.
    * @constructor
    */
-  constructor(workspaCecontentsName) {
+  constructor(workspaceContentsName) {
     /*
      * TODO: fully implement
      *
