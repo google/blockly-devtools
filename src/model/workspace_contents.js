@@ -63,51 +63,6 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns array of all block types stored in the workspace contents.
-   * @return {!Array.<string>} Array of block types stored in workspace contents.
-   */
-  getBlockTypes() {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - getBlockTypes
-     */
-    throw "unimplemented: getBlockTypes";
-  }
-
-  /**
-   * Returns the XML of given block type stored in the workspace contents
-   * @param {string} blockType Type of block.
-   * @return {Element} The XML that represents the block type or null.
-   */
-  getBlockXml(blockType) {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - getBlockXmlMap(blockTypes)
-     */
-    throw "unimplemented: getBlockXml";
-  }
-
-  /**
-   * Returns map of each block type to its corresponding XML in the
-   *     block library.
-   * @param {!Array.<string>} blockTypes Types of blocks.
-   * @return {!Object<string, Element>} Map of block type to corresponding XML.
-   */
-  getBlockXmlMap(blockTypes) {
-    /*
-     * TODO: Move from src/block_library_storage.js, see if method necessary
-     * References:
-     * - getBlockXmlMap(blockTypes)
-     *
-     */
-    throw "unimplemented: getBlockXmlMap";
-  }
-
-  /**
    * Clears the workspace contents.
    */
   clear() {
@@ -118,20 +73,6 @@ class WorkspaceContents extends Resource {
      * - clear()
      */
     throw "unimplemented: clear";
-  }
-
-  /**
-   * Removes block from the workspace contents.
-   * @param {string} blockType Type of block.
-   */
-  removeBlock(blockType) {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - removeBlock(blockType)
-     */
-    throw "unimplemented: removeBlock";
   }
 
   /**
@@ -149,21 +90,6 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns array of all block JSON stored in the block library.
-   * @return {{!Object<string, Object>} Map of block type to corresponding JSON.
-   */
-  getBlockJsonMap() {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - getBlockXmlTextMap()
-     *
-     */
-    throw "unimplemented: getBlockXmlTextMap";
-  }
-
-  /**
    * Returns boolean of whether or not a given blockType is stored in the
    * workspace contents.
    * @param {string} blockType Type of block.
@@ -171,6 +97,8 @@ class WorkspaceContents extends Resource {
    */
   has(blockType) {
     /*
+     * TODO: make specific to the nature of the workspace//more useful; perhaps
+     *     use something other than blockType
      * TODO: implement
      *
      * References: src/block_library_storage.js
@@ -195,4 +123,6 @@ class WorkspaceContents extends Resource {
      */
     throw "unimplemented: setName";
   }
+
+  //TODO: Create getters/has specified for nature of workspaceContents
 }

@@ -117,30 +117,10 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Returns boolean of whether or not a given blockType is stored in the
-   *     toolbox.
-   * @param {string} blockType Type of block.
-   * @return {boolean} Whether or not blockType is in the toolbox.
-   */
-  has(blockType) {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - has(blockType)
-     *
-     * Additional reference: src/block_library_controller.js
-     * - has(blockType)
-     *
-     */
-    throw "unimplemented: has";
-  }
-
-  /**
    * Renames the project.
    * @param {string} newName New name of the project.
    */
-  getBlock(newName) {
+  setName(newName) {
     /*
      * TODO: implement
      *
@@ -148,4 +128,6 @@ class Toolbox extends Resource {
      */
     throw "unimplemented: setName";
   }
+
+  //TODO: Create getters/has specified for nature of Toolbox
 }
