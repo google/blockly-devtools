@@ -51,32 +51,32 @@ class AppView {
     this.win = nw.Window.get();
 
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
-    const menuTree = {
-      'File': {
-        'New': {
-          'New Block': () => { this.showNewBlock(); },
-          'New Project': () => { this.showNewProject(); },
-          'New Library': () => { this.showNewLibrary()(); },
-          'New Toolbox': () => { this.showNewToolbox(); }
-        },
-        'Open Project': () => { this.openProject(); },
-        'Save': {
-          'Save All': () => { this.saveProject(); },
-          'Save as Web Only': () => { this.saveForWeb(); },
-          'Save as iOS Only': () => { this.saveForIos(); },
-          'Save as Android Only': () => { this.saveForAndroid(); }
-        },
-        'Import': {
-          'Blocks': () => { this.importBlocks(); },
-          'Library': () => { this.importLibrary(); },
-          'Toolbox': () => { this.importToolbox(); },
-          'Workspace': () => { this.importWorkspace(); }
-        },
-        'Create Application for Web': () => { this.createWeb(); }
-      },
-      'Edit': {},
-      'Help': {}
-    };
+    const menuTree = [
+      ['File', [
+        ['New', [
+          ['New Block', () => { this.showNewBlock(); }],
+          ['New Project', () => { this.showNewProject(); }],
+          ['New Library', () => { this.showNewLibrary(); }],
+          ['New Toolbox', () => { this.showNewToolbox(); }]
+        ]],
+        ['Open Project', () => { this.openProject(); }],
+        ['Save', [
+          ['Save All', () => { this.saveProject(); }],
+          ['Save as Web Only', () => { this.saveForWeb(); }],
+          ['Save as iOS Only', () => { this.saveForIos(); }],
+          ['Save as Android Only', () => { this.saveForAndroid(); }]
+        ]],
+        ['Import', [
+          ['Blocks', () => { this.importBlocks(); }],
+          ['Library', () => { this.importLibrary(); }],
+          ['Toolbox', () => { this.importToolbox(); }],
+          ['Workspace', () => { this.importWorkspace(); }]
+        ]],
+        ['Create Application for Web', () => { this.createWeb(); }]
+      ]],
+      ['Edit', []],
+      ['Help', []]
+    ];
 
     /**
      * Dictionary with all MenuItems. Keys are the labels, values are the
@@ -205,7 +205,8 @@ class AppView {
    * Initializes menu tree based off of a given menu tree
    *
    * @param {!nw.Menu} menu Menu to add nodes to.
-   * @param {Object.<string,Object>} tree Dictionary representation of menu tree.
+   * @param {Array} tree An array of name/value pairs for each child
+                         (each represented as a length 2 array).
    */
   initMenuTree(menu, tree) {
     // If menu is null, it means that we are at the end of the tree.
@@ -213,15 +214,22 @@ class AppView {
       return tree;
     }
 
-    for (let key in tree) {
-      if (typeof tree[key] !== 'function') {
+    for (let index in tree) {
+      let pair = tree[index];
+      if (pair.length != 2) {
+        throw `Invalid name/value pair in menu tree: ${pair}`;
+      }
+      let name = pair[0]
+      if (typeof pair[1] !== 'function') {
         // If next node is not leaf, must create subMenu.
         let subMenu = new nw.Menu();
-        this.menuItems[key] = this.addMenuItem(menu, key, subMenu, this.initMenuTree(subMenu, tree[key]));
+        this.menuItems[name] = this.addMenuItem(
+            menu, name, subMenu, this.initMenuTree(subMenu, pair[1]));
       } else {
         // When the child node is a function, no subMenu is necessary.
         // Replace node with MenuItem.
-        this.menuItems[key] = this.addMenuItem(menu, key, null, this.initMenuTree(null, tree[key]));
+        this.menuItems[name] = this.addMenuItem(
+            menu, name, null, this.initMenuTree(null, pair[1]));
       }
 
     }
