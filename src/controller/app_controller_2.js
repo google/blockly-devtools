@@ -35,8 +35,7 @@
 class AppController2 {
   constructor() {
     /**
-     * Stores name of project. Calls openProject() which prompts user to either
-     * load or create a new project.
+     * Stores currently loaded project that user will edit.
      * @type {!Project}
      */
     this.project = this.openProject();
