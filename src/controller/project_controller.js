@@ -125,4 +125,82 @@ class ProjectController {
   getWorkspaceController() {
     return this.workspaceController;
   }
+
+  /**
+   * Creates new toolbox to this.project.
+   *
+   * @param {!Toolbox} toolbox Toolbox object to add to project.
+   */
+  addToolbox(toolbox) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes toolbox from this.project's toolboxList.
+   *
+   * @param {!Toolbox} toolbox Toolbox object to remove from project.
+   */
+  removeToolbox(toolboxName) {
+    // TODO: Implement
+  }
+
+  /**
+   * Adds new WorkspaceContents to this.project.
+   *
+   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to 
+   *     add to project.
+   */
+  addWorkspaceContents(workspaceContents) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes WorkspaceContents object from this.project.
+   *
+   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
+   *     remove from project.
+   */
+  removeWorkspaceContents(workspaceContents) {
+    // TODO: Implement
+  }
+
+  /**
+   * Adds new WorkspaceOptions to this.project. Prompts user to select from
+   * a list of checkbox options and name the grouping of options.
+   *
+   * @param {!WorkspaceOptions} workspaceOptionsName WorkspaceOptions object to
+   *     add to project.
+   */
+  addWorkspaceOptions(workspaceOptions) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes WorkspaceOptions object from this.project.
+   *
+   * @param {!WorkspaceOptions} workspaceOptions WorkspaceOptions object to 
+   *     remove from project.
+   */
+  removeWorkspaceOptions(workspaceOptions) {
+    // TODO: Implement
+  }
+
+  /**
+   * Adds new BlockLibrary to this.project.
+   *
+   * @param {!BlockLibrary} blockLibraryName BlockLibrary object to add to
+   *     project.
+   */
+  addBlockLibrary(blockLibraryName) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes BlockLibrary from project.
+   *
+   * @param {!BlockLibrary} blockLibrary BlockLibrary object to remove from project.
+   */
+  removeBlockLibrary(blockLibraryName) {
+    // TODO: Implement
+  }
 }

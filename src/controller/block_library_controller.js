@@ -46,22 +46,4 @@ class BlockLibraryController {
      */
     this.currentBlock = '';
   }
-
-  /**
-   * Adds new BlockLibrary to this.project.
-   *
-   * @param {string} blockLibraryName Name of new BlockLibrary to add.
-   */
-  addBlockLibrary(blockLibraryName) {
-    // TODO: Implement
-  }
-
-  /**
-   * Removes BlockLibrary from project.
-   *
-   * @param {string} blockLibraryName Name of BlockLibrary to remove from project.
-   */
-  removeBlockLibrary(blockLibraryName) {
-    // TODO: Implement
-  }
 }

@@ -42,26 +42,8 @@ class ToolboxController {
     /**
      * Keeps track of which toolbox is currently being edited. Stores name of
      * toolbox.
-     * @type {string}
+     * @type {!Toolbox}
      */
-    this.currentToolboxName = '';
-  }
-
-  /**
-   * Creates new toolbox to this.project.
-   *
-   * @param {string} toolboxName Name of new toolbox to add.
-   */
-  addToolbox(toolboxName) {
-    // TODO: Implement
-  }
-
-  /**
-   * Removes toolbox from this.project's toolboxList.
-   *
-   * @param {string} toolboxName Name of toolbox to remove.
-   */
-  removeToolbox(toolboxName) {
-    // TODO: Implement
+    this.currentToolbox = null;
   }
 }

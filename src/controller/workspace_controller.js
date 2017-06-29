@@ -43,47 +43,8 @@ class WorkspaceController {
     /**
      * Keeps track of what WorkspaceContents is currently being edited. Stores
      * name of WorkspaceContents.
-     * @type {string}
+     * @type {!WorkspaceContents}
      */
-    this.currentWorkspaceContentsName = '';
-  }
-
-  /**
-   * Adds new WorkspaceContents to this.project.
-   *
-   * @param {string} workspaceContentsName Name of WorkspaceContents to add.
-   */
-  addWorkspaceContents(workspaceContentsName) {
-    // TODO: Implement
-  }
-
-  /**
-   * Removes WorkspaceContents object from this.project.
-   *
-   * @param {string} workspaceContentsName Name of WorkspaceContents object
-   *     to remove from project.
-   */
-  removeWorkspaceContents(workspaceContentsName) {
-    // TODO: Implement
-  }
-
-  /**
-   * Adds new WorkspaceOptions to this.project. Prompts user to select from
-   * a list of checkbox options and name the grouping of options.
-   *
-   * @param {string} workspaceOptionsName Name of WorkspaceOptions to add.
-   */
-  addWorkspaceOptions(workspaceOptionsName) {
-    // TODO: Implement
-  }
-
-  /**
-   * Removes WorkspaceOptions object from this.project.
-   *
-   * @param {string} workspaceOptionsName Name of WorkspaceOptions to remove from
-   *     project.
-   */
-  removeWorkspaceOptions(workspaceOptionsName) {
-    // TODO: Implement
+    this.currentWorkspaceContents = null;
   }
 }
