@@ -19,16 +19,26 @@
  */
 
 /**
- * @fileoverview WorkspaceView deals with the view elements of Blockly workspaces
+ * @fileoverview WorkspaceEditorView deals with the view elements of Blockly workspaces
  * that are used to generate block libraries, toolboxes, and preload-workspaces.
  * This includes EventHandlers, EventListeners, tab switching functions, etc.
  *
  * @authors celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 
-class WorkspaceView {
-  constructor() {
+class WorkspaceEditorView {
+  constructor(workspaceContents, workspaceConfig) {
+    /**
+     * WorkspaceContents associated with this instance of WorkspaceView.
+     * @type {!WorkspaceContents}
+     */
+    this.workspaceContents = workspaceContents;
 
+    /**
+     * WorkspaceConfig associated with this instance of WorkspaceView.
+     * @type {!WorkspaceConfig}
+     */
+    this.workspaceConfig = workspaceConfig;
   }
 
   // TODO(#44): Add functions for refactor.

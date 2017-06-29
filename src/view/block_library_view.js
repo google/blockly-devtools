@@ -18,5 +18,22 @@
  * limitations under the License.
  */
 
-class WorkspaceConfigController {
+/**
+ * @fileoverview BlockLibraryController controls user interaction with the
+ * block library, which is where developers can define and edit new blocks.
+ * New blocks are updated into the NavTreeView upon creation.
+ *
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
+ */
+
+class BlockLibraryView {
+  constructor(blockDefinition) {
+    /**
+     * BlockDefinition object associated with this instance of BlockLibraryView.
+     * @type {!BlockDefinition}
+     */
+    this.blockDefinition = blockDefinition;
+  }
+
+  // TODO: Add functions.
 }

@@ -213,35 +213,35 @@ class Project {
    */
   getBlockLibraryXmlMap() {
     return this.currentLibrary.storage.getBlockXmlTextMap();
-  };
+  }
 
   /**
    * Removes current block from project.
    */
   removeBlockFromProject() {
     this.currentLibrary.removeFromBlockLibrary();
-  };
+  }
 
   /**
    * Clears the current library.
    */
   clearLibrary() {
     this.currentLibrary.clearBlockLibrary();
-  };
+  }
 
   /**
    * Saves current block.
    */
   saveBlock() {
     this.currentLibrary.saveToBlockLibrary();
-  };
+  }
 
   /**
    * Returns whether or not there are unsaved elements in the project.
    * @return {boolean} Whether or not unsaved elements exist.
    */
-   //TODO #52: move warning from BlockLibrayrController to ProjectController.
-   isDirty() {
+  //TODO #52: move warning from BlockLibraryController to ProjectController.
+  isDirty() {
     return this.currentLibrary.warnIfUnsavedChanges();
   }
 }
