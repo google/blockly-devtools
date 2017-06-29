@@ -27,18 +27,12 @@
  */
 
 class BlockLibraryView {
-  constructor(project, controller) {
+  constructor(blockDefinition) {
     /**
-     * Project associated with this instance of BlockLibraryView.
-     * @type {!Project}
+     * BlockDefinition object associated with this instance of BlockLibraryView.
+     * @type {!BlockDefinition}
      */
-    this.project = project;
-
-    /**
-     * BlockLibraryController associated with this instance of BlockLibraryView.
-     * @type {!BlockLibraryController}
-     */
-    this.controller = controller;
+    this.blockDefinition = blockDefinition;
   }
 
   // TODO: Add functions.
