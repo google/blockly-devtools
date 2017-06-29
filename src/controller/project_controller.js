@@ -57,9 +57,6 @@ class ProjectController {
    */
   setProject(newProject) {
     this.project = newProject;
-    this.toolboxController = new ToolboxController(this.project);
-    this.workspaceConfigController = new WorkspaceConfigController(this.project);
-    this.blockLibraryController = new BlockLibraryController(this.project);
   }
 
   /**
@@ -77,35 +74,6 @@ class ProjectController {
    //TODO #52: move warning behavior here
   warnIfUnsaved() {
     return this.project.isDirty();
-  }
-
-  /**
-   * Getter for block library controller.
-   *
-   * @returns {!BlockLibraryController}
-   */
-  getBlockLibraryController() {
-    return this.blockLibraryController;
-  }
-
-  /**
-   * Getter for toolbox controller.
-   *
-   * @returns {!ToolboxController}
-   */
-  getToolboxController() {
-    return this.toolboxController;
-  }
-
-  /**
-   * Getter for workspace controller. Controls the (1) preloaded blocks,
-   * which are called the workspace contents, and the (2) workspace options,
-   * which include whether there is a trash can, a grid, etc.
-   *
-   * @returns {!WorkspaceController}
-   */
-  getWorkspaceController() {
-    return this.workspaceController;
   }
 
   /**

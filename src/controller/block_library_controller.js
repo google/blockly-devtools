@@ -37,7 +37,7 @@ class BlockLibraryController {
      * Keeps track of which block is currently being edited in this.project.
      * @type {!BlockDefinition}
      */
-    this.currentBlockDefinition = '';
+    this.currentBlockDefinition = null;
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
