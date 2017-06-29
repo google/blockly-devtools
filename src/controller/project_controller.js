@@ -37,16 +37,16 @@
 class ProjectController {
   /**
    * ProjectController class
-   * @param {string} projectName Name of project object which user is currently
-   *     editing.
+   * @param {!Project} project the project from which the data to be managed
+   *    comes from.
    * @constructor
    */
-  constructor(projectName) {
+  constructor(project) {
     /**
      * The project to be managed.
      * @type {!Project}
      */
-    this.project = new Project(projectName);
+    this.project = project;
 
     /**
      * Toolbox Controller.
@@ -70,11 +70,11 @@ class ProjectController {
   /**
    * Creates new project that the ProjectController is controlling.
    *
-   * @param {string} newProjectName Name of new project to create that the user
+   * @param {!Project} newProject New project to create that the user
    *     will edit.
    */
-  setProject(newProjectName) {
-    this.project = new Project(newProjectName);
+  setProject(newProject) {
+    this.project = newProject;
     this.toolboxController = new ToolboxController(this.project);
     this.workspaceConfigController = new WorkspaceConfigController(this.project);
     this.blockLibraryController = new BlockLibraryController(this.project);

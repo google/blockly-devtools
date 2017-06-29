@@ -34,7 +34,17 @@
 // which will be refactored into this (and other) files.
 class AppController2 {
   constructor() {
+    /**
+     * Stores name of project. Calls openProject() which prompts user to either
+     * load or create a new project.
+     * @type {!Project}
+     */
     this.projectName = this.openProject();
+
+    /**
+     * ProjectController object associated with application.
+     * @type {!ProjectController}
+     */
     this.projectController = new ProjectController(this.projectName);
   }
 
@@ -45,6 +55,7 @@ class AppController2 {
    */
   openProject() {
     // TODO: Implement.
+    return '';
   }
 
   /**
