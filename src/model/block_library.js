@@ -39,7 +39,7 @@ class BlockLibrary extends Resource {
    */
   constructor(libraryName) {
     /*
-     * TODO: fully impliment
+     * TODO: fully implement
      *
      * References: N/A
      */
@@ -61,7 +61,7 @@ class BlockLibrary extends Resource {
    * @param {Element} blockXML The block's XML pulled from workspace.
    */
   addBlock(blockType, blockXML) {
-    throw "unimplimented: addBlock";
+    throw "unimplemented: addBlock";
   }
 
   /**
@@ -69,7 +69,7 @@ class BlockLibrary extends Resource {
    * @return {!Array.<string>} Array of block types stored in block library.
    */
   getBlockTypes() {
-    throw "unimplimented: getBlockTypes";
+    throw "unimplemented: getBlockTypes";
   }
 
   /**
@@ -78,7 +78,7 @@ class BlockLibrary extends Resource {
    * @return {Element} The XML that represents the block type or null.
    */
   getBlockXml(blockType) {
-    throw "unimplimented: getBlockXml";
+    throw "unimplemented: getBlockXml";
   }
 
   /**
@@ -95,7 +95,7 @@ class BlockLibrary extends Resource {
      * - getBlockXmlMap(blockTypes)
      *
      */
-    throw "unimplimented: getBlockXmlMap";
+    throw "unimplemented: getBlockXmlMap";
   }
 
   /**
@@ -109,7 +109,7 @@ class BlockLibrary extends Resource {
      * - clear()
      *
      */
-    throw "unimplimented: clear";
+    throw "unimplemented: clear";
   }
 
   /**
@@ -124,7 +124,7 @@ class BlockLibrary extends Resource {
      * - removeBlock(blockType)
      *
      */
-    throw "unimplimented: removeBlock";
+    throw "unimplemented: removeBlock";
   }
 
   /**
@@ -139,7 +139,7 @@ class BlockLibrary extends Resource {
      * - isEmpty()
      *
      */
-    throw "unimplimented: isEmpty";
+    throw "unimplemented: isEmpty";
   }
 
   /**
@@ -154,7 +154,7 @@ class BlockLibrary extends Resource {
      * - getBlockXmlTextMap()
      *
      */
-    throw "unimplimented: getBlockXmlTextMap";
+    throw "unimplemented: getBlockXmlTextMap";
   }
 
   /**
@@ -174,7 +174,7 @@ class BlockLibrary extends Resource {
      * - has(blockType)
      *
      */
-    throw "unimplimented: has";
+    throw "unimplemented: has";
   }
 
   /**
@@ -183,10 +183,10 @@ class BlockLibrary extends Resource {
    */
   setName(newName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: setName";
+    throw "unimplemented: setName";
   }
 }

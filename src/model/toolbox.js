@@ -124,7 +124,7 @@ class Toolbox extends Resource {
    */
   has(blockType) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - has(blockType)
@@ -133,7 +133,7 @@ class Toolbox extends Resource {
      * - has(blockType)
      *
      */
-    throw "unimplimented: has";
+    throw "unimplemented: has";
   }
 
   /**
@@ -142,10 +142,10 @@ class Toolbox extends Resource {
    */
   getBlock(newName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: setName";
+    throw "unimplemented: setName";
   }
 }

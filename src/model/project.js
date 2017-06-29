@@ -251,11 +251,11 @@ class Project extends Resource {
    */
   setName(newName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: setName";
+    throw "unimplemented: setName";
   }
 
   /**
@@ -266,7 +266,7 @@ class Project extends Resource {
    */
   has(blockType) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - has(blockType)
@@ -275,7 +275,7 @@ class Project extends Resource {
      * - has(blockType)
      *
      */
-    throw "unimplimented: has";
+    throw "unimplemented: has";
   }
 
   /**
@@ -285,11 +285,11 @@ class Project extends Resource {
    */
   getToolbox(toolboxName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: getToolbox";
+    throw "unimplemented: getToolbox";
   }
 
   /**
@@ -299,11 +299,11 @@ class Project extends Resource {
    */
   getLibrary(libraryName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: getLibrary";
+    throw "unimplemented: getLibrary";
   }
 
   /**
@@ -314,11 +314,11 @@ class Project extends Resource {
    */
   getWorkspaceContents(workspaceContentsName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: getWorkspaceContents";
+    throw "unimplemented: getWorkspaceContents";
   }
 
   /**
@@ -329,10 +329,10 @@ class Project extends Resource {
    */
   getWorkspaceConfiguration(workspaceConfigName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: getWorkspaceConfigurations";
+    throw "unimplemented: getWorkspaceConfigurations";
   }
 }

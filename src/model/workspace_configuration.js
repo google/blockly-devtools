@@ -29,7 +29,7 @@
  * @class WorkspaceConfiguration stores workspace presets.
  */
 class WorkspaceConfiguration {
-  //TODO: flesh out/impliment
+  //TODO: flesh out/implement
 
   /**
    * Checks to see if no options have been changed/set.
@@ -37,11 +37,11 @@ class WorkspaceConfiguration {
    */
   isUnset() {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: isUnset";
+    throw "unimplemented: isUnset";
   }
 
   /**
@@ -49,12 +49,12 @@ class WorkspaceConfiguration {
    */
   reset() {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      *
      */
-    throw "unimplimented: reset";
+    throw "unimplemented: reset";
   }
 
   /**
@@ -63,10 +63,10 @@ class WorkspaceConfiguration {
    */
   setName(newName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: setName";
+    throw "unimplemented: setName";
   }
 }

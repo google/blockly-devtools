@@ -36,7 +36,7 @@ class WorkspaceContents extends Resource {
    */
   constructor(workspaCecontentsName) {
     /*
-     * TODO: fully impliment
+     * TODO: fully implement
      *
      * References: N/A
      */
@@ -54,12 +54,12 @@ class WorkspaceContents extends Resource {
    */
   addBlock(blockType, blockXML) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - addBlock(blockType, blockXML)
      */
-    throw "unimplimented: addBlock";
+    throw "unimplemented: addBlock";
   }
 
   /**
@@ -68,12 +68,12 @@ class WorkspaceContents extends Resource {
    */
   getBlockTypes() {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - getBlockTypes
      */
-    throw "unimplimented: getBlockTypes";
+    throw "unimplemented: getBlockTypes";
   }
 
   /**
@@ -83,12 +83,12 @@ class WorkspaceContents extends Resource {
    */
   getBlockXml(blockType) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - getBlockXmlMap(blockTypes)
      */
-    throw "unimplimented: getBlockXml";
+    throw "unimplemented: getBlockXml";
   }
 
   /**
@@ -99,12 +99,12 @@ class WorkspaceContents extends Resource {
    */
   getBlockXmlMap(blockTypes) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - getBlockXmlMap(blockTypes)
      */
-    throw "unimplimented: getBlockXmlMap";
+    throw "unimplemented: getBlockXmlMap";
   }
 
   /**
@@ -112,12 +112,12 @@ class WorkspaceContents extends Resource {
    */
   clear() {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - clear()
      */
-    throw "unimplimented: clear";
+    throw "unimplemented: clear";
   }
 
   /**
@@ -126,12 +126,12 @@ class WorkspaceContents extends Resource {
    */
   removeBlock(blockType) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - removeBlock(blockType)
      */
-    throw "unimplimented: removeBlock";
+    throw "unimplemented: removeBlock";
   }
 
   /**
@@ -140,12 +140,12 @@ class WorkspaceContents extends Resource {
    */
   isEmpty() {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - isEmpty()
      */
-    throw "unimplimented: isEmpty";
+    throw "unimplemented: isEmpty";
   }
 
   /**
@@ -154,12 +154,12 @@ class WorkspaceContents extends Resource {
    */
   getBlockXmlTextMap() {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - getBlockXmlTextMap()
      */
-    throw "unimplimented: getBlockXmlTextMap";
+    throw "unimplemented: getBlockXmlTextMap";
   }
 
   /**
@@ -170,7 +170,7 @@ class WorkspaceContents extends Resource {
    */
   has(blockType) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: src/block_library_storage.js
      * - has(blockType)
@@ -179,7 +179,7 @@ class WorkspaceContents extends Resource {
      * - has(blockType)
      *
      */
-    throw "unimplimented: has";
+    throw "unimplemented: has";
   }
 
   /**
@@ -188,10 +188,10 @@ class WorkspaceContents extends Resource {
    */
   setName(newName) {
     /*
-     * TODO: impliment
+     * TODO: implement
      *
      * References: N/A
      */
-    throw "unimplimented: setName";
+    throw "unimplemented: setName";
   }
 }
