@@ -19,9 +19,10 @@
  */
 
 /**
- * @fileoverview BlockLibrary object. User interations with the DevTools
- *     Application change definitions in the BlockLibrary. A BlockLibrary cannot
- *     contain multiple blocks with the same type.
+ * @fileoverview A BlockLibrary stores one or more block definitions. User
+ *     interations with the DevTools Application change definitions in the
+ *     BlockLibrary. A BlockLibrary cannot contain multiple blocks with the same
+ *     type.
  *
  * @author
  */
