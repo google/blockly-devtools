@@ -26,10 +26,10 @@ class WorkspaceConfiguration extends Resource {
   //TODO: flesh out/implement
   /**
    * WorkspaceConfiguration Class
-   * @param {string} workspaceConFigName Name for the workspace configuration.
+   * @param {string} workspaceConfigName Name for the workspace configuration.
    * @constructor
    */
-  constructor(workspaceConFigName) {
+  constructor(workspaceConfigName) {
     /*
      * TODO: fully implement
      *
@@ -39,8 +39,9 @@ class WorkspaceConfiguration extends Resource {
      * The name of the workspace configuration.
      * @type {string}
      */
-     super(workspaceConFigName);
+     super(workspaceConfigName);
   }
+
   /**
    * Checks to see if no options have been changed/set.
    * @return {boolean} True if same as init options, false otherwise.

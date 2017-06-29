@@ -24,22 +24,18 @@
  */
 class Resource {
   /**
-   * Resource Class
-   * @param {string} workspaceContentsName The name for the workspace contents.
+   * Resource Class.
+   * @param {string} resourceName The name for the resource.
    * @constructor
    */
-  constructor(workspaceContentsName) {
-    /*
-     * TODO: fully implement
-     *
-     * References: N/A
-     */
+  constructor(resourceName) {
     /**
      * The name of the workspace contents.
      * @type {string}
      */
-     super(workspaceContentsName);
+     this.name = resourceName;
   }
+
   /**
    * Returns whether or not there are unsaved elements in the resource.
    * @return {boolean} Whether or not unsaved elements exist.
