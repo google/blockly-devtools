@@ -19,15 +19,41 @@
  */
 
 /**
- * @fileoverview PreviewView
+ * @fileoverview PreviewView is the view of the preview workspace popup. This popup
+ * is presented to the user when they want to test the combinations of their Blockly
+ * elements in a complete workspace. Users can choose a Toolbox, WorkspaceContents,
+ * and WorkspaceConfig and preview it as a Blockly.Workspace in this window, and
+ * export it as a sample application if they like.
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
 'use strict';
 
-class PreviewView {
+class PreviewView extends PopupView {
   constructor() {
+    super();
 
+    /**
+     * Popup contents in HTML format.
+     * @type {string}
+     */
+    this.htmlContents = `
+<div class="sample"></div>
+`;
+
+    // TODO: Show popup.
+
+    // TODO: Set up event listener for when popup is exited.
+
+    // TODO: Set up event listener for submitting information. Pass it on
+    //       to project_controller.js to export.
+  }
+
+  /**
+   * Hides/exits popup.
+   */
+  hide() {
+    // TODO: Implement
   }
 }

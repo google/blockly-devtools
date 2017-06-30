@@ -19,27 +19,18 @@
  */
 
 /**
- * @fileoverview PreviewController handles input management from the PreviewView
- * popup.
+ * @fileoverview NewConfigController
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
 'use strict';
 
-class PreviewController {
+class NewConfigController {
   constructor() {
     /**
-     * @type {!PreviewView}
+     * @type {!NewConfigView}
      */
-    this.view = new PreviewView();
-  }
-
-  /**
-   * Checks if project name is valid.
-   * @param {thing} thing
-   */
-  checkDuplicate() {
-    // TODO: Implement
+    this.view = new NewConfigView();
   }
 }

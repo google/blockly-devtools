@@ -53,9 +53,11 @@ class AppController2 {
     this.editorController = new EditorController(this.project);
 
     /**
-     * PopupController
+     * PopupController object which controls any popups that may appear throughout
+     * the course of using DevTools.
+     * @type {!PopupController}
      */
-    this.popupController = new PopupController();
+    this.popupController = new PopupController(this.projectController);
   }
 
   /**
@@ -79,5 +81,13 @@ class AppController2 {
    */
   createSampleApplication() {
     // TODO: Implement.
+  }
+
+  /**
+   * Generates popup.
+   * @param {string} popupType Type of popup.
+   */
+  createPopup(popupType) {
+    this.popupController.setPopup(popupType);
   }
 }

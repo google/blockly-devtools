@@ -18,28 +18,24 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview PreviewController handles input management from the PreviewView
- * popup.
- *
- * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
- */
-
 'use strict';
 
-class PreviewController {
+/**
+ * @fileoverview NewBlockPopupView deals with the UI for creating new blocks and
+ * projects.
+ *
+ * @author celinechoo (Celine Choo)
+ */
+class NewBlockPopupView extends PopupView {
   constructor() {
-    /**
-     * @type {!PreviewView}
-     */
-    this.view = new PreviewView();
-  }
+    super();
 
-  /**
-   * Checks if project name is valid.
-   * @param {thing} thing
-   */
-  checkDuplicate() {
-    // TODO: Implement
+    /**
+     * Popup contents in HTML format.
+     * @type {string}
+     */
+    this.htmlContents = `
+<div id="sample"></div>
+`;
   }
 }

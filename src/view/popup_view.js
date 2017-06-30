@@ -19,27 +19,21 @@
  */
 
 /**
- * @fileoverview PreviewController handles input management from the PreviewView
- * popup.
+ * @fileoverview PopupView is an abstract interface from which any popups will
+ * extend.
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
-'use strict';
-
-class PreviewController {
+class PopupView {
   constructor() {
-    /**
-     * @type {!PreviewView}
-     */
-    this.view = new PreviewView();
+    this.htmlContents = '';
   }
 
   /**
-   * Checks if project name is valid.
-   * @param {thing} thing
+   * Hides window of popup view.
    */
-  checkDuplicate() {
-    // TODO: Implement
+  hide() {
+    // TODO: Implement.
   }
 }

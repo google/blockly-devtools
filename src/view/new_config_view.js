@@ -18,28 +18,24 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview PreviewController handles input management from the PreviewView
- * popup.
- *
- * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
- */
-
 'use strict';
 
-class PreviewController {
-  constructor() {
-    /**
-     * @type {!PreviewView}
-     */
-    this.view = new PreviewView();
-  }
+/**
+ * @fileoverview NewConfigView manages the UI for creating new WorkspaceConfigs.
+ *
+ * @author celinechoo (Celine Choo)
+ */
 
-  /**
-   * Checks if project name is valid.
-   * @param {thing} thing
-   */
-  checkDuplicate() {
-    // TODO: Implement
+class NewConfigView extends PopupView {
+  constructor() {
+    super();
+
+    /**
+     * Popup contents in HTML format.
+     * @type {string}
+     */
+    this.htmlContents = `
+<div id="sample"></div>
+`;
   }
 }
