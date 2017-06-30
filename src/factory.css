@@ -614,7 +614,7 @@ td.taboff:hover {
 
  /* New block popup */
 
-#popup {
+.popup {
   display: none;
   height: 100%;
   left: 0;
@@ -623,7 +623,7 @@ td.taboff:hover {
   width: 100%;
 }
 
-#popup #box {
+.popup .box {
   background: white;
   border: 1px solid #8c8c8c;
   left: 0;
@@ -637,7 +637,7 @@ td.taboff:hover {
   z-index:20;
 }
 
-#popup #bkg {
+.popup .bkg {
   background: white;
   height: 100%;
   left: 0;
