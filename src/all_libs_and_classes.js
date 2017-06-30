@@ -18,11 +18,11 @@
  */
 
 /*
- * This file attempts to import all the library files and class
- * files used by Blockly DevTools in the correct order. It is a
- * crude solution to dealing with the incompatible mix of node requires(),
- * closure goog.requires(), and app specific local libraries in the
- * browser-like context.
+ * @fileoverview This file attempts to import all the library files and class
+ *   files used by Blockly DevTools in the correct order. It is a closure
+ *   crude solution to dealing with the incompatible mix of node requires(),
+ *   goog.requires(), and app specific local libraries in the browser-like
+ *   context.
  */
 
 (function() {
@@ -31,8 +31,12 @@
   };
 
   newScript('lib/blockly_compressed.js');
-  newScript('closure-library/closure/goog/base.js');
+  newScript('closure-library/closure/goog/base.js');  // Must be after Blockly
   newScript('src/factory_utils.js');
+  newScript('src/workspacefactory/list_element.js');
+  newScript('src/standard_categories.js');
+  newScript('src/workspacefactory/wfactory_model.js');
+  newScript('src/devtools_toolboxes.js');
   newScript('src/workspacefactory/wfactory_controller.js');
   newScript('src/workspacefactory/wfactory_generator.js');
 })();
