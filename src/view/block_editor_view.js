@@ -19,20 +19,30 @@
  */
 
 /**
- * @fileoverview BlockLibraryController controls user interaction with the
- * block library, which is where developers can define and edit new blocks.
- * New blocks are updated into the NavTreeView upon creation.
+ * @fileoverview BlockEditorView deals with the visual components of defining a
+ * custom block.
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
 
-class BlockLibraryView {
+class BlockEditorView {
   constructor(blockDefinition) {
     /**
      * BlockDefinition object associated with this instance of BlockLibraryView.
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
+
+    /**
+     * Blockly workspace of main block defining workspace.
+     * @type {!Blockly.Workspace}
+     */
+    this.blockDefinitionWorkspace = Blockly.inject('blockly',
+      {
+        collapse: false,
+        toolbox: DevToolsToolboxes.blockFactory,
+        media: 'media/'
+      });
   }
 
   // TODO: Add functions.

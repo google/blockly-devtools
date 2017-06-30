@@ -33,6 +33,38 @@ class ToolboxEditorView {
      * @type {!Toolbox}
      */
     this.toolbox = toolbox;
+
+    /**
+     * Blockly workspace where users define/edit toolboxes.
+     * @type {!Blockly.Workspace}
+     */
+    this.editorWorkspace = Blockly.inject('toolboxDiv',
+      {
+        grid: {
+          spacing: 25,
+          length: 3,
+          colour: '#ccc',
+          snap: true},
+          media: 'media/',
+          toolbox: DevToolsToolboxes.toolboxEditor('')
+        }
+      });
+
+    /**
+     * Blockly workspace where users can preview a defined WorkspaceContents.
+     * @type {!Blockly.Workspace}
+     */
+    this.previewWorkspace = Blockly.inject('toolboxPreview',
+      {
+        grid: {
+          spacing: 25,
+          length: 3,
+          colour: '#ccc',
+          snap: true},
+          media: 'media/',
+          toolbox: '<xml></xml>'
+        }
+      });
   }
 
   // TODO: Add functions.
