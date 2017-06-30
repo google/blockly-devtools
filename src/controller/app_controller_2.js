@@ -88,6 +88,6 @@ class AppController2 {
    * @param {string} popupType Type of popup.
    */
   createPopup(popupType) {
-    this.popupController.setPopup(popupType);
+    this.popupController.show(popupType);
   }
 }

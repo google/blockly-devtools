@@ -37,5 +37,8 @@ class NewConfigView extends PopupView {
     this.htmlContents = `
 <div id="sample"></div>
 `;
+    // TODO: Insert HTML contents into page, make visible.
   }
+
+  // TODO: Add functions.
 }

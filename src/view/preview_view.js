@@ -49,11 +49,4 @@ class PreviewView extends PopupView {
     // TODO: Set up event listener for submitting information. Pass it on
     //       to project_controller.js to export.
   }
-
-  /**
-   * Hides/exits popup.
-   */
-  hide() {
-    // TODO: Implement
-  }
 }

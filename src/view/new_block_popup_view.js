@@ -35,7 +35,38 @@ class NewBlockPopupView extends PopupView {
      * @type {string}
      */
     this.htmlContents = `
-<div id="sample"></div>
+<div class="bkg"></div>
+<div class="box">
+  <div id="exit">x</div>
+  <header>Create a New Block</header>
+  <form>
+    Block name<span class="red">*</span><br>
+      <input type="text" id="block_name" placeholder="block_type"></input>
+      <span id="warning_text">This block already exists!</span><br><br>
+    Block type<span class="red">*</span><br>
+      <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
+      <input type="radio" name="input_type" value="input_value">value input</input>
+      <input type="radio" name="input_type" value="input_dummy">dummy input</input>
+      <br><br>
+    Starter text<br>
+      <input type="text" id="block_text" placeholder="Optional"><br><br>
+    <button type="submit" id="submit_block">Start Blockly</button>
+  </form>
+  <br>
+  <hr>
+  <!-- TODO(#28): Replace with uneditable Blockly workspace -->
+  <h3>Examples</h3>
+  Statement input:<br>
+  <img src="media/input_statement.png" width="30%" height="auto"/><br>
+  Value input:<br>
+  <img src="media/input_value.png" width="30%" height="auto"/><br>
+  Dummy input:<br>
+  <img src="media/input_dummy.png" width="30%" height="auto"/><br>
+</div>
 `;
+
+    // TODO: Insert HTML contents into page, make visible.
   }
+
+  // TODO: Add functions.
 }

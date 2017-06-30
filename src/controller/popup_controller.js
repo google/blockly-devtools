@@ -37,13 +37,6 @@ class PopupController {
     this.projectController = projectController;
 
     /**
-     * Controller that is currently active. Default is 'NONE' when no popup is
-     * visible in application.
-     * @type {!Object}
-     */
-    this.active = 'NONE';
-
-    /**
      * Possible popup types. Constants used in parameters for passing in which
      * popup is active.
      * @type {!Object.<string, string>}
@@ -56,29 +49,29 @@ class PopupController {
 
     /**
      * Popup view that is currently visible in application. Default is null when
-     * no popup is open.
+     * no popup is open. Either null, PreviewView, NewBlockPopupView, or NewConfigView.
      * @type {!Object}
      */
     this.view = null;
   }
 
   /**
-   * Exits popup.
+   * Exits popup. Resets view to be null.
    */
   exit() {
     // TODO: Implement.
   }
 
   /**
-   * Generates view, which creates popup for user.
+   * Sets and generates view, which shows popup to user.
    * @param {string} popupMode Mode of popup which will be generated.
    */
-  setPopup(popupMode) {
-    if (popupMode == this.popupController.MODE.NEW_BLOCK) {
+  show(popupMode) {
+    if (popupMode == this.MODE.NEW_BLOCK) {
       // TODO: New Block Popup view
-    } else if (popupMode == this.popupController.MODE.PREVIEW) {
+    } else if (popupMode == this.MODE.PREVIEW) {
       // TODO: Preview popup view
-    } else if (popupMode == this.popupController.MODE.NEW_CONFIG) {
+    } else if (popupMode == this.MODE.NEW_CONFIG) {
       // TODO: New config popup view
     } else {
       throw new Error('Popup type not found.');
