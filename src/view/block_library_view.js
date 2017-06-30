@@ -33,6 +33,17 @@ class BlockLibraryView {
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
+
+    /**
+     * Blockly workspace of main block defining workspace.
+     * @type {!Blockly.Workspace}
+     */
+    this.blockDefinitionWorkspace = Blockly.inject('blockly',
+      {
+        collapse: false,
+        toolbox: DevToolsToolboxes.blockFactory,
+        media: 'media/'
+      });
   }
 
   // TODO: Add functions.
