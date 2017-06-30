@@ -47,9 +47,9 @@ class EditorController {
     this.workspaceController = new WorkspaceController(this.project);
 
     /**
-     * BlockLibrary Controller
+     * Block Editor Controller
      * @type {BlockLibraryController}
      */
-    this.blockLibraryController = new BlockLibraryController(this.project);
+    this.blockEditorController = new BlockEditorController(this.project);
   }
 }
