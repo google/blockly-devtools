@@ -57,7 +57,7 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
        colour: '#ccc',
        snap: true},
        media: 'media/',
-       toolbox: this.toolbox
+       toolbox: DevToolsToolboxes.toolboxEditor('')
      });
 
   // Workspace for user to preview their changes.
@@ -1338,7 +1338,9 @@ WorkspaceFactoryController.prototype.setBlockLibCategory =
   categoryXml.setAttribute('colour', 260);
 
   // Update the toolbox and toolboxWorkspace.
-  this.toolbox.replaceChild(categoryXml, blockLibCategory);
+  this.toolbox = Blockly.Xml.textToDom(
+      DevToolsToolboxes.toolboxEditor(
+        Blockly.Xml.domToPrettyText(categoryXml)));
   this.toolboxWorkspace.toolbox_.clearSelection();
   this.toolboxWorkspace.updateToolbox(this.toolbox);
 
