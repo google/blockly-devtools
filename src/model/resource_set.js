@@ -19,7 +19,10 @@
  */
 
 /**
- * @class ResourceSet is the top level interface for sets of parts of a project.
+ * @class ResourceSet is the top level interface for sets of parts of a project,
+ *     not including the project itself. Resource sets can only contain one type
+ *     of resource, and cannot contain multiple resources with the same name.
+ *
  */
  class ResourceSet {
   /**
@@ -27,33 +30,43 @@
    * @param {string} resourceSetName The name for the resource set.
    * @constructor
    */
-  constructor(resourceSetName) {
+  constructor(resourceSetName, projectName, resourceType) {
     /**
      * The name of the resource set.
      * @type {string}
      */
      this.name = resourceSetName;
+    /**
+     * The name of the project the resource belongs to.
+     * @type {string}
+     */
+     this.project = projectName;
+    /**
+     * The type of resource the set manages.
+     * @type {string}
+     */
+     this.type = resourceType;
   }
 
   /**
    * Writes the resource set to local storage.
    */
-  saveSetToLocalStorage(){
-    throw "unimplemented: saveSet";
+  saveSetToLocalStorage() {
+    throw "unimplemented: saveSetToLocalStorage";
   }
 
   /**
-   * Reads the resource set from local storage
+   * Reads the resource set from local storage.
    */
-  loadSetFromLocalStorage(){
-    throw "unimplemented: loadSet";
+  loadSetFromLocalStorage() {
+    throw "unimplemented: loadSetFromLocalStorage";
   }
 
   /**
    * Adds a resource to the set.
    * @param {string} resourceName The name of the resource to be added.
    */
-  addResource(resourceName){
+  addResource(resourceName) {
     throw "unimplemented: addResource";
   }
 
@@ -61,7 +74,7 @@
    * Removes a resource from the set.
    * @param {string} resourceName The name of the resource to be removed.
    */
-  removeResource(resourceName){
+  removeResource(resourceName) {
     throw "unimplemented: removeResource";
   }
 
@@ -70,15 +83,16 @@
    * @param {string} resourceName The resource to be returned.
    * @return {!Object} The resource, or null if it's not contained in the set.
    */
-  getResource(resourceName){
+  getResource(resourceName) {
     throw "unimplemented: getResource";
   }
 
   /**
    * Gets the names of all resources contained within the set.
+   * @return {Array.<string>} The names of all resources the set contains.
    */
-  getNames(){
-    throw "unimplemented: getNames";
+  getResourceNames() {
+    throw "unimplemented: getResourceNames";
   }
 
   /**
@@ -86,16 +100,16 @@
    * @param name The name to be added.
    * @return {Boolean} Whether or not the name can be added.
    */
-  isValidName(name){
+  isValidName(name) {
     throw "unimplemented: isValidName";
   }
 
   /**
    * Returns whether or not a resource's type prohibits it from being added to
    *     the set.
-   * @param {string} resource The resource to be added.
+   * @param {!Object} resource The resource to be added.
    */
-  isValidType(resource, resourceType){
+  isValidType(resource) {
     /* most likely will just return resource instanceof resourceType,
      *     thus for classes which extend ResourceSet the isValidType method will
      *     just call super.isValid(resource, <resource type for that set>)
@@ -107,7 +121,7 @@
    * Returns the JSON object for the  resource set's tree representation.
    * @return {!Object} The JSON representing the set's tree structure.
    */
-  getTreeJSON(){
+  getTreeJSON() {
     /*
      * TODO: add getTreeJSON methods to resources, such that the set getTreeJSON
      *     method simply combines the objects for this method. This is lower
@@ -122,7 +136,7 @@
    * Returns the metadata for the set.
    * @return {!Object} The metadata for the set.
    */
-  getData(){
+  getData() {
     /*
      * For use in creating the project metadata.
      * TODO: define metadata structure for sets/projects.
