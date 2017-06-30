@@ -18,9 +18,11 @@
  * limitations under the License.
  */
 
+ //TODO #50: change methods for metadata
+ //TODO #44: differentiate Project and ProjectController for refactor
+
 /**
- * @fileoverview The Project class represents the project data structure.
- * A project is a collection of one or more libraries along with
+ * @class Project is a collection of one or more libraries along with
  *    any number of toolboxes and/or workspaces. In the course of designing an
  *    application, a developer may want to work on any number of the
  *    aforementioned groupings (library, workspace, toolbox) in various ways.
@@ -31,14 +33,7 @@
  *
  * @author sagev@google.com (Sage Vouse)
  */
- //TODO #50: change methods for metadata
- //TODO #44: differentiate Project and ProjectController for refactor
-
-/**
- * @class Project aggregates libraries, toolboxes, and workspaces to form
- *    a project.
- */
-class Project {
+class Project extends Resource {
   /**
    * Represents a user's collection of Libraries, toolboxes, and workspaces.
    * @param {string} projectName The desired name of project.
@@ -49,7 +44,7 @@ class Project {
      * The name of the project.
      * @type {string}
      */
-    this.projectName = projectName;
+    super(projectName);
     /**
      * Dictionary mapping libary names to library controllers.
      * @type {!Object<string, !BlockLibraryController>}
@@ -209,14 +204,15 @@ class Project {
 
   /**
    * Returns current block library mapping block type to XML.
-   * @return {Object} Object mapping block type to XML text.
+   * @return {!Object<string, Element>} Object mapping block type to XML text.
    */
   getBlockLibraryXmlMap() {
     return this.currentLibrary.storage.getBlockXmlTextMap();
   }
 
   /**
-   * Removes current block from project.
+   * Removes block currently being edited from project.
+   *
    */
   removeBlockFromProject() {
     this.currentLibrary.removeFromBlockLibrary();
@@ -230,7 +226,7 @@ class Project {
   }
 
   /**
-   * Saves current block.
+   * Saves block currently being edited.
    */
   saveBlock() {
     this.currentLibrary.saveToBlockLibrary();
@@ -243,5 +239,96 @@ class Project {
   //TODO #52: move warning from BlockLibraryController to ProjectController.
   isDirty() {
     return this.currentLibrary.warnIfUnsavedChanges();
+  }
+
+  /**
+   * Renames the project.
+   * @param {string} newName New name of the project.
+   */
+  setName(newName) {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     */
+    throw "unimplemented: setName";
+  }
+
+  /**
+   * Returns boolean of whether or not a given blockType is stored in the
+   *     project.
+   * @param {string} blockType Type of block.
+   * @return {boolean} Whether or not blockType is stored in block library.
+   */
+  has(blockType) {
+    /*
+     * TODO: implement
+     *
+     * References: src/block_library_storage.js
+     * - has(blockType)
+     *
+     * Additional reference: src/block_library_controller.js
+     * - has(blockType)
+     *
+     */
+    throw "unimplemented: has";
+  }
+
+  /**
+   * Gets a named toolbox contained within the project.
+   * @param {string} toolboxName The name of the toolbox to be found.
+   * @return {!Toolbox} The found toolbox or null.
+   */
+  getToolbox(toolboxName) {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     */
+    throw "unimplemented: getToolbox";
+  }
+
+  /**
+   * Gets a named library contained within the project.
+   * @param {string} libraryName The name of the library to be found.
+   * @return {!BlockLibrary} The found library or null.
+   */
+  getLibrary(libraryName) {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     */
+    throw "unimplemented: getLibrary";
+  }
+
+  /**
+   * Gets a named workspace contents object contained within the project.
+   * @param {string} workspaceContentsName The name of the workspace contents
+   *     to be found.
+   * @return {!WorkspaceContents} The found workspace contents or null.
+   */
+  getWorkspaceContents(workspaceContentsName) {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     */
+    throw "unimplemented: getWorkspaceContents";
+  }
+
+  /**
+   * Gets a named workspace configuration object contained within the project.
+   * @param {string} workspaceConfigsName Name of the workspace configuration
+   *     to be found.
+   * @return {!WorkspaceContents} The found workspace configuration or null.
+   */
+  getWorkspaceConfiguration(workspaceConfigName) {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     */
+    throw "unimplemented: getWorkspaceConfiguration";
   }
 }

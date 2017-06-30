@@ -19,14 +19,83 @@
  */
 
 /**
- * @fileoverview WorkspaceConfiguration object. Contains a workspace settings,
+ * @class WorkspaceConfiguration contains workspace settings,
  *     specified by the developer and used to initialize an app's workspace.
- *
- * @author
  */
+class WorkspaceConfiguration extends Resource {
+  //TODO: flesh out/implement
+  /**
+   * WorkspaceConfiguration Class
+   * @param {string} workspaceConfigName Name for the workspace configuration.
+   * @constructor
+   */
+  constructor(workspaceConfigName) {
+    /*
+     * TODO: fully implement
+     *
+     * References: N/A
+     */
+     super(workspaceConfigName);
+  }
 
-/**
- * @class WorkspaceConfiguration stores a collection of workspace presets.
- */
-class WorkspaceConfiguration {
+  /**
+   * Checks to see if no options have been changed/set.
+   * @return {boolean} True if same as init options, false otherwise.
+   */
+  isDefault() {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     */
+    throw "unimplemented: isDefault";
+  }
+
+  /**
+   * Clears the workspace configuration.
+   */
+  reset() {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     *
+     */
+    throw "unimplemented: reset";
+  }
+
+  /**
+   * Renames the workspace configuration.
+   * @param {string} newName New name of the workspace configuration.
+   */
+  setName(newName) {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     */
+    throw "unimplemented: setName";
+  }
+
+  /**
+   * Returns whether or not the workspace configuration is unsaved.
+   * @return {boolean} Whether or not there are unsaved changes.
+   */
+  isDirty() {
+    throw "unimplemented: isDirty";
+  }
+
+  /**
+   * Reads the workspace configuration from local storage.
+   */
+  loadFromLocalStorage() {
+    throw "unimplemented: loadFromLocalStorage";
+  }
+
+  /**
+   * Writes the workspace configuration to local storage.
+   */
+  saveToLocalStorage() {
+    throw "unimplemented: saveFromLocalStorage";
+  }
 }
