@@ -24,8 +24,8 @@
  *
  * @author celinechoo (Celine Choo)
  */
-
 goog.provide('DevToolsToolboxes');
+
 /**
  * Generates XML string for toolbox editor. Used in ToolboxView and WorkspaceView.
  *
