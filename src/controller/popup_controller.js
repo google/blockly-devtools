@@ -28,19 +28,38 @@
 'use strict';
 
 class PopupController {
-  constructor(project) {
+  constructor(projectController) {
     /**
-     * Project associated with current popup.
-     * @type {!Project}
+     * ProjectController associated with currently edited project. Used to make
+     * changes to project from information from popup.
+     * @type {!ProjectController}
      */
-    this.project = project;
+    this.projectController = projectController;
 
     /**
-     * Controller that is currently active. Default is null when no popup is
+     * Controller that is currently active. Default is 'NONE' when no popup is
      * visible in application.
      * @type {!Object}
      */
-    this.popup = null;
+    this.active = 'NONE';
+
+    /**
+     * Possible popup types. Constants used in parameters for passing in which
+     * popup is active.
+     * @type {!Object.<string, string>}
+     */
+    this.MODE = {
+      PREVIEW: 'PREVIEW',
+      NEW_BLOCK: 'NEW_BLOCK',
+      NEW_CONFIG: 'NEW_CONFIG'
+    };
+
+    /**
+     * Popup view that is currently visible in application. Default is null when
+     * no popup is open.
+     * @type {!Object}
+     */
+    this.view = null;
   }
 
   /**
@@ -52,9 +71,17 @@ class PopupController {
 
   /**
    * Generates view, which creates popup for user.
-   * @param {!}
+   * @param {string} popupMode Mode of popup which will be generated.
    */
-  setPopup(controller) {
-    this.popup = controller;
+  setPopup(popupMode) {
+    if (popupMode == this.popupController.MODE.NEW_BLOCK) {
+      // TODO: New Block Popup view
+    } else if (popupMode == this.popupController.MODE.PREVIEW) {
+      // TODO: Preview popup view
+    } else if (popupMode == this.popupController.MODE.NEW_CONFIG) {
+      // TODO: New config popup view
+    } else {
+      throw new Error('Popup type not found.');
+    }
   }
 }

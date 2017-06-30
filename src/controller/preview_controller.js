@@ -19,7 +19,8 @@
  */
 
 /**
- * @fileoverview PreviewController
+ * @fileoverview PreviewController handles input management from the PreviewView
+ * popup.
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
@@ -35,7 +36,7 @@ class PreviewController {
   }
 
   /**
-   * Does this.
+   * Checks if project name is valid.
    * @param {thing} thing
    */
   checkDuplicate() {

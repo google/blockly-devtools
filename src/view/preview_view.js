@@ -19,7 +19,11 @@
  */
 
 /**
- * @fileoverview PreviewView
+ * @fileoverview PreviewView is the view of the preview workspace popup. This popup
+ * is presented to the user when they want to test the combinations of their Blockly
+ * elements in a complete workspace. Users can choose a Toolbox, WorkspaceContents,
+ * and WorkspaceConfig and preview it as a Blockly.Workspace in this window, and
+ * export it as a sample application if they like.
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */

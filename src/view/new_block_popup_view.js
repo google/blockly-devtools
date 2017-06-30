@@ -18,22 +18,24 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
- * @fileoverview PopupView is an abstract interface from which any popups will
- * extend.
+ * @fileoverview NewBlockPopupView deals with the UI for creating new blocks and
+ * projects.
  *
- * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
+ * @author celinechoo (Celine Choo)
  */
-
-class PopupView {
+class NewBlockPopupView extends PopupView {
   constructor() {
-    this.htmlContents = '';
-  }
+    super();
 
-  /**
-   * Hides window of popup view.
-   */
-  hide() {
-    // TODO: Implement.
+    /**
+     * Popup contents in HTML format.
+     * @type {string}
+     */
+    this.htmlContents = `
+<div id="sample"></div>
+`;
   }
 }

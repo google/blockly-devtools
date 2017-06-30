@@ -55,17 +55,9 @@ class AppController2 {
     /**
      * PopupController object which controls any popups that may appear throughout
      * the course of using DevTools.
+     * @type {!PopupController}
      */
-    this.popupController = new PopupController(this.project);
-
-    /**
-     *
-     */
-    this.popupType = {
-      newBlock: 'NEW_BLOCK',
-      preview: 'PREVIEW',
-      newConfig: 'NEW_CONFIG'
-    }
+    this.popupController = new PopupController(this.projectController);
   }
 
   /**
@@ -96,15 +88,6 @@ class AppController2 {
    * @param {string} popupType Type of popup.
    */
   createPopup(popupType) {
-    if (popupType == this.popupType.newBlock) {
-      // TODO: New Block Popup
-      this.popupController.setPopup(new NewBlockDialogController());
-    } else if (popupType == this.popupType.preview) {
-      // TODO: Preview popup
-    } else if (popupType == this.popupType.newConfig) {
-      // TODO: New config popup
-    } else {
-      throw new Error('Popup type not found.');
-    }
+    this.popupController.setPopup(popupType);
   }
 }

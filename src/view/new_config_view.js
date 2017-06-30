@@ -29,5 +29,13 @@
 class NewConfigView extends PopupView {
   constructor() {
     super();
+
+    /**
+     * Popup contents in HTML format.
+     * @type {string}
+     */
+    this.htmlContents = `
+<div id="sample"></div>
+`;
   }
 }
