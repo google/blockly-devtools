@@ -19,14 +19,24 @@
  */
 
 /**
- * @fileoverview Toolbox object. Contains references to controller and view.
+ * @class Toolbox represents a toolbox object. Contains references to controller
+ *     and view.
  *
  * @author Celine Choo (celinechoo)
+ *
  */
-
 class Toolbox extends Resource {
-  constructor(name) {
-    this.name = name;
+  /**
+   * Toolbox Class
+   * @param {string} toolboxName The name for the new toolbox.
+   * @constructor
+   */
+  constructor(toolboxName) {
+    super(toolboxName);
+    /**
+     * A map of each block type in the toolbox to its corresponding XML.
+     * @type {!Object.<string, string>}
+     */
     this.xmlDefinitions = {};
   }
 
@@ -98,4 +108,19 @@ class Toolbox extends Resource {
   isEmpty() {
     // TODO: Implement function.
   }
+
+  /**
+   * Renames the project.
+   * @param {string} newName New name of the project.
+   */
+  setName(newName) {
+    /*
+     * TODO: implement
+     *
+     * References: N/A
+     */
+    throw "unimplemented: setName";
+  }
+
+  //TODO: Create getters/has specified for nature of Toolbox
 }
