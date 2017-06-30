@@ -87,8 +87,8 @@ class ToolboxController {
 
   /**
    * Attached to "-" button. Checks if the user wants to delete
-   * the current element.  Removes the element and switches to another element.
-   * When the last element is removed, it switches to a single flyout mode.
+   * the current category.  Removes the category and switches to another.
+   * When the last category is removed, it switches to a single flyout mode.
    */
   removeElement() {
     /*

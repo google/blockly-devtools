@@ -302,8 +302,6 @@ class AppView {
     this.navTree.clearLibrary();
   }
 
-  // ====== NEW ADDITIONS FROM REFACTOR =======
-
   /**
    * Given a tab and a ID to be associated to that tab, adds a listener to
    * that tab so that when the user clicks on the tab, it switches to the
