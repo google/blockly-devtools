@@ -19,13 +19,13 @@
  */
 
 /**
- * @fileoverview BlockLibraryController controls user interaction with the
- * block library, which is where developers can define and edit new blocks.
+ * @fileoverview BlockEditorController controls user interaction with the
+ * block editor, which is where developers can define and edit new blocks.
  * New blocks are updated into the NavTreeView upon creation.
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
-class BlockLibraryController {
+class BlockEditorController {
   constructor(project) {
     /**
      * Project whose library is controlled by this BlockLibraryController instance.
@@ -41,8 +41,8 @@ class BlockLibraryController {
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
-     * @type {!BlockLibraryView}
+     * @type {!BlockEditorView}
      */
-    this.view = new BlockLibraryView(this.currentBlockDefinition);
+    this.view = new BlockEditorView(this.currentBlockDefinition);
   }
 }

@@ -712,7 +712,7 @@ AppController.prototype.init = function() {
   });
 
   // Inject Block Factory Main Workspace.
-  var toolbox = document.getElementById('blockfactory_toolbox');
+  var toolbox = Blockly.Xml.textToDom(DevToolsToolboxes.blockFactory);
   BlockFactory.mainWorkspace = Blockly.inject('blockly',
       {collapse: false,
        toolbox: toolbox,
