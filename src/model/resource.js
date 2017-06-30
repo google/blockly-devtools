@@ -19,15 +19,42 @@
  */
 
 /**
- * @fileoverview The Resource object is the abstract parent class for all
- *   potential groupings of blocks in Blockly DevTools.
- *
+ * @class Resource is the top level interface for the parts of a project,
+ *     including the project itself
  */
-
 class Resource {
-  constructor() {
-
+  /**
+   * Resource Class.
+   * @param {string} resourceName The name for the resource.
+   * @constructor
+   */
+  constructor(resourceName) {
+    /**
+     * The name of the workspace contents.
+     * @type {string}
+     */
+     this.name = resourceName;
   }
 
-  //TODO: Add functions, attributes, etc.
+  /**
+   * Returns whether or not there are unsaved elements in the resource.
+   * @return {boolean} Whether or not unsaved elements exist.
+   */
+  isDirty() {
+    throw "abstract method: isDirty";
+  }
+
+  /**
+   * Reads the resource from local storage.
+   */
+  loadFromLocalStorage() {
+    throw "abstract method: loadFromLocalStorage";
+  }
+
+  /**
+   * Writes the resource to local storage.
+   */
+  saveToLocalStorage() {
+    throw "abstract method: saveFromLocalStorage";
+  }
 }
