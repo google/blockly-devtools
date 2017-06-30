@@ -5,6 +5,5 @@ npm-debug.log
 *.pyc
 *.komodoproject
 /nbproject/private/
-closure-library
 node_modules
 package-lock.json

@@ -44,7 +44,7 @@ class ToolboxEditorView {
           spacing: 25,
           length: 3,
           colour: '#ccc',
-          snap: true},
+          snap: true,
           media: 'media/',
           toolbox: DevToolsToolboxes.toolboxEditor('')
         }
@@ -60,7 +60,7 @@ class ToolboxEditorView {
           spacing: 25,
           length: 3,
           colour: '#ccc',
-          snap: true},
+          snap: true,
           media: 'media/',
           toolbox: '<xml></xml>'
         }
