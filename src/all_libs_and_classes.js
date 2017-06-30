@@ -19,8 +19,8 @@
 
 /*
  * @fileoverview This file attempts to import all the library files and class
- *   files used by Blockly DevTools in the correct order. It is a closure
- *   crude solution to dealing with the incompatible mix of node requires(),
+ *   files used by Blockly DevTools in the correct order. It is a crude
+ *   solution to dealing with the incompatible mix of node requires(), Closure
  *   goog.requires(), and app specific local libraries in the browser-like
  *   context.
  */
