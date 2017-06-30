@@ -22,7 +22,6 @@
  * @class BlockDefinition provides accessors to a block definition for the
  *     purposes of the DevTools Application.
  */
-
- class BlockDefinition {
- 	// TODO: add methods, fields, etc.
- }
+class BlockDefinition {
+  // TODO: add methods, fields, etc.
+}
