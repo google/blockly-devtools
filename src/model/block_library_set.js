@@ -21,6 +21,6 @@
 /**
  * @class BlockLibrarySet is a set of BlockLibrary objects.
  */
- class BlockLibrarySet extends ResourceSet {
-
+class BlockLibrarySet extends ResourceSet {
+  // TODO: add methods, fields, etc.
 }

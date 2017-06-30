@@ -22,5 +22,5 @@
  * @class WorkspacecontentsSet is a set of WorkspaceContents objects.
  */
 class WorkspaceContentsSet extends ResourceSet {
-
+  // TODO: add methods, fields, etc.
 }

@@ -21,6 +21,6 @@
 /**
  * @class WorkspaceConfigurationSet is a set of WorkspaceConfiguration objects.
  */
- class WorkspaceConfigurationSet extends ResourceSet {
-
- }
+class WorkspaceConfigurationSet extends ResourceSet {
+  // TODO: add methods, fields, etc.
+}

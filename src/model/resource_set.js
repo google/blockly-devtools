@@ -22,5 +22,5 @@
  * @class ResourceSet is the top level interface for sets of parts of a project.
  */
  class ResourceSet {
-
+  // TODO: add methods, fields, etc.
 }

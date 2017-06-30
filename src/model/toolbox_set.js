@@ -22,5 +22,5 @@
  * @class ToolboxSet is a set of Toolbox objects.
  */
 class ToolboxSet extends ResourceSet {
-
+  // TODO: add methods, fields, etc.
 }
