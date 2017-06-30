@@ -73,6 +73,13 @@ class AppController2 {
    * Blockly application with user-defined workspace, toolbox, and blocks.
    */
   createSampleApplication() {
-    // TODO: Implement.
+    /*
+     * TODO: Move in from wfactory_controller.js:exportInjectFile()
+     *
+     * References:
+     * - generateNewOptions()
+     * - generateInjectString()
+     * - createAndDownloadFile(fileName, data)
+     */
   }
 }
