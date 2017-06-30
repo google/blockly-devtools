@@ -28,6 +28,17 @@
 
 class PreviewController {
   constructor() {
+    /**
+     * @type {!PreviewView}
+     */
+    this.view = new PreviewView();
+  }
 
+  /**
+   * Does this.
+   * @param {thing} thing
+   */
+  checkDuplicate() {
+    // TODO: Implement
   }
 }

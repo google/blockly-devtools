@@ -19,37 +19,20 @@
  */
 
 /**
- * @fileoverview PreviewView
+ * @fileoverview PopupView is an abstract interface from which any popups will
+ * extend.
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
-'use strict';
-
-class PreviewView extends PopupView {
+class PopupView {
   constructor() {
-    super();
-
-    /**
-     * Popup contents in HTML format.
-     * @type {string}
-     */
-    this.htmlContents = `
-<div class="sample"></div>
-`;
-
-    // TODO: Show popup.
-
-    // TODO: Set up event listener for when popup is exited.
-
-    // TODO: Set up event listener for submitting information. Pass it on
-    //       to project_controller.js to export.
+    this.htmlContents = '';
   }
 
   /**
-   * Hides/exits popup.
+   * Hides window of popup view.
    */
   hide() {
-    // TODO: Implement
   }
 }

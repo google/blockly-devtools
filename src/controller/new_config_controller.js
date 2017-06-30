@@ -19,37 +19,18 @@
  */
 
 /**
- * @fileoverview PreviewView
+ * @fileoverview NewConfigController
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
 'use strict';
 
-class PreviewView extends PopupView {
+class NewConfigController {
   constructor() {
-    super();
-
     /**
-     * Popup contents in HTML format.
-     * @type {string}
+     * @type {!NewConfigView}
      */
-    this.htmlContents = `
-<div class="sample"></div>
-`;
-
-    // TODO: Show popup.
-
-    // TODO: Set up event listener for when popup is exited.
-
-    // TODO: Set up event listener for submitting information. Pass it on
-    //       to project_controller.js to export.
-  }
-
-  /**
-   * Hides/exits popup.
-   */
-  hide() {
-    // TODO: Implement
+    this.view = new NewConfigView();
   }
 }

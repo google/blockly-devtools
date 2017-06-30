@@ -19,37 +19,42 @@
  */
 
 /**
- * @fileoverview PreviewView
+ * @fileoverview PopupController controls all popups. There can only be one popup
+ * at a time.
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
 'use strict';
 
-class PreviewView extends PopupView {
-  constructor() {
-    super();
+class PopupController {
+  constructor(project) {
+    /**
+     * Project associated with current popup.
+     * @type {!Project}
+     */
+    this.project = project;
 
     /**
-     * Popup contents in HTML format.
-     * @type {string}
+     * Controller that is currently active. Default is null when no popup is
+     * visible in application.
+     * @type {!Object}
      */
-    this.htmlContents = `
-<div class="sample"></div>
-`;
-
-    // TODO: Show popup.
-
-    // TODO: Set up event listener for when popup is exited.
-
-    // TODO: Set up event listener for submitting information. Pass it on
-    //       to project_controller.js to export.
+    this.popup = null;
   }
 
   /**
-   * Hides/exits popup.
+   * Exits popup.
    */
-  hide() {
-    // TODO: Implement
+  exit() {
+    // TODO: Implement.
+  }
+
+  /**
+   * Generates view, which creates popup for user.
+   * @param {!}
+   */
+  setPopup(controller) {
+    this.popup = controller;
   }
 }
