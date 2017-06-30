@@ -23,26 +23,18 @@
  *   information contained within projects (libraries, toolboxes, workspaces);
  *   when blocks are opened, storage, warning behavior, importing and exporting.
  *
- * @author sagev@google.com (Sage Vouse)
+ * @author sagev (Sage Vouse), celinechoo (Celine Choo)
  */
-
- /**
-  * @class ProjectController manages the DevTools Project object's information.
-  *    it controls opening and storing blocks, warning about unsaved changes
-  *    to libraries, and importing and exporting projects and the elements that
-  *    they contain.
-  */
-  //TODO #44: refactor
-  //TODO #50: manage project metadata
 
 /**
- * @class ProjectController manages warnings for unsaved project data when
- *    exiting the application, access to Project metadata, import and export of
- *    projects and their components, and management of project data on local
- *    local filesystems between sessions.
+ * @class ProjectController manages the DevTools Project object's information.
+ *    it controls opening and storing blocks, warning about unsaved changes
+ *    to libraries, and importing and exporting projects and the elements that
+ *    they contain.
  */
+//TODO #44: refactor
+//TODO #50: manage project metadata
 class ProjectController {
-
   /**
    * ProjectController class
    * @param {!Project} project the project from which the data to be managed
@@ -58,10 +50,107 @@ class ProjectController {
   }
 
   /**
+   * Creates new project that the ProjectController is controlling.
+   *
+   * @param {!Project} newProject New project to create that the user
+   *     will edit.
+   */
+  setProject(newProject) {
+    this.project = newProject;
+  }
+
+  /**
+   * Gets project being currently edited in DevTools.
+   *
+   * @returns {!Project}
+   */
+  getProject() {
+    return this.project;
+  }
+
+  /**
    * Return whether or not the project has unsaved changes.
    */
    //TODO #52: move warning behavior here
-   warnIfUnsaved() {
+  warnIfUnsaved() {
     return this.project.isDirty();
-  };
+  }
+
+  /**
+   * Creates new toolbox to this.project.
+   *
+   * @param {!Toolbox} toolbox Toolbox object to add to project.
+   */
+  addToolbox(toolbox) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes toolbox from this.project's toolboxList.
+   *
+   * @param {!Toolbox} toolbox Toolbox object to remove from project.
+   */
+  removeToolbox(toolboxName) {
+    // TODO: Implement
+  }
+
+  /**
+   * Adds new WorkspaceContents to this.project.
+   *
+   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
+   *     add to project.
+   */
+  addWorkspaceContents(workspaceContents) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes WorkspaceContents object from this.project.
+   *
+   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
+   *     remove from project.
+   */
+  removeWorkspaceContents(workspaceContents) {
+    // TODO: Implement
+  }
+
+  /**
+   * Adds new WorkspaceOptions to this.project. Prompts user to select from
+   * a list of checkbox options and name the grouping of options.
+   *
+   * @param {!WorkspaceOptions} workspaceOptionsName WorkspaceOptions object to
+   *     add to project.
+   */
+  addWorkspaceOptions(workspaceOptions) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes WorkspaceOptions object from this.project.
+   *
+   * @param {!WorkspaceOptions} workspaceOptions WorkspaceOptions object to
+   *     remove from project.
+   */
+  removeWorkspaceOptions(workspaceOptions) {
+    // TODO: Implement
+  }
+
+  /**
+   * Adds new BlockLibrary to this.project.
+   *
+   * @param {!BlockLibrary} blockLibraryName BlockLibrary object to add to
+   *     project.
+   */
+  addBlockLibrary(blockLibraryName) {
+    // TODO: Implement
+  }
+
+  /**
+   * Removes BlockLibrary from project.
+   *
+   * @param {!BlockLibrary} blockLibrary BlockLibrary object to remove from project.
+   */
+  removeBlockLibrary(blockLibraryName) {
+    // TODO: Implement
+  }
 }

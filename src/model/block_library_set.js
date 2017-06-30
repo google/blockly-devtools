@@ -19,16 +19,8 @@
  */
 
 /**
- * @fileoverview WorkspacePreload object. Contains a set of positioned blocks,
- *   often used to initialize an app's blank workspace.
- *
- * @author
+ * @class BlockLibrarySet is a set of BlockLibrary objects.
  */
-
-class WorkspacePreload extends Resource {
-  constructor() {
-
-  }
-
-  //TODO: Add functions.
+class BlockLibrarySet extends ResourceSet {
+  // TODO: add methods, fields, etc.
 }
