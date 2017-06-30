@@ -30,6 +30,10 @@
  * @author Emma Dauterman (evd2014)
  */
 
+goog.provide('WorkspaceFactoryModel');
+goog.require('ListElement');
+
+
 /**
  * Class for a WorkspaceFactoryModel
  * @constructor
@@ -479,85 +483,4 @@ WorkspaceFactoryModel.prototype.hasDefinedBlockTypes = function(blockTypes) {
     }
   }
   return false;
-};
-
-/**
- * Class for a ListElement.
- * @constructor
- */
-ListElement = function(type, opt_name) {
-  this.type = type;
-  // XML DOM element to load the element.
-  this.xml = Blockly.Xml.textToDom('<xml></xml>');
-  // Name of category. Can be changed by user. Null if separator.
-  this.name = opt_name ? opt_name : null;
-  // Unique ID of element. Does not change.
-  this.id = Blockly.utils.genUid();
-  // Color of category. Default is no color. Null if separator.
-  this.color = null;
-  // Stores a custom tag, if necessary. Null if no custom tag or separator.
-  this.custom = null;
-};
-
-// List element types.
-ListElement.TYPE_CATEGORY = 'category';
-ListElement.TYPE_SEPARATOR = 'separator';
-ListElement.TYPE_FLYOUT = 'flyout';
-
-/**
- * Saves a category by updating its XML (does not save XML for
- * elements that are not categories).
- * @param {!Blockly.workspace} workspace The workspace to save category entry
- * from.
- */
-ListElement.prototype.saveFromWorkspace = function(workspace) {
-  // Only save XML for categories and flyouts.
-  if (this.type == ListElement.TYPE_FLYOUT ||
-      this.type == ListElement.TYPE_CATEGORY) {
-    this.xml = Blockly.Xml.workspaceToDom(workspace);
-  }
-};
-
-
-/**
- * Changes the name of a category object given a new name. Returns if
- * not a category.
- * @param {string} name New name of category.
- */
-ListElement.prototype.changeName = function (name) {
-  // Only update list elements that are categories.
-  if (this.type != ListElement.TYPE_CATEGORY) {
-    return;
-  }
-  this.name = name;
-};
-
-/**
- * Sets the color of a category. If tries to set the color of something other
- * than a category, returns.
- * @param {string} color The color that should be used for that category.
- */
-ListElement.prototype.changeColor = function (color) {
-  if (this.type != ListElement.TYPE_CATEGORY) {
-    return;
-  }
-  this.color = color;
-};
-
-/**
- * Makes a copy of the original element and returns it. Everything about the
- * copy is identical except for its ID.
- * @return {!ListElement} The copy of the ListElement.
- */
-ListElement.prototype.copy = function() {
-  copy = new ListElement(this.type);
-  // Generate a unique ID for the element.
-  copy.id = Blockly.utils.genUid();
-  // Copy all attributes except ID.
-  copy.name = this.name;
-  copy.xml = this.xml;
-  copy.color = this.color;
-  copy.custom = this.custom;
-  // Return copy.
-  return copy;
 };
