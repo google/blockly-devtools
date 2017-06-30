@@ -19,7 +19,6 @@
  */
 
 /**
-
  * @class ResourceSet is the top level interface for sets of parts of a project,
  *     not including the project itself. Resource sets can only contain one type
  *     of resource, and cannot contain multiple resources with the same name.
@@ -29,9 +28,12 @@
   /**
    * ResourceSet Class.
    * @param {string} resourceSetName The name for the resource set.
+   * @param {string} projectName The name of the project the resource belongs to.
+   * @param {Constructor} resourceConstructor The constructor for the type of
+   *     resource the set will manage.
    * @constructor
    */
-  constructor(resourceSetName, projectName, resourceType) {
+  constructor(resourceSetName, projectName, resourceConstructor) {
     /**
      * The name of the resource set.
      * @type {string}
@@ -43,10 +45,10 @@
      */
      this.project = projectName;
     /**
-     * The type of resource the set manages.
-     * @type {string}
+     * The constructor for type of resource the set manages.
+     * @type {Constructor}
      */
-     this.type = resourceType;
+     this.resourceConstructor = resourceConstructor;
   }
 
   /**
@@ -111,9 +113,8 @@
    * @param {!Object} resource The resource to be added.
    */
   isValidType(resource) {
-    /* most likely will just return resource instanceof resourceType,
-     *     thus for classes which extend ResourceSet the isValidType method will
-     *     just call super.isValid(resource, <resource type for that set>)
+    /*
+     * most likely will just return resource instanceof resourceConstructor
      */
     throw "unimplemented: isValidType";
   }
