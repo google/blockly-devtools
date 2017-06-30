@@ -31,12 +31,16 @@ class NewConfigView extends PopupView {
     super();
 
     /**
-     * Popup contents in HTML format.
+     * HTML contents of what is inside popup window. Does not include the popup
+     * window itself.
      * @type {string}
      */
     this.htmlContents = `
 <div id="sample"></div>
 `;
+
+    super.injectPopupContents(this.htmlContents);
+
     // TODO: Insert HTML contents into page, make visible.
   }
 

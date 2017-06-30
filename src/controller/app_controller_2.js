@@ -85,7 +85,7 @@ class AppController2 {
 
   /**
    * Generates popup. Param must be either this.popupController.MODE.PREVIEW,
-   * this.popupController.MODE.NEW_BLOCK, or this.popupController.MODE,NEW_CONFIG.
+   * this.popupController.MODE.NEW_BLOCK, or this.popupController.MODE.NEW_CONFIG.
    *
    * @param {string} popupType Type of popup.
    */

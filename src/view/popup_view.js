@@ -27,13 +27,41 @@
 
 class PopupView {
   constructor() {
-    this.htmlContents = '';
+    this.htmlContents = `
+<div class="bkg"></div>
+<div class="box">
+  <div id="exit">x</div>
+</div>
+`;
+  }
+
+  /**
+   * Injects HTML content into a popup window template.
+   *
+   * @param {string} html HTML content to go inside of popup window.
+   * @return {string} HTML of entire popup window.
+   */
+  injectPopupContents(html) {
+    this.htmlContents = `
+<div class="bkg"></div>
+<div class="box">
+  <div id="exit">x</div>
+  ${html}
+</div>
+`;
   }
 
   /**
    * Hides window of popup view.
    */
   hide() {
+    // TODO: Implement.
+  }
+
+  /**
+   * Shows window of popup view.
+   */
+  show() {
     // TODO: Implement.
   }
 }
