@@ -24,7 +24,7 @@
  *     of resource, and cannot contain multiple resources with the same name.
  *
  */
- class ResourceSet {
+ class ResourceSet extends Resource {
   /**
    * ResourceSet Class.
    * @param {string} resourceSetName The name for the resource set.
@@ -34,11 +34,7 @@
    * @constructor
    */
   constructor(resourceSetName, projectName, resourceConstructor) {
-    /**
-     * The name of the resource set.
-     * @type {string}
-     */
-     this.name = resourceSetName;
+    super(resourceSetName);
     /**
      * The name of the project the resource belongs to.
      * @type {string}
@@ -49,20 +45,6 @@
      * @type {Constructor}
      */
      this.resourceConstructor = resourceConstructor;
-  }
-
-  /**
-   * Writes the resource set to local storage.
-   */
-  saveSetToLocalStorage() {
-    throw "unimplemented: saveSetToLocalStorage";
-  }
-
-  /**
-   * Reads the resource set from local storage.
-   */
-  loadSetFromLocalStorage() {
-    throw "unimplemented: loadSetFromLocalStorage";
   }
 
   /**
@@ -114,7 +96,7 @@
    */
   isValidType(resource) {
     /*
-     * most likely will just return resource instanceof resourceConstructor
+     * Most likely will just return resource instanceof resourceConstructor.
      */
     throw "unimplemented: isValidType";
   }
@@ -144,5 +126,28 @@
      * TODO: define metadata structure for sets/projects.
      */
     throw "unimplemented: getData";
+  }
+
+  /**
+   * Returns whether or not there are unsaved elements in the resource set.
+   * @return {boolean} Whether or not unsaved elements exist.
+   */
+  isDirty() {
+    throw "unimplemented: isDirty";
+  }
+
+  /**
+   * Reads the resource set from local storage.
+   */
+  loadFromLocalStorage() {
+    throw "unimplemented: loadFromLocalStorage";
+  }
+
+  /**
+   * Writes the resource set to local storage.
+   */
+  saveToLocalStorage() {
+    //TODO: pass saving mechanism to classes which extend resource.
+    throw "unimplemented: saveFromLocalStorage";
   }
 }

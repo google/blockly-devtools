@@ -55,6 +55,7 @@ class Resource {
    * Writes the resource to local storage.
    */
   saveToLocalStorage() {
-    throw "abstract method: saveFromLocalStorage";
+    //TODO: pass saving mechanism to classes which extend resource.
+    throw "unimplemented: saveFromLocalStorage";
   }
 }
