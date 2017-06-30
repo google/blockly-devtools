@@ -53,8 +53,9 @@ class AppController2 {
     this.editorController = new EditorController(this.project);
 
     /**
-     *
+     * PopupController
      */
+    this.popupController = new PopupController();
   }
 
   /**
