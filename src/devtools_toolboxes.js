@@ -19,13 +19,13 @@
  */
 
 /**
- * @fileoverview DevtoolsToolboxes contains only strings of XMLs that are hard-coded
+ * @namespace DevtoolsToolboxes contains only strings of XMLs that are hard-coded
  * into the DevTools application.
  *
  * @author celinechoo (Celine Choo)
  */
-const DevToolsToolboxes = function() {};
 
+const DevToolsToolboxes = function() {};
 /**
  * Generates XML string for toolbox editor. Used in ToolboxView and WorkspaceView.
  *
