@@ -50,6 +50,10 @@ class AppController2 {
      * EditorController object which encapsulates all editor controllers
      */
     this.editorController = new EditorController(this.project);
+
+    /**
+     *
+     */
   }
 
   /**
