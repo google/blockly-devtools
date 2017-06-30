@@ -27,5 +27,7 @@
 'use strict';
 
 class PreviewController {
+  constructor() {
 
+  }
 }
