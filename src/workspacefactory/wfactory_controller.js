@@ -57,7 +57,7 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
        colour: '#ccc',
        snap: true},
        media: 'media/',
-       toolbox: DevToolsToolboxes.toolboxEditor
+       toolbox: DevToolsToolboxes.toolboxEditor('')
      });
 
   // Workspace for user to preview their changes.

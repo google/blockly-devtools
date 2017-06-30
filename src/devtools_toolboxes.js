@@ -27,10 +27,23 @@
 const DevToolsToolboxes = function() {};
 
 /**
- * XML string for toolbox editor. Used in ToolboxView and WorkspaceView.
+ * XML string for custom blocks defined by user. Inserted into this.toolboxEditor
+ * to display defined custom blocks in toolbox when creating Toolboxes or
+ * WorkspaceContents.
  * @type {string}
  */
-DevToolsToolboxes.toolboxEditor = `
+DevToolsToolboxes.blockLibrary = '';
+
+/**
+ * Generates XML string for toolbox editor. Used in ToolboxView and WorkspaceView.
+ *
+ * @param {string} blockLibraryXml String representation of XML of user-defined
+ *     block library. Inserted into blockLibrary category of toolbox XML.
+ * @return {string} String representation of XML for toolbox used in creating
+ *     custom Toolboxes and WorkspaceContents.
+ */
+DevToolsToolboxes.toolboxEditor = function(blockLibraryXml) {
+  return `
 <xml id="workspacefactory_toolbox" class="toolbox">
   <category name="Logic" colour="210">
     <block type="controls_if"></block>
@@ -327,9 +340,12 @@ DevToolsToolboxes.toolboxEditor = `
   <category name="Variables" colour="330" custom="VARIABLE"></category>
   <category name="Functions" colour="290" custom="PROCEDURE"></category>
   <sep></sep>
-  <category name="Block Library" colour="260" id="blockLibCategory"></category>
+  <category name="Block Library" colour="260" id="blockLibCategory">
+    ${DevToolsToolboxes.blockLibrary}
+  </category>
 </xml>
 `;
+};
 
 /**
  * XML string representation of toolbox used when defining blocks under the
@@ -389,13 +405,3 @@ DevToolsToolboxes.blockFactory = `
   </category>
 </xml>
 `;
-
-/**
- * Updates this.toolboxEditor's Block Library category with block definitions
- * that user has created in DevTools.
- *
- * @return {string} New XML string of this.toolboxEditor with updated block library.
- */
-DevToolToolboxes.updateToolboxEditor = function() {
-  // TODO: Implement.
-}

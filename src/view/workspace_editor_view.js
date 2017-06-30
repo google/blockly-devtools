@@ -52,7 +52,7 @@ class WorkspaceEditorView {
           colour: '#ccc',
           snap: true},
           media: 'media/',
-          toolbox: DevToolsToolboxes.toolboxEditor
+          toolbox: DevToolsToolboxes.toolboxEditor('')
         }
       });
 
