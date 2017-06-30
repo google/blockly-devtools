@@ -34,9 +34,9 @@
  * @author Emma Dauterman (evd2014)
  */
 
- goog.require('FactoryUtils');
- goog.require('StandardCategories');
-
+goog.require('FactoryUtils');
+goog.require('StandardCategories');
+goog.require('DevToolsToolboxes');
 
 /**
  * Class for a WorkspaceFactoryController
