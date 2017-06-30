@@ -137,43 +137,13 @@ class ToolboxEditorView {
    * (if this might be the case, call saveStateFromWorkspace).
    */
   updatePreview() {
-    // Disable events to stop updatePreview from recursively calling itself
-    // through event handlers.
-    Blockly.Events.disable();
-
-    // Only update the toolbox if not in read only mode.
-    if (!this.model.options['readOnly']) {
-      // Get toolbox XML.
-      var tree = Blockly.Options.parseToolboxTree(
-          this.generator.generateToolboxXml());
-
-      // No categories, creates a simple flyout.
-      if (tree.getElementsByTagName('category').length == 0) {
-        // No categories, creates a simple flyout.
-        if (this.previewWorkspace.toolbox_) {
-          this.reinjectPreview(tree); // Switch to simple flyout, expensive.
-        } else {
-          this.previewWorkspace.updateToolbox(tree);
-        }
-      } else {
-        // Uses categories, creates a toolbox.
-        if (!this.previewWorkspace.toolbox_) {
-          this.reinjectPreview(tree); // Create a toolbox, expensive.
-        } else {
-          // Close the toolbox before updating it so that the user has to reopen
-          // the flyout and see their updated toolbox (open flyout doesn't update)
-          this.previewWorkspace.toolbox_.clearSelection();
-          this.previewWorkspace.updateToolbox(tree);
-        }
-      }
-    }
-
-    // Update pre-loaded blocks in the preview workspace.
-    this.previewWorkspace.clear();
-    Blockly.Xml.domToWorkspace(this.generator.generateWorkspaceXml(),
-        this.previewWorkspace);
-
-    // Reenable events.
-    Blockly.Events.enable();
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - generateToolboxXml()
+     * - reinjectPreview(tree)
+     * - generateWorkspaceXml()
+     */
   }
 }
