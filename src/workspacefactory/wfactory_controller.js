@@ -57,7 +57,7 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
        colour: '#ccc',
        snap: true},
        media: 'media/',
-       toolbox: this.toolbox
+       toolbox: DevToolsToolboxes.toolboxEditor
      });
 
   // Workspace for user to preview their changes.
@@ -1330,6 +1330,9 @@ WorkspaceFactoryController.prototype.importBlocks = function(file, format) {
  */
 WorkspaceFactoryController.prototype.setBlockLibCategory =
     function(categoryXml, libBlockTypes) {
+  // TODO: Update so that any additions to Block Library can update the XML string
+  //       of DevToolsToolboxes.toolboxEditor. Toolbox is no longer stored directly
+  //       as DOM element in HTML page.
   var blockLibCategory = document.getElementById('blockLibCategory');
 
   // Set category ID so that it can be easily replaced, and set a standard,

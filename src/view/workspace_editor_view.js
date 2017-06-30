@@ -52,7 +52,7 @@ class WorkspaceEditorView {
           colour: '#ccc',
           snap: true},
           media: 'media/',
-          toolbox: this.toolbox // TODO: Reference correct toolbox.
+          toolbox: DevToolsToolboxes.toolboxEditor
         }
       });
 
