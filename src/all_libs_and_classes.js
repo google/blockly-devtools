@@ -22,7 +22,7 @@
  *   files used by Blockly DevTools in the correct order. It is a crude
  *   solution to dealing with the incompatible mix of node requires(), Closure
  *   goog.requires(), and app specific local libraries in the browser-like
- *   context.
+ *   (but not quite a browser) context.
  */
 
 (function() {
