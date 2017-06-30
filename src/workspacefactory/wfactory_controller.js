@@ -1330,9 +1330,6 @@ WorkspaceFactoryController.prototype.importBlocks = function(file, format) {
  */
 WorkspaceFactoryController.prototype.setBlockLibCategory =
     function(categoryXml, libBlockTypes) {
-  // TODO: Update so that any additions to Block Library can update the XML string
-  //       of DevToolsToolboxes.toolboxEditor. Toolbox is no longer stored directly
-  //       as DOM element in HTML page.
   var blockLibCategory = document.getElementById('blockLibCategory');
 
   // Set category ID so that it can be easily replaced, and set a standard,
@@ -1341,9 +1338,11 @@ WorkspaceFactoryController.prototype.setBlockLibCategory =
   categoryXml.setAttribute('colour', 260);
 
   // Update the toolbox and toolboxWorkspace.
-  this.toolbox.replaceChild(categoryXml, blockLibCategory);
+  let customBlockLibraryXmlString = DevToolsToolboxes.toolboxEditor(
+      Blockly.Xml.domToPrettyText(categoryXml));
   this.toolboxWorkspace.toolbox_.clearSelection();
-  this.toolboxWorkspace.updateToolbox(this.toolbox);
+  this.toolboxWorkspace.updateToolbox(
+      Blockly.Xml.textToDom(customBlockLibraryXmlString));
 
   // Update the block library types.
   this.model.updateLibBlockTypes(libBlockTypes);

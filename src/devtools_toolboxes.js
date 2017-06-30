@@ -27,14 +27,6 @@
 const DevToolsToolboxes = function() {};
 
 /**
- * XML string for custom blocks defined by user. Inserted into this.toolboxEditor
- * to display defined custom blocks in toolbox when creating Toolboxes or
- * WorkspaceContents.
- * @type {string}
- */
-DevToolsToolboxes.blockLibrary = '';
-
-/**
  * Generates XML string for toolbox editor. Used in ToolboxView and WorkspaceView.
  *
  * @param {string} blockLibraryXml String representation of XML of user-defined
@@ -341,7 +333,7 @@ DevToolsToolboxes.toolboxEditor = function(blockLibraryXml) {
   <category name="Functions" colour="290" custom="PROCEDURE"></category>
   <sep></sep>
   <category name="Block Library" colour="260" id="blockLibCategory">
-    ${DevToolsToolboxes.blockLibrary}
+    ${blockLibraryXml}
   </category>
 </xml>
 `;
