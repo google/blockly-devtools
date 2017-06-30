@@ -23,13 +23,13 @@
 
 /**
  * @class Project is a collection of one or more libraries along with
- *    any number of toolboxes and/or workspaces. In the course of designing an
- *    application, a developer may want to work on any number of the
- *    aforementioned groupings (library, workspace, toolbox) in various ways.
- *    A project, by providing a structure in which those elements and the blocks
- *    within them are linked, seeks to manage this cycle in a more organized
- *    manner, allowing developers to import and export a structure created based
- *    upon their workflow.
+ *    any number of toolboxes and/or workspace contents and configurations. In
+ *    the course of designing an application, a developer may want to work on
+ *    any number of the aforementioned groupings (library, workspace contents
+ *    and configurations, toolbox) in various ways. A project, by providing a
+ *    structure in which those elements and the blocks within them are linked,
+ *    seeks to manage this cycle in a more organized manner, allowing developers
+ *    to import and export a structure created based upon their workflow.
  *
  * @author sagev@google.com (Sage Vouse)
  */
