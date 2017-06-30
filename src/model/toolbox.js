@@ -32,10 +32,6 @@ class Toolbox extends Resource {
    * @constructor
    */
   constructor(toolboxName) {
-    /**
-     * The name of the toolbox.
-     * @type {string}
-     */
     super(toolboxName);
     /**
      * A map of each block type in the toolbox to its corresponding XML.

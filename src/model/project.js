@@ -30,6 +30,8 @@
  *    within them are linked, seeks to manage this cycle in a more organized
  *    manner, allowing developers to import and export a structure created based
  *    upon their workflow.
+ *
+ * @author sagev@google.com (Sage Vouse)
  */
 class Project extends Resource {
   /**

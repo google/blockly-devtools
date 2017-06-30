@@ -36,10 +36,6 @@ class BlockLibrary extends Resource {
      *
      * References: N/A
      */
-    /**
-     * The name of the library.
-     * @type {string}
-     */
     super(libraryName);
     /**
      * An array of all block types stored in the block library.

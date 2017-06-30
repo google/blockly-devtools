@@ -34,11 +34,7 @@ class WorkspaceContents extends Resource {
      *
      * References: N/A
      */
-    /**
-     * The name of the workspace contents.
-     * @type {string}
-     */
-    this.name = workspaceContentsName;
+     super(workspaceContentsName);
   }
 
   /**

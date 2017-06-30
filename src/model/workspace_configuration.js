@@ -35,10 +35,6 @@ class WorkspaceConfiguration extends Resource {
      *
      * References: N/A
      */
-    /**
-     * The name of the workspace configuration.
-     * @type {string}
-     */
      super(workspaceConfigName);
   }
 
