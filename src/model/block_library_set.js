@@ -34,7 +34,7 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
-   * Adds a library to the set.
+   * Adds a block library to the set.
    * @param {string} libraryName The name of the library to be added.
    */
   addLibrary(libraryName) {
