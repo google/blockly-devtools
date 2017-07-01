@@ -43,7 +43,7 @@ class WorkspaceConfigurationSet extends ResourceSet {
   }
 
   /**
-   * Removes a workspace configurationfrom the set.
+   * Removes a workspace configuration from the set.
    * @param {string} workspace configurationName The name of the workspace
    *     configuration to be removed.
    */
