@@ -53,4 +53,38 @@ class WorkspaceController {
      */
     this.view = new WorkspaceEditorView(this.currentWorkspaceContents);
   }
+
+  /**
+   * Saves the state from the workspace depending on the current mode. Should
+   * be called after making changes to the workspace.
+   */
+  saveState() {
+    /*
+     * TODO: Move in from wfactory_controller.js:saveStateFromWorkspace()
+     *
+     * References:
+     * - getSelectedXml()
+     * - saveFromWorkspace(this.toolboxWorkspace)
+     * - getPreloadXml()
+     * - savePreloadXml()
+     */
+  }
+
+  /**
+   * Used to completely reinject the preview workspace. This should be used only
+   * when switching from simple flyout to categories, or categories to simple
+   * flyout. More expensive than simply updating the flyout or toolbox.
+   * @param {!Element} Tree of XML elements
+   * @package
+   */
+  reinjectPreview(tree) {
+    /*
+     * Move in from wfactory_controller.js
+     * ALSO used in ToolboxController
+     *
+     * References:
+     * - readOptions_()
+     * - generateWorkspaceXml()
+     */
+  }
 }

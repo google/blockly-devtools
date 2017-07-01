@@ -121,4 +121,22 @@ class ToolboxController {
      * - hasCategoryByName(name)
      */
   }
+
+  /**
+   * Used to completely reinject the preview workspace. This should be used only
+   * when switching from simple flyout to categories, or categories to simple
+   * flyout. More expensive than simply updating the flyout or toolbox.
+   * @param {!Element} Tree of XML elements
+   * @package
+   */
+  reinjectPreview(tree) {
+    /*
+     * Move in from wfactory_controller.js
+     * ALSO used in WorkspaceController
+     *
+     * References:
+     * - readOptions_()
+     * - generateWorkspaceXml()
+     */
+  }
 }
