@@ -33,9 +33,11 @@
  *
  * @author Emma Dauterman (evd2014)
  */
+goog.provide('WorkspaceFactoryController');
 
 goog.require('FactoryUtils');
 goog.require('StandardCategories');
+goog.require('WorkspaceFactoryModel');
 goog.require('DevToolsToolboxes');
 
 /**

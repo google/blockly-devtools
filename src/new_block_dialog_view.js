@@ -64,14 +64,14 @@ class NewBlockDialogView {
    */
   openDialog(firstLoad) {
     this.firstLoad = firstLoad;
-    $('#popup').css('display', 'inline');
+    $('.popup').css('display', 'inline');
   }
 
   /**
    * Closes new block popup, resets fields in form.
    */
   closeDialog() {
-    $('#popup').css('display', 'none');
+    $('.popup').css('display', 'none');
     this.resetPopup();
   }
 

@@ -45,4 +45,80 @@ class ToolboxController {
      */
     this.view = new ToolboxEditorView(this.currentToolbox);
   }
+
+  /**
+   * Currently prompts the user for a name, checking that it's valid (not used
+   * before), and then creates a tab and switches to it.
+   */
+  addCategory() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - transferFlyoutBlocksToCategory()
+     * - hasElements()
+     * - promptForNewCategoryName
+     * - createCategory()
+     * - switchElement()
+     * - getCategoryIdByName()
+     * - setCategoryOptions()
+     * - generateNewOptions()
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Helper method for addCategory. Adds a category to the view given a name, ID,
+   * and a boolean for if it's the first category created. Assumes the category
+   * has already been created in the model. Does not switch to category.
+   * @param {string} name Name of category being added.
+   */
+  createCategory(name) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - new ListElement()
+     * - addElementToList()
+     * - addCategoryRow()
+     * - addClickToSwitch()
+     */
+  }
+
+  /**
+   * Attached to "-" button. Checks if the user wants to delete
+   * the current category.  Removes the category and switches to another.
+   * When the last category is removed, it switches to a single flyout mode.
+   */
+  removeElement() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - getSelected()
+     * - getSelectedId()
+     * - getIndexByElementId(selectedId)
+     * - deleteElementRow(selectedId, selectedIndex)
+     * - deleteElementFromList(selectedIndex)
+     * - getElementByIndex(selectedIndex)
+     * - clearAndLoadElement(nextId)
+     * - createDefaultSelectedIfEmpty()
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Gets a valid name for a new category from the user.
+   * @param {string} promptString Prompt for the user to enter a name.
+   * @param {string=} opt_oldName The current name.
+   * @return {string?} Valid name for a new category, or null if cancelled.
+   */
+  promptForNewCategoryName(promptString, opt_oldName) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - hasCategoryByName(name)
+     */
+  }
 }
