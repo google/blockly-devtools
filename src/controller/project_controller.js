@@ -155,8 +155,8 @@ class ProjectController {
   }
 
   /**
-   * Tied to "Export" button. Gets a file name from the user and downloads
-   * the corresponding configuration XML to that file.
+   * Exports XML to file after potentially prompting user for file name.
+   *
    * @param {string} exportMode The type of file to export
    *    (WorkspaceFactoryController.MODE_TOOLBOX for the toolbox configuration,
    *    and WorkspaceFactoryController.MODE_PRELOAD for the pre-loaded workspace
@@ -165,10 +165,8 @@ class ProjectController {
   exportXmlFile(exportMode) {
     /*
      * TODO: Move in from wfactory_controller.js
-     *       Adjust so that it generates file content for files that need to be
-     *       XML file types (or contain XML). Actual file downloading will be
-     *       done at the AppController level. ProjectController generates the
-     *       project info for export.
+     *       Adjust so that this function only generates file content.
+     *       Actual file downloading will be done at the AppController level.
      *
      * References:
      * - generateWorkspaceXml()
@@ -177,8 +175,7 @@ class ProjectController {
   }
 
   /**
-   * Tied to "Export" button. Gets a file name from user and downloads the
-   * corresponding configuration JS to that file.
+   * Exports JS file after potentailly prompting user for file name.
    *
    * @param {string} exportMode Component of project being exported; either
    *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
@@ -197,6 +194,4 @@ class ProjectController {
      * - createAndDownloadFile(fileName, data)
      */
   }
-
-
 }
