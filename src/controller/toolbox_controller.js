@@ -139,4 +139,59 @@ class ToolboxController {
      * - generateWorkspaceXml()
      */
   }
+
+  /**
+   * Changes the name of the selected category. Continues prompting the user until
+   * they input a category name that is not currently in use. Exits if canceled.
+   */
+  changeCategoryName() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - getSelected()
+     * - promptForNewCategoryName()
+     * - changeName(newName)
+     * - updateCategoryName(newName, this.model.getSelectedId())
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Swaps ordering of categories in toolbox editor.
+   *
+   * @param {number} offset The index offset from the currently selected element
+   * to swap with. Positive if the element to be swapped with is below, negative
+   * if the element to be swapped with is above.
+   */
+  moveElement(offset) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - getSelected()
+     * - getIndexByElementId()
+     * - getElementByIndex(swapIndex)
+     * - moveElementToIndex()
+     * - updateState()
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Moves a element to a specified index and updates the model and view
+   * accordingly. Helper functions throw an error if indexes are out of bounds.
+   * @param {!Element} element The element to move.
+   * @param {number} newIndex The index to insert the element at.
+   * @param {number} oldIndex The index the element is currently at.
+   */
+  moveElementToIndex(element, newIndex, oldIndex) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - moveElementToIndex()
+     * - moveTabToIndex()
+     */
+  }
 }
