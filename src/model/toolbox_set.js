@@ -52,7 +52,7 @@ class ToolboxSet extends ResourceSet {
   /**
    * Gets a toolbox contained within the set.
    * @param {string} toolboxName The toolbox to be returned.
-   * @return {!Object} The toolbox , or null if it's not contained in the set.
+   * @return {!Object} The toolbox, or null if it's not contained in the set.
    */
   getToolbox(toolboxName) {
     return super.getResource(toolbox Name);
