@@ -153,4 +153,45 @@ class ProjectController {
   removeBlockLibrary(blockLibraryName) {
     // TODO: Implement
   }
+
+  /**
+   * Exports XML to file after potentially prompting user for file name.
+   *
+   * @param {string} exportMode The type of file to export
+   *    (WorkspaceFactoryController.MODE_TOOLBOX for the toolbox configuration,
+   *    and WorkspaceFactoryController.MODE_PRELOAD for the pre-loaded workspace
+   *    configuration)
+   */
+  exportXmlFile(exportMode) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *       Adjust so that this function only generates file content.
+     *       Actual file downloading will be done at the AppController level.
+     *
+     * References:
+     * - generateWorkspaceXml()
+     * - createAndDownloadFile(fileName, data)
+     */
+  }
+
+  /**
+   * Exports JS file after potentailly prompting user for file name.
+   *
+   * @param {string} exportMode Component of project being exported; either
+   *     toolbox (WorkspaceFactoryController.MODE_TOOLBOX) or preloaded workspace
+   *     (WorkspaceFactoryController.MODE_PRELOAD).
+   */
+  exportJsFile(exportMode) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *       Adjust so that it generates file content for files that need to be
+     *       JS file types. Actuall file downloading done at AppController level.
+     *
+     * References:
+     * - generateToolboxXml()
+     * - generateWorkspaceXml()
+     * - generateJsFromXml()
+     * - createAndDownloadFile(fileName, data)
+     */
+  }
 }
