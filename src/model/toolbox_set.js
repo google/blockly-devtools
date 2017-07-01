@@ -22,5 +22,47 @@
  * @class ToolboxSet is a set of Toolbox objects.
  */
 class ToolboxSet extends ResourceSet {
-  // TODO: add methods, fields, etc.
+  /**
+   * ToolboxSet Class.
+   * @param {string} toolboxSetName The name for the toolbox set.
+   * @param {string} projectName The name of the project the set belongs to.
+   *
+   * @constructor
+   */
+  constructor(toolboxSetName, projectName) {
+    super(toolbox SetName, projectName, Toolbox);
+  }
+
+  /**
+   * Adds a toolbox to the set.
+   * @param {string} toolbox Name The name of the toolbox to be added.
+   */
+  addToolbox(toolbox Name) {
+    super.addResource(toolbox Name);
+  }
+
+  /**
+   * Removes a toolbox from the set.
+   * @param {string} toolboxName The name of the toolbox to be removed.
+   */
+  removeToolbox(toolboxName) {
+    super.removeResource(toolbox Name);
+  }
+
+  /**
+   * Gets a toolbox contained within the set.
+   * @param {string} toolboxName The toolbox to be returned.
+   * @return {!Object} The toolbox , or null if it's not contained in the set.
+   */
+  getToolbox(toolboxName) {
+    return super.getResource(toolbox Name);
+  }
+
+  /**
+   * Gets the names of all toolboxes contained within the set.
+   * @return {Array.<string>} The names of all toolboxes the set contains.
+   */
+  getToolboxNames() {
+    return super.getResourceNames();
+  }
 }

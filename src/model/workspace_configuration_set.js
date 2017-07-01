@@ -22,5 +22,51 @@
  * @class WorkspaceConfigurationSet is a set of WorkspaceConfiguration objects.
  */
 class WorkspaceConfigurationSet extends ResourceSet {
-  // TODO: add methods, fields, etc.
+  /**
+   * WorkspaceConfigurationSet Class.
+   * @param {string} workspaceConfigurationSetName The name for the set.
+   * @param {string} projectName The name of the project the set belongs to.
+   *
+   * @constructor
+   */
+  constructor(workspaceConfigurationSetName, projectName) {
+    super(workspaceConfigurationSetName, projectName, WorkspaceConfiguration);
+  }
+
+  /**
+   * Adds a workspace configurationto the set.
+   * @param {string} workspace configurationName The name of the workspace
+   *     configuration to be added.
+   */
+  addWorkspaceConfiguration(workspace configurationName) {
+    super.addResource(workspace configurationName);
+  }
+
+  /**
+   * Removes a workspace configurationfrom the set.
+   * @param {string} workspace configurationName The name of the workspace
+   *     configuration to be removed.
+   */
+  removeWorkspaceConfiguration(workspaceConfigurationName) {
+    super.removeResource(workspaceConfigurationName);
+  }
+
+  /**
+   * Gets a workspace configuration contained within the set.
+   * @param {string} workspaceConfigurationName The workspace configuration to
+   *     be returned.
+   * @return {!Object} The workspace configuration, or null if it's not in
+   *     the set.
+   */
+  getWorkspaceConfiguration(workspaceConfigurationName) {
+    return super.getResource(workspaceConfigurationName);
+  }
+
+  /**
+   * Gets the names of all workspace configurations contained within the set.
+   * @return {Array.<string>} Names of all workspace configurations in the set.
+   */
+  getWorkspaceConfigurationNames() {
+    return super.getResourceNames();
+  }
 }

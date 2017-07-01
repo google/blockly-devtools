@@ -22,5 +22,47 @@
  * @class BlockLibrarySet is a set of BlockLibrary objects.
  */
 class BlockLibrarySet extends ResourceSet {
-  // TODO: add methods, fields, etc.
+  /**
+   * BlockLibrarySet Class.
+   * @param {string} librarySetName The name for the block library set.
+   * @param {string} projectName The name of the project the set belongs to.
+   *
+   * @constructor
+   */
+  constructor(librarySetName, projectName) {
+    super(librarySetName, projectName, BlockLibrary);
+  }
+
+  /**
+   * Adds a library to the set.
+   * @param {string} libraryName The name of the library to be added.
+   */
+  addLibrary(libraryName) {
+    super.addResource(libraryName);
+  }
+
+  /**
+   * Removes a library from the set.
+   * @param {string} libraryName The name of the library to be removed.
+   */
+  removeLibrary(libraryName) {
+    super.removeResource(libraryName);
+  }
+
+  /**
+   * Gets a library contained within the set.
+   * @param {string} libraryName The library to be returned.
+   * @return {!Object} The library, or null if it's not contained in the set.
+   */
+  getLibrary(libraryName) {
+    return super.getResource(libraryName);
+  }
+
+  /**
+   * Gets the names of all libraries contained within the set.
+   * @return {Array.<string>} The names of all libraries the set contains.
+   */
+  getLibraryNames() {
+    return super.getResourceNames();
+  }
 }
