@@ -30,7 +30,11 @@
     document.write(`<script src="${src}"></script>`);
   };
 
+  newScript('node_modules/jquery/dist/jquery.min.js');
+
   newScript('lib/blockly_compressed.js');
+  newScript('msg/js/en.js');
+  newScript('lib/blocks_compressed.js');
   newScript('closure-library/closure/goog/base.js');  // Must be after Blockly
   newScript('src/factory_utils.js');
   newScript('src/workspacefactory/list_element.js');
