@@ -85,9 +85,9 @@ class Toolbox extends Resource {
    *
    * @returns {string} String representation of XML file to be exported.
    */
-  getExportXml() {
+  exportXml() {
     // TODO: Implement function.
-    console.log('getExportXml() called.');
+    console.log('exportXml() called.');
   }
 
   /**
