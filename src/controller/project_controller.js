@@ -38,7 +38,7 @@ class ProjectController {
   /**
    * ProjectController class
    * @param {!Project} project the project from which the data to be managed
-   *    comes from.
+   *     comes from.
    * @constructor
    */
   constructor(project) {
@@ -201,13 +201,13 @@ class ProjectController {
    * message alerting the user.
    *
    * @param {string} file The path for the file to be imported into the workspace.
-   *   Should contain valid toolbox XML.
+   *     Should contain valid toolbox XML.
    * @param {string} importMode The mode corresponding to the type of file the
-   *   user is importing (WorkspaceFactoryController.MODE_TOOLBOX or
-   *   WorkspaceFactoryController.MODE_PRELOAD).
+   *     user is importing (WorkspaceFactoryController.MODE_TOOLBOX or
+   *     WorkspaceFactoryController.MODE_PRELOAD).
    * @param {string} fileType The language that the user is importing the toolbox
-   *   or workspace in (WorkspaceFactoryController.MODE_JS or
-   *   WorkspaceFactoryController.MODE_XML).
+   *     or workspace in (WorkspaceFactoryController.MODE_JS or
+   *     WorkspaceFactoryController.MODE_XML).
    */
   importFile(file, importMode, fileType) {
     /*

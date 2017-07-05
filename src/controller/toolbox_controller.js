@@ -161,8 +161,8 @@ class ToolboxController {
    * Swaps ordering of categories in toolbox editor.
    *
    * @param {number} offset The index offset from the currently selected element
-   * to swap with. Positive if the element to be swapped with is below, negative
-   * if the element to be swapped with is above.
+   *     to swap with. Positive if the element to be swapped with is below, negative
+   *     if the element to be swapped with is above.
    */
   moveElement(offset) {
     /*
@@ -245,7 +245,7 @@ class ToolboxController {
    * Sets a block and all of its children to be user-generated shadow blocks,
    * both in the model and view.
    * @param {!Blockly.Block} block The block to be converted to a user-generated
-   *    shadow block.
+   *     shadow block.
    * @private
    */
   addShadowForBlockAndChildren_(block) {
@@ -281,7 +281,7 @@ class ToolboxController {
    * user-generated shadow block.
    * @param {string} blockId The unique ID of the block to examine.
    * @return {boolean} True if the block is a user-generated shadow block, false
-   *    otherwise.
+   *     otherwise.
    */
   isUserGenShadowBlock(blockId) {
     /*
@@ -333,7 +333,7 @@ class ToolboxController {
    * blocks.
    * @param {!File} file File object for the blocks to import.
    * @param {string} format The format of the file to import, either 'JSON' or
-   *    'JavaScript'.
+   *     'JavaScript'.
    */
   importBlocks(file, format) {
     /*
@@ -352,7 +352,7 @@ class ToolboxController {
    * Updates the block library category in the toolbox workspace toolbox.
    * @param {!Element} categoryXml XML for the block library category.
    * @param {!Array.<string>} libBlockTypes Array of block types from the block
-   *    library.
+   *     library.
    */
   setBlockLibCategory(categoryXml, libBlockTypes) {
     /*
@@ -368,7 +368,7 @@ class ToolboxController {
   /**
    * Return the block types used in the custom toolbox and pre-loaded workspace.
    * @return {!Array.<string>} Block types used in the custom toolbox and
-   *    pre-loaded workspace.
+   *     pre-loaded workspace.
    */
   getAllUsedBlockTypes() {
     /*
