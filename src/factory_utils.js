@@ -1067,15 +1067,9 @@ FactoryUtils.addEscape = function(string) {
  * Given the name of a category, determines whether it is the name of a standard
  * category (case insensitive).
  *
- * @param {string} name The name of the category that should be checked if it's
- *     in StandardCategories categoryMap
+ * @param {string} name The category to be checked.
  * @return {boolean} True if name is a standard category name, false otherwise.
  */
 FactoryUtils.isStandardCategoryName = function(name) {
-  for (var category in StandardCategories.categoryMap) {
-    if (name.toLowerCase() == category) {
-      return true;
-    }
-  }
-  return false;
+  return name.toLowerCase() in StandardCategories.categoryMap
 };

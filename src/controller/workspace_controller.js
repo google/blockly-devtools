@@ -55,7 +55,7 @@ class WorkspaceController {
   }
 
   /**
-   * Saves the WorkspaceContents currently being edited into Project object.
+   * Saves the WorkspaceContents currently being edited into the current Project.
    */
   saveState() {
     /*

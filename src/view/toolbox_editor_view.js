@@ -148,10 +148,10 @@ class ToolboxEditorView {
   }
 
   /**
-   * Changes the color of the selected category. Return if selected element is
-   * a separator.
+   * Changes the color of the selected category. Does nothing if the selected
+   * element is a separator.
    * @param {string} color The color to change the selected category. Must be
-   * a valid CSS string.
+   *     a valid CSS string.
    */
   changeSelectedCategoryColor(color) {
     /*
@@ -182,7 +182,7 @@ class ToolboxEditorView {
 
   /**
    * Loads a Standard Category by name and switches to it. Leverages
-   * StandardCategories. Returns if cannot load standard category.
+   * StandardCategories. Does nothing if cannot load standard category.
    * @param {string} name Name of the standard category to load.
    */
   loadCategoryByName(name) {
@@ -222,9 +222,8 @@ class ToolboxEditorView {
   }
 
   /**
-   * Connected to the "add separator" dropdown option. If categories already
-   * exist, adds a separator to the model and view. Does not switch to select
-   * the separator, and updates the preview.
+   * If categories already exist, adds a separator to the model and view.
+   * Does not switch to select the separator, and updates the preview.
    */
   addSeparator() {
     /*
