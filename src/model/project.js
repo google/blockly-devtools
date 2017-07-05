@@ -41,36 +41,25 @@ class Project extends Resource {
      */
     super(projectName);
     /**
-     * Dictionary mapping libary names to library controllers.
-     * @type {!Object<string, !BlockLibraryController>}
+     * The libraries in the project.
+     * @type {!BlockLibrarySet}
      */
-    this.libraries = {};
+    this.libraries = new BlockLibrarySet();
     /**
-     * Dictionary mapping toolbox names to toolbox controllers.
-     * @type {!Object<string, !Toolbox>}
+     * The toolboxes in the project.
+     * @type {!ToolboxSet}
      */
-    this.toolboxes = {};
+    this.toolboxes = new ToolboxSet;
     /**
-     * Dictionary mapping workspace names to workspace controllers.
-     * @type {!Object<string, !Workspace>}
+     * The workspace contents objects in the project.
+     * @type {!WorkspaceContentsSet}
      */
-    this.workspaceBlocks = {};
+    this.workspaceContents = new WorkspaceContents;
     /**
-     * The current BlockLibraryController being accessed.
-     * @type {!BlockLibraryController}
+     * The workspace configurations in the project.
+     * @type {!WorkspaceConfigurationsSet}
      */
-    this.currentLibrary = null;
-    /**
-     * The current Toolbox being accessed.
-     * @type {!Toolbox}
-     */
-    this.currentToolbox = null;
-    // TODO #54: rename this structure
-    /**
-     * The current Workspace being accessed.
-     * @type {!Workspace}
-     */
-    this.currentWorkspace = null;
+    this.workspaceConfigs = new WorkspaceConfigurationsSet;
   }
 
   /**
@@ -79,7 +68,7 @@ class Project extends Resource {
    */
   getBlockTypes() {
     var libraryController;
-    var libraries = Object.keys(this.libraries);
+    var libraries = this.libraries.getLibraryNames;
     var blockTypes = [];
     for (const libraryName of libraries) {
       libraryController = this.libraries[libraryName];
