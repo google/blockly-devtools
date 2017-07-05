@@ -212,7 +212,6 @@ class ProjectController {
   importFile(file, importMode, fileType) {
     /*
      * TODO: Move in from wfactory_controller.js
-     *       Update JSdoc.
      *
      * References:
      * - setMode()

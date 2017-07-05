@@ -53,4 +53,4 @@ class WorkspaceController {
      */
     this.view = new WorkspaceEditorView(this.currentWorkspaceContents);
   }
-
+}

@@ -146,3 +146,4 @@ class ToolboxEditorView {
      * - generateWorkspaceXml()
      */
   }
+}
