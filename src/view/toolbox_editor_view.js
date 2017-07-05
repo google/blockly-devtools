@@ -24,7 +24,7 @@
  * user's Blockly application. ToolboxView contains EventHandlers and popups (prompts,
  * etc.) necessary to create a toolbox.
  *
- * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class ToolboxEditorView {
   constructor(toolbox) {
@@ -144,6 +144,99 @@ class ToolboxEditorView {
      * - generateToolboxXml()
      * - reinjectPreview(tree)
      * - generateWorkspaceXml()
+     */
+  }
+
+  /**
+   * Changes the color of the selected category. Does nothing if the selected
+   * element is a separator.
+   * @param {string} color The color to change the selected category. Must be
+   *     a valid CSS string.
+   */
+  changeSelectedCategoryColor(color) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - getSelected()
+     * - ListElement
+     * - changeColor(color)
+     * - setBorderColor()
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Prompts user for name of a standard Blockly category (case insensitive),
+   * loads it as a new category, and switches to it. Leverages StandardCategories.
+   */
+  loadCategory() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - isStandardCategoryName(name)
+     * - loadCategoryByName(name)
+     */
+  }
+
+  /**
+   * Loads a Standard Category by name and switches to it. Leverages
+   * StandardCategories. Does nothing if cannot load standard category.
+   * @param {string} name Name of the standard category to load.
+   */
+  loadCategoryByName(name) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - isStandardCategoryName(name)
+     * - hasVariables()
+     * - hasProcedures()
+     * - hasCategoryByName(standardCategory.name)
+     * - transferFlyoutBlocksToCategory()
+     * - hasElements()
+     * - addElementToList()
+     * - addClickToSwitch()
+     * - setBorderColor()
+     * - convertShadowBlocks()
+     * - saveStateFromWorkspace()
+     * - setCategoryOptions()
+     * - generateNewOptions()
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Loads the standard Blockly toolbox into the editing space. Should only
+   * be called when the mode is set to toolbox.
+   */
+  loadStandardToolbox() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - loadCategoryByName()
+     * - addSeparator()
+     */
+  }
+
+  /**
+   * If categories already exist, adds a separator to the model and view.
+   * Does not switch to select the separator, and updates the preview.
+   */
+  addSeparator() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - transferFlyoutBlocksToCategory()
+     * - ListElement
+     * - addElementToList()
+     * - addSeparatorTab()
+     * - addClickToSwitch()
+     * - switchElement()
+     * - updatePreview()
      */
   }
 

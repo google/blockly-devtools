@@ -23,7 +23,7 @@
  *   information contained within projects (libraries, toolboxes, workspaces);
  *   when blocks are opened, storage, warning behavior, importing and exporting.
  *
- * @author sagev (Sage Vouse), celinechoo (Celine Choo)
+ * @author sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 
 /**

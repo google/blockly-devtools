@@ -23,7 +23,7 @@
  *     specific components of a project (Toolbox, Workspace (contents or configs),
  *     or Block Library).
  *
- * @author sagev (Sage Vouse), celinechoo (Celine Choo)
+ * @author sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 
 class EditorController {
