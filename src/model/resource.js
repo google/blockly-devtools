@@ -58,4 +58,12 @@ class Resource {
     //TODO: pass saving mechanism to classes which extend resource.
     throw "unimplemented: saveFromLocalStorage";
   }
+
+  /**
+   * Gets the data necessary to export the resource.
+   * @return {!Object} The data needed to export the resource.
+   */
+  getExportData() {
+    throw "abstract method: getExportData";
+  }
 }

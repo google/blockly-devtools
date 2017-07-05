@@ -342,4 +342,13 @@ class Project extends Resource {
      * - N/A
      */
   }
+
+  /**
+   * Gets the data necessary to export the project.
+   * @return {!Object} The data needed to export the project.
+   */
+  getExportData() {
+    //TODO: implement
+    throw "unimplemented: getExportData";
+  }
 }

@@ -45,6 +45,11 @@
      * @type {Constructor}
      */
      this.resourceConstructor = resourceConstructor;
+     /**
+      * The resources that the project contains, mapped to their names.
+      * @type {!Object<string, Object>}
+      */
+     this.resources;
   }
 
   /**
@@ -149,5 +154,13 @@
   saveToLocalStorage() {
     //TODO: pass saving mechanism to classes which extend resource.
     throw "unimplemented: saveFromLocalStorage";
+  }
+
+  /**
+   * Gets the data necessary to export the resource set.
+   * @return {!Object} The data needed to export the resource set.
+   */
+  getExportData() {
+    throw "unimplemented: getExportData";
   }
 }

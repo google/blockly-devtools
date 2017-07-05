@@ -431,4 +431,11 @@ class ToolboxController {
 
     return extractedToolbox;
   }
+
+  /**
+   * Exports the toolbox.
+   */
+  exportToolbox() {
+    throw "unimplemented: exportToolbox";
+  }
 }
