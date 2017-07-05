@@ -24,7 +24,8 @@
  * Exporter applications within Blockly Factory. Holds functions to generate
  * block definitions and generator stubs and to create and download files.
  *
- * @author fraser@google.com (Neil Fraser), quachtina96 (Tina Quach)
+ * @author fraser@google.com (Neil Fraser), quachtina96 (Tina Quach),
+ *     evd2014 (Emma Dauterman)
  */
  'use strict';
 
@@ -1060,4 +1061,15 @@ FactoryUtils.addEscape = function(string) {
   string = string.replace(/\'/g, '\\'+'\'');
 
   return string;
+};
+
+/**
+ * Given the name of a category, determines whether it is the name of a standard
+ * category (case insensitive).
+ *
+ * @param {string} name The category to be checked.
+ * @return {boolean} True if name is a standard category name, false otherwise.
+ */
+FactoryUtils.isStandardCategoryName = function(name) {
+  return name.toLowerCase() in StandardCategories.categoryMap;
 };
