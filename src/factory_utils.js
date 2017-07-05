@@ -1071,5 +1071,5 @@ FactoryUtils.addEscape = function(string) {
  * @return {boolean} True if name is a standard category name, false otherwise.
  */
 FactoryUtils.isStandardCategoryName = function(name) {
-  return name.toLowerCase() in StandardCategories.categoryMap
+  return name.toLowerCase() in StandardCategories.categoryMap;
 };
