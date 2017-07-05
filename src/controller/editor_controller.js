@@ -109,4 +109,74 @@ class EditorController {
      * - isDefinedBlock()
      */
   }
+
+  /**
+   * Loads the given XML to the hidden Blockly.Workspace and sets any user-generated
+   * shadow blocks to be actual shadow blocks in the hidden Blockly.Workspace.
+   *
+   * @param {!Element} xml XML to be loaded to the hidden workspace.
+   * @private
+   */
+  loadToHiddenWorkspace_(xml) {
+    /*
+     * TODO: Move in from wfactory_generator.js
+     *
+     * References:
+     * - hiddenWorkspace (@type {!Blockly.Workspace})
+     * - setShadowBlocksInHiddenWorkspace_()
+     */
+
+    // TODO: Investigate if there is a better method than using hidden workspaces
+    //       for grabbing Block XML information.
+  }
+
+  /**
+   * Encodes blocks in the hidden workspace in a XML DOM element. Very
+   * similar to workspaceToDom, but doesn't capture IDs. Uses the top-level
+   * blocks loaded in hiddenWorkspace.
+   * @private
+   * @param {!Element} xmlDom Tree of XML elements to be appended to.
+   */
+  appendHiddenWorkspaceToDom_(xmlDom) {
+    /*
+     * TODO: Move in from wfactory_generator.js
+     *
+     * References:
+     * - hiddenWorkspace (@type {!Blockly.Workspace})
+     */
+  }
+
+  /**
+   * Sets the user-generated shadow blocks loaded into hiddenWorkspace to be
+   * actual shadow blocks. This is done so that blockToDom records them as
+   * shadow blocks instead of regular blocks.
+   * @private
+   */
+  setShadowBlocksInHiddenWorkspace_() {
+    /*
+     * TODO: Move in from wfactory_generator.js
+     *
+     * References:
+     * - isShadowBlock()
+     */
+  }
+
+  /**
+   * Given a set of block types, gets the Blockly.Block objects for each block
+   * type.
+   * @param {!Array.<!Element>} blockTypes Array of blocks that have been defined.
+   * @return {!Array.<!Blockly.Block>} Array of Blockly.Block objects corresponding
+   *    to the array of blockTypes.
+   */
+  addImportedBlocks(blockTypes) {
+    /*
+     * TODO: Move in from wfactory_generator.js:getDefinedBlocks()
+     *
+     * References:
+     * - FactoryUtils.getDefinedBlock()
+     */
+
+    // TODO: Remove this function, since block definitions should only be imported
+    //       via the block library.
+  }
 }
