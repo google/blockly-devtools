@@ -146,4 +146,21 @@ class ToolboxEditorView {
      * - generateWorkspaceXml()
      */
   }
+
+  /**
+   * Displays imported Toolbox recently added to model onto editor view.
+   *
+   * @param {string} toolboxName Name of toolbox that was imported.
+   * @param {string} xmlString String representation of XML of recently imported
+   *     toolbox.
+   */
+  loadImportedToolbox(toolboxName, xmlString) {
+    /*
+     * TODO: Move in from wfactory_generator.js:loadXml(jsFileContents, importMode)
+     *       loadXml() is broken into two functions in refactored version.
+     *
+     * References:
+     * - evaluateMarkedCode()
+     */
+  }
 }
