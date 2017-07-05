@@ -30,7 +30,13 @@
     document.write(`<script src="${src}"></script>`);
   };
 
+  newScript('node_modules/jquery/dist/jquery.min.js');
+  // TODO: Replace with local NPM managed file. https://www.npmjs.com/package/google-code-prettify
+  newScript('https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js');
+
   newScript('lib/blockly_compressed.js');
+  newScript('msg/js/en.js');
+  newScript('lib/blocks_compressed.js');
   newScript('closure-library/closure/goog/base.js');  // Must be after Blockly
   newScript('src/factory_utils.js');
   newScript('src/workspacefactory/list_element.js');
