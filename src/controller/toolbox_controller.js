@@ -409,4 +409,11 @@ class ToolboxController {
      * - hasProcedures()
      */
   }
+
+  /**
+   * Exports the toolbox.
+   */
+  exportToolbox() {
+    throw "unimplemented: exportToolbox";
+  }
 }

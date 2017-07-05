@@ -326,4 +326,13 @@ class Project extends Resource {
      */
     throw "unimplemented: getWorkspaceConfiguration";
   }
+
+  /**
+   * Gets the data necessary to export the project.
+   * @return {!Object} The data needed to export the project.
+   */
+  getExportData() {
+    //TODO: implement
+    throw "unimplemented: getExportData";
+  }
 }

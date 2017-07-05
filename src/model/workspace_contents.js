@@ -114,5 +114,13 @@ class WorkspaceContents extends Resource {
     throw "unimplemented: setName";
   }
 
+  /**
+   * Gets the data necessary to export the workspace contents.
+   * @return {!Object} The data needed to export the workspace contents
+   */
+  getExportData() {
+    //TODO: implement
+    throw "unimplemented: getExportData";
+  }
   //TODO: Create getters/has specified for nature of workspaceContents
 }

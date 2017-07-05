@@ -122,5 +122,13 @@ class Toolbox extends Resource {
     throw "unimplemented: setName";
   }
 
+  /**
+   * Gets the data necessary to export the toolbox.
+   * @return {!Object} The data needed to export the toolbox.
+   */
+  getExportData() {
+    //TODO: implement
+    throw "unimplemented: getExportData";
+  }
   //TODO: Create getters/has specified for nature of Toolbox
 }
