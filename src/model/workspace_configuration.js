@@ -101,6 +101,7 @@ class WorkspaceConfiguration extends Resource {
 
   /**
    * Gets the data necessary to export the workspace configuration.
+   * @return {!Object} The data needed to export the workspace configuration.
    */
   getExportData() {
     //TODO: implement

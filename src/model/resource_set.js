@@ -158,7 +158,7 @@
 
   /**
    * Gets the data necessary to export the resource set.
-   * @return {!Object} the data for the set.
+   * @return {!Object} The data needed to export the resource set.
    */
   getExportData() {
     throw "unimplemented: getExportData";

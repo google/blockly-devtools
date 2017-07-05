@@ -189,6 +189,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Gets the data necessary to export the library.
+   * @return {!Object} The data needed to export the library.
    */
   getExportData() {
     //TODO: implement

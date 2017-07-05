@@ -124,6 +124,7 @@ class Toolbox extends Resource {
 
   /**
    * Gets the data necessary to export the toolbox.
+   * @return {!Object} The data needed to export the toolbox.
    */
   getExportData() {
     //TODO: implement
