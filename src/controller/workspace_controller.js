@@ -24,7 +24,7 @@
  * developer's Blockly workspace, and (2) Blockly.Options which configure the
  * settings on a developer's workspace (e.g. trashcan, RTL/LTR, etc.).
  *
- * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class WorkspaceController {
   constructor(project) {
@@ -55,8 +55,7 @@ class WorkspaceController {
   }
 
   /**
-   * Saves the state from the workspace depending on the current mode. Should
-   * be called after making changes to the workspace.
+   * Saves the WorkspaceContents currently being edited into Project object.
    */
   saveState() {
     /*
@@ -71,16 +70,17 @@ class WorkspaceController {
   }
 
   /**
-   * Used to completely reinject the preview workspace. This should be used only
+   * Used to completely reinject the contents/config preview. Used only
    * when switching from simple flyout to categories, or categories to simple
-   * flyout. More expensive than simply updating the flyout or toolbox.
+   * flyout. More expensive than simply updating flyout or toolbox.
+   *
    * @param {!Element} Tree of XML elements
    * @package
    */
   reinjectPreview(tree) {
     /*
      * TODO: Move in from wfactory_controller.js
-     *       (ALSO used in ToolboxController)
+     *       (Also moved into: toolbox_controller.js)
      *
      * References:
      * - readOptions_()
@@ -89,11 +89,11 @@ class WorkspaceController {
   }
 
   /**
-   * Given a XML DOM tree, loads it into the workspace contents editing area.
+   * Given an XML DOM tree, loads it into the workspace contents editing area.
    * Assumes that tree is in valid XML format and that the selected mode is
    * MODE_PRELOAD.
    * @param {!Element} tree XML tree to be loaded to pre-loaded block editing
-   *   area.
+   *     area.
    */
   importContentsFromTree_(tree) {
     /*
@@ -143,9 +143,9 @@ class WorkspaceController {
   }
 
   /**
-   * Sets the standard default options for the options object and updates
-   * the preview workspace. The default values depends on if categories are
-   * present.
+   * Sets standard default options for default WorkspaceConfig, updates
+   * the preview workspace. Default values depend on whether certain categories
+   * are present.
    */
   setStandardOptionsAndUpdate() {
     /*
@@ -160,9 +160,10 @@ class WorkspaceController {
   }
 
   /**
-   * Generates a new options object for injecting a Blockly workspace based
-   * on user input. Should be called every time a change has been made to
-   * an input field. Updates the model and reinjects the preview workspace.
+   * Generates new WorkspaceConfig object. Creates Blockly.Options to inject into
+   * preview Blockly workspace, based upon user input.
+   * Called every time a change has been made to an input field. Updates the model
+   * and reinjects the preview workspace.
    */
   generateNewOptions() {
     /*
@@ -174,6 +175,11 @@ class WorkspaceController {
      * - reinjectPreview()
      * - generateToolboxXml()
      */
+
+    // TODO: Add popup for workspace config so that preview is updated only when
+    //       creating a new WorkspaceConfig object in completion, or when user
+    //       clicks on an already defined WorkspaceConfig object in list.
+    //       See Design Doc for more info.
   }
 
   /**
@@ -187,7 +193,7 @@ class WorkspaceController {
      * TODO: Move in from wfactory_controller.js
      *
      * References:
-     * - user input
+     * - user input (no other relevant DevTools fcn's)
      */
   }
 
@@ -195,7 +201,7 @@ class WorkspaceController {
    * Updates the block library category in the toolbox workspace toolbox.
    * @param {!Element} categoryXml XML for the block library category.
    * @param {!Array.<string>} libBlockTypes Array of block types from the block
-   *    library.
+   *     library.
    */
   setBlockLibCategory(categoryXml, libBlockTypes) {
     /*
@@ -211,7 +217,7 @@ class WorkspaceController {
   /**
    * Return the block types used in the custom toolbox and pre-loaded workspace.
    * @return {!Array.<string>} Block types used in the custom toolbox and
-   *    pre-loaded workspace.
+   *     pre-loaded workspace.
    */
   getAllUsedBlockTypes() {
     /*
