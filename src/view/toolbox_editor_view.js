@@ -24,7 +24,7 @@
  * user's Blockly application. ToolboxView contains EventHandlers and popups (prompts,
  * etc.) necessary to create a toolbox.
  *
- * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class ToolboxEditorView {
   constructor(toolbox) {
