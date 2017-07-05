@@ -232,4 +232,26 @@ class WorkspaceController {
     //       used block types in a toolbox editor or just used block types in
     //       workspace editor.
   }
+
+  /**
+   * Extracts WorkspaceContents XML from user-uploaded file. XML should be between
+   * marked comments in uploaded file.
+   *
+   * @return {!Object.<string, string>} WorkspaceContents name to XML string pair.
+   */
+  extractWorkspaceContentsXml() {
+    let extractedWorkspaceContents = new Object();
+    extractedWorkspaceContents.name = '';
+    extractedWorkspaceContents.xmlString = '';
+
+    /*
+     * TODO: Move in from wfactory_generator.js:loadXml(jsFileContents, importMode)
+     *                    wfactory_generator.js:evaluateMarkedCode(code)
+     *
+     * References:
+     * - evaluateMarkedCode()
+     */
+
+    return extractedWorkspaceContents;
+  }
 }

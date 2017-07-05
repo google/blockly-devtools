@@ -83,7 +83,8 @@ class WorkspaceEditorView {
   loadImportedWorkspaceContents(wsContentsName, xmlString) {
     /*
      * TODO: Move in from wfactory_generator.js:loadXml(jsFileContents, importMode)
-     *       loadXml() is broken into two functions in refactored version.
+     *                    wfactory_generator.js:evaluateMarkedCode(code)
+     *       Note: loadXml() is broken into two functions in refactored version.
      *
      * References:
      * - evaluateMarkedCode()

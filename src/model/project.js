@@ -326,4 +326,20 @@ class Project extends Resource {
      */
     throw "unimplemented: getWorkspaceConfiguration";
   }
+
+  /**
+   * Generates a string representation of main inject file necessary to create
+   * a Blockly application.
+   * Auto-injects added toolbox into the inject function.
+   *
+   * @return {string} String representation of starter code for inject file.
+   */
+  generateInjectString() {
+    /*
+     * TODO: Move in from wfactory_generator.js:generateInjectString(toolboxXml)
+     *
+     * References:
+     * - N/A
+     */
+  }
 }

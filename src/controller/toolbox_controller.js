@@ -409,4 +409,26 @@ class ToolboxController {
      * - hasProcedures()
      */
   }
+
+  /**
+   * Extracts Toolbox XML from user-uploaded file. XML should be between marked
+   * comments in uploaded file.
+   *
+   * @return {!Object.<string, string>} Toolbox name to XML string pair.
+   */
+  extractToolboxXml() {
+    let extractedToolbox = new Object();
+    extractedToolbox.name = '';
+    extractedToolbox.xmlString = '';
+
+    /*
+     * TODO: Move in from wfactory_generator.js:loadXml(jsFileContents, importMode)
+     *                    wfactory_generator.js:evaluateMarkedCode(code)
+     *
+     * References:
+     * - evaluateMarkedCode()
+     */
+
+    return extractedToolbox;
+  }
 }
