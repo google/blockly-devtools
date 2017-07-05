@@ -166,7 +166,7 @@ class EditorController {
    * type.
    * @param {!Array.<!Element>} blockTypes Array of blocks that have been defined.
    * @return {!Array.<!Blockly.Block>} Array of Blockly.Block objects corresponding
-   *    to the array of blockTypes.
+   *     to the array of blockTypes.
    */
   addImportedBlocks(blockTypes) {
     /*
