@@ -67,15 +67,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all blockTypes.
    */
   getBlockTypes() {
-    var libraryController;
-    var libraries = this.libraries.getLibraryNames;
-    var blockTypes = [];
-    for (const libraryName of libraries) {
-      libraryController = this.libraries[libraryName];
-      blockTypes = blockTypes.concat(
-        libraryController.getStoredBlockTypes());
-    }
-    return blockTypes;
+    return this.libraries.getAllBlockTypes();
   }
 
   /**
