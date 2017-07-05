@@ -23,7 +23,7 @@
  * editor, where users group together blocks that were defined within BlockLibrary
  * as toolboxes for their desired Blockly application.
  *
- * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class ToolboxController {
   constructor(project) {
