@@ -194,4 +194,219 @@ class ToolboxController {
      * - moveTabToIndex()
      */
   }
+
+  /**
+   * Given a XML DOM tree, loads it into the toolbox editing area so that the
+   * user can continue editing their work. Assumes that tree is in valid toolbox
+   * XML format. Assumes that the mode is MODE_TOOLBOX.
+   * @param {!Element} tree XML tree to be loaded to toolbox editing area.
+   * @private
+   */
+  importToolboxFromTree_(tree) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - clearToolboxList()
+     * - clearToolboxTabs()
+     * - convertShadowBlocks()
+     * - view.addEmptyCategoryMessage()
+     * - createCategory()
+     * - setBorderColor()
+     * - switchElement()
+     * - updateState()
+     * - saveStateFromWorkspace()
+     * - setCategoryOptions()
+     * - generateNewOptions()
+     * - updatePreview()
+     */
+  }
+
+  /*
+   * Makes the currently selected block a user-generated shadow block. These
+   * blocks are not made into real shadow blocks, but recorded in the model
+   * and visually marked as shadow blocks, allowing the user to move and edit
+   * them (which would be impossible with actual shadow blocks). Updates the
+   * preview when done.
+   */
+  addShadow() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *       (Also moved into: workspace_controller.js)
+     *
+     * References:
+     * - addShadowForBlockAndChildren_()
+     * - saveStateFromWorkspace()
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Sets a block and all of its children to be user-generated shadow blocks,
+   * both in the model and view.
+   * @param {!Blockly.Block} block The block to be converted to a user-generated
+   *    shadow block.
+   * @private
+   */
+  addShadowForBlockAndChildren_(block) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - markShadowBlock()
+     * - addShadowBlock()
+     * - addShadowForBlockAndChildren_() (recursion)
+     */
+  }
+
+  /**
+   * If the currently selected block is a user-generated shadow block, this
+   * function makes it a normal block again, removing it from the list of
+   * shadow blocks and loading the workspace again. Updates the preview again.
+   */
+  removeShadow() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - removeShadowBlock()
+     * - unmarkShadowBlock()
+     * - saveStateFromWorkspace()
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Given a unique block ID, uses the model to determine if a block is a
+   * user-generated shadow block.
+   * @param {string} blockId The unique ID of the block to examine.
+   * @return {boolean} True if the block is a user-generated shadow block, false
+   *    otherwise.
+   */
+  isUserGenShadowBlock(blockId) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - isShadowBlock()
+     */
+  }
+
+  /**
+   * Call when importing XML containing real shadow blocks. This function turns
+   * all real shadow blocks loaded in the workspace into user-generated shadow
+   * blocks, meaning they are marked as shadow blocks by the model and appear as
+   * shadow blocks in the view but are still editable and movable.
+   */
+  convertShadowBlocks() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - isShadow()
+     * - setShadow()
+     * - addShadowBlock()
+     * - markShadowBlock()
+     */
+  }
+
+  /**
+   * Clears the toolbox workspace and loads XML to it, marking shadow blocks
+   * as necessary.
+   * @private
+   * @param {!Element} xml The XML to be loaded to the workspace.
+   */
+  clearAndLoadXml_(xml) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *       (Also moved into: workspace_controller.js)
+     *
+     * References:
+     * - markShadowBlocks()
+     * - warnForUndefinedBlocks_()
+     */
+  }
+
+  /**
+   * Imports blocks from a file, generating a category in the toolbox workspace
+   * to allow the user to use imported blocks in the toolbox and in pre-loaded
+   * blocks.
+   * @param {!File} file File object for the blocks to import.
+   * @param {string} format The format of the file to import, either 'JSON' or
+   *    'JavaScript'.
+   */
+  importBlocks(file, format) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - defineAndGetBlockTypes()
+     * - hasDefinedBlockTypes()
+     * - getDefinedBlocks()
+     * - addImportedBlockTypes()
+     * - clearAndLoadXml_()
+     */
+  }
+
+  /*
+   * Updates the block library category in the toolbox workspace toolbox.
+   * @param {!Element} categoryXml XML for the block library category.
+   * @param {!Array.<string>} libBlockTypes Array of block types from the block
+   *    library.
+   */
+  setBlockLibCategory(categoryXml, libBlockTypes) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *       (Also moved into: workspace_controller.js)
+     *
+     * References:
+     * - updateLibBlockTypes()
+     * - clearAndLoadXml_()
+     */
+  }
+
+  /**
+   * Return the block types used in the custom toolbox and pre-loaded workspace.
+   * @return {!Array.<string>} Block types used in the custom toolbox and
+   *    pre-loaded workspace.
+   */
+  getAllUsedBlockTypes() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *       (Also moved into: workspace_controller.js)
+     *
+     * References:
+     * - model.getAllUsedBlockTypes()
+     */
+
+    // TODO: Separate getAllUsedBlockTypes() so that it is restricted to just
+    //       used block types in a toolbox editor or just used block types in
+    //       workspace editor.
+  }
+
+  /*
+   * Determines if a standard variable category is in the custom toolbox.
+   * @return {boolean} True if a variables category is in use, false otherwise.
+   */
+  hasVariablesCategory() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - hasVariables()
+     */
+  }
+
+  /**
+   * Determines if a standard procedures category is in the custom toolbox.
+   * @return {boolean} True if a procedures category is in use, false otherwise.
+   */
+  hasProceduresCategory() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - hasProcedures()
+     */
+  }
 }
