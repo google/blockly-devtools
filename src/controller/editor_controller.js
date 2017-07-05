@@ -51,38 +51,13 @@ class EditorController {
      * @type {BlockLibraryController}
      */
     this.blockEditorController = new BlockEditorController(this.project);
-  }
 
-  /**
-   * Connected to the import button. Given the file path inputted by the user
-   * from file input, if the import mode is for the toolbox, this function loads
-   * that toolbox XML to the workspace, creating category and separator tabs as
-   * necessary. If the import mode is for pre-loaded blocks in the workspace,
-   * this function loads that XML to the workspace to be edited further. This
-   * function switches mode to whatever the import mode is. Catches errors from
-   * file reading and prints an error message alerting the user.
-   *
-   * @param {string} file The path for the file to be imported into the workspace.
-   *   Should contain valid toolbox XML.
-   * @param {string} importMode The mode corresponding to the type of file the
-   *   user is importing (WorkspaceFactoryController.MODE_TOOLBOX or
-   *   WorkspaceFactoryController.MODE_PRELOAD).
-   * @param {string} fileType The language that the user is importing the toolbox
-   *   or workspace in (WorkspaceFactoryController.MODE_JS or
-   *   WorkspaceFactoryController.MODE_XML).
-   */
-  importFile(file, importMode, fileType) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *       Update JSdoc.
-     *
-     * References:
-     * - setMode()
-     * - hasElements()
-     * - importToolboxFromTree_(tree)
-     * - importPreloadFromTree_(tree)
-     * - loadXml()
+    /**
+     * Controller object which is currently controlling the developer's application.
+     * Keeps track of which editor the user is on.
+     * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
+    this.currentEditor = null;
   }
 
   /**

@@ -79,8 +79,8 @@ class WorkspaceController {
    */
   reinjectPreview(tree) {
     /*
-     * Move in from wfactory_controller.js
-     * ALSO used in ToolboxController
+     * TODO: Move in from wfactory_controller.js
+     *       (ALSO used in ToolboxController)
      *
      * References:
      * - readOptions_()

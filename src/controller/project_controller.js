@@ -194,4 +194,32 @@ class ProjectController {
      * - createAndDownloadFile(fileName, data)
      */
   }
+
+  /**
+   * Imports and loads either (1) custom toolbox or (2) custom workspace contents
+   * into Project object. Catches errors from file reading and prints an error
+   * message alerting the user.
+   *
+   * @param {string} file The path for the file to be imported into the workspace.
+   *   Should contain valid toolbox XML.
+   * @param {string} importMode The mode corresponding to the type of file the
+   *   user is importing (WorkspaceFactoryController.MODE_TOOLBOX or
+   *   WorkspaceFactoryController.MODE_PRELOAD).
+   * @param {string} fileType The language that the user is importing the toolbox
+   *   or workspace in (WorkspaceFactoryController.MODE_JS or
+   *   WorkspaceFactoryController.MODE_XML).
+   */
+  importFile(file, importMode, fileType) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *       Update JSdoc.
+     *
+     * References:
+     * - setMode()
+     * - hasElements()
+     * - importToolboxFromTree_(tree)
+     * - importPreloadFromTree_(tree)
+     * - loadXml()
+     */
+  }
 }

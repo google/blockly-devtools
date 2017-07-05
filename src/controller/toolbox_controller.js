@@ -86,9 +86,9 @@ class ToolboxController {
   }
 
   /**
-   * Attached to "-" button. Checks if the user wants to delete
-   * the current category.  Removes the category and switches to another.
-   * When the last category is removed, it switches to a single flyout mode.
+   * Checks if the user wants to delete the current category. Removes the category
+   * and switches to another. When the last category is removed, it switches to
+   * a single flyout mode.
    */
   removeElement() {
     /*
@@ -131,8 +131,8 @@ class ToolboxController {
    */
   reinjectPreview(tree) {
     /*
-     * Move in from wfactory_controller.js
-     * ALSO used in WorkspaceController
+     * TODO: Move in from wfactory_controller.js
+     *       (ALSO used in workspace_controller.js)
      *
      * References:
      * - readOptions_()
