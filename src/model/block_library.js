@@ -186,4 +186,12 @@ class BlockLibrary extends Resource {
      */
     throw "unimplemented: setName";
   }
+
+  /**
+   * Gets the data necessary to export the library.
+   */
+  getExportData() {
+    //TODO: implement
+    throw "unimplemented: getExportData";
+  }
 }

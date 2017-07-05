@@ -19,10 +19,10 @@
  */
 
 /**
- * @fileoverview WorkspaceController manages user interaction with the
- * workspace configurations, which include (1) blocks that are pre-loaded onto a
- * developer's Blockly workspace, and (2) Blockly.Options which configure the
- * settings on a developer's workspace (e.g. trashcan, RTL/LTR, etc.).
+ * @class WorkspaceController manages user interaction with workspace contents
+ *     and configurations, which are the blocks pre-loaded onto a developer's
+ *     Blockly workspace and the Blockly.Options which configure the settings on
+ *     a developer's workspace (e.g. trashcan, RTL/LTR, etc.), respectively.
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */

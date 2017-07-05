@@ -98,4 +98,12 @@ class WorkspaceConfiguration extends Resource {
   saveToLocalStorage() {
     throw "unimplemented: saveFromLocalStorage";
   }
+
+  /**
+   * Gets the data necessary to export the workspace configuration.
+   */
+  getExportData() {
+    //TODO: implement
+    throw "unimplemented: getExportData";
+  }
 }

@@ -77,7 +77,7 @@ class ProjectController {
   }
 
   /**
-   * Creates new toolbox to this.project.
+   * Creates new toolbox to this.project's toolbox set.
    *
    * @param {!Toolbox} toolbox Toolbox object to add to project.
    */
@@ -86,7 +86,7 @@ class ProjectController {
   }
 
   /**
-   * Removes toolbox from this.project's toolboxList.
+   * Removes toolbox from this.project's toolbox set.
    *
    * @param {!Toolbox} toolbox Toolbox object to remove from project.
    */
@@ -95,7 +95,7 @@ class ProjectController {
   }
 
   /**
-   * Adds new WorkspaceContents to this.project.
+   * Adds new WorkspaceContents to this.project's workspace contents set.
    *
    * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
    *     add to project.
@@ -105,7 +105,7 @@ class ProjectController {
   }
 
   /**
-   * Removes WorkspaceContents object from this.project.
+   * Removes WorkspaceContents object from this.project's workspace contents set.
    *
    * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
    *     remove from project.
@@ -220,5 +220,12 @@ class ProjectController {
      * - importPreloadFromTree_(tree)
      * - loadXml()
      */
+  }
+
+  /**
+   * Exports the entire project.
+   */
+  exportProject() {
+    throw "unimplemented: exportProject";
   }
 }

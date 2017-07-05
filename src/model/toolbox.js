@@ -85,9 +85,9 @@ class Toolbox extends Resource {
    *
    * @returns {string} String representation of XML file to be exported.
    */
-  exportXml() {
+  getExportXml() {
     // TODO: Implement function.
-    console.log('exportXml() called.');
+    console.log('getExportXml() called.');
   }
 
   /**
@@ -122,5 +122,12 @@ class Toolbox extends Resource {
     throw "unimplemented: setName";
   }
 
+  /**
+   * Gets the data necessary to export the toolbox.
+   */
+  getExportData() {
+    //TODO: implement
+    throw "unimplemented: getExportData";
+  }
   //TODO: Create getters/has specified for nature of Toolbox
 }
