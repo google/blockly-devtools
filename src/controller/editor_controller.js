@@ -51,5 +51,62 @@ class EditorController {
      * @type {BlockLibraryController}
      */
     this.blockEditorController = new BlockEditorController(this.project);
+
+    /**
+     * Controller object which is currently controlling the developer's application.
+     * Keeps track of which editor the user is on.
+     * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
+     */
+    this.currentEditor = null;
+  }
+
+  /**
+   * Clears the editing area completely, deleting all categories and all
+   * blocks in the model and view and all pre-loaded blocks. Tied to the
+   * "Clear" button.
+   */
+  clearAll() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - clearToolboxList()
+     * - savePreloadXml()
+     * - savePreloadXml()
+     * - addEmptyCategoryMessage()
+     * - updateState()
+     * - saveStateFromWorkspace()
+     * - setCategoryOptions()
+     * - generateNewOptions()
+     * - updatePreview()
+     */
+  }
+
+  /**
+   * Determines if a block loaded in the workspace has a definition (if it
+   * is a standard block, is defined in the block library, or has a definition
+   * imported).
+   * @param {!Blockly.Block} block The block to examine.
+   */
+  isDefinedBlock(block) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - this.model.isDefinedBlockType(block.type);
+     */
+  }
+
+  /**
+   * Sets a warning on blocks loaded to the workspace that are not defined.
+   * @private
+   */
+  warnForUndefinedBlocks_() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - isDefinedBlock()
+     */
   }
 }
