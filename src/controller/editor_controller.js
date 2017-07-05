@@ -168,7 +168,7 @@ class EditorController {
    * @return {!Array.<!Blockly.Block>} Array of Blockly.Block objects corresponding
    *     to the array of blockTypes.
    */
-  addImportedBlocks(blockTypes) {
+  getDefinedBlocks(blockTypes) {
     /*
      * TODO: Move in from wfactory_generator.js:getDefinedBlocks()
      *
