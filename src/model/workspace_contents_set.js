@@ -22,5 +22,49 @@
  * @class WorkspacecontentsSet is a set of WorkspaceContents objects.
  */
 class WorkspaceContentsSet extends ResourceSet {
-  // TODO: add methods, fields, etc.
+  /**
+   * WorkspaceContentsSet Class.
+   * @param {string} workspaceContentsName Name of the workspace contents set.
+   * @param {string} projectName The name of the project the set belongs to.
+   *
+   * @constructor
+   */
+  constructor(workspaceContentsSetName, projectName) {
+    super(librarySetName, projectName, WorkspaceContents);
+  }
+
+  /**
+   * Adds a workspace contents object to the set.
+   * @param {string} workspaceContentsName The name of the workspace contents
+   *     to be added.
+   */
+  addWorkspaceContents(libraryName) {
+    super.addResource(libraryName);
+  }
+
+  /**
+   * Removes a workspace contents object from the set.
+   * @param {string} workspaceContentsName The name of the workspace contents
+   *     to be removed.
+   */
+  removeWorkspaceContents(workspaceContentsName) {
+    super.removeResource(libraryName);
+  }
+
+  /**
+   * Gets a workspace contents object contained within the set.
+   * @param {string} workspaceContentsName The workspace contents to be returned.
+   * @return {!Object} The workspace contents, or null if they're not in the set.
+   */
+  getWorkspaceContents(workspaceContentsName) {
+    return super.getResource(workspaceContentsName);
+  }
+
+  /**
+   * Gets the names of all workspace contents contained within the set.
+   * @return {Array.<string>} The names of all workspace contents in the set.
+   */
+  getWorkspaceContentsNames() {
+    super.getResourceNames();
+  }
 }
