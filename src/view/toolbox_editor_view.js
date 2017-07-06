@@ -276,8 +276,6 @@ class ToolboxEditorView {
 
   /**
    * Initialize the color picker in workspace factory.
-   * @param {!FactoryController} controller The controller for the workspace
-   *     factory tab.
    * @private
    */
   initColorPicker_() {
@@ -292,26 +290,7 @@ class ToolboxEditorView {
   }
 
   /**
-   * Converts from h,s,v values to a hex string
-   * @param {number} h Hue, in [0, 360].
-   * @param {number} s Saturation, in [0, 1].
-   * @param {number} v Value, in [0, 1].
-   * @return {string} hex representation of the color.
-   * @private
-   */
-  hsvToHex_(h, s, v) {
-    /*
-     * TODO: Move in from wfactory_init.js
-     *
-     * References: N/A
-     */
-    throw 'Unimplemented: hsvToHex_()';
-  }
-
-  /**
    * Assign click handlers for Toolbox editor.
-   * @param {!FactoryController} controller The controller for the workspace
-   *     factory tab.
    * @private
    */
   initClickHandlers_() {
@@ -324,8 +303,6 @@ class ToolboxEditorView {
 
   /**
    * Add event listeners for Toolbox editor.
-   * @param {!FactoryController} controller The controller for the workspace
-   *     factory tab.
    * @private
    */
   initEventListeners_() {
