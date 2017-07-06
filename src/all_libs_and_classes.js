@@ -39,10 +39,10 @@
   newScript('lib/blocks_compressed.js');
   newScript('closure-library/closure/goog/base.js');  // Must be after Blockly
   newScript('src/factory_utils.js');
-  newScript('src/workspacefactory/list_element.js');
-  newScript('src/standard_categories.js');
+  newScript('src/list_element.js');
+  newScript('res/standard_categories.js');
   newScript('src/workspacefactory/wfactory_model.js');
-  newScript('src/devtools_toolboxes.js');
+  newScript('res/devtools_toolboxes.js');
   newScript('src/workspacefactory/wfactory_controller.js');
   newScript('src/workspacefactory/wfactory_generator.js');
 })();
