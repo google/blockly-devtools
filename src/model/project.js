@@ -62,7 +62,7 @@ class Project extends Resource {
   }
 
   /**
-   * Returns an array of all blocks in the project.
+   * Returns an array of all blocks types in the project.
    * @return {!Array.<string>} Array of all blockTypes.
    */
   getBlockTypes() {
@@ -154,19 +154,19 @@ class Project extends Resource {
   }
 
   /**
-   * Adds a workspace to the project.
-   * @return {!Workspace} workspace The workspace to be added.
+   * Adds named workspace contents to the project.
+   * @param {string} workspaceContentsName The workspace contents to be added.
    */
-  addWorkspaceContents(workspaceContemts) {
-    this.workspaces[workspace.name] = workspace;
+  addWorkspaceContents(workspaceContentsName) {
+    this.workspaceContents.addWorkspaceContents(workspaceContentsName);
   }
 
   /**
-   * Adds a workspace to the project.
-   * @return {!Workspace} workspace The workspace to be added.
+   * Adds a workspace configuration to the project.
+   * @param {string} workspaceConfigName The workspace configuration to be added.
    */
-  addWorkspaceConfiguration(workspaceConfig) {
-    this.workspaces[workspace.name] = workspace;
+  addWorkspaceConfiguration(workspaceConfigName) {
+    this.workspaceConfigs.addWorkspaceConfiguration(workspaceConfigName);
   }
 
   /**

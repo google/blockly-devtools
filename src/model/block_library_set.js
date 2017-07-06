@@ -71,7 +71,7 @@ class BlockLibrarySet extends ResourceSet {
    * @return {Array.<string>} The block types contained across all libraries in
    *     the set.
    */
-   getAllBlockTypes(){
+   getAllBlockTypes() {
     throw "unimplemented: getAllBlockTypes";
    }
 
