@@ -89,6 +89,7 @@ class ToolboxEditorView {
      * - generateNewOptions()
      * - updatePreview()
      */
+    throw 'Unimplemented: transferFlyoutBlocksToCategory()';
   }
 
   /**
@@ -105,6 +106,7 @@ class ToolboxEditorView {
      * - getSelectedId()
      * - clearAndLoadElement(id)
      */
+    throw 'Unimplemented: switchElement()';
   }
 
   /**
@@ -124,6 +126,7 @@ class ToolboxEditorView {
      * - setCategoryTabSelection(id, true)
      * - updateState()
      */
+    throw 'Unimplemented: clearAndLoadElement()';
   }
 
   /**
@@ -145,6 +148,7 @@ class ToolboxEditorView {
      * - reinjectPreview(tree)
      * - generateWorkspaceXml()
      */
+    throw 'Unimplemented: updatePreview()';
   }
 
   /**
@@ -164,6 +168,7 @@ class ToolboxEditorView {
      * - setBorderColor()
      * - updatePreview()
      */
+    throw 'Unimplemented: changeSelectedCategoryColor()';
   }
 
   /**
@@ -178,6 +183,7 @@ class ToolboxEditorView {
      * - isStandardCategoryName(name)
      * - loadCategoryByName(name)
      */
+    throw 'Unimplemented: loadCategory()';
   }
 
   /**
@@ -205,6 +211,7 @@ class ToolboxEditorView {
      * - generateNewOptions()
      * - updatePreview()
      */
+    throw 'Unimplemented: loadCategoryByName()';
   }
 
   /**
@@ -219,6 +226,7 @@ class ToolboxEditorView {
      * - loadCategoryByName()
      * - addSeparator()
      */
+    throw 'Unimplemented: loadStandardToolbox()';
   }
 
   /**
@@ -236,5 +244,24 @@ class ToolboxEditorView {
     // TODO: Investigate if this function is necessary at all. Possibly delete.
     //       (This method was never called in DevTools)
     throw 'Unimplemented: getShadowBlocksInWorkspace()';
+  }
+
+  /**
+   * Displays imported Toolbox recently added to model onto editor view.
+   *
+   * @param {string} toolboxName Name of toolbox that was imported.
+   * @param {string} xmlString String representation of XML of recently imported
+   *     toolbox.
+   */
+  loadImportedToolbox(toolboxName, xmlString) {
+    /*
+     * TODO: Move in from wfactory_generator.js:loadXml(jsFileContents, importMode)
+     *                    wfactory_generator.js:evaluateMarkedCode(code)
+     *       Note: loadXml() is broken into two functions in refactored version.
+     *
+     * References:
+     * - evaluateMarkedCode()
+     */
+    throw 'Unimplemented: loadImportedToolbox()';
   }
 }

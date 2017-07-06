@@ -352,6 +352,7 @@ class Toolbox extends Resource {
   }
 
   /**
+<<<<<<< HEAD
    * Removes a shadow block ID from the list of shadow block IDs if that ID is
    * in the list.
    * @param {string} blockId The unique ID of block to be removed.
@@ -383,25 +384,24 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Generates JavaScript string representation of toolbox for user to download.
-   * Does not deal with popups or file system access; just generates content.
+   * Generates XML DOM element of Toolbox.
    *
-   * @returns {string} String representation of JS file to be exported.
+   * @returns {!Element} XML DOM element of this Toolbox.
    */
-  exportJs() {
-    // TODO: Implement function.
-    throw 'Unimplemented: exportJs()';
-  }
-
-  /**
-   * Generates XML string representation of toolbox for user to download. Does
-   * not deal with popups or file system access; just generates content.
-   *
-   * @returns {string} String representation of XML file to be exported.
-   */
-  exportXml() {
-    // TODO: Implement function.
-    throw 'Unimplemented: exportXml()';
+  getExportData() {
+    /*
+     * TODO: Move in from wfactory_generator.js:generateToolboxXml()
+     *
+     * References:
+     * - hasElements()
+     * - loadToHiddenWorkspace_()
+     * - appendHiddenWorkspaceToDom_()
+     * - getSelected()
+     * - getSelectedXml()
+     * - getToolboxList()
+     * - ListElement
+     */
+    throw "unimplemented: getExportData()";
   }
 
   /**

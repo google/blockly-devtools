@@ -72,6 +72,17 @@ class AppView {
           ['Toolbox', () => { this.importToolbox(); }],
           ['Workspace', () => { this.importWorkspace(); }]
         ]],
+        ['Export', [
+          ['Project', () => { this.exportProject(); }],
+          ['Current', [
+            ['Library', () => { this.exportCurrentLibrary(); }],
+            ['Toolbox', () => { this.exportCurrentToolbox(); }],
+            ['Workspace Contents',
+              () => { this.exportCurrentWorkspaceContents(); }],
+            ['Workspace Configuration',
+              () => { this.exportCurrentWorkspaceConfiguration(); }]
+            ]]
+        ]]
         ['Create Application for Web', () => { this.createWeb(); }]
       ]],
       ['Edit', []],
@@ -199,6 +210,41 @@ class AppView {
    */
   createWeb() {
     // TODO: Fill in action.
+  }
+
+  /**
+   * Calls response to selecting export project in menu.
+   */
+  exportProject() {
+    console.warn("unimplemented: AppView.exportProject()");
+  }
+
+  /**
+   * Calls response to selecting export current library in menu.
+   */
+  exportCurrentLibrary() {
+    console.warn("unimplemented: AppView.exportCurrentLibrary()");
+  }
+
+  /**
+   * Calls response to selecting export current toolbox in menu.
+   */
+  exportCurrentToolbox() {
+    console.warn("unimplemented: AppView.exportCurrentToolbox()");
+  }
+
+  /**
+   * Calls response to selecting export current workspace contents in menu.
+   */
+  exportCurrentWorkspaceContents() {
+    console.warn("unimplemented: AppView.exportCurrentWorkspaceContents()");
+  }
+
+  /**
+   * Calls response to selecting export current workspace configuration in menu.
+   */
+  exportCurrentWorkspaceConfiguration() {
+    console.warn("unimplemented: AppView.exportCurrentWorkspaceConfiguration()");
   }
 
   /**
