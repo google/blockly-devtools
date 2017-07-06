@@ -69,25 +69,24 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Generates JavaScript string representation of toolbox for user to download.
-   * Does not deal with popups or file system access; just generates content.
+   * Generates XML DOM element of Toolbox.
    *
-   * @returns {string} String representation of JS file to be exported.
+   * @returns {!Element} XML DOM element of this Toolbox.
    */
-  exportJs() {
-    // TODO: Implement function.
-    console.log('exportJs() called.');
-  }
-
-  /**
-   * Generates XML string representation of toolbox for user to download. Does
-   * not deal with popups or file system access; just generates content.
-   *
-   * @returns {string} String representation of XML file to be exported.
-   */
-  exportXml() {
-    // TODO: Implement function.
-    console.log('exportXml() called.');
+  getExportData() {
+    /*
+     * TODO: Move in from wfactory_generator.js:generateToolboxXml()
+     *
+     * References:
+     * - hasElements()
+     * - loadToHiddenWorkspace_()
+     * - appendHiddenWorkspaceToDom_()
+     * - getSelected()
+     * - getSelectedXml()
+     * - getToolboxList()
+     * - ListElement
+     */
+    throw "unimplemented: getExportData()";
   }
 
   /**
@@ -120,15 +119,6 @@ class Toolbox extends Resource {
      * References: N/A
      */
     throw "unimplemented: setName";
-  }
-
-  /**
-   * Gets the data necessary to export the toolbox.
-   * @return {!Object} The data needed to export the toolbox.
-   */
-  getExportData() {
-    //TODO: implement
-    throw "unimplemented: getExportData";
   }
   //TODO: Create getters/has specified for nature of Toolbox
 }
