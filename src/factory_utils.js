@@ -1075,6 +1075,23 @@ FactoryUtils.isStandardCategoryName = function(name) {
 };
 
 /**
+ * Converts from h,s,v values to a hex string
+ * @param {number} h Hue, in [0, 360].
+ * @param {number} s Saturation, in [0, 1].
+ * @param {number} v Value, in [0, 1].
+ * @return {string} hex representation of the color.
+ * @private
+ */
+FactoryUtils.hsvToHex_ = function(h, s, v) {
+  /*
+   * TODO: Move in from wfactory_init.js
+   *
+   * References: N/A
+   */
+  throw 'Unimplemented: hsvToHex_()';
+}
+
+/**
  * Used to bind a click to a certain DOM element (used for category tabs).
  * Taken directly from code.js
  * @param {string|!Element} e1 Tab element or corresponding ID string.
