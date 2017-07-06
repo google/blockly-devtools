@@ -50,10 +50,10 @@ class WorkspaceEditorView {
           spacing: 25,
           length: 3,
           colour: '#ccc',
-          snap: true},
-          media: 'media/',
-          toolbox: DevToolsToolboxes.toolboxEditor('')
-        }
+          snap: true
+        },
+        media: 'media/',
+        toolbox: DevToolsToolboxes.toolboxEditor('')
       });
 
     /**
@@ -66,10 +66,10 @@ class WorkspaceEditorView {
           spacing: 25,
           length: 3,
           colour: '#ccc',
-          snap: true},
-          media: 'media/',
-          toolbox: '<xml></xml>'
-        }
+          snap: true
+        },
+        media: 'media/',
+        toolbox: '<xml></xml>'
       });
   }
 
@@ -90,5 +90,15 @@ class WorkspaceEditorView {
      * - evaluateMarkedCode()
      */
     throw 'Unimplemented: loadImportedWorkspaceContents()';
+  }
+
+  /**
+   * Resets WorkspaceConfig checkboxes to default settings.
+   */
+  initBaseConfigs() {
+    /*
+     * TODO: Move in from wfactory_view.js:setBaseOptions()
+     */
+    throw 'Unimplemented: initBaseConfigs()';
   }
 }

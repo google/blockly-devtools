@@ -1073,3 +1073,36 @@ FactoryUtils.addEscape = function(string) {
 FactoryUtils.isStandardCategoryName = function(name) {
   return name.toLowerCase() in StandardCategories.categoryMap;
 };
+
+/**
+ * Used to bind a click to a certain DOM element (used for category tabs).
+ * Taken directly from code.js
+ * @param {string|!Element} e1 Tab element or corresponding ID string.
+ * @param {!Function} func Function to be executed on click.
+ */
+FactoryUtils.bindClick = function(el, func) {
+  if (typeof el == 'string') {
+    el = document.getElementById(el);
+  }
+  el.addEventListener('click', func, true);
+  el.addEventListener('touchend', func, true);
+};
+
+/**
+ * Creates a file and downloads it. In some browsers downloads, and in other
+ * browsers, opens new tab with contents.
+ * @param {string} filename Name of file
+ * @param {!Blob} data Blob containing contents to download
+ */
+WorkspaceFactoryView.prototype.createAndDownloadFile = function(filename, data) {
+  var clickEvent = new MouseEvent('click', {
+    'view': window,
+    'bubbles': true,
+    'cancelable': false
+  });
+  var a = document.createElement('a');
+  a.href = window.URL.createObjectURL(data);
+  a.download = filename;
+  a.textContent = 'Download file!';
+  a.dispatchEvent(clickEvent);
+};
