@@ -67,6 +67,7 @@ class WorkspaceController {
      * - getPreloadXml()
      * - savePreloadXml()
      */
+    throw 'Unimplemented: saveState()';
   }
 
   /**
@@ -86,6 +87,7 @@ class WorkspaceController {
      * - readOptions_()
      * - generateWorkspaceXml()
      */
+    throw 'Unimplemented: reinjectPreview()';
   }
 
   /**
@@ -104,6 +106,7 @@ class WorkspaceController {
      * - savePreloadXml()
      * - updatePreview()
      */
+    throw 'Unimplemented: importContentsFromTree_()';
   }
 
   /*
@@ -123,6 +126,7 @@ class WorkspaceController {
      * - saveStateFromWorkspace()
      * - updatePreview()
      */
+    throw 'Unimplemented: addShadow()';
   }
 
   /**
@@ -140,6 +144,7 @@ class WorkspaceController {
      * - markShadowBlocks()
      * - warnForUndefinedBlocks_()
      */
+    throw 'Unimplemented: clearAndLoadXml_()';
   }
 
   /**
@@ -157,6 +162,7 @@ class WorkspaceController {
      * - hasElements()
      * - generateNewOptions()
      */
+    throw 'Unimplemented: setStandardOptionsAndUpdate()';
   }
 
   /**
@@ -180,6 +186,7 @@ class WorkspaceController {
     //       creating a new WorkspaceConfig object in completion, or when user
     //       clicks on an already defined WorkspaceConfig object in list.
     //       See Design Doc for more info.
+    throw 'Unimplemented: generateNewOptions()';
   }
 
   /**
@@ -195,6 +202,7 @@ class WorkspaceController {
      * References:
      * - user input (no other relevant DevTools fcn's)
      */
+    throw 'Unimplemented: readOptions_()';
   }
 
   /*
@@ -212,6 +220,7 @@ class WorkspaceController {
      * - updateLibBlockTypes()
      * - clearAndLoadXml_()
      */
+    throw 'Unimplemented: setBlockLibCategory()';
   }
 
   /**
@@ -231,15 +240,18 @@ class WorkspaceController {
     // TODO: Separate getAllUsedBlockTypes() so that it is restricted to just
     //       used block types in a toolbox editor or just used block types in
     //       workspace editor.
+    throw 'Unimplemented: getAllUsedBlockTypes()';
   }
 
   /**
    * Extracts WorkspaceContents XML from user-uploaded file. XML should be between
    * marked comments in uploaded file.
    *
+   * @param {string} fileContents String representation of JavaScript code in user-imported
+   *     file.
    * @return {!Object.<string, string>} WorkspaceContents name to XML string pair.
    */
-  extractWorkspaceContentsXml() {
+  extractWorkspaceContentsXml(fileContents) {
     let extractedWorkspaceContents = new Object();
     extractedWorkspaceContents.name = '';
     extractedWorkspaceContents.xmlString = '';
@@ -252,7 +264,7 @@ class WorkspaceController {
      * - evaluateMarkedCode()
      */
 
-    return extractedWorkspaceContents;
+    throw 'Unimplemented: extractWorkspaceContentsXml()';
   }
 
   /**
@@ -270,6 +282,6 @@ class WorkspaceController {
      * [NEW] this.generateXml()
      * [NEW] this.name
      */
-    console.log('generateJsFileContents() called from WorkspaceController.');
+    throw 'Unimplemented: generateJsFileContents()';
   }
 }

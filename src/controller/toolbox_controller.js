@@ -65,6 +65,7 @@ class ToolboxController {
      * - generateNewOptions()
      * - updatePreview()
      */
+    throw 'Unimplemented: addCategory()';
   }
 
   /**
@@ -83,6 +84,7 @@ class ToolboxController {
      * - addCategoryRow()
      * - addClickToSwitch()
      */
+    throw 'Unimplemented: createCategory()';
   }
 
   /**
@@ -105,6 +107,7 @@ class ToolboxController {
      * - createDefaultSelectedIfEmpty()
      * - updatePreview()
      */
+    throw 'Unimplemented: removeElement()';
   }
 
   /**
@@ -120,6 +123,7 @@ class ToolboxController {
      * References:
      * - hasCategoryByName(name)
      */
+    throw 'Unimplemented: promptForNewCategoryName()';
   }
 
   /**
@@ -138,6 +142,7 @@ class ToolboxController {
      * - readOptions_()
      * - generateWorkspaceXml()
      */
+    throw 'Unimplemented: reinjectPreview()';
   }
 
   /**
@@ -155,6 +160,7 @@ class ToolboxController {
      * - updateCategoryName(newName, this.model.getSelectedId())
      * - updatePreview()
      */
+    throw 'Unimplemented: changeCategoryName()';
   }
 
   /**
@@ -176,6 +182,7 @@ class ToolboxController {
      * - updateState()
      * - updatePreview()
      */
+    throw 'Unimplemented: moveElement()';
   }
 
   /**
@@ -193,6 +200,7 @@ class ToolboxController {
      * - moveElementToIndex()
      * - moveTabToIndex()
      */
+    throw 'Unimplemented: moveElementToIndex()';
   }
 
   /**
@@ -220,6 +228,7 @@ class ToolboxController {
      * - generateNewOptions()
      * - updatePreview()
      */
+    throw 'Unimplemented: importToolboxFromTree_()';
   }
 
   /*
@@ -239,6 +248,7 @@ class ToolboxController {
      * - saveStateFromWorkspace()
      * - updatePreview()
      */
+    throw 'Unimplemented: addShadow()';
   }
 
   /**
@@ -257,6 +267,7 @@ class ToolboxController {
      * - addShadowBlock()
      * - addShadowForBlockAndChildren_() (recursion)
      */
+     throw 'Unimplemented: addShadowForBlockAndChildren_()';
   }
 
   /**
@@ -274,6 +285,7 @@ class ToolboxController {
      * - saveStateFromWorkspace()
      * - updatePreview()
      */
+     throw 'Unimplemented: removeShadow()';
   }
 
   /**
@@ -290,6 +302,7 @@ class ToolboxController {
      * References:
      * - isShadowBlock()
      */
+     throw 'Unimplemented: isUserGenShadowBlock()';
   }
 
   /**
@@ -308,6 +321,7 @@ class ToolboxController {
      * - addShadowBlock()
      * - markShadowBlock()
      */
+     throw 'Unimplemented: convertShadowBlocks()';
   }
 
   /**
@@ -325,6 +339,7 @@ class ToolboxController {
      * - markShadowBlocks()
      * - warnForUndefinedBlocks_()
      */
+    throw 'Unimplemented: clearAndLoadXml_()';
   }
 
   /**
@@ -346,6 +361,7 @@ class ToolboxController {
      * - addImportedBlockTypes()
      * - clearAndLoadXml_()
      */
+    throw 'Unimplemented: importBlocks()';
   }
 
   /*
@@ -363,6 +379,7 @@ class ToolboxController {
      * - updateLibBlockTypes()
      * - clearAndLoadXml_()
      */
+    throw 'Unimplemented: setBlockLibCategory()';
   }
 
   /**
@@ -382,6 +399,7 @@ class ToolboxController {
     // TODO: Separate getAllUsedBlockTypes() so that it is restricted to just
     //       used block types in a toolbox editor or just used block types in
     //       workspace editor.
+    throw 'Unimplemented: getAllUsedBlockTypes()';
   }
 
   /*
@@ -395,6 +413,7 @@ class ToolboxController {
      * References:
      * - hasVariables()
      */
+    throw 'Unimplemented: hasVariablesCategory()';
   }
 
   /**
@@ -408,15 +427,17 @@ class ToolboxController {
      * References:
      * - hasProcedures()
      */
+     throw 'Unimplemented: hasProceduresCategory()';
   }
 
   /**
    * Extracts Toolbox XML from user-uploaded file. XML should be between marked
    * comments in uploaded file.
    *
+   * @param {string} fileContents Contents of JS file uploaded by user.
    * @return {!Object.<string, string>} Toolbox name to XML string pair.
    */
-  extractToolboxXml() {
+  extractToolboxXml(fileContents) {
     let extractedToolbox = new Object();
     extractedToolbox.name = '';
     extractedToolbox.xmlString = '';
@@ -428,8 +449,7 @@ class ToolboxController {
      * References:
      * - evaluateMarkedCode()
      */
-
-    return extractedToolbox;
+     throw 'Unimplemented: extractToolboxXml()';
   }
 
   /**
@@ -447,13 +467,13 @@ class ToolboxController {
      * - [NEW] this.generateXml()
      * - [NEW] this.name
      */
-    console.log('generateJsFileContents() called from ToolboxController.');
+    throw 'Unimplemented: generateJsFileContents()';
   }
 
   /**
    * Exports the toolbox.
    */
   exportToolbox() {
-    throw "unimplemented: exportToolbox";
+    throw 'Unimplemented: exportToolbox()';
   }
 }
