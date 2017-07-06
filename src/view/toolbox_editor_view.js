@@ -228,23 +228,20 @@ class ToolboxEditorView {
   }
 
   /**
-   * If categories already exist, adds a separator to the model and view.
-   * Does not switch to select the separator, and updates the preview.
+   * Given a set of blocks currently loaded, returns all blocks in the workspace
+   * that are user generated shadow blocks.
+   * @param {!<Blockly.Block>} blocks Array of blocks currently loaded.
+   * @return {!<Blockly.Block>} Array of user-generated shadow blocks currently
+   *   loaded.
    */
-  addSeparator() {
+  getShadowBlocksInWorkspace() {
     /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - transferFlyoutBlocksToCategory()
-     * - ListElement
-     * - addElementToList()
-     * - addSeparatorTab()
-     * - addClickToSwitch()
-     * - switchElement()
-     * - updatePreview()
+     * TODO: Move in from wfactory_model.js
      */
-    throw 'Unimplemented: addSeparator()';
+
+    // TODO: Investigate if this function is necessary at all. Possibly delete.
+    //       (This method was never called in DevTools)
+    throw 'Unimplemented: getShadowBlocksInWorkspace()';
   }
 
   /**

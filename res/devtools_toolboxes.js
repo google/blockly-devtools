@@ -337,6 +337,7 @@ DevToolsToolboxes.toolboxEditor = function(blockLibraryXml) {
   </category>
 </xml>
 `;
+  // TODO: Allow adding multiple libraries.
 };
 
 /**

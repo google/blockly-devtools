@@ -378,7 +378,7 @@ WorkspaceFactoryModel.prototype.addCustomTag = function(category, tag) {
  * @param {!Element} xml The XML to be saved.
  */
 WorkspaceFactoryModel.prototype.savePreloadXml = function(xml) {
-  this.preloadXml = xml
+  this.preloadXml = xml;
 };
 
 /**
