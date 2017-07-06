@@ -30,7 +30,7 @@ class Resource {
    */
   constructor(resourceName) {
     /**
-     * The name of the workspace contents.
+     * The name of the resource.
      * @type {string}
      */
      this.name = resourceName;
