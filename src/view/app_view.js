@@ -74,7 +74,7 @@ class AppView {
         ]],
         ['Export', [
           ['Project', () => { this.exportProject(); }],
-          ['Current...', [
+          ['Current', [
             ['Library', () => { this.exportCurrentLibrary(); }],
             ['Toolbox', () => { this.exportCurrentToolbox(); }],
             ['Workspace Contents',
@@ -216,7 +216,7 @@ class AppView {
    * Calls response to selecting export project in menu.
    */
   exportProject(){
-
+    // TODO: Fill in action.
   }
 
   /**
