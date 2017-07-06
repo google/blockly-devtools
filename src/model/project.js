@@ -19,7 +19,6 @@
  */
 
  //TODO #50: change methods for metadata
- //TODO #44: differentiate Project and ProjectController for refactor
 
 /**
  * @class Project is a collection of one or more libraries along with
@@ -30,7 +29,7 @@
  */
 class Project extends Resource {
   /**
-   * Represents a user's collection of Libraries, toolboxes, and workspaces.
+   * Project Class.
    * @param {string} projectName The desired name of project.
    * @constructor
    */
@@ -41,160 +40,135 @@ class Project extends Resource {
      */
     super(projectName);
     /**
-     * Dictionary mapping libary names to library controllers.
-     * @type {!Object<string, !BlockLibraryController>}
+     * The libraries in the project.
+     * @type {!BlockLibrarySet}
      */
-    this.libraries = {};
+    this.librarySet = new BlockLibrarySet();
     /**
-     * Dictionary mapping toolbox names to toolbox controllers.
-     * @type {!Object<string, !Toolbox>}
+     * The toolboxes in the project.
+     * @type {!ToolboxSet}
      */
-    this.toolboxes = {};
+    this.toolboxSet = new ToolboxSet();
     /**
-     * Dictionary mapping workspace names to workspace controllers.
-     * @type {!Object<string, !Workspace>}
+     * The workspace contents in the project.
+     * @type {!WorkspaceContentsSet}
      */
-    this.workspaceBlocks = {};
+    this.workspaceContentsSet = new WorkspaceContentsSet();
     /**
-     * The current BlockLibraryController being accessed.
-     * @type {!BlockLibraryController}
+     * The workspace configurations in the project.
+     * @type {!WorkspaceConfigurationsSet}
      */
-    this.currentLibrary = null;
-    /**
-     * The current Toolbox being accessed.
-     * @type {!Toolbox}
-     */
-    this.currentToolbox = null;
-    // TODO #54: rename this structure
-    /**
-     * The current Workspace being accessed.
-     * @type {!Workspace}
-     */
-    this.currentWorkspace = null;
+    this.workspaceConfigSet = new WorkspaceConfigurationsSet();
   }
 
   /**
-   * Returns an array of all blocks in the project.
-   * @return {!Array.<string>} Array of all blockTypes.
+   * Returns an array of all blocks types in the project.
+   * @return {!Array.<string>} Array of all block types in the project.
    */
   getBlockTypes() {
-    var libraryController;
-    var libraries = Object.keys(this.libraries);
-    var blockTypes = [];
-    for (const libraryName of libraries) {
-      libraryController = this.libraries[libraryName];
-      blockTypes = blockTypes.concat(
-        libraryController.getStoredBlockTypes());
-    }
-    return blockTypes;
+    return this.librarySet.getAllBlockTypes();
   }
 
   /**
    * Returns an array of all BlockLibraryController names (for storage).
-   * @return {!Array.<string>} Array of all library names
+   * @return {!Array.<string>} Array of all library names.
    */
   getLibraryNames() {
-    return Object.keys(this.libraries);
+    return this.librarySet.getLibraryNames();
   }
 
   /**
    * Returns an array of all toolbox names (for storage).
-   * @return {!Array.<string>} Array of all toolbox names
+   * @return {!Array.<string>} Array of all toolbox names.
    */
   getToolboxNames() {
-    return Object.keys(this.toolboxes);
+    return this.toolboxSet.getToolboxNames();
   }
 
   /**
-   * Returns an array of all workspace names (for storage).
-   * @return {!Array.<string>} Array of all workspace names
+   * Returns an array of all workspace contents names (for storage).
+   * @return {!Array.<string>} Array of all workspace contents names.
    */
-  getWorkspaceNames() {
-    return Object.keys(this.workspaces);
+  getWorkspaceContentsNames() {
+    return this.workspaceContentsSet.getWorkspaceNames();
   }
 
   /**
-   * Checks whether or not a given Toolbox, Workspace, or Library is contained
-   *   in the project.
-   * @param {!Object} component The Toolbox, Workspace, or
-   *    BlockLibraryController which may or may not be in the project.
-   * @param {!Array.<string>} componentArray The array of Library, Toolbox, or
-   *    Workspace names to check.
+   * Returns an array of all workspace configuration names (for storage).
+   * @return {!Array.<string>} Array of all workspace configuration names.
    */
-  hasComponent(component, componentArray) {
-    var componentName = component.name;
-    return componentArray.includes(component.name);
+  getWorkspaceConfigurationNames() {
+    return this.workspaceConfigSet.getWorkspaceConfigurationNames();
   }
 
   /**
-   * Sets the current library.
-   * @param {!BlockLibraryController} library The library to be set.
+   * Checks whether or not a given Toolbox, WorkspaceContents,
+   *     WorkspaceConfiguration or BlockLibrary is in the project.
+   * @param {string} componentType The type of component to be searched for:
+   *     BlockLibrary, Toolbox, Workspacecontents, or WorkspaceConfiguration.
+   * @param {string} componentName The name of the component to be found.
+   * @throws Will throw an error if the componentType is invalid, i.e. not
+   *     "BlockLibrary", "Toolbox", "WorkspaceContents", or
+   *     "WorkspaceConfiguration".
    */
-  setCurrentLibrary(library) {
-    if (this.hasComponent(library, this.getLibraryNames())) {
-      this.currentLibrary = this.libraries[library.name];
+  hasComponent(componentType, componentName) {
+    if (componentType === "BlockLibrary") {
+      return this.librarySet.has(componentName);
+    }
+    if (componentType === "Toolbox") {
+      return this.toolboxSet.has(componentName);
+    }
+    if (componentType === "WorkspaceContents") {
+      return this.workspaceContentsSet.has(componentName);
+    }
+    if (componentType === "WorkspaceConfiguration") {
+      return this.workspaceConfigSet.has(componentName);
     } else {
-      this.addLibrary(library);
-      this.currentLibrary = library;
+      throw "hasComponent: invalid componentType";
     }
   }
 
   /**
-   * Sets the current toolbox.
-   * @param {!Toolbox} toolbox The toolbox to be set.
+   * Adds a block to the project by adding it to the named block library.
+   * @param {!BlockDefinition} blockDefinition The block definition to add to
+   *     the project.
+   * @param {string} libraryName The name of the library to add the block to.
    */
-  setCurrentToolbox(toolbox) {
-    if (this.hasComponent(toolbox, this.getToolboxNames())) {
-      this.currentToolbox = this.toolboxes[toolbox.name];
-    } else {
-      this.addToolbox(toolbox);
-      this.currentToolbox = toolbox;
-    }
-  }
-
-  /**
-   * Sets the current workspace.
-   * @param {!Workspace} workspace The workspace to be set.
-   */
-  setCurrentWorkspace(workspace) {
-    if (this.hasComponent(workspace, this.getWorkspaceNames())) {
-      this.currentWorkspace = this.workspaces[workspace.name];
-    } else {
-      this.addWorkspace(workspace);
-      this.currentWorkspace = workspace;
-    }
-  }
-
-  /**
-   * Adds a block to the project, by adding it to the current library.
-   * @param {string} blockType The name of the block to be added.
-   */
-  addBlockToProject(blockType) {
-    throw "unimplemented: addBlockToProject";
+  addBlockToProject(libraryName, blockDefinition) {
+    this.librarySet.addBlockToLibrary(libraryName, blockDefinition);
   }
 
   /**
    * Adds a library to the project.
-   * @param {!BlockLibraryController} library The library to be added.
+   * @param {string} libraryName The name of the library to be added.
    */
-  addLibrary(library) {
-    this.libraries[library.name] = library;
+  addLibrary(libraryName) {
+    this.librarySet.addLibrary(libraryName);
   }
 
   /**
    * Adds a toolbox to the project.
-   * @param {!Toolbox} toolbox The toolbox to be added.
+   * @param {string} toolboxName The name of the toolbox to be added.
    */
-  addToolbox(toolbox) {
-    this.toolboxes[toolbox.name] = toolbox;
+  addToolbox(toolboxName) {
+    this.toolboxSet.addToolbox(toolbox);
   }
 
   /**
-   * Adds a workspace to the project.
-   * @return {!Workspace} workspace The workspace to be added.
+   * Adds named workspace contents to the project.
+   * @param {string} workspaceContentsName The name of the workspace contents to
+   *     be added.
    */
-  addWorkspace(workspace) {
-    this.workspaces[workspace.name] = workspace;
+  addWorkspaceContents(workspaceContentsName) {
+    this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
+  }
+
+  /**
+   * Adds a workspace configuration to the project.
+   * @param {string} workspaceConfigName The workspace configuration to be added.
+   */
+  addWorkspaceConfiguration(workspaceConfigName) {
+    this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
   }
 
   /**
