@@ -90,9 +90,8 @@ class Toolbox extends Resource {
    * @param {string} newName New name of toolbox.
    */
   setName(newName) {
-    console.log('setName() called!');
     // TODO: Implement function.
-    throw "unimplemented: setName";
+    throw "Unimplemented: setName()";
   }
 
   /**

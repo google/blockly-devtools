@@ -44,6 +44,35 @@ class ToolboxController {
      * @type {!ToolboxEditorView}
      */
     this.view = new ToolboxEditorView(this.currentToolbox);
+
+    /**
+     * Keeps track of association between ListElement ID and the DOM element
+     * of that ListElement in the view.
+     * @type {!Object.<!ListElement, !Element>}
+     */
+    this.categoryTabs = {};
+  }
+
+  /**
+   * Updates the preview workspace based on the toolbox workspace. If switching
+   * from no categories to categories or categories to no categories, reinjects
+   * Blockly with reinjectPreview, otherwise just updates without reinjecting.
+   * Called whenever a list element is created, removed, or modified and when
+   * Blockly move and delete events are fired. Do not call on create events
+   * or disabling will cause the user to "drop" their current blocks. Make sure
+   * that no changes have been made to the workspace since updating the model
+   * (if this might be the case, call saveStateFromWorkspace).
+   */
+  updatePreview() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - generateToolboxXml()
+     * - reinjectPreview(tree)
+     * - generateWorkspaceXml()
+     */
+    throw 'Unimplemented: updatePreview()';
   }
 
   /**
@@ -53,6 +82,7 @@ class ToolboxController {
   addCategory() {
     /*
      * TODO: Move in from wfactory_controller.js
+     *          Also from wfactory_view.js:addCategoryRow(name, id)
      *
      * References:
      * - transferFlyoutBlocksToCategory()
@@ -66,6 +96,17 @@ class ToolboxController {
      * - updatePreview()
      */
     throw 'Unimplemented: ToolboxController.addCategory()';
+  }
+
+  /**
+   * Removes all categories and separators in the view. Clears categoryTabs to
+   * reflect this.
+   */
+  clearToolbox() {
+    /**
+     * TODO: Move in from wfactory_view.js:clearTabs()
+     */
+    throw 'Unimplemented: clearToolbox()';
   }
 
   /**
@@ -95,6 +136,7 @@ class ToolboxController {
   removeElement() {
     /*
      * TODO: Move in from wfactory_controller.js
+     *          Also from wfactory_view.js:deleteElementRow(id, index)
      *
      * References:
      * - getSelected()
@@ -116,6 +158,7 @@ class ToolboxController {
   addCategorySeparator() {
     /*
      * TODO: Move in from wfactory_controller.js:addSeparator()
+     *          Also from from wfactory_view.js:addSeparatorTab(id)
      *
      * References:
      * - transferFlyoutBlocksToCategory()
@@ -170,6 +213,7 @@ class ToolboxController {
   changeCategoryName() {
     /*
      * TODO: Move in from wfactory_controller.js
+     *          Also from wfactory_view.js:updateCategoryName(name, id)
      *
      * References:
      * - getSelected()
@@ -191,6 +235,7 @@ class ToolboxController {
   moveElement(offset) {
     /*
      * TODO: Move in from wfactory_controller.js
+     *          Also from wfactory_view.js:moveTabToIndex(id, newIndex, oldIndex)
      *
      * References:
      * - getSelected()
@@ -343,8 +388,30 @@ class ToolboxController {
   }
 
   /**
+   * Switches to a new tab for the element by ID. Helper for switchElement.
+   * Updates selected, clears the workspace and clears undo, loads a new element.
+   * @param {string} id ID of category to load.
+   */
+  clearAndLoadElement(id) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - getSelectedId()
+     * - setCategoryTabSelection()
+     * - clearAndLoadXml_()
+     * - getSelectedXml()
+     * - setCategoryTabSelection(id, true)
+     * - updateState()
+     * - markShadowBlocks()
+     * - warnForUndefinedBlocks_()
+     */
+    throw 'Unimplemented: clearAndLoadElement()';
+  }
+
+  /**
    * Clears the toolbox workspace and loads XML to it, marking shadow blocks
-   * as necessary.
+   * as necessary. Helper function of clearAndLoadElement().
    * @private
    * @param {!Element} xml The XML to be loaded to the workspace.
    */
@@ -380,6 +447,25 @@ class ToolboxController {
      * - clearAndLoadXml_()
      */
     throw 'Unimplemented: importBlocks()';
+  }
+
+  /**
+   * Displays imported Toolbox recently added to model onto editor view.
+   *
+   * @param {string} toolboxName Name of toolbox that was imported.
+   * @param {string} xmlString String representation of XML of recently imported
+   *     toolbox.
+   */
+  loadImportedToolbox(toolboxName, xmlString) {
+    /*
+     * TODO: Move in from wfactory_generator.js:loadXml(jsFileContents, importMode)
+     *                    wfactory_generator.js:evaluateMarkedCode(code)
+     *       Note: loadXml() is broken into two functions in refactored version.
+     *
+     * References:
+     * - evaluateMarkedCode()
+     */
+    throw 'Unimplemented: loadImportedToolbox()';
   }
 
   /*
@@ -419,6 +505,64 @@ class ToolboxController {
     //       used block types in a toolbox editor or just used block types in
     //       workspace editor.
     throw 'Unimplemented: getAllUsedBlockTypes()';
+  }
+
+  /**
+   * Prompts user for name of a standard Blockly category (case insensitive),
+   * loads it as a new category, and switches to it. Leverages StandardCategories.
+   */
+  loadCategory() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - isStandardCategoryName(name)
+     * - loadCategoryByName(name)
+     */
+    throw 'Unimplemented: loadCategory()';
+  }
+
+  /**
+   * Loads a Standard Category by name and switches to it. Leverages
+   * StandardCategories. Does nothing if cannot load standard category.
+   * @param {string} name Name of the standard category to load.
+   */
+  loadCategoryByName(name) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - isStandardCategoryName(name)
+     * - hasVariables()
+     * - hasProcedures()
+     * - hasCategoryByName(standardCategory.name)
+     * - transferFlyoutBlocksToCategory()
+     * - hasElements()
+     * - addElementToList()
+     * - addClickToSwitch()
+     * - setBorderColor()
+     * - convertShadowBlocks()
+     * - saveStateFromWorkspace()
+     * - setCategoryOptions()
+     * - generateNewOptions()
+     * - updatePreview()
+     */
+    throw 'Unimplemented: loadCategoryByName()';
+  }
+
+  /**
+   * Loads the standard Blockly toolbox into the editing space. Should only
+   * be called when the mode is set to toolbox.
+   */
+  loadStandardToolbox() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - loadCategoryByName()
+     * - addSeparator()
+     */
+    throw 'Unimplemented: loadStandardToolbox()';
   }
 
   /*
@@ -494,5 +638,187 @@ class ToolboxController {
    */
   exportToolbox() {
     throw 'Unimplemented: exportToolbox()';
+  }
+
+  /**
+   * Adds a help message to emphasize empty toolbox. Shown when starting with empty
+   * Toolbox or when user manually deletes all categories in their Toolbox.
+   */
+  addEmptyToolboxMessage() {
+    /*
+     * TODO: Move in from wfactory_view.js:addEmptyCategoryMessage()
+     */
+    throw 'Unimplemented: addEmptyToolboxMessage()';
+  }
+
+  /**
+   * Enables/disables ListElement buttons (add, remove, move up/down) depending
+   * on what ListElement is currently selected.
+   * Called when adding or removing elements, or when changing/swapping to new
+   * element.
+   *
+   * @param {number} selectedIndex The index of the currently selected category,
+   *     -1 if no categories created.
+   * @param {ListElement} selected The selected ListElement.
+   */
+  updateElementButtons(selectedIndex, selected) {
+    /*
+     * TODO: Move in wfactory_view.js:updateState()
+     */
+    throw 'Unimplemented: updateElementButtons()';
+  }
+
+  /**
+   * Determines the DOM ID for a category given its name.
+   * @param {string} name Name of category
+   * @return {string} ID of category tab
+   */
+  createCategoryIdName(name) {
+    // Moved in from wfactory_view.js
+    return 'tab_' + name;
+  }
+
+  /**
+   * Switches a tab on or off.
+   * @param {string} id ID of the tab to switch on or off.
+   * @param {boolean} selected True if tab should be on, false if tab should be
+   *     off.
+   */
+  setCategoryTabSelection(id, selected) {
+    /*
+     * TODO: Move in from wfactory_view.js
+     */
+    throw 'Unimplemented: setCategoryTabSelection()';
+  }
+
+  /**
+   * Disables or enables the workspace by putting a div over or under the
+   * toolbox workspace, depending on the value of disable. Used when switching
+   * to/from separators where the user shouldn't be able to drag blocks into
+   * the workspace.
+   *
+   * @param {boolean} disable True if the workspace should be disabled, false
+   *     if it should be enabled.
+   */
+  disableEditorWorkspace(disable) {
+    /*
+     * TODO: Move in from wfactory_view.js:disableWorkspace(disable)
+     */
+    throw 'Unimplemented: disableEditorWorkspace()';
+  }
+
+  /**
+   * Transfers the blocks in the user's flyout to a new category if
+   * the user is creating their first category and their workspace is not
+   * empty. Should be called whenever it is possible to switch from single flyout
+   * to categories (not including importing).
+   */
+  transferFlyoutBlocksToCategory() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - hasElements()
+     * - createCategory()
+     * - getCategoryIdByName()
+     * - setSelectedById()
+     * - setCategoryTabSelection()
+     * - setCategoryOptions()
+     * - generateNewOptions()
+     * - updatePreview()
+     */
+    throw 'Unimplemented: transferFlyoutBlocksToCategory()';
+  }
+
+  /**
+   * Switches to a new tab for the element given by ID. Stores XML and blocks
+   * to reload later, updates selected accordingly, and clears the workspace
+   * and clears undo, then loads the new element.
+   * @param {string} id ID of tab to be opened, must be valid element ID.
+   */
+  switchElement(id) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - getSelectedId()
+     * - clearAndLoadElement(id)
+     */
+    throw 'Unimplemented: switchElement()';
+  }
+
+  /**
+   * Changes the color of the selected category. Does nothing if the selected
+   * element is a separator.
+   * @param {string} color The color to change the selected category. Must be
+   *     a valid CSS string.
+   */
+  changeSelectedCategoryColor(color) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - getSelected()
+     * - ListElement
+     * - changeColor(color)
+     * - setBorderColor()
+     * - updatePreview()
+     */
+    throw 'Unimplemented: changeSelectedCategoryColor()';
+  }
+
+  /**
+   * Given a category ID and color, use that color to color the left border of the
+   * tab for that category.
+   * @param {string} id The ID of the category to color.
+   * @param {string} color Hex color to be used for tab border. Must be valid
+   *     CSS string.
+   */
+  setBorderColor(id, color) {
+    // TODO: Move in from wfactory_view.js
+    throw 'Unimplemented: setBorderColor()';
+  }
+
+  /**
+   * Given a set of blocks currently loaded user-generated shadow blocks, visually
+   * marks them without making them actual shadow blocks (allowing them to still
+   * be editable and movable).
+   * @param {!Array.<!Blockly.Block>} blocks Array of user-generated shadow blocks
+   *     currently loaded.
+   */
+  markShadowBlocks(blocks) {
+    /*
+     * TODO: Move in from wfactory_view.js:markShadowBlocks(blocks)
+     *           and from wfactory_view.js:markShadowBlock(block)
+     */
+    throw 'Unimplemented: markShadowBlocks()';
+  }
+
+  /**
+   * Removes visual marking for a shadow block given a rendered block.
+   * @param {!Blockly.Block} block The block that should be unmarked as a shadow
+   *     block (must be rendered).
+   */
+  unmarkShadowBlock(block) {
+    /*
+     * TODO: Move in from wfactory_view.js
+     */
+  }
+
+  /**
+   * Given a set of blocks currently loaded, returns all blocks in the workspace
+   * that are user generated shadow blocks.
+   * @param {!<Blockly.Block>} blocks Array of blocks currently loaded.
+   * @return {!<Blockly.Block>} Array of user-generated shadow blocks currently
+   *     loaded.
+   */
+  getShadowBlocksInWorkspace() {
+    /*
+     * TODO: Move in from wfactory_model.js
+     */
+
+    // TODO: Investigate if this function is necessary at all. Possibly delete.
+    //       (This method was never called in DevTools)
+    throw 'Unimplemented: getShadowBlocksInWorkspace()';
   }
 }
