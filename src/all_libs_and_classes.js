@@ -38,8 +38,8 @@
   newScript('msg/js/en.js');
   newScript('lib/blocks_compressed.js');
   newScript('closure-library/closure/goog/base.js');  // Must be after Blockly
-  newScript('res/factory_utils.js');
-  newScript('res/list_element.js');
+  newScript('src/factory_utils.js');
+  newScript('src/list_element.js');
   newScript('res/standard_categories.js');
   newScript('src/workspacefactory/wfactory_model.js');
   newScript('res/devtools_toolboxes.js');
