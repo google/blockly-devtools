@@ -438,7 +438,7 @@ class ToolboxController {
    * @return {!Object.<string, string>} Toolbox name to XML string pair.
    */
   extractToolboxXml(fileContents) {
-    let extractedToolbox = new Object();
+    let extractedToolbox = {};
     extractedToolbox.name = '';
     extractedToolbox.xmlString = '';
 

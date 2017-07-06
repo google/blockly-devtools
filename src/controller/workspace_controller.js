@@ -252,7 +252,7 @@ class WorkspaceController {
    * @return {!Object.<string, string>} WorkspaceContents name to XML string pair.
    */
   extractWorkspaceContentsXml(fileContents) {
-    let extractedWorkspaceContents = new Object();
+    let extractedWorkspaceContents = {};
     extractedWorkspaceContents.name = '';
     extractedWorkspaceContents.xmlString = '';
 
