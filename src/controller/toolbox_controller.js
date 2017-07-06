@@ -65,7 +65,7 @@ class ToolboxController {
      * - generateNewOptions()
      * - updatePreview()
      */
-    throw 'Unimplemented: addCategory()';
+    throw 'Unimplemented: ToolboxController.addCategory()';
   }
 
   /**
@@ -84,7 +84,7 @@ class ToolboxController {
      * - addCategoryRow()
      * - addClickToSwitch()
      */
-    throw 'Unimplemented: createCategory()';
+    throw 'Unimplemented: ToolboxController.createCategory()';
   }
 
   /**
@@ -107,7 +107,25 @@ class ToolboxController {
      * - createDefaultSelectedIfEmpty()
      * - updatePreview()
      */
-    throw 'Unimplemented: removeElement()';
+    throw 'Unimplemented: ToolboxController.removeElement()';
+  }
+
+  /**
+   * Adds category separator to current Toolbox.
+   */
+  addCategorySeparator() {
+    /*
+     * TODO: Move in from wfactory_controller.js:addSeparator()
+     *
+     * References:
+     * - transferFlyoutBlocksToCategory()
+     * - ListElement
+     * - addElementToList()
+     * - addSeparatorTab()
+     * - switchElement()
+     * - updatePreview()
+     */
+    throw 'Unimplemented: ToolboxController.addCategorySeparator()';
   }
 
   /**
@@ -390,6 +408,7 @@ class ToolboxController {
   getAllUsedBlockTypes() {
     /*
      * TODO: Move in from wfactory_controller.js
+     *       Also move in from wfactory_model.js
      *       (Also moved into: workspace_controller.js)
      *
      * References:

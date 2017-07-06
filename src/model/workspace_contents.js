@@ -35,6 +35,12 @@ class WorkspaceContents extends Resource {
      * References: N/A
      */
      super(workspaceContentsName);
+
+     /**
+      * XML DOM element of this workspace contents.
+      * @type {!Element}
+      */
+     this.xml = Blockly.Xml.textToDom('<xml></xml>');
   }
 
   /**
@@ -50,6 +56,24 @@ class WorkspaceContents extends Resource {
      * - addBlock(blockType, blockXML)
      */
     throw "unimplemented: addBlock";
+  }
+
+  /**
+   * Sets XML of this instance of WorkspaceContents to given XML DOM element.
+   * @param {!Element} xml XML DOM element to set.
+   */
+  setXml(xml) {
+    // Moved in from wfactory_model.js:savePreloadXml(xml)
+    this.xml = xml;
+  }
+
+  /**
+   * Gets XML DOM element associated with this WorkspaceContents.
+   * @return {!Element} XML DOM element of this WorkspaceContents.
+   */
+  getXml() {
+    // Moved in from wfactory_model.js:getPreloadXml()
+    return this.xml;
   }
 
   /**
