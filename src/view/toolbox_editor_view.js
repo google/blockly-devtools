@@ -89,6 +89,7 @@ class ToolboxEditorView {
      * - generateNewOptions()
      * - updatePreview()
      */
+    throw 'Unimplemented: transferFlyoutBlocksToCategory()';
   }
 
   /**
@@ -105,6 +106,7 @@ class ToolboxEditorView {
      * - getSelectedId()
      * - clearAndLoadElement(id)
      */
+    throw 'Unimplemented: switchElement()';
   }
 
   /**
@@ -124,6 +126,7 @@ class ToolboxEditorView {
      * - setCategoryTabSelection(id, true)
      * - updateState()
      */
+    throw 'Unimplemented: clearAndLoadElement()';
   }
 
   /**
@@ -145,6 +148,7 @@ class ToolboxEditorView {
      * - reinjectPreview(tree)
      * - generateWorkspaceXml()
      */
+    throw 'Unimplemented: updatePreview()';
   }
 
   /**
@@ -164,6 +168,7 @@ class ToolboxEditorView {
      * - setBorderColor()
      * - updatePreview()
      */
+    throw 'Unimplemented: changeSelectedCategoryColor()';
   }
 
   /**
@@ -178,6 +183,7 @@ class ToolboxEditorView {
      * - isStandardCategoryName(name)
      * - loadCategoryByName(name)
      */
+    throw 'Unimplemented: loadCategory()';
   }
 
   /**
@@ -205,6 +211,7 @@ class ToolboxEditorView {
      * - generateNewOptions()
      * - updatePreview()
      */
+    throw 'Unimplemented: loadCategoryByName()';
   }
 
   /**
@@ -219,6 +226,7 @@ class ToolboxEditorView {
      * - loadCategoryByName()
      * - addSeparator()
      */
+    throw 'Unimplemented: loadStandardToolbox()';
   }
 
   /**
@@ -238,6 +246,7 @@ class ToolboxEditorView {
      * - switchElement()
      * - updatePreview()
      */
+    throw 'Unimplemented: addSeparator()';
   }
 
   /**
@@ -256,5 +265,6 @@ class ToolboxEditorView {
      * References:
      * - evaluateMarkedCode()
      */
+    throw 'Unimplemented: loadImportedToolbox()';
   }
 }

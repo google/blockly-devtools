@@ -80,6 +80,7 @@ class EditorController {
      * - generateNewOptions()
      * - updatePreview()
      */
+    throw 'Unimplemented: clearAll()';
   }
 
   /**
@@ -95,6 +96,7 @@ class EditorController {
      * References:
      * - this.model.isDefinedBlockType(block.type);
      */
+    throw 'Unimplemented: isDefinedBlock()';
   }
 
   /**
@@ -108,6 +110,7 @@ class EditorController {
      * References:
      * - isDefinedBlock()
      */
+    throw 'Unimplemented: warnForUndefinedBlocks_()';
   }
 
   /**
@@ -128,6 +131,7 @@ class EditorController {
 
     // TODO: Investigate if there is a better method than using hidden workspaces
     //       for grabbing Block XML information.
+    throw 'Unimplemented: loadToHiddenWorkspace_()';
   }
 
   /**
@@ -144,6 +148,7 @@ class EditorController {
      * References:
      * - hiddenWorkspace (@type {!Blockly.Workspace})
      */
+    throw 'Unimplemented: appendHiddenWorkspaceToDom_()';
   }
 
   /**
@@ -159,6 +164,7 @@ class EditorController {
      * References:
      * - isShadowBlock()
      */
+    throw 'Unimplemented: setShadowBlocksInHiddenWorkspace_()';
   }
 
   /**
@@ -178,5 +184,6 @@ class EditorController {
 
     // TODO: Remove this function, since block definitions should only be imported
     //       via the block library.
+    throw 'Unimplemented: getDefinedBlocks()';
   }
 }

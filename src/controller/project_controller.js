@@ -83,6 +83,7 @@ class ProjectController {
    */
   addToolbox(toolbox) {
     // TODO: Implement
+    throw 'Unimplemented: addToolbox()';
   }
 
   /**
@@ -92,6 +93,7 @@ class ProjectController {
    */
   removeToolbox(toolboxName) {
     // TODO: Implement
+    throw 'Unimplemented: removeToolbox()';
   }
 
   /**
@@ -102,6 +104,7 @@ class ProjectController {
    */
   addWorkspaceContents(workspaceContents) {
     // TODO: Implement
+    throw 'Unimplemented: addWorkspaceContents()';
   }
 
   /**
@@ -112,6 +115,7 @@ class ProjectController {
    */
   removeWorkspaceContents(workspaceContents) {
     // TODO: Implement
+    throw 'Unimplemented: removeWorkspaceContents()';
   }
 
   /**
@@ -123,6 +127,7 @@ class ProjectController {
    */
   addWorkspaceOptions(workspaceOptions) {
     // TODO: Implement
+    throw 'Unimplemented: addWorkspaceOptions()';
   }
 
   /**
@@ -133,6 +138,7 @@ class ProjectController {
    */
   removeWorkspaceOptions(workspaceOptions) {
     // TODO: Implement
+    throw 'Unimplemented: removeWorkspaceOptions()';
   }
 
   /**
@@ -143,6 +149,7 @@ class ProjectController {
    */
   addBlockLibrary(blockLibraryName) {
     // TODO: Implement
+    throw 'Unimplemented: addBlockLibrary()';
   }
 
   /**
@@ -152,6 +159,7 @@ class ProjectController {
    */
   removeBlockLibrary(blockLibraryName) {
     // TODO: Implement
+    throw 'Unimplemented: removeBlockLibrary()';
   }
 
   /**
@@ -172,6 +180,7 @@ class ProjectController {
      * - generateWorkspaceXml()
      * - createAndDownloadFile(fileName, data)
      */
+    throw 'Unimplemented: exportXmlFile()';
   }
 
   /**
@@ -193,6 +202,7 @@ class ProjectController {
      * - generateJsFromXml()
      * - createAndDownloadFile(fileName, data)
      */
+    throw 'Unimplemented: exportJsFile()';
   }
 
   /**
@@ -220,6 +230,7 @@ class ProjectController {
      * - importPreloadFromTree_(tree)
      * - loadXml()
      */
+    throw 'Unimplemented: importFile()';
   }
 
   /**
@@ -236,6 +247,7 @@ class ProjectController {
      * References:
      * - N/A
      */
+    throw 'Unimplemented: generateInjectString()';
   }
 
   /**
