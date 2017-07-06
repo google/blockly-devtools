@@ -224,9 +224,9 @@ class ToolboxEditorView {
   getShadowBlocksInWorkspace() {
     /*
      * TODO: Move in from wfactory_model.js
-     *
-     * References:
-     * -
      */
+
+    // TODO: Investigate if this function is necessary at all. Possibly delete.
+    //       (This method was never called in DevTools)
   }
 }

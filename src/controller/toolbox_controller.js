@@ -390,6 +390,7 @@ class ToolboxController {
   getAllUsedBlockTypes() {
     /*
      * TODO: Move in from wfactory_controller.js
+     *       Also move in from wfactory_model.js
      *       (Also moved into: workspace_controller.js)
      *
      * References:

@@ -36,6 +36,20 @@ class WorkspaceConfiguration extends Resource {
      * References: N/A
      */
      super(workspaceConfigName);
+
+     /**
+      * Options object to be configured for Blockly inject call.
+      */
+     this.options = new Object(null);
+  }
+
+  /**
+   * Sets a new options object for injecting a Blockly workspace.
+   * @param {Object} options Options object for injecting a Blockly workspace.
+   */
+  setOptions(options) {
+    // Moved in from wfactory_model.js
+    this.options = options;
   }
 
   /**

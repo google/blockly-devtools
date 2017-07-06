@@ -290,6 +290,22 @@ class Toolbox extends Resource {
   }
 
   /**
+   * Adds a custom tag to a category, updating state variables accordingly.
+   * Only accepts 'VARIABLE' and 'PROCEDURE' tags.
+   * @param {!ListElement} category The category to add the tag to.
+   * @param {string} tag The custom tag to add to the category.
+   */
+  addCustomTag(category, tag) {
+    /*
+     * TODO: Move in from wfactory_model.js
+     *
+     * References:
+     * - this.hasVariablesCategory
+     * - this.hasProcedureCategory
+     */
+  }
+
+  /**
    * Creates a single empty category if there are no categories left in toolbox.
    * Called when user manually removes all categories in a toolbox. Sets this.selected
    * field to point to the empty category.

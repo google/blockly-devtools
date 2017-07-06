@@ -250,8 +250,8 @@ class Project extends Resource {
   }
 
   /**
-   * Returns boolean of whether or not a given blockType is stored in the
-   *     project.
+   * Returns boolean of whether or not a given blockType is defined in a block
+   *     library in this Project.
    * @param {string} blockType Type of block.
    * @return {boolean} Whether or not blockType is stored in block library.
    */
