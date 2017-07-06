@@ -195,4 +195,13 @@ class BlockLibrary extends Resource {
     //TODO: implement
     throw "unimplemented: getExportData";
   }
+
+  /**
+   * Gets the JSON object necessary to represent the library in the navigation
+   *     tree.
+   * @return {!Object} The tree-specific JSON representation of the library.
+   */
+  getTreeJson() {
+    throw "unimplemented: getTreeJson";
+  }
 }

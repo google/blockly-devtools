@@ -172,16 +172,26 @@ class Project extends Resource {
   }
 
   /**
-   * Returns current block library mapping block type to XML.
-   * @return {!Object<string, Element>} Object mapping block type to XML text.
+   * Returns a map of all block types in the project to their definitions.
+   * @return {!Object<string, BlockDefinition>} Map of all block types to their
+   *     definitions.
    */
-  getBlockLibraryXmlMap() {
-    return this.currentLibrary.storage.getBlockXmlTextMap();
+  getAllBlockDefinitionsMap() {
+    return this.librarySet.getAllBlockDefinitionsMap();
+  }
+
+  /**
+   * Returns a map of all block types in a named library to their definitions.
+   * @param {string} libraryName The name of the library to get the map from.
+   * @return {!Object<string, BlockDefinition>} Map of the library's block types
+   *     to their definitions.
+   */
+  getLibraryBlockDefinitionMap(libraryName) {
+    return this.librarySet.getBlockDefinitionsMap(libraryName);
   }
 
   /**
    * Removes block currently being edited from project.
-   *
    */
   removeBlockFromProject() {
     this.currentLibrary.removeFromBlockLibrary();
@@ -308,5 +318,14 @@ class Project extends Resource {
   getExportData() {
     //TODO: implement
     throw "unimplemented: getExportData";
+  }
+
+  /**
+   * Gets the JSON object necessary to represent the project in the navigation
+   *     tree.
+   * @return {!Object} The tree-specific JSON representation of the project.
+   */
+  getTreeJson() {
+    throw "unimplemented: getTreeJson";
   }
 }
