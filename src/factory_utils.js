@@ -1073,3 +1073,20 @@ FactoryUtils.addEscape = function(string) {
 FactoryUtils.isStandardCategoryName = function(name) {
   return name.toLowerCase() in StandardCategories.categoryMap;
 };
+
+/**
+ * Converts from h,s,v values to a hex string
+ * @param {number} h Hue, in [0, 360].
+ * @param {number} s Saturation, in [0, 1].
+ * @param {number} v Value, in [0, 1].
+ * @return {string} hex representation of the color.
+ * @private
+ */
+FactoryUtils.hsvToHex_ = function(h, s, v) {
+  /*
+   * TODO: Move in from wfactory_init.js
+   *
+   * References: N/A
+   */
+  throw 'Unimplemented: hsvToHex_()';
+};

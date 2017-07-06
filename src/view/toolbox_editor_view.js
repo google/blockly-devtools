@@ -65,9 +65,18 @@ class ToolboxEditorView {
         media: 'media/',
         toolbox: '<xml></xml>'
       });
-  }
 
-  // TODO: Add functions.
+    // Initialize editor view
+    this.initColorPicker_();
+    this.initClickHandlers_();
+    this.initEventListeners_();
+
+    // Disable category editing buttons until categories are created.
+    document.getElementById('button_remove').disabled = true;
+    document.getElementById('button_up').disabled = true;
+    document.getElementById('button_down').disabled = true;
+    document.getElementById('button_editCategory').disabled = true;
+  }
 
   /**
    * Transfers the blocks in the user's flyout to a new category if
@@ -234,7 +243,7 @@ class ToolboxEditorView {
    * that are user generated shadow blocks.
    * @param {!<Blockly.Block>} blocks Array of blocks currently loaded.
    * @return {!<Blockly.Block>} Array of user-generated shadow blocks currently
-   *   loaded.
+   *     loaded.
    */
   getShadowBlocksInWorkspace() {
     /*
@@ -263,5 +272,68 @@ class ToolboxEditorView {
      * - evaluateMarkedCode()
      */
     throw 'Unimplemented: loadImportedToolbox()';
+  }
+
+  /**
+   * Initialize the color picker in Toolbox editor.
+   * @private
+   */
+  initColorPicker_() {
+    /*
+     * TODO: Move in from wfactory_init.js:initColorPicker_(controller)
+     *
+     * References:
+     * - hsvToHex_()
+     * - changeSelectedCategoryColor()
+     */
+    throw 'Unimplemented: initColorPicker_()';
+  }
+
+  /**
+   * Assign click handlers for Toolbox editor.
+   * @private
+   */
+  initClickHandlers_() {
+    /*
+     * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+     *       (Also moved into workspace_editor_view.js)
+     */
+     throw 'Unimplemented: initClickHandlers_()';
+  }
+
+  /**
+   * Add event listeners for Toolbox editor.
+   * @private
+   */
+  initEventListeners_() {
+    /*
+     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
+     *       (Also moved into workspace_editor_view.js)
+     */
+    throw 'Unimplemented: initEventListeners_()';
+  }
+
+  /**
+   * Display or hide the add shadow button.
+   * @param {boolean} show True if the add shadow button should be shown, false
+   *     otherwise.
+   */
+  displayAddShadow_(show) {
+    /*
+     * TODO: Move in from wfactory_init.js
+     */
+    throw 'Unimplemented: displayAddShadow_()';
+  }
+
+  /**
+   * Display or hide the remove shadow button.
+   * @param {boolean} show True if the remove shadow button should be shown, false
+   *     otherwise.
+   */
+  displayRemoveShadow_(show) {
+    /*
+     * TODO: Move in from wfactory_model.js
+     */
+    throw 'Unimplemented: displayRemoveShadow_()';
   }
 }

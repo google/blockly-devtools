@@ -91,4 +91,39 @@ class WorkspaceEditorView {
      */
     throw 'Unimplemented: loadImportedWorkspaceContents()';
   }
+
+  /**
+   * Assign click handlers for Workspace editor.
+   * @private
+   */
+  initClickHandlers_() {
+    /*
+     * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+     *       (Also moved into toolbox_editor_view.js)
+     */
+     throw 'Unimplemented: initClickHandlers_()';
+  }
+
+  /**
+   * Add event listeners for Workspace editor.
+   * @private
+   */
+  initEventListeners_() {
+    /*
+     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
+     *       (Also moved into toolbox_editor_view.js)
+     */
+    throw 'Unimplemented: initEventListeners_()';
+  }
+
+  /**
+   * Add listeners for Workspace editor input elements. Used for creating/editing
+   * WorkspaceConfig objects.
+   * @private
+   */
+  initConfigListeners_() {
+    /*
+     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryOptionsListeners_()
+     */
+  }
 }
