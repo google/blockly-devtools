@@ -1083,13 +1083,61 @@ FactoryUtils.isStandardCategoryName = function(name) {
  * @private
  */
 FactoryUtils.hsvToHex_ = function(h, s, v) {
-  /*
-   * TODO: Move in from wfactory_init.js
-   *
-   * References: N/A
-   */
-  throw 'Unimplemented: hsvToHex_()';
-}
+  // Moved in from wfactory_init.js
+  var brightness = v * 255;
+  var red = 0;
+  var green = 0;
+  var blue = 0;
+  if (s == 0) {
+    red = brightness;
+    green = brightness;
+    blue = brightness;
+  } else {
+    var sextant = Math.floor(h / 60);
+    var remainder = (h / 60) - sextant;
+    var val1 = brightness * (1 - s);
+    var val2 = brightness * (1 - (s * remainder));
+    var val3 = brightness * (1 - (s * (1 - remainder)));
+    switch (sextant) {
+      case 1:
+        red = val2;
+        green = brightness;
+        blue = val1;
+        break;
+      case 2:
+        red = val1;
+        green = brightness;
+        blue = val3;
+        break;
+      case 3:
+        red = val1;
+        green = val2;
+        blue = brightness;
+        break;
+      case 4:
+        red = val3;
+        green = val1;
+        blue = brightness;
+        break;
+      case 5:
+        red = brightness;
+        green = val1;
+        blue = val2;
+        break;
+      case 6:
+      case 0:
+        red = brightness;
+        green = val3;
+        blue = val1;
+        break;
+    }
+  }
+
+  var hexR = ('0' + Math.floor(red).toString(16)).slice(-2);
+  var hexG = ('0' + Math.floor(green).toString(16)).slice(-2);
+  var hexB = ('0' + Math.floor(blue).toString(16)).slice(-2);
+  return '#' + hexR + hexG + hexB;
+};
 
 /**
  * Used to bind a click to a certain DOM element (used for category tabs).
@@ -1098,6 +1146,7 @@ FactoryUtils.hsvToHex_ = function(h, s, v) {
  * @param {!Function} func Function to be executed on click.
  */
 FactoryUtils.bindClick = function(el, func) {
+  // Moved in from wfactory_view.js
   if (typeof el == 'string') {
     el = document.getElementById(el);
   }
@@ -1112,6 +1161,7 @@ FactoryUtils.bindClick = function(el, func) {
  * @param {!Blob} data Blob containing contents to download
  */
 WorkspaceFactoryView.prototype.createAndDownloadFile = function(filename, data) {
+  // Moved in from wfactory_view.js
   var clickEvent = new MouseEvent('click', {
     'view': window,
     'bubbles': true,
