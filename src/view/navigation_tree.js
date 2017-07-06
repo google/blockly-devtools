@@ -166,7 +166,7 @@ class NavigationTree {
   /**
    * Creates menu for right click functionality.
    * @return {!Object} The right click menu for the nodes in the tree.
-   * //TODO: add right click functtionality to tree
+   * //TODO: add right click functionality to tree
    */
    createMenu() {
     const items = {
