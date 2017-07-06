@@ -67,8 +67,6 @@ class ToolboxEditorView {
       });
   }
 
-  // TODO: Add functions.
-
   /**
    * Transfers the blocks in the user's flyout to a new category if
    * the user is creating their first category and their workspace is not
@@ -266,5 +264,51 @@ class ToolboxEditorView {
      * - evaluateMarkedCode()
      */
     throw 'Unimplemented: loadImportedToolbox()';
+  }
+
+  /**
+   * Initialize the color picker in workspace factory.
+   * @param {!FactoryController} controller The controller for the workspace
+   *    factory tab.
+   * @private
+   */
+  initColorPicker_() {
+    /*
+     * TODO: Move in from wfactory_init.js:initColorPicker_(controller)
+     *
+     * References:
+     * - hsvToHex_()
+     * - changeSelectedCategoryColor()
+     */
+    throw 'Unimplemented: initColorPicker_()';
+  }
+
+  /**
+   * Converts from h,s,v values to a hex string
+   * @param {number} h Hue, in [0, 360].
+   * @param {number} s Saturation, in [0, 1].
+   * @param {number} v Value, in [0, 1].
+   * @return {string} hex representation of the color.
+   * @private
+   */
+  hsvToHex_(h, s, v) {
+    /*
+     * TODO: Move in from wfactory_init.js
+     *
+     * References: N/A
+     */
+    throw 'Unimplemented: hsvToHex_()';
+  }
+
+  /**
+   * Assign click handlers for workspace factory.
+   * @param {!FactoryController} controller The controller for the workspace
+   *    factory tab.
+   * @private
+   */
+  initClickHandlers_() {
+    /*
+     * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+     */
   }
 }
