@@ -102,69 +102,29 @@ class Project extends Resource {
   }
 
   /**
-   * Checks whether or not a given Toolbox, Workspace, or Library is contained
-   *   in the project.
-   * @param {!Object} component The Toolbox, Workspace, or
-   *    BlockLibraryController which may or may not be in the project.
-   * @param {!Array.<string>} componentArray The array of Library, Toolbox, or
-   *    Workspace names to check.
+   * Checks whether or not a given Toolbox, WorkspaceContents,
+   *     WorkspaceConfiguration or BlockLibrary is in the project.
+   * @param {string} componentType The type of component to be searched for:
+   *     BlockLibrary, Toolbox, Workspacecontents, or WorkspaceConfiguration.
+   * @param {string} componentName The name of the component to be found.
+   * @throws Will throw an error if the componentType is invalid, i.e. not
+   *     "BlockLibrary", "Toolbox", "WorkspaceContents", or
+   *     "WorkspaceConfiguration".
    */
-  hasComponent(component, componentArray) {
-    var componentName = component.name;
-    return componentArray.includes(component.name);
-  }
-
-  /**
-   * Sets the current library.
-   * @param {!BlockLibraryController} library The library to be set.
-   */
-  setCurrentLibrary(library) {
-    if (this.hasComponent(library, this.getLibraryNames())) {
-      this.currentLibrary = this.libraries[library.name];
-    } else {
-      this.addLibrary(library);
-      this.currentLibrary = library;
+  hasComponent(componentType, componentName) {
+    if (componentType === "BlockLibrary") {
+      return this.libraries.has(componentName);
     }
-  }
-
-  /**
-   * Sets the current toolbox.
-   * @param {!Toolbox} toolbox The toolbox to be set.
-   */
-  setCurrentToolbox(toolbox) {
-    if (this.hasComponent(toolbox, this.getToolboxNames())) {
-      this.currentToolbox = this.toolboxes[toolbox.name];
-    } else {
-      this.addToolbox(toolbox);
-      this.currentToolbox = toolbox;
+    if (componentType === "Toolbox") {
+      return this.toolboxes.has(componentName);
     }
-  }
-
-  /**
-   * Sets the current workspace contents.
-   * @param {!WorkspaceContents} workspaceContents The workspace contents to be
-   *     set.
-   */
-  setCurrentWorkspaceContents(workspaceContents) {
-    if (this. {
-      this.currentWorkspace = this.workspaces[workspace.name];
-    } else {
-      this.addWorkspace(workspace);
-      this.currentWorkspace = workspace;
+    if (componentType === "WorkspaceContents") {
+      return this.workspaceContents.has(componentName);
     }
-  }
-
-
-  /**
-   * Sets the current workspace.
-   * @param {!Workspace} workspace The workspace to be set.
-   */
-  setCurrentWorkspaceConfiguration(workspaceConfig) {
-    if (this.hasComponent(workspace, this.getWorkspaceNames())) {
-      this.currentWorkspace = this.workspaces[workspace.name];
+    if (componentType === "WorkspaceConfiguration") {
+      return this.workspaceConfigs.has(componentName);
     } else {
-      this.addWorkspace(workspace);
-      this.currentWorkspace = workspace;
+      throw "hasComponent: invalid componentType";
     }
   }
 
