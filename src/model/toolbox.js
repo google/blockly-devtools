@@ -19,12 +19,12 @@
  */
 
 /**
- * @class Toolbox represents a toolbox object. A Toolbox object is a collection
- *     of categories. If a toolbox has one category, the category is displayed as
- *     a flyout. Otherwise, each category should have a name.
- *     Toolboxes can have multiple categories with different colors per category.
- *     Categories can also be separated by a Separator object. Contains references to controller
- *     and view.
+ * @class A Toolbox object is a grouping of blocks from which end-users can
+ *     drag and drop blocks into the workspace. A toolbox can also be considered
+ *     as a collection of categories, which contain one or more blocks.
+ *     If a toolbox has one category, the category is displayed as an unnamed flyout.
+ *     Otherwise, Toolboxes can have multiple categories with different colors per
+ *     category. Categories can also be separated by a Separator object.
  *
  * @author Celine Choo (celinechoo)
  *
@@ -64,10 +64,11 @@ class Toolbox extends Resource {
 
     /**
      * List of categories in current toolbox. Empty if there is a single flyout.
-     * Moved from wfactory_model.js:toolboxList
+     * May contain separators (and not just categories).
+     * Moved from wfactory_model.js:toolboxList (will remove this line after rf)
      * @type {!Array.<!ListElement>}
      */
-    this.categories = [];
+    this.categoryList = [];
 
     /**
      * Stores ListElement IFF there is only one category. Displayed as a flyout.
@@ -91,32 +92,40 @@ class Toolbox extends Resource {
   setName(newName) {
     console.log('setName() called!');
     // TODO: Implement function.
+    throw "unimplemented: setName";
   }
 
   /**
-   * Adds block to toolbox.
-   * @returns {boolean} True if added succesfully.
+   * Return ordered list of ListElement objects in this instance of Toolbox.
+   * @return {!Array.<!ListElement>} ordered list of ListElement objects
    */
-  addBlock(categoryName, blockName, xmlDefinition) {
-    console.log('Add block called!');
-    // TODO: Implement function.
+  getCategoryList() {
+    /*
+     * TODO: Move in from wfactory_model.js:getToolboxList()
+     */
   }
 
   /**
-   * Removes block from toolbox.
+   * Clears category list in this instance of Toolbox. Deletes all ListElements.
    */
-  removeBlock(blockName) {
-    console.log('Remove block called!');
-    if (this.blocks[blockName]) {
-      delete this.blocks[blockName];
-    }
+  clearCategoryList() {
+    /*
+     * TODO: Move in from wfactory_model.js:clearToolboxList()
+     *
+     * References:
+     * - this.toolboxList
+     * - this.hasVariablesCategory
+     * - this.hasProceduresCategory
+     * - this.shadowBlocks
+     * - this.selected
+     */
   }
 
   /**
    * Given a ListElement, adds it to category list.
-   * @param {!ListElement} category Category to be added to the list.
+   * @param {!ListElement} element Element to be added to the list.
    */
-  addCategory(category) {
+  addElement(element) {
     /*
      * TODO: Move in from wfactory_model.js:addElementToList(element)
      *
@@ -132,7 +141,7 @@ class Toolbox extends Resource {
    * Given an index, deletes a list element and all associated data.
    * @param {number} index The index of the list element to delete.
    */
-  removeCategory(categoryIndex) {
+  deleteElement(index) {
     /*
      * TODO: Move in from wfactory_model.js:deleteElementFromList(index)
      *
@@ -140,6 +149,143 @@ class Toolbox extends Resource {
      * - this.toolboxList
      * - this.hasVariableCategory
      * - this.hasProcedureCategory
+     */
+  }
+
+  /**
+   * Moves ListElement of category to a certain position in toolboxList by removing it
+   * and then inserting it at the correct index. Checks that indices are in
+   * bounds (throws error if not), but assumes that oldIndex is the correct index
+   * for the ListElement.
+   *
+   * @param {!ListElement} element The ListElement to move.
+   * @param {number} newIndex The index to insert the element at.
+   * @param {number} oldIndex The index the element is currently at.
+   */
+  moveElement(element, newIndex, oldIndex) {
+    /*
+     * TODO: Move in from wfactory_model.js:moveElementToIndex(element, newIndex, oldIndex)
+     *
+     * References:
+     * - this.toolboxList
+     * - deleteElementFromList(oldIndex)
+     */
+  }
+
+  /**
+   * Given the ID of a list element, returns that ListElement object.
+   * @param {string} id The ID of element to search for.
+   * @return {ListElement} Corresponding ListElement object in toolboxList, or
+   *     null if that element does not exist.
+   */
+  getElementById(id) {
+    /*
+     * TODO: Move in from wfactory_model.js
+     *
+     * References:
+     * - this.toolboxList
+     */
+  }
+
+  /**
+   * Given the index of a list element in toolboxList, returns that ListElement
+   * object.
+   * @param {number} index The index of the element to return.
+   * @return {ListElement} The corresponding ListElement object in toolboxList.
+   */
+  getElementByIndex(index) {
+    /*
+     * TODO: Move in from wfactory_model.js
+     *
+     * References:
+     * - this.toolboxList
+     */
+  }
+
+  /**
+   * Returns currently selected category ListElement.
+   * @return {ListElement} Currently selected ListElement
+   */
+  getSelected() {
+    // Moved from wfactory_model.js
+    return this.selected;
+  }
+
+  /**
+   * Given an id of a ListElement, sets that ListElement as the currently selected
+   * element.
+   * @param {string} id ID of list element that should now be selected.
+   */
+  setSelected(id) {
+    /*
+     * TODO: Move in from wfactory_model.js:setSelectedById(id)
+     *
+     * References: N/A
+     */
+  }
+
+  /**
+   * Returns ID of the currently selected element. Returns null if there are
+   * no categories (if selected == null).
+   * @return {string} The ID of the element currently selected.
+   */
+  getSelectedId() {
+    /*
+     * TODO: Move in from wfactory_model.js
+     */
+  }
+
+  /**
+   * Returns name of currently selected category. Returns null if there
+   * are no category (if selected == null) or the selected element is not
+   * a category (in which case its name is null).
+   *
+   * @return {string} The name of the category currently selected.
+   */
+  getSelectedName() {
+    /*
+     * TODO: Move in from wfactory_model.js:getSelectedName()
+     */
+  }
+
+  /**
+   * Returns the XML to load the selected element.
+   * @return {!Element} The XML of the selected element, or null if there is
+   * no selected element.
+   */
+  getSelectedXml() {
+    /*
+     * TODO: Move in from wfactory_model.js
+     */
+  }
+
+  /**
+   * Given an ID of a list element, returns the index of that list element in
+   * toolboxList. Returns -1 if ID is not present.
+   * @param {string} id The ID of list element to search for.
+   * @return {number} The index of the list element in toolboxList, or -1 if it
+   * doesn't exist.
+   */
+  getElementIndex(id) {
+    /*
+     * TODO: Move in from wfactory_model.js:getIndexByElementId(id)
+     *
+     * References:
+     * - this.toolboxList
+     */
+  }
+
+  /**
+   * Gets the ID of a category given its name.
+   * @param {string} name Name of category.
+   * @return {number} ID of category
+   */
+  getCategoryId(name) {
+    /*
+     * TODO: Move in from wfactory_model.js:getCategoryIdByName(name)
+     *
+     * References:
+     * - this.toolboxList
      */
   }
 
@@ -163,56 +309,41 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Rearranges category from one index to another.
-   * Moves ListElement of category to a certain position in toolboxList by removing it
-   * and then inserting it at the correct index. Checks that indices are in
-   * bounds (throws error if not), but assumes that oldIndex is the correct index
-   * for list element.
-   *
-   * @param {!ListElement} category The category ListElement to move.
-   * @param {number} newIndex The index to insert the element at.
-   * @param {number} oldIndex The index the element is currently at.
+   * Class for a ListElement
+   * Adds a shadow block to the list of shadow blocks.
+   * @param {string} blockId The unique ID of block to be added.
    */
-  moveCategoryToIndex(category, newIndex, oldIndex) {
+  addShadowBlock(blockId) {
+    // Moved in from wfactory_model.js
+    this.shadowBlocks.push(blockId);
+  }
+
+  /**
+   * Removes a shadow block ID from the list of shadow block IDs if that ID is
+   * in the list.
+   * @param {string} blockId The unique ID of block to be removed.
+   */
+  removeShadowBlock(blockId) {
     /*
-     * TODO: Move in from wfactory_model.js:moveElementToIndex(element, newIndex, oldIndex)
+     * TODO: Move in from wfactory_model.js
      *
      * References:
-     * - this.toolboxList
-     * - deleteElementFromList(oldIndex)
+     * - this.shadowBlocks
      */
   }
 
   /**
-   * Returns currently selected category ListElement.
-   * @return {ListElement} Currently selected ListElement
+   * Determines if a block is a shadow block given a unique block ID.
+   * @param {string} blockId The unique ID of the block to examine.
+   * @return {boolean} True if the block is a user-generated shadow block, false
+   *    otherwise.
    */
-  getSelectedCategory() {
-    // Moved from wfactory_model.js:getSelected()
-    return this.selected;
-  }
-
-  /**
-   * Returns ID of the currently selected element. Returns null if there are
-   * no categories (if selected == null).
-   * @return {string} The ID of the element currently selected.
-   */
-  getSelectedCategoryId() {
+  isShadowBlock(blockId) {
     /*
-     * TODO: Move in from wfactory_model.js:getSelectedId()
-     */
-  }
-
-  /**
-   * Returns name of currently selected category. Returns null if there
-   * are no categories (if selected == null) or the selected element is not
-   * a category (in which case its name is null).
-   *
-   * @return {string} The name of the category currently selected.
-   */
-  getSelectedCategoryName() {
-    /*
-     * TODO: Move in from wfactory_model.js:getSelectedName()
+     * TODO: Move in from wfactory_model.js
+     *
+     * References:
+     * - this.shadowBlocks
      */
   }
 
@@ -256,19 +387,6 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Renames the project.
-   * @param {string} newName New name of the project.
-   */
-  setName(newName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw "unimplemented: setName";
-  }
-
-  /**
    * Gets the data necessary to export the toolbox.
    * @return {!Object} The data needed to export the toolbox.
    */
@@ -299,6 +417,7 @@ class Toolbox extends Resource {
    * false otherwise.
    */
   hasVariables() {
+    // Moved in from wfactory_model.js
     return this.hasVariableCategory;
   }
 
@@ -308,6 +427,7 @@ class Toolbox extends Resource {
    * false otherwise.
    */
   hasProcedures() {
+    // Moved in from wfactory_model.js
     return this.hasProcedureCategory;
   }
 }

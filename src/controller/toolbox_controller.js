@@ -108,6 +108,23 @@ class ToolboxController {
   }
 
   /**
+   * Adds separator to current Toolbox.
+   */
+  addSeparator() {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - transferFlyoutBlocksToCategory()
+     * - ListElement
+     * - addElementToList()
+     * - addSeparatorTab()
+     * - switchElement()
+     * - updatePreview()
+     */
+  }
+
+  /**
    * Gets a valid name for a new category from the user.
    * @param {string} promptString Prompt for the user to enter a name.
    * @param {string=} opt_oldName The current name.

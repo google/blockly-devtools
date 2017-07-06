@@ -221,22 +221,12 @@ class ToolboxEditorView {
      */
   }
 
-  /**
-   * If categories already exist, adds a separator to the model and view.
-   * Does not switch to select the separator, and updates the preview.
-   */
-  addSeparator() {
+  getShadowBlocksInWorkspace() {
     /*
-     * TODO: Move in from wfactory_controller.js
+     * TODO: Move in from wfactory_model.js
      *
      * References:
-     * - transferFlyoutBlocksToCategory()
-     * - ListElement
-     * - addElementToList()
-     * - addSeparatorTab()
-     * - addClickToSwitch()
-     * - switchElement()
-     * - updatePreview()
+     * -
      */
   }
 }
