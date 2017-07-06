@@ -162,4 +162,27 @@ class NavigationTree {
     $('#navigationTree').jstree().create_node('#' ,
       {'id': blockType, 'text': blockType }, 'last', null);
   }
+
+  /**
+   * Creates menu for right click functionality.
+   * @return {!Object} The right click menu for the nodes in the tree.
+   * //TODO: add context menus/right click functtionality to tree
+   */
+   createMenu() {
+    const items = {
+      renameElement : {
+        label: "Rename",
+        action: //TODO: add function for renaming node and associated element
+      },
+      deleteElement : {
+        label: "Delete",
+        action: //TODO: add function for deleting node and associated element
+      },
+      exportElement : {
+        label: "Export",
+        action: //TODO: add function for exporting associated element
+      }
+    }
+    return items;
+  }
 }

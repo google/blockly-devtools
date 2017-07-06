@@ -72,6 +72,17 @@ class AppView {
           ['Toolbox', () => { this.importToolbox(); }],
           ['Workspace', () => { this.importWorkspace(); }]
         ]],
+        ['Export', [
+          ['Project', () => { this.exportProject(); }],
+          ['Current...', [
+            ['Library', () => { this.exportCurrentLibrary(); }],
+            ['Toolbox', () => { this.exportCurrentToolbox(); }],
+            ['Workspace Contents',
+              () => { this.exportCurrentWorkspaceContents(); }],
+            ['Workspace Configuration',
+              () => { this.exportCurrentWorkspaceConfiguration(); }]
+            ]]
+        ]]
         ['Create Application for Web', () => { this.createWeb(); }]
       ]],
       ['Edit', []],
@@ -201,6 +212,40 @@ class AppView {
     // TODO: Fill in action.
   }
 
+  /**
+   * Calls response to selecting export project in menu.
+   */
+  exportProject(){
+
+  }
+
+  /**
+   * Calls response to selecting export current library in menu.
+   */
+  exportCurrentLibrary(){
+    // TODO: Fill in action.
+  }
+
+  /**
+   * Calls response to selecting export current toolbox in menu.
+   */
+  exportCurrentToolbox(){
+    // TODO: Fill in action.
+  }
+
+  /**
+   * Calls response to selecting export current workspace contents in menu.
+   */
+  exportCurrentWorkspaceContents(){
+    // TODO: Fill in action.
+  }
+
+  /**
+   * Calls response to selecting export current workspace configuration in menu.
+   */
+  exportCurrentWorkspaceConfiguration(){
+    // TODO: Fill in action.
+  }
   /**
    * Initializes menu tree based off of a given menu tree
    *
