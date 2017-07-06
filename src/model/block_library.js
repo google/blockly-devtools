@@ -46,10 +46,10 @@ class BlockLibrary extends Resource {
 
   /**
    * Saves block to block library.
-   * @param {string} blockType Type of block.
-   * @param {Element} blockXML The block's XML pulled from workspace.
+   * @param {!BlockDefinition} blockDefinition The definition of the block to be
+   *    saved.
    */
-  addBlock(blockType, blockXML) {
+  addBlock(blockDefinition) {
     throw "unimplemented: addBlock";
   }
 

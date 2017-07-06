@@ -129,27 +129,28 @@ class Project extends Resource {
   }
 
   /**
-   * Adds a block to the project, by adding it to the current library.
+   * Adds a block to the project by adding it to the given block library.
    * @param {string} blockType The name of the block to be added.
+   * @param {string} libraryName The name of the library to add the block to.
    */
-  addBlockToProject(blockType) {
-    throw "unimplemented: addBlockToProject";
+  addBlockToProject(library, blockType) {
+    this.libraries.;
   }
 
   /**
    * Adds a library to the project.
-   * @param {!BlockLibraryController} library The library to be added.
+   * @param {string} libraryName The name of the library to be added.
    */
-  addLibrary(library) {
+  addLibrary(libraryName) {
     this.libraries.addLibrary(library);
   }
 
   /**
    * Adds a toolbox to the project.
-   * @param {!Toolbox} toolbox The toolbox to be added.
+   * @param {string} toolboxName The name of the toolbox to be added.
    */
-  addToolbox(toolbox) {
-    this.toolboxes.addToolbox();
+  addToolbox(toolboxName) {
+    this.toolboxes.addToolbox(toolbox);
   }
 
   /**

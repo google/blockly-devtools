@@ -83,4 +83,21 @@ class BlockLibrarySet extends ResourceSet {
    has(libraryName) {
     return super.hasResource(libraryName);
    }
+
+  /**
+   * Adds a block to the named library, or creates a new library with the given
+   *     name and adds the block to it.
+   * @param {string} libraryName The name of the library to add to or create.
+   * @param {!BlockDefinition} block The block definition to add to the existing or
+   *     new library.
+   */
+   addBlockToLibrary(libraryName, block) {
+    if (this.has(libraryName)) {
+      this.getLibrary(libraryName).addBlock(block);
+    } else {
+      this.addLibrary(libraryName);
+      this.getLibrary(libraryName).addBlock(block);
+    }
+   }
+
 }
