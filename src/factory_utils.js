@@ -1160,7 +1160,7 @@ FactoryUtils.bindClick = function(element, func) {
  * @param {string} filename Name of file
  * @param {!Blob} data Blob containing contents to download
  */
-WorkspaceFactoryView.prototype.createAndDownloadFile = function(filename, data) {
+FactoryUtils.createAndDownloadFile = function(filename, data) {
   // Moved in from wfactory_view.js
   var clickEvent = new MouseEvent('click', {
     'view': window,
