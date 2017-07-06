@@ -37,11 +37,18 @@ class BlockLibrary extends Resource {
      * References: N/A
      */
     super(libraryName);
+
     /**
      * An array of all block types stored in the block library.
      * @type {!Array.<string>}
      */
-    this.blocks;
+    this.blocks = [];
+
+    /**
+     * Existing direction ('ltr' vs 'rtl') of preview.
+     * @type {string}
+     */
+    this.previewDirection = null;
   }
 
   /**
