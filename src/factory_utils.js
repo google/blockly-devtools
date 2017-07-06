@@ -1142,16 +1142,16 @@ FactoryUtils.hsvToHex_ = function(h, s, v) {
 /**
  * Used to bind a click to a certain DOM element (used for category tabs).
  * Taken directly from code.js
- * @param {string|!Element} e1 Tab element or corresponding ID string.
+ * @param {string|!Element} element Tab element or corresponding ID string.
  * @param {!Function} func Function to be executed on click.
  */
-FactoryUtils.bindClick = function(el, func) {
+FactoryUtils.bindClick = function(element, func) {
   // Moved in from wfactory_view.js
-  if (typeof el == 'string') {
-    el = document.getElementById(el);
+  if (typeof element == 'string') {
+    element = document.getElementById(element);
   }
-  el.addEventListener('click', func, true);
-  el.addEventListener('touchend', func, true);
+  element.addEventListener('click', func, true);
+  element.addEventListener('touchend', func, true);
 };
 
 /**
