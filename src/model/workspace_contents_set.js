@@ -67,4 +67,13 @@ class WorkspaceContentsSet extends ResourceSet {
   getWorkspaceContentsNames() {
     super.getResourceNames();
   }
+
+  /**
+   * Returns whether or not workspace contents by a given name are in the set.
+   * @param {string} workspaceContentsName The name of the contents to be found.
+   * @return {boolean} Whether the workspace contents are in the set.
+   */
+   has(workspaceContentsName) {
+    return super.hasResource(workspaceContentsName);
+   }
 }

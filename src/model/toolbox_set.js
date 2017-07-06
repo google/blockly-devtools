@@ -65,4 +65,13 @@ class ToolboxSet extends ResourceSet {
   getToolboxNames() {
     return super.getResourceNames();
   }
+
+  /**
+   * Returns whether or not a named toolbox is present in the set.
+   * @param {string} toolboxName The name of the toolbox to be found.
+   * @return {boolean} Whether or not the toolbox is present in the set.
+   */
+   has(toolboxName) {
+    return super.hasresource(toolboxName);
+   }
 }

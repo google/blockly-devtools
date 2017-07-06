@@ -163,4 +163,13 @@
   getExportData() {
     throw "unimplemented: getExportData";
   }
+
+  /**
+   * Returns whether or not a resource by a given name is in the set.
+   * @param {string} resourceName The name of the resource to be found.
+   * @return {boolean} Whether or not the resource is present in the set.
+   */
+   hasResource(resourceName) {
+    throw "unimplemented: hasResource";
+   }
 }

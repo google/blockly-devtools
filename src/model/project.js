@@ -19,7 +19,6 @@
  */
 
  //TODO #50: change methods for metadata
- //TODO #44: differentiate Project and ProjectController for refactor
 
 /**
  * @class Project is a collection of one or more libraries along with
@@ -30,7 +29,7 @@
  */
 class Project extends Resource {
   /**
-   * Represents a user's collection of Libraries, toolboxes, and workspaces.
+   * Project Class.
    * @param {string} projectName The desired name of project.
    * @constructor
    */
@@ -49,17 +48,17 @@ class Project extends Resource {
      * The toolboxes in the project.
      * @type {!ToolboxSet}
      */
-    this.toolboxes = new ToolboxSet;
+    this.toolboxes = new ToolboxSet();
     /**
      * The workspace contents objects in the project.
      * @type {!WorkspaceContentsSet}
      */
-    this.workspaceContents = new WorkspaceContents;
+    this.workspaceContents = new WorkspaceContents();
     /**
      * The workspace configurations in the project.
      * @type {!WorkspaceConfigurationsSet}
      */
-    this.workspaceConfigs = new WorkspaceConfigurationsSet;
+    this.workspaceConfigs = new WorkspaceConfigurationsSet();
   }
 
   /**
@@ -72,26 +71,34 @@ class Project extends Resource {
 
   /**
    * Returns an array of all BlockLibraryController names (for storage).
-   * @return {!Array.<string>} Array of all library names
+   * @return {!Array.<string>} Array of all library names.
    */
   getLibraryNames() {
-    return Object.keys(this.libraries);
+    return this.libraries.getLibraryNames();
   }
 
   /**
    * Returns an array of all toolbox names (for storage).
-   * @return {!Array.<string>} Array of all toolbox names
+   * @return {!Array.<string>} Array of all toolbox names.
    */
   getToolboxNames() {
-    return Object.keys(this.toolboxes);
+    return this.toolboxes.getToolboxNames();
   }
 
   /**
-   * Returns an array of all workspace names (for storage).
-   * @return {!Array.<string>} Array of all workspace names
+   * Returns an array of all workspace contents names (for storage).
+   * @return {!Array.<string>} Array of all workspace contents names.
    */
-  getWorkspaceNames() {
-    return Object.keys(this.workspaces);
+  getWorkspaceContentsNames() {
+    return this.workspaceContents.getWorkspaceNames();
+  }
+
+  /**
+   * Returns an array of all workspace configuration names (for storage).
+   * @return {!Array.<string>} Array of all workspace configuration names.
+   */
+  getWorkspaceConfigurationNames() {
+    return this.workspaceConfigs.getWorkspaceConfigurationNames();
   }
 
   /**
@@ -134,10 +141,25 @@ class Project extends Resource {
   }
 
   /**
+   * Sets the current workspace contents.
+   * @param {!WorkspaceContents} workspaceContents The workspace contents to be
+   *     set.
+   */
+  setCurrentWorkspaceContents(workspaceContents) {
+    if (this. {
+      this.currentWorkspace = this.workspaces[workspace.name];
+    } else {
+      this.addWorkspace(workspace);
+      this.currentWorkspace = workspace;
+    }
+  }
+
+
+  /**
    * Sets the current workspace.
    * @param {!Workspace} workspace The workspace to be set.
    */
-  setCurrentWorkspace(workspace) {
+  setCurrentWorkspaceConfiguration(workspaceConfig) {
     if (this.hasComponent(workspace, this.getWorkspaceNames())) {
       this.currentWorkspace = this.workspaces[workspace.name];
     } else {
@@ -159,7 +181,7 @@ class Project extends Resource {
    * @param {!BlockLibraryController} library The library to be added.
    */
   addLibrary(library) {
-    this.libraries[library.name] = library;
+    this.libraries.addLibrary(library);
   }
 
   /**
@@ -167,14 +189,22 @@ class Project extends Resource {
    * @param {!Toolbox} toolbox The toolbox to be added.
    */
   addToolbox(toolbox) {
-    this.toolboxes[toolbox.name] = toolbox;
+    this.toolboxes.addToolbox();
   }
 
   /**
    * Adds a workspace to the project.
    * @return {!Workspace} workspace The workspace to be added.
    */
-  addWorkspace(workspace) {
+  addWorkspaceContents(workspaceContemts) {
+    this.workspaces[workspace.name] = workspace;
+  }
+
+  /**
+   * Adds a workspace to the project.
+   * @return {!Workspace} workspace The workspace to be added.
+   */
+  addWorkspaceConfiguration(workspaceConfig) {
     this.workspaces[workspace.name] = workspace;
   }
 
