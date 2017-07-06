@@ -94,8 +94,6 @@ class WorkspaceEditorView {
 
   /**
    * Assign click handlers for Workspace editor.
-   * @param {!FactoryController} controller The controller for the workspace
-   *     factory tab.
    * @private
    */
   initClickHandlers_() {
@@ -108,8 +106,6 @@ class WorkspaceEditorView {
 
   /**
    * Add event listeners for Workspace editor.
-   * @param {!FactoryController} controller The controller for the workspace
-   *     factory tab.
    * @private
    */
   initEventListeners_() {
@@ -122,8 +118,6 @@ class WorkspaceEditorView {
 
   /**
    * Add listeners for workspace factory options input elements.
-   * @param {!FactoryController} controller The controller for the workspace
-   *     factory tab.
    * @private
    */
   initConfigListeners_() {
