@@ -172,17 +172,17 @@ class NavigationTree {
     const items = {
       renameElement : {
         label: "Rename",
-        action: () => console.log("Action undefined");
+        action: () => console.warn("Action undefined");
         //TODO: add function for renaming node and associated element
       },
       deleteElement : {
         label: "Delete",
-        action: () => console.log("Action undefined");
+        action: () => console.warn("Action undefined");
         //TODO: add function for deleting node and associated element
       },
       exportElement : {
         label: "Export",
-        action: () => console.log("Action undefined");
+        action: () => console.warn("Action undefined");
         //TODO: add function for exporting associated element
       }
     };

@@ -216,35 +216,35 @@ class AppView {
    * Calls response to selecting export project in menu.
    */
   exportProject() {
-    console.log("unimplemented: AppView.exportProject()");
+    console.warn("unimplemented: AppView.exportProject()");
   }
 
   /**
    * Calls response to selecting export current library in menu.
    */
   exportCurrentLibrary() {
-    console.log("unimplemented: AppView.exportCurrentLibrary()");
+    console.warn("unimplemented: AppView.exportCurrentLibrary()");
   }
 
   /**
    * Calls response to selecting export current toolbox in menu.
    */
   exportCurrentToolbox() {
-    console.log("unimplemented: AppView.exportCurrentToolbox()");
+    console.warn("unimplemented: AppView.exportCurrentToolbox()");
   }
 
   /**
    * Calls response to selecting export current workspace contents in menu.
    */
   exportCurrentWorkspaceContents() {
-    console.log("unimplemented: AppView.exportCurrentWorkspaceContents()");
+    console.warn("unimplemented: AppView.exportCurrentWorkspaceContents()");
   }
 
   /**
    * Calls response to selecting export current workspace configuration in menu.
    */
   exportCurrentWorkspaceConfiguration() {
-    console.log("unimplemented: AppView.exportCurrentWorkspaceConfiguration()");
+    console.warn("unimplemented: AppView.exportCurrentWorkspaceConfiguration()");
   }
 
   /**
