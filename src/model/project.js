@@ -63,7 +63,7 @@ class Project extends Resource {
 
   /**
    * Returns an array of all blocks types in the project.
-   * @return {!Array.<string>} Array of all blockTypes.
+   * @return {!Array.<string>} Array of all block types in the project.
    */
   getBlockTypes() {
     return this.libraries.getAllBlockTypes();
@@ -129,12 +129,13 @@ class Project extends Resource {
   }
 
   /**
-   * Adds a block to the project by adding it to the given block library.
-   * @param {string} blockType The name of the block to be added.
+   * Adds a block to the project by adding it to the named block library.
+   * @param {!BlockDefinition} blockDefinition The block definition to add to
+   *     the project.
    * @param {string} libraryName The name of the library to add the block to.
    */
-  addBlockToProject(library, blockType) {
-    this.libraries.;
+  addBlockToProject(libraryName, blockDefinition) {
+    this.libraries.addBlockToLibrary(libraryName, blockDefinition);
   }
 
   /**
@@ -142,7 +143,7 @@ class Project extends Resource {
    * @param {string} libraryName The name of the library to be added.
    */
   addLibrary(libraryName) {
-    this.libraries.addLibrary(library);
+    this.libraries.addLibrary(libraryName);
   }
 
   /**

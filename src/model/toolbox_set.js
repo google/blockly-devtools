@@ -72,6 +72,6 @@ class ToolboxSet extends ResourceSet {
    * @return {boolean} Whether or not the toolbox is present in the set.
    */
    has(toolboxName) {
-    return super.hasresource(toolboxName);
+    return super.hasResource(toolboxName);
    }
 }

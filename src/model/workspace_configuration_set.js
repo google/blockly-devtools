@@ -77,6 +77,6 @@ class WorkspaceConfigurationSet extends ResourceSet {
    * @return {boolean} Whether or not the workspace configuration is in the set.
    */
    has(workspaceConfigName) {
-    return super.hasresource(workspaceConfigName);
+    return super.hasResource(workspaceConfigName);
    }
 }
