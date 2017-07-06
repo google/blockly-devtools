@@ -243,7 +243,7 @@ class ToolboxEditorView {
    * that are user generated shadow blocks.
    * @param {!<Blockly.Block>} blocks Array of blocks currently loaded.
    * @return {!<Blockly.Block>} Array of user-generated shadow blocks currently
-   *   loaded.
+   *     loaded.
    */
   getShadowBlocksInWorkspace() {
     /*
@@ -277,7 +277,7 @@ class ToolboxEditorView {
   /**
    * Initialize the color picker in workspace factory.
    * @param {!FactoryController} controller The controller for the workspace
-   *    factory tab.
+   *     factory tab.
    * @private
    */
   initColorPicker_() {
@@ -311,7 +311,7 @@ class ToolboxEditorView {
   /**
    * Assign click handlers for Toolbox editor.
    * @param {!FactoryController} controller The controller for the workspace
-   *    factory tab.
+   *     factory tab.
    * @private
    */
   initClickHandlers_() {
@@ -325,7 +325,7 @@ class ToolboxEditorView {
   /**
    * Add event listeners for Toolbox editor.
    * @param {!FactoryController} controller The controller for the workspace
-   *    factory tab.
+   *     factory tab.
    * @private
    */
   initEventListeners_() {
@@ -339,7 +339,7 @@ class ToolboxEditorView {
   /**
    * Display or hide the add shadow button.
    * @param {boolean} show True if the add shadow button should be shown, false
-   *    otherwise.
+   *     otherwise.
    */
   displayAddShadow_(show) {
     /*
@@ -351,7 +351,7 @@ class ToolboxEditorView {
   /**
    * Display or hide the remove shadow button.
    * @param {boolean} show True if the remove shadow button should be shown, false
-   *    otherwise.
+   *     otherwise.
    */
   displayRemoveShadow_(show) {
     /*
