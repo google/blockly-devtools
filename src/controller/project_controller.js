@@ -77,7 +77,7 @@ class ProjectController {
   }
 
   /**
-   * Creates new toolbox to this.project's toolbox set.
+   * Adds new toolbox to this.project's toolbox set.
    *
    * @param {!Toolbox} toolbox Toolbox object to add to project.
    */
