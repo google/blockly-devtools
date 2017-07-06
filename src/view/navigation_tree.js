@@ -172,15 +172,18 @@ class NavigationTree {
     const items = {
       renameElement : {
         label: "Rename",
-        action: //TODO: add function for renaming node and associated element
+        action: () => console.log("Action undefined");
+        //TODO: add function for renaming node and associated element
       },
       deleteElement : {
         label: "Delete",
-        action: //TODO: add function for deleting node and associated element
+        action: () => console.log("Action undefined");
+        //TODO: add function for deleting node and associated element
       },
       exportElement : {
         label: "Export",
-        action: //TODO: add function for exporting associated element
+        action: () => console.log("Action undefined");
+        //TODO: add function for exporting associated element
       }
     };
     //TOOD: Add if statements for type-specfic options (as needed).

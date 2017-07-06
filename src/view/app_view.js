@@ -216,35 +216,35 @@ class AppView {
    * Calls response to selecting export project in menu.
    */
   exportProject() {
-    // TODO: Fill in action.
+    console.log("unimplemented: AppView.exportProject()");
   }
 
   /**
    * Calls response to selecting export current library in menu.
    */
   exportCurrentLibrary() {
-    // TODO: Fill in action.
+    console.log("unimplemented: AppView.exportCurrentLibrary()");
   }
 
   /**
    * Calls response to selecting export current toolbox in menu.
    */
   exportCurrentToolbox() {
-    // TODO: Fill in action.
+    console.log("unimplemented: AppView.exportCurrentToolbox()");
   }
 
   /**
    * Calls response to selecting export current workspace contents in menu.
    */
   exportCurrentWorkspaceContents() {
-    // TODO: Fill in action.
+    console.log("unimplemented: AppView.exportCurrentWorkspaceContents()");
   }
 
   /**
    * Calls response to selecting export current workspace configuration in menu.
    */
   exportCurrentWorkspaceConfiguration() {
-    // TODO: Fill in action.
+    console.log("unimplemented: AppView.exportCurrentWorkspaceConfiguration()");
   }
 
   /**
