@@ -246,6 +246,7 @@ class AppView {
   exportCurrentWorkspaceConfiguration(){
     // TODO: Fill in action.
   }
+
   /**
    * Initializes menu tree based off of a given menu tree
    *

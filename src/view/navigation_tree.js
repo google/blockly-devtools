@@ -183,6 +183,7 @@ class NavigationTree {
         action: //TODO: add function for exporting associated element
       }
     }
+    //TOOD: ad if statements for type-specfic options (as needed)
     return items;
   }
 }
