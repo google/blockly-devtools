@@ -115,10 +115,10 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Generates string of XML dom element for WorkspaceContents. Used to insert
+   * Generates XML DOM element for WorkspaceContents. Used to insert
    * into files that user will download.
    *
-   * @return {string} String representation of XML DOM of WorkspaceContents.
+   * @return {!Element} XML DOM element of this WorkspaceContents.
    */
   getExportData() {
     /*

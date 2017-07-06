@@ -69,10 +69,9 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Generates XML string representation of Toolbox for user to download. Does
-   * not deal with popups or file system access; just generates content.
+   * Generates XML DOM element of Toolbox.
    *
-   * @returns {string} String representation of XML file to be exported.
+   * @returns {!Element} XML DOM element of this Toolbox.
    */
   getExportData() {
     /*
