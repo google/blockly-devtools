@@ -251,7 +251,7 @@ class Toolbox extends Resource {
   /**
    * Returns the XML to load the selected element.
    * @return {!Element} The XML of the selected element, or null if there is
-   * no selected element.
+   *     no selected element.
    */
   getSelectedXml() {
     /*
@@ -264,7 +264,7 @@ class Toolbox extends Resource {
    * toolboxList. Returns -1 if ID is not present.
    * @param {string} id The ID of list element to search for.
    * @return {number} The index of the list element in toolboxList, or -1 if it
-   * doesn't exist.
+   *     doesn't exist.
    */
   getElementIndex(id) {
     /*
@@ -352,7 +352,7 @@ class Toolbox extends Resource {
    * Determines if a block is a shadow block given a unique block ID.
    * @param {string} blockId The unique ID of the block to examine.
    * @return {boolean} True if the block is a user-generated shadow block, false
-   *    otherwise.
+   *     otherwise.
    */
   isShadowBlock(blockId) {
     /*
