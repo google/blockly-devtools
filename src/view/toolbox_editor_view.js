@@ -301,7 +301,7 @@ class ToolboxEditorView {
   }
 
   /**
-   * Assign click handlers for workspace factory.
+   * Assign click handlers for Toolbox editor.
    * @param {!FactoryController} controller The controller for the workspace
    *    factory tab.
    * @private
@@ -309,6 +309,18 @@ class ToolboxEditorView {
   initClickHandlers_() {
     /*
      * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+     */
+  }
+
+  /**
+   * Add event listeners for Toolbox editor.
+   * @param {!FactoryController} controller The controller for the workspace
+   *    factory tab.
+   * @private
+   */
+  initEventListeners_() {
+    /*
+     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
      */
   }
 }
