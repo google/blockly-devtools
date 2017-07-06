@@ -65,6 +65,7 @@ class ToolboxController {
      * - generateNewOptions()
      * - updatePreview()
      */
+    throw 'Unimplemented: ToolboxController.addCategory()';
   }
 
   /**
@@ -83,6 +84,7 @@ class ToolboxController {
      * - addCategoryRow()
      * - addClickToSwitch()
      */
+    throw 'Unimplemented: ToolboxController.createCategory()';
   }
 
   /**
@@ -105,14 +107,15 @@ class ToolboxController {
      * - createDefaultSelectedIfEmpty()
      * - updatePreview()
      */
+    throw 'Unimplemented: ToolboxController.removeElement()';
   }
 
   /**
-   * Adds separator to current Toolbox.
+   * Adds category separator to current Toolbox.
    */
-  addSeparator() {
+  addCategorySeparator() {
     /*
-     * TODO: Move in from wfactory_controller.js
+     * TODO: Move in from wfactory_controller.js:addSeparator()
      *
      * References:
      * - transferFlyoutBlocksToCategory()
@@ -122,6 +125,7 @@ class ToolboxController {
      * - switchElement()
      * - updatePreview()
      */
+    throw 'Unimplemented: ToolboxController.addCategorySeparator()';
   }
 
   /**

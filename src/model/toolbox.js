@@ -103,6 +103,7 @@ class Toolbox extends Resource {
     /*
      * TODO: Move in from wfactory_model.js:getToolboxList()
      */
+    throw 'Unimplemented: getCategoryList()';
   }
 
   /**
@@ -119,6 +120,7 @@ class Toolbox extends Resource {
      * - this.shadowBlocks
      * - this.selected
      */
+    throw 'Unimplemented: clearCategoryList()';
   }
 
   /**
@@ -135,6 +137,7 @@ class Toolbox extends Resource {
      * - this.toolboxList
      * - this.flyout
      */
+    throw 'Unimplemented: addElement()';
   }
 
   /**
@@ -150,6 +153,7 @@ class Toolbox extends Resource {
      * - this.hasVariableCategory
      * - this.hasProcedureCategory
      */
+    throw 'Unimplemented: deleteElement()';
   }
 
   /**
@@ -170,6 +174,7 @@ class Toolbox extends Resource {
      * - this.toolboxList
      * - deleteElementFromList(oldIndex)
      */
+    throw 'Unimplemented: moveElement()';
   }
 
   /**
@@ -185,6 +190,7 @@ class Toolbox extends Resource {
      * References:
      * - this.toolboxList
      */
+    throw 'Unimplemented: getElementById()';
   }
 
   /**
@@ -200,6 +206,7 @@ class Toolbox extends Resource {
      * References:
      * - this.toolboxList
      */
+    throw 'Unimplemented: getElementByIndex()';
   }
 
   /**
@@ -222,6 +229,7 @@ class Toolbox extends Resource {
      *
      * References: N/A
      */
+    throw 'Unimplemented: setSelected()';
   }
 
   /**
@@ -233,6 +241,7 @@ class Toolbox extends Resource {
     /*
      * TODO: Move in from wfactory_model.js
      */
+    throw 'Unimplemented: getSelectedId()';
   }
 
   /**
@@ -246,6 +255,7 @@ class Toolbox extends Resource {
     /*
      * TODO: Move in from wfactory_model.js:getSelectedName()
      */
+    throw 'Unimplemented: getSelectedName()';
   }
 
   /**
@@ -257,6 +267,7 @@ class Toolbox extends Resource {
     /*
      * TODO: Move in from wfactory_model.js
      */
+    throw 'Unimplemented: getSelectedXml()';
   }
 
   /**
@@ -273,6 +284,7 @@ class Toolbox extends Resource {
      * References:
      * - this.toolboxList
      */
+    throw 'Unimplemented: getElementIndex()';
   }
 
   /**
@@ -287,6 +299,7 @@ class Toolbox extends Resource {
      * References:
      * - this.toolboxList
      */
+    throw 'Unimplemented: getCategoryId()';
   }
 
   /**
@@ -303,6 +316,7 @@ class Toolbox extends Resource {
      * - this.hasVariablesCategory
      * - this.hasProcedureCategory
      */
+    throw 'Unimplemented: addCustomTag()';
   }
 
   /**
@@ -320,6 +334,7 @@ class Toolbox extends Resource {
      * - ListElement
      * - this.selected
      */
+    throw 'Unimplemented: createDefaultSelectedIfEmpty()';
 
     // TODO: Rename function to be more clear/readable.
   }
@@ -331,7 +346,9 @@ class Toolbox extends Resource {
    */
   addShadowBlock(blockId) {
     // Moved in from wfactory_model.js
-    this.shadowBlocks.push(blockId);
+    if (this.shadowBlocks.indexOf(blockId) != -1) {
+      this.shadowBlocks.push(blockId);
+    }
   }
 
   /**
@@ -346,6 +363,7 @@ class Toolbox extends Resource {
      * References:
      * - this.shadowBlocks
      */
+    throw 'Unimplemented: removeShadowBlock()';
   }
 
   /**
@@ -361,6 +379,7 @@ class Toolbox extends Resource {
      * References:
      * - this.shadowBlocks
      */
+    throw 'Unimplemented: isShadowBlock()';
   }
 
   /**
@@ -371,7 +390,7 @@ class Toolbox extends Resource {
    */
   exportJs() {
     // TODO: Implement function.
-    console.log('exportJs() called.');
+    throw 'Unimplemented: exportJs()';
   }
 
   /**
@@ -382,7 +401,7 @@ class Toolbox extends Resource {
    */
   exportXml() {
     // TODO: Implement function.
-    console.log('exportXml() called.');
+    throw 'Unimplemented: exportXml()';
   }
 
   /**
@@ -425,6 +444,7 @@ class Toolbox extends Resource {
      * References:
      * - ListElement
      */
+    throw 'Unimplemented: categoryIsInToolbox()';
   }
 
   /**

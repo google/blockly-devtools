@@ -221,6 +221,13 @@ class ToolboxEditorView {
      */
   }
 
+  /**
+   * Given a set of blocks currently loaded, returns all blocks in the workspace
+   * that are user generated shadow blocks.
+   * @param {!<Blockly.Block>} blocks Array of blocks currently loaded.
+   * @return {!<Blockly.Block>} Array of user-generated shadow blocks currently
+   *   loaded.
+   */
   getShadowBlocksInWorkspace() {
     /*
      * TODO: Move in from wfactory_model.js
@@ -228,5 +235,6 @@ class ToolboxEditorView {
 
     // TODO: Investigate if this function is necessary at all. Possibly delete.
     //       (This method was never called in DevTools)
+    throw 'Unimplemented: getShadowBlocksInWorkspace()';
   }
 }
