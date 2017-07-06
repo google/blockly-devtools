@@ -50,10 +50,10 @@ class WorkspaceEditorView {
           spacing: 25,
           length: 3,
           colour: '#ccc',
-          snap: true},
-          media: 'media/',
-          toolbox: DevToolsToolboxes.toolboxEditor('')
-        }
+          snap: true
+        },
+        media: 'media/',
+        toolbox: DevToolsToolboxes.toolboxEditor('')
       });
 
     /**
@@ -66,30 +66,11 @@ class WorkspaceEditorView {
           spacing: 25,
           length: 3,
           colour: '#ccc',
-          snap: true},
-          media: 'media/',
-          toolbox: '<xml></xml>'
-        }
+          snap: true
+        },
+        media: 'media/',
+        toolbox: '<xml></xml>'
       });
-  }
-
-  /**
-   * Displays imported WorkspaceContents recently added to model onto editor view.
-   *
-   * @param {string} wsContentsName Name of toolbox that was imported.
-   * @param {string} xmlString String representation of XML of recently imported
-   *     toolbox.
-   */
-  loadImportedWorkspaceContents(wsContentsName, xmlString) {
-    /*
-     * TODO: Move in from wfactory_generator.js:loadXml(jsFileContents, importMode)
-     *                    wfactory_generator.js:evaluateMarkedCode(code)
-     *       Note: loadXml() is broken into two functions in refactored version.
-     *
-     * References:
-     * - evaluateMarkedCode()
-     */
-    throw 'Unimplemented: loadImportedWorkspaceContents()';
   }
 
   /**
@@ -125,5 +106,15 @@ class WorkspaceEditorView {
     /*
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryOptionsListeners_()
      */
+  }
+
+  /**
+   * Resets WorkspaceConfig checkboxes to default settings.
+   */
+  initBaseConfigs() {
+    /*
+     * TODO: Move in from wfactory_view.js:setBaseOptions()
+     */
+    throw 'Unimplemented: initBaseConfigs()';
   }
 }
