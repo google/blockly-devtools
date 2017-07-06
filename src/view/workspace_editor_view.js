@@ -117,7 +117,8 @@ class WorkspaceEditorView {
   }
 
   /**
-   * Add listeners for workspace factory options input elements.
+   * Add listeners for Workspace editor input elements. Used for creating/editing
+   * WorkspaceConfig objects.
    * @private
    */
   initConfigListeners_() {

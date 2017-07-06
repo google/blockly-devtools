@@ -275,7 +275,7 @@ class ToolboxEditorView {
   }
 
   /**
-   * Initialize the color picker in workspace factory.
+   * Initialize the color picker in Toolbox editor.
    * @private
    */
   initColorPicker_() {
