@@ -65,6 +65,17 @@ class ToolboxEditorView {
         media: 'media/',
         toolbox: '<xml></xml>'
       });
+
+    // Initialize editor view
+    this.initColorPicker_();
+    this.initClickHandlers_();
+    this.initEventListeners_();
+
+    // Disable category editing buttons until categories are created.
+    document.getElementById('button_remove').disabled = true;
+    document.getElementById('button_up').disabled = true;
+    document.getElementById('button_down').disabled = true;
+    document.getElementById('button_editCategory').disabled = true;
   }
 
   /**
@@ -306,7 +317,9 @@ class ToolboxEditorView {
   initClickHandlers_() {
     /*
      * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+     *       (Also moved into workspace_editor_view.js)
      */
+     throw 'Unimplemented: initClickHandlers_()';
   }
 
   /**
@@ -318,6 +331,32 @@ class ToolboxEditorView {
   initEventListeners_() {
     /*
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
+     *       (Also moved into workspace_editor_view.js)
      */
+    throw 'Unimplemented: initEventListeners_()';
+  }
+
+  /**
+   * Display or hide the add shadow button.
+   * @param {boolean} show True if the add shadow button should be shown, false
+   *    otherwise.
+   */
+  displayAddShadow_(show) {
+    /*
+     * TODO: Move in from wfactory_init.js
+     */
+    throw 'Unimplemented: displayAddShadow_()';
+  }
+
+  /**
+   * Display or hide the remove shadow button.
+   * @param {boolean} show True if the remove shadow button should be shown, false
+   *    otherwise.
+   */
+  displayRemoveShadow_(show) {
+    /*
+     * TODO: Move in from wfactory_model.js
+     */
+    throw 'Unimplemented: displayRemoveShadow_()';
   }
 }

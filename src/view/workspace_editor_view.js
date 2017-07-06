@@ -91,4 +91,44 @@ class WorkspaceEditorView {
      */
     throw 'Unimplemented: loadImportedWorkspaceContents()';
   }
+
+  /**
+   * Assign click handlers for Workspace editor.
+   * @param {!FactoryController} controller The controller for the workspace
+   *    factory tab.
+   * @private
+   */
+  initClickHandlers_() {
+    /*
+     * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+     *       (Also moved into toolbox_editor_view.js)
+     */
+     throw 'Unimplemented: initClickHandlers_()';
+  }
+
+  /**
+   * Add event listeners for Workspace editor.
+   * @param {!FactoryController} controller The controller for the workspace
+   *    factory tab.
+   * @private
+   */
+  initEventListeners_() {
+    /*
+     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
+     *       (Also moved into toolbox_editor_view.js)
+     */
+    throw 'Unimplemented: initEventListeners_()';
+  }
+
+  /**
+   * Add listeners for workspace factory options input elements.
+   * @param {!FactoryController} controller The controller for the workspace
+   *    factory tab.
+   * @private
+   */
+  initConfigListeners_() {
+    /*
+     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryOptionsListeners_()
+     */
+  }
 }
