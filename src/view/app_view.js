@@ -215,35 +215,35 @@ class AppView {
   /**
    * Calls response to selecting export project in menu.
    */
-  exportProject(){
+  exportProject() {
     // TODO: Fill in action.
   }
 
   /**
    * Calls response to selecting export current library in menu.
    */
-  exportCurrentLibrary(){
+  exportCurrentLibrary() {
     // TODO: Fill in action.
   }
 
   /**
    * Calls response to selecting export current toolbox in menu.
    */
-  exportCurrentToolbox(){
+  exportCurrentToolbox() {
     // TODO: Fill in action.
   }
 
   /**
    * Calls response to selecting export current workspace contents in menu.
    */
-  exportCurrentWorkspaceContents(){
+  exportCurrentWorkspaceContents() {
     // TODO: Fill in action.
   }
 
   /**
    * Calls response to selecting export current workspace configuration in menu.
    */
-  exportCurrentWorkspaceConfiguration(){
+  exportCurrentWorkspaceConfiguration() {
     // TODO: Fill in action.
   }
 
