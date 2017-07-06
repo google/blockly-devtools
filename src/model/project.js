@@ -43,22 +43,22 @@ class Project extends Resource {
      * The libraries in the project.
      * @type {!BlockLibrarySet}
      */
-    this.libraries = new BlockLibrarySet();
+    this.librarySet = new BlockLibrarySet();
     /**
      * The toolboxes in the project.
      * @type {!ToolboxSet}
      */
-    this.toolboxes = new ToolboxSet();
+    this.toolboxSet = new ToolboxSet();
     /**
      * The workspace contents in the project.
      * @type {!WorkspaceContentsSet}
      */
-    this.workspaceContents = new WorkspaceContents();
+    this.workspaceContentsSet = new WorkspaceContents();
     /**
      * The workspace configurations in the project.
      * @type {!WorkspaceConfigurationsSet}
      */
-    this.workspaceConfigs = new WorkspaceConfigurationsSet();
+    this.workspaceConfigSet = new WorkspaceConfigurationsSet();
   }
 
   /**
@@ -66,7 +66,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all block types in the project.
    */
   getBlockTypes() {
-    return this.libraries.getAllBlockTypes();
+    return this.librarySet.getAllBlockTypes();
   }
 
   /**
@@ -74,7 +74,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all library names.
    */
   getLibraryNames() {
-    return this.libraries.getLibraryNames();
+    return this.librarySet.getLibraryNames();
   }
 
   /**
@@ -82,7 +82,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all toolbox names.
    */
   getToolboxNames() {
-    return this.toolboxes.getToolboxNames();
+    return this.toolboxSet.getToolboxNames();
   }
 
   /**
@@ -90,7 +90,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all workspace contents names.
    */
   getWorkspaceContentsNames() {
-    return this.workspaceContents.getWorkspaceNames();
+    return this.workspaceContentsSet.getWorkspaceNames();
   }
 
   /**
@@ -98,7 +98,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all workspace configuration names.
    */
   getWorkspaceConfigurationNames() {
-    return this.workspaceConfigs.getWorkspaceConfigurationNames();
+    return this.workspaceConfigSet.getWorkspaceConfigurationNames();
   }
 
   /**
@@ -113,16 +113,16 @@ class Project extends Resource {
    */
   hasComponent(componentType, componentName) {
     if (componentType === "BlockLibrary") {
-      return this.libraries.has(componentName);
+      return this.librarySet.has(componentName);
     }
     if (componentType === "Toolbox") {
-      return this.toolboxes.has(componentName);
+      return this.toolboxSet.has(componentName);
     }
     if (componentType === "WorkspaceContents") {
-      return this.workspaceContents.has(componentName);
+      return this.workspaceContentsSet.has(componentName);
     }
     if (componentType === "WorkspaceConfiguration") {
-      return this.workspaceConfigs.has(componentName);
+      return this.workspaceConfigSet.has(componentName);
     } else {
       throw "hasComponent: invalid componentType";
     }
@@ -135,7 +135,7 @@ class Project extends Resource {
    * @param {string} libraryName The name of the library to add the block to.
    */
   addBlockToProject(libraryName, blockDefinition) {
-    this.libraries.addBlockToLibrary(libraryName, blockDefinition);
+    this.librarySet.addBlockToLibrary(libraryName, blockDefinition);
   }
 
   /**
@@ -143,7 +143,7 @@ class Project extends Resource {
    * @param {string} libraryName The name of the library to be added.
    */
   addLibrary(libraryName) {
-    this.libraries.addLibrary(libraryName);
+    this.librarySet.addLibrary(libraryName);
   }
 
   /**
@@ -151,7 +151,7 @@ class Project extends Resource {
    * @param {string} toolboxName The name of the toolbox to be added.
    */
   addToolbox(toolboxName) {
-    this.toolboxes.addToolbox(toolbox);
+    this.toolboxSet.addToolbox(toolbox);
   }
 
   /**
@@ -160,7 +160,7 @@ class Project extends Resource {
    *     be added.
    */
   addWorkspaceContents(workspaceContentsName) {
-    this.workspaceContents.addWorkspaceContents(workspaceContentsName);
+    this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
   }
 
   /**
@@ -168,7 +168,7 @@ class Project extends Resource {
    * @param {string} workspaceConfigName The workspace configuration to be added.
    */
   addWorkspaceConfiguration(workspaceConfigName) {
-    this.workspaceConfigs.addWorkspaceConfiguration(workspaceConfigName);
+    this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
   }
 
   /**

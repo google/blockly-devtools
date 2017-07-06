@@ -169,7 +169,7 @@
    * @param {string} resourceName The name of the resource to be found.
    * @return {boolean} Whether or not the resource is present in the set.
    */
-   hasResource(resourceName) {
-    throw "unimplemented: hasResource";
+   has(resourceName) {
+    throw "unimplemented: has";
    }
 }

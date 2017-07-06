@@ -67,21 +67,12 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
-   * Gets the blockTypes contained within the library.
+   * Gets the blockTypes contained within the library set.
    * @return {Array.<string>} The block types contained across all libraries in
    *     the set.
    */
    getAllBlockTypes() {
     throw "unimplemented: getAllBlockTypes";
-   }
-
-  /**
-   * Returns whether or not a named block library is in the set.
-   * @param {string} libraryName The name of the library to be found.
-   * @return {boolean} Whether or not the associated library is in the set.
-   */
-   has(libraryName) {
-    return super.hasResource(libraryName);
    }
 
   /**

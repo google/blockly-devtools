@@ -69,14 +69,4 @@ class WorkspaceConfigurationSet extends ResourceSet {
   getWorkspaceConfigurationNames() {
     return super.getResourceNames();
   }
-
-  /**
-   * Determines whether or not a named workspace configuration is in the set.
-   * @param {string} workspaceConfigName The name of the workspace configuration
-   *      to be found.
-   * @return {boolean} Whether or not the workspace configuration is in the set.
-   */
-   has(workspaceConfigName) {
-    return super.hasResource(workspaceConfigName);
-   }
 }
