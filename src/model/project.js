@@ -156,7 +156,8 @@ class Project extends Resource {
 
   /**
    * Adds named workspace contents to the project.
-   * @param {string} workspaceContentsName The workspace contents to be added.
+   * @param {string} workspaceContentsName The name of the workspace contents to
+   *     be added.
    */
   addWorkspaceContents(workspaceContentsName) {
     this.workspaceContents.addWorkspaceContents(workspaceContentsName);
