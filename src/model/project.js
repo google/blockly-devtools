@@ -50,7 +50,7 @@ class Project extends Resource {
      */
     this.toolboxes = new ToolboxSet();
     /**
-     * The workspace contents objects in the project.
+     * The workspace contents in the project.
      * @type {!WorkspaceContentsSet}
      */
     this.workspaceContents = new WorkspaceContents();
