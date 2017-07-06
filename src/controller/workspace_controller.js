@@ -254,4 +254,22 @@ class WorkspaceController {
 
     return extractedWorkspaceContents;
   }
+
+  /**
+   * Generates JavaScript string representation of WorkspaceContents for user to
+   * download. Does not deal with popups or file system access; just generates content.
+   *
+   * @returns {string} String representation of JS file to be exported.
+   */
+  generateJsFileContents() {
+    /*
+     * TODO: Move in from wfactory_generator.js:generateJsFromXml(xml, name, mode)
+     *       (Also moved into: toolbox.js)
+     *
+     * References:
+     * [NEW] this.generateXml()
+     * [NEW] this.name
+     */
+    console.log('generateJsFileContents() called from WorkspaceController.');
+  }
 }

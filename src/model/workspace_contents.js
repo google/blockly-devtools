@@ -115,22 +115,12 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Gets the data necessary to export the workspace contents.
-   * @return {!Object} The data needed to export the workspace contents
-   */
-  getExportData() {
-    //TODO: implement
-    throw "unimplemented: getExportData";
-  }
-  //TODO: Create getters/has specified for nature of workspaceContents
-
-  /**
    * Generates string of XML dom element for WorkspaceContents. Used to insert
    * into files that user will download.
    *
    * @return {string} String representation of XML DOM of WorkspaceContents.
    */
-  generateXml() {
+  getExportData() {
     /*
      * TODO: Move in from wfactory_generator.js:generateWorkspaceXml()
      *
@@ -138,24 +128,6 @@ class WorkspaceContents extends Resource {
      * - hiddenWorkspace.clear()
      * - setShadowBlocksInHiddenWorkspace_()
      */
-    console.log('Called generateXml() from WorkspaceContents.');
-  }
-
-  /**
-   * Generates JavaScript string representation of WorkspaceContents for user to
-   * download. Does not deal with popups or file system access; just generates content.
-   *
-   * @returns {string} String representation of JS file to be exported.
-   */
-  generateJsFileContents() {
-    /*
-     * TODO: Move in from wfactory_generator.js:generateJsFromXml(xml, name, mode)
-     *       (Also moved into: toolbox.js)
-     *
-     * References:
-     * [NEW] this.generateXml()
-     * [NEW] this.name
-     */
-    console.log('generateJsFileContents() called from WorkspaceContents.');
+    throw "unimplemented: getExportData";
   }
 }
