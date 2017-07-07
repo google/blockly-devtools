@@ -72,7 +72,7 @@ class BlockLibrarySet extends ResourceSet {
    *     the set.
    */
   getAllBlockTypes() {
-    throw "umimplemented: getAllBlockTypes"
+    throw "umimplemented: getAllBlockTypes";
    }
 
   /**
