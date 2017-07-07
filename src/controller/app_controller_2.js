@@ -34,6 +34,22 @@
 // which will be refactored into this (and other) files.
 class AppController2 {
   constructor() {
+    // Block Factory has a dependency on bits of Closure that core Blockly
+    // doesn't have. When you run this from file:// without a copy of Closure,
+    // it breaks it non-obvious ways.  Warning about this for now until the
+    // dependency is broken.
+    // TODO: #668.
+    if (!window.goog.dom.xml) {
+      alert('Sorry: Closure dependency not found. We are working on removing ' +
+        'this dependency.  In the meantime, you can use our hosted demo\n ' +
+        'https://blockly-demo.appspot.com/static/demos/blockfactory/index.html' +
+        '\nor use these instructions to continue running locally:\n' +
+        'https://developers.google.com/blockly/guides/modify/web/closure');
+      return;
+    }
+
+    // TODO: Move in functions from AppController.init().
+
     /**
      * Stores currently loaded project that user will edit.
      * @type {!Project}
@@ -58,6 +74,105 @@ class AppController2 {
      * @type {!PopupController}
      */
     this.popupController = new PopupController(this.projectController);
+
+    /**
+     * Map of tab type to div element for the tab.
+     * @type {!Object.<string, !Element>}
+     */
+    this.tabMap = {};
+    this.tabMap[this.BLOCK_FACTORY] = $('#blockFactory_tab');
+    this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
+    this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
+
+    this.lastSelectedTab = null;
+
+    this.selectedTab = this.BLOCK_FACTORY;
+  }
+
+  // ======================== CONSTANTS ===========================
+  // TODO: Remove/add tabs to fit new DevTools model.
+  /**
+   * Static get function for constant BLOCK_FACTORY. Represents one of the
+   * three tabs in the controller.
+   * @return {!string}
+   */
+  static get BLOCK_FACTORY() {
+    return 'BLOCK_FACTORY';
+  }
+
+  /**
+   * Static get function for constant WORKSPACE_FACTORY. Represents one of the
+   * three tabs in the controller.
+   * @return {!string}
+   */
+  static get WORKSPACE_FACTORY() {
+    return 'WORKSPACE_FACTORY';
+  }
+
+  /**
+   * Static get function for constant EXPORTER. Represents one of the three tabs
+   * in the controller.
+   * @return {!string}
+   */
+  static get EXPORTER() {
+    return 'EXPORTER';
+  }
+
+  // ========================= VIEW-CONTROLLER ==========================
+
+  /**
+   * Set the selected tab.
+   * @param {string} tabName AppController.BLOCK_FACTORY,
+   *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
+   */
+  setSelectedTab(tabName) {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - this.lastSelectedTab
+     * - this.selectedTab
+     */
+    throw 'Unimplemented: setSelectedTab()';
+  }
+
+  /**
+   * Called on each tab click. Hides and shows specific content based on which tab
+   * (Block Factory, Workspace Factory, or Exporter) is selected.
+   */
+  onTab() {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - this.tabMap
+     * - this.lastSelectedTab
+     * - FactoryUtils.savedBlockChanges()
+     */
+    throw 'Unimplemented: onTab()';
+  }
+
+  /**
+   * If given checkbox is checked, enable the given elements.  Otherwise, disable.
+   * @param {boolean} enabled True if enabled, false otherwise.
+   * @param {!Array.<string>} idArray Array of element IDs to enable when
+   *     checkbox is checked.
+   */
+  ifCheckedEnable(enabled, idArray) {
+    /*
+     * TODO: Move in from app_controller.js
+     */
+    throw 'Unimplemented: ifCheckedEnable()';
+  }
+
+  // ========================= MODEL-CONTROLLER ==========================
+
+  /**
+   * Handle Blockly Storage with App Engine.
+   */
+  initializeBlocklyStorage() {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: initializeBlocklyStorage()';
   }
 
   /**

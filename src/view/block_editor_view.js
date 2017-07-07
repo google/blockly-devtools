@@ -46,6 +46,38 @@ class BlockEditorView {
   }
 
   /**
+   * Add click handlers to each tab to allow switching between the Block Factory,
+   * Workspace Factory, and Block Exporter tab.
+   * @param {!Object} tabMap Map of tab name to div element that is the tab.
+   */
+  addTabHandlers(tabMap) {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - makeTabClickHandler_()
+     */
+    throw 'Unimplemented: addTabHandlers()';
+  }
+
+  /**
+   * Creates the tab click handler specific to the tab specified.
+   * @param {string} tabName AppController.BLOCK_FACTORY,
+   *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
+   * @return {!Function} The tab click handler.
+   */
+  makeTabClickHandler(tabName) {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - this.setSelected_()
+     * - this.onTab()
+     */
+    throw 'Unimplemented: makeTabClickHandler()';
+  }
+
+  /**
    * Render starter block (factory_base).
    * @param {string} inputType Type of input (statement, value, dummy).
    * @param {string} blockTypeName Name of block, given by user.
@@ -54,5 +86,14 @@ class BlockEditorView {
    */
   showStarterBlock(inputType, blockTypeName, opt_blockStarterText) {
     // TODO: Move in from factory.js
+    throw 'Unimplemented: showStarterBlock()';
+  }
+
+  /**
+   * Disable link and save buttons if the format is 'Manual', enable otherwise.
+   */
+  disableEnableLink() {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: disableEnableLink()';
   }
 }
