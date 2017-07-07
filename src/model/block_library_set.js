@@ -71,7 +71,7 @@ class BlockLibrarySet extends ResourceSet {
    * @return {Array.<string>} The block types contained across all libraries in
    *     the set.
    */
-   getAllBlockTypes() {
+  getAllBlockTypes() {
     throw "unimplemented: getAllBlockTypes";
    }
 
@@ -91,4 +91,61 @@ class BlockLibrarySet extends ResourceSet {
     }
    }
 
+  /**
+   * Returns a map of all block types in the library set to their definitions.
+   * @return {!Object<string, BlockDefinition>} Map of all block types to their
+   *     definitions.
+   */
+  getAllBlockDefinitionsMap() {
+    throw "unimplemented: getAllBlockDefinitionsMap";
+  }
+
+  /**
+   * Returns a map of all block types in a named library to their definitions.
+   * @param {string} libraryName The name of the library to get the map from.
+   * @return {!Object<string, BlockDefinition>} Map of the library's block types
+   *     to their definitions.
+   */
+  getBlockDefinitionMap(libraryName) {
+    throw "unimplemented: getBlockDefinitionMap";
+  }
+
+  /**
+   * Removes a blockwith a given name from the entire set.
+   * @param {string} blockType The name of the block to be removed.
+   */
+  removeBlockFromSet(blockType) {
+    throw "unimplemented: removeBlockFromSet";
+  }
+
+  /**
+   * Removes a block from a named library.
+   * @param {string} libraryName The name of the library to remove the
+   *     block from.
+   * @param {string} blockType The name of the block to be removed.
+   */
+  removeBlockFromLibrary(libraryName, blockType) {
+    throw "unimplemented: removeBlockDefFromLibrary";
+  }
+
+  /**
+   * Clears a library in the set.
+   * @param {string} libraryName The name of the library tp be cleared.
+   */
+  clearLibrary(libraryName) {
+    throw "unimplemented: clearLibrary";
+  }
+
+  /**
+   * Returns whether or not a named library is the only location of a given
+   *     block type in the set.
+   * @param {string} libraryName The name of the library with the block.
+   * @param {string} blockType The name of the block to be checked.
+   * @return {boolean} True if the library is the only location of the block
+   *     type, false if the block type isn't in the given library or is
+   *     contained in other libraries in the set.
+   */
+  isOnlyLocationOfBlock(libraryName, blockType) {
+    throw "unimplemented: isOnlyLocationOfBlockDef";
+  }
 }

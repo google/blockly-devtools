@@ -154,4 +154,13 @@ class WorkspaceContents extends Resource {
      */
     throw "unimplemented: getExportData";
   }
+
+  /**
+   * Gets the JSON object necessary to represent the workspace contents in the
+   *     navigation tree.
+   * @return {!Object} The JSON representation of the workspace contents.
+   */
+  getTreeJson() {
+    throw "unimplemented: getTreeJson";
+  }
 }

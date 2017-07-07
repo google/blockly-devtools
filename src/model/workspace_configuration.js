@@ -121,4 +121,14 @@ class WorkspaceConfiguration extends Resource {
     //TODO: implement
     throw "unimplemented: getExportData";
   }
+
+  /**
+   * Gets the JSON object necessary to represent the workspace configuration in
+   *     the navigation tree.
+   * @return {!Object} The tree-specific JSON representation of the workspace
+   *     configuration.
+   */
+  getTreeJson() {
+    throw "unimplemented: getTreeJson";
+  }
 }
