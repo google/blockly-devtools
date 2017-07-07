@@ -45,5 +45,14 @@ class BlockEditorView {
       });
   }
 
-  // TODO: Add functions.
+  /**
+   * Render starter block (factory_base).
+   * @param {string} inputType Type of input (statement, value, dummy).
+   * @param {string} blockTypeName Name of block, given by user.
+   * @param {string} opt_blockStarterText Starter text to place on block, given by
+   *     user (optional).
+   */
+  showStarterBlock(inputType, blockTypeName, opt_blockStarterText) {
+    // TODO: Move in from factory.js
+  }
 }
