@@ -76,4 +76,24 @@ class BlockEditorView {
      */
     throw 'Unimplemented: makeTabClickHandler()';
   }
+
+  /**
+   * Render starter block (factory_base).
+   * @param {string} inputType Type of input (statement, value, dummy).
+   * @param {string} blockTypeName Name of block, given by user.
+   * @param {string} opt_blockStarterText Starter text to place on block, given by
+   *     user (optional).
+   */
+  showStarterBlock(inputType, blockTypeName, opt_blockStarterText) {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: showStarterBlock()';
+  }
+
+  /**
+   * Disable link and save buttons if the format is 'Manual', enable otherwise.
+   */
+  disableEnableLink() {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: disableEnableLink()';
+  }
 }

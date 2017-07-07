@@ -23,8 +23,14 @@
  * block editor, which is where developers can define and edit new blocks.
  * New blocks are updated into the NavTreeView upon creation.
  *
- * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo), fraser (Neil Fraser),
+ *     quachtina96 (Tina Quach)
  */
+'use strict';
+
+goog.require('FactoryUtils');
+goog.require('StandardCategories');
+
 class BlockEditorController {
   constructor(project) {
     /**
@@ -44,6 +50,68 @@ class BlockEditorController {
      * @type {!BlockEditorView}
      */
     this.view = new BlockEditorView(this.currentBlockDefinition);
+
+    /**
+     * Existing direction ('ltr' vs 'rtl') of preview.
+     * @type {string}
+     */
+    this.previewDirection = null;
+  }
+
+  /*
+   * The starting XML for the Block Editor main workspace. Contains the
+   * unmovable, undeletable factory_base block. Allows user input to change XML
+   * starter block.
+   *
+   * @param {string} inputType Type of input (statement, value, dummy).
+   * @param {string} blockTypeName Name of block, given by user.
+   * @param {string} opt_blockStarterText Starter text to place on block, given by
+   *     user (optional).
+  */
+  buildStartXml(inputType, blockTypeName, opt_blockStarterText) {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: buildStartXml()';
+  }
+
+  /**
+   * Change the language code format.
+   */
+  formatChange() {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: formatChange()';
+  }
+
+  /**
+   * Update the language code based on constructs made in Blockly.
+   */
+  updateLanguage() {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: updateLanguage()';
+  }
+
+  /**
+   * Update the generator code.
+   * @param {!Blockly.Block} block Rendered block in preview workspace.
+   */
+  updateGenerator(block) {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: updateGenerator()';
+  }
+
+  /**
+   * Update the preview display.
+   */
+  updatePreview() {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: updatePreview()';
+  }
+
+  /**
+   * Returns whether or not the current block open is the starter block.
+   */
+  isStarterBlock() {
+    // TODO: Move in from factory.js
+    throw 'Unimplemented: isStarterBlock()';
   }
 
   /**
