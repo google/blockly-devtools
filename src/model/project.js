@@ -102,33 +102,6 @@ class Project extends Resource {
   }
 
   /**
-   * Checks whether or not a given Toolbox, WorkspaceContents,
-   *     WorkspaceConfiguration or BlockLibrary is in the project.
-   * @param {string} componentType The type of component to be searched for:
-   *     BlockLibrary, Toolbox, Workspacecontents, or WorkspaceConfiguration.
-   * @param {string} componentName The name of the component to be found.
-   * @throws Will throw an error if the componentType is invalid, i.e. not
-   *     "BlockLibrary", "Toolbox", "WorkspaceContents", or
-   *     "WorkspaceConfiguration".
-   */
-  hasComponent(componentType, componentName) {
-    if (componentType === "BlockLibrary") {
-      return this.librarySet.has(componentName);
-    }
-    if (componentType === "Toolbox") {
-      return this.toolboxSet.has(componentName);
-    }
-    if (componentType === "WorkspaceContents") {
-      return this.workspaceContentsSet.has(componentName);
-    }
-    if (componentType === "WorkspaceConfiguration") {
-      return this.workspaceConfigSet.has(componentName);
-    } else {
-      throw "hasComponent: invalid componentType";
-    }
-  }
-
-  /**
    * Adds a block to the project by adding it to the named block library.
    * @param {!BlockDefinition} blockDefinition The block definition to add to
    *     the project.
@@ -172,33 +145,43 @@ class Project extends Resource {
   }
 
   /**
-   * Returns current block library mapping block type to XML.
-   * @return {!Object<string, Element>} Object mapping block type to XML text.
+   * Returns a map of all block types in the project to their definitions.
+   * @return {!Object<string, !BlockDefinition>} Map of all block types to their
+   *     definitions.
    */
-  getBlockLibraryXmlMap() {
-    return this.currentLibrary.storage.getBlockXmlTextMap();
+  getAllBlockDefinitionsMap() {
+    return this.librarySet.getAllBlockDefinitionsMap();
   }
 
   /**
-   * Removes block currently being edited from project.
-   *
+   * Returns a map of all block types in a named library in the project to their
+   *     definitions.
+   * @param {string} libraryName The name of the library to get the map from.
+   * @return {!Object<string, !BlockDefinition>} Map of the library's block types
+   *     to their definitions, or null if the library is not in the project.
    */
-  removeBlockFromProject() {
-    this.currentLibrary.removeFromBlockLibrary();
+  getLibraryBlockDefinitionMap(libraryName) {
+    return this.librarySet.getBlockDefinitionMap(libraryName);
   }
 
   /**
-   * Clears the current library.
+   * Removes a block definition from project.
+   * @param {string} blockType The name of the block to be removed.
    */
-  clearLibrary() {
-    this.currentLibrary.clearBlockLibrary();
+  //TODO #89: determine specifics of deletion from a project
+  //TODO #90: sort out specifics of deletion for descendants
+  removeBlockFromProject(blockType) {
+    this.librarySet.removeBlockFromSet(blockType);
+    this.toolboxSet.removeBlockFromSet(blockType);
+    this.workspaceContentsSet.removeBlockFromSet(blockType);
   }
 
   /**
-   * Saves block currently being edited.
+   * Clears a named library in the project.
+   * @param {string} libraryName The name of the library to be cleared.
    */
-  saveBlock() {
-    this.currentLibrary.saveToBlockLibrary();
+  clearLibrary(libraryName) {
+    this.librarySet.clearLibrary(libraryName);
   }
 
   /**
@@ -215,12 +198,7 @@ class Project extends Resource {
    * @param {string} newName New name of the project.
    */
   setName(newName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw "unimplemented: setName";
+    this.name = newName;
   }
 
   /**
@@ -308,5 +286,14 @@ class Project extends Resource {
   getExportData() {
     //TODO: implement
     throw "unimplemented: getExportData";
+  }
+
+  /**
+   * Gets the JSON object necessary to represent the project in the navigation
+   *     tree.
+   * @return {!Object} The tree-specific JSON representation of the project.
+   */
+  getTreeJson() {
+    throw "unimplemented: getTreeJson";
   }
 }

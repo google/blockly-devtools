@@ -65,4 +65,22 @@ class ToolboxSet extends ResourceSet {
   getToolboxNames() {
     return super.getResourceNames();
   }
+
+  /**
+   * Removes a named block from the entire set.
+   * @param {string} blockType The name of the block to remove.
+   */
+  removeBlockFromSet(blockType) {
+    throw "unimplemented: removeBlockFromSet";
+  }
+
+  /**
+   * Removes a block from a named toolbox.
+   * @param {string} toolboxName The name of the toolbox to remove the
+   *     block from.
+   * @param {string} blockType The name of the block to remove.
+   */
+  removeBlockFromToolbox(toolboxName, blockType) {
+    throw "unimplemented: removeBlockFromToolbox";
+  }
 }

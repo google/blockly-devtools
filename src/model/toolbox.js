@@ -351,7 +351,6 @@ class Toolbox extends Resource {
   }
 
   /**
-<<<<<<< HEAD
    * Removes a shadow block ID from the list of shadow block IDs if that ID is
    * in the list.
    * @param {string} blockId The unique ID of block to be removed.
@@ -464,5 +463,14 @@ class Toolbox extends Resource {
   hasProcedures() {
     // Moved in from wfactory_model.js
     return this.hasProcedureCategory;
+  }
+
+  /**
+   * Gets the JSON object necessary to represent the toolbox in the navigation
+   *     tree.
+   * @return {!Object} The tree-specific JSON representation of the toolbox.
+   */
+  getTreeJson() {
+    throw "unimplemented: getTreeJson";
   }
 }

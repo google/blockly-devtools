@@ -67,4 +67,22 @@ class WorkspaceContentsSet extends ResourceSet {
   getWorkspaceContentsNames() {
     super.getResourceNames();
   }
+
+  /**
+   * Removes a named block from the entire set.
+   * @param {string} blockType The name of the block to remove.
+   */
+  removeBlockFromSet(blockType) {
+    throw "unimplemented: removeBlockFromSet";
+  }
+
+  /**
+   * Removes a block from a named workspace contents.
+   * @param {string} workspaceContentsName The name of the workspace contents
+   *     to remove the block from.
+   * @param {string} blockType The name of the block to be removed.
+   */
+  removeBlockFromWorkspaceContents(workspaceContentsName, blockType) {
+    throw "unimplemented: removeBlockFromWorkspaceContents";
+  }
 }

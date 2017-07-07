@@ -172,4 +172,13 @@
    has(resourceName) {
     throw "unimplemented: has";
    }
+
+  /**
+   * Gets the JSON object necessary to represent the resource set in the
+   *     navigation tree.
+   * @return {!Object} The tree-specific JSON representation of the resource set.
+   */
+  getTreeJson() {
+    throw "unimplemented: getTreeJson";
+  }
 }

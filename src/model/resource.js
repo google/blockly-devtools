@@ -66,4 +66,13 @@ class Resource {
   getExportData() {
     throw "abstract method: getExportData";
   }
+
+  /**
+   * Gets the JSON object necessary to represent the resource in the navigation
+   *     tree.
+   * @return {!Object} The tree-specific JSON representation of the resource.
+   */
+  getTreeJson() {
+    throw "abstract method: getTreeJson";
+  }
 }
