@@ -117,15 +117,20 @@ class EditorController {
    *     to the array of blockTypes.
    */
   getDefinedBlocks(blockTypes) {
-    /*
-     * TODO: Move in from wfactory_generator.js:getDefinedBlocks()
-     *
-     * References:
-     * - FactoryUtils.getDefinedBlock()
-     */
+    // REFACTORED: from wfactory_generator.js:getDefinedBlocks()
 
     // TODO: Remove this function, since block definitions should only be imported
     //       via the block library.
-    throw 'Unimplemented: getDefinedBlocks()';
+
+    const blockList = [];
+    const blockDefMap = this.project.getAllBlockDefinitionsMap();
+
+    for (const blockType in blockDefMap) {
+      // TODO: Once BlockDefinition is defined, replace BlockDefinition.block to
+      //       correct field reference to the Blockly.Block.
+      blockList.push(blockDefMap[blockType].block);
+    }
+
+    return blockList;
   }
 }
