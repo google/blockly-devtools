@@ -34,6 +34,22 @@
 // which will be refactored into this (and other) files.
 class AppController2 {
   constructor() {
+    // Block Factory has a dependency on bits of Closure that core Blockly
+    // doesn't have. When you run this from file:// without a copy of Closure,
+    // it breaks it non-obvious ways.  Warning about this for now until the
+    // dependency is broken.
+    // TODO: #668.
+    if (!window.goog.dom.xml) {
+      alert('Sorry: Closure dependency not found. We are working on removing ' +
+        'this dependency.  In the meantime, you can use our hosted demo\n ' +
+        'https://blockly-demo.appspot.com/static/demos/blockfactory/index.html' +
+        '\nor use these instructions to continue running locally:\n' +
+        'https://developers.google.com/blockly/guides/modify/web/closure');
+      return;
+    }
+
+    // TODO: Move in functions from AppController.init().
+
     /**
      * Stores currently loaded project that user will edit.
      * @type {!Project}
@@ -97,6 +113,7 @@ class AppController2 {
      * - this.lastSelectedTab
      * - this.selectedTab
      */
+    throw 'Unimplemented: setSelectedTab()';
   }
 
   /**
@@ -112,6 +129,7 @@ class AppController2 {
      * - this.lastSelectedTab
      * - FactoryUtils.savedBlockChanges()
      */
+    throw 'Unimplemented: onTab()';
   }
 
   /**
@@ -124,6 +142,7 @@ class AppController2 {
     /*
      * TODO: Move in from app_controller.js
      */
+    throw 'Unimplemented: ifCheckedEnable()';
   }
 
   // ========================= MODEL-CONTROLLER ==========================
@@ -133,6 +152,7 @@ class AppController2 {
    */
   initializeBlocklyStorage() {
     // TODO: Move in from app_controller.js
+    throw 'Unimplemented: initializeBlocklyStorage()';
   }
 
   /**

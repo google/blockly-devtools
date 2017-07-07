@@ -63,6 +63,8 @@ class BlockEditorController {
     // TODO(#87): Remove XML's from block library import/export. Download block
     //            definitions and generator stubs, and parse definition JSONs when
     //            importing.
+
+    throw 'Unimplemented: importBlockLibraryFromFile';
   }
 
   /**
@@ -82,6 +84,8 @@ class BlockEditorController {
     // TODO(#87): Remove XML's from block library import/export. Download block
     //            definitions and generator stubs, and parse definition JSONs when
     //            importing.
+
+    throw 'Unimplemented: exportBlockLibraryToFile()';
   }
 
   /**
@@ -97,5 +101,7 @@ class BlockEditorController {
      */
 
     // TODO(#87): Remove this function after adding new features.
+
+    throw 'Unimplemented: getBlockTypeFromXml_()';
   }
 }

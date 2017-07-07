@@ -38,22 +38,6 @@ goog.require('goog.ui.ColorPicker');
  */
 class AppView {
   constructor(appController) {
-    // Block Factory has a dependency on bits of Closure that core Blockly
-    // doesn't have. When you run this from file:// without a copy of Closure,
-    // it breaks it non-obvious ways.  Warning about this for now until the
-    // dependency is broken.
-    // TODO: #668.
-    if (!window.goog.dom.xml) {
-      alert('Sorry: Closure dependency not found. We are working on removing ' +
-        'this dependency.  In the meantime, you can use our hosted demo\n ' +
-        'https://blockly-demo.appspot.com/static/demos/blockfactory/index.html' +
-        '\nor use these instructions to continue running locally:\n' +
-        'https://developers.google.com/blockly/guides/modify/web/closure');
-      return;
-    }
-
-    // TODO: Move in functions from AppController.init().
-
     /**
      * The AppController for the DevTools session.
      * @type {!AppController}
@@ -393,9 +377,8 @@ class AppView {
    * @private
    */
   styleTabs_() {
-    /*
-     * TODO: Move in from app_controller.js
-     */
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: styleTabs_()';
   }
 
   /**
@@ -406,6 +389,7 @@ class AppView {
      * TODO: Move in from app_controller.js
      */
     // TODO(#7): Remove after exporter is consolidated into save/open project.
+    throw 'Unimplemented: assignExporterClickHandlers()';
   }
 
   /**
@@ -415,6 +399,7 @@ class AppView {
   assignExporterChangeListeners() {
     // TODO: Move in from app_controller.js
     // TODO(#7): Remove after exporter is consolidated into save/open project.
+    throw 'Unimplemented: assignExporterChangeListeners()';
   }
 
   /**
@@ -422,6 +407,7 @@ class AppView {
    */
   assignLibraryClickHandlers() {
     // TODO: Move in from app_controller.js
+    throw 'Unimplemented: assignLibraryClickHandlers()';
   }
 
   /**
@@ -429,6 +415,7 @@ class AppView {
    */
   assignBlockFactoryClickHandlers() {
     // TODO: Move in from app_controller.js
+    throw 'Unimplemented: assignBlockFactoryClickHandlers()';
   }
 
   /**
@@ -436,24 +423,27 @@ class AppView {
    */
   addBlockFactoryEventListeners() {
     // TODO: Move in from app_controller.js
+    throw 'Unimplemented: addBlockFactoryEventListeners()';
   }
 
   /**
    * Handle resizing of elements.
-   * @param {!Event} event onresize event.
+   * @param {Event} event onresize event.
    */
   onresize(event) {
     // Move in from app_controller.js
+    throw 'Unimplemented: onresize()';
   }
 
   /**
    * Handler for the window's 'beforeunload' event. When a user has unsaved
    * changes and refreshes or leaves the page, confirm that they want to do so
    * before actually refreshing.
-   * @param {!Event} event beforeunload event.
+   * @param {Event} event beforeunload event.
    */
   confirmLeavePage(event) {
     // TODO: Move in from app_controller.js
+    throw 'Unimplemented: confirmLeavePage()';
   }
 
   /**
@@ -462,6 +452,7 @@ class AppView {
    */
   openModal(id) {
     // TODO: Move in from app_controller.js
+    throw 'Unimplemented: openModal()';
   }
 
   /**
@@ -469,6 +460,7 @@ class AppView {
    */
   closeModal() {
     // TODO: Move in from app_controller.js
+    throw 'Unimplemented: closeModal()';
   }
 
   createBlocklyInitPopup(firstLoad) {
@@ -478,5 +470,6 @@ class AppView {
      * References:
      * - this.newBlockDialogController.showNewBlockDiaog(firstLoad)
      */
+    throw 'Unimplemented: createBlocklyInitPopup()';
   }
 }
