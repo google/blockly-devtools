@@ -115,13 +115,13 @@ class BlockLibrarySet extends ResourceSet {
    * @param {string} blockType The name of the block to be removed.
    */
   removeBlockFromSet(blockType) {
-    throw "unimplemented: removeBlockDefinitionFromSet";
+    throw "unimplemented: removeBlockFromSet";
   }
 
   /**
-   * Removes a block definition from a named library.
+   * Removes a block from a named library.
    * @param {string} libraryName The name of the library to remove the
-   *     definition from.
+   *     block from.
    * @param {string} blockType The name of the block to be removed.
    */
   removeBlockFromLibrary(libraryName, blockType) {
