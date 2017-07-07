@@ -148,4 +148,13 @@ class BlockLibrarySet extends ResourceSet {
   isOnlyLocationOfBlock(libraryName, blockType) {
     throw "unimplemented: isOnlyLocationOfBlockDef";
   }
+
+  /**
+   * Returns whether or not a named block is in the library set.
+   * @param {string} blockType The name of the block to be found.
+   * @return {boolean} Whether or not the block is in the set.
+   */
+  hasBlock(blockType) {
+    return
+  }
 }
