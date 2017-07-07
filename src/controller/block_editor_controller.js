@@ -59,15 +59,16 @@ class BlockEditorController {
   }
 
   /*
-   * The starting XML for the Block Factory main workspace. Contains the
+   * The starting XML for the Block Editor main workspace. Contains the
    * unmovable, undeletable factory_base block. Allows user input to change XML
    * starter block.
    *
    * @param {string} inputType Type of input (statement, value, dummy).
-   * @param {string} blockStarterText Starter text to place on block, given by user (optional).
    * @param {string} blockTypeName Name of block, given by user.
+   * @param {string} opt_blockStarterText Starter text to place on block, given by
+   *     user (optional).
   */
-  buildStartXml(inputType, blockStarterText, blockTypeName) {
+  buildStartXml(inputType, blockTypeName, opt_blockStarterText) {
     // TODO: Move in from factory.js
   }
 
@@ -101,13 +102,13 @@ class BlockEditorController {
   }
 
   /**
-   * Render starter block (factory_base).
+   * Render starter block.
    * @param {string} inputType Type of input (statement, value, dummy).
-   * @param {string} blockStarterText Starter text to place on block, given by
-   *     user (optional).
    * @param {string} blockTypeName Name of block, given by user.
+   * @param {string} opt_blockStarterText Starter text to place on block, given by
+   *     user (optional).
    */
-  disableEnableLink() {
+  disableEnableLink(inputType, blockTypeName, opt_blockStarterText) {
     // TODO: Move in from factory.js
   }
 
