@@ -980,7 +980,7 @@ WorkspaceFactoryController.prototype.clearAll = function() {
   this.view.updateState(-1, null);
   this.toolboxWorkspace.clear();
   this.toolboxWorkspace.clearUndo();
-  this.saveStateFromWorkspace();
+  this.saveStateFromWorkspace(); //bookmark
   this.hasUnsavedToolboxChanges = false;
   this.hasUnsavedPreloadChanges = false;
   this.view.setCategoryOptions(this.model.hasElements());

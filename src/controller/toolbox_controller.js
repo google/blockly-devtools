@@ -102,11 +102,25 @@ class ToolboxController {
    * Removes all categories and separators in the view. Clears categoryTabs to
    * reflect this.
    */
-  clearToolbox() {
+  clear() {
     /**
-     * TODO: Move in from wfactory_view.js:clearTabs()
+     * Moved in from wfactory_view.js:clearToolboxTabs()
+     *               wfactory_controller.js:clearAll()
      */
-    throw 'Unimplemented: clearToolbox()';
+    // Clears tabs
+    this.categoryTabs = {};
+
+    // Clears model
+    this.currentToolbox.clearCategoryList();
+
+    // Clears view elements
+    this.view.clearElements();
+    this.view.addEmptyToolboxMessage();
+    this.updateElementButtons(-1, null);
+
+    // Clears Blockly toolbox editor workspace
+    this.view.editorWorkspace.clear();
+    this.view.editorWorkspace.clearUndo();
   }
 
   /**
@@ -641,17 +655,6 @@ class ToolboxController {
   }
 
   /**
-   * Adds a help message to emphasize empty toolbox. Shown when starting with empty
-   * Toolbox or when user manually deletes all categories in their Toolbox.
-   */
-  addEmptyToolboxMessage() {
-    /*
-     * TODO: Move in from wfactory_view.js:addEmptyCategoryMessage()
-     */
-    throw 'Unimplemented: addEmptyToolboxMessage()';
-  }
-
-  /**
    * Enables/disables ListElement buttons (add, remove, move up/down) depending
    * on what ListElement is currently selected.
    * Called when adding or removing elements, or when changing/swapping to new
@@ -659,7 +662,7 @@ class ToolboxController {
    *
    * @param {number} selectedIndex The index of the currently selected category,
    *     -1 if no categories created.
-   * @param {ListElement} selected The selected ListElement.
+   * @param {?ListElement} selected The selected ListElement.
    */
   updateElementButtons(selectedIndex, selected) {
     /*

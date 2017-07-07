@@ -91,6 +91,15 @@ class WorkspaceController {
   }
 
   /**
+   * Clears Workspace editor of all WorkspaceContents blocks.
+   */
+  clear() {
+    // TODO: Implement
+    this.currentWorkspaceContents.setXml('<xml></xml>');
+    throw 'Unimplemented: clear()';
+  }
+
+  /**
    * Displays imported WorkspaceContents recently added to model onto editor view.
    *
    * @param {string} wsContentsName Name of toolbox that was imported.

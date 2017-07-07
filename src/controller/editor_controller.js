@@ -64,6 +64,10 @@ class EditorController {
    * Clears the editing area completely, deleting all categories and all
    * blocks in the model and view and all pre-loaded blocks. Tied to the
    * "Clear" button.
+   *
+   * TODO: Decouple the pairing of toolbox and workspace editor so that there is
+   *       a function to clear one at a time and not both with one call (since
+   *       they will be in separate views).
    */
   clearAll() {
     /*
@@ -80,7 +84,9 @@ class EditorController {
      * - generateNewOptions()
      * - updatePreview()
      */
-    throw 'Unimplemented: clearAll()';
+    // throw 'Unimplemented: clearAll()';
+    this.toolboxController.clear();
+    this.workspaceController.clear();
   }
 
   /**
