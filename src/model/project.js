@@ -107,6 +107,7 @@ class Project extends Resource {
    * @param {string} componentType The type of component to be searched for:
    *     BlockLibrary, Toolbox, Workspacecontents, or WorkspaceConfiguration.
    * @param {string} componentName The name of the component to be found.
+   * @return {boolean} Whether or not the component is in the project.
    * @throws Will throw an error if the componentType is invalid, i.e. not
    *     "BlockLibrary", "Toolbox", "WorkspaceContents", or
    *     "WorkspaceConfiguration".
@@ -181,41 +182,68 @@ class Project extends Resource {
   }
 
   /**
-   * Returns a map of all block types in a named library to their definitions.
+   * Returns a map of all block types in a named library in the project to their
+   *     definitions.
    * @param {string} libraryName The name of the library to get the map from.
    * @return {!Object<string, BlockDefinition>} Map of the library's block types
-   *     to their definitions.
+   *     to their definitions, or null if the library is not in the project.
    */
   getLibraryBlockDefinitionMap(libraryName) {
-    return this.librarySet.getBlockDefinitionsMap(libraryName);
+    return this.librarySet.getBlockDefinitionMap(libraryName);
   }
 
   /**
-   * Removes block currently being edited from project.
+   * Removes a block definition from project.
+   * @param {BlockDefinition} blockDefinition The block definition to be removed.
    */
-  removeBlockFromProject() {
-    this.currentLibrary.removeFromBlockLibrary();
+  removeBlockFromProject(blockDefinition) {
+    this.librarySet.removeBlockDefinitionFromSet(blockDefinition);
+    this.toolboxSet.removeBlockDefinitionFromSet(blockDefinition);
+    this.workspaceContentsSet.removeBlockDefinitionFromSet(blockDefinition);
   }
 
   /**
-   * Clears the current library.
+   * Removes block definition from a given BlockLibrary, Toolbox, or
+   *     WorkspaceContents in the project.
+   * @param {string} componentType The type of component to be removed from:
+   *     BlockLibrary, Toolbox, or WorkspaceContents.
+   * @param {string} componentName The name of the component to have the
+   *     definition removed from.
+   * @param {BlockDefinition} definition The block definition to be removed.
+   * @throws Will throw an error if the componentType is invalid, i.e. not
+   *     "BlockLibrary", "Toolbox", or "WorkspaceContents"
    */
-  clearLibrary() {
-    this.currentLibrary.clearBlockLibrary();
+  removeBlockDefinitionFromComponent(componentType, componentName, definition) {
+    if (componentType === "BlockLibrary") {
+      if(this.librarySet.isOnlyLocationOfBlockDef(componentName, definition)) {
+        this.removeBlockFromProject(definition);
+      } else {
+        this.librarySet.removeBlockDefFromLibrary(componentName, definition);
+      }
+    }
+    if (componentType === "Toolbox") {
+      this.toolboxSet.removeBlockDefFromToolbox(componentName, definition);
+    }
+    if (componentType === "WorkspaceContents") {
+      this.workspaceContentsSet.removeBlockDefFromWorkspaceContents(componentName,
+          definition);
+    } else {
+      throw "removeBlockDefinitionFromComponent: invalid componentType";
+    }
   }
 
   /**
-   * Saves block currently being edited.
+   * Clears a named library in the project.
+   * @param {string} libraryName The name of the library to be cleared.
    */
-  saveBlock() {
-    this.currentLibrary.saveToBlockLibrary();
+  clearLibrary(libraryName) {
+    this.librarySet.clearLibrary(libraryName);
   }
 
   /**
    * Returns whether or not there are unsaved elements in the project.
    * @return {boolean} Whether or not unsaved elements exist.
    */
-  //TODO #52: move warning from BlockLibraryController to ProjectController.
   isDirty() {
     return this.currentLibrary.warnIfUnsavedChanges();
   }

@@ -71,8 +71,8 @@ class BlockLibrarySet extends ResourceSet {
    * @return {Array.<string>} The block types contained across all libraries in
    *     the set.
    */
-   getAllBlockTypes() {
-    throw "unimplemented: getAllBlockTypes";
+  getAllBlockTypes() {
+    throw "umimplemented: getAllBlockTypes"
    }
 
   /**
@@ -91,4 +91,61 @@ class BlockLibrarySet extends ResourceSet {
     }
    }
 
+  /**
+   * Returns a map of all block types in the library set to their definitions.
+   * @return {!Object<string, BlockDefinition>} Map of all block types to their
+   *     definitions.
+   */
+  getAllBlockDefinitionsMap() {
+    throw "umimplemented: getAllBlockDefinitionsMap";
+  }
+
+  /**
+   * Returns a map of all block types in a named library to their definitions.
+   * @param {string} libraryName The name of the library to get the map from.
+   * @return {!Object<string, BlockDefinition>} Map of the library's block types
+   *     to their definitions.
+   */
+  getBlockDefinitionMap(libraryName) {
+    throw "umimplemented: getBlockDefinitionMap";
+  }
+
+  /**
+   * Removes a block definition from the entire set.
+   * @param {!BlockDefinition} blockDefinition The definition to be removed.
+   */
+  removeBlockDefinitionFromSet(blockDefinition) {
+    throw "umimplemented: removeBlockDefinitionFromSet";
+  }
+
+  /**
+   * Removes a block definition from a named library.
+   * @param {string} libraryName The name of the library to remove the
+   *     definition from.
+   * @param {BlockDefinition} blockDefinition The definition to be removed.
+   */
+  removeBlockDefFromLibrary(libraryName, blockDefinition) {
+    throw "umimplemented: removeBlockDefFromLibrary";
+  }
+
+  /**
+   * Clears a library in the set.
+   * @param {string} libraryName The name of the library tp be cleared.
+   */
+  clearLibrary(libraryName) {
+    throw "umimplemented: clearLibrary";
+  }
+
+  /**
+   * Returns whether or not a named library is the only location of a given
+   *     block definition in the set.
+   * @param {string} libraryName The name of the library with the definition.
+   * @param {!BlockDefinition} blockDefinition The defintion to be checked.
+   * @return {boolean} True if the library is the only location of the block
+   *     definition, false if the definition isn't in the given library, or is
+   *     contained in other libraries in the set.
+   */
+  isOnlyLocationOfBlockDef(libraryName, blockDefinition) {
+    throw "unimplemented: isOnlyLocationOfBlockDef";
+  }
 }
