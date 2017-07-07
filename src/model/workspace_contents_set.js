@@ -70,7 +70,7 @@ class WorkspaceContentsSet extends ResourceSet {
 
   /**
    * Removes a given block definition from the entire set.
-   * @param {string} blockDefinition The name of the block to remove.
+   * @param {string} blockType The name of the block to remove.
    */
   removeBlockFromSet(blockDefinition) {
     throw "unimplemented: removeBlockDefinitionFromSet";

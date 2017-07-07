@@ -102,34 +102,6 @@ class Project extends Resource {
   }
 
   /**
-   * Checks whether or not a given Toolbox, WorkspaceContents,
-   *     WorkspaceConfiguration or BlockLibrary is in the project.
-   * @param {string} componentType The type of component to be searched for:
-   *     BlockLibrary, Toolbox, Workspacecontents, or WorkspaceConfiguration.
-   * @param {string} componentName The name of the component to be found.
-   * @return {boolean} Whether or not the component is in the project.
-   * @throws Will throw an error if the componentType is invalid, i.e. not
-   *     "BlockLibrary", "Toolbox", "WorkspaceContents", or
-   *     "WorkspaceConfiguration".
-   */
-  hasComponent(componentType, componentName) {
-    if (componentType === "BlockLibrary") {
-      return this.librarySet.has(componentName);
-    }
-    else if (componentType === "Toolbox") {
-      return this.toolboxSet.has(componentName);
-    }
-    else if (componentType === "WorkspaceContents") {
-      return this.workspaceContentsSet.has(componentName);
-    }
-    else if (componentType === "WorkspaceConfiguration") {
-      return this.workspaceConfigSet.has(componentName);
-    } else {
-      throw "hasComponent: invalid componentType";
-    }
-  }
-
-  /**
    * Adds a block to the project by adding it to the named block library.
    * @param {!BlockDefinition} blockDefinition The block definition to add to
    *     the project.
@@ -174,7 +146,7 @@ class Project extends Resource {
 
   /**
    * Returns a map of all block types in the project to their definitions.
-   * @return {!Object<string, BlockDefinition>} Map of all block types to their
+   * @return {!Object<string, !BlockDefinition>} Map of all block types to their
    *     definitions.
    */
   getAllBlockDefinitionsMap() {
@@ -185,7 +157,7 @@ class Project extends Resource {
    * Returns a map of all block types in a named library in the project to their
    *     definitions.
    * @param {string} libraryName The name of the library to get the map from.
-   * @return {!Object<string, BlockDefinition>} Map of the library's block types
+   * @return {!Object<string, !BlockDefinition>} Map of the library's block types
    *     to their definitions, or null if the library is not in the project.
    */
   getLibraryBlockDefinitionMap(libraryName) {
@@ -196,41 +168,12 @@ class Project extends Resource {
    * Removes a block definition from project.
    * @param {string} blockType The name of the block to be removed.
    */
-  //TODO
-  removeBlockFromProject(blockDefinition) {
-    this.librarySet.removeBlockDefinitionFromSet(blockDefinition);
-    this.toolboxSet.removeBlockDefinitionFromSet(blockDefinition);
-    this.workspaceContentsSet.removeBlockDefinitionFromSet(blockDefinition);
-  }
-
-  /**
-   * Removes a block of a given type from a given BlockLibrary, Toolbox, or
-   *     WorkspaceContents in the project.
-   * @param {string} componentType The type of component to be removed from:
-   *     BlockLibrary, Toolbox, or WorkspaceContents.
-   * @param {string} componentName The name of the component to have the
-   *     definition removed from.
-   * @param {string} blockType The name of the block to be removed.
-   * @throws Will throw an error if the componentType is invalid, i.e. not
-   *     "BlockLibrary", "Toolbox", or "WorkspaceContents"
-   */
-  removeBlockDefinitionFromComponent(componentType, componentName, blockType) {
-    if (componentType === "BlockLibrary") {
-      if (this.librarySet.isOnlyLocationOfBlock(componentName, blockType)) {
-        this.removeBlockFromProject(definition);
-      } else {
-        this.librarySet.removeBlockFromLibrary(componentName, blockType);
-      }
-    }
-    else if (componentType === "Toolbox") {
-      this.toolboxSet.removeBlockFromToolbox(componentName, blockType);
-    }
-    else if (componentType === "WorkspaceContents") {
-      this.workspaceContentsSet.removeBlockFromWorkspaceContents(componentName,
-          blockType);
-    } else {
-      throw "removeBlockDefinitionFromComponent: invalid componentType";
-    }
+  //TODO #89: determine specifics of deletion from a project
+  //TODO #90: sort out specifics of deletion for descendants
+  removeBlockFromProject(blockType) {
+    this.librarySet.removeBlockFromSet(blockType);
+    this.toolboxSet.removeBlockFromSet(blockType);
+    this.workspaceContentsSet.removeBlockFromSet(blockType);
   }
 
   /**

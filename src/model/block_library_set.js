@@ -138,11 +138,11 @@ class BlockLibrarySet extends ResourceSet {
 
   /**
    * Returns whether or not a named library is the only location of a given
-   *     block definition in the set.
-   * @param {string} libraryName The name of the library with the definition.
+   *     block type in the set.
+   * @param {string} libraryName The name of the library with the block.
    * @param {string} blockType The name of the block to be checked.
    * @return {boolean} True if the library is the only location of the block
-   *     definition, false if the definition isn't in the given library, or is
+   *     type, false if the block type isn't in the given library or is
    *     contained in other libraries in the set.
    */
   isOnlyLocationOfBlock(libraryName, blockType) {
