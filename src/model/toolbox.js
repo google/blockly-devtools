@@ -351,7 +351,6 @@ class Toolbox extends Resource {
   }
 
   /**
-<<<<<<< HEAD
    * Removes a shadow block ID from the list of shadow block IDs if that ID is
    * in the list.
    * @param {string} blockId The unique ID of block to be removed.

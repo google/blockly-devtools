@@ -68,19 +68,19 @@ class ToolboxSet extends ResourceSet {
 
   /**
    * Removes a given block definition from the entire set.
-   * @param {!BlockDefinition} blockDefinition The block defintition to remove.
+   * @param {string} blockType The name of the block to remove.
    */
-  removeBlockDefinitionFromSet(blockDefinition) {
-    throw "umimplemented: removeBlockDefinitionFromSet";
+  removeBlockFromSet(blockDefinition) {
+    throw "unimplemented: removeBlockFromSet";
   }
 
   /**
    * Removes a block definition from a named toolbox.
    * @param {string} toolboxName The name of the toolbox to remove the
    *     definition from.
-   * @param {BlockDefinition} blockDefinition The definition to be removed.
+   * @param {string} blockType The name of the block to remove.
    */
-  removeBlockDefFromToolbox(toolboxName, blockDefinition) {
-    throw "umimplemented: removeBlockDefFromToolbox";
+  removeBlockFromToolbox(toolboxName, blockType) {
+    throw "unimplemented: removeBlockFromToolbox";
   }
 }

@@ -116,13 +116,13 @@ class Project extends Resource {
     if (componentType === "BlockLibrary") {
       return this.librarySet.has(componentName);
     }
-    if (componentType === "Toolbox") {
+    else if (componentType === "Toolbox") {
       return this.toolboxSet.has(componentName);
     }
-    if (componentType === "WorkspaceContents") {
+    else if (componentType === "WorkspaceContents") {
       return this.workspaceContentsSet.has(componentName);
     }
-    if (componentType === "WorkspaceConfiguration") {
+    else if (componentType === "WorkspaceConfiguration") {
       return this.workspaceConfigSet.has(componentName);
     } else {
       throw "hasComponent: invalid componentType";
@@ -194,8 +194,9 @@ class Project extends Resource {
 
   /**
    * Removes a block definition from project.
-   * @param {BlockDefinition} blockDefinition The block definition to be removed.
+   * @param {string} blockType The name of the block to be removed.
    */
+  //TODO
   removeBlockFromProject(blockDefinition) {
     this.librarySet.removeBlockDefinitionFromSet(blockDefinition);
     this.toolboxSet.removeBlockDefinitionFromSet(blockDefinition);
@@ -203,30 +204,30 @@ class Project extends Resource {
   }
 
   /**
-   * Removes block definition from a given BlockLibrary, Toolbox, or
+   * Removes a block of a given type from a given BlockLibrary, Toolbox, or
    *     WorkspaceContents in the project.
    * @param {string} componentType The type of component to be removed from:
    *     BlockLibrary, Toolbox, or WorkspaceContents.
    * @param {string} componentName The name of the component to have the
    *     definition removed from.
-   * @param {BlockDefinition} definition The block definition to be removed.
+   * @param {string} blockType The name of the block to be removed.
    * @throws Will throw an error if the componentType is invalid, i.e. not
    *     "BlockLibrary", "Toolbox", or "WorkspaceContents"
    */
-  removeBlockDefinitionFromComponent(componentType, componentName, definition) {
+  removeBlockDefinitionFromComponent(componentType, componentName, blockType) {
     if (componentType === "BlockLibrary") {
-      if(this.librarySet.isOnlyLocationOfBlockDef(componentName, definition)) {
+      if (this.librarySet.isOnlyLocationOfBlock(componentName, blockType)) {
         this.removeBlockFromProject(definition);
       } else {
-        this.librarySet.removeBlockDefFromLibrary(componentName, definition);
+        this.librarySet.removeBlockFromLibrary(componentName, blockType);
       }
     }
-    if (componentType === "Toolbox") {
-      this.toolboxSet.removeBlockDefFromToolbox(componentName, definition);
+    else if (componentType === "Toolbox") {
+      this.toolboxSet.removeBlockFromToolbox(componentName, blockType);
     }
-    if (componentType === "WorkspaceContents") {
-      this.workspaceContentsSet.removeBlockDefFromWorkspaceContents(componentName,
-          definition);
+    else if (componentType === "WorkspaceContents") {
+      this.workspaceContentsSet.removeBlockFromWorkspaceContents(componentName,
+          blockType);
     } else {
       throw "removeBlockDefinitionFromComponent: invalid componentType";
     }
@@ -254,12 +255,7 @@ class Project extends Resource {
    * @param {string} newName New name of the project.
    */
   setName(newName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw "unimplemented: setName";
+    this.name = newName;
   }
 
   /**

@@ -70,19 +70,19 @@ class WorkspaceContentsSet extends ResourceSet {
 
   /**
    * Removes a given block definition from the entire set.
-   * @param {!BlockDefinition} blockDefinition The block defintition to remove.
+   * @param {string} blockDefinition The name of the block to remove.
    */
-  removeBlockDefinitionFromSet(blockDefinition) {
-    throw "umimplemented: removeBlockDefinitionFromSet";
+  removeBlockFromSet(blockDefinition) {
+    throw "unimplemented: removeBlockDefinitionFromSet";
   }
 
   /**
    * Removes a block definition from a named workspace contents.
    * @param {string} workspaceContentsName The name of the workspace contents
    *     to remove the definition from.
-   * @param {BlockDefinition} blockDefinition The definition to be removed.
+   * @param {string} blockType The name of the block to be removed.
    */
-  removeBlockDefFromWorkspaceContents(workspaceContentsName, blockDefinition) {
-    throw "umimplemented: removeBlockDefFromWorkspaceContents";
+  removeBlockFromWorkspaceContents(workspaceContentsName, blockType) {
+    throw "unimplemented: removeBlockDefFromWorkspaceContents";
   }
 }
