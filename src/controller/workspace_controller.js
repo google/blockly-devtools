@@ -151,8 +151,6 @@ class WorkspaceController {
     throw 'Unimplemented: importContentsFromTree_()';
   }
 
-  // ============================== SHADOW BLOCKS ==============================
-
   /**
    * Loads the given XML to the hidden Blockly.Workspace and sets any user-generated
    * shadow blocks to be actual shadow blocks in the hidden Blockly.Workspace.
