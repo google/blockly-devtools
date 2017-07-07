@@ -1153,23 +1153,3 @@ FactoryUtils.bindClick = function(element, func) {
   element.addEventListener('click', func, true);
   element.addEventListener('touchend', func, true);
 };
-
-/**
- * Creates a file and downloads it. In some browsers downloads, and in other
- * browsers, opens new tab with contents.
- * @param {string} filename Name of file
- * @param {!Blob} data Blob containing contents to download
- */
-FactoryUtils.createAndDownloadFile = function(filename, data) {
-  // Moved in from wfactory_view.js
-  var clickEvent = new MouseEvent('click', {
-    'view': window,
-    'bubbles': true,
-    'cancelable': false
-  });
-  var a = document.createElement('a');
-  a.href = window.URL.createObjectURL(data);
-  a.download = filename;
-  a.textContent = 'Download file!';
-  a.dispatchEvent(clickEvent);
-};
