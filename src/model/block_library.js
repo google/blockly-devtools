@@ -40,18 +40,19 @@ class BlockLibrary extends Resource {
 
     /**
      * An array of all block types stored in the block library.
-     * @type {!Array.<string>}
+     * @type {!Object<string, !BlockDefinition}
      */
-    this.blocks = [];
+    this.blocks = {};
   }
 
   /**
    * Saves block to block library.
+   * @param {string} blockType The name of the block to be added.
    * @param {!BlockDefinition} blockDefinition The definition of the block to be
    *    saved.
    */
-  addBlockDefinition(blockDefinition) {
-    throw "unimplemented: addBlock";
+  addBlockDefinition(blockType, blockDefinition) {
+    this.blocks[blockType] = blockDefinition;
   }
 
   /**
@@ -59,7 +60,7 @@ class BlockLibrary extends Resource {
    * @return {!Array.<string>} Array of block types stored in block library.
    */
   getBlockTypes() {
-    throw "unimplemented: getBlockTypes";
+    return Object.keys(this.blocks);
   }
 
   /**
@@ -67,8 +68,9 @@ class BlockLibrary extends Resource {
    * @param {string} blockType Type of block.
    * @return {Element} The XML that represents the block type or null.
    */
+   //TODO #87: phase out
   getBlockXml(blockType) {
-    throw "unimplemented: getBlockXml";
+    return this.blocks[blockType].getXml();
   }
 
   /**
@@ -77,7 +79,7 @@ class BlockLibrary extends Resource {
    * @return {Object} The JSON that represents the block type or null.
    */
   getBlockJson(blockType) {
-    throw "unimplemented: getBlockJson";
+    return this.blocks[blockType].getJson();
   }
 
   /**
@@ -86,6 +88,7 @@ class BlockLibrary extends Resource {
    * @param {!Array.<string>} blockTypes Types of blocks.
    * @return {!Object<string, Element>} Map of block type to corresponding XML.
    */
+  //TODO #87: phase out
   getBlockXmlMap(blockTypes) {
     /* TODO: handle the blockType not being contained within the library
      * TODO: Move from src/block_library_storage.js, see if method necessary
@@ -180,12 +183,7 @@ class BlockLibrary extends Resource {
    * @param {string} newName New name of the library.
    */
   setName(newName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw "unimplemented: setName";
+    this.name = newName;
   }
 
   /**
@@ -195,6 +193,33 @@ class BlockLibrary extends Resource {
   getExportData() {
     //TODO: implement
     throw "unimplemented: getExportData";
+  }
+
+  /**
+   * Returns JSON object of library's blocktypes.
+   * @return {!Object} the JSON of all block types
+   */
+  makeBlockTypeJson() {
+    if (this.libraryController.hasEmptyBlockLibrary()) {
+      return '';
+    }
+    const treeBlockTypeJson = [];
+    const types= this.libraryController.getStoredBlockTypes();
+    const iterationIndex = 1;
+    const finalIndex = 0;
+    const toAdd;
+    const blockType;
+    while (types[iterationIndex]) {
+      blockType= types[iterationIndex - 1];
+      toAdd = {'text': blockType, 'id': blockType};
+      treeBlockTypeJson.push(toAdd);
+      iterationIndex++;
+      finalIndex++;
+    }
+    blockType = types[finalIndex];
+    toAdd = { 'text': blockType, 'id': blockType};
+    treeBlockTypeJson.push(toAdd);
+    return treeBlockTypeJson;
   }
 
   /**

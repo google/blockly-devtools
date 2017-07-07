@@ -121,15 +121,34 @@ class AppView {
     //       toolbox editor, workspace editor) instead of managing/tracking all
     //       dropdowns in AppView.
     this.modalName_ = null;
+
+    /**
+     * The block editor view for the session.
+     * @type {!BlockEditorView}
+     */
+    this.blockEditorView = new BlockEditorView();
+
+    /**
+     * The toolbox view for the session.
+     * @type {!ToolboxView}
+     */
+    this.toolboxView = new ToolboxView();
+
+    /**
+     * The workspace view for the session.
+     * @type {!WorkspaceView}
+     */
+    this.workspaceView = new WorkspaceView();
   }
 
   /**
    * Initializes the tree for the session.
-   * @param {! BlockLibraryController} the libraryController for the session
+   * @param {!ProjectController} projectController The ProjectController for the
+   *     session.
    */
-  setLibraryTree(libraryController){
-    //initializes navigation tree with blocks in the library
-    this.navTree = new NavigationTree(libraryController);
+  setLibraryTree(projectController){
+    //initializes navigation tree with blocks in the project
+    this.navTree = new NavigationTree(projectController);
   }
 
   /**
@@ -335,28 +354,98 @@ class AppView {
   }
 
   /**
-   * Removes a block from the navigation tree.
+   * Adds a block to the navigation tree.
+   * @param {string} blockType The type of block to add.
    */
-  removeBlockFromTree() {
-    var currentBlockType =
-      this.appController.blockLibraryController.getCurrentBlockType();
-    this.navTree.deleteBlockNode(currentBlockType);
+  addBlockToTree(blockType) {
+    this.navTree.addBlockNode(blockType);
   }
 
   /**
-   * Adds a block to the navigation tree.
+   * Adds a block library to the navigation tree.
+   * @param {string} libraryName The name of the library to add.
    */
-  addBlockToTree() {
-    var currentBlockType =
-      this.appController.blockLibraryController.getCurrentBlockType();
-    this.navTree.addBlockNode(currentBlockType);
+  addLibraryToTree(libraryName) {
+    console.warn("unimplemented: AppView.addLibraryToTree(libraryName)");
+  }
+
+  /**
+   * Adds a toolbox to the navigation tree.
+   * @param {string} toolboxName The name of the toolbox to add.
+   */
+  addToolboxToTree(toolboxName) {
+    console.warn("unimplemented: AppView.addToolboxToTree(toolboxName)");
+  }
+
+  /**
+   * Adds a workspace contents object to the navigation tree.
+   * @param {string} workspaceContentsName The name of the workspace contents to
+   *     add.
+   */
+  addWorkspaceContentsToTree(workspaceContentsName) {
+    console.warn("unimplemented:
+        AppView.addWorkspaceContentsToTree(workspaceContentsName)");
+  }
+
+  /**
+   * Adds a workspace configuration to the navigation tree.
+   * @param {string} workspaceConfigurationName The name of the workspace
+   *     configuration to add.
+   */
+  addWorkspaceConfigurationToTree(workspaceConfigurationName) {
+    console.warn("unimplemented:
+        AppView.addWorkspaceConfigurationToTree(workspaceConfigurationName)");
   }
 
   /**
    * Clears the navigation tree.
    */
-  clearLibraryFromTree() {
-    this.navTree.clearLibrary();
+  clearTree() {
+    this.navTree.clear();
+  }
+
+  /**
+   * Removes a block from the navigation tree.
+   * @param {string} blockType The type of block to remove.
+   */
+  removeBlockFromTree(blockType) {
+    this.navTree.deleteBlockNode(blockType);
+  }
+
+  /**
+   * Removes a block library from the navigation tree.
+   * @param {string} libraryName The name of the library to remove.
+   */
+  removeLibraryFromTree(libraryName) {
+    console.warn("unimplemented: AppView.removeLibraryFromTree(libraryName)");
+  }
+
+  /**
+   * Removes a toolbox from the navigation tree.
+   * @param {string} toolboxName The name of the toolbox to remove.
+   */
+  removeToolboxFromTree(toolboxName) {
+    console.warn("unimplemented: AppView.removeToolboxFromTree(toolboxName)");
+  }
+
+  /**
+   * Removes a workspace contents object from the navigation tree.
+   * @param {string} workspaceContentsName The name of the workspace contents to
+   *     remove.
+   */
+  removeWorkspaceContentsFromTree(workspaceContentsName) {
+    console.warn("unimplemented:
+        AppView.removeWorkspaceContentsFromTree(workspaceContentsName)");
+  }
+
+  /**
+   * Removes a workspace configuration from the navigation tree.
+   * @param {string} workspaceConfignName The name of the workspace
+   *     configuration to remove.
+   */
+  removeWorkspaceConfigurationFromTree(workspaceConfigName) {
+    console.warn("unimplemented:
+        AppView.removeWorkspaceConfigurationFromTree(workspaceConfigName)");
   }
 
   /**
@@ -375,6 +464,14 @@ class AppView {
      * - bindClick()
      */
   }
+
+  /**
+   * Updates the workspace to show the block user selected from library
+   * @param {string} blockType Block to edit on block factory.
+   */
+   openBlock(blockType) {
+    this.blockEditorView.openBlock(blockType);
+   }
 
   /**
    * Called on each tab click. Styles the tabs to reflect which tab is selected.
