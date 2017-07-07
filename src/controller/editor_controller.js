@@ -70,21 +70,7 @@ class EditorController {
    *       they will be in separate views).
    */
   clearAll() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - clearToolboxList()
-     * - savePreloadXml()
-     * - savePreloadXml()
-     * - addEmptyCategoryMessage()
-     * - updateState()
-     * - saveStateFromWorkspace()
-     * - setCategoryOptions()
-     * - generateNewOptions()
-     * - updatePreview()
-     */
-    // throw 'Unimplemented: clearAll()';
+    // REFACTORED: from wfactory_controller.js:clearAll()
     this.toolboxController.clear();
     this.workspaceController.clear();
   }
@@ -92,85 +78,35 @@ class EditorController {
   /**
    * Determines if a block loaded in the workspace has a definition (if it
    * is a standard block, is defined in the block library, or has a definition
-   * imported).
+   * imported). Assumes that block types are unique in a given project.
    * @param {!Blockly.Block} block The block to examine.
+   * @return {boolean} Whether block has been defined in project.
    */
   isDefinedBlock(block) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - this.model.isDefinedBlockType(block.type);
-     */
-    throw 'Unimplemented: isDefinedBlock()';
+    // REFACTORED: from wfactory_controller.js
+    const blockType = block.type;
+    return this.project.has(blockType);
   }
 
   /**
-   * Sets a warning on blocks loaded to the workspace that are not defined.
+   * Sets a warning on undefined blocks loaded to the current editor workspace.
+   * Either in ToolboxController or WorkspaceController.
    * @private
    */
   warnForUndefinedBlocks_() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - isDefinedBlock()
-     */
-    throw 'Unimplemented: warnForUndefinedBlocks_()';
-  }
+    // REFACTORED: from wfactory_controller.js:warnForUndefinedBlocks_()
 
-  /**
-   * Loads the given XML to the hidden Blockly.Workspace and sets any user-generated
-   * shadow blocks to be actual shadow blocks in the hidden Blockly.Workspace.
-   *
-   * @param {!Element} xml XML to be loaded to the hidden workspace.
-   * @private
-   */
-  loadToHiddenWorkspace_(xml) {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - hiddenWorkspace (@type {!Blockly.Workspace})
-     * - setShadowBlocksInHiddenWorkspace_()
-     */
-
-    // TODO: Investigate if there is a better method than using hidden workspaces
-    //       for grabbing Block XML information.
-    throw 'Unimplemented: loadToHiddenWorkspace_()';
-  }
-
-  /**
-   * Encodes blocks in the hidden workspace in a XML DOM element. Very
-   * similar to workspaceToDom, but doesn't capture IDs. Uses the top-level
-   * blocks loaded in hiddenWorkspace.
-   * @private
-   * @param {!Element} xmlDom Tree of XML elements to be appended to.
-   */
-  appendHiddenWorkspaceToDom_(xmlDom) {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - hiddenWorkspace (@type {!Blockly.Workspace})
-     */
-    throw 'Unimplemented: appendHiddenWorkspaceToDom_()';
-  }
-
-  /**
-   * Sets the user-generated shadow blocks loaded into hiddenWorkspace to be
-   * actual shadow blocks. This is done so that blockToDom records them as
-   * shadow blocks instead of regular blocks.
-   * @private
-   */
-  setShadowBlocksInHiddenWorkspace_() {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - isShadowBlock()
-     */
-    throw 'Unimplemented: setShadowBlocksInHiddenWorkspace_()';
+    // Quit function if in block definition editor, since undefined is irrelevant.
+    if (typeof this.currentEditor === BlockEditorController) {
+      return;
+    }
+    const blocks = this.currentEditor.view.editorWorkspace.getAllBlocks();
+    for (const i = 0, block; block = blocks[i]; i++) {
+      if (!this.isDefinedBlock(block)) {
+        block.setWarningText(block.type + ' is not defined (it is not a standard '
+            + 'block, \nin your block library, or an imported block)');
+      }
+    }
   }
 
   /**

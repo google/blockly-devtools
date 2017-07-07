@@ -91,12 +91,26 @@ class WorkspaceController {
   }
 
   /**
-   * Clears Workspace editor of all WorkspaceContents blocks.
+   * Clears Workspace editor of all WorkspaceContents blocks. Resets currently
+   * active WorkspaceContents object to contain no blocks. Clears view of any
+   * WorkspaceContents blocks, and updates preview.
    */
   clear() {
-    // TODO: Implement
+    // REFACTORED: Moved in (partially) from wfactory_controller.js:clearAll()
     this.currentWorkspaceContents.setXml('<xml></xml>');
+    this.view.resetConfigs();
+    this.generateNewOptions();
+    this.updatePreview();
     throw 'Unimplemented: clear()';
+  }
+
+  /**
+   * Updates Workspace preview based on the WorkspaceConfig and WorkspaceContents
+   * currently being edited.
+   */
+  updatePreview() {
+    // TODO: Move in from wfactory_controller.js:updatePreview()
+    throw 'Unimplemented: updatePreview()';
   }
 
   /**

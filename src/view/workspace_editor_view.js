@@ -111,7 +111,7 @@ class WorkspaceEditorView {
   /**
    * Resets WorkspaceConfig checkboxes to default settings.
    */
-  initBaseConfigs() {
+  resetConfigs() {
     /*
      * TODO: Move in from wfactory_view.js:setBaseOptions()
      */
