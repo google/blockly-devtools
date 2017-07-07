@@ -442,7 +442,7 @@ class AppView {
    * @param {Event} event beforeunload event.
    */
   confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js
+    // TODO: Move in from app_controller.js"
     throw 'Unimplemented: confirmLeavePage()';
   }
 
@@ -463,6 +463,13 @@ class AppView {
     throw 'Unimplemented: closeModal()';
   }
 
+  /**
+   * Creates modal popup for populating inputs into block definition starter
+   * block in Block Definition Editor.
+   *
+   * @param {boolean} firstLoad Whether the popup is generated upon first loading
+   *     the application.
+   */
   createBlocklyInitPopup(firstLoad) {
     /*
      * TODO: Move in from app_controller.js

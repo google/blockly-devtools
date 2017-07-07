@@ -57,6 +57,7 @@ class BlockEditorView {
      * References:
      * - makeTabClickHandler_()
      */
+    throw 'Unimplemented: addTabHandlers()';
   }
 
   /**
@@ -73,5 +74,6 @@ class BlockEditorView {
      * - this.setSelected_()
      * - this.onTab()
      */
+    throw 'Unimplemented: makeTabClickHandler()';
   }
 }
