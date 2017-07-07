@@ -26,28 +26,28 @@
 class NavigationTree {
 /**
  * NavigationTree Class
- * @param {!AppView} appView Allows the tree to get the data from the project.
+ * @param {!Project} project The project the tree shall represent.
  * @constructor
  */
-  constructor(appView) {
+  constructor(project) {
     /**
-     * The AppView the tree belongs to.
-     * @type {!AppView}
+     * The Project the tree represents.
+     * @type {!Project}
      */
-    this.appView = appView;
+    this.project = project;
 
-    this.makeTree(blocks);
+    this.makeTree();
   }
 
   /**
    * Returns a JSON object for initial tree.
-   * @param {!Object} data The JSON representation of the project data.
    * @return {!Object} The JSON necessary to load the tree.
    */
-  makeTreeJson(data) {
+  makeTreeJson() {
     // TODO(#26) : give libraries names
     // TODO(#27) : upon giving libraries names add them as roots under the project
-    var tree = {
+    const data = this.project.getTreeJson();
+    const tree = {
       'core': {
         'check_callback': true,
         'data': data
@@ -80,27 +80,10 @@ class NavigationTree {
 
   /**
    * Populates the tree and adds its listener.
-   * @param {!Object} data The JSON representation of the project data.
    */
-  makeTree(data) {
-    var treeJson = this.makeTreeJson(data);
-    this.makeTreeListener();
+  makeTree() {
+    const treeJson = this.makeTreeJson();
     $('#navigationTree').jstree(treeJson);
-  }
-
-  /**
-   * Listens for block selected in tree.
-   */
-  makeTreeListener() {
-    $('#navigationTree').on('select_node.jstree', (e, data) => {
-      // collect data of all selected blocks
-      var i, j, r = [];
-      for (i = 0, j = data.selected.length; i < j; i++) {
-        r.push(data.instance.get_node(data.selected[i]).text);
-      }
-      // load the blocks
-      this.appView.openBlock(r.join(', '));
-    });
   }
 
   /**

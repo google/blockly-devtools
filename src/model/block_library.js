@@ -40,7 +40,7 @@ class BlockLibrary extends Resource {
 
     /**
      * An array of all block types stored in the block library.
-     * @type {!Object<string, !BlockDefinition}
+     * @type {!Object<string, !BlockDefinition>}
      */
     this.blocks = {};
   }
@@ -196,15 +196,15 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns JSON object of library's blocktypes.
+   * Returns JSON object of the library's blocktypes. For use in getTreeJson.
    * @return {!Object} the JSON of all block types
    */
   makeBlockTypeJson() {
-    if (this.libraryController.hasEmptyBlockLibrary()) {
+    if (this.isEmpty()) {
       return '';
     }
     const treeBlockTypeJson = [];
-    const types= this.libraryController.getStoredBlockTypes();
+    const types= this.getBlockTypes();
     const iterationIndex = 1;
     const finalIndex = 0;
     const toAdd;

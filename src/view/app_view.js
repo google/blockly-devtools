@@ -143,12 +143,12 @@ class AppView {
 
   /**
    * Initializes the tree for the session.
-   * @param {!ProjectController} projectController The ProjectController for the
-   *     session.
+   * @param {!Project} The project the tree represents.
    */
-  setLibraryTree(projectController){
+  setLibraryTree(project){
     //initializes navigation tree with blocks in the project
-    this.navTree = new NavigationTree(projectController);
+    this.navTree = new NavigationTree(project);
+    this.makeTreeListener();
   }
 
   /**
@@ -383,8 +383,7 @@ class AppView {
    *     add.
    */
   addWorkspaceContentsToTree(workspaceContentsName) {
-    console.warn("unimplemented:
-        AppView.addWorkspaceContentsToTree(workspaceContentsName)");
+    console.warn("unimplemented: AppView.addWorkspaceContentsToTree(workspaceContentsName)");
   }
 
   /**
@@ -393,8 +392,7 @@ class AppView {
    *     configuration to add.
    */
   addWorkspaceConfigurationToTree(workspaceConfigurationName) {
-    console.warn("unimplemented:
-        AppView.addWorkspaceConfigurationToTree(workspaceConfigurationName)");
+    console.warn("unimplemented: AppView.addWorkspaceConfigurationToTree(workspaceConfigurationName)");
   }
 
   /**
@@ -434,8 +432,7 @@ class AppView {
    *     remove.
    */
   removeWorkspaceContentsFromTree(workspaceContentsName) {
-    console.warn("unimplemented:
-        AppView.removeWorkspaceContentsFromTree(workspaceContentsName)");
+    console.warn("unimplemented: AppView.removeWorkspaceContentsFromTree(workspaceContentsName)");
   }
 
   /**
@@ -444,8 +441,7 @@ class AppView {
    *     configuration to remove.
    */
   removeWorkspaceConfigurationFromTree(workspaceConfigName) {
-    console.warn("unimplemented:
-        AppView.removeWorkspaceConfigurationFromTree(workspaceConfigName)");
+    console.warn("unimplemented: AppView.removeWorkspaceConfigurationFromTree(workspaceConfigName)");
   }
 
   /**
@@ -579,5 +575,20 @@ class AppView {
      * - this.newBlockDialogController.showNewBlockDiaog(firstLoad)
      */
     throw 'Unimplemented: createBlocklyInitPopup()';
+  }
+
+  /**
+   * Listens for block selected in tree.
+   */
+  makeTreeListener() {
+    $('#navigationTree').on('select_node.jstree', (e, data) => {
+      // collect data of all selected blocks
+      const i, j, r = [];
+      for (i = 0, j = data.selected.length; i < j; i++) {
+        r.push(data.instance.get_node(data.selected[i]).text);
+      }
+      // load the blocks
+      this.openBlock(r.join(', '));
+    });
   }
 }
