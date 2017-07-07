@@ -70,6 +70,7 @@ class BlockEditorController {
   */
   buildStartXml(inputType, blockTypeName, opt_blockStarterText) {
     // TODO: Move in from factory.js
+    throw 'Unimplemented: buildStartXml()';
   }
 
   /**
@@ -77,6 +78,7 @@ class BlockEditorController {
    */
   formatChange() {
     // TODO: Move in from factory.js
+    throw 'Unimplemented: formatChange()';
   }
 
   /**
@@ -84,6 +86,7 @@ class BlockEditorController {
    */
   updateLanguage() {
     // TODO: Move in from factory.js
+    throw 'Unimplemented: updateLanguage()';
   }
 
   /**
@@ -92,6 +95,7 @@ class BlockEditorController {
    */
   updateGenerator(block) {
     // TODO: Move in from factory.js
+    throw 'Unimplemented: updateGenerator()';
   }
 
   /**
@@ -99,13 +103,7 @@ class BlockEditorController {
    */
   updatePreview() {
     // TODO: Move in from factory.js
-  }
-
-  /**
-   * Disable link and save buttons if the format is 'Manual', enable otherwise.
-   */
-  disableEnableLink() {
-    // TODO: Move in from factory.js
+    throw 'Unimplemented: updatePreview()';
   }
 
   /**
@@ -113,5 +111,65 @@ class BlockEditorController {
    */
   isStarterBlock() {
     // TODO: Move in from factory.js
+    throw 'Unimplemented: isStarterBlock()';
+  }
+
+  /**
+   * Imports block library from file to Block Factory. Expects user to upload a
+   * single file of JSON mapping each block type to its XML text representation.
+   */
+  importBlockLibraryFromFile() {
+    /**
+     * TODO: Move in from app_controller.js
+     *          Also from app_controller.js:formatBlockLibraryForImport_(xmlText)
+     *
+     * References:
+     * - formatBlockLibraryForImport_()
+     * - setBlockLibraryStorage()
+     */
+
+    // TODO(#87): Remove XML's from block library import/export. Download block
+    //            definitions and generator stubs, and parse definition JSONs when
+    //            importing.
+
+    throw 'Unimplemented: importBlockLibraryFromFile';
+  }
+
+  /**
+   * Exports block library to file that contains JSON mapping each block type to
+   * its XML text representation.
+   */
+  exportBlockLibraryToFile() {
+    /**
+     * TODO: Move in from app_controller.js
+     *          Also from app_controller.js:formatBlockLibraryForExport_(blockXmlMap)
+     *
+     * References:
+     * - formatBlockLibraryForExport_()
+     * - FactoryUtils.createAndDownloadFile()
+     */
+
+    // TODO(#87): Remove XML's from block library import/export. Download block
+    //            definitions and generator stubs, and parse definition JSONs when
+    //            importing.
+
+    throw 'Unimplemented: exportBlockLibraryToFile()';
+  }
+
+  /**
+   * Extracts out block type from XML text, the kind that is saved in block
+   * library storage.
+   * @param {string} xmlText A block's XML text.
+   * @return {string} The block type that corresponds to the provided XML text.
+   * @private
+   *
+   * TODO(#87): Replace this function with getting block type from JSON block definition.
+   */
+  getBlockTypeFromXml_(xmlText) {
+    /**
+     * TODO: Move in from app_controller.js
+     */
+
+    throw 'Unimplemented: getBlockTypeFromXml_()';
   }
 }

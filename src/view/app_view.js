@@ -107,9 +107,20 @@ class AppView {
 
     /**
      * The tree for the DevTools session.
-     * @type {!JSTree}
+     * @type {?JSTree}
      */
     this.navTree = null;
+
+    /**
+     * Div ID of currently open modal. Modals are usually dropdown elements.
+     * @type {?string}
+     * @private
+     * Moved in from app_controller.js
+     */
+    // TODO: Separate modal management into each editor (block definition editor,
+    //       toolbox editor, workspace editor) instead of managing/tracking all
+    //       dropdowns in AppView.
+    this.modalName_ = null;
   }
 
   /**
@@ -363,5 +374,113 @@ class AppView {
      * - switchElement()
      * - bindClick()
      */
+  }
+
+  /**
+   * Called on each tab click. Styles the tabs to reflect which tab is selected.
+   * @private
+   */
+  styleTabs_() {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: styleTabs_()';
+  }
+
+  /**
+   * Assign button click handlers for the exporter.
+   */
+  assignExporterClickHandlers() {
+    /*
+     * TODO: Move in from app_controller.js
+     */
+    // TODO(#7): Remove after exporter is consolidated into save/open project.
+    throw 'Unimplemented: assignExporterClickHandlers()';
+  }
+
+  /**
+   * Assign change listeners for the exporter. These allow for the dynamic update
+   * of the exporter preview.
+   */
+  assignExporterChangeListeners() {
+    // TODO: Move in from app_controller.js
+    // TODO(#7): Remove after exporter is consolidated into save/open project.
+    throw 'Unimplemented: assignExporterChangeListeners()';
+  }
+
+  /**
+   * Assign button click handlers for the block library.
+   */
+  assignLibraryClickHandlers() {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: assignLibraryClickHandlers()';
+  }
+
+  /**
+   * Assign button click handlers for the block factory.
+   */
+  assignBlockFactoryClickHandlers() {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: assignBlockFactoryClickHandlers()';
+  }
+
+  /**
+   * Add event listeners for the block factory.
+   */
+  addBlockFactoryEventListeners() {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: addBlockFactoryEventListeners()';
+  }
+
+  /**
+   * Handle resizing of elements.
+   * @param {Event} event onresize event.
+   */
+  onresize(event) {
+    // Move in from app_controller.js
+    throw 'Unimplemented: onresize()';
+  }
+
+  /**
+   * Handler for the window's 'beforeunload' event. When a user has unsaved
+   * changes and refreshes or leaves the page, confirm that they want to do so
+   * before actually refreshing.
+   * @param {Event} event beforeunload event.
+   */
+  confirmLeavePage(event) {
+    // TODO: Move in from app_controller.js"
+    throw 'Unimplemented: confirmLeavePage()';
+  }
+
+  /**
+   * Show a modal element, usually a dropdown list.
+   * @param {string} id ID of element to show.
+   */
+  openModal(id) {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: openModal()';
+  }
+
+  /**
+   * Hide a previously shown modal element.
+   */
+  closeModal() {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: closeModal()';
+  }
+
+  /**
+   * Creates modal popup for populating inputs into block definition starter
+   * block in Block Definition Editor.
+   *
+   * @param {boolean} firstLoad Whether the popup is generated upon first loading
+   *     the application.
+   */
+  createBlocklyInitPopup(firstLoad) {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - this.newBlockDialogController.showNewBlockDiaog(firstLoad)
+     */
+    throw 'Unimplemented: createBlocklyInitPopup()';
   }
 }
