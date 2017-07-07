@@ -110,6 +110,24 @@ class AppView {
      * @type {!JSTree}
      */
     this.navTree = null;
+
+    /**
+     * The block editor view for the session.
+     * @type {!BlockEditorView}
+     */
+    this.blockEditorView = new BlockEditorView();
+
+    /**
+     * The toolbox view for the session.
+     * @type {!ToolboxView}
+     */
+    this.toolboxView = new ToolboxView();
+
+    /**
+     * The workspace view for the session.
+     * @type {!WorkspaceView}
+     */
+    this.workspaceView = new WorkspaceView();
   }
 
   /**
@@ -435,4 +453,12 @@ class AppView {
      * - bindClick()
      */
   }
+
+/**
+ * Updates the workspace to show the block user selected from library
+ * @param {string} blockType Block to edit on block factory.
+ */
+ openBlock(blockType) {
+  this.blockEditorView.openBlock(blockType);
+ }
 }

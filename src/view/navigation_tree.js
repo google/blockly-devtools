@@ -19,17 +19,11 @@
  */
 
 /**
- * @fileoverview The NavigationTree manages all of the functions for changing
- * the tree view
+ * @class NavigationTree manages the tree user interface.
  *
  * @author sagev@google.com (Sage Vouse)
  */
-
-/**
- * @class NavigationTree manages the tree user interface.
- */
 class NavigationTree {
-
 /**
  * NavigationTree Class
  * @param {!AppView} appView Allows the tree to get the data from the project.
@@ -105,7 +99,7 @@ class NavigationTree {
         r.push(data.instance.get_node(data.selected[i]).text);
       }
       // load the blocks
-      this.libraryController.openBlock(r.join(', '));
+      this.appView.openBlock(r.join(', '));
     });
   }
 

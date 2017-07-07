@@ -55,4 +55,12 @@ class BlockEditorView {
   showStarterBlock(inputType, blockTypeName, opt_blockStarterText) {
     // TODO: Move in from factory.js
   }
+
+/**
+ * Updates the workspace to show the block user selected from library
+ * @param {string} blockType Block to edit on block factory.
+ */
+ openBlock(blockType) {
+  console.warn("unimplemented: BlockEditorView.openBlock(blockType)")
+ }
 }
