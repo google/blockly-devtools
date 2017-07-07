@@ -162,13 +162,13 @@ class BlockEditorController {
    * @param {string} xmlText A block's XML text.
    * @return {string} The block type that corresponds to the provided XML text.
    * @private
+   *
+   * TODO(#87): Replace this function with getting block type from JSON block definition.
    */
   getBlockTypeFromXml_(xmlText) {
     /**
      * TODO: Move in from app_controller.js
      */
-
-    // TODO(#87): Remove this function after adding new features.
 
     throw 'Unimplemented: getBlockTypeFromXml_()';
   }

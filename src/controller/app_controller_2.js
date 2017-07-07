@@ -76,15 +76,6 @@ class AppController2 {
     this.popupController = new PopupController(this.projectController);
 
     /**
-     * Constant values representing the three tabs in the controller.
-     * @type {string}
-     */
-    this.BLOCK_FACTORY = 'BLOCK_FACTORY';
-    this.WORKSPACE_FACTORY = 'WORKSPACE_FACTORY';
-    this.EXPORTER = 'EXPORTER';
-    // TODO: Remove/add tabs to fit new DevTools model.
-
-    /**
      * Map of tab type to div element for the tab.
      * @type {!Object.<string, !Element>}
      */
@@ -96,6 +87,35 @@ class AppController2 {
     this.lastSelectedTab = null;
 
     this.selectedTab = this.BLOCK_FACTORY;
+  }
+
+  // ======================== CONSTANTS ===========================
+  // TODO: Remove/add tabs to fit new DevTools model.
+  /**
+   * Static get function for constant BLOCK_FACTORY. Represents one of the
+   * three tabs in the controller.
+   * @return {!string}
+   */
+  static get BLOCK_FACTORY() {
+    return 'BLOCK_FACTORY';
+  }
+
+  /**
+   * Static get function for constant WORKSPACE_FACTORY. Represents one of the
+   * three tabs in the controller.
+   * @return {!string}
+   */
+  static get WORKSPACE_FACTORY() {
+    return 'WORKSPACE_FACTORY';
+  }
+
+  /**
+   * Static get function for constant EXPORTER. Represents one of the three tabs
+   * in the controller.
+   * @return {!string}
+   */
+  static get EXPORTER() {
+    return 'EXPORTER';
   }
 
   // ========================= VIEW-CONTROLLER ==========================

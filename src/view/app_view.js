@@ -112,10 +112,14 @@ class AppView {
     this.navTree = null;
 
     /**
-     * Name of currently open modal.
+     * Div ID of currently open modal. Modals are usually dropdown elements.
      * @type {?string}
      * @private
+     * Moved in from app_controller.js
      */
+    // TODO: Separate modal management into each editor (block definition editor,
+    //       toolbox editor, workspace editor) instead of managing/tracking all
+    //       dropdowns in AppView.
     this.modalName_ = null;
   }
 
