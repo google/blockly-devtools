@@ -53,8 +53,6 @@ class ToolboxController {
     this.categoryTabs = {};
   }
 
-  // ========================= CATEGORIES/ELEMENTS ===============================
-
   /**
    * Currently prompts the user for a name, checking that it's valid (not used
    * before), and then creates a tab and switches to it.
@@ -235,8 +233,6 @@ class ToolboxController {
     throw 'Unimplemented: moveElementToIndex()';
   }
 
-  // ======================= EDITOR COMMANDS ===========================
-
   /**
    * Removes all categories and separators in the view. Clears categoryTabs to
    * reflect this.
@@ -286,8 +282,6 @@ class ToolboxController {
      */
     throw 'Unimplemented: updatePreview()';
   }
-
-  // ============================ SHADOW BLOCKS ==============================
 
   /**
    * Loads the given XML to the hidden Blockly.Workspace and sets any user-generated
@@ -436,8 +430,6 @@ class ToolboxController {
      */
      throw 'Unimplemented: convertShadowBlocks()';
   }
-
-  // ============================== IMPORT/EXPORT ==============================
 
   /**
    * Given a XML DOM tree, loads it into the toolbox editing area so that the
