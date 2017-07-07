@@ -50,6 +50,12 @@ class BlockEditorController {
      * @type {!BlockEditorView}
      */
     this.view = new BlockEditorView(this.currentBlockDefinition);
+
+    /**
+     * Existing direction ('ltr' vs 'rtl') of preview.
+     * @type {string}
+     */
+    this.previewDirection = null;
   }
 
   /*

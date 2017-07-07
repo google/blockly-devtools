@@ -43,12 +43,6 @@ class BlockLibrary extends Resource {
      * @type {!Array.<string>}
      */
     this.blocks = [];
-
-    /**
-     * Existing direction ('ltr' vs 'rtl') of preview.
-     * @type {string}
-     */
-    this.previewDirection = null;
   }
 
   /**
