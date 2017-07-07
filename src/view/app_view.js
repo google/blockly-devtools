@@ -38,6 +38,22 @@ goog.require('goog.ui.ColorPicker');
  */
 class AppView {
   constructor(appController) {
+    // Block Factory has a dependency on bits of Closure that core Blockly
+    // doesn't have. When you run this from file:// without a copy of Closure,
+    // it breaks it non-obvious ways.  Warning about this for now until the
+    // dependency is broken.
+    // TODO: #668.
+    if (!window.goog.dom.xml) {
+      alert('Sorry: Closure dependency not found. We are working on removing ' +
+        'this dependency.  In the meantime, you can use our hosted demo\n ' +
+        'https://blockly-demo.appspot.com/static/demos/blockfactory/index.html' +
+        '\nor use these instructions to continue running locally:\n' +
+        'https://developers.google.com/blockly/guides/modify/web/closure');
+      return;
+    }
+
+    // TODO: Move in functions from AppController.init().
+
     /**
      * The AppController for the DevTools session.
      * @type {!AppController}
@@ -107,9 +123,16 @@ class AppView {
 
     /**
      * The tree for the DevTools session.
-     * @type {!JSTree}
+     * @type {?JSTree}
      */
     this.navTree = null;
+
+    /**
+     * Name of currently open modal.
+     * @type {?string}
+     * @private
+     */
+    this.modalName_ = null;
   }
 
   /**
@@ -362,6 +385,98 @@ class AppView {
      * References:
      * - switchElement()
      * - bindClick()
+     */
+  }
+
+  /**
+   * Called on each tab click. Styles the tabs to reflect which tab is selected.
+   * @private
+   */
+  styleTabs_() {
+    /*
+     * TODO: Move in from app_controller.js
+     */
+  }
+
+  /**
+   * Assign button click handlers for the exporter.
+   */
+  assignExporterClickHandlers() {
+    /*
+     * TODO: Move in from app_controller.js
+     */
+    // TODO(#7): Remove after exporter is consolidated into save/open project.
+  }
+
+  /**
+   * Assign change listeners for the exporter. These allow for the dynamic update
+   * of the exporter preview.
+   */
+  assignExporterChangeListeners() {
+    // TODO: Move in from app_controller.js
+    // TODO(#7): Remove after exporter is consolidated into save/open project.
+  }
+
+  /**
+   * Assign button click handlers for the block library.
+   */
+  assignLibraryClickHandlers() {
+    // TODO: Move in from app_controller.js
+  }
+
+  /**
+   * Assign button click handlers for the block factory.
+   */
+  assignBlockFactoryClickHandlers() {
+    // TODO: Move in from app_controller.js
+  }
+
+  /**
+   * Add event listeners for the block factory.
+   */
+  addBlockFactoryEventListeners() {
+    // TODO: Move in from app_controller.js
+  }
+
+  /**
+   * Handle resizing of elements.
+   * @param {!Event} event onresize event.
+   */
+  onresize(event) {
+    // Move in from app_controller.js
+  }
+
+  /**
+   * Handler for the window's 'beforeunload' event. When a user has unsaved
+   * changes and refreshes or leaves the page, confirm that they want to do so
+   * before actually refreshing.
+   * @param {!Event} event beforeunload event.
+   */
+  confirmLeavePage(event) {
+    // TODO: Move in from app_controller.js
+  }
+
+  /**
+   * Show a modal element, usually a dropdown list.
+   * @param {string} id ID of element to show.
+   */
+  openModal(id) {
+    // TODO: Move in from app_controller.js
+  }
+
+  /**
+   * Hide a previously shown modal element.
+   */
+  closeModal() {
+    // TODO: Move in from app_controller.js
+  }
+
+  createBlocklyInitPopup(firstLoad) {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - this.newBlockDialogController.showNewBlockDiaog(firstLoad)
      */
   }
 }

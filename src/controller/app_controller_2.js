@@ -58,6 +58,81 @@ class AppController2 {
      * @type {!PopupController}
      */
     this.popupController = new PopupController(this.projectController);
+
+    /**
+     * Constant values representing the three tabs in the controller.
+     * @type {string}
+     */
+    this.BLOCK_FACTORY = 'BLOCK_FACTORY';
+    this.WORKSPACE_FACTORY = 'WORKSPACE_FACTORY';
+    this.EXPORTER = 'EXPORTER';
+    // TODO: Remove/add tabs to fit new DevTools model.
+
+    /**
+     * Map of tab type to div element for the tab.
+     * @type {!Object.<string, !Element>}
+     */
+    this.tabMap = {};
+    this.tabMap[this.BLOCK_FACTORY] = $('#blockFactory_tab');
+    this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
+    this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
+
+    this.lastSelectedTab = null;
+
+    this.selectedTab = this.BLOCK_FACTORY;
+  }
+
+  // ========================= VIEW-CONTROLLER ==========================
+
+  /**
+   * Set the selected tab.
+   * @param {string} tabName AppController.BLOCK_FACTORY,
+   *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
+   */
+  setSelectedTab(tabName) {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - this.lastSelectedTab
+     * - this.selectedTab
+     */
+  }
+
+  /**
+   * Called on each tab click. Hides and shows specific content based on which tab
+   * (Block Factory, Workspace Factory, or Exporter) is selected.
+   */
+  onTab() {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - this.tabMap
+     * - this.lastSelectedTab
+     * - FactoryUtils.savedBlockChanges()
+     */
+  }
+
+  /**
+   * If given checkbox is checked, enable the given elements.  Otherwise, disable.
+   * @param {boolean} enabled True if enabled, false otherwise.
+   * @param {!Array.<string>} idArray Array of element IDs to enable when
+   *     checkbox is checked.
+   */
+  ifCheckedEnable(enabled, idArray) {
+    /*
+     * TODO: Move in from app_controller.js
+     */
+  }
+
+  // ========================= MODEL-CONTROLLER ==========================
+
+  /**
+   * Handle Blockly Storage with App Engine.
+   */
+  initializeBlocklyStorage() {
+    // TODO: Move in from app_controller.js
   }
 
   /**

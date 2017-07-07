@@ -45,5 +45,33 @@ class BlockEditorView {
       });
   }
 
-  // TODO: Add functions.
+  /**
+   * Add click handlers to each tab to allow switching between the Block Factory,
+   * Workspace Factory, and Block Exporter tab.
+   * @param {!Object} tabMap Map of tab name to div element that is the tab.
+   */
+  addTabHandlers(tabMap) {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - makeTabClickHandler_()
+     */
+  }
+
+  /**
+   * Creates the tab click handler specific to the tab specified.
+   * @param {string} tabName AppController.BLOCK_FACTORY,
+   *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
+   * @return {!Function} The tab click handler.
+   */
+  makeTabClickHandler(tabName) {
+    /*
+     * TODO: Move in from app_controller.js
+     *
+     * References:
+     * - this.setSelected_()
+     * - this.onTab()
+     */
+  }
 }

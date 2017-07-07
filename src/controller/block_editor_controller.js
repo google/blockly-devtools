@@ -45,4 +45,57 @@ class BlockEditorController {
      */
     this.view = new BlockEditorView(this.currentBlockDefinition);
   }
+
+  /**
+   * Imports block library from file to Block Factory. Expects user to upload a
+   * single file of JSON mapping each block type to its XML text representation.
+   */
+  importBlockLibraryFromFile() {
+    /**
+     * TODO: Move in from app_controller.js
+     *          Also from app_controller.js:formatBlockLibraryForImport_(xmlText)
+     *
+     * References:
+     * - formatBlockLibraryForImport_()
+     * - setBlockLibraryStorage()
+     */
+
+    // TODO(#87): Remove XML's from block library import/export. Download block
+    //            definitions and generator stubs, and parse definition JSONs when
+    //            importing.
+  }
+
+  /**
+   * Exports block library to file that contains JSON mapping each block type to
+   * its XML text representation.
+   */
+  exportBlockLibraryToFile() {
+    /**
+     * TODO: Move in from app_controller.js
+     *          Also from app_controller.js:formatBlockLibraryForExport_(blockXmlMap)
+     *
+     * References:
+     * - formatBlockLibraryForExport_()
+     * - FactoryUtils.createAndDownloadFile()
+     */
+
+    // TODO(#87): Remove XML's from block library import/export. Download block
+    //            definitions and generator stubs, and parse definition JSONs when
+    //            importing.
+  }
+
+  /**
+   * Extracts out block type from XML text, the kind that is saved in block
+   * library storage.
+   * @param {string} xmlText A block's XML text.
+   * @return {string} The block type that corresponds to the provided XML text.
+   * @private
+   */
+  getBlockTypeFromXml_(xmlText) {
+    /**
+     * TODO: Move in from app_controller.js
+     */
+
+    // TODO(#87): Remove this function after adding new features.
+  }
 }
