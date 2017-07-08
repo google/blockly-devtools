@@ -327,6 +327,7 @@ WorkspaceFactoryGenerator.prototype.setShadowBlocksInHiddenWorkspace_ =
  * @return {!Array.<!Blockly.Block>} Array of Blockly.Block objects corresponding
  *    to the array of blockTypes.
  */
+// DEPRECATED: Refactored from editor_controller.js:getDefinedBlocks(blockTypes)
 WorkspaceFactoryGenerator.prototype.getDefinedBlocks = function(blockTypes) {
   var blocks = [];
   for (var i = 0; i < blockTypes.length ; i++) {

@@ -967,6 +967,9 @@ WorkspaceFactoryController.prototype.importPreloadFromTree_ = function(tree) {
  * blocks in the model and view and all pre-loaded blocks. Tied to the
  * "Clear" button.
  */
+// DEPRECATED: Refactored into: editor_controller.js:clearAll(),
+//                              toolbox_controller.js:clear(),
+//                              workspace_controller.js:clear()
 WorkspaceFactoryController.prototype.clearAll = function() {
   if (!confirm('Are you sure you want to clear all of your work in Workspace' +
       ' Factory?')) {
@@ -1369,6 +1372,7 @@ WorkspaceFactoryController.prototype.getAllUsedBlockTypes = function() {
  * imported).
  * @param {!Blockly.Block} block The block to examine.
  */
+// DEPRECATED: Refactored from editor_controller.js:isDefinedBlock(block)
 WorkspaceFactoryController.prototype.isDefinedBlock = function(block) {
   return this.model.isDefinedBlockType(block.type);
 };
@@ -1377,6 +1381,7 @@ WorkspaceFactoryController.prototype.isDefinedBlock = function(block) {
  * Sets a warning on blocks loaded to the workspace that are not defined.
  * @private
  */
+// DEPRECATED: Refactored from editor_controller.js:warnForUndefinedBlocks_()
 WorkspaceFactoryController.prototype.warnForUndefinedBlocks_ = function() {
   var blocks = this.toolboxWorkspace.getAllBlocks();
   for (var i = 0, block; block = blocks[i]; i++) {
