@@ -115,6 +115,6 @@ class WorkspaceEditorView {
     /*
      * TODO: Move in from wfactory_view.js:setBaseOptions()
      */
-    throw 'Unimplemented: initBaseConfigs()';
+    throw 'Unimplemented: resetConfigs()';
   }
 }
