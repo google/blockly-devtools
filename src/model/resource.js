@@ -75,4 +75,12 @@ class Resource {
   getTreeJson() {
     throw "abstract method: getTreeJson";
   }
+
+  /**
+   * Renames the resource.
+   * @param {string} newName New name of the resource.
+   */
+  setName(newName) {
+    this.name = newName;
+  }
 }

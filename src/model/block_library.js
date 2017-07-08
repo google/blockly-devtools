@@ -179,14 +179,6 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Renames the library.
-   * @param {string} newName New name of the library.
-   */
-  setName(newName) {
-    this.name = newName;
-  }
-
-  /**
    * Gets the data necessary to export the library.
    * @return {!Object} The data needed to export the library.
    */
@@ -200,17 +192,17 @@ class BlockLibrary extends Resource {
    * @return {!Object} the JSON of all block types
    */
   makeBlockTypeJson() {
-    if (this.isEmpty()) {
-      return '';
-    }
     const treeBlockTypeJson = [];
-    const types= this.getBlockTypes();
+    if (this.isEmpty()) {
+      return treeBlockTypeJson;
+    }
+    const types = this.getBlockTypes();
     const iterationIndex = 1;
     const finalIndex = 0;
     const toAdd;
     const blockType;
     while (types[iterationIndex]) {
-      blockType= types[iterationIndex - 1];
+      blockType = types[iterationIndex - 1];
       toAdd = {'text': blockType, 'id': blockType};
       treeBlockTypeJson.push(toAdd);
       iterationIndex++;

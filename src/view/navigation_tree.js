@@ -26,7 +26,7 @@
 class NavigationTree {
 /**
  * NavigationTree Class
- * @param {!Project} project The project the tree shall represent.
+ * @param {!Project} project The project the tree represents.
  * @constructor
  */
   constructor(project) {
@@ -99,7 +99,7 @@ class NavigationTree {
    * @param {string} libraryName The name of the library to add.
    */
   addLibraryNode(libraryName) {
-    console.warn("unimplemented: NavigationTree.addLibraryNode(libraryName)");
+    console.warn("unimplemented: NavigationTree.addLibraryNode(Json)");
   }
 
   /**
@@ -107,7 +107,8 @@ class NavigationTree {
    * @param {string} toolboxName The name of the toolbox to add.
    */
   addToolboxNode(toolboxName) {
-    console.warn("unimplemented: NavigationTree.addToolboxNode(toolboxName)");
+    console.warn("unimplemented: NavigationTree.addToolboxNode(" + toolboxName +
+        ")");
   }
 
   /**
@@ -116,7 +117,8 @@ class NavigationTree {
    *     add.
    */
   addWorkspaceContentsNode(workspaceContentsName) {
-    console.warn("unimplemented: NavigationTree.addWorkspaceContentsNode(workspaceContentsName)");
+    console.warn("unimplemented: NavigationTree.addWorkspaceContentsNode(" +
+        workspaceContentsName + ")");
   }
 
   /**
@@ -125,7 +127,8 @@ class NavigationTree {
    *     configuration to add.
    */
   addWorkspaceConfigurationNode(workspaceConfigurationName) {
-    console.warn("unimplemented: NavigationTree.addWorkspaceConfigurationNode(workspaceConfigurationName)");
+    console.warn("unimplemented: NavigationTree.addWorkspaceConfigurationNode(" +
+        workspaceConfigurationName + ")");
   }
 
   /**
@@ -148,7 +151,8 @@ class NavigationTree {
    * @param {string} libraryName The name of the library node to delete.
    */
   deleteLibraryNode(libraryName) {
-    console.warn("unimplemented: NavigationTree.deleteLibraryNode(libraryName)");
+    console.warn("unimplemented: NavigationTree.deleteLibraryNode(" +
+        libraryName + ")");
   }
 
   /**
@@ -156,7 +160,8 @@ class NavigationTree {
    * @param {string} toolboxName The name of the toolbox node to delete.
    */
   deleteToolboxNode(toolboxName) {
-    console.warn("unimplemented: NavigationTree.deleteToolboxNode(toolboxName)");
+    console.warn("unimplemented: NavigationTree.deleteToolboxNode(" +
+        toolboxName + ")");
   }
 
   /**
@@ -165,7 +170,8 @@ class NavigationTree {
    *     node to delete.
    */
   deleteWorkspaceContentsNode(workspaceContentsName) {
-    console.warn("unimplemented: NavigationTree.deleteWorkspaceContentsNode(workspaceContentsName)");
+    console.warn("unimplemented: NavigationTree.deleteWorkspaceContentsNode(" +
+        workspaceContentsName + ")");
   }
 
   /**
@@ -174,7 +180,8 @@ class NavigationTree {
    *     configuration node to delete.
    */
   deleteWorkspaceConfigurationNode(workspaceConfigName) {
-    console.warn("unimplemented: NavigationTree.deleteWorkspaceConfigurationNode(workspaceConfigName)");
+    console.warn("unimplemented: NavigationTree.deleteWorkspaceConfigurationNode("
+        + workspaceConfigName + ")");
   }
 
   /**

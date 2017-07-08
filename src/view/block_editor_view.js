@@ -102,6 +102,6 @@ class BlockEditorView {
  * @param {string} blockType Block to edit on block factory.
  */
  openBlock(blockType) {
-  console.warn("unimplemented: BlockEditorView.openBlock(blockType)")
+  console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")")
  }
 }

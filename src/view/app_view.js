@@ -143,7 +143,7 @@ class AppView {
 
   /**
    * Initializes the tree for the session.
-   * @param {!Project} The project the tree represents.
+   * @param {!Project} project The project the tree represents.
    */
   setLibraryTree(project) {
     //initializes navigation tree with blocks in the project
@@ -363,36 +363,37 @@ class AppView {
 
   /**
    * Adds a block library to the navigation tree.
-   * @param {string} libraryName The name of the library to add.
+   * @param {!BlockLibrary} library The library to add.
    */
-  addLibraryToTree(libraryName) {
-    console.warn("unimplemented: AppView.addLibraryToTree(libraryName)");
+  addLibraryToTree(library) {
+    console.warn("unimplemented: AppView.addLibraryToTree(" + library.name + ")");
   }
 
   /**
    * Adds a toolbox to the navigation tree.
-   * @param {string} toolboxName The name of the toolbox to add.
+   * @param {!Toolbox} toolbox The toolbox to add.
    */
-  addToolboxToTree(toolboxName) {
-    console.warn("unimplemented: AppView.addToolboxToTree(toolboxName)");
+  addToolboxToTree(toolbox) {
+    console.warn("unimplemented: AppView.addToolboxToTree(" + toolbox.name + ")");
   }
 
   /**
    * Adds a workspace contents object to the navigation tree.
-   * @param {string} workspaceContentsName The name of the workspace contents to
-   *     add.
+   * @param {!WorkspaceContents} workspaceContents The workspace contents to add.
    */
-  addWorkspaceContentsToTree(workspaceContentsName) {
-    console.warn("unimplemented: AppView.addWorkspaceContentsToTree(workspaceContentsName)");
+  addWorkspaceContentsToTree(workspaceContents) {
+    console.warn("unimplemented: AppView.addWorkspaceContentsToTree(" +
+      workspaceContents.name + ")");
   }
 
   /**
    * Adds a workspace configuration to the navigation tree.
-   * @param {string} workspaceConfigurationName The name of the workspace
+   * @param {!WorkspaceConfiguration} workspaceConfiguration The workspace
    *     configuration to add.
    */
-  addWorkspaceConfigurationToTree(workspaceConfigurationName) {
-    console.warn("unimplemented: AppView.addWorkspaceConfigurationToTree(workspaceConfigurationName)");
+  addWorkspaceConfigurationToTree(workspaceConfiguration) {
+    console.warn("unimplemented: AppView.addWorkspaceConfigurationToTree(" +
+      workspaceConfiguration.name + ")");
   }
 
   /**
@@ -412,36 +413,40 @@ class AppView {
 
   /**
    * Removes a block library from the navigation tree.
-   * @param {string} libraryName The name of the library to remove.
+   * @param {!BlockLibrary} library The library to remove.
    */
-  removeLibraryFromTree(libraryName) {
-    console.warn("unimplemented: AppView.removeLibraryFromTree(libraryName)");
+  removeLibraryFromTree(library) {
+    console.warn("unimplemented: AppView.removeLibraryFromTree(" +  library.name
+      + ")");
   }
 
   /**
    * Removes a toolbox from the navigation tree.
-   * @param {string} toolboxName The name of the toolbox to remove.
+   * @param {!Toolbox} toolbox The toolbox to remove.
    */
-  removeToolboxFromTree(toolboxName) {
-    console.warn("unimplemented: AppView.removeToolboxFromTree(toolboxName)");
+  removeToolboxFromTree(toolbox) {
+    console.warn("unimplemented: AppView.removeToolboxFromTree(" + toolbox.name
+      + ")");
   }
 
   /**
    * Removes a workspace contents object from the navigation tree.
-   * @param {string} workspaceContentsName The name of the workspace contents to
+   * @param {!WorkspaceContents} workspaceContents The workspace contents to
    *     remove.
    */
   removeWorkspaceContentsFromTree(workspaceContentsName) {
-    console.warn("unimplemented: AppView.removeWorkspaceContentsFromTree(workspaceContentsName)");
+    console.warn("unimplemented: AppView.removeWorkspaceContentsFromTree(" +
+      workspaceContents.name + ")");
   }
 
   /**
    * Removes a workspace configuration from the navigation tree.
-   * @param {string} workspaceConfignName The name of the workspace
+   * @param {!WorkspaceConfiguration} workspaceConfiguration The workspace
    *     configuration to remove.
    */
   removeWorkspaceConfigurationFromTree(workspaceConfigName) {
-    console.warn("unimplemented: AppView.removeWorkspaceConfigurationFromTree(workspaceConfigName)");
+    console.warn("unimplemented: AppView.removeWorkspaceConfigurationFromTree(" +
+      workspaceConfiguration.name + ")");
   }
 
   /**
@@ -465,7 +470,7 @@ class AppView {
    * Updates the workspace to show the block user selected from library
    * @param {string} blockType Block to edit on block factory.
    */
-   openBlock(blockType) {
+  openBlock(blockType) {
     this.blockEditorView.openBlock(blockType);
    }
 

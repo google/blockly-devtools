@@ -23,22 +23,29 @@
  *     purposes of the DevTools Application.
  */
 class BlockDefinition {
-  // TODO: add methods, fields, etc.
+// TODO: add methods, fields, etc.
+  /**
+   * BlockDefinition Class.
+   * @constructor
+   */
+  constructor() {
+    this.type;
+  }
 
   /**
    * Returns a block's JSON representation.
    * @return {!Object} JSON representation of the block.
    */
   getJson() {
-  	throw "unimplemented: getJson";
+    throw "unimplemented: getJson";
   }
 
   /**
    * Returns a block's XML representation.
    * @return {!Element} XML representation of the block.
    */
-  //TODO #87: phase out
+   //TODO #87: phase out
   getXml() {
-  	throw "unimplemented: getXml";
+    throw "unimplemented: getXml";
   }
 }
