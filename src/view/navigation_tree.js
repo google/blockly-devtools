@@ -116,8 +116,7 @@ class NavigationTree {
    *     add.
    */
   addWorkspaceContentsNode(workspaceContentsName) {
-    console.warn("unimplemented:
-        NavigationTree.addWorkspaceContentsNode(workspaceContentsName)");
+    console.warn("unimplemented: NavigationTree.addWorkspaceContentsNode(workspaceContentsName)");
   }
 
   /**
@@ -126,8 +125,7 @@ class NavigationTree {
    *     configuration to add.
    */
   addWorkspaceConfigurationNode(workspaceConfigurationName) {
-    console.warn("unimplemented:
-        NavigationTree.addWorkspaceConfigurationNode(workspaceConfigurationName)");
+    console.warn("unimplemented: NavigationTree.addWorkspaceConfigurationNode(workspaceConfigurationName)");
   }
 
   /**
@@ -167,8 +165,7 @@ class NavigationTree {
    *     node to delete.
    */
   deleteWorkspaceContentsNode(workspaceContentsName) {
-    console.warn("unimplemented:
-        NavigationTree.deleteWorkspaceContentsNode(workspaceContentsName)");
+    console.warn("unimplemented: NavigationTree.deleteWorkspaceContentsNode(workspaceContentsName)");
   }
 
   /**
@@ -177,8 +174,7 @@ class NavigationTree {
    *     configuration node to delete.
    */
   deleteWorkspaceConfigurationNode(workspaceConfigName) {
-    console.warn("unimplemented:
-        NavigationTree.deleteWorkspaceConfigurationNode(workspaceConfigName)");
+    console.warn("unimplemented: NavigationTree.deleteWorkspaceConfigurationNode(workspaceConfigName)");
   }
 
   /**

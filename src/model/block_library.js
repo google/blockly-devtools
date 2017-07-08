@@ -39,7 +39,7 @@ class BlockLibrary extends Resource {
     super(libraryName);
 
     /**
-     * An array of all block types stored in the block library.
+     * A map of all blocks in the library to their definitions.
      * @type {!Object<string, !BlockDefinition>}
      */
     this.blocks = {};

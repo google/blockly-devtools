@@ -145,7 +145,7 @@ class AppView {
    * Initializes the tree for the session.
    * @param {!Project} The project the tree represents.
    */
-  setLibraryTree(project){
+  setLibraryTree(project) {
     //initializes navigation tree with blocks in the project
     this.navTree = new NavigationTree(project);
     this.makeTreeListener();
