@@ -76,6 +76,12 @@ class AppController2 {
     this.popupController = new PopupController(this.projectController);
 
     /**
+     * Main View class which manages view portion of application.
+     * @type {!AppView}
+     */
+    this.view = new AppView(this);
+
+    /**
      * Map of tab type to div element for the tab.
      * @type {!Object.<string, !Element>}
      */
@@ -118,6 +124,24 @@ class AppController2 {
     return 'EXPORTER';
   }
 
+  /**
+   * Static get function for constant TOOLBOX_EDITOR.
+   * @return {!string}
+   */
+  static get TOOLBOX_EDITOR() {
+    return 'TOOLBOX_EDITOR';
+  }
+
+  /**
+   * Static get function for constant TOOLBOX_EDITOR.
+   * @return {!string}
+   */
+  static get WORKSPACE_EDITOR() {
+    return 'WORKSPACE_EDITOR';
+  }
+
+
+
   // ========================= VIEW-CONTROLLER ==========================
 
   /**
@@ -126,14 +150,9 @@ class AppController2 {
    *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
    */
   setSelectedTab(tabName) {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - this.lastSelectedTab
-     * - this.selectedTab
-     */
-    throw 'Unimplemented: setSelectedTab()';
+    // REFACTORED: from app_controller.js:setSelected_(tabName)
+    this.lastSelectedTab = this.selectedTab;
+    this.selectedTab = tabName;
   }
 
   /**
@@ -149,7 +168,52 @@ class AppController2 {
      * - this.lastSelectedTab
      * - FactoryUtils.savedBlockChanges()
      */
-    throw 'Unimplemented: onTab()';
+    // Get tab div elements
+    const blockFactoryTab = this.tabMap[AppController2.BLOCK_FACTORY];
+    const exporterTab = this.tabMap[AppController2.EXPORTER];
+    const workspaceFactoryTab = this.tabMap[AppController2.WORKSPACE_FACTORY];
+
+    // Only enable key events in Editors if its tab is selected.
+    this.editorController.toolboxController.keyEventsEnabled =
+        this.selectedTab == AppController2.TOOLBOX_EDITOR;
+    this.editorController.workspaceController.keyEventsEnabled =
+        this.selectedTab == AppController2.WORKSPACE_EDITOR;
+
+    // Turn selected tab on and other tabs off.
+    this.view.styleTabs_();
+
+    if (this.selectedTab == AppController2.BLOCK_FACTORY) {
+      // Hide other tabs.
+      FactoryUtils.hide('blockLibraryExporter');
+      FactoryUtils.hide('workspaceFactoryContent');
+      // Show Block Factory.
+      FactoryUtils.show('blockFactoryContent');
+    } else if (this.selectedTab == AppController2.WORKSPACE_FACTORY) {
+      // Hide other tabs.
+      FactoryUtils.hide('blockLibraryExporter');
+      FactoryUtils.hide('blockFactoryContent');
+      // Show workspace factory container.
+      FactoryUtils.show('workspaceFactoryContent');
+
+      // Update block library category.
+      // TODO/NEXT: Get XML of what is currently shown in the Block Library tab
+      // TODO/NEXT: Get the block types used in the libraries.
+      // TODO/NEXT: Update the block library tab
+      // TODO: Make it so you can add multiple libraries.
+    } else if (this.selectedTab == AppController2.EXPORTER) {
+      // Hide other tabs.
+      FactoryUtils.hide('workspaceFactoryContent');
+      FactoryUtils.hide('blockFactoryContent');
+
+      // Show exporter tab.
+      FactoryUtils.show('blockLibraryExporter');
+
+      // Note: Removed exporter and usedBlockTypes() references because exporting
+      // will be done through the menubar and the block exporter tab will be
+      // deprecated.
+    }
+
+    // TODO/BOOKMARKED: Continue refactoring.
   }
 
   /**

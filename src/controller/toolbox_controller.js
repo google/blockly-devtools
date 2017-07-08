@@ -51,6 +51,13 @@ class ToolboxController {
      * @type {!Object.<!ListElement, !Element>}
      */
     this.categoryTabs = {};
+
+    /**
+     * True if key events are enabled. False otherwise. Used to enable/disable
+     * view elements depending on which Editor is currently being used.
+     * @type {boolean}
+     */
+    this.keyEventsEnabled = true;
   }
 
   /**
