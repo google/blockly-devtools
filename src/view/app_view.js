@@ -82,7 +82,7 @@ class AppView {
             ['Workspace Configuration',
               () => { this.exportCurrentWorkspaceConfiguration(); }]
             ]]
-        ]]
+        ]],
         ['Create Application for Web', () => { this.createWeb(); }]
       ]],
       ['Edit', []],
@@ -290,16 +290,11 @@ class AppView {
       return tree;
     }
 
-    for (let index = 0; index < tree.length; index++) {
-      let pair = tree[index];
-      if (pair == undefined) {
-        // TODO: Find out why pair is ever undefined.
-        break;
-      }
+    tree.forEach((pair) => {
       if (pair.length != 2) {
         throw `Invalid name/value pair in menu tree: ${pair}`;
       }
-      let name = pair[0]
+      let name = pair[0];
       if (typeof pair[1] !== 'function') {
         // If next node is not leaf, must create subMenu.
         let subMenu = new nw.Menu();
@@ -312,7 +307,7 @@ class AppView {
             menu, name, null, this.initMenuTree(null, pair[1]));
       }
 
-    }
+    });
     return null;
   }
 
