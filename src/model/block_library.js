@@ -205,4 +205,23 @@ class BlockLibrary extends Resource {
   getTreeJson() {
     throw "unimplemented: getTreeJson";
   }
+
+  /**
+   * Creates XML toolbox category of all blocks in this block library. Used in
+   * toolbox and workspace editor.
+   * @return {!Element} XML representation of the block library category.
+   */
+  getCategoryXml() {
+    // Moved in from block_exporter_tools.js:generateCategoryFromBlockLib(blockLibStorage)
+    const allBlockTypes = this.getBlockTypes();
+    const blockXmlMap = this.getBlockXmlMap(allBlockTypes);
+
+    const blocks = [];
+    for (const blockType in blockXmlMap) {
+      const block = FactoryUtils.getDefinedBlock(blockType, this.hiddenWorkspace);
+      blocks.push(block);
+    }
+
+    return FactoryUtils.generateCategoryXml(blocks, 'Block Library');
+  }
 }

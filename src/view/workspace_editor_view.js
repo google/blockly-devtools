@@ -117,4 +117,12 @@ class WorkspaceEditorView {
      */
     throw 'Unimplemented: initBaseConfigs()';
   }
+
+  /**
+   * Updates the toolbox used in the toolbox editor workspace.
+   * @param {!string} toolbox String representation of toolbox XML to display.
+   */
+  updateEditorToolbox(toolbox) {
+    this.editorWorkspace.updateToolbox(toolbox);
+  }
 }

@@ -189,18 +189,20 @@ class AppController2 {
       // Show Block Factory.
       FactoryUtils.show('blockFactoryContent');
     } else if (this.selectedTab == AppController2.WORKSPACE_FACTORY) {
+      // TODO(#95): Deprecate workspace factory tab. Split into two views,
+      //            toolbox editor and workspace editor view.
+
       // Hide other tabs.
       FactoryUtils.hide('blockLibraryExporter');
       FactoryUtils.hide('blockFactoryContent');
       // Show workspace factory container.
       FactoryUtils.show('workspaceFactoryContent');
 
-      // Update block library category.
-      // TODO/NEXT: Get XML of what is currently shown in the Block Library tab
-      // TODO/NEXT: Get the block types used in the libraries.
-      // TODO/NEXT: Update the block library tab
-      // TODO: Make it so you can add multiple libraries.
+      // Update block library categories.
+      this.editorController.toolboxController.setBlockLibCategory();
     } else if (this.selectedTab == AppController2.EXPORTER) {
+      // TODO: Deprecate exporter tab. Keep for now to keep view in tact. Will
+      //       remove completely after #95 is resolved.
       // Hide other tabs.
       FactoryUtils.hide('workspaceFactoryContent');
       FactoryUtils.hide('blockFactoryContent');
@@ -211,9 +213,32 @@ class AppController2 {
       // Note: Removed exporter and usedBlockTypes() references because exporting
       // will be done through the menubar and the block exporter tab will be
       // deprecated.
+    } else if (this.selectedTab == AppController2.TOOLBOX_EDITOR) {
+      // Hide other tabs.
+      FactoryUtils.hide('workspaceFactoryContent');
+      FactoryUtils.hide('blockFactoryContent');
+      FactoryUtils.hide('blockLibraryExporter');
+      FactoryUtils.hide('workspaceEditor');
+
+      // Show toolbox editor tab.
+      FactoryUtils.show('toolboxEditor');
+
+      this.editorController.toolboxController.setBlockLibCategory();
+    } else if (this.selectedTab == AppController2.WORKSPACE_EDITOR) {
+      // Hide other tabs.
+      FactoryUtils.hide('workspaceFactoryContent');
+      FactoryUtils.hide('blockFactoryContent');
+      FactoryUtils.hide('blockLibraryExporter');
+      FactoryUtils.hide('toolboxEditor');
+
+      // Show toolbox editor tab.
+      FactoryUtils.show('workspaceEditor');
+
+      this.editorController.workspaceController.setBlockLibCategory();
     }
 
-    // TODO/BOOKMARKED: Continue refactoring.
+    // Resize to render workspaces' toolboxes correctly for all tabs.
+    window.dispatchEvent(new Event('resize'));
   }
 
   /**
@@ -226,6 +251,8 @@ class AppController2 {
     /*
      * TODO: Move in from app_controller.js
      */
+    // Note: Not implemented because it is in the exporter tab, which will be
+    // deprecated. May implement later if necessary.
     throw 'Unimplemented: ifCheckedEnable()';
   }
 
@@ -235,8 +262,22 @@ class AppController2 {
    * Handle Blockly Storage with App Engine.
    */
   initializeBlocklyStorage() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: initializeBlocklyStorage()';
+    // REFACTORED: Moved in from app_controller.js
+    BlocklyStorage.HTTPREQUEST_ERROR =
+        'There was a problem with the request.\n';
+    BlocklyStorage.LINK_ALERT =
+        'Share your blocks with this link:\n\n%1';
+    BlocklyStorage.HASH_ERROR =
+        'Sorry, "%1" doesn\'t correspond with any saved Blockly file.';
+    BlocklyStorage.XML_ERROR = 'Could not load your saved file.\n' +
+        'Perhaps it was created with a different version of Blockly?';
+    const linkButton = document.getElementById('linkButton');
+    linkButton.style.display = 'inline-block';
+    linkButton.addEventListener('click', () => {
+        BlocklyStorage.link(
+          this.editorController.blockEditorController.view.blockDefinitionWorkspace);
+      });
+    this.editorController.blockEditorController.view.disableEnableLink();
   }
 
   /**

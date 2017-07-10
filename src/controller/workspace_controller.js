@@ -237,16 +237,23 @@ class WorkspaceController {
    * @param {!Array.<string>} libBlockTypes Array of block types from the block
    *     library.
    */
-  setBlockLibCategory(categoryXml, libBlockTypes) {
+  setBlockLibCategory() {
     /*
-     * TODO: Move in from wfactory_controller.js
+     * REFACTORED: Moved in from wfactory_controller.js
      *       (Also moved into: toolbox_controller.js)
-     *
-     * References:
-     * - updateLibBlockTypes()
-     * - clearAndLoadXml_()
      */
-    throw 'Unimplemented: setBlockLibCategory()';
+    const libraryXmls = {};
+    const libraryNames = this.project.getLibraryNames();
+
+    for (const i in libraryNames) {
+      const libraryName = libraryNames[i];
+      const library = this.project.getLibrary(libraryName);
+      libraryXmls[libraryName] = library.getCategoryXml();
+    }
+
+    // Take XML
+    const newToolboxXml = DevToolsToolboxes.toolboxEditor(libraryXmls);
+    this.view.updateEditorToolbox(newToolboxXml);
   }
 
   /**
