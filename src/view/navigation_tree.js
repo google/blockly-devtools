@@ -194,18 +194,24 @@ class NavigationTree {
     const items = {
       renameElement : {
         label: "Rename",
-        action: () => console.warn("Action undefined");
-        //TODO: add function for renaming node and associated element
+        action: () => {
+          // TODO: add function for renaming node and associated element
+          console.warn("Action undefined");
+        }
       },
       deleteElement : {
         label: "Delete",
-        action: () => console.warn("Action undefined");
-        //TODO: add function for deleting node and associated element
+        action: () => {
+          // TODO: add function for deleting node and associated element
+          console.warn("Action undefined");
+        }
       },
       exportElement : {
         label: "Export",
-        action: () => console.warn("Action undefined");
-        //TODO: add function for exporting associated element
+        action: () => {
+          // TODO: add function for exporting associated element
+          console.warn("Action undefined");
+        }
       }
     };
     //TOOD: Add if statements for type-specfic options (as needed).
@@ -218,7 +224,8 @@ class NavigationTree {
   makeTreeListener() {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
       // collect data of all selected blocks
-      const i, j, r = [];
+      let i, j;
+      let r = [];
       for (i = 0, j = data.selected.length; i < j; i++) {
         r.push(data.instance.get_node(data.selected[i]).text);
       }

@@ -130,15 +130,15 @@ class AppView {
 
     /**
      * The toolbox view for the session.
-     * @type {!ToolboxView}
+     * @type {!ToolboxEditorView}
      */
-    this.toolboxView = new ToolboxView();
+    this.toolboxEditorView = new ToolboxEditorView();
 
     /**
      * The workspace view for the session.
-     * @type {!WorkspaceView}
+     * @type {!WorkspaceEditorView}
      */
-    this.workspaceView = new WorkspaceView();
+    this.workspaceEditorView = new WorkspaceEditorView();
   }
 
   /**
@@ -290,8 +290,12 @@ class AppView {
       return tree;
     }
 
-    for (let index in tree) {
+    for (let index = 0; index < tree.length; index++) {
       let pair = tree[index];
+      if (pair == undefined) {
+        // TODO: Find out why pair is ever undefined.
+        break;
+      }
       if (pair.length != 2) {
         throw `Invalid name/value pair in menu tree: ${pair}`;
       }
