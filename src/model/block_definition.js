@@ -22,6 +22,39 @@
  * @class BlockDefinition provides accessors to a block definition for the
  *     purposes of the DevTools Application.
  */
-class BlockDefinition {
-  // TODO: add methods, fields, etc.
+class BlockDefinition extends Resource {
+// TODO: add methods, fields, etc.
+  /**
+   * BlockDefinition Class.
+   * @constructor
+   * @param {string} type The name of the block.
+   */
+  constructor(type) {
+    super(type);
+  }
+
+  /**
+   * Returns the type of the block.
+   * @return {string} The block type.
+   */
+  type() {
+    return this.name;
+  }
+
+  /**
+   * Returns a block's JSON representation.
+   * @return {!Object} JSON representation of the block.
+   */
+  getJson() {
+    throw 'unimplemented: getJson';
+  }
+
+  /**
+   * Returns a block's XML representation.
+   * @return {!Element} XML representation of the block.
+   */
+   //TODO #87: phase out
+  getXml() {
+    throw 'unimplemented: getXml';
+  }
 }
