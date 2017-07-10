@@ -34,8 +34,8 @@ class BlockDefinition extends Resource {
   }
 
   /**
-   * Returns the blockType.
-   * @return {string} The name of the block.
+   * Returns the type of the block.
+   * @return {string} The block type.
    */
   type() {
     return this.name;

@@ -212,7 +212,6 @@ class NavigationTree {
     return items;
   }
 
-
   /**
    * Listens for block selected in tree.
    */
@@ -224,7 +223,7 @@ class NavigationTree {
         r.push(data.instance.get_node(data.selected[i]).text);
       }
       // load the blocks
-      //TODO: add method based off of tree's connections
+      //TODO: change operation based off of tree's connection
     });
   }
 }
