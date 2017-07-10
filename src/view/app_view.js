@@ -354,102 +354,6 @@ class AppView {
   }
 
   /**
-   * Adds a block to the navigation tree.
-   * @param {string} blockType The type of block to add.
-   */
-  addBlockToTree(blockType) {
-    this.navTree.addBlockNode(blockType);
-  }
-
-  /**
-   * Adds a block library to the navigation tree.
-   * @param {!BlockLibrary} library The library to add.
-   */
-  addLibraryToTree(library) {
-    console.warn('unimplemented: AppView.addLibraryToTree(' + library.name + ')');
-  }
-
-  /**
-   * Adds a toolbox to the navigation tree.
-   * @param {!Toolbox} toolbox The toolbox to add.
-   */
-  addToolboxToTree(toolbox) {
-    console.warn('unimplemented: AppView.addToolboxToTree(' + toolbox.name + ')');
-  }
-
-  /**
-   * Adds a workspace contents object to the navigation tree.
-   * @param {!WorkspaceContents} workspaceContents The workspace contents to add.
-   */
-  addWorkspaceContentsToTree(workspaceContents) {
-    console.warn('unimplemented: AppView.addWorkspaceContentsToTree(' +
-      workspaceContents.name + ')');
-  }
-
-  /**
-   * Adds a workspace configuration to the navigation tree.
-   * @param {!WorkspaceConfiguration} workspaceConfiguration The workspace
-   *     configuration to add.
-   */
-  addWorkspaceConfigurationToTree(workspaceConfiguration) {
-    console.warn('unimplemented: AppView.addWorkspaceConfigurationToTree(' +
-      workspaceConfiguration.name + ')');
-  }
-
-  /**
-   * Clears the navigation tree.
-   */
-  clearTree() {
-    this.navTree.clear();
-  }
-
-  /**
-   * Removes a block from the navigation tree.
-   * @param {string} blockType The type of block to remove.
-   */
-  removeBlockFromTree(blockType) {
-    this.navTree.deleteBlockNode(blockType);
-  }
-
-  /**
-   * Removes a block library from the navigation tree.
-   * @param {!BlockLibrary} library The library to remove.
-   */
-  removeLibraryFromTree(library) {
-    console.warn('unimplemented: AppView.removeLibraryFromTree(' +  library.name
-      + ')');
-  }
-
-  /**
-   * Removes a toolbox from the navigation tree.
-   * @param {!Toolbox} toolbox The toolbox to remove.
-   */
-  removeToolboxFromTree(toolbox) {
-    console.warn('unimplemented: AppView.removeToolboxFromTree(' + toolbox.name
-      + ')');
-  }
-
-  /**
-   * Removes a workspace contents object from the navigation tree.
-   * @param {!WorkspaceContents} workspaceContents The workspace contents to
-   *     remove.
-   */
-  removeWorkspaceContentsFromTree(workspaceContentsName) {
-    console.warn('unimplemented: AppView.removeWorkspaceContentsFromTree(' +
-      workspaceContents.name + ')');
-  }
-
-  /**
-   * Removes a workspace configuration from the navigation tree.
-   * @param {!WorkspaceConfiguration} workspaceConfiguration The workspace
-   *     configuration to remove.
-   */
-  removeWorkspaceConfigurationFromTree(workspaceConfigName) {
-    console.warn('unimplemented: AppView.removeWorkspaceConfigurationFromTree(' +
-      workspaceConfiguration.name + ')');
-  }
-
-  /**
    * Given a tab and a ID to be associated to that tab, adds a listener to
    * that tab so that when the user clicks on the tab, it switches to the
    * element associated with that ID.
@@ -580,20 +484,5 @@ class AppView {
      * - this.newBlockDialogController.showNewBlockDiaog(firstLoad)
      */
     throw 'Unimplemented: createBlocklyInitPopup()';
-  }
-
-  /**
-   * Listens for block selected in tree.
-   */
-  makeTreeListener() {
-    $('#navigationTree').on('select_node.jstree', (e, data) => {
-      // collect data of all selected blocks
-      const i, j, r = [];
-      for (i = 0, j = data.selected.length; i < j; i++) {
-        r.push(data.instance.get_node(data.selected[i]).text);
-      }
-      // load the blocks
-      this.openBlock(r.join(', '));
-    });
   }
 }

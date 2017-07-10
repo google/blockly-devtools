@@ -54,10 +54,10 @@
 
   /**
    * Adds a resource to the set.
-   * @param {string} resourceName The name of the resource to be added.
+   * @param {!Object} resource The resource to be added.
    */
-  addResource(resourceName) {
-    throw 'unimplemented: addResource';
+  addResource(resource) {
+    this.resources[resource.name] = resource;
   }
 
   /**
@@ -74,7 +74,7 @@
    * @return {!Object} The resource, or null if it's not contained in the set.
    */
   getResource(resourceName) {
-    throw 'unimplemented: getResource';
+    return this.resources[resourceName];
   }
 
   /**
@@ -82,7 +82,7 @@
    * @return {Array.<string>} The names of all resources the set contains.
    */
   getResourceNames() {
-    throw 'unimplemented: getResourceNames';
+    return Object.keys(this.resources);
   }
 
   /**

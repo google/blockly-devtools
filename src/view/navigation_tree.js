@@ -211,4 +211,20 @@ class NavigationTree {
     //TOOD: Add if statements for type-specfic options (as needed).
     return items;
   }
+
+
+  /**
+   * Listens for block selected in tree.
+   */
+  makeTreeListener() {
+    $('#navigationTree').on('select_node.jstree', (e, data) => {
+      // collect data of all selected blocks
+      const i, j, r = [];
+      for (i = 0, j = data.selected.length; i < j; i++) {
+        r.push(data.instance.get_node(data.selected[i]).text);
+      }
+      // load the blocks
+      //TODO: add method based off of tree's connections
+    });
+  }
 }
