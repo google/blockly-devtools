@@ -557,10 +557,6 @@ class ToolboxController {
     /*
      * REFACTORED: Moved in from wfactory_controller.js
      *       (Also moved into: workspace_controller.js)
-     *
-     * References:
-     * - updateLibBlockTypes()
-     * - clearAndLoadXml_()
      */
     const libraryXmls = {};
     const libraryNames = this.project.getLibraryNames();
