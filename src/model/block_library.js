@@ -47,12 +47,11 @@ class BlockLibrary extends Resource {
 
   /**
    * Saves block to block library.
-   * @param {string} blockType The name of the block to be added.
    * @param {!BlockDefinition} blockDefinition The definition of the block to be
    *    saved.
    */
-  addBlockDefinition(blockType, blockDefinition) {
-    this.blocks[blockType] = blockDefinition;
+  addBlockDefinition(blockDefinition) {
+    this.blocks[blockDefinition.name] = blockDefinition;
   }
 
   /**
