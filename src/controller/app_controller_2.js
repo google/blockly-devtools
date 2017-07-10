@@ -57,6 +57,12 @@ class AppController2 {
     this.project = new Project('');
 
     /**
+     * Main View class which manages view portion of application.
+     * @type {!AppView}
+     */
+    this.view = new AppView(this);
+
+    /**
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
@@ -74,12 +80,6 @@ class AppController2 {
      * @type {!PopupController}
      */
     this.popupController = new PopupController(this.projectController);
-
-    /**
-     * Main View class which manages view portion of application.
-     * @type {!AppView}
-     */
-    this.view = new AppView(this);
 
     /**
      * Map of tab type to div element for the tab.
@@ -156,14 +156,7 @@ class AppController2 {
    * (Block Factory, Workspace Factory, or Exporter) is selected.
    */
   onTab() {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - this.tabMap
-     * - this.lastSelectedTab
-     * - FactoryUtils.savedBlockChanges()
-     */
+    // REFACTORED: Moved in from app_controller.js=
     // Get tab div elements
     const blockFactoryTab = this.tabMap[AppController2.BLOCK_FACTORY];
     const exporterTab = this.tabMap[AppController2.EXPORTER];
@@ -179,71 +172,56 @@ class AppController2 {
     this.view.styleTabs_();
 
     if (this.view.selectedTab == AppController2.BLOCK_FACTORY) {
-      // Hide other tabs.
-      FactoryUtils.hide('blockLibraryExporter');
-      FactoryUtils.hide('workspaceFactoryContent');
-      FactoryUtils.hide('toolboxEditor');
-      FactoryUtils.hide('workspaceEditor');
-      // Show Block Factory.
-      FactoryUtils.show('blockFactoryContent');
+      this.showTab_('blockFactoryContent');
       this.editorController.currentEditor = this.editorController.blockEditorController;
     } else if (this.view.selectedTab == AppController2.WORKSPACE_FACTORY) {
       // TODO(#95): Deprecate workspace factory tab. Split into two views,
       //            toolbox editor and workspace editor view.
 
-      // Hide other tabs.
-      FactoryUtils.hide('blockLibraryExporter');
-      FactoryUtils.hide('blockFactoryContent');
-      FactoryUtils.hide('toolboxEditor');
-      FactoryUtils.hide('workspaceEditor');
-      // Show workspace factory container.
-      FactoryUtils.show('workspaceFactoryContent');
+      this.showTab_('workspaceFactoryContent');
 
       // Update block library categories.
-      this.editorController.toolboxController.setBlockLibCategory();
+      this.editorController.toolboxController.updateBlockLibCategory();
     } else if (this.view.selectedTab == AppController2.EXPORTER) {
       // TODO: Deprecate exporter tab. Keep for now to keep view in tact. Will
       //       remove completely after #95 is resolved.
-      // Hide other tabs.
-      FactoryUtils.hide('workspaceFactoryContent');
-      FactoryUtils.hide('blockFactoryContent');
-      FactoryUtils.hide('toolboxEditor');
-      FactoryUtils.hide('workspaceEditor');
-
-      // Show exporter tab.
-      FactoryUtils.show('blockLibraryExporter');
+      this.showTab_('blockLibraryExporter');
 
       // Note: Removed exporter and usedBlockTypes() references because exporting
       // will be done through the menubar and the block exporter tab will be
       // deprecated.
     } else if (this.view.selectedTab == AppController2.TOOLBOX_EDITOR) {
-      // Hide other tabs.
-      FactoryUtils.hide('workspaceFactoryContent');
-      FactoryUtils.hide('blockFactoryContent');
-      FactoryUtils.hide('blockLibraryExporter');
-      FactoryUtils.hide('workspaceEditor');
+      this.showTab_('toolboxEditor');
 
-      // Show toolbox editor tab.
-      FactoryUtils.show('toolboxEditor');
-
-      this.editorController.toolboxController.setBlockLibCategory();
+      this.editorController.toolboxController.updateBlockLibCategory();
       this.editorController.currentEditor = this.editorController.toolboxController;
     } else if (this.view.selectedTab == AppController2.WORKSPACE_EDITOR) {
-      // Hide other tabs.
-      FactoryUtils.hide('workspaceFactoryContent');
-      FactoryUtils.hide('blockFactoryContent');
-      FactoryUtils.hide('blockLibraryExporter');
-      FactoryUtils.hide('toolboxEditor');
+      this.showTab_('workspaceEditor');
 
-      // Show toolbox editor tab.
-      FactoryUtils.show('workspaceEditor');
-
-      this.editorController.workspaceController.setBlockLibCategory();
+      this.editorController.workspaceController.updateBlockLibCategory();
       this.editorController.currentEditor = this.editorController.workspaceController;
     }
 
     // Resize to render workspaces' toolboxes correctly for all tabs.
     window.dispatchEvent(new Event('resize'));
+  }
+
+  /**
+   * Given a tab name, shows the view corresponding to that tab and hides all others.
+   * Helper function of onTab().
+   * @param {string} tabName Name of tab to be shown.
+   * @private
+   */
+  showTab_(tabName) {
+    const tabNames = ['workspaceFactoryContent', 'blockFactoryContent',
+        'blockLibraryExporter', 'toolboxEditor', 'workspaceEditor'];
+    tabNames.forEach((name) => {
+      if (name === tabName) {
+        FactoryUtils.show(name);
+      } else {
+        FactoryUtils.hide(name);
+      }
+    });
   }
 
   /**

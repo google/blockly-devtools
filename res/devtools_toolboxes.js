@@ -36,9 +36,7 @@ goog.provide('DevToolsToolboxes');
  * @return {string} XML string of category which contains the blocks in the library.
  */
 DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
-  // TODO: Create unique document IDs for each block library. Currently all
-  //       block libraries have the same ID, "blockLibrary".
-  return `<category name="${libraryName}" colour="260" id="blockLibrary">
+  return `<category name="${libraryName}" colour="260">
     ${libraryXml}
   </category>
   `;

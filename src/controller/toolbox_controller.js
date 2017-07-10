@@ -547,31 +547,6 @@ class ToolboxController {
     throw 'Unimplemented: loadImportedToolbox()';
   }
 
-  /*
-   * Updates the block library category in the toolbox workspace toolbox.
-   * @param {!Element} categoryXml XML for the block library category.
-   * @param {!Array.<string>} libBlockTypes Array of block types from the block
-   *     library.
-   */
-  setBlockLibCategory() {
-    /*
-     * REFACTORED: Moved in from wfactory_controller.js
-     *       (Also moved into: workspace_controller.js)
-     */
-    const libraryXmls = {};
-    const libraryNames = this.project.getLibraryNames();
-
-    for (const i in libraryNames) {
-      const libraryName = libraryNames[i];
-      const library = this.project.getLibrary(libraryName);
-      libraryXmls[libraryName] = library.getCategoryXml();
-    }
-
-    // Take XML
-    const newToolboxXml = DevToolsToolboxes.toolboxEditor(libraryXmls);
-    this.view.updateEditorToolbox(newToolboxXml);
-  }
-
   /**
    * Return the block types used in the custom toolbox and pre-loaded workspace.
    * @return {!Array.<string>} Block types used in the custom toolbox and
