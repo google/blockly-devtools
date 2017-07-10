@@ -169,16 +169,7 @@
    * @param {string} resourceName The name of the resource to be found.
    * @return {boolean} Whether or not the resource is present in the set.
    */
-   has(resourceName) {
+  has(resourceName) {
     throw 'unimplemented: has';
-   }
-
-  /**
-   * Gets the JSON object necessary to represent the resource set in the
-   *     navigation tree.
-   * @return {!Object} The tree-specific JSON representation of the resource set.
-   */
-  getTreeJson() {
-    throw 'unimplemented: getTreeJson';
   }
 }
