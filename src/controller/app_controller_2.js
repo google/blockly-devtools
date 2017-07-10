@@ -89,10 +89,6 @@ class AppController2 {
     this.tabMap[this.BLOCK_FACTORY] = $('#blockFactory_tab');
     this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
     this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
-
-    this.lastSelectedTab = null;
-
-    this.selectedTab = this.BLOCK_FACTORY;
   }
 
   // ======================== CONSTANTS ===========================
@@ -151,8 +147,8 @@ class AppController2 {
    */
   setSelectedTab(tabName) {
     // REFACTORED: from app_controller.js:setSelected_(tabName)
-    this.lastSelectedTab = this.selectedTab;
-    this.selectedTab = tabName;
+    this.view.lastSelectedTab = this.view.selectedTab;
+    this.view.selectedTab = tabName;
   }
 
   /**
@@ -175,38 +171,44 @@ class AppController2 {
 
     // Only enable key events in Editors if its tab is selected.
     this.editorController.toolboxController.keyEventsEnabled =
-        this.selectedTab == AppController2.TOOLBOX_EDITOR;
+        this.view.selectedTab == AppController2.TOOLBOX_EDITOR;
     this.editorController.workspaceController.keyEventsEnabled =
-        this.selectedTab == AppController2.WORKSPACE_EDITOR;
+        this.view.selectedTab == AppController2.WORKSPACE_EDITOR;
 
     // Turn selected tab on and other tabs off.
     this.view.styleTabs_();
 
-    if (this.selectedTab == AppController2.BLOCK_FACTORY) {
+    if (this.view.selectedTab == AppController2.BLOCK_FACTORY) {
       // Hide other tabs.
       FactoryUtils.hide('blockLibraryExporter');
       FactoryUtils.hide('workspaceFactoryContent');
+      FactoryUtils.hide('toolboxEditor');
+      FactoryUtils.hide('workspaceEditor');
       // Show Block Factory.
       FactoryUtils.show('blockFactoryContent');
       this.editorController.currentEditor = this.editorController.blockEditorController;
-    } else if (this.selectedTab == AppController2.WORKSPACE_FACTORY) {
+    } else if (this.view.selectedTab == AppController2.WORKSPACE_FACTORY) {
       // TODO(#95): Deprecate workspace factory tab. Split into two views,
       //            toolbox editor and workspace editor view.
 
       // Hide other tabs.
       FactoryUtils.hide('blockLibraryExporter');
       FactoryUtils.hide('blockFactoryContent');
+      FactoryUtils.hide('toolboxEditor');
+      FactoryUtils.hide('workspaceEditor');
       // Show workspace factory container.
       FactoryUtils.show('workspaceFactoryContent');
 
       // Update block library categories.
       this.editorController.toolboxController.setBlockLibCategory();
-    } else if (this.selectedTab == AppController2.EXPORTER) {
+    } else if (this.view.selectedTab == AppController2.EXPORTER) {
       // TODO: Deprecate exporter tab. Keep for now to keep view in tact. Will
       //       remove completely after #95 is resolved.
       // Hide other tabs.
       FactoryUtils.hide('workspaceFactoryContent');
       FactoryUtils.hide('blockFactoryContent');
+      FactoryUtils.hide('toolboxEditor');
+      FactoryUtils.hide('workspaceEditor');
 
       // Show exporter tab.
       FactoryUtils.show('blockLibraryExporter');
@@ -214,7 +216,7 @@ class AppController2 {
       // Note: Removed exporter and usedBlockTypes() references because exporting
       // will be done through the menubar and the block exporter tab will be
       // deprecated.
-    } else if (this.selectedTab == AppController2.TOOLBOX_EDITOR) {
+    } else if (this.view.selectedTab == AppController2.TOOLBOX_EDITOR) {
       // Hide other tabs.
       FactoryUtils.hide('workspaceFactoryContent');
       FactoryUtils.hide('blockFactoryContent');
@@ -226,7 +228,7 @@ class AppController2 {
 
       this.editorController.toolboxController.setBlockLibCategory();
       this.editorController.currentEditor = this.editorController.toolboxController;
-    } else if (this.selectedTab == AppController2.WORKSPACE_EDITOR) {
+    } else if (this.view.selectedTab == AppController2.WORKSPACE_EDITOR) {
       // Hide other tabs.
       FactoryUtils.hide('workspaceFactoryContent');
       FactoryUtils.hide('blockFactoryContent');
@@ -307,7 +309,7 @@ class AppController2 {
 
     // Generate file contents for inject file.
     const injectFileContents = this.projectController.generateInjectString();
-
+    // Get file name from user.
     const fileName = prompt('File name for starter Blockly workspace code:',
                             'workspace.js');
     if (!fileName) {

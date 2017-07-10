@@ -121,6 +121,19 @@ class AppView {
     //       toolbox editor, workspace editor) instead of managing/tracking all
     //       dropdowns in AppView.
     this.modalName_ = null;
+
+    /**
+     * Keeps track of which view/editor was previously used before the current
+     * view.
+     * @type {string}
+     */
+    this.lastSelectedTab = null;
+
+    /**
+     * Keeps track of which view/editor is currently used.
+     * @type {string}
+     */
+    this.selectedTab = AppController2.BLOCK_FACTORY;
   }
 
   /**
