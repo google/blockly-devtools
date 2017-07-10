@@ -56,8 +56,13 @@
    * Adds a resource to the set.
    * @param {!Object} resource The resource to be added.
    */
+<<<<<<< HEAD
   addResource(resource) {
     this.resources[resource.name] = resource;
+=======
+  addResource(resourceName) {
+    throw 'unimplemented: addResource';
+>>>>>>> bed7f07bc090f40adcc194ffcbadc1832cf4a887
   }
 
   /**
