@@ -51,7 +51,7 @@ class BlockLibrary extends Resource {
    *    saved.
    */
   addBlockDefinition(blockDefinition) {
-    this.blocks[blockDefinition.name] = blockDefinition;
+    this.blocks[blockDefinition.type()] = blockDefinition;
   }
 
   /**
