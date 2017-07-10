@@ -962,32 +962,6 @@ WorkspaceFactoryController.prototype.importPreloadFromTree_ = function(tree) {
   this.updatePreview();
 };
 
-/**
- * Clears the editing area completely, deleting all categories and all
- * blocks in the model and view and all pre-loaded blocks. Tied to the
- * "Clear" button.
- */
-WorkspaceFactoryController.prototype.clearAll = function() {
-  if (!confirm('Are you sure you want to clear all of your work in Workspace' +
-      ' Factory?')) {
-    return;
-  }
-  var hasCategories = this.model.hasElements();
-  this.model.clearToolboxList();
-  this.view.clearToolboxTabs();
-  this.model.savePreloadXml(Blockly.Xml.textToDom('<xml></xml>'));
-  this.view.addEmptyCategoryMessage();
-  this.view.updateState(-1, null);
-  this.toolboxWorkspace.clear();
-  this.toolboxWorkspace.clearUndo();
-  this.saveStateFromWorkspace();
-  this.hasUnsavedToolboxChanges = false;
-  this.hasUnsavedPreloadChanges = false;
-  this.view.setCategoryOptions(this.model.hasElements());
-  this.generateNewOptions();
-  this.updatePreview();
-};
-
 /*
  * Makes the currently selected block a user-generated shadow block. These
  * blocks are not made into real shadow blocks, but recorded in the model
@@ -1361,30 +1335,6 @@ WorkspaceFactoryController.prototype.setBlockLibCategory =
  */
 WorkspaceFactoryController.prototype.getAllUsedBlockTypes = function() {
   return this.model.getAllUsedBlockTypes();
-};
-
-/**
- * Determines if a block loaded in the workspace has a definition (if it
- * is a standard block, is defined in the block library, or has a definition
- * imported).
- * @param {!Blockly.Block} block The block to examine.
- */
-WorkspaceFactoryController.prototype.isDefinedBlock = function(block) {
-  return this.model.isDefinedBlockType(block.type);
-};
-
-/**
- * Sets a warning on blocks loaded to the workspace that are not defined.
- * @private
- */
-WorkspaceFactoryController.prototype.warnForUndefinedBlocks_ = function() {
-  var blocks = this.toolboxWorkspace.getAllBlocks();
-  for (var i = 0, block; block = blocks[i]; i++) {
-    if (!this.isDefinedBlock(block)) {
-      block.setWarningText(block.type + ' is not defined (it is not a standard '
-          + 'block, \nin your block library, or an imported block)');
-    }
-  }
 };
 
 /*

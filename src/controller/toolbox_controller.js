@@ -61,28 +61,6 @@ class ToolboxController {
   }
 
   /**
-   * Updates the preview workspace based on the toolbox workspace. If switching
-   * from no categories to categories or categories to no categories, reinjects
-   * Blockly with reinjectPreview, otherwise just updates without reinjecting.
-   * Called whenever a list element is created, removed, or modified and when
-   * Blockly move and delete events are fired. Do not call on create events
-   * or disabling will cause the user to "drop" their current blocks. Make sure
-   * that no changes have been made to the workspace since updating the model
-   * (if this might be the case, call saveStateFromWorkspace).
-   */
-  updatePreview() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - generateToolboxXml()
-     * - reinjectPreview(tree)
-     * - generateWorkspaceXml()
-     */
-    throw 'Unimplemented: updatePreview()';
-  }
-
-  /**
    * Currently prompts the user for a name, checking that it's valid (not used
    * before), and then creates a tab and switches to it.
    */
@@ -103,17 +81,6 @@ class ToolboxController {
      * - updatePreview()
      */
     throw 'Unimplemented: ToolboxController.addCategory()';
-  }
-
-  /**
-   * Removes all categories and separators in the view. Clears categoryTabs to
-   * reflect this.
-   */
-  clearToolbox() {
-    /**
-     * TODO: Move in from wfactory_view.js:clearTabs()
-     */
-    throw 'Unimplemented: clearToolbox()';
   }
 
   /**
@@ -274,31 +241,108 @@ class ToolboxController {
   }
 
   /**
-   * Given a XML DOM tree, loads it into the toolbox editing area so that the
-   * user can continue editing their work. Assumes that tree is in valid toolbox
-   * XML format. Assumes that the mode is MODE_TOOLBOX.
-   * @param {!Element} tree XML tree to be loaded to toolbox editing area.
-   * @private
+   * Removes all categories and separators in the view. Clears categoryTabs to
+   * reflect this.
    */
-  importToolboxFromTree_(tree) {
+  clear() {
+    /**
+     * REFACTORED: from wfactory_view.js:clearToolboxTabs()
+     *                  wfactory_controller.js:clearAll()
+     */
+    // Clears tabs
+    this.categoryTabs = {};
+
+    // Clears model
+    this.currentToolbox.clearCategoryList();
+
+    // Clears view elements
+    this.view.clearElements();
+    this.view.addEmptyToolboxMessage();
+    this.updateElementButtons(-1, null);
+
+    // Clears Blockly toolbox editor workspace
+    this.view.editorWorkspace.clear();
+    this.view.editorWorkspace.clearUndo();
+
+    // Update preview.
+    this.updatePreview();
+  }
+
+  /**
+   * Updates the preview workspace based on the toolbox workspace. If switching
+   * from no categories to categories or categories to no categories, reinjects
+   * Blockly with reinjectPreview, otherwise just updates without reinjecting.
+   * Called whenever a list element is created, removed, or modified and when
+   * Blockly move and delete events are fired. Do not call on create events
+   * or disabling will cause the user to "drop" their current blocks. Make sure
+   * that no changes have been made to the workspace since updating the model
+   * (if this might be the case, call saveStateFromWorkspace).
+   */
+  updatePreview() {
     /*
      * TODO: Move in from wfactory_controller.js
      *
      * References:
-     * - clearToolboxList()
-     * - clearToolboxTabs()
-     * - convertShadowBlocks()
-     * - view.addEmptyCategoryMessage()
-     * - createCategory()
-     * - setBorderColor()
-     * - switchElement()
-     * - updateState()
-     * - saveStateFromWorkspace()
-     * - setCategoryOptions()
-     * - generateNewOptions()
-     * - updatePreview()
+     * - generateToolboxXml()
+     * - reinjectPreview(tree)
+     * - generateWorkspaceXml()
      */
-    throw 'Unimplemented: importToolboxFromTree_()';
+    throw 'Unimplemented: updatePreview()';
+  }
+
+  /**
+   * Loads the given XML to the hidden Blockly.Workspace and sets any user-generated
+   * shadow blocks to be actual shadow blocks in the hidden Blockly.Workspace.
+   *
+   * @param {!Element} xml XML to be loaded to the hidden workspace.
+   * @private
+   */
+  loadToHiddenWorkspace_(xml) {
+    /*
+     * TODO: Move in from wfactory_generator.js
+     *
+     * References:
+     * - hiddenWorkspace (@type {!Blockly.Workspace})
+     * - setShadowBlocksInHiddenWorkspace_()
+     */
+
+    // TODO: Investigate if there is a better method than using hidden workspaces
+    //       for grabbing Block XML information.
+
+    throw 'Unimplemented: loadToHiddenWorkspace_()';
+  }
+
+  /**
+   * Encodes blocks in the hidden workspace in a XML DOM element. Very
+   * similar to workspaceToDom, but doesn't capture IDs. Uses the top-level
+   * blocks loaded in hiddenWorkspace.
+   * @private
+   * @param {!Element} xmlDom Tree of XML elements to be appended to.
+   */
+  appendHiddenWorkspaceToDom_(xmlDom) {
+    /*
+     * TODO: Move in from wfactory_generator.js
+     *
+     * References:
+     * - hiddenWorkspace (@type {!Blockly.Workspace})
+     */
+    throw 'Unimplemented: appendHiddenWorkspaceToDom_()';
+  }
+
+  /**
+   * Sets the user-generated shadow blocks loaded into hiddenWorkspace to be
+   * actual shadow blocks. This is done so that blockToDom records them as
+   * shadow blocks instead of regular blocks.
+   * @private
+   */
+  setShadowBlocksInHiddenWorkspace_() {
+    /*
+     * TODO: Move in from wfactory_generator.js
+     *
+     * References:
+     * - isShadowBlock()
+     */
+    throw 'Unimplemented: setShadowBlocksInHiddenWorkspace_()';
   }
 
   /*
@@ -392,6 +436,34 @@ class ToolboxController {
      * - markShadowBlock()
      */
      throw 'Unimplemented: convertShadowBlocks()';
+  }
+
+  /**
+   * Given a XML DOM tree, loads it into the toolbox editing area so that the
+   * user can continue editing their work. Assumes that tree is in valid toolbox
+   * XML format. Assumes that the mode is MODE_TOOLBOX.
+   * @param {!Element} tree XML tree to be loaded to toolbox editing area.
+   * @private
+   */
+  importToolboxFromTree_(tree) {
+    /*
+     * TODO: Move in from wfactory_controller.js
+     *
+     * References:
+     * - clearToolboxList()
+     * - clearToolboxTabs()
+     * - convertShadowBlocks()
+     * - view.addEmptyCategoryMessage()
+     * - createCategory()
+     * - setBorderColor()
+     * - switchElement()
+     * - updateState()
+     * - saveStateFromWorkspace()
+     * - setCategoryOptions()
+     * - generateNewOptions()
+     * - updatePreview()
+     */
+    throw 'Unimplemented: importToolboxFromTree_()';
   }
 
   /**
@@ -659,17 +731,6 @@ class ToolboxController {
   }
 
   /**
-   * Adds a help message to emphasize empty toolbox. Shown when starting with empty
-   * Toolbox or when user manually deletes all categories in their Toolbox.
-   */
-  addEmptyToolboxMessage() {
-    /*
-     * TODO: Move in from wfactory_view.js:addEmptyCategoryMessage()
-     */
-    throw 'Unimplemented: addEmptyToolboxMessage()';
-  }
-
-  /**
    * Enables/disables ListElement buttons (add, remove, move up/down) depending
    * on what ListElement is currently selected.
    * Called when adding or removing elements, or when changing/swapping to new
@@ -677,7 +738,7 @@ class ToolboxController {
    *
    * @param {number} selectedIndex The index of the currently selected category,
    *     -1 if no categories created.
-   * @param {ListElement} selected The selected ListElement.
+   * @param {?ListElement} selected The selected ListElement.
    */
   updateElementButtons(selectedIndex, selected) {
     /*
