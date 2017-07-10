@@ -140,4 +140,27 @@ class ToolboxEditorView {
      */
     throw 'Unimplemented: displayRemoveShadow_()';
   }
+
+  /**
+   * Removes all categories and separators in the view.
+   */
+  clearElements() {
+    const oldCategoryTable = $('#categoryTable');
+    const newCategoryTable = $('#table');
+    newCategoryTable.id = 'categoryTable';
+    newCategoryTable.style.width = 'auto';
+    oldCategoryTable.parentElement.replaceChild(newCategoryTable,
+        oldCategoryTable);
+  }
+
+  /**
+   * Adds a help message to emphasize empty toolbox. Shown when starting with empty
+   * Toolbox or when user manually deletes all categories in their Toolbox.
+   */
+  addEmptyToolboxMessage() {
+    /*
+     * TODO: Move in from wfactory_view.js:addEmptyCategoryMessage()
+     */
+    throw 'Unimplemented: addEmptyToolboxMessage()';
+  }
 }
