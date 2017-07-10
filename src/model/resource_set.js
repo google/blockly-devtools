@@ -119,12 +119,7 @@
    * @return {!Object} The JSON representing the set's tree structure.
    */
   getTreeJSON() {
-    const treeJson = [];
-    if (this.isEmpty()) {
-      return treeJson;
-    } else {
 
-    }
   }
 
   /**

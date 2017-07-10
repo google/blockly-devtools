@@ -77,6 +77,35 @@ class Resource {
   }
 
   /**
+   * Makes tree JSON from array of strings. Used in most resource getTreeJson()
+   *     methods. Takes strings from array, and gives them nodes on the same
+   *     level (under this.name as a parent node) with ids equivalent to their
+   *     text.
+   * @param {!Array.<string>} nameArray Array of strings, usually names of some
+   *     component of the resource, to be made in to JSON.
+   *
+   * @return {!Object} The tree-specific JSON representation of the array.
+   */
+  makeTreeJsonFromArray(nameArray) {
+    const treeJson;
+    const iterationIndex = 1;
+    const finalIndex = 0;
+    const toAdd;
+    const text;
+    while (nameArray[iterationIndex]) {
+      text = nameArray[iterationIndex - 1];
+      toAdd = {'text': text, 'id': text, 'parent': this.name};
+      treeJson.push(toAdd);
+      iterationIndex++;
+      finalIndex++;
+    }
+    text = nameArray[finalIndex];
+    toAdd = { 'text': blockType, 'id': blockType};
+    treeJson.push(toAdd);
+    return treeJson;
+  }
+
+  /**
    * Renames the resource.
    * @param {string} newName New name of the resource.
    */
