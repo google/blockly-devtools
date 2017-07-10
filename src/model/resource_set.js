@@ -107,18 +107,24 @@
   }
 
   /**
+   * Returns whether or not the resource set is empty.
+   * @return {boolean} Whether or not the set is empty.
+   */
+  isEmpty() {
+    throw 'unimplimented: isEmpty';
+  }
+
+  /**
    * Returns the JSON object for the  resource set's tree representation.
    * @return {!Object} The JSON representing the set's tree structure.
    */
   getTreeJSON() {
-    /*
-     * TODO: add getTreeJSON methods to resources, such that the set getTreeJSON
-     *     method simply combines the objects for this method. This is lower
-     *     priority on account of the fact that the tree will update using
-     *     listeners, thus this method would really only be used upon loading
-     *     DevTools with a previously existing project.
-     */
-    throw 'unimplemented: getTreeJSON';
+    const treeJson = [];
+    if (this.isEmpty()) {
+      return treeJson;
+    } else {
+
+    }
   }
 
   /**
@@ -169,16 +175,7 @@
    * @param {string} resourceName The name of the resource to be found.
    * @return {boolean} Whether or not the resource is present in the set.
    */
-   has(resourceName) {
+  has(resourceName) {
     throw 'unimplemented: has';
-   }
-
-  /**
-   * Gets the JSON object necessary to represent the resource set in the
-   *     navigation tree.
-   * @return {!Object} The tree-specific JSON representation of the resource set.
-   */
-  getTreeJson() {
-    throw 'unimplemented: getTreeJson';
   }
 }
