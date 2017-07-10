@@ -5,14 +5,14 @@
  * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an 'AS IS' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -72,7 +72,7 @@ class BlockLibrarySet extends ResourceSet {
    *     the set.
    */
   getAllBlockTypes() {
-    throw "unimplemented: getAllBlockTypes";
+    throw 'unimplemented: getAllBlockTypes';
    }
 
   /**
@@ -97,7 +97,7 @@ class BlockLibrarySet extends ResourceSet {
    *     definitions.
    */
   getAllBlockDefinitionsMap() {
-    throw "unimplemented: getAllBlockDefinitionsMap";
+    throw 'unimplemented: getAllBlockDefinitionsMap';
   }
 
   /**
@@ -107,7 +107,7 @@ class BlockLibrarySet extends ResourceSet {
    *     to their definitions.
    */
   getBlockDefinitionMap(libraryName) {
-    throw "unimplemented: getBlockDefinitionMap";
+    throw 'unimplemented: getBlockDefinitionMap';
   }
 
   /**
@@ -115,7 +115,7 @@ class BlockLibrarySet extends ResourceSet {
    * @param {string} blockType The name of the block to be removed.
    */
   removeBlockFromSet(blockType) {
-    throw "unimplemented: removeBlockFromSet";
+    throw 'unimplemented: removeBlockFromSet';
   }
 
   /**
@@ -125,7 +125,7 @@ class BlockLibrarySet extends ResourceSet {
    * @param {string} blockType The name of the block to be removed.
    */
   removeBlockFromLibrary(libraryName, blockType) {
-    throw "unimplemented: removeBlockDefFromLibrary";
+    throw 'unimplemented: removeBlockDefFromLibrary';
   }
 
   /**
@@ -133,7 +133,7 @@ class BlockLibrarySet extends ResourceSet {
    * @param {string} libraryName The name of the library tp be cleared.
    */
   clearLibrary(libraryName) {
-    throw "unimplemented: clearLibrary";
+    throw 'unimplemented: clearLibrary';
   }
 
   /**
@@ -142,6 +142,6 @@ class BlockLibrarySet extends ResourceSet {
    * @return {boolean} Whether or not the block is in the set.
    */
   hasBlock(blockType) {
-    throw "unimplemented: hasBlock";
+    throw 'unimplemented: hasBlock';
   }
 }

@@ -97,11 +97,11 @@ class BlockEditorView {
     throw 'Unimplemented: disableEnableLink()';
   }
 
-/**
- * Updates the workspace to show the block user selected from library
- * @param {string} blockType Block to edit on block factory.
- */
- openBlock(blockType) {
-  console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")")
- }
+  /**
+   * Updates the workspace to show the block user selected from library
+   * @param {string} blockType Block to edit on block factory.
+   */
+  openBlock(blockType) {
+    console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")")
+  }
 }

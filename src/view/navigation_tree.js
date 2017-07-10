@@ -88,6 +88,7 @@ class NavigationTree {
 
   /**
    * Adds a block to the tree.
+   * @param {string} blockType The name of the block to be added.
    */
   addBlockNode(blockType) {
     $('#navigationTree').jstree().create_node('#' ,

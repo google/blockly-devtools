@@ -5,14 +5,14 @@
  * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an 'AS IS' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -246,35 +246,35 @@ class AppView {
    * Calls response to selecting export project in menu.
    */
   exportProject() {
-    console.warn("unimplemented: AppView.exportProject()");
+    console.warn('unimplemented: AppView.exportProject()');
   }
 
   /**
    * Calls response to selecting export current library in menu.
    */
   exportCurrentLibrary() {
-    console.warn("unimplemented: AppView.exportCurrentLibrary()");
+    console.warn('unimplemented: AppView.exportCurrentLibrary()');
   }
 
   /**
    * Calls response to selecting export current toolbox in menu.
    */
   exportCurrentToolbox() {
-    console.warn("unimplemented: AppView.exportCurrentToolbox()");
+    console.warn('unimplemented: AppView.exportCurrentToolbox()');
   }
 
   /**
    * Calls response to selecting export current workspace contents in menu.
    */
   exportCurrentWorkspaceContents() {
-    console.warn("unimplemented: AppView.exportCurrentWorkspaceContents()");
+    console.warn('unimplemented: AppView.exportCurrentWorkspaceContents()');
   }
 
   /**
    * Calls response to selecting export current workspace configuration in menu.
    */
   exportCurrentWorkspaceConfiguration() {
-    console.warn("unimplemented: AppView.exportCurrentWorkspaceConfiguration()");
+    console.warn('unimplemented: AppView.exportCurrentWorkspaceConfiguration()');
   }
 
   /**
@@ -366,7 +366,7 @@ class AppView {
    * @param {!BlockLibrary} library The library to add.
    */
   addLibraryToTree(library) {
-    console.warn("unimplemented: AppView.addLibraryToTree(" + library.name + ")");
+    console.warn('unimplemented: AppView.addLibraryToTree(' + library.name + ')');
   }
 
   /**
@@ -374,7 +374,7 @@ class AppView {
    * @param {!Toolbox} toolbox The toolbox to add.
    */
   addToolboxToTree(toolbox) {
-    console.warn("unimplemented: AppView.addToolboxToTree(" + toolbox.name + ")");
+    console.warn('unimplemented: AppView.addToolboxToTree(' + toolbox.name + ')');
   }
 
   /**
@@ -382,8 +382,8 @@ class AppView {
    * @param {!WorkspaceContents} workspaceContents The workspace contents to add.
    */
   addWorkspaceContentsToTree(workspaceContents) {
-    console.warn("unimplemented: AppView.addWorkspaceContentsToTree(" +
-      workspaceContents.name + ")");
+    console.warn('unimplemented: AppView.addWorkspaceContentsToTree(' +
+      workspaceContents.name + ')');
   }
 
   /**
@@ -392,8 +392,8 @@ class AppView {
    *     configuration to add.
    */
   addWorkspaceConfigurationToTree(workspaceConfiguration) {
-    console.warn("unimplemented: AppView.addWorkspaceConfigurationToTree(" +
-      workspaceConfiguration.name + ")");
+    console.warn('unimplemented: AppView.addWorkspaceConfigurationToTree(' +
+      workspaceConfiguration.name + ')');
   }
 
   /**
@@ -416,8 +416,8 @@ class AppView {
    * @param {!BlockLibrary} library The library to remove.
    */
   removeLibraryFromTree(library) {
-    console.warn("unimplemented: AppView.removeLibraryFromTree(" +  library.name
-      + ")");
+    console.warn('unimplemented: AppView.removeLibraryFromTree(' +  library.name
+      + ')');
   }
 
   /**
@@ -425,8 +425,8 @@ class AppView {
    * @param {!Toolbox} toolbox The toolbox to remove.
    */
   removeToolboxFromTree(toolbox) {
-    console.warn("unimplemented: AppView.removeToolboxFromTree(" + toolbox.name
-      + ")");
+    console.warn('unimplemented: AppView.removeToolboxFromTree(' + toolbox.name
+      + ')');
   }
 
   /**
@@ -435,8 +435,8 @@ class AppView {
    *     remove.
    */
   removeWorkspaceContentsFromTree(workspaceContentsName) {
-    console.warn("unimplemented: AppView.removeWorkspaceContentsFromTree(" +
-      workspaceContents.name + ")");
+    console.warn('unimplemented: AppView.removeWorkspaceContentsFromTree(' +
+      workspaceContents.name + ')');
   }
 
   /**
@@ -445,8 +445,8 @@ class AppView {
    *     configuration to remove.
    */
   removeWorkspaceConfigurationFromTree(workspaceConfigName) {
-    console.warn("unimplemented: AppView.removeWorkspaceConfigurationFromTree(" +
-      workspaceConfiguration.name + ")");
+    console.warn('unimplemented: AppView.removeWorkspaceConfigurationFromTree(' +
+      workspaceConfiguration.name + ')');
   }
 
   /**
@@ -544,7 +544,7 @@ class AppView {
    * @param {Event} event beforeunload event.
    */
   confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js"
+    // TODO: Move in from app_controller.js'
     throw 'Unimplemented: confirmLeavePage()';
   }
 

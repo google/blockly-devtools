@@ -5,14 +5,14 @@
  * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an 'AS IS' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -57,7 +57,7 @@
    * @param {string} resourceName The name of the resource to be added.
    */
   addResource(resourceName) {
-    throw "unimplemented: addResource";
+    throw 'unimplemented: addResource';
   }
 
   /**
@@ -65,7 +65,7 @@
    * @param {string} resourceName The name of the resource to be removed.
    */
   removeResource(resourceName) {
-    throw "unimplemented: removeResource";
+    throw 'unimplemented: removeResource';
   }
 
   /**
@@ -74,7 +74,7 @@
    * @return {!Object} The resource, or null if it's not contained in the set.
    */
   getResource(resourceName) {
-    throw "unimplemented: getResource";
+    throw 'unimplemented: getResource';
   }
 
   /**
@@ -82,7 +82,7 @@
    * @return {Array.<string>} The names of all resources the set contains.
    */
   getResourceNames() {
-    throw "unimplemented: getResourceNames";
+    throw 'unimplemented: getResourceNames';
   }
 
   /**
@@ -91,7 +91,7 @@
    * @return {Boolean} Whether or not the name can be added.
    */
   isValidName(name) {
-    throw "unimplemented: isValidName";
+    throw 'unimplemented: isValidName';
   }
 
   /**
@@ -103,7 +103,7 @@
     /*
      * Most likely will just return resource instanceof resourceConstructor.
      */
-    throw "unimplemented: isValidType";
+    throw 'unimplemented: isValidType';
   }
 
   /**
@@ -118,7 +118,7 @@
      *     listeners, thus this method would really only be used upon loading
      *     DevTools with a previously existing project.
      */
-    throw "unimplemented: getTreeJSON";
+    throw 'unimplemented: getTreeJSON';
   }
 
   /**
@@ -130,7 +130,7 @@
      * For use in creating the project metadata.
      * TODO: define metadata structure for sets/projects.
      */
-    throw "unimplemented: getData";
+    throw 'unimplemented: getData';
   }
 
   /**
@@ -138,14 +138,14 @@
    * @return {boolean} Whether or not unsaved elements exist.
    */
   isDirty() {
-    throw "unimplemented: isDirty";
+    throw 'unimplemented: isDirty';
   }
 
   /**
    * Reads the resource set from local storage.
    */
   loadFromLocalStorage() {
-    throw "unimplemented: loadFromLocalStorage";
+    throw 'unimplemented: loadFromLocalStorage';
   }
 
   /**
@@ -153,7 +153,7 @@
    */
   saveToLocalStorage() {
     //TODO: pass saving mechanism to classes which extend resource.
-    throw "unimplemented: saveFromLocalStorage";
+    throw 'unimplemented: saveFromLocalStorage';
   }
 
   /**
@@ -161,7 +161,7 @@
    * @return {!Object} The data needed to export the resource set.
    */
   getExportData() {
-    throw "unimplemented: getExportData";
+    throw 'unimplemented: getExportData';
   }
 
   /**
@@ -170,7 +170,7 @@
    * @return {boolean} Whether or not the resource is present in the set.
    */
    has(resourceName) {
-    throw "unimplemented: has";
+    throw 'unimplemented: has';
    }
 
   /**
@@ -179,6 +179,6 @@
    * @return {!Object} The tree-specific JSON representation of the resource set.
    */
   getTreeJson() {
-    throw "unimplemented: getTreeJson";
+    throw 'unimplemented: getTreeJson';
   }
 }
