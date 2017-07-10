@@ -41,14 +41,14 @@ class Resource {
    * @return {boolean} Whether or not unsaved elements exist.
    */
   isDirty() {
-    throw "abstract method: isDirty";
+    throw 'abstract method: isDirty';
   }
 
   /**
    * Reads the resource from local storage.
    */
   loadFromLocalStorage() {
-    throw "abstract method: loadFromLocalStorage";
+    throw 'abstract method: loadFromLocalStorage';
   }
 
   /**
@@ -56,7 +56,7 @@ class Resource {
    */
   saveToLocalStorage() {
     //TODO: pass saving mechanism to classes which extend resource.
-    throw "unimplemented: saveFromLocalStorage";
+    throw 'unimplemented: saveFromLocalStorage';
   }
 
   /**
@@ -64,7 +64,7 @@ class Resource {
    * @return {!Object} The data needed to export the resource.
    */
   getExportData() {
-    throw "abstract method: getExportData";
+    throw 'abstract method: getExportData';
   }
 
   /**
@@ -73,6 +73,14 @@ class Resource {
    * @return {!Object} The tree-specific JSON representation of the resource.
    */
   getTreeJson() {
-    throw "abstract method: getTreeJson";
+    throw 'abstract method: getTreeJson';
+  }
+
+  /**
+   * Renames the resource.
+   * @param {string} newName New name of the resource.
+   */
+  setName(newName) {
+    this.name = newName;
   }
 }

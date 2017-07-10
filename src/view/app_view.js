@@ -121,15 +121,34 @@ class AppView {
     //       toolbox editor, workspace editor) instead of managing/tracking all
     //       dropdowns in AppView.
     this.modalName_ = null;
+
+    /**
+     * The block editor view for the session.
+     * @type {!BlockEditorView}
+     */
+    this.blockEditorView = new BlockEditorView();
+
+    /**
+     * The toolbox view for the session.
+     * @type {!ToolboxView}
+     */
+    this.toolboxView = new ToolboxView();
+
+    /**
+     * The workspace view for the session.
+     * @type {!WorkspaceView}
+     */
+    this.workspaceView = new WorkspaceView();
   }
 
   /**
    * Initializes the tree for the session.
-   * @param {! BlockLibraryController} the libraryController for the session
+   * @param {!Project} project The project the tree represents.
    */
-  setLibraryTree(libraryController){
-    //initializes navigation tree with blocks in the library
-    this.navTree = new NavigationTree(libraryController);
+  setLibraryTree(project) {
+    //initializes navigation tree with blocks in the project
+    this.navTree = new NavigationTree(project);
+    this.makeTreeListener();
   }
 
   /**
@@ -227,35 +246,35 @@ class AppView {
    * Calls response to selecting export project in menu.
    */
   exportProject() {
-    console.warn("unimplemented: AppView.exportProject()");
+    console.warn('unimplemented: AppView.exportProject()');
   }
 
   /**
    * Calls response to selecting export current library in menu.
    */
   exportCurrentLibrary() {
-    console.warn("unimplemented: AppView.exportCurrentLibrary()");
+    console.warn('unimplemented: AppView.exportCurrentLibrary()');
   }
 
   /**
    * Calls response to selecting export current toolbox in menu.
    */
   exportCurrentToolbox() {
-    console.warn("unimplemented: AppView.exportCurrentToolbox()");
+    console.warn('unimplemented: AppView.exportCurrentToolbox()');
   }
 
   /**
    * Calls response to selecting export current workspace contents in menu.
    */
   exportCurrentWorkspaceContents() {
-    console.warn("unimplemented: AppView.exportCurrentWorkspaceContents()");
+    console.warn('unimplemented: AppView.exportCurrentWorkspaceContents()');
   }
 
   /**
    * Calls response to selecting export current workspace configuration in menu.
    */
   exportCurrentWorkspaceConfiguration() {
-    console.warn("unimplemented: AppView.exportCurrentWorkspaceConfiguration()");
+    console.warn('unimplemented: AppView.exportCurrentWorkspaceConfiguration()');
   }
 
   /**
@@ -335,31 +354,6 @@ class AppView {
   }
 
   /**
-   * Removes a block from the navigation tree.
-   */
-  removeBlockFromTree() {
-    var currentBlockType =
-      this.appController.blockLibraryController.getCurrentBlockType();
-    this.navTree.deleteBlockNode(currentBlockType);
-  }
-
-  /**
-   * Adds a block to the navigation tree.
-   */
-  addBlockToTree() {
-    var currentBlockType =
-      this.appController.blockLibraryController.getCurrentBlockType();
-    this.navTree.addBlockNode(currentBlockType);
-  }
-
-  /**
-   * Clears the navigation tree.
-   */
-  clearLibraryFromTree() {
-    this.navTree.clearLibrary();
-  }
-
-  /**
    * Given a tab and a ID to be associated to that tab, adds a listener to
    * that tab so that when the user clicks on the tab, it switches to the
    * element associated with that ID.
@@ -375,6 +369,14 @@ class AppView {
      * - bindClick()
      */
   }
+
+  /**
+   * Updates the workspace to show the block user selected from library
+   * @param {string} blockType Block to edit on block factory.
+   */
+  openBlock(blockType) {
+    this.blockEditorView.openBlock(blockType);
+   }
 
   /**
    * Called on each tab click. Styles the tabs to reflect which tab is selected.
@@ -446,7 +448,7 @@ class AppView {
    * @param {Event} event beforeunload event.
    */
   confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js"
+    // TODO: Move in from app_controller.js'
     throw 'Unimplemented: confirmLeavePage()';
   }
 

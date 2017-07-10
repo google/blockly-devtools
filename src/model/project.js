@@ -218,7 +218,7 @@ class Project extends Resource {
      * - has(blockType)
      *
      */
-    throw "unimplemented: has";
+    throw 'unimplemented: has';
   }
 
   /**
@@ -232,7 +232,7 @@ class Project extends Resource {
      *
      * References: N/A
      */
-    throw "unimplemented: getToolbox";
+    throw 'unimplemented: getToolbox';
   }
 
   /**
@@ -246,7 +246,7 @@ class Project extends Resource {
      *
      * References: N/A
      */
-    throw "unimplemented: getLibrary";
+    throw 'unimplemented: getLibrary';
   }
 
   /**
@@ -261,7 +261,7 @@ class Project extends Resource {
      *
      * References: N/A
      */
-    throw "unimplemented: getWorkspaceContents";
+    throw 'unimplemented: getWorkspaceContents';
   }
 
   /**
@@ -276,7 +276,7 @@ class Project extends Resource {
      *
      * References: N/A
      */
-    throw "unimplemented: getWorkspaceConfiguration";
+    throw 'unimplemented: getWorkspaceConfiguration';
   }
 
   /**
@@ -285,7 +285,7 @@ class Project extends Resource {
    */
   getExportData() {
     //TODO: implement
-    throw "unimplemented: getExportData";
+    throw 'unimplemented: getExportData';
   }
 
   /**
@@ -294,6 +294,6 @@ class Project extends Resource {
    * @return {!Object} The tree-specific JSON representation of the project.
    */
   getTreeJson() {
-    throw "unimplemented: getTreeJson";
+    throw 'unimplemented: getTreeJson';
   }
 }
