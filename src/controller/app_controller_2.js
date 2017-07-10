@@ -188,6 +188,7 @@ class AppController2 {
       FactoryUtils.hide('workspaceFactoryContent');
       // Show Block Factory.
       FactoryUtils.show('blockFactoryContent');
+      this.editorController.currentEditor = this.editorController.blockEditorController;
     } else if (this.selectedTab == AppController2.WORKSPACE_FACTORY) {
       // TODO(#95): Deprecate workspace factory tab. Split into two views,
       //            toolbox editor and workspace editor view.
@@ -224,6 +225,7 @@ class AppController2 {
       FactoryUtils.show('toolboxEditor');
 
       this.editorController.toolboxController.setBlockLibCategory();
+      this.editorController.currentEditor = this.editorController.toolboxController;
     } else if (this.selectedTab == AppController2.WORKSPACE_EDITOR) {
       // Hide other tabs.
       FactoryUtils.hide('workspaceFactoryContent');
@@ -235,6 +237,7 @@ class AppController2 {
       FactoryUtils.show('workspaceEditor');
 
       this.editorController.workspaceController.setBlockLibCategory();
+      this.editorController.currentEditor = this.editorController.workspaceController;
     }
 
     // Resize to render workspaces' toolboxes correctly for all tabs.
@@ -300,14 +303,21 @@ class AppController2 {
    * Blockly application with user-defined workspace, toolbox, and blocks.
    */
   createSampleApplication() {
-    /*
-     * TODO: Move in from wfactory_controller.js:exportInjectFile()
-     *
-     * References:
-     * - generateNewOptions()
-     * - generateInjectString()
-     * - createAndDownloadFile(fileName, data)
-     */
+    // REFACTORED: Moved in from wfactory_controller.js:exportInjectFile()
+
+    // Generate file contents for inject file.
+    const injectFileContents = this.projectController.generateInjectString();
+
+    const fileName = prompt('File name for starter Blockly workspace code:',
+                            'workspace.js');
+    if (!fileName) {
+      return;
+    }
+    const data = new Blob([injectFileContents], {type: 'text/javascript'});
+    FactoryUtils.createAndDownloadFile(data, fileName);
+
+    // TODO: Generate file contents for sample HTML page to create a "complete"
+    //       sample blockly app, with instructions in the comments.
   }
 
   /**

@@ -275,85 +275,6 @@ AppController.prototype.makeTabClickHandler_ = function(tabName) {
 };
 
 /**
- * Called on each tab click. Hides and shows specific content based on which tab
- * (Block Factory, Workspace Factory, or Exporter) is selected.
- */
-AppController.prototype.onTab = function() {
-  // Get tab div elements.
-  var blockFactoryTab = this.tabMap[AppController.BLOCK_FACTORY];
-  var exporterTab = this.tabMap[AppController.EXPORTER];
-  var workspaceFactoryTab = this.tabMap[AppController.WORKSPACE_FACTORY];
-
-  // Warn user if they have unsaved changes when leaving Block Factory.
-  if (this.lastSelectedTab == AppController.BLOCK_FACTORY &&
-      this.selectedTab != AppController.BLOCK_FACTORY) {
-
-    var hasUnsavedChanges =
-        !FactoryUtils.savedBlockChanges(this.project.currentLibrary);
-    if (hasUnsavedChanges &&
-        !confirm('You have unsaved changes in Block Factory.')) {
-      // If the user doesn't want to switch tabs with unsaved changes,
-      // stay on Block Factory Tab.
-      this.setSelected_(AppController.BLOCK_FACTORY);
-      this.lastSelectedTab = AppController.BLOCK_FACTORY;
-      return;
-    }
-  }
-
-  // Only enable key events in workspace factory if workspace factory tab is
-  // selected.
-  this.workspaceFactoryController.keyEventsEnabled =
-      this.selectedTab == AppController.WORKSPACE_FACTORY;
-
-  // Turn selected tab on and other tabs off.
-  this.styleTabs_();
-
-  if (this.selectedTab == AppController.EXPORTER) {
-    // Hide other tabs.
-    FactoryUtils.hide('workspaceFactoryContent');
-    FactoryUtils.hide('blockFactoryContent');
-    // Show exporter tab.
-    FactoryUtils.show('blockLibraryExporter');
-
-    // Need accurate state in order to know which blocks are used in workspace
-    // factory.
-    this.workspaceFactoryController.saveStateFromWorkspace();
-
-    // Update exporter's list of the types of blocks used in workspace factory.
-    var usedBlockTypes = this.workspaceFactoryController.getAllUsedBlockTypes();
-    this.exporter.setUsedBlockTypes(usedBlockTypes);
-
-    // Update exporter's block selector to reflect current block library.
-    this.exporter.updateSelector();
-
-    // Update the exporter's preview to reflect any changes made to the blocks.
-    this.exporter.updatePreview();
-
-  } else if (this.selectedTab ==  AppController.BLOCK_FACTORY) {
-    // Hide other tabs.
-    FactoryUtils.hide('blockLibraryExporter');
-    FactoryUtils.hide('workspaceFactoryContent');
-    // Show Block Factory.
-    FactoryUtils.show('blockFactoryContent');
-
-  } else if (this.selectedTab == AppController.WORKSPACE_FACTORY) {
-    // Hide other tabs.
-    FactoryUtils.hide('blockLibraryExporter');
-    FactoryUtils.hide('blockFactoryContent');
-    // Show workspace factory container.
-    FactoryUtils.show('workspaceFactoryContent');
-    // Update block library category.
-    var categoryXml = this.exporter.getBlockLibraryCategory();
-    var blockTypes = this.project.getBlockTypes();
-    this.workspaceFactoryController.setBlockLibCategory(categoryXml,
-        blockTypes);
-  }
-
-  // Resize to render workspaces' toolboxes correctly for all tabs.
-  window.dispatchEvent(new Event('resize'));
-};
-
-/**
  * Called on each tab click. Styles the tabs to reflect which tab is selected.
  * @private
  */
@@ -443,27 +364,6 @@ AppController.prototype.assignExporterChangeListeners = function() {
       function(e) {
         self.exporter.updatePreview();
       });
-};
-
-/**
- * If given checkbox is checked, enable the given elements.  Otherwise, disable.
- * @param {boolean} enabled True if enabled, false otherwise.
- * @param {!Array.<string>} idArray Array of element IDs to enable when
- *    checkbox is checked.
- */
-AppController.prototype.ifCheckedEnable = function(enabled, idArray) {
-  for (var i = 0, id; id = idArray[i]; i++) {
-    var element = document.getElementById(id);
-    if (enabled) {
-      element.classList.remove('disabled');
-    } else {
-      element.classList.add('disabled');
-    }
-    var fields = element.querySelectorAll('input, textarea, select');
-    for (var j = 0, field; field = fields[j]; j++) {
-      field.disabled = !enabled;
-    }
-  }
 };
 
 /**
@@ -566,26 +466,6 @@ AppController.prototype.addBlockFactoryEventListeners = function() {
       .addEventListener('change', BlockFactory.formatChange);
   document.getElementById('language')
       .addEventListener('change', BlockFactory.updatePreview);
-};
-
-/**
- * Handle Blockly Storage with App Engine.
- */
-AppController.prototype.initializeBlocklyStorage = function() {
-  BlocklyStorage.HTTPREQUEST_ERROR =
-      'There was a problem with the request.\n';
-  BlocklyStorage.LINK_ALERT =
-      'Share your blocks with this link:\n\n%1';
-  BlocklyStorage.HASH_ERROR =
-      'Sorry, "%1" doesn\'t correspond with any saved Blockly file.';
-  BlocklyStorage.XML_ERROR = 'Could not load your saved file.\n' +
-      'Perhaps it was created with a different version of Blockly?';
-  var linkButton = document.getElementById('linkButton');
-  linkButton.style.display = 'inline-block';
-  linkButton.addEventListener('click',
-      function() {
-          BlocklyStorage.link(BlockFactory.mainWorkspace);});
-  BlockFactory.disableEnableLink();
 };
 
 /**

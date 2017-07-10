@@ -158,26 +158,6 @@ WorkspaceFactoryView.prototype.bindClick = function(el, func) {
 };
 
 /**
- * Creates a file and downloads it. In some browsers downloads, and in other
- * browsers, opens new tab with contents.
- * @param {string} filename Name of file
- * @param {!Blob} data Blob containing contents to download
- */
-WorkspaceFactoryView.prototype.createAndDownloadFile =
-    function(filename, data) {
-      var clickEvent = new MouseEvent('click', {
-        'view': window,
-        'bubbles': true,
-        'cancelable': false
-      });
-      var a = document.createElement('a');
-      a.href = window.URL.createObjectURL(data);
-      a.download = filename;
-      a.textContent = 'Download file!';
-      a.dispatchEvent(clickEvent);
-    };
-
-/**
  * Given the ID of a certain category, updates the corresponding tab in
  * the DOM to show a new name.
  * @param {string} newName Name of string to be displayed on tab

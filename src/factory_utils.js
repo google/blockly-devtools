@@ -698,19 +698,17 @@ FactoryUtils.makeVisible = function(elementID) {
 
 /**
  * Create a file with the given attributes and download it.
- * @param {string} contents The contents of the file.
- * @param {string} filename The name of the file to save to.
- * @param {string} fileType The type of the file to save.
+ * @param {!Blob} data File blob to download.
+ * @param {string} filename Name of file to download.
  */
-FactoryUtils.createAndDownloadFile = function(contents, filename, fileType) {
-  var data = new Blob([contents], {type: 'text/' + fileType});
-  var clickEvent = new MouseEvent("click", {
+FactoryUtils.createAndDownloadFile = function(data, filename) {
+  const clickEvent = new MouseEvent("click", {
     "view": window,
     "bubbles": true,
     "cancelable": false
   });
 
-  var a = document.createElement('a');
+  const a = document.createElement('a');
   a.href = window.URL.createObjectURL(data);
   a.download = filename;
   a.textContent = 'Download file!';
