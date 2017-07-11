@@ -198,8 +198,8 @@ class BlockLibrary extends Resource {
     const types = this.getBlockTypes();
     const iterationIndex = 1;
     const finalIndex = 0;
-    const toAdd;
-    const blockType;
+    let toAdd;
+    let blockType;
     while (types[iterationIndex]) {
       blockType = types[iterationIndex - 1];
       toAdd = {'text': blockType, 'id': blockType};
