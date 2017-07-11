@@ -47,6 +47,11 @@ class ProjectController {
      * @type {!Project}
      */
     this.project = project;
+    /**
+     * The tree which navigates the project.
+     * @type {!JStree}
+     */
+    this.tree = new NavigationTree(this);
   }
 
   /**
@@ -82,8 +87,8 @@ class ProjectController {
    * @param {!Toolbox} toolbox Toolbox object to add to project.
    */
   addToolbox(toolbox) {
-    // TODO: Implement
-    throw 'Unimplemented: addToolbox()';
+    this.project.addToolbox(toolbox);
+    this.tree.addToolbox();
   }
 
   /**
@@ -91,7 +96,7 @@ class ProjectController {
    *
    * @param {!Toolbox} toolbox Toolbox object to remove from project.
    */
-  removeToolbox(toolboxName) {
+  removeToolbox(toolbox) {
     // TODO: Implement
     throw 'Unimplemented: removeToolbox()';
   }
