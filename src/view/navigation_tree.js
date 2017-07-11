@@ -225,7 +225,8 @@ class NavigationTree {
   makeTreeListener() {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
       // collect data of all selected blocks
-      const i, j, r = [];
+      let i, j;
+      let r = [];
       for (i = 0, j = data.selected.length; i < j; i++) {
         r.push(data.instance.get_node(data.selected[i]).text);
       }
