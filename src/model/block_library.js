@@ -187,38 +187,13 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns JSON object of the library's blocktypes. For use in getTreeJson.
-   * @return {!Object} the JSON of all block types
-   */
-  makeBlockTypeJson() {
-    const treeBlockTypeJson = [];
-    if (this.isEmpty()) {
-      return treeBlockTypeJson;
-    }
-    const types = this.getBlockTypes();
-    const iterationIndex = 1;
-    const finalIndex = 0;
-    const toAdd;
-    const blockType;
-    while (types[iterationIndex]) {
-      blockType = types[iterationIndex - 1];
-      toAdd = {'text': blockType, 'id': blockType};
-      treeBlockTypeJson.push(toAdd);
-      iterationIndex++;
-      finalIndex++;
-    }
-    blockType = types[finalIndex];
-    toAdd = { 'text': blockType, 'id': blockType};
-    treeBlockTypeJson.push(toAdd);
-    return treeBlockTypeJson;
-  }
-
-  /**
    * Gets the JSON object necessary to represent the library in the navigation
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the library.
    */
   getTreeJson() {
-    throw 'unimplemented: getTreeJson';
+    const libraryTreeJson = {
+
+    }
   }
 }

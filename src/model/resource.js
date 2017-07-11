@@ -100,7 +100,7 @@ class Resource {
       finalIndex++;
     }
     text = nameArray[finalIndex];
-    toAdd = { 'text': blockType, 'id': blockType};
+    toAdd = {'text': text, 'id': text, 'parent': this.name};
     treeJson.push(toAdd);
     return treeJson;
   }

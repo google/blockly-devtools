@@ -120,10 +120,11 @@ class Project extends Resource {
   }
 
   /**
-   * Adds a toolbox to the project.
-   * @param {string} toolboxName The name of the toolbox to be added.
+   * Adds new toolbox to the toolbox set.
+   *
+   * @param {!Toolbox} toolbox Toolbox object to add to the project.
    */
-  addToolbox(toolboxName) {
+  addToolbox(toolbox) {
     this.toolboxSet.addToolbox(toolbox);
   }
 
@@ -208,17 +209,7 @@ class Project extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - has(blockType)
-     *
-     * Additional reference: src/block_library_controller.js
-     * - has(blockType)
-     *
-     */
-    throw 'unimplemented: has';
+    return this.librarySet.hasBlock(blockType);
   }
 
   /**
@@ -227,12 +218,7 @@ class Project extends Resource {
    * @return {!Toolbox} The found toolbox or null.
    */
   getToolbox(toolboxName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw 'unimplemented: getToolbox';
+    return this.toolboxSet.getToolbox(toolboxName);
   }
 
   /**
@@ -241,12 +227,7 @@ class Project extends Resource {
    * @return {!BlockLibrary} The found library or null.
    */
   getLibrary(libraryName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw 'unimplemented: getLibrary';
+    return this.librarySet.getLibrary(libraryName);
   }
 
   /**
@@ -256,12 +237,7 @@ class Project extends Resource {
    * @return {!WorkspaceContents} The found workspace contents or null.
    */
   getWorkspaceContents(workspaceContentsName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw 'unimplemented: getWorkspaceContents';
+    return this.workspaceContentsSet.getWorkspaceContents(workspaceContentsName);
   }
 
   /**
@@ -271,12 +247,7 @@ class Project extends Resource {
    * @return {!WorkspaceContents} The found workspace configuration or null.
    */
   getWorkspaceConfiguration(workspaceConfigName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw 'unimplemented: getWorkspaceConfiguration';
+    return this.workspaceConfigSet.getWorkspaceConfiguration(workspaceConfigName);
   }
 
   /**
@@ -294,6 +265,13 @@ class Project extends Resource {
    * @return {!Object} The tree-specific JSON representation of the project.
    */
   getTreeJson() {
-    throw 'unimplemented: getTreeJson';
+    const projectTree = [
+    {'id': this.name, 'text': this.name},
+    {'children': [
+      this.librarySet.getTreeJson(), this.workspaceConfigSet.getTreeJson(),
+      this.workspaceContentsSet.getTreeJson(), this.toolboxSet.getTreeJson()
+      ]}
+    ];
+    return projectTree;
   }
 }

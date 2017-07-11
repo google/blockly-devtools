@@ -56,13 +56,8 @@
    * Adds a resource to the set.
    * @param {!Object} resource The resource to be added.
    */
-<<<<<<< HEAD
   addResource(resource) {
     this.resources[resource.name] = resource;
-=======
-  addResource(resourceName) {
-    throw 'unimplemented: addResource';
->>>>>>> bed7f07bc090f40adcc194ffcbadc1832cf4a887
   }
 
   /**
@@ -124,7 +119,11 @@
    * @return {!Object} The JSON representing the set's tree structure.
    */
   getTreeJSON() {
-
+    const resourceSetTreeJson = [];
+    for (const resource of this.resources) {
+      resourceSetTreeJson.push(resource.getTreeJSON());
+    }
+    return resourceSetTreeJson;
   }
 
   /**
@@ -176,6 +175,12 @@
    * @return {boolean} Whether or not the resource is present in the set.
    */
   has(resourceName) {
-    throw 'unimplemented: has';
+    const resourceNames = this.getResourceNames();
+    for (const name of resourceNames) {
+      if (name === resourceName) {
+        return true;
+      }
+    }
+    return false;
   }
 }

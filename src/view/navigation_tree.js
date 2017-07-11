@@ -29,12 +29,18 @@ class NavigationTree {
  * @param {!Project} project The project the tree represents.
  * @constructor
  */
-  constructor(project) {
+  constructor(appController, project) {
     /**
      * The Project the tree represents.
      * @type {!Project}
      */
     this.project = project;
+
+    /**
+     * The AppController for the tree to listen to.
+     * @type {!AppController}
+     */
+    this.appController = appController;
 
     this.makeTree();
   }
@@ -83,6 +89,7 @@ class NavigationTree {
    */
   makeTree() {
     const treeJson = this.makeTreeJson();
+    this.makeTreeListener
     $('#navigationTree').jstree(treeJson);
   }
 
@@ -194,17 +201,17 @@ class NavigationTree {
     const items = {
       renameElement : {
         label: "Rename",
-        action: () => console.warn("Action undefined");
+        action: () => console.warn("Action undefined")
         //TODO: add function for renaming node and associated element
       },
       deleteElement : {
         label: "Delete",
-        action: () => console.warn("Action undefined");
+        action: () => console.warn("Action undefined")
         //TODO: add function for deleting node and associated element
       },
       exportElement : {
         label: "Export",
-        action: () => console.warn("Action undefined");
+        action: () => console.warn("Action undefined")
         //TODO: add function for exporting associated element
       }
     };
@@ -223,7 +230,7 @@ class NavigationTree {
         r.push(data.instance.get_node(data.selected[i]).text);
       }
       // load the blocks
-      //TODO: change operation based off of tree's connection
+     this.appController.editorController.view.openBlock(r.join(', '));
     });
   }
 }
