@@ -82,7 +82,7 @@ class AppView {
             ['Workspace Configuration',
               () => { this.exportCurrentWorkspaceConfiguration(); }]
             ]]
-        ]]
+        ]],
         ['Create Application for Web', () => { this.createWeb(); }]
       ]],
       ['Edit', []],
@@ -143,15 +143,15 @@ class AppView {
 
     /**
      * The toolbox view for the session.
-     * @type {!ToolboxView}
+     * @type {!ToolboxEditorView}
      */
-    this.toolboxView = new ToolboxView();
+    this.toolboxEditorView = new ToolboxEditorView();
 
     /**
      * The workspace view for the session.
-     * @type {!WorkspaceView}
+     * @type {!WorkspaceEditorView}
      */
-    this.workspaceView = new WorkspaceView();
+    this.workspaceEditorView = new WorkspaceEditorView();
 
     // Create div elements to insert hidden workspaces used in I/O. Hidden
     // workspaces stored in EditorController.
@@ -323,12 +323,11 @@ class AppView {
       return tree;
     }
 
-    for (let index in tree) {
-      let pair = tree[index];
+    tree.forEach((pair) => {
       if (pair.length != 2) {
         throw `Invalid name/value pair in menu tree: ${pair}`;
       }
-      let name = pair[0]
+      let name = pair[0];
       if (typeof pair[1] !== 'function') {
         // If next node is not leaf, must create subMenu.
         let subMenu = new nw.Menu();
@@ -341,7 +340,7 @@ class AppView {
             menu, name, null, this.initMenuTree(null, pair[1]));
       }
 
-    }
+    });
     return null;
   }
 
