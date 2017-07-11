@@ -121,6 +121,14 @@ class WorkspaceController {
   }
 
   /**
+   * Updates the editor toolbox to have categories for user-defined block libraries.
+   */
+  updateEditorToolbox() {
+    const newToolboxXml = FactoryUtils.updateBlockLibCategory(this.project);
+    this.view.updateEditorToolbox(newToolboxXml);
+  }
+
+  /**
    * Displays imported WorkspaceContents recently added to model onto editor view.
    *
    * @param {string} wsContentsName Name of toolbox that was imported.

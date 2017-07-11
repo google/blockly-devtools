@@ -169,7 +169,7 @@ class AppView {
     document.body.appendChild(exporterDiv);
 
     const generatorDiv = document.createElement('div');
-    generatorDiv.id = 'hiddenBlocksWorkspace';
+    generatorDiv.id = 'shadowBlocksWorkspace';
     generatorDiv.style.display = 'none';
     document.body.appendChild(generatorDiv);
   }

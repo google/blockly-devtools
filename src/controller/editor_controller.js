@@ -68,7 +68,7 @@ class EditorController {
      */
     this.hiddenWorkspaces = {
       exporter: Blockly.inject('blockExporterTools_hiddenWorkspace'),
-      generator: Blockly.inject('hiddenBlocksWorkspace')
+      generator: Blockly.inject('shadowBlocksWorkspace')
     };
   }
 
@@ -144,52 +144,5 @@ class EditorController {
     }
 
     return blockList;
-  }
-
-  /*
-   * Updates the block library category in the Toolbox and Workspace Editor
-   * toolboxes.
-   */
-  updateBlockLibCategory() {
-    /*
-     * REFACTORED: Moved in from wfactory_controller.js
-     *       (Also moved into: workspace_controller.js)
-     */
-    const libraryXmls = {};
-    // User-ordered array of block library names.
-    const libraryNames = this.project.getLibraryNames();
-
-    libraryNames.forEach((element) => {
-      const libraryName = element;
-      const library = this.project.getLibrary(libraryName);
-      libraryXmls[libraryName] = this.getCategoryXml(library);
-    });
-
-    // Update editor toolboxes with new libraries.
-    const newToolboxXml = DevToolsToolboxes.toolboxEditor(libraryXmls);
-    this.toolboxController.view.updateEditorToolbox(newToolboxXml);
-    this.workspaceController.view.updateEditorToolbox(newToolboxXml);
-  }
-
-  /**
-   * Creates XML toolbox category of all blocks in this block library. Used in
-   * toolbox and workspace editor.
-   * @param {!BlockLibrary} library Library object to be created into an editor
-   *     toolbox category.
-   * @return {!Element} XML representation of the block library category.
-   */
-  getCategoryXml(library) {
-    // Moved in from block_exporter_tools.js:generateCategoryFromBlockLib(blockLibStorage)
-    const allBlockTypes = library.getBlockTypes();
-    const blockXmlMap = library.getBlockXmlMap(allBlockTypes);
-
-    const blocks = [];
-    for (const blockType in blockXmlMap) {
-      const block = FactoryUtils.getDefinedBlock(
-          blockType, this.hiddenWorkspaces.exporter);
-      blocks.push(block);
-    }
-
-    return FactoryUtils.generateCategoryXml(blocks, 'Block Library');
   }
 }

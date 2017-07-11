@@ -56,6 +56,14 @@ class BlockEditorController {
      * @type {string}
      */
     this.previewDirection = null;
+
+    /**
+     * Hidden Blockly workspace used to generate Blockly XML for import and
+     * export. Used for generating Block XMLs from definitions. Initialized in
+     * AppView.
+     * @type {!Blockly.Workspace}
+     */
+    this.hiddenWorkspace = Blockly.inject('blockExporterTools_hiddenWorkspace');
   }
 
   /*

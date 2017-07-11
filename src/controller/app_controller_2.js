@@ -246,6 +246,7 @@ class AppController2 {
    */
   initializeBlocklyStorage() {
     // REFACTORED: Moved in from app_controller.js
+    // TODO: Possibly remove method if unnecessary.
     BlocklyStorage.HTTPREQUEST_ERROR =
         'There was a problem with the request.\n';
     BlocklyStorage.LINK_ALERT =

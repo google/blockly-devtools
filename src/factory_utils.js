@@ -1151,3 +1151,48 @@ FactoryUtils.bindClick = function(element, func) {
   element.addEventListener('click', func, true);
   element.addEventListener('touchend', func, true);
 };
+
+/*
+ * Updates the block library category in the Toolbox and Workspace Editor
+ * toolboxes.
+ * @param project Project that is currently being edited in DevTools.
+ * @return XML String of toolbox in editor workspace.
+ */
+FactoryUtils.updateBlockLibCategory = function(project) {
+  // REFACTORED: Moved in from wfactory_controller.js
+  const libraryXmls = {};
+  // User-ordered array of block library names.
+  const libraryNames = project.getLibraryNames();
+
+  libraryNames.forEach((element) => {
+    const libraryName = element;
+    const library = project.getLibrary(libraryName);
+    libraryXmls[libraryName] = FactoryUtils.getCategoryXml(library);
+  });
+
+  return DevToolsToolboxes.toolboxEditor(libraryXmls);
+};
+
+/**
+ * Creates XML toolbox category of all blocks in this block library. Used in
+ * toolbox and workspace editor.
+ * @param {!BlockLibrary} library Library object to be created into an editor
+ *     toolbox category.
+ * @param {!Blockly.Workspace} workspace Blockly workspace used to generate and
+ *     store Blockly.Block types.
+ * @return {!Element} XML representation of the block library category.
+ */
+FactoryUtils.getCategoryXml = function(library, workspace) {
+  // Moved in from block_exporter_tools.js:generateCategoryFromBlockLib(blockLibStorage)
+  const allBlockTypes = library.getBlockTypes();
+  const blockXmlMap = library.getBlockXmlMap(allBlockTypes);
+
+  const blocks = [];
+  for (const blockType in blockXmlMap) {
+    const block = FactoryUtils.getDefinedBlock(
+        blockType, workspace); // TODO(now): fix workspace link.
+    blocks.push(block);
+  }
+
+  return FactoryUtils.generateCategoryXml(blocks, 'Block Library');
+};

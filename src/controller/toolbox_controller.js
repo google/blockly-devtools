@@ -58,6 +58,11 @@ class ToolboxController {
      * @type {boolean}
      */
     this.keyEventsEnabled = true;
+
+    /**
+     * Hidden Blockly workspace used to generate XML for shadow blocks.
+     */
+    this.hiddenWorkspace = Blockly.inject('shadowBlocksWorkspace');
   }
 
   /**
@@ -288,6 +293,14 @@ class ToolboxController {
      * - generateWorkspaceXml()
      */
     throw 'Unimplemented: updatePreview()';
+  }
+
+  /**
+   * Updates the editor toolbox to have categories for user-defined block libraries.
+   */
+  updateEditorToolbox() {
+    const newToolboxXml = FactoryUtils.updateBlockLibCategory(this.project);
+    this.view.updateEditorToolbox(newToolboxXml);
   }
 
   /**
