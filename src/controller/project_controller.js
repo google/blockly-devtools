@@ -86,87 +86,88 @@ class ProjectController {
   /**
    * Adds new toolbox to this.project's toolbox set.
    *
-   * @param {!Toolbox} toolbox Toolbox object to add to project.
+   * @param {string} toolboxName Name of the toolbox to add to the project.
    */
-  addToolbox(toolbox) {
-    this.project.addToolbox(toolbox);
+  addToolbox(toolboxName) {
+    this.project.addToolbox(toolboxName);
     this.tree.addComponentNode('Toolbox', toolbox.name);
-  }
-
-  /**
-   * Removes toolbox from this.project's toolbox set.
-   *
-   * @param {!Toolbox} toolbox Toolbox object to remove from project.
-   */
-  removeToolbox(toolbox) {
-    this.project.addToolbox(toolbox);
-    this.tree.deleteComponentNode('Toolbox', toolbox.name);
   }
 
   /**
    * Adds new WorkspaceContents to this.project's workspace contents set.
    *
-   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
-   *     add to project.
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     add to the project.
    */
-  addWorkspaceContents(workspaceContents) {
-    this.project.addWorkspaceContents(workspaceContents);
-    this.tree.deleteComponentNode('WorkspaceContents', toolbox.name);
+  addWorkspaceContents(workspaceContentsName) {
+    this.project.addWorkspaceContents(workspaceContentsName);
+    this.tree.addComponentNode('WorkspaceContents', workspaceContentsName);
   }
 
   /**
-   * Removes WorkspaceContents object from this.project's workspace contents set.
-   *
-   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
-   *     remove from project.
-   */
-  removeWorkspaceContents(workspaceContents) {
-    this.project.addToolbox(toolbox);
-    this.tree.deleteComponentNode('WorkspaceContents', toolbox.name);
-  }
-
-  /**
-   * Adds new WorkspaceOptions to this.project. Prompts user to select from
+   * Adds new WorkspaceConfiguration to this.project. Prompts user to select from
    * a list of checkbox options and name the grouping of options.
    *
-   * @param {!WorkspaceOptions} workspaceOptionsName WorkspaceOptions object to
-   *     add to project.
+   * @param {string} workspaceConfigName The name of the Workspaceconfiguration
+   *     to add to the project.
    */
-  addWorkspaceOptions(workspaceOptions) {
-    this.project.addToolbox(toolbox);
-    this.tree.deleteComponentNode('Toolbox', toolbox.name);
-  }
-
-  /**
-   * Removes WorkspaceOptions object from this.project.
-   *
-   * @param {!WorkspaceOptions} workspaceOptions WorkspaceOptions object to
-   *     remove from project.
-   */
-  removeWorkspaceOptions(workspaceOptions) {
-    this.project.addToolbox(toolbox);
-    this.tree.deleteComponentNode('Toolbox', toolbox.name);
+  addWorkspaceConfiguration(workspaceConfigName) {
+    this.project.addWorkspaceConfiguration(workspaceConfigName);
+    this.tree.addComponentNode('WorkspaceConfiguration', workspaceConfigName);
   }
 
   /**
    * Adds new BlockLibrary to this.project.
    *
-   * @param {!BlockLibrary} blockLibrary BlockLibrary object to add to
+   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
    *     project.
    */
-  addBlockLibrary(blockLibrary) {
-    this.project.addToolbox(toolbox);
-    this.tree.deleteComponentNode('Toolbox', toolbox.name);
+  addBlockLibrary(blockLibraryName) {
+    this.project.addBlockLibrary(blockLibraryName);
+    this.tree.addComponentNode('BlockLibrary', blockLibraryName);
   }
 
   /**
-   * Removes BlockLibrary from project.
+   * Removes toolbox from this.project's toolbox set.
    *
-   * @param {!BlockLibrary} blockLibrary BlockLibrary object to remove from project.
+   * @param {string} toolboxName Name of the toolbox to remove from the project.
+   */
+  removeToolbox(toolboxName) {
+    this.project.addToolbox(toolboxName);
+    this.tree.deleteComponentNode('Toolbox', toolboxName);
+  }
+
+  /**
+   * Removes WorkspaceContents object from this.project's workspace contents set.
+   *
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     remove from project.
+   */
+  removeWorkspaceContents(workspaceContentsName) {
+    this.project.removeWorkspaceContents(workspaceContentsName);
+    this.tree.deleteComponentNode('WorkspaceContents', workspaceContentsName);
+  }
+
+  /**
+   * Removes a WorkspaceConfiguration from this.project.
+   *
+   * @param {string} workspaceConfigName Name of the
+   *     WorkspaceConfiguration to remove from the project.
+   */
+  removeWorkspaceConfiguration(workspaceConfigName) {
+    this.project.removeWorkspaceConfiguration(workspaceConfigName);
+    this.tree.deleteComponentNode('WorkspaceConfiguration', workspaceConfigName);
+  }
+
+  /**
+   * Removes a BlockLibrary from the project.
+   *
+   * @param {string} blockLibraryName the name of the BlockLibrary to remove
+   *     from the project.
    */
   removeBlockLibrary(blockLibraryName) {
-    this.project.addToolbox(toolbox);
-    this.tree.deleteComponentNode('Toolbox', toolbox.name);
+    this.project.removeBlockLibrary(blockLibraryName);
+    this.tree.deleteComponentNode('BlockLibrary', blockLibrary.name);
   }
 
   /**

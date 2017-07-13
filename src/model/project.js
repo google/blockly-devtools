@@ -114,26 +114,26 @@ class Project extends Resource {
   /**
    * Adds a library to the library set.
    *
-   * @param {!BlockLibrary} blockLibrary BlockLibrary object to add to the
+   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
    *     project.
    */
-  addBlockLibrary(blockLibrary) {
-    this.librarySet.addLibrary(blockLibrary);
+  addBlockLibrary(blockLibraryName) {
+    this.librarySet.addLibrary(blockLibraryName);
   }
 
   /**
    * Adds new toolbox to the toolbox set.
    *
-   * @param {!Toolbox} toolbox Toolbox object to add to the project.
+   * @param {string} toolboxName Name of the toolbox to remove from the project.
    */
-  addToolbox(toolbox) {
-    this.toolboxSet.addToolbox(toolbox);
+  addToolbox(toolboxName) {
+    this.toolboxSet.addToolbox(toolboxName);
   }
 
   /**
    * Adds named workspace contents to the project.
-   * @param {string} workspaceContentsName The name of the workspace contents to
-   *     be added.
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     add to the project.
    */
   addWorkspaceContents(workspaceContentsName) {
     this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
@@ -141,7 +141,8 @@ class Project extends Resource {
 
   /**
    * Adds a workspace configuration to the project.
-   * @param {string} workspaceConfigName The workspace configuration to be added.
+   * @param {string} workspaceConfigName The name of the Workspaceconfiguration
+   *     to add to the project.
    */
   addWorkspaceConfiguration(workspaceConfigName) {
     this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
@@ -182,20 +183,20 @@ class Project extends Resource {
   /**
    * Removes a library from the library set.
    *
-   * @param {!BlockLibrary} blockLibrary BlockLibrary object to remove from the
-   *     project.
+   * @param {string} blockLibraryName the name of the BlockLibrary to remove
+   *     from the project.
    */
-  removeBlockLibrary(blockLibrary) {
-    this.librarySet.addLibrary(blockLibrary);
+  removeBlockLibrary(blockLibraryName) {
+    this.librarySet.addLibrary(blockLibraryName);
   }
 
   /**
    * Removes a toolbox from the toolbox set.
    *
-   * @param {!Toolbox} toolbox Toolbox object to remove from the project.
+   * @param {string} toolboxName Name of the toolbox to remove from project.
    */
-  removeToolbox(toolbox) {
-    this.toolboxSet.addToolbox(toolbox);
+  removeToolbox(toolboxName) {
+    this.toolboxSet.addToolbox(toolboxName);
   }
 
   /**
@@ -355,7 +356,7 @@ class Project extends Resource {
     {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
     {'children': [ this.librarySetJson(), this.toolboxSetJson(),
       this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
-    };
+    }];
   }
 
   /**
@@ -367,7 +368,7 @@ class Project extends Resource {
     {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
     {'children': [ this.librarySetJson(), this.toolboxSetJson(),
       this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
-    };
+    }];
   }
   /**
    * Gets the JSON object necessary to represent the project in the navigation
@@ -379,10 +380,7 @@ class Project extends Resource {
     {'id': this.name, 'text': this.name},
     {'children': [ this.librarySetJson(), this.toolboxSetJson(),
       this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
-    };
-    //  this.librarySet.getTreeJson(), this.workspaceConfigSet.getTreeJson(),
-    //  this.workspaceContentsSet.getTreeJson(), this.toolboxSet.getTreeJson()
-    ];
+    }];
     return projectTree;
   }
 }
