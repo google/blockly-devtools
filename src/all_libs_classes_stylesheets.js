@@ -78,7 +78,12 @@
   appendScript('src/model/workspace_contents_set.js');
   appendScript('src/model/project.js');
 
+  appendScript('src/controller/block_editor_controller.js');
+  appendScript('src/controller/popup_controller.js');
+  appendScript('src/controller/toolbox_controller.js');
+  appendScript('src/controller/workspace_controller.js');
   appendScript('src/controller/project_controller.js');
+  appendScript('src/controller/editor_controller.js');
   appendScript('src/new_block_dialog_controller.js');
   appendScript('src/controller/app_controller_2.js');
 

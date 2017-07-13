@@ -90,7 +90,7 @@ class ToolboxEditorView {
      * - hsvToHex_()
      * - changeSelectedCategoryColor()
      */
-    throw 'Unimplemented: initColorPicker_()';
+    console.warn('Unimplemented: initColorPicker_()');
   }
 
   /**
@@ -102,7 +102,7 @@ class ToolboxEditorView {
      * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
      *       (Also moved into workspace_editor_view.js)
      */
-     throw 'Unimplemented: initClickHandlers_()';
+     console.warn('Unimplemented: initClickHandlers_()');
   }
 
   /**
@@ -114,7 +114,7 @@ class ToolboxEditorView {
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
      *       (Also moved into workspace_editor_view.js)
      */
-    throw 'Unimplemented: initEventListeners_()';
+    console.warn('Unimplemented: initEventListeners_()');
   }
 
   /**
@@ -126,7 +126,7 @@ class ToolboxEditorView {
     /*
      * TODO: Move in from wfactory_init.js
      */
-    throw 'Unimplemented: displayAddShadow_()';
+    console.warn('Unimplemented: displayAddShadow_()');
   }
 
   /**
@@ -138,7 +138,7 @@ class ToolboxEditorView {
     /*
      * TODO: Move in from wfactory_model.js
      */
-    throw 'Unimplemented: displayRemoveShadow_()';
+    console.warn('Unimplemented: displayRemoveShadow_()');
   }
 
   /**
