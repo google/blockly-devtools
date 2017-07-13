@@ -38,6 +38,12 @@ class WorkspaceConfiguration extends Resource {
      super(workspaceConfigName);
 
      /**
+      * Name of WorkspaceConfiguration object.
+      * @type {string}
+      */
+     this.name = name;
+
+     /**
       * Options object to be configured for Blockly inject call.
       */
      this.options = new Object(null);

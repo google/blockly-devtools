@@ -37,7 +37,7 @@ class BlockEditorView {
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
      */
-    this.blockDefinitionWorkspace = Blockly.inject('blockly',
+    this.editorWorkspace = Blockly.inject('blockly',
       {
         collapse: false,
         toolbox: DevToolsToolboxes.blockFactory,

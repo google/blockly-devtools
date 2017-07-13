@@ -86,8 +86,16 @@ class AppController2 {
     this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
     this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
 
+    /**
+     * TODO: Add jsdoc
+     * @type {string}
+     */
     this.lastSelectedTab = null;
 
+    /**
+     * TODO: Add jsdoc
+     * @type {string}
+     */
     this.selectedTab = this.BLOCK_FACTORY;
   }
 

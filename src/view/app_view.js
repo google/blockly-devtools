@@ -53,6 +53,12 @@ class AppView {
     // Inserts divs with proper IDs for all Blockly Workspaces used in DevTools.
     this.insertWorkspaces_();
 
+    // Assigning event handlers and listeners for application.
+    this.assignLibraryClickHandlers();
+    this.assignBlockFactoryClickHandlers();
+    this.assignBlockFactoryClickHandlers();
+    this.addBlockFactoryEventListeners();
+
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
     const menuTree = [
       ['File', [
@@ -129,19 +135,21 @@ class AppView {
      * The block editor view for the session.
      * @type {!BlockEditorView}
      */
-    this.blockEditorView = new BlockEditorView();
+    this.blockEditorView = new BlockEditorView(new BlockDefinition('block_type'));
 
     /**
      * The toolbox view for the session.
      * @type {!ToolboxEditorView}
      */
-    this.toolboxEditorView = new ToolboxEditorView();
+    this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
 
     /**
      * The workspace view for the session.
      * @type {!WorkspaceEditorView}
      */
-    this.workspaceEditorView = new WorkspaceEditorView();
+    this.workspaceEditorView = new WorkspaceEditorView(
+        new WorkspaceContents('workspace_contents_name'),
+        new WorkspaceConfiguration('default'));
   }
 
   /**
@@ -486,30 +494,20 @@ class AppView {
    * Add event listeners for the block factory.
    */
   addBlockFactoryEventListeners() {
-    // TODO: Move in from app_controller.js
+    // REFACTORED: Moved in from app_controller.js
     // Update code on changes to block being edited.
-    BlockFactory.mainWorkspace.addChangeListener(BlockFactory.updateLanguage);
+    this.blockEditorView.editorWorkspace.addChangeListener(
+        this.appController.editorController.updateLanguage);
 
     // Disable blocks not attached to the factory_base block.
-    BlockFactory.mainWorkspace.addChangeListener(Blockly.Events.disableOrphans);
+    this.blockEditorView.editorWorkspace.addChangeListener(Blockly.Events.disableOrphans);
 
-    // Update the buttons on the screen based on whether
-    // changes have been saved.
-    BlockFactory.mainWorkspace.addChangeListener(() => {
-      this.project.currentLibrary.updateButtons(FactoryUtils.savedBlockChanges(
-          this.project.currentLibrary));
-      });
-
-    document.getElementById('direction')
-        .addEventListener('change', BlockFactory.updatePreview);
-    document.getElementById('languageTA')
-        .addEventListener('change', BlockFactory.updatePreview);
-    document.getElementById('languageTA')
-        .addEventListener('keyup', BlockFactory.updatePreview);
-    document.getElementById('format')
-        .addEventListener('change', BlockFactory.formatChange);
-    document.getElementById('language')
-        .addEventListener('change', BlockFactory.updatePreview);
+    const controller = this.appController.editorController.blockEditorController;
+    $('#direction').change(controller.updatePreview);
+    $('#languageTA').change(controller.updatePreview);
+    $('#languageTA').keyup(controller.updatePreview);
+    $('#format').change(controller.formatChange);
+    $('#language').change(controller.updatePreview);
   }
 
   /**
