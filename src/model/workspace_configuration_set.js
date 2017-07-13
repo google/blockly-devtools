@@ -69,4 +69,13 @@ class WorkspaceConfigurationSet extends ResourceSet {
   getWorkspaceConfigurationNames() {
     return super.getResourceNames();
   }
+
+  /**
+   * Returns a workspace configuration to default settings.
+   * @param {string} workspace configurationName The name of the workspace
+   *     configuration to be reset.
+   */
+  resetWorkspaceConfiguration(workspaceConfigurationName) {
+    throw 'unimplemented: resetWorkspaceConfiguration';
+  }
 }

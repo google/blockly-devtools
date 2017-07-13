@@ -73,7 +73,7 @@ class WorkspaceContentsSet extends ResourceSet {
    * @param {string} blockType The name of the block to remove.
    */
   removeBlockFromSet(blockType) {
-    throw "unimplemented: removeBlockFromSet";
+    throw 'unimplemented: removeBlockFromSet';
   }
 
   /**
@@ -83,6 +83,15 @@ class WorkspaceContentsSet extends ResourceSet {
    * @param {string} blockType The name of the block to be removed.
    */
   removeBlockFromWorkspaceContents(workspaceContentsName, blockType) {
-    throw "unimplemented: removeBlockFromWorkspaceContents";
+    throw 'unimplemented: removeBlockFromWorkspaceContents';
+  }
+
+  /**
+   * Clears a workspace contents object in the set.
+   * @param {string} workspaceContentsName The name of the workspace contents
+   *     to clear.
+   */
+  clearWorkspaceContents(workspaceContentsName) {
+    throw "unimplemented: clearWorkspaceContents";
   }
 }

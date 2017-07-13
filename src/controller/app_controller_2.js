@@ -56,11 +56,18 @@ class AppController2 {
      */
     this.project = new Project('');
 
+
+    /**
+     * The tree for the DevTools session.
+     * @type {!JSTree}
+     */
+    this.navTree = new NavigationTree(this, this.project);
+
     /**
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
-    this.projectController = new ProjectController(this.project);
+    this.projectController = new ProjectController(this.project, this.tree);
 
     /**
      * EditorController object which encapsulates all editor controllers
@@ -69,8 +76,8 @@ class AppController2 {
     this.editorController = new EditorController(this.project);
 
     /**
-     * PopupController object which controls any popups that may appear throughout
-     * the course of using DevTools.
+     * PopupController object which controls any popups that may appear while
+     *     using DevTools.
      * @type {!PopupController}
      */
     this.popupController = new PopupController(this.projectController);
@@ -125,6 +132,7 @@ class AppController2 {
    * @param {string} tabName AppController.BLOCK_FACTORY,
    *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
    */
+   //TODO: have changed by tree, not tabs
   setSelectedTab(tabName) {
     /*
      * TODO: Move in from app_controller.js

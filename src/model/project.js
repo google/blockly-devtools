@@ -188,6 +188,31 @@ class Project extends Resource {
   }
 
   /**
+   * Clears a named toolbox in the project.
+   * @param {string} toolboxName The name of the toolbox to be cleared.
+   */
+  clearToolbox(toolboxName) {
+    this.toolboxSet.clearToolbox(toolboxName);
+  }
+
+  /**
+   * Clears a named workspace contents in the project.
+   * @param {string} workspaceContentsName The name of the contents to clear.
+   */
+  clearWorkspaceContents(workspaceContentsName) {
+    this.workspaceContentsSet.clearWorkspaceContents(workspaceContentsName);
+  }
+
+  /**
+   * Returns a named workspace configuration in the project to default settings.
+   * @param {string} workspaceConfigName The name of the workspace configuration
+   *     to be reset.
+   */
+  resetWorkspaceConfiguration(workspaceConfigName) {
+    this.workspaceConfigSet.resetWorkspaceConfiguration(workspaceConfigName);
+  }
+
+  /**
    * Returns whether or not there are unsaved elements in the project.
    * @return {boolean} Whether or not unsaved elements exist.
    */
@@ -262,6 +287,51 @@ class Project extends Resource {
   }
 
   /**
+   * Produces the JSON for needed to organize libraries in the tree.
+   * @return {!Object} The JSON for the tree's library section.
+   */
+  librarySetJson() {
+    const projectTree = [
+    {'id': 'BlockLibrary', 'text': 'Libraries'},
+    {'children': [ this.librarySet.getTreeJson()]}
+    ];
+  }
+
+  /**
+   * Produces the JSON for needed to organize toolboxes in the tree.
+   * @return {!Object} The JSON for the tree's toolbox section.
+   */
+  toolboxSetJson() {
+    const projectTree = [
+    {'id': 'Toolbox', 'text': 'Toolboxes'},
+    {'children': this.toolboxSet.getTreeJson()}
+    ];
+  }
+
+  /**
+   * Produces the JSON for needed to organize workspace contents in the tree.
+   * @return {!Object} The JSON for the tree's workspace contents section.
+   */
+  workspaceContentsSetJson() {
+    const projectTree = [
+    {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
+    {'children': [ this.librarySetJson(), this.toolboxSetJson(),
+      this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
+    };
+  }
+
+  /**
+   * Produces the JSON for needed to organize workspace configurations in the tree.
+   * @return {!Object} The JSON for the tree's workspace configuration section.
+   */
+  workspaceConfigSetJson() {
+    const projectTree = [
+    {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
+    {'children': [ this.librarySetJson(), this.toolboxSetJson(),
+      this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
+    };
+  }
+  /**
    * Gets the JSON object necessary to represent the project in the navigation
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the project.
@@ -269,10 +339,11 @@ class Project extends Resource {
   getTreeJson() {
     const projectTree = [
     {'id': this.name, 'text': this.name},
-    {'children': [
-      this.librarySet.getTreeJson(), this.workspaceConfigSet.getTreeJson(),
-      this.workspaceContentsSet.getTreeJson(), this.toolboxSet.getTreeJson()
-      ]}
+    {'children': [ this.librarySetJson(), this.toolboxSetJson(),
+      this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
+    };
+    //  this.librarySet.getTreeJson(), this.workspaceConfigSet.getTreeJson(),
+    //  this.workspaceContentsSet.getTreeJson(), this.toolboxSet.getTreeJson()
     ];
     return projectTree;
   }

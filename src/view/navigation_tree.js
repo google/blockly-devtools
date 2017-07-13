@@ -5,14 +5,14 @@
  * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Licensed under the Apache License, Version 2.0 (the 'License');
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed under the License is distributed on an 'AS IS' BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -26,21 +26,24 @@
 class NavigationTree {
 /**
  * NavigationTree Class
+ * @param {!AppController} appController The AppController for the session the
+ *     tree is part of, and therefore must listen to.
  * @param {!Project} project The project the tree represents.
  * @constructor
  */
   constructor(appController, project) {
-    /**
-     * The Project the tree represents.
-     * @type {!Project}
-     */
-    this.project = project;
 
     /**
      * The AppController for the tree to listen to.
      * @type {!AppController}
      */
     this.appController = appController;
+
+    /**
+     * The Project the tree represents.
+     * @type {!Project}
+     */
+    this.project = project;
 
     this.makeTree();
   }
@@ -50,8 +53,6 @@ class NavigationTree {
    * @return {!Object} The JSON necessary to load the tree.
    */
   makeTreeJson() {
-    // TODO(#26) : give libraries names
-    // TODO(#27) : upon giving libraries names add them as roots under the project
     const data = this.project.getTreeJson();
     const tree = {
       'core': {
@@ -89,55 +90,29 @@ class NavigationTree {
    */
   makeTree() {
     const treeJson = this.makeTreeJson();
-    this.makeTreeListener
+    this.makeTreeListener();
     $('#navigationTree').jstree(treeJson);
   }
 
   /**
    * Adds a block to the tree.
    * @param {string} blockType The name of the block to be added.
+   * @param {string} libraryName The name of the library to add it to.
    */
-  addBlockNode(blockType) {
-    $('#navigationTree').jstree().create_node('#' ,
-      {'id': blockType, 'text': blockType }, 'last', null);
+  addBlockNode(blockType, componentName) {
+    $('#navigationTree').jstree().create_node(componentName,
+      {'id': 'block_' + blockType, 'text': blockType }, 'last', null);
   }
 
   /**
-   * Adds a block library to the navigation tree.
-   * @param {string} libraryName The name of the library to add.
+   * Adds a component of the project (BlockLibrary, Toolbox, WorkspaceContents,
+   *     or WorkspaceConfiguration) to the navigation tree.
+   * @param {string} componentType The type of component that is being added.
+   * @param {string} componentName The name of the component to add.
    */
-  addLibraryNode(libraryName) {
-    console.warn("unimplemented: NavigationTree.addLibraryNode(Json)");
-  }
-
-  /**
-   * Adds a toolbox to the navigation tree.
-   * @param {string} toolboxName The name of the toolbox to add.
-   */
-  addToolboxNode(toolboxName) {
-    console.warn("unimplemented: NavigationTree.addToolboxNode(" + toolboxName +
-        ")");
-  }
-
-  /**
-   * Adds a workspace contents object to the navigation tree.
-   * @param {string} workspaceContentsName The name of the workspace contents to
-   *     add.
-   */
-  addWorkspaceContentsNode(workspaceContentsName) {
-    console.warn("unimplemented: NavigationTree.addWorkspaceContentsNode(" +
-        workspaceContentsName + ")");
-  }
-
-  /**
-   * Adds a workspace configuration to the navigation tree.
-   * @param {string} workspaceConfigurationName The name of the workspace
-   *     configuration to add.
-   */
-  addWorkspaceConfigurationNode(workspaceConfigurationName) {
-    console.warn("unimplemented: NavigationTree.addWorkspaceConfigurationNode(" +
-        workspaceConfigurationName + ")");
-  }
+  addComponentNode(componentType, componentName) {
+    $('#navigationTree').jstree().create_node(componentType,
+      {'id': componentType + '_' + blockType, 'text': blockType }, 'last', null);
 
   /**
    * Clears the tree.
@@ -149,18 +124,20 @@ class NavigationTree {
 
   /**
    * Deletes a block from the tree.
+   * @param {string} blockType The name of the block node to remove.
    */
   deleteBlockNode(blockType) {
-    $('#navigationTree').jstree().delete_node(blockType);
+    $('#navigationTree').jstree().delete_node('block_' + blockType);
   }
 
   /**
    * Deletes a block library from the navigation tree.
-   * @param {string} libraryName The name of the library node to delete.
+   * @param {string} componentType The type of the component to delete.
+   * @param {string} componentName The name of the component to delete.
    */
-  deleteLibraryNode(libraryName) {
-    console.warn("unimplemented: NavigationTree.deleteLibraryNode(" +
-        libraryName + ")");
+  deleteComponentNode(componentType, componentName) {
+    console.warn('unimplemented: NavigationTree.deleteComponentNode(' +
+      componentType + ',' + componentName + ')');
   }
 
   /**
@@ -168,28 +145,8 @@ class NavigationTree {
    * @param {string} toolboxName The name of the toolbox node to delete.
    */
   deleteToolboxNode(toolboxName) {
-    console.warn("unimplemented: NavigationTree.deleteToolboxNode(" +
-        toolboxName + ")");
-  }
-
-  /**
-   * Deletes a workspace contents object from the navigation tree.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     node to delete.
-   */
-  deleteWorkspaceContentsNode(workspaceContentsName) {
-    console.warn("unimplemented: NavigationTree.deleteWorkspaceContentsNode(" +
-        workspaceContentsName + ")");
-  }
-
-  /**
-   * Deletes a workspace configuration from the navigation tree.
-   * @param {string} workspaceConfignName The name of the workspace
-   *     configuration node to delete.
-   */
-  deleteWorkspaceConfigurationNode(workspaceConfigName) {
-    console.warn("unimplemented: NavigationTree.deleteWorkspaceConfigurationNode("
-        + workspaceConfigName + ")");
+    console.warn('unimplemented: NavigationTree.deleteToolboxNode(' +
+        toolboxName + ')');
   }
 
   /**
@@ -200,24 +157,24 @@ class NavigationTree {
    createMenu() {
     const items = {
       renameElement : {
-        label: "Rename",
+        label: 'Rename',
         action: () => {
           // TODO: add function for renaming node and associated element
-          console.warn("Action undefined");
+          console.warn('Action undefined');
         }
       },
       deleteElement : {
-        label: "Delete",
+        label: 'Delete',
         action: () => {
           // TODO: add function for deleting node and associated element
-          console.warn("Action undefined");
+          console.warn('Action undefined');
         }
       },
       exportElement : {
-        label: "Export",
+        label: 'Export',
         action: () => {
           // TODO: add function for exporting associated element
-          console.warn("Action undefined");
+          console.warn('Action undefined');
         }
       }
     };
@@ -238,6 +195,10 @@ class NavigationTree {
       }
       // load the blocks
      this.appController.editorController.view.openBlock(r.join(', '));
+     /* Here is where switching tabs based upon the tree will go. You can gather
+        which view you should be getting based off of the type of node, which
+
+
     });
   }
 }

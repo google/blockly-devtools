@@ -37,21 +37,23 @@
 class ProjectController {
   /**
    * ProjectController class
-   * @param {!Project} project the project from which the data to be managed
+   * @param {!Project} project The project from which the data to be managed
    *     comes from.
+   * @param {!JSTree} tree The tree which represents that project, to be updated
+   *     by the controller as the project is.
    * @constructor
    */
-  constructor(project) {
+  constructor(project, tree) {
     /**
      * The project to be managed.
      * @type {!Project}
      */
     this.project = project;
     /**
-     * The tree which navigates the project.
+     * The tree which represents the project.
      * @type {!JStree}
      */
-    this.tree = new NavigationTree(this, this.project);
+    this.tree = tree;
   }
 
   /**
@@ -88,7 +90,7 @@ class ProjectController {
    */
   addToolbox(toolbox) {
     this.project.addToolbox(toolbox);
-    this.tree.addToolboxNode(toolbox.name);
+    this.tree.addComponentNode('Toolbox', toolbox.name);
   }
 
   /**
@@ -98,7 +100,7 @@ class ProjectController {
    */
   removeToolbox(toolbox) {
     this.project.addToolbox(toolbox);
-    this.tree.addToolboxNode(toolbox.name);
+    this.tree.deleteComponentNode('Toolbox', toolbox.name);
   }
 
   /**
@@ -108,8 +110,8 @@ class ProjectController {
    *     add to project.
    */
   addWorkspaceContents(workspaceContents) {
-    // TODO: Implement
-    throw 'Unimplemented: addWorkspaceContents()';
+    this.project.addWorkspaceContents(workspaceContents);
+    this.tree.deleteComponentNode('WorkspaceContents', toolbox.name);
   }
 
   /**
@@ -119,8 +121,8 @@ class ProjectController {
    *     remove from project.
    */
   removeWorkspaceContents(workspaceContents) {
-    // TODO: Implement
-    throw 'Unimplemented: removeWorkspaceContents()';
+    this.project.addToolbox(toolbox);
+    this.tree.deleteComponentNode('WorkspaceContents', toolbox.name);
   }
 
   /**
@@ -131,8 +133,8 @@ class ProjectController {
    *     add to project.
    */
   addWorkspaceOptions(workspaceOptions) {
-    // TODO: Implement
-    throw 'Unimplemented: addWorkspaceOptions()';
+    this.project.addToolbox(toolbox);
+    this.tree.deleteComponentNode('Toolbox', toolbox.name);
   }
 
   /**
@@ -142,8 +144,8 @@ class ProjectController {
    *     remove from project.
    */
   removeWorkspaceOptions(workspaceOptions) {
-    // TODO: Implement
-    throw 'Unimplemented: removeWorkspaceOptions()';
+    this.project.addToolbox(toolbox);
+    this.tree.deleteComponentNode('Toolbox', toolbox.name);
   }
 
   /**
@@ -153,7 +155,8 @@ class ProjectController {
    *     project.
    */
   addBlockLibrary(blockLibrary) {
-    this.project.addBlockLibrary(blockLibrary);
+    this.project.addToolbox(toolbox);
+    this.tree.deleteComponentNode('Toolbox', toolbox.name);
   }
 
   /**
@@ -162,8 +165,8 @@ class ProjectController {
    * @param {!BlockLibrary} blockLibrary BlockLibrary object to remove from project.
    */
   removeBlockLibrary(blockLibraryName) {
-    // TODO: Implement
-    throw 'Unimplemented: removeBlockLibrary()';
+    this.project.addToolbox(toolbox);
+    this.tree.deleteComponentNode('Toolbox', toolbox.name);
   }
 
   /**
