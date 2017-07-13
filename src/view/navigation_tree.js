@@ -185,15 +185,8 @@ class NavigationTree {
       }
       // load the blocks
      this.appController.editorController.view.openBlock(r.join(', '));
-     /* Here is where switching tabs based upon the tree will go. You can gather
-        which view you should be getting based off of the type of node, which
-        is stored in its unique ID (IDs are unique because names are, and each
-        ID is in the form '<nodeType>_<name>'). Also note that the type of node
-        can be gathered by its parent, since the tree now has user-facing Library,
-        Toolbox, Workspace Contents, and Workspace Configuration sections for
-        organization. Ask me if you have any questions//inform me of how you'd
-        like the method to get the node type structured*/
-      //TODO: switch tab if necessary
+
+      //TODO #99: switch tab if necessary
     });
   }
 }

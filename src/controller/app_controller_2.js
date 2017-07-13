@@ -56,7 +56,6 @@ class AppController2 {
      */
     this.project = new Project('');
 
-
     /**
      * The tree for the DevTools session.
      * @type {!JSTree}

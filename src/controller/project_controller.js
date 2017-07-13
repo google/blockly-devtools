@@ -40,7 +40,7 @@ class ProjectController {
    * @param {!Project} project The project from which the data to be managed
    *     comes from.
    * @param {!JSTree} tree The tree which represents that project, to be updated
-   *     by the controller as the project is.
+   *     by the controller alongside it.
    * @constructor
    */
   constructor(project, tree) {
