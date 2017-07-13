@@ -48,22 +48,6 @@
   appendScript('res/devtools_toolboxes.js');
   appendScript('src/block_option.js');
 
-/*
-  appendScript('src/workspacefactory/wfactory_controller.js');
-  appendScript('src/workspacefactory/wfactory_generator.js');
-  appendScript('src/block_library_view.js');
-  appendScript('src/workspacefactory/wfactory_view.js');
-  appendScript('src/workspacefactory/wfactory_generator.js');
-  appendScript('src/workspacefactory/wfactory_init.js');
-  appendScript('src/factory.js');
-  appendScript('src/block_library_storage.js');
-  appendScript('src/block_library_controller.js');
-  appendScript('src/block_exporter_tools.js');
-  appendScript('src/block_exporter_view.js');
-  appendScript('src/block_exporter_controller.js');
-  appendScript('src/blocks.js');
-*/
-
   appendScript('src/model/resource.js');
   appendScript('src/model/block_definition.js');
   appendScript('src/view/navigation_tree.js');
