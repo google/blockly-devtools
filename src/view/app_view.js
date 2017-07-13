@@ -139,6 +139,16 @@ class AppView {
      * @type {!WorkspaceEditorView}
      */
     this.workspaceEditorView = new WorkspaceEditorView();
+
+    // Inserts divs with proper IDs for all Blockly Workspaces used in DevTools.
+    this.insertWorkspaces_();
+  }
+
+  /**
+   *
+   */
+  insertWorkspaces_() {
+
   }
 
   /**
