@@ -18,6 +18,13 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('BlockLibrary');
+
+goog.require('BlockDefinition');
+goog.require('Resource');
+
 /**
  * @class BlockLibrary stores one or more block definitions. User
  *     interations with the DevTools Application change definitions in the

@@ -18,7 +18,16 @@
  * limitations under the License.
  */
 
- //TODO #50: change methods for metadata
+'use strict';
+
+goog.provide('Project');
+
+goog.require('BlockLibrarySet');
+goog.require('ToolboxSet');
+goog.require('WorkspaceContentsSet');
+goog.require('WorkspaceConfigurationSet');
+
+//TODO #50: change methods for metadata
 
 /**
  * @class Project is a collection of one or more libraries along with

@@ -18,6 +18,12 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('ResourceSet');
+
+goog.require('Resource');
+
 /**
  * @class ResourceSet is the top level interface for sets of parts of a project,
  *     not including the project itself. Resource sets can only contain one type

@@ -18,6 +18,12 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('WorkspaceContents');
+
+goog.require('Resource');
+
 /**
  * @class Workspacecontents contains a set of positioned blocks
  *    specified by the developer and used to initialize an app's workspace.

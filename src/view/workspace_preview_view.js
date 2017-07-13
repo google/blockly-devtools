@@ -30,6 +30,8 @@
 
 'use strict';
 
+goog.provide('WorkspacePreviewView');
+
 class WorkspacePreviewView extends PopupView {
   constructor() {
     super();

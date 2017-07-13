@@ -18,6 +18,12 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('ToolboxController');
+
+goog.require('ToolboxEditorView');
+
 /**
  * @fileoverview ToolboxController manages user interaction with the toolbox
  * editor, where users group together blocks that were defined within BlockLibrary
