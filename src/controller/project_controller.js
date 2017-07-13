@@ -107,8 +107,7 @@ class ProjectController {
   }
 
   /**
-   * Adds new WorkspaceConfiguration to this.project. Prompts user to select from
-   * a list of checkbox options and name the grouping of options.
+   * Adds new WorkspaceConfiguration to this.project.
    *
    * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
    *     to add to the project.
