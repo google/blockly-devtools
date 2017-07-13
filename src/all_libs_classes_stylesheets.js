@@ -46,6 +46,7 @@
   appendScript('res/standard_categories.js');
   appendScript('src/workspacefactory/wfactory_model.js');
   appendScript('res/devtools_toolboxes.js');
+
   appendScript('src/workspacefactory/wfactory_controller.js');
   appendScript('src/workspacefactory/wfactory_generator.js');
   appendScript('src/block_library_view.js');
@@ -60,22 +61,30 @@
   appendScript('src/block_exporter_view.js');
   appendScript('src/block_exporter_controller.js');
   appendScript('src/blocks.js');
+
   appendScript('src/model/resource.js');
+  appendScript('src/model/block_library.js');
+  appendScript('src/model/workspace_configuration.js');
+  appendScript('src/model/workspace_contents.js');
+  appendScript('src/model/toolbox.js');
+  appendScript('src/model/resource_set.js');
+  appendScript('src/model/toolbox_set.js');
+  appendScript('src/model/block_library_set.js');
+  appendScript('src/model/workspace_configuration_set.js');
+  appendScript('src/model/workspace_contents_set.js');
   appendScript('src/model/project.js');
+
   appendScript('src/controller/project_controller.js');
-  appendScript('src/controller/app_controller.js');
-  appendScript('src/view/app_view.js');
-  appendScript('src/new_block_dialog_view.js');
   appendScript('src/new_block_dialog_controller.js');
+  appendScript('src/controller/app_controller_2.js');
+
+  appendScript('src/new_block_dialog_view.js');
   appendScript('src/view/navigation_tree.js');
   appendScript('src/view/block_library_view.js');
   appendScript('src/view/toolbox_editor_view.js');
   appendScript('src/view/workspace_editor_view.js');
   appendScript('src/view/block_editor_view.js');
-  appendScript('src/model/block_library.js');
-  appendScript('src/model/workspace_preload.js');
-  appendScript('src/model/toolbox.js');
-  appendScript('src/controller/project_controller.js');
+  appendScript('src/view/app_view.js');
   appendScript('node_modules/jstree/dist/jstree.min.js');
 
   appendStylesheet('src/factory.css');
