@@ -1158,7 +1158,7 @@ FactoryUtils.bindClick = function(element, func) {
  * @param project Project that is currently being edited in DevTools.
  * @return XML String of toolbox in editor workspace.
  */
-FactoryUtils.updateBlockLibCategory = function(project) {
+FactoryUtils.updateBlockLibCategory = function(project, workspace) {
   // REFACTORED: Moved in from wfactory_controller.js
   const libraryXmls = {};
   // User-ordered array of block library names.
@@ -1167,7 +1167,7 @@ FactoryUtils.updateBlockLibCategory = function(project) {
   libraryNames.forEach((element) => {
     const libraryName = element;
     const library = project.getLibrary(libraryName);
-    libraryXmls[libraryName] = FactoryUtils.getCategoryXml(library);
+    libraryXmls[libraryName] = FactoryUtils.getCategoryXml(library, workspace);
   });
 
   return DevToolsToolboxes.toolboxEditor(libraryXmls);
@@ -1190,7 +1190,7 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
   const blocks = [];
   for (const blockType in blockXmlMap) {
     const block = FactoryUtils.getDefinedBlock(
-        blockType, workspace); // TODO(now): fix workspace link.
+        blockType, workspace);
     blocks.push(block);
   }
 

@@ -26,7 +26,7 @@
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class ToolboxController {
-  constructor(project) {
+  constructor(project, hiddenWorkspace) {
     /**
      * Project whose library is controlled by this BlockLibraryController instance.
      * @type {!Project}
@@ -61,8 +61,9 @@ class ToolboxController {
 
     /**
      * Hidden Blockly workspace used to generate XML for shadow blocks.
+     * @type {!Blockly.Workspace}
      */
-    this.hiddenWorkspace = Blockly.inject('shadowBlocksWorkspace');
+    this.hiddenWorkspace = hiddenWorkspace;
   }
 
   /**
@@ -299,7 +300,8 @@ class ToolboxController {
    * Updates the editor toolbox to have categories for user-defined block libraries.
    */
   updateEditorToolbox() {
-    const newToolboxXml = FactoryUtils.updateBlockLibCategory(this.project);
+    const newToolboxXml = FactoryUtils.updateBlockLibCategory(
+        this.project, this.hiddenWorkspace);
     this.view.updateEditorToolbox(newToolboxXml);
   }
 

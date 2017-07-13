@@ -63,6 +63,13 @@ class AppController2 {
     this.view = new AppView(this);
 
     /**
+     * Hidden Blockly workspace used to generate Blockly objects by using
+     * core Blockly functions.
+     * @type {!Blockly.Workspace}
+     */
+    this.hiddenWorkspace = Blockly.inject('hiddenWorkspace');
+
+    /**
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
@@ -72,7 +79,7 @@ class AppController2 {
      * EditorController object which encapsulates all editor controllers
      * @type {!EditorController}
      */
-    this.editorController = new EditorController(this.project);
+    this.editorController = new EditorController(this.project, this.hiddenWorkspace);
 
     /**
      * PopupController object which controls any popups that may appear throughout

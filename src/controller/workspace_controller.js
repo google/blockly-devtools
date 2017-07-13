@@ -27,7 +27,7 @@
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class WorkspaceController {
-  constructor(project) {
+  constructor(project, hiddenWorkspace) {
     /**
      * Project whose library is controlled by this BlockLibraryController instance.
      * @type {!Project}
@@ -59,6 +59,12 @@ class WorkspaceController {
      * @type {boolean}
      */
     this.keyEventsEnabled = true;
+
+    /**
+     * Hidden workspace used to generate Blockly objects for export.
+     * @type {!Blockly.Workspace}
+     */
+    this.hiddenWorkspace = hiddenWorkspace;
   }
 
   /**
@@ -124,7 +130,8 @@ class WorkspaceController {
    * Updates the editor toolbox to have categories for user-defined block libraries.
    */
   updateEditorToolbox() {
-    const newToolboxXml = FactoryUtils.updateBlockLibCategory(this.project);
+    const newToolboxXml = FactoryUtils.updateBlockLibCategory(
+        this.project, this.hiddenWorkspace);
     this.view.updateEditorToolbox(newToolboxXml);
   }
 

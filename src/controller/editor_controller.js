@@ -27,7 +27,7 @@
  */
 
 class EditorController {
-  constructor(project) {
+  constructor(project, hiddenWorkspace) {
     /**
      * Project object whose components are controlled by EditorController.
      * @type {!Project}
@@ -38,19 +38,19 @@ class EditorController {
      * Toolbox Controller.
      * @type {!ToolboxController}
      */
-    this.toolboxController = new ToolboxController(this.project);
+    this.toolboxController = new ToolboxController(this.project, hiddenWorkspace);
 
     /**
      * Workspace Controller.
      * @type {!WorkspaceController}
      */
-    this.workspaceController = new WorkspaceController(this.project);
+    this.workspaceController = new WorkspaceController(this.project, hiddenWorkspace);
 
     /**
      * Block Editor Controller
      * @type {BlockLibraryController}
      */
-    this.blockEditorController = new BlockEditorController(this.project);
+    this.blockEditorController = new BlockEditorController(this.project, hiddenWorkspace);
 
     /**
      * Controller object which is currently controlling the developer's application.
@@ -58,18 +58,6 @@ class EditorController {
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
     this.currentEditor = null;
-
-    /**
-     * Blockly Workspaces of hidden workspaces used to generate Blockly XML for
-     * import and export. Exporter workspace is used for generating Block XML's
-     * from definitions and generator workspace is used for generating hidden
-     * blocks in the toolbox editor. Initialized in AppView.
-     * @type {!Object.<string, Blockly.Workspace}
-     */
-    this.hiddenWorkspaces = {
-      exporter: Blockly.inject('blockExporterTools_hiddenWorkspace'),
-      generator: Blockly.inject('shadowBlocksWorkspace')
-    };
   }
 
   /**

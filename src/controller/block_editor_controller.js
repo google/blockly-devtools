@@ -32,7 +32,7 @@ goog.require('FactoryUtils');
 goog.require('StandardCategories');
 
 class BlockEditorController {
-  constructor(project) {
+  constructor(project, hiddenWorkspace) {
     /**
      * Project whose library is controlled by this BlockLibraryController instance.
      * @type {!Project}
@@ -63,7 +63,7 @@ class BlockEditorController {
      * AppView.
      * @type {!Blockly.Workspace}
      */
-    this.hiddenWorkspace = Blockly.inject('blockExporterTools_hiddenWorkspace');
+    this.hiddenWorkspace = hiddenWorkspace;
   }
 
   /*

@@ -155,23 +155,19 @@ class AppView {
 
     // Create div elements to insert hidden workspaces used in I/O. Hidden
     // workspaces stored in EditorController.
-    this.insertHiddenWorkspaces();
+    this.insertHiddenWorkspace_();
   }
 
   /**
-   * Creates invisible/hidden Blockly workspaces that are used as tools in
+   * Creates invisible/hidden Blockly workspace that is used as a tool in
    * generating XML of blocks.
+   * @private
    */
-  insertHiddenWorkspaces() {
-    const exporterDiv = document.createElement('div');
-    exporterDiv.id = 'blockExporterTools_hiddenWorkspace';
-    exporterDiv.style.display = 'none';
-    document.body.appendChild(exporterDiv);
-
-    const generatorDiv = document.createElement('div');
-    generatorDiv.id = 'shadowBlocksWorkspace';
-    generatorDiv.style.display = 'none';
-    document.body.appendChild(generatorDiv);
+  insertHiddenWorkspace_() {
+    const hiddenDiv = document.createElement('div');
+    hiddenDiv.id = 'hiddenWorkspace';
+    hiddenDiv.style.display = 'none';
+    document.body.appendChild(hiddenDiv);
   }
 
   /**
