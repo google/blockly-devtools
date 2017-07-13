@@ -168,20 +168,21 @@ class AppController2 {
     const blockFactoryTab = this.tabMap[AppController2.BLOCK_FACTORY];
     const exporterTab = this.tabMap[AppController2.EXPORTER];
     const workspaceFactoryTab = this.tabMap[AppController2.WORKSPACE_FACTORY];
+    const currentTab = this.view.selectedTab;
 
     // Only enable key events in Editors if its tab is selected.
     this.editorController.toolboxController.keyEventsEnabled =
-        this.view.selectedTab == AppController2.TOOLBOX_EDITOR;
+        currentTab == AppController2.TOOLBOX_EDITOR;
     this.editorController.workspaceController.keyEventsEnabled =
-        this.view.selectedTab == AppController2.WORKSPACE_EDITOR;
+        currentTab == AppController2.WORKSPACE_EDITOR;
 
     // Turn selected tab on and other tabs off.
     this.view.styleTabs_();
 
-    if (this.view.selectedTab == AppController2.BLOCK_FACTORY) {
+    if (currentTab == AppController2.BLOCK_FACTORY) {
       this.showTab_('blockFactoryContent');
       this.editorController.currentEditor = this.editorController.blockEditorController;
-    } else if (this.view.selectedTab == AppController2.WORKSPACE_FACTORY) {
+    } else if (currentTab == AppController2.WORKSPACE_FACTORY) {
       // TODO(#95): Deprecate workspace factory tab. Split into two views,
       //            toolbox editor and workspace editor view.
 
@@ -189,7 +190,7 @@ class AppController2 {
 
       // Update block library categories.
       this.editorController.toolboxController.updateBlockLibCategory();
-    } else if (this.view.selectedTab == AppController2.EXPORTER) {
+    } else if (currentTab == AppController2.EXPORTER) {
       // TODO: Deprecate exporter tab. Keep for now to keep view in tact. Will
       //       remove completely after #95 is resolved.
       this.showTab_('blockLibraryExporter');
@@ -197,12 +198,12 @@ class AppController2 {
       // Note: Removed exporter and usedBlockTypes() references because exporting
       // will be done through the menubar and the block exporter tab will be
       // deprecated.
-    } else if (this.view.selectedTab == AppController2.TOOLBOX_EDITOR) {
+    } else if (currentTab == AppController2.TOOLBOX_EDITOR) {
       this.showTab_('toolboxEditor');
 
       this.editorController.toolboxController.updateBlockLibCategory();
       this.editorController.currentEditor = this.editorController.toolboxController;
-    } else if (this.view.selectedTab == AppController2.WORKSPACE_EDITOR) {
+    } else if (currentTab == AppController2.WORKSPACE_EDITOR) {
       this.showTab_('workspaceEditor');
 
       this.editorController.workspaceController.updateBlockLibCategory();
