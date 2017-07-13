@@ -698,10 +698,12 @@ FactoryUtils.makeVisible = function(elementID) {
 
 /**
  * Create a file with the given attributes and download it.
- * @param {!Blob} data File blob to download.
+ * @param {!string} contents Contents of file to download.
  * @param {string} filename Name of file to download.
+ * @param {string} mimeType Full MIME type of file to download.
  */
-FactoryUtils.createAndDownloadFile = function(data, filename) {
+FactoryUtils.createAndDownloadFile = function(contents, filename, mimeType) {
+  const data = new Blob([contents], {type: mimeType});
   const clickEvent = new MouseEvent("click", {
     "view": window,
     "bubbles": true,
@@ -1160,14 +1162,14 @@ FactoryUtils.bindClick = function(element, func) {
  */
 FactoryUtils.updateBlockLibCategory = function(project, workspace) {
   // REFACTORED: Moved in from wfactory_controller.js
-  const libraryXmls = {};
-  // User-ordered array of block library names.
+  const libraryXmls = [];
+  // Alphabetized array of block library names.
   const libraryNames = project.getLibraryNames();
 
-  libraryNames.forEach((element) => {
-    const libraryName = element;
+  libraryNames.forEach((libraryName) => {
     const library = project.getLibrary(libraryName);
-    libraryXmls[libraryName] = FactoryUtils.getCategoryXml(library, workspace);
+    libraryXmls.push([
+        libraryName, FactoryUtils.getCategoryXml(library, workspace)]);
   });
 
   return DevToolsToolboxes.toolboxEditor(libraryXmls);

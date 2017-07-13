@@ -45,17 +45,19 @@ DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
 /**
  * Generates XML string for toolbox editor. Used in ToolboxView and WorkspaceView.
  *
- * @param {!Object.<string, string>} blockLibraryMap Map of block library name to
+ * @param {!Array.<Object>} blockLibraryList Array of associative two-element arrays
+ *     in which the first element is the block library name and the second is
  *     its XML string. Inserted into blockLibrary category of toolbox XML.
  * @return {string} String representation of XML for toolbox used in creating
  *     custom Toolboxes and WorkspaceContents.
  */
-DevToolsToolboxes.toolboxEditor = function(blockLibraryMap) {
+DevToolsToolboxes.toolboxEditor = function(blockLibraryList) {
   const blockLibraryXmls = '';
-  for (const blockLibName in blockLibraryMap) {
+  blockLibraryList.forEach((blockLibName) => {
     blockLibraryXmls += DevToolsToolboxes.createCategoryElement_(
         blockLibName, blockLibraryMap[blockLibName]);
-  }
+  });
+
   return `
 <xml id="workspacefactory_toolbox" class="toolbox">
   <category name="Logic" colour="210">

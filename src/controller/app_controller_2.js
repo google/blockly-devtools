@@ -301,8 +301,8 @@ class AppController2 {
     if (!fileName) {
       return;
     }
-    const data = new Blob([injectFileContents], {type: 'text/javascript'});
-    FactoryUtils.createAndDownloadFile(data, fileName);
+
+    FactoryUtils.createAndDownloadFile(injectFileContents, fileName, 'text/javascript');
 
     // TODO: Generate file contents for sample HTML page to create a "complete"
     //       sample blockly app, with instructions in the comments.
