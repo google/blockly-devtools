@@ -27,7 +27,7 @@ class NavigationTree {
 /**
  * NavigationTree Class
  * @param {!AppController} appController The AppController for the session the
- *     tree is part of, and therefore must listen to.
+ *     tree is part of, and therefore must use in the listener.
  * @param {!Project} project The project the tree represents.
  * @constructor
  */
@@ -97,7 +97,7 @@ class NavigationTree {
   /**
    * Adds a block to the tree.
    * @param {string} blockType The name of the block to be added.
-   * @param {string} libraryName The name of the library to add it to.
+   * @param {string} componentName The name of the component to add it under.
    */
   addBlockNode(blockType, componentName) {
     $('#navigationTree').jstree().create_node(componentName,
@@ -131,7 +131,8 @@ class NavigationTree {
   }
 
   /**
-   * Deletes a block library from the navigation tree.
+   * Deletes a component of the project (BlockLibrary, Toolbox, WorkspaceContents,
+   *     or WorkspaceConfiguration) from the navigation tree.
    * @param {string} componentType The type of the component to delete.
    * @param {string} componentName The name of the component to delete.
    */

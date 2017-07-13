@@ -324,7 +324,7 @@ class Project extends Resource {
   }
 
   /**
-   * Produces the JSON for needed to organize libraries in the tree.
+   * Produces the JSON needed to organize libraries in the tree.
    * @return {!Object} The JSON for the tree's library section.
    */
   librarySetJson() {
@@ -336,7 +336,7 @@ class Project extends Resource {
   }
 
   /**
-   * Produces the JSON for needed to organize toolboxes in the tree.
+   * Produces the JSON needed to organize toolboxes in the tree.
    * @return {!Object} The JSON for the tree's toolbox section.
    */
   toolboxSetJson() {
@@ -348,7 +348,7 @@ class Project extends Resource {
   }
 
   /**
-   * Produces the JSON for needed to organize workspace contents in the tree.
+   * Produces the JSON needed to organize workspace contents in the tree.
    * @return {!Object} The JSON for the tree's workspace contents section.
    */
   workspaceContentsSetJson() {
@@ -360,7 +360,7 @@ class Project extends Resource {
   }
 
   /**
-   * Produces the JSON for needed to organize workspace configurations in the tree.
+   * Produces the JSON needed to organize workspace configurations in the tree.
    * @return {!Object} The JSON for the tree's workspace configuration section.
    */
   workspaceConfigSetJson() {
@@ -377,10 +377,10 @@ class Project extends Resource {
    */
   getTreeJson() {
     const projectTree = [
-    {'id': this.name, 'text': this.name},
-    {'children': [ this.librarySetJson(), this.toolboxSetJson(),
-      this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
-    }];
+      {'id': this.name, 'text': this.name},
+      {'children': [ this.librarySetJson(), this.toolboxSetJson(),
+        this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]}
+    ];
     return projectTree;
   }
 }

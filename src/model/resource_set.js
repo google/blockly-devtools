@@ -57,7 +57,7 @@
    * @param {!Object} resource The resource to be added.
    */
   addResource(resource) {
-    this.resources[resource.name] = resource;
+    throw 'unimplemented: addResource';
   }
 
   /**

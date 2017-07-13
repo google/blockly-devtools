@@ -82,7 +82,7 @@ class Resource {
    *     level (under this.name as a parent node) with ids equivalent to their
    *     text.
    * @param {!Array.<string>} nameArray Array of strings, usually names of some
-   *     component of the resource, to be made in to JSON.
+   *     objects in the resource, to be made in to JSON.
    *
    * @return {!Object} The tree-specific JSON representation of the array.
    */
