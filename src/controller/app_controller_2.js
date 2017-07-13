@@ -27,6 +27,14 @@
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
+goog.provide('AppController2');
+
+goog.require('FactoryUtils');
+goog.require('goog.dom.classlist');
+goog.require('goog.dom.xml');
+goog.require('goog.ui.PopupColorPicker');
+goog.require('goog.ui.ColorPicker');
+
 'use strict';
 
 // TODO(#44): Rename to AppController once refactor is finished. Temporarily named

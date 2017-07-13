@@ -24,6 +24,7 @@
  *
  * @author celinechoo (Celine Choo)
  */
+goog.provide('AppView');
 
 goog.require('FactoryUtils');
 goog.require('goog.dom.classlist');
@@ -138,15 +139,15 @@ class AppView {
      * The toolbox view for the session.
      * @type {!ToolboxEditorView}
      */
-    this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
+    // this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
 
     /**
      * The workspace view for the session.
      * @type {!WorkspaceEditorView}
      */
-    this.workspaceEditorView = new WorkspaceEditorView(
-        new WorkspaceContents('workspace_contents_name'),
-        new WorkspaceConfiguration('default'));
+    // this.workspaceEditorView = new WorkspaceEditorView(
+    //     new WorkspaceContents('workspace_contents_name'),
+    //     new WorkspaceConfiguration('default'));
 
     /**
      * Keeps track of which view is currently active.

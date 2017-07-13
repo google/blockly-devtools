@@ -28,6 +28,8 @@
  */
 'use strict';
 
+goog.provide('BlockEditorController');
+
 goog.require('FactoryUtils');
 goog.require('StandardCategories');
 

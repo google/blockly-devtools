@@ -25,6 +25,7 @@
  *
  * @author sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
+goog.provide('EditorController');
 
 class EditorController {
   constructor(project) {

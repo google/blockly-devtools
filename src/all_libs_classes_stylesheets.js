@@ -64,6 +64,8 @@
   appendScript('src/blocks.js');
 */
 
+  appendScript('src/view/app_view.js');
+
   appendScript('src/model/resource.js');
   appendScript('src/model/block_library.js');
   appendScript('src/model/workspace_configuration.js');
@@ -78,14 +80,13 @@
 
   appendScript('src/controller/project_controller.js');
   appendScript('src/new_block_dialog_controller.js');
-  appendScript('src/app_controller_2.js');
+  appendScript('src/controller/app_controller_2.js');
 
   appendScript('src/new_block_dialog_view.js');
   appendScript('src/view/navigation_tree.js');
   appendScript('src/view/toolbox_editor_view.js');
   appendScript('src/view/workspace_editor_view.js');
   appendScript('src/view/block_editor_view.js');
-  appendScript('src/view/app_view.js');
   appendScript('node_modules/jstree/dist/jstree.min.js');
 
   appendStylesheet('src/factory.css');
