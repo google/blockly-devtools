@@ -5,14 +5,11 @@
   <title>Blockly Demo: Blockly Developer Tools</title>
   <script src="src/all_libs_classes_stylesheets.js"></script>
   <script>
-    var blocklyFactory;
-    const init = function() {
+    let blocklyFactory;
+    window.addEventListener('load', () => {
       blocklyFactory = new AppController2();
-      blocklyFactory.init();
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
-    };
-
-    window.addEventListener('load', init);
+    });
   </script>
 </head>
 <body>

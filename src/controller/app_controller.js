@@ -86,7 +86,7 @@ AppController = function() {
 
   this.project.setCurrentLibrary(this.blockLibraryController);
 
-  // this.projectController = new ProjectController(this.project);
+  this.projectController = new ProjectController(this.project);
 };
 
 // Constant values representing the three tabs in the controller.

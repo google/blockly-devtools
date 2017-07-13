@@ -25,10 +25,7 @@
  * @author celinechoo (Celine Choo)
  */
 
-goog.require('BlockFactory');
 goog.require('FactoryUtils');
-goog.require('BlockLibraryController');
-goog.require('BlockExporterController');
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
@@ -150,6 +147,12 @@ class AppView {
     this.workspaceEditorView = new WorkspaceEditorView(
         new WorkspaceContents('workspace_contents_name'),
         new WorkspaceConfiguration('default'));
+
+    /**
+     * Keeps track of which view is currently active.
+     * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
+     */
+    this.currentView = this.blockEditorView;
   }
 
   /**
