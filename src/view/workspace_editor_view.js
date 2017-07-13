@@ -53,7 +53,7 @@ class WorkspaceEditorView {
           snap: true
         },
         media: 'media/',
-        toolbox: DevToolsToolboxes.toolboxEditor(null)
+        toolbox: DevToolsToolboxes.toolboxEditor([])
       });
 
     /**

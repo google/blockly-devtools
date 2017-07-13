@@ -47,7 +47,7 @@ class ToolboxEditorView {
           snap: true
         },
         media: 'media/',
-        toolbox: DevToolsToolboxes.toolboxEditor(null)
+        toolbox: DevToolsToolboxes.toolboxEditor([])
       });
 
     /**

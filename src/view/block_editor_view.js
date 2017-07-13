@@ -35,8 +35,9 @@ class BlockEditorView {
      * BlockDefinition object associated with this instance of BlockLibraryView.
      * @type {!BlockDefinition}
      */
+    console.log('Hi');
     this.blockDefinition = blockDefinition;
-
+    console.log('Hello');
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
@@ -47,6 +48,7 @@ class BlockEditorView {
         toolbox: DevToolsToolboxes.blockFactory,
         media: 'media/'
       });
+    console.log('Finished creating.');
   }
 
   /**

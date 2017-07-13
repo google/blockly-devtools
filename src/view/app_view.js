@@ -56,6 +56,26 @@ class AppView {
     // Inserts divs with proper IDs for all Blockly Workspaces used in DevTools.
     this.insertWorkspaces_();
 
+    /**
+     * The block editor view for the session.
+     * @type {!BlockEditorView}
+     */
+    this.blockEditorView = new BlockEditorView(new BlockDefinition('block_type'));
+
+    /**
+     * The toolbox view for the session.
+     * @type {!ToolboxEditorView}
+     */
+    this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
+
+    /**
+     * The workspace view for the session.
+     * @type {!WorkspaceEditorView}
+     */
+    this.workspaceEditorView = new WorkspaceEditorView(
+        new WorkspaceContents('workspace_contents_name'),
+        new WorkspaceConfiguration('default'));
+
     // Assigning event handlers and listeners for application.
     this.assignLibraryClickHandlers();
     this.assignBlockFactoryClickHandlers();
@@ -146,27 +166,6 @@ class AppView {
      * @type {string}
      */
     this.selectedTab = AppController2.BLOCK_FACTORY;
-
-    /**
-     * The block editor view for the session.
-     * @type {!BlockEditorView}
-     */
-    let tempBlockView = new BlockEditorView(new BlockDefinition('block_type'));
-    this.blockEditorView = tempBlockView;
-
-    /**
-     * The toolbox view for the session.
-     * @type {!ToolboxEditorView}
-     */
-    this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
-
-    /**
-     * The workspace view for the session.
-     * @type {!WorkspaceEditorView}
-     */
-    this.workspaceEditorView = new WorkspaceEditorView(
-        new WorkspaceContents('workspace_contents_name'),
-        new WorkspaceConfiguration('default'));
 
     // Create div elements to insert hidden workspaces used in I/O. Hidden
     // workspaces stored in EditorController.
@@ -564,16 +563,25 @@ class AppView {
    * @param {string} id ID of element to show.
    */
   openModal(id) {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: openModal()';
+    // REFACTORED: Moved in from app_controller.js
+    Blockly.hideChaff();
+    this.modalName_ = id;
+    $('#' + id).style.display = 'block';
+    $('#modalShadow').style.display = 'block';
   }
 
   /**
    * Hide a previously shown modal element.
    */
   closeModal() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: closeModal()';
+    // REFACTORED: Moved in from app_controller.js
+    const id = this.modalName_;
+    if (!id) {
+      return;
+    }
+    $('#' + id).style.display = 'none';
+    $('#modalShadow').style.display = 'none';
+    this.modalName_ = null;
   }
 
   /**
