@@ -563,25 +563,14 @@ class AppView {
    * @param {string} id ID of element to show.
    */
   openModal(id) {
-    // REFACTORED: Moved in from app_controller.js
-    Blockly.hideChaff();
-    this.modalName_ = id;
-    $('#' + id).style.display = 'block';
-    $('#modalShadow').style.display = 'block';
+    // TODO: Move in from app_controller.js
   }
 
   /**
    * Hide a previously shown modal element.
    */
   closeModal() {
-    // REFACTORED: Moved in from app_controller.js
-    const id = this.modalName_;
-    if (!id) {
-      return;
-    }
-    $('#' + id).style.display = 'none';
-    $('#modalShadow').style.display = 'none';
-    this.modalName_ = null;
+    // TODO: Move in from app_controller.js
   }
 
   /**
