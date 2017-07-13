@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
  * @fileoverview EditorController manages user interaction involving changes in
  *     specific components of a project (Toolbox, Workspace (contents or configs),

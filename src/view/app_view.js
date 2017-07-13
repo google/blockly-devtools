@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
  * @fileoverview The AppView Class deals with the visual parts of the main
  * devtools application, such as the menubar.
@@ -26,6 +28,9 @@
  */
 goog.provide('AppView');
 
+goog.require('BlockDefinition');
+goog.require('BlockEditorView');
+goog.require('NavigationTree');
 goog.require('FactoryUtils');
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
@@ -133,21 +138,22 @@ class AppView {
      * The block editor view for the session.
      * @type {!BlockEditorView}
      */
-    this.blockEditorView = new BlockEditorView(new BlockDefinition('block_type'));
+    let tempBlockView = new BlockEditorView(new BlockDefinition('block_type'));
+    this.blockEditorView = tempBlockView;
 
     /**
      * The toolbox view for the session.
      * @type {!ToolboxEditorView}
      */
-    // this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
+    this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
 
     /**
      * The workspace view for the session.
      * @type {!WorkspaceEditorView}
      */
-    // this.workspaceEditorView = new WorkspaceEditorView(
-    //     new WorkspaceContents('workspace_contents_name'),
-    //     new WorkspaceConfiguration('default'));
+    this.workspaceEditorView = new WorkspaceEditorView(
+        new WorkspaceContents('workspace_contents_name'),
+        new WorkspaceConfiguration('default'));
 
     /**
      * Keeps track of which view is currently active.

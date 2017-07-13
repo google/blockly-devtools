@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
  * @fileoverview BlockEditorView deals with the visual components of defining a
  * custom block.

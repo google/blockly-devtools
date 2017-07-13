@@ -18,6 +18,10 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('NavigationTree');
+
 /**
  * @class NavigationTree manages the tree user interface.
  *
