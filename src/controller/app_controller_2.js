@@ -76,7 +76,7 @@ class AppController2 {
     this.editorController = new EditorController(this.project);
 
     /**
-     * PopupController object which controls any popups that may appear while
+     * PopupController object which controls any popups that may appear when
      *     using DevTools.
      * @type {!PopupController}
      */

@@ -5,14 +5,14 @@
  * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
- * Licensed under the Apache License, Version 2.0 (the 'License');
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an 'AS IS' BASIS,
+ * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -136,17 +136,7 @@ class NavigationTree {
    * @param {string} componentName The name of the component to delete.
    */
   deleteComponentNode(componentType, componentName) {
-    console.warn('unimplemented: NavigationTree.deleteComponentNode(' +
-      componentType + ',' + componentName + ')');
-  }
-
-  /**
-   * Deletes a toolbox from the navigation tree.
-   * @param {string} toolboxName The name of the toolbox node to delete.
-   */
-  deleteToolboxNode(toolboxName) {
-    console.warn('unimplemented: NavigationTree.deleteToolboxNode(' +
-        toolboxName + ')');
+    $('#navigationTree').jstree().delete_node(componentType + '_' + componentName);
   }
 
   /**
@@ -197,8 +187,13 @@ class NavigationTree {
      this.appController.editorController.view.openBlock(r.join(', '));
      /* Here is where switching tabs based upon the tree will go. You can gather
         which view you should be getting based off of the type of node, which
-
-
+        is stored in its unique ID (IDs are unique because names are, and each
+        ID is in the form '<nodeType>_<name>'). Also note that the type of node
+        can be gathered by its parent, since the tree now has user-facing Library,
+        Toolbox, Workspace Contents, and Workspace Configuration sections for
+        organization. Ask me if you have any questions//inform me of how you'd
+        like the method to get the node type structured*/
+      //TODO: switch tab if necessary
     });
   }
 }

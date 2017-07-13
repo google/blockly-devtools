@@ -114,7 +114,7 @@ class Project extends Resource {
   /**
    * Adds a library to the library set.
    *
-   * @param {!BlockLibrary} blockLibrary BlockLibrary object to add to
+   * @param {!BlockLibrary} blockLibrary BlockLibrary object to add to the
    *     project.
    */
   addBlockLibrary(blockLibrary) {
@@ -180,6 +180,42 @@ class Project extends Resource {
   }
 
   /**
+   * Removes a library from the library set.
+   *
+   * @param {!BlockLibrary} blockLibrary BlockLibrary object to remove from the
+   *     project.
+   */
+  removeBlockLibrary(blockLibrary) {
+    this.librarySet.addLibrary(blockLibrary);
+  }
+
+  /**
+   * Removes a toolbox from the toolbox set.
+   *
+   * @param {!Toolbox} toolbox Toolbox object to remove from the project.
+   */
+  removeToolbox(toolbox) {
+    this.toolboxSet.addToolbox(toolbox);
+  }
+
+  /**
+   * Removes a workspace contents object from the project.
+   * @param {string} workspaceContentsName The name of the workspace contents to
+   *     remove.
+   */
+  removeWorkspaceContents(workspaceContentsName) {
+    this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
+  }
+
+  /**
+   * Removes a workspace configuration from the project.
+   * @param {string} workspaceConfigName The workspace configuration to remove.
+   */
+  removeWorkspaceConfiguration(workspaceConfigName) {
+    this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
+  }
+
+  /**
    * Clears a named library in the project.
    * @param {string} libraryName The name of the library to be cleared.
    */
@@ -220,6 +256,8 @@ class Project extends Resource {
   isDirty() {
     return this.currentLibrary.warnIfUnsavedChanges();
   }
+
+
 
   /**
    * Renames the project.
