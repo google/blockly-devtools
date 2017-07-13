@@ -192,8 +192,6 @@ class BlockLibrary extends Resource {
    * @return {!Object} The tree-specific JSON representation of the library.
    */
   getTreeJson() {
-    const libraryTreeJson = {
-
-    }
+    throw 'unimplimented: getTreeJson';
   }
 }

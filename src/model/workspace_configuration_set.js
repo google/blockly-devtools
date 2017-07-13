@@ -72,7 +72,7 @@ class WorkspaceConfigurationSet extends ResourceSet {
 
   /**
    * Returns a workspace configuration to default settings.
-   * @param {string} workspace configurationName The name of the workspace
+   * @param {string} workspaceConfigurationName The name of the workspace
    *     configuration to be reset.
    */
   resetWorkspaceConfiguration(workspaceConfigurationName) {

@@ -83,4 +83,12 @@ class ToolboxSet extends ResourceSet {
   removeBlockFromToolbox(toolboxName, blockType) {
     throw "unimplemented: removeBlockFromToolbox";
   }
+
+  /**
+   * Clears a toolbox in the set.
+   * @param {string} toolboxName The name of the toolbox to be cleared.
+   */
+  clearToolbox(toolboxName) {
+    throw "unimplemented: clearToolbox";
+  }
 }

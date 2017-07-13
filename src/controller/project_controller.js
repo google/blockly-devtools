@@ -90,7 +90,7 @@ class ProjectController {
    */
   addToolbox(toolboxName) {
     this.project.addToolbox(toolboxName);
-    this.tree.addComponentNode('Toolbox', toolbox.name);
+    this.tree.addComponentNode('Toolbox', toolboxName);
   }
 
   /**
@@ -108,7 +108,7 @@ class ProjectController {
    * Adds new WorkspaceConfiguration to this.project. Prompts user to select from
    * a list of checkbox options and name the grouping of options.
    *
-   * @param {string} workspaceConfigName The name of the Workspaceconfiguration
+   * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
    *     to add to the project.
    */
   addWorkspaceConfiguration(workspaceConfigName) {
@@ -133,7 +133,7 @@ class ProjectController {
    * @param {string} toolboxName Name of the toolbox to remove from the project.
    */
   removeToolbox(toolboxName) {
-    this.project.addToolbox(toolboxName);
+    this.project.removeToolbox(toolboxName);
     this.tree.deleteComponentNode('Toolbox', toolboxName);
   }
 
@@ -162,7 +162,7 @@ class ProjectController {
   /**
    * Removes a BlockLibrary from the project.
    *
-   * @param {string} blockLibraryName the name of the BlockLibrary to remove
+   * @param {string} blockLibraryName The name of the BlockLibrary to remove
    *     from the project.
    */
   removeBlockLibrary(blockLibraryName) {

@@ -124,7 +124,7 @@ class Project extends Resource {
   /**
    * Adds new toolbox to the toolbox set.
    *
-   * @param {string} toolboxName Name of the toolbox to remove from the project.
+   * @param {string} toolboxName Name of the toolbox to add to the project.
    */
   addToolbox(toolboxName) {
     this.toolboxSet.addToolbox(toolboxName);
@@ -183,7 +183,7 @@ class Project extends Resource {
   /**
    * Removes a library from the library set.
    *
-   * @param {string} blockLibraryName the name of the BlockLibrary to remove
+   * @param {string} blockLibraryName The name of the BlockLibrary to remove
    *     from the project.
    */
   removeBlockLibrary(blockLibraryName) {
@@ -205,7 +205,7 @@ class Project extends Resource {
    *     remove.
    */
   removeWorkspaceContents(workspaceContentsName) {
-    this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
+    this.workspaceContentsSet.removeWorkspaceContents(workspaceContentsName);
   }
 
   /**
@@ -213,7 +213,7 @@ class Project extends Resource {
    * @param {string} workspaceConfigName The workspace configuration to remove.
    */
   removeWorkspaceConfiguration(workspaceConfigName) {
-    this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
+    this.workspaceConfigSet.removeWorkspaceConfiguration(workspaceConfigName);
   }
 
   /**
@@ -257,8 +257,6 @@ class Project extends Resource {
   isDirty() {
     return this.currentLibrary.warnIfUnsavedChanges();
   }
-
-
 
   /**
    * Renames the project.
@@ -330,10 +328,11 @@ class Project extends Resource {
    * @return {!Object} The JSON for the tree's library section.
    */
   librarySetJson() {
-    const projectTree = [
-    {'id': 'BlockLibrary', 'text': 'Libraries'},
-    {'children': [ this.librarySet.getTreeJson()]}
+    const librarySetJson = [
+      {'id': 'BlockLibrary', 'text': 'Libraries'},
+      {'children': this.librarySet.getTreeJson()}
     ];
+    return librarySetJson;
   }
 
   /**
@@ -341,10 +340,11 @@ class Project extends Resource {
    * @return {!Object} The JSON for the tree's toolbox section.
    */
   toolboxSetJson() {
-    const projectTree = [
-    {'id': 'Toolbox', 'text': 'Toolboxes'},
-    {'children': this.toolboxSet.getTreeJson()}
+    const toolboxSetJson = [
+      {'id': 'Toolbox', 'text': 'Toolboxes'},
+      {'children': this.toolboxSet.getTreeJson()}
     ];
+    return toolboxSetJson;
   }
 
   /**
@@ -352,11 +352,11 @@ class Project extends Resource {
    * @return {!Object} The JSON for the tree's workspace contents section.
    */
   workspaceContentsSetJson() {
-    const projectTree = [
-    {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
-    {'children': [ this.librarySetJson(), this.toolboxSetJson(),
-      this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
-    }];
+    const workspaceContentsSetJson = [
+      {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
+      {'children': this.workspaceContentsSetJson()}
+    ];
+    return workspaceContentsSetJson;
   }
 
   /**
@@ -364,11 +364,11 @@ class Project extends Resource {
    * @return {!Object} The JSON for the tree's workspace configuration section.
    */
   workspaceConfigSetJson() {
-    const projectTree = [
-    {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
-    {'children': [ this.librarySetJson(), this.toolboxSetJson(),
-      this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]
-    }];
+    const workspaceConfigSetJson = [
+      {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
+      {'children': this.workspaceConfigSetJson()}
+    ];
+    return workspaceConfigSetJson;
   }
   /**
    * Gets the JSON object necessary to represent the project in the navigation

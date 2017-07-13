@@ -35,11 +35,11 @@ class WorkspaceContentsSet extends ResourceSet {
 
   /**
    * Adds a workspace contents object to the set.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     to be added.
+   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
+   *     add to the project.
    */
-  addWorkspaceContents(libraryName) {
-    super.addResource(libraryName);
+  addWorkspaceContents(workspaceContents) {
+    super.addResource(workspaceContents);
   }
 
   /**
