@@ -112,14 +112,13 @@ class Project extends Resource {
   }
 
   /**
-   * Adds a library to this.project.
+   * Adds a library to the library set.
    *
-   * @param {!BlockLibrary} blockLibraryName BlockLibrary object to add to
+   * @param {!BlockLibrary} blockLibrary BlockLibrary object to add to
    *     project.
    */
-  addBlockLibrary(blockLibraryName) {
-    // TODO: Implement
-    throw 'Unimplemented: addBlockLibrary()';
+  addBlockLibrary(blockLibrary) {
+    this.librarySet.addLibrary(blockLibrary);
   }
 
   /**

@@ -51,7 +51,7 @@ class ProjectController {
      * The tree which navigates the project.
      * @type {!JStree}
      */
-    this.tree = new NavigationTree(this);
+    this.tree = new NavigationTree(this, this.project);
   }
 
   /**
@@ -88,7 +88,7 @@ class ProjectController {
    */
   addToolbox(toolbox) {
     this.project.addToolbox(toolbox);
-    this.tree.addToolbox();
+    this.tree.addToolboxNode(toolbox.name);
   }
 
   /**
@@ -97,8 +97,8 @@ class ProjectController {
    * @param {!Toolbox} toolbox Toolbox object to remove from project.
    */
   removeToolbox(toolbox) {
-    // TODO: Implement
-    throw 'Unimplemented: removeToolbox()';
+    this.project.addToolbox(toolbox);
+    this.tree.addToolboxNode(toolbox.name);
   }
 
   /**
@@ -149,12 +149,11 @@ class ProjectController {
   /**
    * Adds new BlockLibrary to this.project.
    *
-   * @param {!BlockLibrary} blockLibraryName BlockLibrary object to add to
+   * @param {!BlockLibrary} blockLibrary BlockLibrary object to add to
    *     project.
    */
-  addBlockLibrary(blockLibraryName) {
-    // TODO: Implement
-    throw 'Unimplemented: addBlockLibrary()';
+  addBlockLibrary(blockLibrary) {
+    this.project.addBlockLibrary(blockLibrary);
   }
 
   /**
