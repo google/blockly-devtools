@@ -56,9 +56,9 @@ class Project extends Resource {
     this.workspaceContentsSet = new WorkspaceContentsSet();
     /**
      * The workspace configurations in the project.
-     * @type {!WorkspaceConfigurationsSet}
+     * @type {!WorkspaceConfigurationSet}
      */
-    this.workspaceConfigSet = new WorkspaceConfigurationsSet();
+    this.workspaceConfigSet = new WorkspaceConfigurationSet();
   }
 
   /**

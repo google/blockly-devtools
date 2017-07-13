@@ -110,7 +110,7 @@ class AppView {
 
     /**
      * The tree for the DevTools session.
-     * @type {?JSTree}
+     * @type {?NavigationTree}
      */
     this.navTree = null;
 
@@ -174,7 +174,7 @@ class AppView {
    * @param {!Project} project The project the tree represents.
    */
   setLibraryTree(project) {
-    //initializes navigation tree with blocks in the project
+    // Initializes navigation tree with blocks in the project
     this.navTree = new NavigationTree(project);
     this.makeTreeListener();
   }
@@ -415,32 +415,27 @@ class AppView {
   }
 
   /**
-   * Assign button click handlers for the exporter.
-   */
-  assignExporterClickHandlers() {
-    /*
-     * TODO: Move in from app_controller.js
-     */
-    // TODO(#7): Remove after exporter is consolidated into save/open project.
-    throw 'Unimplemented: assignExporterClickHandlers()';
-  }
-
-  /**
-   * Assign change listeners for the exporter. These allow for the dynamic update
-   * of the exporter preview.
-   */
-  assignExporterChangeListeners() {
-    // TODO: Move in from app_controller.js
-    // TODO(#7): Remove after exporter is consolidated into save/open project.
-    throw 'Unimplemented: assignExporterChangeListeners()';
-  }
-
-  /**
    * Assign button click handlers for the block library.
    */
   assignLibraryClickHandlers() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: assignLibraryClickHandlers()';
+    // REFACTORED: Moved in from app_controller.js
+    // Button for saving block to library.
+    $('#saveToBlockLibraryButton').click(() => {
+      this.appController.project.saveBlock();
+      this.view.addBlockToTree();
+    });
+
+    // Button for removing selected block from library.
+    $('#removeBlockFromLibraryButton').click(() => {
+      this.appController.project.removeBlockFromProject();
+      this.view.removeBlockFromTree();
+    });
+
+    // Button for clearing the block library.
+    $('#clearBlockLibraryButton').click(() => {
+      this.appController.project.clearLibrary();
+      this.view.clearLibraryFromTree();
+    });
   }
 
   /**
@@ -448,7 +443,43 @@ class AppView {
    */
   assignBlockFactoryClickHandlers() {
     // TODO: Move in from app_controller.js
-    throw 'Unimplemented: assignBlockFactoryClickHandlers()';
+    // Assign button event handlers for Block Factory.
+    $('#localSaveButton').click(() => {
+      this.exportBlockLibraryToFile();
+    });
+
+    $('#helpButton').click(() => {
+      open('https://developers.google.com/blockly/custom-blocks/block-factory',
+          'BlockFactoryHelp');
+    });
+
+    $('#files').click(() => {
+      // Warn user.
+      var replace = confirm('This imported block library will ' +
+          'replace your current block library.');
+      if (replace) {
+       this.importBlockLibraryFromFile();
+        // Clear this so that the change event still fires even if the
+        // same file is chosen again. If the user re-imports a file, we
+        // want to reload the workspace with its contents.
+        this.value = null;
+      }
+    });
+
+    $('#createNewBlockButton').click(() => {
+      // If there are unsaved changes warn user, check if they'd like to
+      // proceed with unsaved changes, and act accordingly.
+      var proceedWithUnsavedChanges =
+          this.appController.projectController.warnIfUnsaved();
+      if (!proceedWithUnsavedChanges) {
+        return;
+      }
+
+      this.createBlocklyInitPopup(false);
+
+      // Close the Block Library Dropdown.
+      this.closeModal();
+    });
   }
 
   /**
@@ -456,7 +487,29 @@ class AppView {
    */
   addBlockFactoryEventListeners() {
     // TODO: Move in from app_controller.js
-    throw 'Unimplemented: addBlockFactoryEventListeners()';
+    // Update code on changes to block being edited.
+    BlockFactory.mainWorkspace.addChangeListener(BlockFactory.updateLanguage);
+
+    // Disable blocks not attached to the factory_base block.
+    BlockFactory.mainWorkspace.addChangeListener(Blockly.Events.disableOrphans);
+
+    // Update the buttons on the screen based on whether
+    // changes have been saved.
+    BlockFactory.mainWorkspace.addChangeListener(() => {
+      this.project.currentLibrary.updateButtons(FactoryUtils.savedBlockChanges(
+          this.project.currentLibrary));
+      });
+
+    document.getElementById('direction')
+        .addEventListener('change', BlockFactory.updatePreview);
+    document.getElementById('languageTA')
+        .addEventListener('change', BlockFactory.updatePreview);
+    document.getElementById('languageTA')
+        .addEventListener('keyup', BlockFactory.updatePreview);
+    document.getElementById('format')
+        .addEventListener('change', BlockFactory.formatChange);
+    document.getElementById('language')
+        .addEventListener('change', BlockFactory.updatePreview);
   }
 
   /**
@@ -466,17 +519,6 @@ class AppView {
   onresize(event) {
     // Move in from app_controller.js
     throw 'Unimplemented: onresize()';
-  }
-
-  /**
-   * Handler for the window's 'beforeunload' event. When a user has unsaved
-   * changes and refreshes or leaves the page, confirm that they want to do so
-   * before actually refreshing.
-   * @param {Event} event beforeunload event.
-   */
-  confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js'
-    throw 'Unimplemented: confirmLeavePage()';
   }
 
   /**

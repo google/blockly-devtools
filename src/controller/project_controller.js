@@ -26,14 +26,7 @@
  * @author sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 
-/**
- * @class ProjectController manages the DevTools Project object's information.
- *    it controls opening and storing blocks, warning about unsaved changes
- *    to libraries, and importing and exporting projects and the elements that
- *    they contain.
- */
-//TODO #44: refactor
-//TODO #50: manage project metadata
+// TODO(#50): Manage project metadata
 class ProjectController {
   /**
    * ProjectController class

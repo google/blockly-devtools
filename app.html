@@ -17,9 +17,18 @@
   <script src="src/block_exporter_controller.js"></script>
   <script src="src/blocks.js"></script>
   <script src="src/model/resource.js"></script>
+  <script src="src/model/block_library.js"</script>
+  <script src="src/model/workspace_preload.js"</script>
+  <script src="src/model/toolbox.js"></script>
+  <script src="src/model/workspace_configuration.js"></script>
+  <script src="src/model/resource_set.js"></script>
+  <script src="src/model/block_library_set.js"></script>
+  <script src="src/model/toolbox_set.js"></script>
+  <script src="src/model/workspace_contents_set.js"></script>
+  <script src="src/model/workspace_configuration_set.js"></script>
   <script src="src/model/project.js"></script>
   <script src="src/controller/project_controller.js"></script>
-  <script src="src/controller/app_controller.js"></script>
+  <script src="src/controller/app_controller_2.js"></script>
   <script src="src/view/app_view.js"></script>
   <script src="src/new_block_dialog_view.js"></script>
   <script src="src/new_block_dialog_controller.js"></script>
@@ -28,18 +37,14 @@
   <script src="src/view/toolbox_editor_view.js"></script>
   <script src="src/view/workspace_editor_view.js"></script>
   <script src="src/view/block_editor_view.js"></script>
-  <script src="src/model/block_library.js"</script>
-  <script src="src/model/workspace_preload.js"</script>
-  <script src="src/model/toolbox.js"</script>
-  <script src="src/controller/project_controller.js"</script>
   <script src="../storage.js"></script>
   <script src="node_modules/jstree/dist/jstree.min.js"></script>
   <link rel="stylesheet" href="src/factory.css">
   <link rel="stylesheet" href="node_modules/jstree/dist/themes/default/style.min.css"/>
   <script>
     var blocklyFactory;
-    var init = function() {
-      blocklyFactory = new AppController();
+    const init = function() {
+      blocklyFactory = new AppController2();
       blocklyFactory.init();
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
     };
@@ -54,8 +59,10 @@
     </button>
   </div>
   <div id="tabContainer">
-    <div id="blockFactory_tab" class="tab tabon">Block Factory</div>
-    <div id="blocklibraryExporter_tab" class="tab taboff">Block Exporter</div>
+    <div id="blockFactory_tab" class="tab tabon">Block Editor</div>
+    <!--div id="blocklibraryExporter_tab" class="tab taboff">Block Exporter</div-->
+    <div id="toolboxEditor_tab" class="tab taboff">Toolbox Editor</div>
+    <div id="workspaceEditor_tab" class="tab taboff">Workspace Editor</div>
     <div id="workspaceFactory_tab" class="tab taboff">Workspace Factory</div>
   </div>
 

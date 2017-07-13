@@ -30,7 +30,7 @@ class WorkspaceContentsSet extends ResourceSet {
    * @constructor
    */
   constructor(workspaceContentsSetName, projectName) {
-    super(librarySetName, projectName, WorkspaceContents);
+    super(workspaceContentsSetName, projectName);
   }
 
   /**

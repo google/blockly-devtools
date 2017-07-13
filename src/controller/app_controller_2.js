@@ -56,6 +56,8 @@ class AppController2 {
      */
     this.project = new Project('');
 
+    this.view = new AppView(this);
+
     /**
      * ProjectController object associated with application.
      * @type {!ProjectController}
@@ -213,5 +215,16 @@ class AppController2 {
    */
   createPopup(popupType) {
     this.popupController.show(popupType);
+  }
+
+  /**
+   * Handler for the window's 'beforeunload' event. When a user has unsaved
+   * changes and refreshes or leaves the page, confirm that they want to do so
+   * before actually refreshing.
+   * @param {Event} event beforeunload event.
+   */
+  confirmLeavePage(event) {
+    // TODO: Move in from app_controller.js'
+    console.warn('Unimplemented: confirmLeavePage()');
   }
 }
