@@ -141,7 +141,7 @@ class Project extends Resource {
 
   /**
    * Adds a workspace configuration to the project.
-   * @param {string} workspaceConfigName The name of the Workspaceconfiguration
+   * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
    *     to add to the project.
    */
   addWorkspaceConfiguration(workspaceConfigName) {
@@ -226,7 +226,7 @@ class Project extends Resource {
 
   /**
    * Clears a named toolbox in the project.
-   * @param {string} toolboxName The name of the toolbox to be cleared.
+   * @param {string} toolboxName The name of the toolbox to clear.
    */
   clearToolbox(toolboxName) {
     this.toolboxSet.clearToolbox(toolboxName);
@@ -308,7 +308,7 @@ class Project extends Resource {
    * Gets a named workspace configuration object contained within the project.
    * @param {string} workspaceConfigsName Name of the workspace configuration
    *     to be found.
-   * @return {!WorkspaceContents} The found workspace configuration or null.
+   * @return {!WorkspaceConfiguration} The found workspace configuration or null.
    */
   getWorkspaceConfiguration(workspaceConfigName) {
     return this.workspaceConfigSet.getWorkspaceConfiguration(workspaceConfigName);

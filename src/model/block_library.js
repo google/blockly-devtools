@@ -144,7 +144,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Returns map of blockType to associated JSON object.
-   * @return {{!Object<string, Object>} Map of block type to corresponding JSON.
+   * @return {!Object<string, Object>} Map of block type to corresponding JSON.
    */
   getBlockJsonMap() {
     /*
@@ -192,6 +192,6 @@ class BlockLibrary extends Resource {
    * @return {!Object} The tree-specific JSON representation of the library.
    */
   getTreeJson() {
-    throw 'unimplimented: getTreeJson';
+    throw 'unimplemented: getTreeJson';
   }
 }

@@ -158,7 +158,6 @@ class AppController2 {
    * @param {string} tabName AppController.BLOCK_FACTORY,
    *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
    */
-   //TODO: have changed by tree, not tabs
   setSelectedTab(tabName) {
     // REFACTORED: from app_controller.js:setSelected_(tabName)
     this.view.lastSelectedTab = this.view.selectedTab;
@@ -169,6 +168,7 @@ class AppController2 {
    * Called on each tab click. Hides and shows specific content based on which tab
    * (Block Factory, Workspace Factory, or Exporter) is selected.
    */
+  //TODO #99: have changed by tree, not tabs
   onTab() {
     // REFACTORED: Moved in from app_controller.js=
     // Get tab div elements

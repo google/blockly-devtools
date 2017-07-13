@@ -88,6 +88,7 @@ class ProjectController {
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
    */
+  //TODO #100: have component addition return a boolean and have tree addition depend on it
   addToolbox(toolboxName) {
     this.project.addToolbox(toolboxName);
     this.tree.addComponentNode('Toolbox', toolboxName);
@@ -99,6 +100,7 @@ class ProjectController {
    * @param {string} workspaceContentsName Name of the WorkspaceContents to
    *     add to the project.
    */
+   //TODO #100: have component addition return a boolean and have tree addition depend on it
   addWorkspaceContents(workspaceContentsName) {
     this.project.addWorkspaceContents(workspaceContentsName);
     this.tree.addComponentNode('WorkspaceContents', workspaceContentsName);
@@ -111,6 +113,7 @@ class ProjectController {
    * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
    *     to add to the project.
    */
+  //TODO #100: have component addition return a boolean and have tree addition depend on it
   addWorkspaceConfiguration(workspaceConfigName) {
     this.project.addWorkspaceConfiguration(workspaceConfigName);
     this.tree.addComponentNode('WorkspaceConfiguration', workspaceConfigName);
@@ -122,6 +125,7 @@ class ProjectController {
    * @param {string} blockLibraryName Name of the BlockLibrary to add to the
    *     project.
    */
+   //TODO #100: have component addition return a boolean and have tree addition depend on it
   addBlockLibrary(blockLibraryName) {
     this.project.addBlockLibrary(blockLibraryName);
     this.tree.addComponentNode('BlockLibrary', blockLibraryName);
