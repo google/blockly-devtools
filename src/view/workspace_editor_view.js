@@ -53,7 +53,7 @@ class WorkspaceEditorView {
           snap: true
         },
         media: 'media/',
-        toolbox: DevToolsToolboxes.toolboxEditor('')
+        toolbox: DevToolsToolboxes.toolboxEditor(null)
       });
 
     /**
@@ -116,5 +116,13 @@ class WorkspaceEditorView {
      * TODO: Move in from wfactory_view.js:setBaseOptions()
      */
     throw 'Unimplemented: resetConfigs()';
+  }
+
+  /**
+   * Updates the toolbox used in the toolbox editor workspace.
+   * @param {!string} toolbox String representation of toolbox XML to display.
+   */
+  updateEditorToolbox(toolbox) {
+    this.editorWorkspace.updateToolbox(toolbox);
   }
 }

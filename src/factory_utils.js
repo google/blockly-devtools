@@ -698,19 +698,19 @@ FactoryUtils.makeVisible = function(elementID) {
 
 /**
  * Create a file with the given attributes and download it.
- * @param {string} contents The contents of the file.
- * @param {string} filename The name of the file to save to.
- * @param {string} fileType The type of the file to save.
+ * @param {!string} contents Contents of file to download.
+ * @param {string} filename Name of file to download.
+ * @param {string} mimeType Full MIME type of file to download.
  */
-FactoryUtils.createAndDownloadFile = function(contents, filename, fileType) {
-  var data = new Blob([contents], {type: 'text/' + fileType});
-  var clickEvent = new MouseEvent("click", {
+FactoryUtils.createAndDownloadFile = function(contents, filename, mimeType) {
+  const data = new Blob([contents], {type: mimeType});
+  const clickEvent = new MouseEvent("click", {
     "view": window,
     "bubbles": true,
     "cancelable": false
   });
 
-  var a = document.createElement('a');
+  const a = document.createElement('a');
   a.href = window.URL.createObjectURL(data);
   a.download = filename;
   a.textContent = 'Download file!';
@@ -1152,4 +1152,49 @@ FactoryUtils.bindClick = function(element, func) {
   }
   element.addEventListener('click', func, true);
   element.addEventListener('touchend', func, true);
+};
+
+/*
+ * Updates the block library category in the Toolbox and Workspace Editor
+ * toolboxes.
+ * @param project Project that is currently being edited in DevTools.
+ * @return XML String of toolbox in editor workspace.
+ */
+FactoryUtils.updateBlockLibCategory = function(project, workspace) {
+  // REFACTORED: Moved in from wfactory_controller.js
+  const libraryXmls = [];
+  // Alphabetized array of block library names.
+  const libraryNames = project.getLibraryNames();
+
+  libraryNames.forEach((libraryName) => {
+    const library = project.getLibrary(libraryName);
+    libraryXmls.push([
+        libraryName, FactoryUtils.getCategoryXml(library, workspace)]);
+  });
+
+  return DevToolsToolboxes.toolboxEditor(libraryXmls);
+};
+
+/**
+ * Creates XML toolbox category of all blocks in this block library. Used in
+ * toolbox and workspace editor.
+ * @param {!BlockLibrary} library Library object to be created into an editor
+ *     toolbox category.
+ * @param {!Blockly.Workspace} workspace Blockly workspace used to generate and
+ *     store Blockly.Block types.
+ * @return {!Element} XML representation of the block library category.
+ */
+FactoryUtils.getCategoryXml = function(library, workspace) {
+  // Moved in from block_exporter_tools.js:generateCategoryFromBlockLib(blockLibStorage)
+  const allBlockTypes = library.getBlockTypes();
+  const blockXmlMap = library.getBlockXmlMap(allBlockTypes);
+
+  const blocks = [];
+  for (const blockType in blockXmlMap) {
+    const block = FactoryUtils.getDefinedBlock(
+        blockType, workspace);
+    blocks.push(block);
+  }
+
+  return FactoryUtils.generateCategoryXml(blocks, 'Block Library');
 };

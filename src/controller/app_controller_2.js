@@ -64,6 +64,19 @@ class AppController2 {
     this.navTree = new NavigationTree(this, this.project);
 
     /**
+     * Main View class which manages view portion of application.
+     * @type {!AppView}
+     */
+    this.view = new AppView(this);
+
+    /**
+     * Hidden Blockly workspace used to generate Blockly objects by using
+     * core Blockly functions.
+     * @type {!Blockly.Workspace}
+     */
+    this.hiddenWorkspace = Blockly.inject('hiddenWorkspace');
+
+    /**
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
@@ -73,7 +86,7 @@ class AppController2 {
      * EditorController object which encapsulates all editor controllers
      * @type {!EditorController}
      */
-    this.editorController = new EditorController(this.project);
+    this.editorController = new EditorController(this.project, this.hiddenWorkspace);
 
     /**
      * PopupController object which controls any popups that may appear when
@@ -90,10 +103,6 @@ class AppController2 {
     this.tabMap[this.BLOCK_FACTORY] = $('#blockFactory_tab');
     this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
     this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
-
-    this.lastSelectedTab = null;
-
-    this.selectedTab = this.BLOCK_FACTORY;
   }
 
   // ======================== CONSTANTS ===========================
@@ -125,6 +134,24 @@ class AppController2 {
     return 'EXPORTER';
   }
 
+  /**
+   * Static get function for constant TOOLBOX_EDITOR.
+   * @return {!string}
+   */
+  static get TOOLBOX_EDITOR() {
+    return 'TOOLBOX_EDITOR';
+  }
+
+  /**
+   * Static get function for constant TOOLBOX_EDITOR.
+   * @return {!string}
+   */
+  static get WORKSPACE_EDITOR() {
+    return 'WORKSPACE_EDITOR';
+  }
+
+
+
   // ========================= VIEW-CONTROLLER ==========================
 
   /**
@@ -134,14 +161,9 @@ class AppController2 {
    */
    //TODO: have changed by tree, not tabs
   setSelectedTab(tabName) {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - this.lastSelectedTab
-     * - this.selectedTab
-     */
-    throw 'Unimplemented: setSelectedTab()';
+    // REFACTORED: from app_controller.js:setSelected_(tabName)
+    this.view.lastSelectedTab = this.view.selectedTab;
+    this.view.selectedTab = tabName;
   }
 
   /**
@@ -149,15 +171,73 @@ class AppController2 {
    * (Block Factory, Workspace Factory, or Exporter) is selected.
    */
   onTab() {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - this.tabMap
-     * - this.lastSelectedTab
-     * - FactoryUtils.savedBlockChanges()
-     */
-    throw 'Unimplemented: onTab()';
+    // REFACTORED: Moved in from app_controller.js=
+    // Get tab div elements
+    const blockFactoryTab = this.tabMap[AppController2.BLOCK_FACTORY];
+    const exporterTab = this.tabMap[AppController2.EXPORTER];
+    const workspaceFactoryTab = this.tabMap[AppController2.WORKSPACE_FACTORY];
+    const currentTab = this.view.selectedTab;
+
+    // Only enable key events in Editors if its tab is selected.
+    this.editorController.toolboxController.keyEventsEnabled =
+        currentTab == AppController2.TOOLBOX_EDITOR;
+    this.editorController.workspaceController.keyEventsEnabled =
+        currentTab == AppController2.WORKSPACE_EDITOR;
+
+    // Turn selected tab on and other tabs off.
+    this.view.styleTabs_();
+
+    if (currentTab == AppController2.BLOCK_FACTORY) {
+      this.showTab_('blockFactoryContent');
+      this.editorController.currentEditor = this.editorController.blockEditorController;
+    } else if (currentTab == AppController2.WORKSPACE_FACTORY) {
+      // TODO(#95): Deprecate workspace factory tab. Split into two views,
+      //            toolbox editor and workspace editor view.
+
+      this.showTab_('workspaceFactoryContent');
+
+      // Update block library categories.
+      this.editorController.toolboxController.updateBlockLibCategory();
+    } else if (currentTab == AppController2.EXPORTER) {
+      // TODO: Deprecate exporter tab. Keep for now to keep view in tact. Will
+      //       remove completely after #95 is resolved.
+      this.showTab_('blockLibraryExporter');
+
+      // Note: Removed exporter and usedBlockTypes() references because exporting
+      // will be done through the menubar and the block exporter tab will be
+      // deprecated.
+    } else if (currentTab == AppController2.TOOLBOX_EDITOR) {
+      this.showTab_('toolboxEditor');
+
+      this.editorController.toolboxController.updateBlockLibCategory();
+      this.editorController.currentEditor = this.editorController.toolboxController;
+    } else if (currentTab == AppController2.WORKSPACE_EDITOR) {
+      this.showTab_('workspaceEditor');
+
+      this.editorController.workspaceController.updateBlockLibCategory();
+      this.editorController.currentEditor = this.editorController.workspaceController;
+    }
+
+    // Resize to render workspaces' toolboxes correctly for all tabs.
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  /**
+   * Given a tab name, shows the view corresponding to that tab and hides all others.
+   * Helper function of onTab().
+   * @param {string} tabName Name of tab to be shown.
+   * @private
+   */
+  showTab_(tabName) {
+    const tabNames = ['workspaceFactoryContent', 'blockFactoryContent',
+        'blockLibraryExporter', 'toolboxEditor', 'workspaceEditor'];
+    tabNames.forEach((name) => {
+      if (name === tabName) {
+        FactoryUtils.show(name);
+      } else {
+        FactoryUtils.hide(name);
+      }
+    });
   }
 
   /**
@@ -170,6 +250,8 @@ class AppController2 {
     /*
      * TODO: Move in from app_controller.js
      */
+    // Note: Not implemented because it is in the exporter tab, which will be
+    // deprecated. May implement later if necessary.
     throw 'Unimplemented: ifCheckedEnable()';
   }
 
@@ -179,8 +261,23 @@ class AppController2 {
    * Handle Blockly Storage with App Engine.
    */
   initializeBlocklyStorage() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: initializeBlocklyStorage()';
+    // REFACTORED: Moved in from app_controller.js
+    // TODO: Possibly remove method if unnecessary.
+    BlocklyStorage.HTTPREQUEST_ERROR =
+        'There was a problem with the request.\n';
+    BlocklyStorage.LINK_ALERT =
+        'Share your blocks with this link:\n\n%1';
+    BlocklyStorage.HASH_ERROR =
+        'Sorry, "%1" doesn\'t correspond with any saved Blockly file.';
+    BlocklyStorage.XML_ERROR = 'Could not load your saved file.\n' +
+        'Perhaps it was created with a different version of Blockly?';
+    const linkButton = document.getElementById('linkButton');
+    linkButton.style.display = 'inline-block';
+    linkButton.addEventListener('click', () => {
+        BlocklyStorage.link(
+          this.editorController.blockEditorController.view.blockDefinitionWorkspace);
+      });
+    this.editorController.blockEditorController.view.disableEnableLink();
   }
 
   /**
@@ -203,14 +300,21 @@ class AppController2 {
    * Blockly application with user-defined workspace, toolbox, and blocks.
    */
   createSampleApplication() {
-    /*
-     * TODO: Move in from wfactory_controller.js:exportInjectFile()
-     *
-     * References:
-     * - generateNewOptions()
-     * - generateInjectString()
-     * - createAndDownloadFile(fileName, data)
-     */
+    // REFACTORED: Moved in from wfactory_controller.js:exportInjectFile()
+
+    // Generate file contents for inject file.
+    const injectFileContents = this.projectController.generateInjectString();
+    // Get file name from user.
+    const fileName = prompt('File name for starter Blockly workspace code:',
+                            'workspace.js');
+    if (!fileName) {
+      return;
+    }
+
+    FactoryUtils.createAndDownloadFile(injectFileContents, fileName, 'text/javascript');
+
+    // TODO: Generate file contents for sample HTML page to create a "complete"
+    //       sample blockly app, with instructions in the comments.
   }
 
   /**
