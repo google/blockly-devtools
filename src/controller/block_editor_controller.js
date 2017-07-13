@@ -34,7 +34,7 @@ goog.require('FactoryUtils');
 goog.require('StandardCategories');
 
 class BlockEditorController {
-  constructor(project) {
+  constructor(project, hiddenWorkspace) {
     /**
      * Project whose library is controlled by this BlockLibraryController instance.
      * @type {!Project}
@@ -58,6 +58,14 @@ class BlockEditorController {
      * @type {string}
      */
     this.previewDirection = null;
+
+    /**
+     * Hidden Blockly workspace used to generate Blockly XML for import and
+     * export. Used for generating Block XMLs from definitions. Initialized in
+     * AppView.
+     * @type {!Blockly.Workspace}
+     */
+    this.hiddenWorkspace = hiddenWorkspace;
   }
 
   /*

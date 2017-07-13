@@ -26,7 +26,7 @@
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class ToolboxController {
-  constructor(project) {
+  constructor(project, hiddenWorkspace) {
     /**
      * Project whose library is controlled by this BlockLibraryController instance.
      * @type {!Project}
@@ -51,6 +51,19 @@ class ToolboxController {
      * @type {!Object.<!ListElement, !Element>}
      */
     this.categoryTabs = {};
+
+    /**
+     * True if key events are enabled. False otherwise. Used to enable/disable
+     * view elements depending on which Editor is currently being used.
+     * @type {boolean}
+     */
+    this.keyEventsEnabled = true;
+
+    /**
+     * Hidden Blockly workspace used to generate XML for shadow blocks.
+     * @type {!Blockly.Workspace}
+     */
+    this.hiddenWorkspace = hiddenWorkspace;
   }
 
   /**
@@ -281,6 +294,15 @@ class ToolboxController {
      * - generateWorkspaceXml()
      */
     throw 'Unimplemented: updatePreview()';
+  }
+
+  /**
+   * Updates the editor toolbox to have categories for user-defined block libraries.
+   */
+  updateEditorToolbox() {
+    const newToolboxXml = FactoryUtils.updateBlockLibCategory(
+        this.project, this.hiddenWorkspace);
+    this.view.updateEditorToolbox(newToolboxXml);
   }
 
   /**
@@ -538,24 +560,6 @@ class ToolboxController {
      * - evaluateMarkedCode()
      */
     throw 'Unimplemented: loadImportedToolbox()';
-  }
-
-  /*
-   * Updates the block library category in the toolbox workspace toolbox.
-   * @param {!Element} categoryXml XML for the block library category.
-   * @param {!Array.<string>} libBlockTypes Array of block types from the block
-   *     library.
-   */
-  setBlockLibCategory(categoryXml, libBlockTypes) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *       (Also moved into: workspace_controller.js)
-     *
-     * References:
-     * - updateLibBlockTypes()
-     * - clearAndLoadXml_()
-     */
-    throw 'Unimplemented: setBlockLibCategory()';
   }
 
   /**

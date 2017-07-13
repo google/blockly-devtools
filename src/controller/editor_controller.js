@@ -30,7 +30,7 @@
 goog.provide('EditorController');
 
 class EditorController {
-  constructor(project) {
+  constructor(project, hiddenWorkspace) {
     /**
      * Project object whose components are controlled by EditorController.
      * @type {!Project}
@@ -41,19 +41,19 @@ class EditorController {
      * Toolbox Controller.
      * @type {!ToolboxController}
      */
-    this.toolboxController = new ToolboxController(this.project);
+    this.toolboxController = new ToolboxController(this.project, hiddenWorkspace);
 
     /**
      * Workspace Controller.
      * @type {!WorkspaceController}
      */
-    this.workspaceController = new WorkspaceController(this.project);
+    this.workspaceController = new WorkspaceController(this.project, hiddenWorkspace);
 
     /**
      * Block Editor Controller
      * @type {BlockLibraryController}
      */
-    this.blockEditorController = new BlockEditorController(this.project);
+    this.blockEditorController = new BlockEditorController(this.project, hiddenWorkspace);
 
     /**
      * Controller object which is currently controlling the developer's application.

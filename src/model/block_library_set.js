@@ -30,7 +30,7 @@ class BlockLibrarySet extends ResourceSet {
    * @constructor
    */
   constructor(librarySetName, projectName) {
-    super(librarySetName, projectName, BlockLibrary);
+    super(librarySetName, projectName);
   }
 
   /**
@@ -63,6 +63,7 @@ class BlockLibrarySet extends ResourceSet {
    * @return {Array.<string>} The names of all libraries the set contains.
    */
   getLibraryNames() {
+    // TODO: Alphabetize library names in array.
     return super.getResourceNames();
   }
 

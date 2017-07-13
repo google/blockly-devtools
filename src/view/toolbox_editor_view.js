@@ -47,7 +47,7 @@ class ToolboxEditorView {
           snap: true
         },
         media: 'media/',
-        toolbox: DevToolsToolboxes.toolboxEditor('')
+        toolbox: DevToolsToolboxes.toolboxEditor(null)
       });
 
     /**
@@ -139,6 +139,14 @@ class ToolboxEditorView {
      * TODO: Move in from wfactory_model.js
      */
     throw 'Unimplemented: displayRemoveShadow_()';
+  }
+
+  /**
+   * Updates the toolbox used in the toolbox editor workspace.
+   * @param {!string} toolbox String representation of toolbox XML to display.
+   */
+  updateEditorToolbox(toolbox) {
+    this.editorWorkspace.updateToolbox(toolbox);
   }
 
   /**
