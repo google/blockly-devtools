@@ -27,14 +27,37 @@
 goog.provide('DevToolsToolboxes');
 
 /**
+ * Creates category XML with library name and category color of a given block
+ * library. Helper function for DevToolsToolboxes.toolboxEditor(). Used to display
+ * user-created block libraries as categories in toolbox and workspace editors.
+ *
+ * @param {string} libraryName Name of library.
+ * @param {string} libraryXml XML string of the blocks in a given library.
+ * @return {string} XML string of category which contains the blocks in the library.
+ */
+DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
+  return `<category name="${libraryName}" colour="260">
+    ${libraryXml}
+  </category>
+  `;
+};
+
+/**
  * Generates XML string for toolbox editor. Used in ToolboxView and WorkspaceView.
  *
- * @param {string} blockLibraryXml String representation of XML of user-defined
- *     block library. Inserted into blockLibrary category of toolbox XML.
+ * @param {!Array.<Object>} blockLibraryList Array of associative two-element arrays
+ *     in which the first element is the block library name and the second is
+ *     its XML string. Inserted into blockLibrary category of toolbox XML.
  * @return {string} String representation of XML for toolbox used in creating
  *     custom Toolboxes and WorkspaceContents.
  */
-DevToolsToolboxes.toolboxEditor = function(blockLibraryXml) {
+DevToolsToolboxes.toolboxEditor = function(blockLibraryList) {
+  const blockLibraryXmls = '';
+  blockLibraryList.forEach((blockLibName) => {
+    blockLibraryXmls += DevToolsToolboxes.createCategoryElement_(
+        blockLibName, blockLibraryMap[blockLibName]);
+  });
+
   return `
 <xml id="workspacefactory_toolbox" class="toolbox">
   <category name="Logic" colour="210">
@@ -332,12 +355,9 @@ DevToolsToolboxes.toolboxEditor = function(blockLibraryXml) {
   <category name="Variables" colour="330" custom="VARIABLE"></category>
   <category name="Functions" colour="290" custom="PROCEDURE"></category>
   <sep></sep>
-  <category name="Block Library" colour="260" id="blockLibCategory">
-    ${blockLibraryXml}
-  </category>
+  ${blockLibraryXmls}
 </xml>
 `;
-  // TODO: Allow adding multiple libraries.
 };
 
 /**

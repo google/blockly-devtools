@@ -82,6 +82,7 @@
    * @return {Array.<string>} The names of all resources the set contains.
    */
   getResourceNames() {
+    // TODO: Alphabetize resources.
     throw 'unimplemented: getResourceNames';
   }
 
