@@ -167,10 +167,6 @@ class AppView {
      */
     this.selectedTab = AppController2.BLOCK_FACTORY;
 
-    // Create div elements to insert hidden workspaces used in I/O. Hidden
-    // workspaces stored in EditorController.
-    this.insertHiddenWorkspace_();
-
     /**
      * Keeps track of which view is currently active.
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
@@ -202,18 +198,6 @@ class AppView {
     workspacePreview.id = 'workspacePreview';
     workspacePreview.style.display = 'none';
     document.body.appendChild(workspacePreview);
-  }
-
-  /**
-   * Creates invisible/hidden Blockly workspace that is used as a tool in
-   * generating XML of blocks.
-   * @private
-   */
-  insertHiddenWorkspace_() {
-    const hiddenDiv = document.createElement('div');
-    hiddenDiv.id = 'hiddenWorkspace';
-    hiddenDiv.style.display = 'none';
-    document.body.appendChild(hiddenDiv);
   }
 
   /**

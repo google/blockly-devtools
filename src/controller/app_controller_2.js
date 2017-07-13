@@ -64,6 +64,10 @@ class AppController2 {
      */
     this.project = new Project('');
 
+    // Create div elements to insert hidden workspaces used in I/O. Hidden
+    // workspaces stored in EditorController.
+    this.insertHiddenWorkspace_();
+
     /**
      * Hidden Blockly workspace used to generate Blockly objects by using
      * core Blockly functions.
@@ -288,6 +292,18 @@ class AppController2 {
           this.editorController.blockEditorController.view.blockDefinitionWorkspace);
       });
     this.editorController.blockEditorController.view.disableEnableLink();
+  }
+
+  /**
+   * Creates invisible/hidden Blockly workspace that is used as a tool in
+   * generating XML of blocks.
+   * @private
+   */
+  insertHiddenWorkspace_() {
+    const hiddenDiv = document.createElement('div');
+    hiddenDiv.id = 'hiddenWorkspace';
+    hiddenDiv.style.display = 'none';
+    document.body.appendChild(hiddenDiv);
   }
 
   /**
