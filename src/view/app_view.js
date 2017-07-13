@@ -50,6 +50,9 @@ class AppView {
      */
     this.win = nw.Window.get();
 
+    // Inserts divs with proper IDs for all Blockly Workspaces used in DevTools.
+    this.insertWorkspaces_();
+
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
     const menuTree = [
       ['File', [
@@ -139,16 +142,31 @@ class AppView {
      * @type {!WorkspaceEditorView}
      */
     this.workspaceEditorView = new WorkspaceEditorView();
-
-    // Inserts divs with proper IDs for all Blockly Workspaces used in DevTools.
-    this.insertWorkspaces_();
   }
 
   /**
-   *
+   * Inserts divs with workspace IDs into DOM.
    */
   insertWorkspaces_() {
+    const toolboxDiv = document.createElement('div');
+    toolboxDiv.id = 'toolboxDiv';
+    toolboxDiv.style.display = 'none';
+    document.body.appendChild(toolboxDiv);
 
+    const toolboxPreview = document.createElement('div');
+    toolboxPreview.id = 'toolboxPreview';
+    toolboxPreview.style.display = 'none';
+    document.body.appendChild(toolboxPreview);
+
+    const wContentsDiv = document.createElement('div');
+    wContentsDiv.id = 'wContentsDiv';
+    wContentsDiv.style.display = 'none';
+    document.body.appendChild(wContentsDiv);
+
+    const workspacePreview = document.createElement('div');
+    workspacePreview.id = 'workspacePreview';
+    workspacePreview.style.display = 'none';
+    document.body.appendChild(workspacePreview);
   }
 
   /**
