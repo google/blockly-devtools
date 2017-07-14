@@ -354,7 +354,7 @@ class Project extends Resource {
   workspaceContentsSetJson() {
     const workspaceContentsSetJson = [
       {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
-      {'children': this.workspaceContentsSetJson()}
+      {'children': this.workspaceContentsSet.getTreeJson()}
     ];
     return workspaceContentsSetJson;
   }
@@ -366,7 +366,7 @@ class Project extends Resource {
   workspaceConfigSetJson() {
     const workspaceConfigSetJson = [
       {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
-      {'children': this.workspaceConfigSetJson()}
+      {'children': this.workspaceConfigSet.getTreeJson()}
     ];
     return workspaceConfigSetJson;
   }
