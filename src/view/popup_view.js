@@ -76,13 +76,13 @@ class PopupView {
    */
   hide() {
     $('.popup').html('');
-    $('.popup').css('display', 'none');
+    $('.popup').hide();
   }
 
   /**
    * Shows window of popup view.
    */
   show() {
-    $('.popup').css('display', 'inline');
+    $('.popup').show();
   }
 }

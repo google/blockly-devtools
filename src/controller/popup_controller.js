@@ -29,9 +29,6 @@
 
 goog.provide('PopupController');
 
-goog.require('NewBlockPopupView');
-goog.require('ProjectController');
-
 class PopupController {
   /**
    * @constructor

@@ -29,7 +29,6 @@
 goog.provide('AppView');
 
 goog.require('BlockDefinition');
-goog.require('BlockEditorView');
 goog.require('NavigationTree');
 goog.require('FactoryUtils');
 goog.require('goog.dom.classlist');
