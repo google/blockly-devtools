@@ -127,6 +127,7 @@ class Project extends Resource {
    * @param {string} blockLibraryName Name of the BlockLibrary to add to the
    *     project.
    */
+   //TODO #104: change param to actual object
   addBlockLibrary(blockLibraryName) {
     this.librarySet.addLibrary(blockLibraryName);
   }
@@ -136,6 +137,7 @@ class Project extends Resource {
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
    */
+  //TODO #104: change param to actual object
   addToolbox(toolboxName) {
     this.toolboxSet.addToolbox(toolboxName);
   }
@@ -145,6 +147,7 @@ class Project extends Resource {
    * @param {string} workspaceContentsName Name of the WorkspaceContents to
    *     add to the project.
    */
+  //TODO #104: change param to actual object
   addWorkspaceContents(workspaceContentsName) {
     this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
   }
@@ -154,6 +157,7 @@ class Project extends Resource {
    * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
    *     to add to the project.
    */
+  //TODO #104: change param to actual object
   addWorkspaceConfiguration(workspaceConfigName) {
     this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
   }

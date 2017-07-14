@@ -44,6 +44,7 @@ class ToolboxSet extends ResourceSet {
    * Adds a toolbox to the set.
    * @param {string} toolboxName The name of the toolbox to be added.
    */
+  //TODO #104: change param to actual object
   addToolbox(toolboxName) {
     super.addResource(toolboxName);
   }

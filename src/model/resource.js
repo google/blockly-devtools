@@ -92,8 +92,8 @@ class Resource {
    */
   makeTreeJsonFromArray(nameArray) {
     let treeJson;
-    const iterationIndex = 1;
-    const finalIndex = 0;
+    let iterationIndex = 1;
+    let finalIndex = 0;
     let toAdd;
     let text;
     while (nameArray[iterationIndex]) {

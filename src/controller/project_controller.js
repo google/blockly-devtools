@@ -38,7 +38,7 @@ class ProjectController {
    * ProjectController class
    * @param {!Project} project The project from which the data to be managed
    *     comes from.
-   * @param {!JSTree} tree The tree which represents that project, to be updated
+   * @param {!NavigationTree} tree The tree which represents that project, to be updated
    *     by the controller alongside it.
    * @constructor
    */
@@ -83,50 +83,106 @@ class ProjectController {
   }
 
   /**
-   * Adds new toolbox to this.project's toolbox set.
+   * Creates and adds new toolbox to this.project's toolbox set.
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
+   *
+   * @return {!Toolbox} The new toolbox added to the project.
    */
-  //TODO #100: have component addition return object or null and have tree addition depend on it
-  addToolbox(toolboxName) {
-    this.project.addToolbox(toolboxName);
-    this.tree.addComponentNode('Toolbox', toolboxName);
+  createNewToolbox(toolboxName) {
+    //TODO #105: check for valid name
+    const toolbox = new Toolbox(toolboxName);
+    this.addToolbox(toolbox);
+    return toolbox;
   }
 
   /**
-   * Adds new WorkspaceContents to this.project's workspace contents set.
+   * Creates and adds new WorkspaceContents to the workspace contents set.
    *
    * @param {string} workspaceContentsName Name of the WorkspaceContents to
    *     add to the project.
+   *
+   * @return {!WorkspaceContents} The new workspace contents added to the project.
    */
-  //TODO #100: have component addition return object or null and have tree addition depend on it
-  addWorkspaceContents(workspaceContentsName) {
-    this.project.addWorkspaceContents(workspaceContentsName);
-    this.tree.addComponentNode('WorkspaceContents', workspaceContentsName);
+  createWorkspaceContents(workspaceContentsName) {
+    //TODO #105: check for valid name
+    const workspaceContents = new WorkspaceContents(workspaceContentsName);
+    this.addWorkspaceContents(workspaceContents);
+    return workspaceContents;
   }
 
   /**
-   * Adds new WorkspaceConfiguration to this.project.
+   * Creates and adds new WorkspaceConfiguration to this.project.
    *
    * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
    *     to add to the project.
+   *
+   * @return {!WorkspaceConfiguration} The new workspace configuration added to
+   *     the project.
    */
-  //TODO #100: have component addition return object or null and have tree addition depend on it
-  addWorkspaceConfiguration(workspaceConfigName) {
-    this.project.addWorkspaceConfiguration(workspaceConfigName);
-    this.tree.addComponentNode('WorkspaceConfiguration', workspaceConfigName);
+  createWorkspaceConfiguration(workspaceConfigName) {
+    //TODO #105: check for valid name
+    const workspaceConfig = new WorkspaceConfiguration(workspaceConfigName);
+    this.addWorkspaceConfiguration(workspaceConfig);
+    return workspaceConfig;
   }
 
   /**
-   * Adds new BlockLibrary to this.project.
+   * Creates and adds new BlockLibrary to this.project.
    *
    * @param {string} blockLibraryName Name of the BlockLibrary to add to the
    *     project.
+   *
+   * @return {!BlockLibrary} The new library added to the project.
    */
-  //TODO #100: have component addition return object or null and have tree addition depend on it
-  addBlockLibrary(blockLibraryName) {
-    this.project.addBlockLibrary(blockLibraryName);
-    this.tree.addComponentNode('BlockLibrary', blockLibraryName);
+
+  createBlockLibrary(blockLibraryName) {
+    //TODO #105: check for valid name
+    const blockLibrary = new BlockLibrary(blockLibraryName);
+    this.addBlockLibrary(blockLibrary);
+    return blockLibrary;
+  }
+
+  /**
+   * Adds toolbox to this.project's toolbox set.
+   *
+   * @param {!Toolbox} toolbox Toolbox object to add to project
+   */
+  addToolbox(toolbox) {
+    this.project.addToolbox(toolbox);
+    this.tree.addComponentNode('Toolbox', toolbox);
+  }
+
+  /**
+   * Adds WorkspaceContents to this.project's workspace contents set.
+   *
+   * @param {!WorkspaceContents} workspaceContents The WorkspaceContents to
+   *     add to the project.
+   */
+  addWorkspaceContents(workspaceContents) {
+    this.project.addWorkspaceContents(workspaceContents);
+    this.tree.addComponentNode('WorkspaceContents', workspaceContents);
+  }
+
+  /**
+   * Adds WorkspaceConfiguration to this.project.
+   *
+   * @param {!WorkspaceConfiguration} workspaceConfig The WorkspaceConfiguration
+   *     to add to the project.
+   */
+  addWorkspaceConfiguration(workspaceConfig) {
+    this.project.addWorkspaceConfiguration(workspaceConfig);
+    this.tree.addComponentNode('WorkspaceConfiguration', workspaceConfig);
+  }
+
+  /**
+   * Adds BlockLibrary to this.project.
+   *
+   * @param {!BlockLibrary} blockLibrary The BlockLibrary to add to the project.
+   */
+  addBlockLibrary(blockLibrary) {
+    this.project.addBlockLibrary(blockLibrary);
+    this.tree.addComponentNode('BlockLibrary', blockLibrary);
   }
 
   /**

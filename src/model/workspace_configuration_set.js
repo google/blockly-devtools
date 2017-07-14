@@ -45,6 +45,7 @@ class WorkspaceConfigurationSet extends ResourceSet {
    * @param {string} workspaceConfigurationName The name of the workspace
    *     configuration to be added.
    */
+  //TODO #104: change param to actual object
   addWorkspaceConfiguration(workspaceConfigurationName) {
     super.addResource(workspaceConfigurationName);
   }

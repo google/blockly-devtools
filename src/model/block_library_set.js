@@ -90,6 +90,7 @@ class BlockLibrarySet extends ResourceSet {
    * @param {!BlockDefinition} block The block definition to add to the existing
    *     or new library.
    */
+  //TODO #104: change param to actual object
    addBlockToLibrary(libraryName, block) {
     if (this.has(libraryName)) {
       this.getLibrary(libraryName).addBlock(block);

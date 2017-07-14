@@ -92,27 +92,6 @@ goog.require('Resource');
   }
 
   /**
-   * Returns whether or not a given name can be added to the resource set.
-   * @param name The name to be added.
-   * @return {Boolean} Whether or not the name can be added.
-   */
-  isValidName(name) {
-    throw 'unimplemented: isValidName';
-  }
-
-  /**
-   * Returns whether or not a resource's type prohibits it from being added to
-   *     the set.
-   * @param {!Resource} resource The resource to be added.
-   */
-  isValidType(resource) {
-    /*
-     * Most likely will just return resource instanceof resourceConstructor.
-     */
-    throw 'unimplemented: isValidType';
-  }
-
-  /**
    * Returns whether or not the resource set is empty.
    * @return {boolean} Whether or not the set is empty.
    */

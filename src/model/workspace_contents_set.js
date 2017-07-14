@@ -45,6 +45,7 @@ class WorkspaceContentsSet extends ResourceSet {
    * @param {string} workspaceContentsName The name of the workspace contents to
    *     add to the project.
    */
+  //TODO #104: change param to actual object
   addWorkspaceContents(workspaceContentsName) {
     super.addResource(workspaceContentsName);
   }
