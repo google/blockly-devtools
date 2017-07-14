@@ -62,21 +62,21 @@
   appendScript('src/model/workspace_contents_set.js');
   appendScript('src/model/project.js');
 
-  appendScript('src/controller/block_editor_controller.js');
-  appendScript('src/controller/popup_controller.js');
-  appendScript('src/controller/toolbox_controller.js');
-  appendScript('src/controller/workspace_controller.js');
-  appendScript('src/controller/project_controller.js');
-  appendScript('src/controller/editor_controller.js');
-  appendScript('src/new_block_dialog_controller.js');
-  appendScript('src/controller/app_controller_2.js');
-
   appendScript('src/view/block_editor_view.js');
   appendScript('src/view/app_view.js');
   appendScript('src/new_block_dialog_view.js');
   appendScript('src/view/toolbox_editor_view.js');
   appendScript('src/view/workspace_editor_view.js');
   appendScript('node_modules/jstree/dist/jstree.min.js');
+
+  appendScript('src/controller/block_editor_controller.js');
+  appendScript('src/controller/toolbox_controller.js');
+  appendScript('src/controller/workspace_controller.js');
+  appendScript('src/controller/project_controller.js');
+  appendScript('src/controller/popup_controller.js');
+  appendScript('src/controller/editor_controller.js');
+  appendScript('src/new_block_dialog_controller.js');
+  appendScript('src/controller/app_controller_2.js');
 
   appendStylesheet('src/factory.css');
   appendStylesheet('node_modules/jstree/dist/themes/default/style.min.css');
