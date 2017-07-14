@@ -57,13 +57,15 @@ class AppView {
      * The block editor view for the session.
      * @type {!BlockEditorView}
      */
-    this.blockEditorView = new BlockEditorView(new BlockDefinition('block_type'));
+    this.blockEditorView =
+        this.appController.editorController.blockEditorController.view;
 
     /**
      * The toolbox view for the session.
      * @type {!ToolboxEditorView}
      */
-    this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
+    this.toolboxEditorView =
+        this.appController.editorController.toolboxController.view;
 
     /**
      * The workspace view for the session.

@@ -228,7 +228,7 @@ class Project extends Resource {
      * - has(blockType)
      *
      */
-    throw 'unimplemented: has';
+    console.warn('Unimplemented: has()');
   }
 
   /**

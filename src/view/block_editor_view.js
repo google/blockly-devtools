@@ -37,6 +37,8 @@ class BlockEditorView {
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
+
+    console.log('Inject for editor!');
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}

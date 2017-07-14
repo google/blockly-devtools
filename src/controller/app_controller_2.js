@@ -42,6 +42,8 @@ goog.require('ProjectController');
 
 'use strict';
 
+var Emitter = require('component-emitter');
+
 // TODO(#44): Rename to AppController once refactor is finished. Temporarily named
 // to AppController2 to avoid overlapping namespaces with current AppController,
 // which will be refactored into this (and other) files.
@@ -361,8 +363,8 @@ class AppController2 {
    */
   createPopup(popupMode) {
     if (popupMode === PopupController.NEW_BLOCK) {
-      this.popupController = new NewBlockPopupController(this);
       this.popupController.exit();
+      this.popupController = new NewBlockPopupController(this);
       this.popupController.show();
     } else if (popupMode === PopupController.PREVIEW) {
       // TODO: Preview popup view

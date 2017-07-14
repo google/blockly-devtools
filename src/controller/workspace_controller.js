@@ -59,7 +59,8 @@ class WorkspaceController {
      * WorkspaceEditorView associated with this instance of WorkspaceController.
      * @type {!WorkspaceView}
      */
-    this.view = new WorkspaceEditorView(this.currentWorkspaceContents);
+    this.view = new WorkspaceEditorView(
+        this.currentWorkspaceContents, this.currentWorkspaceConfig);
 
     /**
      * True if key events are enabled. False otherwise. Used to enable/disable
