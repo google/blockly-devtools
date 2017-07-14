@@ -31,6 +31,13 @@ goog.provide('WorkspaceEditorView');
  */
 
 class WorkspaceEditorView {
+  /**
+   * @constructor
+   * @param {!WorkspaceContents} workspaceContents WorkspaceContents currently
+   *     being edited by the view.
+   * @param {!WorkspaceConfig} workspaceConfig WorkspaceConfiguration currently
+   *     being edited by the view.
+   */
   constructor(workspaceContents, workspaceConfig) {
     /**
      * WorkspaceContents associated with this instance of WorkspaceView.
@@ -86,7 +93,7 @@ class WorkspaceEditorView {
      * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
      *       (Also moved into toolbox_editor_view.js)
      */
-     throw 'Unimplemented: initClickHandlers_()';
+     console.warn('Unimplemented: initClickHandlers_()');
   }
 
   /**
@@ -98,7 +105,7 @@ class WorkspaceEditorView {
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
      *       (Also moved into toolbox_editor_view.js)
      */
-    throw 'Unimplemented: initEventListeners_()';
+    console.warn('Unimplemented: initEventListeners_()');
   }
 
   /**
@@ -110,6 +117,7 @@ class WorkspaceEditorView {
     /*
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryOptionsListeners_()
      */
+    console.warn('Unimplemented: initConfigListeners_()');
   }
 
   /**
@@ -119,7 +127,7 @@ class WorkspaceEditorView {
     /*
      * TODO: Move in from wfactory_view.js:setBaseOptions()
      */
-    throw 'Unimplemented: resetConfigs()';
+    console.warn('Unimplemented: resetConfigs()');
   }
 
   /**

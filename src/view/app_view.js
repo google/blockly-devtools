@@ -53,9 +53,6 @@ class AppView {
      */
     this.win = nw.Window.get();
 
-    // Inserts divs with proper IDs for all Blockly Workspaces used in DevTools.
-    this.insertWorkspaces_();
-
     /**
      * The block editor view for the session.
      * @type {!BlockEditorView}
@@ -172,32 +169,6 @@ class AppView {
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
     this.currentView = this.blockEditorView;
-  }
-
-  /**
-   * Inserts divs with workspace IDs into DOM.
-   * TEMPORARY
-   */
-  insertWorkspaces_() {
-    const toolboxDiv = document.createElement('div');
-    toolboxDiv.id = 'toolboxDiv';
-    toolboxDiv.style.display = 'none';
-    document.body.appendChild(toolboxDiv);
-
-    const toolboxPreview = document.createElement('div');
-    toolboxPreview.id = 'toolboxPreview';
-    toolboxPreview.style.display = 'none';
-    document.body.appendChild(toolboxPreview);
-
-    const wContentsDiv = document.createElement('div');
-    wContentsDiv.id = 'wContentsDiv';
-    wContentsDiv.style.display = 'none';
-    document.body.appendChild(wContentsDiv);
-
-    const workspacePreview = document.createElement('div');
-    workspacePreview.id = 'workspacePreview';
-    workspacePreview.style.display = 'none';
-    document.body.appendChild(workspacePreview);
   }
 
   /**

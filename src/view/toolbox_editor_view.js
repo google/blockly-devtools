@@ -33,6 +33,10 @@ goog.require('FactoryUtils');
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class ToolboxEditorView {
+  /**
+   * @constructor
+   * @param {!Toolbox} toolbox Toolbox that is being edited by the view.
+   */
   constructor(toolbox) {
     /**
      * Toolbox associated with this instance of ToolboxView.

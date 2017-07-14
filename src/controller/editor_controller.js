@@ -30,6 +30,12 @@
 goog.provide('EditorController');
 
 class EditorController {
+  /**
+   * @constructor
+   * @param {!Project} project Project object associated with this controller.
+   * @param {!Blockly.Workspace} hiddenWorkspace Invisible Blockly Workspace
+   *     used to generate Blockly objects for import/export.
+   */
   constructor(project, hiddenWorkspace) {
     /**
      * Project object whose components are controlled by EditorController.
@@ -104,7 +110,7 @@ class EditorController {
       return;
     }
     const blocks = this.currentEditor.view.editorWorkspace.getAllBlocks();
-    for (let i = 0, block; block = blocks[i]; i++) {
+    for (let block of blocks) {
       if (!this.isDefinedBlock(block)) {
         block.setWarningText(block.type + ' is not defined (it is not a standard '
             + 'block, \nin your block library, or an imported block)');

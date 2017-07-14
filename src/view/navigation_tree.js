@@ -22,6 +22,8 @@
 
 goog.provide('NavigationTree');
 
+goog.require('Project');
+
 /**
  * @class NavigationTree manages the tree user interface.
  *
