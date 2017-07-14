@@ -75,6 +75,7 @@ class WorkspaceConfigurationSet extends ResourceSet {
    * @param {string} workspaceConfigurationName The name of the workspace
    *     configuration to be reset.
    */
+  //TODO #103
   resetWorkspaceConfiguration(workspaceConfigurationName) {
     throw 'unimplemented: resetWorkspaceConfiguration';
   }

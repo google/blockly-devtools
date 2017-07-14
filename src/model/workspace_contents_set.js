@@ -91,6 +91,7 @@ class WorkspaceContentsSet extends ResourceSet {
    * @param {string} workspaceContentsName The name of the workspace contents
    *     to clear.
    */
+  //TODO #103
   clearWorkspaceContents(workspaceContentsName) {
     throw "unimplemented: clearWorkspaceContents";
   }

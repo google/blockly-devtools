@@ -88,6 +88,7 @@ class ToolboxSet extends ResourceSet {
    * Clears a toolbox in the set.
    * @param {string} toolboxName The name of the toolbox to be cleared.
    */
+  //TODO #103
   clearToolbox(toolboxName) {
     throw "unimplemented: clearToolbox";
   }
