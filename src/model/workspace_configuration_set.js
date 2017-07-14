@@ -78,4 +78,16 @@ class WorkspaceConfigurationSet extends ResourceSet {
   resetWorkspaceConfiguration(workspaceConfigurationName) {
     throw 'unimplemented: resetWorkspaceConfiguration';
   }
+
+  /**
+   * Produces the JSON needed to organize workspace configurations in the tree.
+   * @return {!Object} The JSON for the tree's workspace configuration section.
+   */
+  getTreeJson() {
+    const workspaceConfigSetJson = [
+      {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
+      {'children': super.getTreeJson()}
+    ];
+    return workspaceConfigSetJson;
+  }
 }

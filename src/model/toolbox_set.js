@@ -91,4 +91,16 @@ class ToolboxSet extends ResourceSet {
   clearToolbox(toolboxName) {
     throw "unimplemented: clearToolbox";
   }
+
+  /**
+   * Produces the JSON needed to organize toolboxes in the tree.
+   * @return {!Object} The JSON for the tree's toolbox section.
+   */
+  getTreeJson() {
+    const toolboxSetJson = [
+      {'id': 'Toolbox', 'text': 'Toolboxes'},
+      {'children': super.getTreeJson()}
+    ];
+    return toolboxSetJson;
+  }
 }

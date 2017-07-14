@@ -145,4 +145,16 @@ class BlockLibrarySet extends ResourceSet {
   hasBlock(blockType) {
     throw 'unimplemented: hasBlock';
   }
+
+  /**
+   * Produces the JSON needed to organize libraries in the tree.
+   * @return {!Object} The JSON for the tree's library section.
+   */
+  getTreeJson() {
+    const librarySetJson = [
+      {'id': 'BlockLibrary', 'text': 'Libraries'},
+      {'children': super.getTreeJson()}
+    ];
+    return librarySetJson;
+  }
 }

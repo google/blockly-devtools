@@ -324,53 +324,6 @@ class Project extends Resource {
   }
 
   /**
-   * Produces the JSON needed to organize libraries in the tree.
-   * @return {!Object} The JSON for the tree's library section.
-   */
-  librarySetJson() {
-    const librarySetJson = [
-      {'id': 'BlockLibrary', 'text': 'Libraries'},
-      {'children': this.librarySet.getTreeJson()}
-    ];
-    return librarySetJson;
-  }
-
-  /**
-   * Produces the JSON needed to organize toolboxes in the tree.
-   * @return {!Object} The JSON for the tree's toolbox section.
-   */
-  toolboxSetJson() {
-    const toolboxSetJson = [
-      {'id': 'Toolbox', 'text': 'Toolboxes'},
-      {'children': this.toolboxSet.getTreeJson()}
-    ];
-    return toolboxSetJson;
-  }
-
-  /**
-   * Produces the JSON needed to organize workspace contents in the tree.
-   * @return {!Object} The JSON for the tree's workspace contents section.
-   */
-  workspaceContentsSetJson() {
-    const workspaceContentsSetJson = [
-      {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
-      {'children': this.workspaceContentsSet.getTreeJson()}
-    ];
-    return workspaceContentsSetJson;
-  }
-
-  /**
-   * Produces the JSON needed to organize workspace configurations in the tree.
-   * @return {!Object} The JSON for the tree's workspace configuration section.
-   */
-  workspaceConfigSetJson() {
-    const workspaceConfigSetJson = [
-      {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
-      {'children': this.workspaceConfigSet.getTreeJson()}
-    ];
-    return workspaceConfigSetJson;
-  }
-  /**
    * Gets the JSON object necessary to represent the project in the navigation
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the project.
@@ -378,8 +331,8 @@ class Project extends Resource {
   getTreeJson() {
     const projectTree = [
       {'id': this.name, 'text': this.name},
-      {'children': [ this.librarySetJson(), this.toolboxSetJson(),
-        this.workspaceContentsSetJson(), this.workspaceConfigSetJson()]}
+      {'children': [ this.librarySet.getJson(), this.toolboxSet.getJson(),
+        this.workspaceContentsSet.getJson(), this.workspaceConfigSet.getJson()]}
     ];
     return projectTree;
   }

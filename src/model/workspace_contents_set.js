@@ -94,4 +94,16 @@ class WorkspaceContentsSet extends ResourceSet {
   clearWorkspaceContents(workspaceContentsName) {
     throw "unimplemented: clearWorkspaceContents";
   }
+
+  /**
+   * Produces the JSON needed to organize workspace contents in the tree.
+   * @return {!Object} The JSON for the tree's workspace contents section.
+   */
+  getTreeJson() {
+    const workspaceContentsSetJson = [
+      {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
+      {'children': super.getTreeJson()}
+    ];
+    return workspaceContentsSetJson;
+  }
 }
