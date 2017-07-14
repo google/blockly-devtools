@@ -32,18 +32,18 @@ goog.provide('PopupController');
 goog.require('ProjectController');
 
 class PopupController {
-  constructor(projectController) {
+  constructor(appController) {
     /**
-     * ProjectController associated with currently edited project. Used to make
-     * changes to project from information from popup.
-     * @type {!ProjectController}
+     * AppController that controls the currently open application. Necessary to
+     * make changes to project or application from information from popup.
+     * @type {!AppController}
      */
-    this.projectController = projectController;
+    this.appController = appController;
 
     /**
      * Popup view that is currently visible in application. Default is null when
      * no popup is open. Either null, PreviewView, NewBlockPopupView, or NewConfigView.
-     * @type {!Object}
+     * @type {?Object}
      */
     this.view = null;
   }
@@ -79,26 +79,19 @@ class PopupController {
   }
 
   /**
-   * Exits popup. Resets view to be null.
+   * Exits popup. Resets view reference to be null.
    */
   exit() {
-    // TODO: Implement.
+    if (this.view) {
+      this.view.hide();
+      this.view = null;
+    }
   }
 
   /**
    * Sets and generates view, which shows popup to user.
-   * @param {string} popupMode Mode of popup which will be generated.
    */
-  show(popupMode) {
-    if (popupMode === PopupController.NEW_BLOCK) {
-      this.view = new NewBlockPopupView(this.projectController.project);
-      this.view.show();
-    } else if (popupMode === PopupController.PREVIEW) {
-      // TODO: Preview popup view
-    } else if (popupMode === PopupController.NEW_CONFIG) {
-      // TODO: New config popup view
-    } else {
-      throw new Error('Popup type ' + popupMode + ' not found.');
-    }
+  show() {
+    this.view.show();
   }
 }

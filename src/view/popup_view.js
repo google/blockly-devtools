@@ -34,9 +34,16 @@ var Emitter = require('component-emitter');
 class PopupView {
   /**
    * @constructor
-   * @param {!Project} project Project which is currently being edited by app.
+   * @param {!PopupController} controller PopupController currently managing this
+   *     view.
    */
-  constructor(project) {
+  constructor(controller) {
+    /**
+     * PopupController that manages the currently open popup.
+     * @type {!PopupController}
+     */
+    this.controller = controller;
+
     /**
      * Contents of the popup which will be presented.
      * @type {string}
@@ -63,6 +70,8 @@ class PopupView {
   ${html}
 </div>
 `;
+    $('.popup').html(this.htmlContents);
+    return this.htmlContents;
   }
 
   /**
@@ -77,7 +86,6 @@ class PopupView {
    * Shows window of popup view.
    */
   show() {
-    $('.popup').html(this.htmlContents);
     $('.popup').css('display', 'inline');
   }
 }

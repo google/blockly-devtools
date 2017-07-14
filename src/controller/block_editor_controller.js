@@ -68,21 +68,6 @@ class BlockEditorController {
     this.hiddenWorkspace = hiddenWorkspace;
   }
 
-  /*
-   * The starting XML for the Block Editor main workspace. Contains the
-   * unmovable, undeletable factory_base block. Allows user input to change XML
-   * starter block.
-   *
-   * @param {string} inputType Type of input (statement, value, dummy).
-   * @param {string} blockTypeName Name of block, given by user.
-   * @param {string} opt_blockStarterText Starter text to place on block, given by
-   *     user (optional).
-  */
-  buildStartXml(inputType, blockTypeName, opt_blockStarterText) {
-    // TODO: Move in from factory.js
-    throw 'Unimplemented: buildStartXml()';
-  }
-
   /**
    * Change the language code format.
    */

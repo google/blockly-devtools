@@ -76,6 +76,7 @@
   appendScript('src/controller/workspace_controller.js');
   appendScript('src/controller/project_controller.js');
   appendScript('src/controller/popup_controller.js');
+  appendScript('src/controller/new_block_popup_controller.js');
   appendScript('src/controller/editor_controller.js');
   appendScript('src/new_block_dialog_controller.js');
   appendScript('src/controller/app_controller_2.js');

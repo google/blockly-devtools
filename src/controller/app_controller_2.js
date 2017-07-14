@@ -352,10 +352,20 @@ class AppController2 {
    * Generates popup. Param must be either this.popupController.MODE.PREVIEW,
    * this.popupController.MODE.NEW_BLOCK, or this.popupController.MODE.NEW_CONFIG.
    *
-   * @param {string} popupType Type of popup.
+   * @param {string} popupMode Type of popup to be shown.
    */
-  createPopup(popupType) {
-    this.popupController.show(popupType);
+  createPopup(popupMode) {
+    if (popupMode === PopupController.NEW_BLOCK) {
+      this.popupController = new NewBlockPopupController(this);
+      this.popupController.exit();
+      this.popupController.show();
+    } else if (popupMode === PopupController.PREVIEW) {
+      // TODO: Preview popup view
+    } else if (popupMode === PopupController.NEW_CONFIG) {
+      // TODO: New config popup view
+    } else {
+      throw new Error('Popup type ' + popupMode + ' not found.');
+    }
   }
 
   /**

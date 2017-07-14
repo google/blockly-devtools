@@ -33,17 +33,11 @@ goog.require('PopupView');
 class NewBlockPopupView extends PopupView {
   /**
    * @constructor
-   * @param {!Project} project Project which is currently being edited in app.
+   * @param {!PopupController} controller PopupController currently managing this
+   *     view.
    */
-  constructor(project) {
-    super();
-
-    /**
-     * Project currently being edited. May need information from project to make
-     * view-based decisions within the popup.
-     * @type {!Project}
-     */
-    this.project = project;
+  constructor(controller) {
+    super(controller);
 
     /**
      * HTML contents of what is inside popup window. Does not include the popup
@@ -77,6 +71,7 @@ Dummy input:<br>
 <img src="media/input_dummy.png" width="30%" height="auto"/><br>
 `;
 
+    // Stores HTML to display new block popup.
     super.injectPopupContents(this.htmlContents);
   }
 
@@ -85,16 +80,10 @@ Dummy input:<br>
    * @private
    */
   initListeners_() {
+    console.log('Init called!');
     $('#exit').click(() => {
       console.log('Exit clicked!');
-      // If there are no blocks in any library
-      // const noBlocks = this.project.getBlockTypes().length == 0;
-      const noBlocks = true;
-      if (noBlocks) {
-        console.log('First load');
-        BlockFactory.showStarterBlock(this.inputType, this.blockText, this.blockName);
-      }
-      this.hide();
+      this.emit('exit', this);
     });
 
     $('#submit_block').click((event) => {
@@ -105,7 +94,7 @@ Dummy input:<br>
       this.inputType = $('input[name="input_type"]:checked').val();
       this.blockText = $('#block_text').val();
 
-      this.emit('exit', this);
+      this.emit('submit', this);
 
       this.hide();
     });
