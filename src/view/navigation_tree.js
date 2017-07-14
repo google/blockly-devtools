@@ -169,9 +169,9 @@ class NavigationTree {
    *     or WorkspaceConfiguration) to the navigation tree.
    * @param {string} prefix The prefix of the node's id.
    * @param {string} componentName The name of the component to add.
-   * @param {string} parent The parent of the new node.
+   * @param {string} parentName The name of the parent of the new node.
    */
-  addComponentNode(prefix, componentName, parent) {
+  addComponentNode(prefix, componentName, parentName) {
     $('#navigationTree').jstree().create_node(parent,
       {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
 
