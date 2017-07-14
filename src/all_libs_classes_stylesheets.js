@@ -60,9 +60,11 @@
   appendScript('src/model/workspace_configuration_set.js');
   appendScript('src/model/workspace_contents_set.js');
   appendScript('src/model/project.js');
-  appendScript('src/view/navigation_tree.js');
 
+  appendScript('src/view/navigation_tree.js');
   appendScript('src/view/block_editor_view.js');
+  appendScript('src/view/popup_view.js');
+  appendScript('src/view/new_block_popup_view.js');
   appendScript('src/view/app_view.js');
   appendScript('src/new_block_dialog_view.js');
   appendScript('src/view/toolbox_editor_view.js');
@@ -74,6 +76,7 @@
   appendScript('src/controller/workspace_controller.js');
   appendScript('src/controller/project_controller.js');
   appendScript('src/controller/popup_controller.js');
+  appendScript('src/controller/new_block_popup_controller.js');
   appendScript('src/controller/editor_controller.js');
   appendScript('src/new_block_dialog_controller.js');
   appendScript('src/controller/app_controller_2.js');

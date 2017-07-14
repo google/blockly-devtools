@@ -28,16 +28,22 @@
  */
 
 goog.provide('BlockEditorView');
-
 goog.require('BlockDefinition');
 
 class BlockEditorView {
+  /**
+   * @constructor
+   * @param {BlockDefinition} blockDefinition BlockDefinition object currently
+   *      shown in view.
+   */
   constructor(blockDefinition) {
     /**
      * BlockDefinition object associated with this instance of BlockLibraryView.
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
+
+    console.log('Inject for editor!');
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
@@ -83,15 +89,16 @@ class BlockEditorView {
   }
 
   /**
-   * Render starter block (factory_base).
-   * @param {string} inputType Type of input (statement, value, dummy).
-   * @param {string} blockTypeName Name of block, given by user.
-   * @param {string} opt_blockStarterText Starter text to place on block, given by
-   *     user (optional).
+   * Render starter block.
+   * @param {string} starterXml XML string of block editing Blocks to pre-load
+   *     onto Block Editor workspace.
    */
-  showStarterBlock(inputType, blockTypeName, opt_blockStarterText) {
-    // TODO: Move in from factory.js
-    throw 'Unimplemented: showStarterBlock()';
+  showStarterBlock(starterXml) {
+    // REFACTORED: Moved in from
+    // factory.js:showStarterBlock(inputType, blockTypeName, opt_blockStarterText)
+    this.editorWorkspace.clear();
+    const xml = Blockly.Xml.textToDom(starterXml);
+    Blockly.Xml.domToWorkspace(xml, this.editorWorkspace);
   }
 
   /**
@@ -107,6 +114,6 @@ class BlockEditorView {
    * @param {string} blockType Block to edit on block factory.
    */
   openBlock(blockType) {
-    console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")")
+    console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")");
   }
 }

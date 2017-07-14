@@ -21,7 +21,6 @@
 'use strict';
 
 goog.provide('NavigationTree');
-
 goog.require('Project');
 
 /**
