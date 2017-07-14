@@ -51,7 +51,7 @@ class ProjectController {
     this.project = project;
     /**
      * The tree which represents the project.
-     * @type {!JStree}
+     * @type {!NavigationTree}
      */
     this.tree = tree;
   }
