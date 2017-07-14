@@ -98,17 +98,16 @@ Dummy input:<br>
       this.blockText = $('#block_text').val();
 
       this.emit('submit', this);
-
-      this.hide();
     });
   }
 
   /**
    * Displays warning message for duplicate block type, only if there is a
    * duplicate.
+   * @param {boolean} show Whether to show or hide the warning. True if show.
    */
-  showWarning(hasDuplicate) {
-    if (hasDuplicate) {
+  showWarning(show) {
+    if (show) {
       $('#block_name').css('border', '1px solid red');
       $('#warning_text').css('display', 'inline');
       $('#submit_block').attr('disabled','disabled');
@@ -117,21 +116,6 @@ Dummy input:<br>
       $('#warning_text').css('display', 'none');
       $('#submit_block').removeAttr('disabled');
     }
-  }
-
-  /**
-   * Resets popup form fields to be empty upon creating another block.
-   */
-  resetPopup() {
-    $('#block_name').val('');
-    $('#block_text').val('');
-    $('input[name="input_type"]').attr('checked','checked');
-
-    this.blockName = 'block_type';
-    this.inputType = 'input_statement';
-    this.blockText = 'MY_BLOCK';
-
-    this.showWarning(false);
   }
 
   /**
@@ -149,6 +133,5 @@ Dummy input:<br>
   hide() {
     console.log('hide() called.');
     super.hide();
-    this.resetPopup();
   }
 }

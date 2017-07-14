@@ -187,7 +187,7 @@ class AppView {
    * Opens popup when clicking on New Block in menubar.
    */
   showNewBlock() {
-    this.appController.createBlocklyInitPopup(false);
+    this.appController.createPopup(PopupController.NEW_BLOCK);
   }
 
   /**

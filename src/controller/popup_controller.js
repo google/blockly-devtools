@@ -28,9 +28,18 @@
 'use strict';
 
 goog.provide('PopupController');
+
+goog.require('AppController');
+goog.require('NewBlockPopupView');
 goog.require('ProjectController');
 
 class PopupController {
+  /**
+   * @constructor
+   * @param {!AppController} appController AppController object which will send
+   *     the necessary commands in response to user's input into the popup. Also
+   *     gives access to model functions (e.g. Project).
+   */
   constructor(appController) {
     /**
      * AppController that controls the currently open application. Necessary to
@@ -44,7 +53,7 @@ class PopupController {
      * no popup is open. Either null, PreviewView, NewBlockPopupView, or NewConfigView.
      * @type {?Object}
      */
-    // this.view = view;
+    this.view = null;
   }
 
   /**

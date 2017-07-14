@@ -22,7 +22,7 @@
 
 goog.provide('PopupView');
 
-var Emitter = require('component-emitter');
+goog.require('PopupController');
 
 /**
  * @fileoverview PopupView is an abstract interface from which any popups will

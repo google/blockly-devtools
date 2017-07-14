@@ -22,6 +22,8 @@
 
 goog.provide('NewBlockPopupController');
 
+goog.require('AppController2');
+goog.require('BlockEditorController');
 goog.require('PopupController');
 
 /**
@@ -65,13 +67,14 @@ class NewBlockPopupController extends PopupController {
             '', '', 'My First Block');
         this.blockEditorController.view.showStarterBlock(starterXml);
       }
-      super.exit();
+      this.exit();
     });
 
     this.view.on('submit', () => {
       const starterXml = FactoryUtils.buildBlockEditorStarterXml(
           this.view.inputType, this.view.blockName, this.view.blockText);
       this.blockEditorController.view.showStarterBlock(starterXml);
+      this.exit();
     });
 
     $('#block_name').change(() => {
