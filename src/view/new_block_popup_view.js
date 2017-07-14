@@ -73,6 +73,8 @@ Dummy input:<br>
 
     // Stores HTML to display new block popup.
     super.injectPopupContents(this.htmlContents);
+
+    this.initListeners_();
   }
 
   /**
@@ -82,8 +84,9 @@ Dummy input:<br>
   initListeners_() {
     console.log('Init called!');
     $('#exit').click(() => {
+      Emitter(this);
       console.log('Exit clicked!');
-      this.emit('exit', this);
+      this.emit('exit');
     });
 
     $('#submit_block').click((event) => {

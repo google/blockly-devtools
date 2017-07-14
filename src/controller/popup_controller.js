@@ -44,7 +44,7 @@ class PopupController {
      * no popup is open. Either null, PreviewView, NewBlockPopupView, or NewConfigView.
      * @type {?Object}
      */
-    this.view = null;
+    // this.view = view;
   }
 
   /**
@@ -85,12 +85,5 @@ class PopupController {
       this.view.hide();
       this.view = null;
     }
-  }
-
-  /**
-   * Sets and generates view, which shows popup to user.
-   */
-  show() {
-    this.view.show();
   }
 }
