@@ -38,8 +38,8 @@ goog.require('WorkspaceEditorView');
 class WorkspaceController {
   /**
    * @constructor
-   * @param {!Project} Project whose Workspace elements are managed by this controller.
-   * @param {!Blockly.Workspace} Hidden workspace used to generate Blockly objects.
+   * @param {!Project} project Project whose Workspace elements are managed by this controller.
+   * @param {!Blockly.Workspace} hiddenWorkspace Hidden workspace used to generate Blockly objects.
    */
   constructor(project, hiddenWorkspace) {
     /**

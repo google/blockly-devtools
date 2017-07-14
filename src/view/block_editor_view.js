@@ -33,7 +33,8 @@ goog.require('BlockDefinition');
 class BlockEditorView {
   /**
    * @constructor
-   * @param {BlockDefinition} BlockDefinition object currently shown in view.
+   * @param {BlockDefinition} blockDefinition BlockDefinition object currently
+   *      shown in view.
    */
   constructor(blockDefinition) {
     /**
