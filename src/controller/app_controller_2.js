@@ -142,6 +142,8 @@ class AppController2 {
    * @return {!string}
    */
   static get BLOCK_FACTORY() {
+    // TODO: Replace all references to BLOCK_FACTORY with BLOCK_EDITOR to keep
+    //       editor naming consistent.
     return 'BLOCK_FACTORY';
   }
 
@@ -161,6 +163,14 @@ class AppController2 {
    */
   static get EXPORTER() {
     return 'EXPORTER';
+  }
+
+  /**
+   * Static get function for constant BLOCK_EDITOR.
+   * @return {!string}
+   */
+  static get BLOCK_EDITOR() {
+    return 'BLOCK_EDITOR';
   }
 
   /**

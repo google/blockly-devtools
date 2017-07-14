@@ -70,6 +70,22 @@ class EditorController {
   }
 
   /**
+   * Switches editors (both view and controllers).
+   * @param {string} editorMode String which represents which editor to switch to.
+   */
+  switchEditor(editorMode) {
+    // TODO: Implement. Add editor-switching method at the EditorController level
+    //       so that the AppController only worries about calling this method.
+    if (editorMode === AppController2.BLOCK_EDITOR) {
+
+    } else if (editorMode === AppController2.TOOLBOX_EDITOR) {
+
+    } else if (editorMode === AppController2.WORKSPACE_EDITOR) {
+
+    }
+  }
+
+  /**
    * Clears the editing area completely, deleting all categories and all
    * blocks in the model and view and all pre-loaded blocks. Tied to the
    * "Clear" button.
