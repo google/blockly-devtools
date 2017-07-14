@@ -63,7 +63,7 @@ goog.require('Resource');
    * @param {!Resource} resource The resource to be added.
    */
   add(resource) {
-    throw 'unimplemented: addResource';
+    throw 'unimplemented: add';
   }
 
   /**
@@ -71,7 +71,7 @@ goog.require('Resource');
    * @param {string} resourceName The name of the resource to be removed.
    */
   remove(resourceName) {
-    throw 'unimplemented: removeResource';
+    throw 'unimplemented: remove';
   }
 
   /**
