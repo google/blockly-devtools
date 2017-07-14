@@ -41,22 +41,41 @@ class PopupController {
     this.projectController = projectController;
 
     /**
-     * Possible popup types. Constants used in parameters for passing in which
-     * popup is active.
-     * @type {!Object.<string, string>}
-     */
-    this.MODE = {
-      PREVIEW: 'PREVIEW',
-      NEW_BLOCK: 'NEW_BLOCK',
-      NEW_CONFIG: 'NEW_CONFIG'
-    };
-
-    /**
      * Popup view that is currently visible in application. Default is null when
      * no popup is open. Either null, PreviewView, NewBlockPopupView, or NewConfigView.
      * @type {!Object}
      */
     this.view = null;
+  }
+
+  /**
+   * One of three possible popup types. Constant used in parameters for specifying
+   * between popups. Preview popup is the popup of a developer's sample application
+   * before export.
+   * @return {!string}
+   */
+  static get PREVIEW() {
+    return 'PREVIEW';
+  }
+
+  /**
+   * One of three possible popup types. Constant used in parameters for specifying
+   * between popups. The New Block popup allows developers to initialize their
+   * block before going right into the Block Editor.
+   * @return {!string}
+   */
+  static get NEW_BLOCK() {
+    return 'NEW_BLOCK';
+  }
+
+  /**
+   * One of three possible popup types. Constant used in parameters for specifying
+   * between popups. The new config popup allows developers to click through
+   * a checkbox to configure their WorkspaceConfiguration.
+   * @return {!string}
+   */
+  static get NEW_CONFIG() {
+    return 'NEW_CONFIG';
   }
 
   /**
@@ -72,7 +91,7 @@ class PopupController {
    */
   show(popupMode) {
     if (popupMode == this.MODE.NEW_BLOCK) {
-      // TODO: New Block Popup view
+      this.view = new NewBlockPopupView();
     } else if (popupMode == this.MODE.PREVIEW) {
       // TODO: Preview popup view
     } else if (popupMode == this.MODE.NEW_CONFIG) {

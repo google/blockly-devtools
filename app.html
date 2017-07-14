@@ -9,6 +9,8 @@
     window.addEventListener('load', () => {
       blocklyFactory = new AppController2();
       window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
+      // Generate new block popup.
+      blocklyFactory.createPopup(PopupController.NEW_BLOCK);
     });
   </script>
 </head>
