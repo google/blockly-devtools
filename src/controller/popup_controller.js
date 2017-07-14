@@ -91,7 +91,7 @@ class PopupController {
    */
   show(popupMode) {
     if (popupMode === PopupController.NEW_BLOCK) {
-      this.view = new NewBlockPopupView();
+      this.view = new NewBlockPopupView(this.projectController.project);
       this.view.show();
     } else if (popupMode === PopupController.PREVIEW) {
       // TODO: Preview popup view

@@ -89,7 +89,8 @@ class BlockEditorView {
    */
   showStarterBlock(inputType, blockTypeName, opt_blockStarterText) {
     // TODO: Move in from factory.js
-    throw 'Unimplemented: showStarterBlock()';
+    this.editorWorkspace.clear();
+    const xml = Blockly.Xml.textToDom(); // TODO(now):  show starter block
   }
 
   /**
@@ -105,6 +106,6 @@ class BlockEditorView {
    * @param {string} blockType Block to edit on block factory.
    */
   openBlock(blockType) {
-    console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")")
+    console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")");
   }
 }

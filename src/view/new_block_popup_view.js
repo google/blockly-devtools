@@ -31,10 +31,19 @@ goog.require('PopupView');
  * @author celinechoo (Celine Choo)
  */
 class NewBlockPopupView extends PopupView {
-  constructor() {
+  /**
+   * @constructor
+   * @param {!Project} project Project which is currently being edited in app.
+   */
+  constructor(project) {
     super();
 
-    console.log('New Block Popup View called!');
+    /**
+     * Project currently being edited. May need information from project to make
+     * view-based decisions within the popup.
+     * @type {!Project}
+     */
+    this.project = project;
 
     /**
      * HTML contents of what is inside popup window. Does not include the popup
@@ -71,5 +80,83 @@ Dummy input:<br>
     super.injectPopupContents(this.htmlContents);
   }
 
-  // TODO: Add functions.
+  /**
+   * Sets up event listeners and handlers for components of this popup.
+   * @private
+   */
+  initListeners_() {
+    $('#exit').click(() => {
+      console.log('Exit clicked!');
+      // If there are no blocks in any library
+      // const noBlocks = this.project.getBlockTypes().length == 0;
+      const noBlocks = true;
+      if (noBlocks) {
+        console.log('First load');
+        BlockFactory.showStarterBlock(this.inputType, this.blockText, this.blockName);
+      }
+      this.hide();
+    });
+
+    $('#submit_block').click((event) => {
+      // Gathers and renders blocks properly in devtools editor.
+      event.preventDefault();
+
+      this.blockName = $('#block_name').val();
+      this.inputType = $('input[name="input_type"]:checked').val();
+      this.blockText = $('#block_text').val();
+
+      this.emit('exit', this);
+
+      this.hide();
+    });
+  }
+
+  /**
+   * Displays warning message for duplicate block type, only if there is a
+   * duplicate.
+   */
+  showWarning(hasDuplicate) {
+    if (hasDuplicate) {
+      $('#block_name').css('border', '1px solid red');
+      $('#warning_text').css('display', 'inline');
+      $('#submit_block').attr('disabled','disabled');
+    } else {
+      $('#block_name').css('border', '1px solid gray');
+      $('#warning_text').css('display', 'none');
+      $('#submit_block').removeAttr('disabled');
+    }
+  }
+
+  /**
+   * Resets popup form fields to be empty upon creating another block.
+   */
+  resetPopup() {
+    $('#block_name').val('');
+    $('#block_text').val('');
+    $('input[name="input_type"]').attr('checked','checked');
+
+    this.blockName = 'block_type';
+    this.inputType = 'input_statement';
+    this.blockText = 'MY_BLOCK';
+
+    this.showWarning(false);
+  }
+
+  /**
+   * Shows popup, then adds listeners specific to this popup.
+   */
+  show() {
+    console.log('show() called.');
+    super.show();
+    this.initListeners_();
+  }
+
+  /**
+   * Hides popup, resets fields.
+   */
+  hide() {
+    console.log('hide() called.');
+    super.hide();
+    this.resetPopup();
+  }
 }

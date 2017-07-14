@@ -22,6 +22,8 @@
 
 goog.provide('PopupView');
 
+var Emitter = require('component-emitter');
+
 /**
  * @fileoverview PopupView is an abstract interface from which any popups will
  * extend.
@@ -30,7 +32,15 @@ goog.provide('PopupView');
  */
 
 class PopupView {
-  constructor() {
+  /**
+   * @constructor
+   * @param {!Project} project Project which is currently being edited by app.
+   */
+  constructor(project) {
+    /**
+     * Contents of the popup which will be presented.
+     * @type {string}
+     */
     this.htmlContents = `
 <div class="bkg"></div>
 <div class="box">
