@@ -118,7 +118,7 @@
    * Returns the JSON object for the  resource set's tree representation.
    * @return {!Object} The JSON representing the set's tree structure.
    */
-  getTreeJSON() {
+  getTreeJson() {
     const resourceSetTreeJson = [];
     for (const resource of this.resources) {
       resourceSetTreeJson.push(resource.getTreeJSON());
