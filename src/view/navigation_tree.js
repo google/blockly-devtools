@@ -191,7 +191,7 @@ class NavigationTree {
         r.push(data.instance.get_node(data.selected[i]).text);
       }
       // load the blocks
-     this.appController.editorController.view.openBlock(r.join(', '));
+     this.appController.editorController.blockEditorController.view.openBlock(r.join(', '));
 
       //TODO #99: switch tab if necessary
     });
