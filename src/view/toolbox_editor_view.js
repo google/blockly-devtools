@@ -23,6 +23,7 @@
 goog.provide('ToolboxEditorView');
 
 goog.require('FactoryUtils');
+goog.require('Toolbox');
 
 /**
  * @fileoverview ToolboxEditorView manages the visible parts of the application involved
@@ -33,6 +34,10 @@ goog.require('FactoryUtils');
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class ToolboxEditorView {
+  /**
+   * @constructor
+   * @param {!Toolbox} toolbox Toolbox that is being edited by the view.
+   */
   constructor(toolbox) {
     /**
      * Toolbox associated with this instance of ToolboxView.

@@ -46,6 +46,11 @@ goog.require('ProjectController');
 // to AppController2 to avoid overlapping namespaces with current AppController,
 // which will be refactored into this (and other) files.
 class AppController2 {
+  /**
+   * Initializes AppController2, creates project object, associated controllers
+   * and views.
+   * @constructor
+   */
   constructor() {
     // Block Factory has a dependency on bits of Closure that core Blockly
     // doesn't have. When you run this from file:// without a copy of Closure,
@@ -366,6 +371,17 @@ class AppController2 {
     } else {
       throw new Error('Popup type ' + popupMode + ' not found.');
     }
+  }
+
+  /**
+   * Handler for the window's 'beforeunload' event. When a user has unsaved
+   * changes and refreshes or leaves the page, confirm that they want to do so
+   * before actually refreshing.
+   * @param {Event} event beforeunload event.
+   */
+  confirmLeavePage(event) {
+    // TODO: Move in from app_controller.js'
+    console.warn('Unimplemented: confirmLeavePage()');
   }
 
   /**

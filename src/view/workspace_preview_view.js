@@ -33,6 +33,9 @@
 goog.provide('WorkspacePreviewView');
 
 class WorkspacePreviewView extends PopupView {
+  /**
+   * @constructor Creates Preview for sample Blockly application before export.
+   */
   constructor() {
     super();
 

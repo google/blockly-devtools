@@ -28,7 +28,6 @@
 'use strict';
 
 goog.provide('PopupController');
-
 goog.require('ProjectController');
 
 class PopupController {

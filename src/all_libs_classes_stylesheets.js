@@ -50,7 +50,6 @@
 
   appendScript('src/model/resource.js');
   appendScript('src/model/block_definition.js');
-  appendScript('src/view/navigation_tree.js');
   appendScript('src/model/block_library.js');
   appendScript('src/model/workspace_configuration.js');
   appendScript('src/model/workspace_contents.js');
@@ -62,6 +61,7 @@
   appendScript('src/model/workspace_contents_set.js');
   appendScript('src/model/project.js');
 
+  appendScript('src/view/navigation_tree.js');
   appendScript('src/view/block_editor_view.js');
   appendScript('src/view/popup_view.js');
   appendScript('src/view/new_block_popup_view.js');
