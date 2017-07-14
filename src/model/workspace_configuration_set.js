@@ -18,6 +18,13 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('WorkspaceConfigurationSet');
+
+goog.require('ResourceSet');
+goog.require('WorkspaceConfiguration');
+
 /**
  * @class WorkspaceConfigurationSet is a set of WorkspaceConfiguration objects.
  */
@@ -35,11 +42,11 @@ class WorkspaceConfigurationSet extends ResourceSet {
 
   /**
    * Adds a workspace configurationto the set.
-   * @param {string} workspace configurationName The name of the workspace
+   * @param {string} workspaceConfigurationName The name of the workspace
    *     configuration to be added.
    */
-  addWorkspaceConfiguration(workspace configurationName) {
-    super.addResource(workspace configurationName);
+  addWorkspaceConfiguration(workspaceConfigurationName) {
+    super.addResource(workspaceConfigurationName);
   }
 
   /**

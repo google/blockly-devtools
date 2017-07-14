@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
  * @fileoverview EditorController manages user interaction involving changes in
  *     specific components of a project (Toolbox, Workspace (contents or configs),
@@ -25,8 +27,15 @@
  *
  * @author sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
+goog.provide('EditorController');
 
 class EditorController {
+  /**
+   * @constructor
+   * @param {!Project} project Project object associated with this controller.
+   * @param {!Blockly.Workspace} hiddenWorkspace Invisible Blockly Workspace
+   *     used to generate Blockly objects for import/export.
+   */
   constructor(project, hiddenWorkspace) {
     /**
      * Project object whose components are controlled by EditorController.
@@ -101,7 +110,7 @@ class EditorController {
       return;
     }
     const blocks = this.currentEditor.view.editorWorkspace.getAllBlocks();
-    for (const i = 0, block; block = blocks[i]; i++) {
+    for (let block of blocks) {
       if (!this.isDefinedBlock(block)) {
         block.setWarningText(block.type + ' is not defined (it is not a standard '
             + 'block, \nin your block library, or an imported block)');

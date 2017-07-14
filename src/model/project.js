@@ -18,7 +18,17 @@
  * limitations under the License.
  */
 
- //TODO #50: change methods for metadata
+'use strict';
+
+goog.provide('Project');
+
+goog.require('BlockLibrarySet');
+goog.require('Resource');
+goog.require('ToolboxSet');
+goog.require('WorkspaceContentsSet');
+goog.require('WorkspaceConfigurationSet');
+
+//TODO #50: change methods for metadata
 
 /**
  * @class Project is a collection of one or more libraries along with
@@ -56,9 +66,9 @@ class Project extends Resource {
     this.workspaceContentsSet = new WorkspaceContentsSet();
     /**
      * The workspace configurations in the project.
-     * @type {!WorkspaceConfigurationsSet}
+     * @type {!WorkspaceConfigurationSet}
      */
-    this.workspaceConfigSet = new WorkspaceConfigurationsSet();
+    this.workspaceConfigSet = new WorkspaceConfigurationSet();
   }
 
   /**

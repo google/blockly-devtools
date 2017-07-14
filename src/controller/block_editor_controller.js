@@ -28,10 +28,18 @@
  */
 'use strict';
 
+goog.provide('BlockEditorController');
+
 goog.require('FactoryUtils');
 goog.require('StandardCategories');
 
 class BlockEditorController {
+  /**
+   * @constructor
+   * @param {!Project} project Project object associated with this controller.
+   * @param {!Blockly.Workspace} hiddenWorkspace Invisible Blockly Workspace
+   *     used to generate Blockly objects for import/export.
+   */
   constructor(project, hiddenWorkspace) {
     /**
      * Project whose library is controlled by this BlockLibraryController instance.

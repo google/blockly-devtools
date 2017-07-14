@@ -18,6 +18,13 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('WorkspaceContentsSet');
+
+goog.require('ResourceSet');
+goog.require('WorkspaceContentsSet');
+
 /**
  * @class WorkspacecontentsSet is a set of WorkspaceContents objects.
  */
@@ -30,7 +37,7 @@ class WorkspaceContentsSet extends ResourceSet {
    * @constructor
    */
   constructor(workspaceContentsSetName, projectName) {
-    super(librarySetName, projectName, WorkspaceContents);
+    super(workspaceContentsSetName, projectName);
   }
 
   /**

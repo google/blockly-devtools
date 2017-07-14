@@ -27,7 +27,17 @@
 
 'use strict';
 
+goog.provide('PopupController');
+
+goog.require('ProjectController');
+
 class PopupController {
+  /**
+   * @constructor
+   * @param {!ProjectController} projectController ProjectController object that
+   *     manages the Project which may be modified as a user interacts with a
+   *     popup.
+   */
   constructor(projectController) {
     /**
      * ProjectController associated with currently edited project. Used to make

@@ -18,6 +18,13 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('Toolbox');
+
+goog.require('ListElement');
+goog.require('Resource');
+
 /**
  * @class A Toolbox object is a grouping of blocks from which end-users can
  *     drag and drop blocks into the workspace. A toolbox can also be considered
