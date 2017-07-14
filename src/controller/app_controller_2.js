@@ -76,7 +76,7 @@ class AppController2 {
 
     /**
      * The tree for the DevTools session.
-     * @type {!JSTree}
+     * @type {!NavigationTree}
      */
     this.navTree = new NavigationTree(this, this.project);
 
