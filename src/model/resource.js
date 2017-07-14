@@ -87,11 +87,11 @@ class Resource {
    * @return {!Object} The tree-specific JSON representation of the array.
    */
   makeTreeJsonFromArray(nameArray) {
-    const treeJson;
+    let treeJson;
     const iterationIndex = 1;
     const finalIndex = 0;
-    const toAdd;
-    const text;
+    let toAdd;
+    let text;
     while (nameArray[iterationIndex]) {
       text = nameArray[iterationIndex - 1];
       toAdd = {'text': text, 'id': text, 'parent': this.name};
