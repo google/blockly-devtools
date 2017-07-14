@@ -30,16 +30,16 @@ goog.require('Project');
  * @author sagev@google.com (Sage Vouse)
  */
 class NavigationTree {
-  /**
-   * Global constants for organizing different node types, used when placing
-   *     nodes in proper sections of the tree and giving them ids. Given with
-   *     the assumption that the name of each object in a project is unique
-   *     across that project.
+  /*
+   * Global constants for organizing different node types, used when giving them
+   *     ids. Given with the assumption that the name of each object in a
+   *     project is unique across that project.
    */
-  toolboxPrefix = "Toolbox";
-  libraryPrefix = "BlockLibrary";
-  workspaceContentsPrefix = "WorkspaceContents";
-  workspaceConfigPrefix = "WorkspaceConfiguration";
+  BLOCK_PREFIX = "Block";
+  TOOLBOX_PREFIX = "Toolbox";
+  LIBRARY_PREFIX = "BlockLibrary";
+  WORKSPACE_CONTENTS_PREFIX = "WorkspaceContents";
+  WORKSPACE_CONFIG_PREFIX = "WorkspaceConfiguration";
 
   /**
    * NavigationTree Class
@@ -121,7 +121,7 @@ class NavigationTree {
      * NOTE: The libraryName is the given prefix due to the assumption that
      *     blocktypes are unique across all libraries in the project.
      */
-    addComponentNode(libraryName, blockType);
+    addComponentNode(BLOCK_PREFIX, blockType, libraryName);
   }
 
   /**
@@ -130,7 +130,7 @@ class NavigationTree {
    * @param {string} toolboxName Name of the toolbox to add to the tree.
    */
   addToolboxNode(toolboxName) {
-    addComponentNode(toolboxPrefix, toolboxName);
+    addComponentNode(TOOLBOX_PREFIX, toolboxName, this.project.name);
   }
 
   /**
@@ -140,7 +140,8 @@ class NavigationTree {
    *     add to the tree.
    */
   addWorkspaceContentsNode(workspaceContentsName) {
-    addComponentNode(workspaceContentsPrefix, workspaceContentsName);
+    addComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName,
+        this.project.name);
   }
 
   /**
@@ -150,7 +151,8 @@ class NavigationTree {
    *     to add to the tree.
    */
   addWorkspaceConfigurationNode(workspaceConfigName) {
-    addComponentNode(workspaceConfigPrefix, workspaceConfigName);
+    addComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName,
+        this.project.name);
   }
 
   /**
@@ -159,18 +161,18 @@ class NavigationTree {
    * @param {string} libraryName Name of BlockLibrary to add to the tree.
    */
   addBlockLibraryNode(libraryName) {
-    addComponentNode(libraryPrefix, libraryName);
+    addComponentNode(LIBRARY_PREFIX, libraryName, this.project.name);
   }
 
   /**
    * Adds a component of the project (BlockLibrary, Toolbox, WorkspaceContents,
    *     or WorkspaceConfiguration) to the navigation tree.
-   * @param {string} prefix Indicates where the node will be placed in the tree
-   *     as well as what will be the beginning of its id.
+   * @param {string} prefix The prefix of the node's id.
    * @param {string} componentName The name of the component to add.
+   * @param {string} parent The parent of the new node.
    */
-  addComponentNode(prefix, componentName) {
-    $('#navigationTree').jstree().create_node(prefix,
+  addComponentNode(prefix, componentName, parent) {
+    $('#navigationTree').jstree().create_node(parent,
       {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
 
   /**
