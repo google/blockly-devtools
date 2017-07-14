@@ -135,7 +135,6 @@ class ProjectController {
    *
    * @return {!BlockLibrary} The new library added to the project.
    */
-
   createBlockLibrary(blockLibraryName) {
     //TODO #105: check for valid name
     const blockLibrary = new BlockLibrary(blockLibraryName);
