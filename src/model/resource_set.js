@@ -53,16 +53,16 @@ goog.require('Resource');
      this.resourceConstructor = resourceConstructor;
      /**
       * The resources that the project contains, mapped to their names.
-      * @type {!Object<string, Object>}
+      * @type {!Object<string, Resource>}
       */
      this.resources;
   }
 
   /**
    * Adds a resource to the set.
-   * @param {string} resourceName The name of the resource to be added.
+   * @param {!Resource} resource The resource to be added.
    */
-  addResource(resourceName) {
+  addResource(resource) {
     throw 'unimplemented: addResource';
   }
 
@@ -77,10 +77,10 @@ goog.require('Resource');
   /**
    * Gets a resource contained within the set.
    * @param {string} resourceName The resource to be returned.
-   * @return {!Object} The resource, or null if it's not contained in the set.
+   * @return {!Resource} The resource, or null if it's not contained in the set.
    */
   getResource(resourceName) {
-    throw 'unimplemented: getResource';
+    return this.resources[resourceName];
   }
 
   /**
@@ -88,56 +88,27 @@ goog.require('Resource');
    * @return {Array.<string>} The names of all resources the set contains.
    */
   getResourceNames() {
-    // TODO: Alphabetize resources.
-    throw 'unimplemented: getResourceNames';
+    return Object.keys(this.resources);
   }
 
   /**
-   * Returns whether or not a given name can be added to the resource set.
-   * @param name The name to be added.
-   * @return {Boolean} Whether or not the name can be added.
+   * Returns whether or not the resource set is empty.
+   * @return {boolean} Whether or not the set is empty.
    */
-  isValidName(name) {
-    throw 'unimplemented: isValidName';
-  }
-
-  /**
-   * Returns whether or not a resource's type prohibits it from being added to
-   *     the set.
-   * @param {!Object} resource The resource to be added.
-   */
-  isValidType(resource) {
-    /*
-     * Most likely will just return resource instanceof resourceConstructor.
-     */
-    throw 'unimplemented: isValidType';
+  isEmpty() {
+    throw 'unimplimented: isEmpty';
   }
 
   /**
    * Returns the JSON object for the  resource set's tree representation.
    * @return {!Object} The JSON representing the set's tree structure.
    */
-  getTreeJSON() {
-    /*
-     * TODO: add getTreeJSON methods to resources, such that the set getTreeJSON
-     *     method simply combines the objects for this method. This is lower
-     *     priority on account of the fact that the tree will update using
-     *     listeners, thus this method would really only be used upon loading
-     *     DevTools with a previously existing project.
-     */
-    throw 'unimplemented: getTreeJSON';
-  }
-
-  /**
-   * Returns the metadata for the set.
-   * @return {!Object} The metadata for the set.
-   */
-  getData() {
-    /*
-     * For use in creating the project metadata.
-     * TODO: define metadata structure for sets/projects.
-     */
-    throw 'unimplemented: getData';
+  getTreeJson() {
+    const resourceSetTreeJson = [];
+    for (const resource of this.resources) {
+      resourceSetTreeJson.push(resource.getTreeJSON());
+    }
+    return resourceSetTreeJson;
   }
 
   /**
@@ -177,6 +148,12 @@ goog.require('Resource');
    * @return {boolean} Whether or not the resource is present in the set.
    */
   has(resourceName) {
-    throw 'unimplemented: has';
+    const resourceNames = this.getResourceNames();
+    for (const name of resourceNames) {
+      if (name === resourceName) {
+        return true;
+      }
+    }
+    return false;
   }
 }

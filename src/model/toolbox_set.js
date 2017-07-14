@@ -42,8 +42,9 @@ class ToolboxSet extends ResourceSet {
 
   /**
    * Adds a toolbox to the set.
-   * @param {string} toolbox Name The name of the toolbox to be added.
+   * @param {string} toolboxName The name of the toolbox to be added.
    */
+  //TODO #104: change param to actual object
   addToolbox(toolboxName) {
     super.addResource(toolboxName);
   }
@@ -89,5 +90,26 @@ class ToolboxSet extends ResourceSet {
    */
   removeBlockFromToolbox(toolboxName, blockType) {
     throw "unimplemented: removeBlockFromToolbox";
+  }
+
+  /**
+   * Clears a toolbox in the set.
+   * @param {string} toolboxName The name of the toolbox to be cleared.
+   */
+  //TODO #103
+  clearToolbox(toolboxName) {
+    throw "unimplemented: clearToolbox";
+  }
+
+  /**
+   * Produces the JSON needed to organize toolboxes in the tree.
+   * @return {!Object} The JSON for the tree's toolbox section.
+   */
+  getTreeJson() {
+    const toolboxSetJson = [
+      {'id': 'Toolbox', 'text': 'Toolboxes'},
+      {'children': super.getTreeJson()}
+    ];
+    return toolboxSetJson;
   }
 }

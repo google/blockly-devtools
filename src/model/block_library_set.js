@@ -90,7 +90,8 @@ class BlockLibrarySet extends ResourceSet {
    * @param {!BlockDefinition} block The block definition to add to the existing
    *     or new library.
    */
-   addBlockToLibrary(libraryName, block) {
+  //TODO #104: change param to actual object
+  addBlockToLibrary(libraryName, block) {
     if (this.has(libraryName)) {
       this.getLibrary(libraryName).addBlock(block);
     } else {
@@ -151,5 +152,17 @@ class BlockLibrarySet extends ResourceSet {
    */
   hasBlock(blockType) {
     throw 'unimplemented: hasBlock';
+  }
+
+  /**
+   * Produces the JSON needed to organize libraries in the tree.
+   * @return {!Object} The JSON for the tree's library section.
+   */
+  getTreeJson() {
+    const librarySetJson = [
+      {'id': 'BlockLibrary', 'text': 'Libraries'},
+      {'children': super.getTreeJson()}
+    ];
+    return librarySetJson;
   }
 }

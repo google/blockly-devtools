@@ -31,7 +31,7 @@ goog.require('WorkspaceContentsSet');
 class WorkspaceContentsSet extends ResourceSet {
   /**
    * WorkspaceContentsSet Class.
-   * @param {string} workspaceContentsName Name of the workspace contents set.
+   * @param {string} workspaceContentsSetName Name of the workspace contents set.
    * @param {string} projectName The name of the project the set belongs to.
    *
    * @constructor
@@ -42,11 +42,12 @@ class WorkspaceContentsSet extends ResourceSet {
 
   /**
    * Adds a workspace contents object to the set.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     to be added.
+   * @param {string} workspaceContentsName The name of the workspace contents to
+   *     add to the project.
    */
-  addWorkspaceContents(libraryName) {
-    super.addResource(libraryName);
+  //TODO #104: change param to actual object
+  addWorkspaceContents(workspaceContentsName) {
+    super.addResource(workspaceContentsName);
   }
 
   /**
@@ -80,7 +81,7 @@ class WorkspaceContentsSet extends ResourceSet {
    * @param {string} blockType The name of the block to remove.
    */
   removeBlockFromSet(blockType) {
-    throw "unimplemented: removeBlockFromSet";
+    throw 'unimplemented: removeBlockFromSet';
   }
 
   /**
@@ -90,6 +91,28 @@ class WorkspaceContentsSet extends ResourceSet {
    * @param {string} blockType The name of the block to be removed.
    */
   removeBlockFromWorkspaceContents(workspaceContentsName, blockType) {
-    throw "unimplemented: removeBlockFromWorkspaceContents";
+    throw 'unimplemented: removeBlockFromWorkspaceContents';
+  }
+
+  /**
+   * Clears a workspace contents object in the set.
+   * @param {string} workspaceContentsName The name of the workspace contents
+   *     to clear.
+   */
+  //TODO #103
+  clearWorkspaceContents(workspaceContentsName) {
+    throw "unimplemented: clearWorkspaceContents";
+  }
+
+  /**
+   * Produces the JSON needed to organize workspace contents in the tree.
+   * @return {!Object} The JSON for the tree's workspace contents section.
+   */
+  getTreeJson() {
+    const workspaceContentsSetJson = [
+      {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
+      {'children': super.getTreeJson()}
+    ];
+    return workspaceContentsSetJson;
   }
 }

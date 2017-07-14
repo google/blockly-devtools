@@ -135,12 +135,6 @@ class AppView {
     this.win.menu = this.mainMenu;
 
     /**
-     * The tree for the DevTools session.
-     * @type {?NavigationTree}
-     */
-    this.navTree = null;
-
-    /**
      * Div ID of currently open modal. Modals are usually dropdown elements.
      * @type {?string}
      * @private
@@ -169,16 +163,6 @@ class AppView {
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
     this.currentView = this.blockEditorView;
-  }
-
-  /**
-   * Initializes the tree for the session.
-   * @param {!Project} project The project the tree represents.
-   */
-  setLibraryTree(project) {
-    // Initializes navigation tree with blocks in the project
-    this.navTree = new NavigationTree(project);
-    this.makeTreeListener();
   }
 
   /**

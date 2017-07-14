@@ -45,6 +45,7 @@ class WorkspaceConfigurationSet extends ResourceSet {
    * @param {string} workspaceConfigurationName The name of the workspace
    *     configuration to be added.
    */
+  //TODO #104: change param to actual object
   addWorkspaceConfiguration(workspaceConfigurationName) {
     super.addResource(workspaceConfigurationName);
   }
@@ -75,5 +76,17 @@ class WorkspaceConfigurationSet extends ResourceSet {
    */
   getWorkspaceConfigurationNames() {
     return super.getResourceNames();
+  }
+
+  /**
+   * Produces the JSON needed to organize workspace configurations in the tree.
+   * @return {!Object} The JSON for the tree's workspace configuration section.
+   */
+  getTreeJson() {
+    const workspaceConfigSetJson = [
+      {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
+      {'children': super.getTreeJson()}
+    ];
+    return workspaceConfigSetJson;
   }
 }

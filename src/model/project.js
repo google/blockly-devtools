@@ -84,6 +84,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all library names.
    */
   getLibraryNames() {
+    //TODO #106: simplify method names
     return this.librarySet.getLibraryNames();
   }
 
@@ -92,6 +93,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all toolbox names.
    */
   getToolboxNames() {
+    //TODO #106: simplify method names
     return this.toolboxSet.getToolboxNames();
   }
 
@@ -100,6 +102,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all workspace contents names.
    */
   getWorkspaceContentsNames() {
+    //TODO #106: simplify method names
     return this.workspaceContentsSet.getWorkspaceNames();
   }
 
@@ -108,6 +111,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all workspace configuration names.
    */
   getWorkspaceConfigurationNames() {
+    //TODO #106: simplify method names
     return this.workspaceConfigSet.getWorkspaceConfigurationNames();
   }
 
@@ -122,35 +126,47 @@ class Project extends Resource {
   }
 
   /**
-   * Adds a library to the project.
-   * @param {string} libraryName The name of the library to be added.
+   * Adds a library to the library set.
+   *
+   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
+   *     project.
    */
-  addLibrary(libraryName) {
-    this.librarySet.addLibrary(libraryName);
+   //TODO #104: change param to actual object
+  addBlockLibrary(blockLibraryName) {
+    //TODO #106: simplify method names
+    this.librarySet.addLibrary(blockLibraryName);
   }
 
   /**
-   * Adds a toolbox to the project.
-   * @param {string} toolboxName The name of the toolbox to be added.
+   * Adds new toolbox to the toolbox set.
+   *
+   * @param {string} toolboxName Name of the toolbox to add to the project.
    */
+  //TODO #104: change param to actual object
   addToolbox(toolboxName) {
-    this.toolboxSet.addToolbox(toolbox);
+    //TODO #106: simplify method names
+    this.toolboxSet.addToolbox(toolboxName);
   }
 
   /**
    * Adds named workspace contents to the project.
-   * @param {string} workspaceContentsName The name of the workspace contents to
-   *     be added.
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     add to the project.
    */
+  //TODO #104: change param to actual object
   addWorkspaceContents(workspaceContentsName) {
+    //TODO #106: simplify method names
     this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
   }
 
   /**
    * Adds a workspace configuration to the project.
-   * @param {string} workspaceConfigName The workspace configuration to be added.
+   * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
+   *     to add to the project.
    */
+  //TODO #104: change param to actual object
   addWorkspaceConfiguration(workspaceConfigName) {
+    //TODO #106: simplify method names
     this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
   }
 
@@ -187,11 +203,80 @@ class Project extends Resource {
   }
 
   /**
+   * Removes a library from the library set.
+   *
+   * @param {string} blockLibraryName The name of the BlockLibrary to remove
+   *     from the project.
+   */
+  removeBlockLibrary(blockLibraryName) {
+    //TODO #106: simplify method names
+    this.librarySet.removeLibrary(blockLibraryName);
+  }
+
+  /**
+   * Removes a toolbox from the toolbox set.
+   *
+   * @param {string} toolboxName Name of the toolbox to remove from project.
+   */
+  removeToolbox(toolboxName) {
+    //TODO #106: simplify method names
+    this.toolboxSet.removeToolbox(toolboxName);
+  }
+
+  /**
+   * Removes a workspace contents object from the project.
+   * @param {string} workspaceContentsName The name of the workspace contents to
+   *     remove.
+   */
+  removeWorkspaceContents(workspaceContentsName) {
+    //TODO #106: simplify method names
+    this.workspaceContentsSet.removeWorkspaceContents(workspaceContentsName);
+  }
+
+  /**
+   * Removes a workspace configuration from the project.
+   * @param {string} workspaceConfigName The workspace configuration to remove.
+   */
+  removeWorkspaceConfiguration(workspaceConfigName) {
+    //TODO #106: simplify method names
+    this.workspaceConfigSet.removeWorkspaceConfiguration(workspaceConfigName);
+  }
+
+  /**
    * Clears a named library in the project.
    * @param {string} libraryName The name of the library to be cleared.
    */
   clearLibrary(libraryName) {
+    //TODO #106: simplify method names
     this.librarySet.clearLibrary(libraryName);
+  }
+
+  /**
+   * Clears a named toolbox in the project.
+   * @param {string} toolboxName The name of the toolbox to clear.
+   */
+  clearToolbox(toolboxName) {
+    //TODO #106: simplify method names
+    this.toolboxSet.clearToolbox(toolboxName);
+  }
+
+  /**
+   * Clears a named workspace contents in the project.
+   * @param {string} workspaceContentsName The name of the contents to clear.
+   */
+  clearWorkspaceContents(workspaceContentsName) {
+    //TODO #106: simplify method names
+    this.workspaceContentsSet.clearWorkspaceContents(workspaceContentsName);
+  }
+
+  /**
+   * Returns a named workspace configuration in the project to default settings.
+   * @param {string} workspaceConfigName The name of the workspace configuration
+   *     to be reset.
+   */
+  resetWorkspaceConfiguration(workspaceConfigName) {
+    //TODO #106: simplify method names
+    this.workspaceConfigSet.resetWorkspaceConfiguration(workspaceConfigName);
   }
 
   /**
@@ -218,17 +303,7 @@ class Project extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - has(blockType)
-     *
-     * Additional reference: src/block_library_controller.js
-     * - has(blockType)
-     *
-     */
-    throw 'unimplemented: has';
+    return this.librarySet.hasBlock(blockType);
   }
 
   /**
@@ -237,12 +312,7 @@ class Project extends Resource {
    * @return {!Toolbox} The found toolbox or null.
    */
   getToolbox(toolboxName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw 'unimplemented: getToolbox';
+    return this.toolboxSet.getToolbox(toolboxName);
   }
 
   /**
@@ -251,12 +321,7 @@ class Project extends Resource {
    * @return {!BlockLibrary} The found library or null.
    */
   getLibrary(libraryName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw 'unimplemented: getLibrary';
+    return this.librarySet.getLibrary(libraryName);
   }
 
   /**
@@ -266,27 +331,17 @@ class Project extends Resource {
    * @return {!WorkspaceContents} The found workspace contents or null.
    */
   getWorkspaceContents(workspaceContentsName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw 'unimplemented: getWorkspaceContents';
+    return this.workspaceContentsSet.getWorkspaceContents(workspaceContentsName);
   }
 
   /**
    * Gets a named workspace configuration object contained within the project.
    * @param {string} workspaceConfigsName Name of the workspace configuration
    *     to be found.
-   * @return {!WorkspaceContents} The found workspace configuration or null.
+   * @return {!WorkspaceConfiguration} The found workspace configuration or null.
    */
   getWorkspaceConfiguration(workspaceConfigName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw 'unimplemented: getWorkspaceConfiguration';
+    return this.workspaceConfigSet.getWorkspaceConfiguration(workspaceConfigName);
   }
 
   /**
@@ -304,6 +359,11 @@ class Project extends Resource {
    * @return {!Object} The tree-specific JSON representation of the project.
    */
   getTreeJson() {
-    throw 'unimplemented: getTreeJson';
+    const projectTree = [
+      {'id': this.name, 'text': this.name},
+      {'children': [ this.librarySet.getJson(), this.toolboxSet.getJson(),
+        this.workspaceContentsSet.getJson(), this.workspaceConfigSet.getJson()]}
+    ];
+    return projectTree;
   }
 }
