@@ -1206,7 +1206,7 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
  * @param {string} inputType Type of input (statement, value, dummy).
  * @param {string} blockTypeName Name of block, given by user.
  * @param {string} blockStarterText Starter text to place on block, given by user (optional).
-*/
+ */
 FactoryUtils.buildBlockEditorStarterXml = function(inputType, blockTypeName, blockStarterText) {
   // REFACTORED: Moved in from factory.js:buildStartXml()
   inputType = inputType || 'input_statement';

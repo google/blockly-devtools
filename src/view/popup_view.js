@@ -22,15 +22,12 @@
 
 goog.provide('PopupView');
 
-goog.require('PopupController');
-
 /**
  * @fileoverview PopupView is an abstract interface from which any popups will
  * extend.
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
-
 class PopupView {
   /**
    * @constructor

@@ -29,14 +29,13 @@
 
 goog.provide('PopupController');
 
-goog.require('AppController');
 goog.require('NewBlockPopupView');
 goog.require('ProjectController');
 
 class PopupController {
   /**
    * @constructor
-   * @param {!AppController} appController AppController object which will send
+   * @param {!AppController} appController AppController object which sends
    *     the necessary commands in response to user's input into the popup. Also
    *     gives access to model functions (e.g. Project).
    */
@@ -57,30 +56,30 @@ class PopupController {
   }
 
   /**
-   * One of three possible popup types. Constant used in parameters for specifying
-   * between popups. Preview popup is the popup of a developer's sample application
-   * before export.
-   * @return {!string}
+   * One of three possible popup types. Preview popup is the popup of a developer's
+   * sample application before export.
+   * @return {!string} Constant string used in parameters for specifying between
+   *     popups.
    */
   static get PREVIEW() {
     return 'PREVIEW';
   }
 
   /**
-   * One of three possible popup types. Constant used in parameters for specifying
-   * between popups. The New Block popup allows developers to initialize their
-   * block before going right into the Block Editor.
-   * @return {!string}
+   * One of three possible popup types. The New Block popup allows developers to
+   * initialize their block before going right into the Block Editor.
+   * @return {!string} Constant string used in parameters for specifying between
+   *     popups.
    */
   static get NEW_BLOCK() {
     return 'NEW_BLOCK';
   }
 
   /**
-   * One of three possible popup types. Constant used in parameters for specifying
-   * between popups. The new config popup allows developers to click through
-   * a checkbox to configure their WorkspaceConfiguration.
-   * @return {!string}
+   * One of three possible popup types. The new config popup allows developers
+   * to click through a checkbox to configure their WorkspaceConfiguration.
+   * @return {!string} Constant string used in parameters for specifying between
+   *     popups.
    */
   static get NEW_CONFIG() {
     return 'NEW_CONFIG';

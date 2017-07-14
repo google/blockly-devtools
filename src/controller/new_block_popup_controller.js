@@ -22,7 +22,6 @@
 
 goog.provide('NewBlockPopupController');
 
-goog.require('AppController2');
 goog.require('BlockEditorController');
 goog.require('PopupController');
 
@@ -35,7 +34,8 @@ goog.require('PopupController');
 class NewBlockPopupController extends PopupController {
   /**
    * @constructor
-   * @param {AppController}
+   * @param {AppController2} AppController2 object which controls the application
+   *     currently being used.
    */
   constructor(appController) {
     super(appController);
