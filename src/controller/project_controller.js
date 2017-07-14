@@ -149,7 +149,7 @@ class ProjectController {
    */
   addToolbox(toolbox) {
     this.project.addToolbox(toolbox);
-    this.tree.addComponentNode('Toolbox', toolbox);
+    this.tree.addToolboxNode(toolbox.name);
   }
 
   /**
@@ -160,7 +160,7 @@ class ProjectController {
    */
   addWorkspaceContents(workspaceContents) {
     this.project.addWorkspaceContents(workspaceContents);
-    this.tree.addComponentNode('WorkspaceContents', workspaceContents);
+    this.tree.addWorkspaceContentsNode(workspaceContents.name);
   }
 
   /**
@@ -171,7 +171,7 @@ class ProjectController {
    */
   addWorkspaceConfiguration(workspaceConfig) {
     this.project.addWorkspaceConfiguration(workspaceConfig);
-    this.tree.addComponentNode('WorkspaceConfiguration', workspaceConfig);
+    this.tree.addWorkspaceConfigurationNode(workspaceConfig.name);
   }
 
   /**
@@ -181,7 +181,7 @@ class ProjectController {
    */
   addBlockLibrary(blockLibrary) {
     this.project.addBlockLibrary(blockLibrary);
-    this.tree.addComponentNode('BlockLibrary', blockLibrary);
+    this.tree.addBlockLibraryNode(blockLibrary.name);
   }
 
   /**
@@ -191,7 +191,7 @@ class ProjectController {
    */
   removeToolbox(toolboxName) {
     this.project.removeToolbox(toolboxName);
-    this.tree.deleteComponentNode('Toolbox', toolboxName);
+    this.tree.deleteToolboxtNode(toolboxName);
   }
 
   /**
@@ -202,7 +202,7 @@ class ProjectController {
    */
   removeWorkspaceContents(workspaceContentsName) {
     this.project.removeWorkspaceContents(workspaceContentsName);
-    this.tree.deleteComponentNode('WorkspaceContents', workspaceContentsName);
+    this.tree.deleteWorkspaceContentsNode(workspaceContentsName);
   }
 
   /**
@@ -213,7 +213,7 @@ class ProjectController {
    */
   removeWorkspaceConfiguration(workspaceConfigName) {
     this.project.removeWorkspaceConfiguration(workspaceConfigName);
-    this.tree.deleteComponentNode('WorkspaceConfiguration', workspaceConfigName);
+    this.tree.deleteWorkspaceConfigurationNode(workspaceConfigName);
   }
 
   /**
@@ -224,7 +224,7 @@ class ProjectController {
    */
   removeBlockLibrary(blockLibraryName) {
     this.project.removeBlockLibrary(blockLibraryName);
-    this.tree.deleteComponentNode('BlockLibrary', blockLibrary.name);
+    this.tree.deleteBlockLibraryNode(blockLibraryName);
   }
 
   /**
