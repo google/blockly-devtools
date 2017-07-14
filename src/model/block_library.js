@@ -123,7 +123,7 @@ class BlockLibrary extends Resource {
    * Removes block from the block library.
    * @param {string} blockType Type of block.
    */
-  removeBlock(blockType) {
+  remove(blockType) {
     /*
      * TODO: Move from src/block_library_storage.js
      *

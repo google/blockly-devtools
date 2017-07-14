@@ -62,7 +62,7 @@ goog.require('Resource');
    * Adds a resource to the set.
    * @param {!Resource} resource The resource to be added.
    */
-  addResource(resource) {
+  add(resource) {
     throw 'unimplemented: addResource';
   }
 
@@ -70,7 +70,7 @@ goog.require('Resource');
    * Removes a resource from the set.
    * @param {string} resourceName The name of the resource to be removed.
    */
-  removeResource(resourceName) {
+  remove(resourceName) {
     throw 'unimplemented: removeResource';
   }
 
@@ -79,7 +79,7 @@ goog.require('Resource');
    * @param {string} resourceName The resource to be returned.
    * @return {!Resource} The resource, or null if it's not contained in the set.
    */
-  getResource(resourceName) {
+  get(resourceName) {
     return this.resources[resourceName];
   }
 
@@ -87,7 +87,7 @@ goog.require('Resource');
    * Gets the names of all resources contained within the set.
    * @return {Array.<string>} The names of all resources the set contains.
    */
-  getResourceNames() {
+  getNames() {
     return Object.keys(this.resources);
   }
 
