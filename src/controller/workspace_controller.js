@@ -36,6 +36,11 @@ goog.require('WorkspaceEditorView');
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class WorkspaceController {
+  /**
+   * @constructor
+   * @param {!Project} project Project whose Workspace elements are managed by this controller.
+   * @param {!Blockly.Workspace} hiddenWorkspace Hidden workspace used to generate Blockly objects.
+   */
   constructor(project, hiddenWorkspace) {
     /**
      * Project whose library is controlled by this BlockLibraryController instance.
@@ -57,7 +62,7 @@ class WorkspaceController {
 
     /**
      * WorkspaceEditorView associated with this instance of WorkspaceController.
-     * @type {!WorkspaceView}
+     * @type {!WorkspaceEditorView}
      */
     this.view = new WorkspaceEditorView(
         this.currentWorkspaceContents, this.currentWorkspaceConfig);

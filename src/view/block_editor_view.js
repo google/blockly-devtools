@@ -31,6 +31,11 @@ goog.provide('BlockEditorView');
 goog.require('BlockDefinition');
 
 class BlockEditorView {
+  /**
+   * @constructor
+   * @param {BlockDefinition} blockDefinition BlockDefinition object currently
+   *      shown in view.
+   */
   constructor(blockDefinition) {
     /**
      * BlockDefinition object associated with this instance of BlockLibraryView.

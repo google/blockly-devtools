@@ -389,7 +389,7 @@ class AppController2 {
    * Handler for the window's 'beforeunload' event. When a user has unsaved
    * changes and refreshes or leaves the page, confirm that they want to do so
    * before actually refreshing.
-   * @param {Event} event beforeunload event.
+   * @param {Event} event The beforeunload event.
    */
   confirmLeavePage(event) {
     // TODO: Move in from app_controller.js'
@@ -400,7 +400,7 @@ class AppController2 {
    * Handler for the window's 'beforeunload' event. When a user has unsaved
    * changes and refreshes or leaves the page, confirm that they want to do so
    * before actually refreshing.
-   * @param {Event} event beforeunload event.
+   * @param {Event} event The beforeunload event.
    */
   confirmLeavePage(event) {
     // TODO: Move in from app_controller.js'
