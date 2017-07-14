@@ -23,6 +23,7 @@
 goog.provide('ToolboxEditorView');
 
 goog.require('FactoryUtils');
+goog.require('Toolbox');
 
 /**
  * @fileoverview ToolboxEditorView manages the visible parts of the application involved

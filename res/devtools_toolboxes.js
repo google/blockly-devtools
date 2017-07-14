@@ -54,7 +54,7 @@ DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
 DevToolsToolboxes.toolboxEditor = function(blockLibraryList) {
   const blockLibraryXmls = '';
   // If null, no additional library category is created.
-  if (blockLibraryList !== null || blockLibraryList !== undefined) {
+  if (blockLibraryList) {
     blockLibraryList.forEach((blockLibPair) => {
       blockLibraryXmls += DevToolsToolboxes.createCategoryElement_(
           blockLibPair[0], blockLibPair[1]);
