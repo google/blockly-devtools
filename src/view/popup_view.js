@@ -18,6 +18,10 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('PopupView');
+
 /**
  * @fileoverview PopupView is an abstract interface from which any popups will
  * extend.
@@ -55,13 +59,15 @@ class PopupView {
    * Hides window of popup view.
    */
   hide() {
-    // TODO: Implement.
+    $('.popup').html('');
+    $('.popup').css('display', 'none');
   }
 
   /**
    * Shows window of popup view.
    */
   show() {
-    // TODO: Implement.
+    $('.popup').html(this.htmlContents);
+    $('.popup').css('display', 'inline');
   }
 }

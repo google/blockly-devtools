@@ -20,6 +20,10 @@
 
 'use strict';
 
+goog.provide('NewBlockPopupView');
+
+goog.require('PopupView');
+
 /**
  * @fileoverview NewBlockPopupView deals with the UI for creating new blocks and
  * projects.
@@ -29,6 +33,8 @@
 class NewBlockPopupView extends PopupView {
   constructor() {
     super();
+
+    console.log('New Block Popup View called!');
 
     /**
      * HTML contents of what is inside popup window. Does not include the popup
@@ -63,8 +69,6 @@ Dummy input:<br>
 `;
 
     super.injectPopupContents(this.htmlContents);
-
-    // TODO: Insert HTML contents into page, make visible.
   }
 
   // TODO: Add functions.

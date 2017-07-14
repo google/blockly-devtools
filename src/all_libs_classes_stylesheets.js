@@ -63,6 +63,8 @@
   appendScript('src/model/project.js');
 
   appendScript('src/view/block_editor_view.js');
+  appendScript('src/view/popup_view.js');
+  appendScript('src/view/new_block_popup_view.js');
   appendScript('src/view/app_view.js');
   appendScript('src/new_block_dialog_view.js');
   appendScript('src/view/toolbox_editor_view.js');

@@ -90,14 +90,15 @@ class PopupController {
    * @param {string} popupMode Mode of popup which will be generated.
    */
   show(popupMode) {
-    if (popupMode == this.MODE.NEW_BLOCK) {
+    if (popupMode === PopupController.NEW_BLOCK) {
       this.view = new NewBlockPopupView();
-    } else if (popupMode == this.MODE.PREVIEW) {
+      this.view.show();
+    } else if (popupMode === PopupController.PREVIEW) {
       // TODO: Preview popup view
-    } else if (popupMode == this.MODE.NEW_CONFIG) {
+    } else if (popupMode === PopupController.NEW_CONFIG) {
       // TODO: New config popup view
     } else {
-      throw new Error('Popup type not found.');
+      throw new Error('Popup type ' + popupMode + ' not found.');
     }
   }
 }
