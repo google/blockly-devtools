@@ -24,7 +24,7 @@
 class WorkspaceContentsSet extends ResourceSet {
   /**
    * WorkspaceContentsSet Class.
-   * @param {string} workspaceContentsName Name of the workspace contents set.
+   * @param {string} workspaceContentsSetName Name of the workspace contents set.
    * @param {string} projectName The name of the project the set belongs to.
    *
    * @constructor
