@@ -18,6 +18,15 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('WorkspaceController');
+
+goog.require('Project');
+goog.require('WorkspaceConfiguration');
+goog.require('WorkspaceContents');
+goog.require('WorkspaceEditorView');
+
 /**
  * @class WorkspaceController manages user interaction with workspace contents
  *     and configurations, which are the blocks pre-loaded onto a developer's
@@ -45,7 +54,6 @@ class WorkspaceController {
      * @type {!WorkspaceContents}
      */
     this.currentWorkspaceConfig = null;
-
 
     /**
      * WorkspaceEditorView associated with this instance of WorkspaceController.

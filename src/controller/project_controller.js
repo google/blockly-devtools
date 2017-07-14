@@ -18,6 +18,12 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('ProjectController');
+
+goog.require('Project');
+
 /**
  * @fileoverview The ProjectController Class controls the management of the
  *   information contained within projects (libraries, toolboxes, workspaces);
@@ -26,14 +32,7 @@
  * @author sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 
-/**
- * @class ProjectController manages the DevTools Project object's information.
- *    it controls opening and storing blocks, warning about unsaved changes
- *    to libraries, and importing and exporting projects and the elements that
- *    they contain.
- */
-//TODO #44: refactor
-//TODO #50: manage project metadata
+// TODO(#50): Manage project metadata
 class ProjectController {
   /**
    * ProjectController class

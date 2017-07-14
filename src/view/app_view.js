@@ -18,17 +18,20 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
  * @fileoverview The AppView Class deals with the visual parts of the main
  * devtools application, such as the menubar.
  *
  * @author celinechoo (Celine Choo)
  */
+goog.provide('AppView');
 
-goog.require('BlockFactory');
+goog.require('BlockDefinition');
+goog.require('BlockEditorView');
+goog.require('NavigationTree');
 goog.require('FactoryUtils');
-goog.require('BlockLibraryController');
-goog.require('BlockExporterController');
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
@@ -49,6 +52,32 @@ class AppView {
      * @type {!HtmlElement}
      */
     this.win = nw.Window.get();
+
+    /**
+     * The block editor view for the session.
+     * @type {!BlockEditorView}
+     */
+    this.blockEditorView = new BlockEditorView(new BlockDefinition('block_type'));
+
+    /**
+     * The toolbox view for the session.
+     * @type {!ToolboxEditorView}
+     */
+    this.toolboxEditorView = new ToolboxEditorView(new Toolbox('toolbox_name'));
+
+    /**
+     * The workspace view for the session.
+     * @type {!WorkspaceEditorView}
+     */
+    this.workspaceEditorView = new WorkspaceEditorView(
+        new WorkspaceContents('workspace_contents_name'),
+        new WorkspaceConfiguration('default'));
+
+    // Assigning event handlers and listeners for application.
+    this.assignLibraryClickHandlers();
+    this.assignBlockFactoryClickHandlers();
+    this.assignBlockFactoryClickHandlers();
+    this.addBlockFactoryEventListeners();
 
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
     const menuTree = [
@@ -130,38 +159,10 @@ class AppView {
     this.selectedTab = AppController2.BLOCK_FACTORY;
 
     /**
-     * The block editor view for the session.
-     * @type {!BlockEditorView}
+     * Keeps track of which view is currently active.
+     * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
-    this.blockEditorView = new BlockEditorView();
-
-    /**
-     * The toolbox view for the session.
-     * @type {!ToolboxEditorView}
-     */
-    this.toolboxEditorView = new ToolboxEditorView();
-
-    /**
-     * The workspace view for the session.
-     * @type {!WorkspaceEditorView}
-     */
-    this.workspaceEditorView = new WorkspaceEditorView();
-
-    // Create div elements to insert hidden workspaces used in I/O. Hidden
-    // workspaces stored in EditorController.
-    this.insertHiddenWorkspace_();
-  }
-
-  /**
-   * Creates invisible/hidden Blockly workspace that is used as a tool in
-   * generating XML of blocks.
-   * @private
-   */
-  insertHiddenWorkspace_() {
-    const hiddenDiv = document.createElement('div');
-    hiddenDiv.id = 'hiddenWorkspace';
-    hiddenDiv.style.display = 'none';
-    document.body.appendChild(hiddenDiv);
+    this.currentView = this.blockEditorView;
   }
 
   /**
@@ -400,32 +401,27 @@ class AppView {
   }
 
   /**
-   * Assign button click handlers for the exporter.
-   */
-  assignExporterClickHandlers() {
-    /*
-     * TODO: Move in from app_controller.js
-     */
-    // TODO(#7): Remove after exporter is consolidated into save/open project.
-    throw 'Unimplemented: assignExporterClickHandlers()';
-  }
-
-  /**
-   * Assign change listeners for the exporter. These allow for the dynamic update
-   * of the exporter preview.
-   */
-  assignExporterChangeListeners() {
-    // TODO: Move in from app_controller.js
-    // TODO(#7): Remove after exporter is consolidated into save/open project.
-    throw 'Unimplemented: assignExporterChangeListeners()';
-  }
-
-  /**
    * Assign button click handlers for the block library.
    */
   assignLibraryClickHandlers() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: assignLibraryClickHandlers()';
+    // REFACTORED: Moved in from app_controller.js
+    // Button for saving block to library.
+    $('#saveToBlockLibraryButton').click(() => {
+      this.appController.project.saveBlock();
+      this.view.addBlockToTree();
+    });
+
+    // Button for removing selected block from library.
+    $('#removeBlockFromLibraryButton').click(() => {
+      this.appController.project.removeBlockFromProject();
+      this.view.removeBlockFromTree();
+    });
+
+    // Button for clearing the block library.
+    $('#clearBlockLibraryButton').click(() => {
+      this.appController.project.clearLibrary();
+      this.view.clearLibraryFromTree();
+    });
   }
 
   /**
@@ -433,15 +429,63 @@ class AppView {
    */
   assignBlockFactoryClickHandlers() {
     // TODO: Move in from app_controller.js
-    throw 'Unimplemented: assignBlockFactoryClickHandlers()';
+    // Assign button event handlers for Block Factory.
+    $('#localSaveButton').click(() => {
+      this.exportBlockLibraryToFile();
+    });
+
+    $('#helpButton').click(() => {
+      open('https://developers.google.com/blockly/custom-blocks/block-factory',
+          'BlockFactoryHelp');
+    });
+
+    $('#files').click(() => {
+      // Warn user.
+      var replace = confirm('This imported block library will ' +
+          'replace your current block library.');
+      if (replace) {
+       this.importBlockLibraryFromFile();
+        // Clear this so that the change event still fires even if the
+        // same file is chosen again. If the user re-imports a file, we
+        // want to reload the workspace with its contents.
+        this.value = null;
+      }
+    });
+
+    $('#createNewBlockButton').click(() => {
+      // If there are unsaved changes warn user, check if they'd like to
+      // proceed with unsaved changes, and act accordingly.
+      var proceedWithUnsavedChanges =
+          this.appController.projectController.warnIfUnsaved();
+      if (!proceedWithUnsavedChanges) {
+        return;
+      }
+
+      this.createBlocklyInitPopup(false);
+
+      // Close the Block Library Dropdown.
+      this.closeModal();
+    });
   }
 
   /**
    * Add event listeners for the block factory.
    */
   addBlockFactoryEventListeners() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: addBlockFactoryEventListeners()';
+    // REFACTORED: Moved in from app_controller.js
+    // Update code on changes to block being edited.
+    this.blockEditorView.editorWorkspace.addChangeListener(
+        this.appController.editorController.updateLanguage);
+
+    // Disable blocks not attached to the factory_base block.
+    this.blockEditorView.editorWorkspace.addChangeListener(Blockly.Events.disableOrphans);
+
+    const controller = this.appController.editorController.blockEditorController;
+    $('#direction').change(controller.updatePreview);
+    $('#languageTA').change(controller.updatePreview);
+    $('#languageTA').keyup(controller.updatePreview);
+    $('#format').change(controller.formatChange);
+    $('#language').change(controller.updatePreview);
   }
 
   /**
@@ -454,23 +498,11 @@ class AppView {
   }
 
   /**
-   * Handler for the window's 'beforeunload' event. When a user has unsaved
-   * changes and refreshes or leaves the page, confirm that they want to do so
-   * before actually refreshing.
-   * @param {Event} event beforeunload event.
-   */
-  confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js'
-    throw 'Unimplemented: confirmLeavePage()';
-  }
-
-  /**
    * Show a modal element, usually a dropdown list.
    * @param {string} id ID of element to show.
    */
   openModal(id) {
     // TODO: Move in from app_controller.js
-    throw 'Unimplemented: openModal()';
   }
 
   /**
@@ -478,7 +510,6 @@ class AppView {
    */
   closeModal() {
     // TODO: Move in from app_controller.js
-    throw 'Unimplemented: closeModal()';
   }
 
   /**

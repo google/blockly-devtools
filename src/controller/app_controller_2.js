@@ -27,12 +27,30 @@
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
+goog.provide('AppController2');
+
+goog.require('AppView');
+goog.require('EditorController');
+goog.require('FactoryUtils');
+goog.require('goog.dom.classlist');
+goog.require('goog.dom.xml');
+goog.require('goog.ui.PopupColorPicker');
+goog.require('goog.ui.ColorPicker');
+goog.require('PopupController');
+goog.require('Project');
+goog.require('ProjectController');
+
 'use strict';
 
 // TODO(#44): Rename to AppController once refactor is finished. Temporarily named
 // to AppController2 to avoid overlapping namespaces with current AppController,
 // which will be refactored into this (and other) files.
 class AppController2 {
+  /**
+   * Initializes AppController2, creates project object, associated controllers
+   * and views.
+   * @constructor
+   */
   constructor() {
     // Block Factory has a dependency on bits of Closure that core Blockly
     // doesn't have. When you run this from file:// without a copy of Closure,
@@ -62,11 +80,9 @@ class AppController2 {
      */
     this.navTree = new NavigationTree(this, this.project);
 
-    /**
-     * Main View class which manages view portion of application.
-     * @type {!AppView}
-     */
-    this.view = new AppView(this);
+    // Create div elements to insert hidden workspaces used in I/O. Hidden
+    // workspaces stored in EditorController.
+    this.insertHiddenWorkspace_();
 
     /**
      * Hidden Blockly workspace used to generate Blockly objects by using
@@ -88,8 +104,20 @@ class AppController2 {
     this.editorController = new EditorController(this.project, this.hiddenWorkspace);
 
     /**
-     * PopupController object which controls any popups that may appear when
-     *     using DevTools.
+     * Main View class which manages view portion of application.
+     * @type {!AppView}
+     */
+    this.view = new AppView(this);
+
+    /**
+     * ProjectController object associated with application.
+     * @type {!ProjectController}
+     */
+    this.projectController = new ProjectController(this.project);
+
+    /**
+     * PopupController object which controls any popups that may appear throughout
+     * the course of using DevTools.
      * @type {!PopupController}
      */
     this.popupController = new PopupController(this.projectController);
@@ -102,6 +130,18 @@ class AppController2 {
     this.tabMap[this.BLOCK_FACTORY] = $('#blockFactory_tab');
     this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
     this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
+
+    /**
+     * Keeps track of name of last selected tab.
+     * @type {string}
+     */
+    this.lastSelectedTab = null;
+
+    /**
+     * Keeps track of name of currently selected tab.
+     * @type {string}
+     */
+    this.selectedTab = this.BLOCK_FACTORY;
   }
 
   // ======================== CONSTANTS ===========================
@@ -148,8 +188,6 @@ class AppController2 {
   static get WORKSPACE_EDITOR() {
     return 'WORKSPACE_EDITOR';
   }
-
-
 
   // ========================= VIEW-CONTROLLER ==========================
 
@@ -280,6 +318,18 @@ class AppController2 {
   }
 
   /**
+   * Creates invisible/hidden Blockly workspace that is used as a tool in
+   * generating XML of blocks.
+   * @private
+   */
+  insertHiddenWorkspace_() {
+    const hiddenDiv = document.createElement('div');
+    hiddenDiv.id = 'hiddenWorkspace';
+    hiddenDiv.style.display = 'none';
+    document.body.appendChild(hiddenDiv);
+  }
+
+  /**
    * Prompts user to either open a preexisting project or create a new project.
    */
   openProject() {
@@ -324,5 +374,16 @@ class AppController2 {
    */
   createPopup(popupType) {
     this.popupController.show(popupType);
+  }
+
+  /**
+   * Handler for the window's 'beforeunload' event. When a user has unsaved
+   * changes and refreshes or leaves the page, confirm that they want to do so
+   * before actually refreshing.
+   * @param {Event} event beforeunload event.
+   */
+  confirmLeavePage(event) {
+    // TODO: Move in from app_controller.js'
+    console.warn('Unimplemented: confirmLeavePage()');
   }
 }

@@ -18,12 +18,18 @@
  * limitations under the License.
  */
 
+'use strict';
+
 /**
  * @fileoverview BlockEditorView deals with the visual components of defining a
  * custom block.
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
+
+goog.provide('BlockEditorView');
+
+goog.require('BlockDefinition');
 
 class BlockEditorView {
   constructor(blockDefinition) {
@@ -32,12 +38,11 @@ class BlockEditorView {
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
-
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
      */
-    this.blockDefinitionWorkspace = Blockly.inject('blockly',
+    this.editorWorkspace = Blockly.inject('blockly',
       {
         collapse: false,
         toolbox: DevToolsToolboxes.blockFactory,

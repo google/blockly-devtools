@@ -18,6 +18,13 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('ToolboxSet');
+
+goog.require('ResourceSet');
+goog.require('Toolbox');
+
 /**
  * @class ToolboxSet is a set of Toolbox objects.
  */
@@ -30,7 +37,7 @@ class ToolboxSet extends ResourceSet {
    * @constructor
    */
   constructor(toolboxSetName, projectName) {
-    super(toolbox SetName, projectName, Toolbox);
+    super(toolboxSetName, projectName, Toolbox);
   }
 
   /**
@@ -38,7 +45,7 @@ class ToolboxSet extends ResourceSet {
    * @param {string} toolboxName The name of the toolbox to be added.
    */
   addToolbox(toolboxName) {
-    super.addResource(toolbox Name);
+    super.addResource(toolboxName);
   }
 
   /**
@@ -46,7 +53,7 @@ class ToolboxSet extends ResourceSet {
    * @param {string} toolboxName The name of the toolbox to be removed.
    */
   removeToolbox(toolboxName) {
-    super.removeResource(toolbox Name);
+    super.removeResource(toolboxName);
   }
 
   /**
@@ -55,7 +62,7 @@ class ToolboxSet extends ResourceSet {
    * @return {!Object} The toolbox, or null if it's not contained in the set.
    */
   getToolbox(toolboxName) {
-    return super.getResource(toolbox Name);
+    return super.getResource(toolboxName);
   }
 
   /**

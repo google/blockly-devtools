@@ -5,14 +5,11 @@
   <title>Blockly Demo: Blockly Developer Tools</title>
   <script src="src/all_libs_classes_stylesheets.js"></script>
   <script>
-    var blocklyFactory;
-    var init = function() {
-      blocklyFactory = new AppController();
-      blocklyFactory.init();
-      window.addEventListener('beforeunload', blocklyFactory.confirmLeavePage);
-    };
-
-    window.addEventListener('load', init);
+    let DevTools;
+    window.addEventListener('load', () => {
+      DevTools = new AppController2();
+      window.addEventListener('beforeunload', DevTools.confirmLeavePage);
+    });
   </script>
 </head>
 <body>
@@ -22,8 +19,11 @@
     </button>
   </div>
   <div id="tabContainer">
-    <div id="blockFactory_tab" class="tab tabon">Block Factory</div>
-    <div id="blocklibraryExporter_tab" class="tab taboff">Block Exporter</div>
+    <div id="blockFactory_tab" class="tab tabon">Block Editor</div>
+    <!-- TODO(#95): Remove block exporter from view entirely after all functions are moved. -->
+    <!--div id="blocklibraryExporter_tab" class="tab taboff">Block Exporter</div-->
+    <div id="toolboxEditor_tab" class="tab taboff">Toolbox Editor</div>
+    <div id="workspaceEditor_tab" class="tab taboff">Workspace Editor</div>
     <div id="workspaceFactory_tab" class="tab taboff">Workspace Factory</div>
   </div>
 
@@ -398,5 +398,16 @@
 
    <!-- Navigation Tree -->
    <div id="navigationTree"></div>
+
+   <!-- TODO(#95): Remove the div below in upcoming PR with adding the proper
+              views where the new Blockly.Workspace objects will go. For now,
+              included here to avoid the 'container not found' error for
+              Blockly.inject(). -->
+  <div style="display:none;">
+    <div id="toolboxDiv"></div>
+    <div id="toolboxPreview"></div>
+    <div id="wContentsDiv"></div>
+    <div id="workspacePreview"></div>
+  </div>
 </body>
 </html>
