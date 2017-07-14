@@ -47,14 +47,14 @@
      this.resourceConstructor = resourceConstructor;
      /**
       * The resources that the project contains, mapped to their names.
-      * @type {!Object<string, Object>}
+      * @type {!Object<string, Resource>}
       */
      this.resources;
   }
 
   /**
    * Adds a resource to the set.
-   * @param {!Object} resource The resource to be added.
+   * @param {!Resource} resource The resource to be added.
    */
   addResource(resource) {
     throw 'unimplemented: addResource';
@@ -71,7 +71,7 @@
   /**
    * Gets a resource contained within the set.
    * @param {string} resourceName The resource to be returned.
-   * @return {!Object} The resource, or null if it's not contained in the set.
+   * @return {!Resource} The resource, or null if it's not contained in the set.
    */
   getResource(resourceName) {
     return this.resources[resourceName];
@@ -97,7 +97,7 @@
   /**
    * Returns whether or not a resource's type prohibits it from being added to
    *     the set.
-   * @param {!Object} resource The resource to be added.
+   * @param {!Resource} resource The resource to be added.
    */
   isValidType(resource) {
     /*
