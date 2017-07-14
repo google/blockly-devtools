@@ -156,9 +156,9 @@ class NavigationTree {
   /**
    * Adds BlockLibrary to the tree.
    *
-   * @param {string} blockLibraryName Name of BlockLibrary to add to the tree.
+   * @param {string} libraryName Name of BlockLibrary to add to the tree.
    */
-  addBlockLibraryNode(blockLibraryName) {
+  addBlockLibraryNode(libraryName) {
     addComponentNode(libraryPrefix, libraryName);
   }
 
@@ -171,7 +171,7 @@ class NavigationTree {
    */
   addComponentNode(prefix, componentName) {
     $('#navigationTree').jstree().create_node(prefix,
-      {'id': prefix + '_' + blockType, 'text': blockType }, 'last', null);
+      {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
 
   /**
    * Clears the tree.
