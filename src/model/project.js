@@ -84,6 +84,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all library names.
    */
   getLibraryNames() {
+    //TODO #106: simplify method names
     return this.librarySet.getLibraryNames();
   }
 
@@ -92,6 +93,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all toolbox names.
    */
   getToolboxNames() {
+    //TODO #106: simplify method names
     return this.toolboxSet.getToolboxNames();
   }
 
@@ -100,6 +102,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all workspace contents names.
    */
   getWorkspaceContentsNames() {
+    //TODO #106: simplify method names
     return this.workspaceContentsSet.getWorkspaceNames();
   }
 
@@ -108,6 +111,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all workspace configuration names.
    */
   getWorkspaceConfigurationNames() {
+    //TODO #106: simplify method names
     return this.workspaceConfigSet.getWorkspaceConfigurationNames();
   }
 
@@ -129,6 +133,7 @@ class Project extends Resource {
    */
    //TODO #104: change param to actual object
   addBlockLibrary(blockLibraryName) {
+    //TODO #106: simplify method names
     this.librarySet.addLibrary(blockLibraryName);
   }
 
@@ -139,6 +144,7 @@ class Project extends Resource {
    */
   //TODO #104: change param to actual object
   addToolbox(toolboxName) {
+    //TODO #106: simplify method names
     this.toolboxSet.addToolbox(toolboxName);
   }
 
@@ -149,6 +155,7 @@ class Project extends Resource {
    */
   //TODO #104: change param to actual object
   addWorkspaceContents(workspaceContentsName) {
+    //TODO #106: simplify method names
     this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
   }
 
@@ -159,6 +166,7 @@ class Project extends Resource {
    */
   //TODO #104: change param to actual object
   addWorkspaceConfiguration(workspaceConfigName) {
+    //TODO #106: simplify method names
     this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
   }
 
@@ -201,7 +209,8 @@ class Project extends Resource {
    *     from the project.
    */
   removeBlockLibrary(blockLibraryName) {
-    this.librarySet.addLibrary(blockLibraryName);
+    //TODO #106: simplify method names
+    this.librarySet.removeLibrary(blockLibraryName);
   }
 
   /**
@@ -210,7 +219,8 @@ class Project extends Resource {
    * @param {string} toolboxName Name of the toolbox to remove from project.
    */
   removeToolbox(toolboxName) {
-    this.toolboxSet.addToolbox(toolboxName);
+    //TODO #106: simplify method names
+    this.toolboxSet.removeToolbox(toolboxName);
   }
 
   /**
@@ -219,6 +229,7 @@ class Project extends Resource {
    *     remove.
    */
   removeWorkspaceContents(workspaceContentsName) {
+    //TODO #106: simplify method names
     this.workspaceContentsSet.removeWorkspaceContents(workspaceContentsName);
   }
 
@@ -227,6 +238,7 @@ class Project extends Resource {
    * @param {string} workspaceConfigName The workspace configuration to remove.
    */
   removeWorkspaceConfiguration(workspaceConfigName) {
+    //TODO #106: simplify method names
     this.workspaceConfigSet.removeWorkspaceConfiguration(workspaceConfigName);
   }
 
@@ -235,6 +247,7 @@ class Project extends Resource {
    * @param {string} libraryName The name of the library to be cleared.
    */
   clearLibrary(libraryName) {
+    //TODO #106: simplify method names
     this.librarySet.clearLibrary(libraryName);
   }
 
@@ -243,6 +256,7 @@ class Project extends Resource {
    * @param {string} toolboxName The name of the toolbox to clear.
    */
   clearToolbox(toolboxName) {
+    //TODO #106: simplify method names
     this.toolboxSet.clearToolbox(toolboxName);
   }
 
@@ -251,6 +265,7 @@ class Project extends Resource {
    * @param {string} workspaceContentsName The name of the contents to clear.
    */
   clearWorkspaceContents(workspaceContentsName) {
+    //TODO #106: simplify method names
     this.workspaceContentsSet.clearWorkspaceContents(workspaceContentsName);
   }
 
@@ -260,6 +275,7 @@ class Project extends Resource {
    *     to be reset.
    */
   resetWorkspaceConfiguration(workspaceConfigName) {
+    //TODO #106: simplify method names
     this.workspaceConfigSet.resetWorkspaceConfiguration(workspaceConfigName);
   }
 

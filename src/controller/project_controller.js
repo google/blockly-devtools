@@ -89,8 +89,8 @@ class ProjectController {
    *
    * @return {!Toolbox} The new toolbox added to the project.
    */
-  createNewToolbox(toolboxName) {
-    //TODO #105: check for valid name
+  createToolbox(toolboxName) {
+    //TODO #105: check for valid name, throw error upon conflict
     const toolbox = new Toolbox(toolboxName);
     this.addToolbox(toolbox);
     return toolbox;
@@ -105,7 +105,7 @@ class ProjectController {
    * @return {!WorkspaceContents} The new workspace contents added to the project.
    */
   createWorkspaceContents(workspaceContentsName) {
-    //TODO #105: check for valid name
+    //TODO #105: check for valid name, throw error upon conflict
     const workspaceContents = new WorkspaceContents(workspaceContentsName);
     this.addWorkspaceContents(workspaceContents);
     return workspaceContents;
@@ -121,7 +121,7 @@ class ProjectController {
    *     the project.
    */
   createWorkspaceConfiguration(workspaceConfigName) {
-    //TODO #105: check for valid name
+    //TODO #105: check for valid name, throw error upon conflict
     const workspaceConfig = new WorkspaceConfiguration(workspaceConfigName);
     this.addWorkspaceConfiguration(workspaceConfig);
     return workspaceConfig;
@@ -136,7 +136,7 @@ class ProjectController {
    * @return {!BlockLibrary} The new library added to the project.
    */
   createBlockLibrary(blockLibraryName) {
-    //TODO #105: check for valid name
+    //TODO #105: check for valid name, throw error upon conflict
     const blockLibrary = new BlockLibrary(blockLibraryName);
     this.addBlockLibrary(blockLibrary);
     return blockLibrary;

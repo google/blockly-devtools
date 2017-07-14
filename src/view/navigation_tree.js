@@ -30,13 +30,24 @@ goog.require('Project');
  * @author sagev@google.com (Sage Vouse)
  */
 class NavigationTree {
-/**
- * NavigationTree Class
- * @param {!AppController} appController The AppController for the session the
- *     tree is part of, and therefore must use in the listener.
- * @param {!Project} project The project the tree represents.
- * @constructor
- */
+  /**
+   * Global constants for organizing different node types, used when placing
+   *     nodes in proper sections of the tree and giving them ids. Given with
+   *     the assumption that the name of each object in a project is unique
+   *     across that project.
+   */
+  toolboxPrefix = "Toolbox";
+  libraryPrefix = "BlockLibrary";
+  workspaceContentsPrefix = "WorkspaceContents";
+  workspaceConfigPrefix = "WorkspaceConfiguration";
+
+  /**
+   * NavigationTree Class
+   * @param {!AppController} appController The AppController for the session the
+   *     tree is part of, and therefore must use in the listener.
+   * @param {!Project} project The project the tree represents.
+   * @constructor
+   */
   constructor(appController, project) {
 
     /**
@@ -103,22 +114,64 @@ class NavigationTree {
   /**
    * Adds a block to the tree.
    * @param {string} blockType The name of the block to be added.
-   * @param {string} componentName The name of the component to add it under.
+   * @param {string} libraryName The name of the library to add it under.
    */
-  addBlockNode(blockType, componentName) {
-    $('#navigationTree').jstree().create_node(componentName,
-      {'id': 'block_' + blockType, 'text': blockType }, 'last', null);
+  addBlockNode(blockType, libraryName) {
+    /*
+     * NOTE: The libraryName is the given prefix due to the assumption that
+     *     blocktypes are unique across all libraries in the project.
+     */
+    addComponentNode(libraryName, blockType);
+  }
+
+  /**
+   * Adds toolbox to the tree.
+   *
+   * @param {string} toolboxName Name of the toolbox to add to the tree.
+   */
+  addToolboxNode(toolboxName) {
+    addComponentNode(toolboxPrefix, toolboxName);
+  }
+
+  /**
+   * Adds WorkspaceContents to the tree.
+   *
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     add to the tree.
+   */
+  addWorkspaceContentsNode(workspaceContentsName) {
+    addComponentNode(workspaceContentsPrefix, workspaceContentsName);
+  }
+
+  /**
+   * Adds WorkspaceConfiguration to the tree.
+   *
+   * @param {string} workspaceConfigName Name of the WorkspaceConfiguration
+   *     to add to the tree.
+   */
+  addWorkspaceConfigurationNode(workspaceConfigName) {
+    addComponentNode(workspaceConfigPrefix, workspaceConfigName);
+  }
+
+  /**
+   * Adds BlockLibrary to the tree.
+   *
+   * @param {string} blockLibraryName Name of BlockLibrary to add to the tree.
+   */
+  addBlockLibraryNode(blockLibraryName) {
+    addComponentNode(libraryPrefix, libraryName);
   }
 
   /**
    * Adds a component of the project (BlockLibrary, Toolbox, WorkspaceContents,
    *     or WorkspaceConfiguration) to the navigation tree.
-   * @param {string} componentType The type of component that is being added.
+   * @param {string} prefix Indicates where the node will be placed in the tree
+   *     as well as what will be the beginning of its id.
    * @param {string} componentName The name of the component to add.
    */
-  addComponentNode(componentType, componentName) {
-    $('#navigationTree').jstree().create_node(componentType,
-      {'id': componentType + '_' + blockType, 'text': blockType }, 'last', null);
+  addComponentNode(prefix, componentName) {
+    $('#navigationTree').jstree().create_node(prefix,
+      {'id': prefix + '_' + blockType, 'text': blockType }, 'last', null);
 
   /**
    * Clears the tree.
@@ -129,21 +182,52 @@ class NavigationTree {
   }
 
   /**
-   * Deletes a block from the tree.
-   * @param {string} blockType The name of the block node to remove.
+   * Removes toolbox from the tree.
+   *
+   * @param {string} toolboxName Name of the toolbox to remove from the tree.
    */
-  deleteBlockNode(blockType) {
-    $('#navigationTree').jstree().delete_node('block_' + blockType);
+  deleteToolboxNode(toolboxName) {
+    deleteComponentNode(toolboxPrefix, toolboxName);
+  }
+
+  /**
+   * Removes WorkspaceContents from the tree.
+   *
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     remove from the tree.
+   */
+  deleteWorkspaceContentsNode(workspaceContentsName) {
+    deleteComponentNode(workspaceContentsPrefix, workspaceContentsName);
+  }
+
+  /**
+   * Removes a WorkspaceConfiguration from the tree
+   *
+   * @param {string} workspaceConfigName Name of the
+   *     WorkspaceConfiguration to remove from the tree.
+   */
+  deleteWorkspaceConfigurationNode(workspaceConfigName) {
+    deleteComponentNode(workspaceConfigPrefix, workspaceConfigName);
+  }
+
+  /**
+   * Removes a BlockLibrary from the tree.
+   *
+   * @param {string} blockLibraryName The name of the BlockLibrary to remove
+   *     from the tree.
+   */
+  deleteBlockLibraryNode(blockLibraryName) {
+    deleteComponentNode(libraryPrefix, blockLibraryName);
   }
 
   /**
    * Deletes a component of the project (BlockLibrary, Toolbox, WorkspaceContents,
    *     or WorkspaceConfiguration) from the navigation tree.
-   * @param {string} componentType The type of the component to delete.
+   * @param {string} prefix The prefix of the node to delete.
    * @param {string} componentName The name of the component to delete.
    */
-  deleteComponentNode(componentType, componentName) {
-    $('#navigationTree').jstree().delete_node(componentType + '_' + componentName);
+  deleteComponentNode(prefix, componentName) {
+    $('#navigationTree').jstree().delete_node(prefix + '_' + componentName);
   }
 
   /**

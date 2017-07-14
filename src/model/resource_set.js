@@ -112,18 +112,6 @@ goog.require('Resource');
   }
 
   /**
-   * Returns the metadata for the set.
-   * @return {!Object} The metadata for the set.
-   */
-  getData() {
-    /*
-     * For use in creating the project metadata.
-     * TODO: define metadata structure for sets/projects.
-     */
-    throw 'unimplemented: getData';
-  }
-
-  /**
    * Returns whether or not there are unsaved elements in the resource set.
    * @return {boolean} Whether or not unsaved elements exist.
    */

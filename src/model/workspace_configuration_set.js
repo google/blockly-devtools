@@ -79,16 +79,6 @@ class WorkspaceConfigurationSet extends ResourceSet {
   }
 
   /**
-   * Returns a workspace configuration to default settings.
-   * @param {string} workspaceConfigurationName The name of the workspace
-   *     configuration to be reset.
-   */
-  //TODO #103
-  resetWorkspaceConfiguration(workspaceConfigurationName) {
-    throw 'unimplemented: resetWorkspaceConfiguration';
-  }
-
-  /**
    * Produces the JSON needed to organize workspace configurations in the tree.
    * @return {!Object} The JSON for the tree's workspace configuration section.
    */
