@@ -30,6 +30,7 @@
 
 goog.provide('BlockEditorController');
 
+goog.require('BlockDefinition');
 goog.require('FactoryUtils');
 goog.require('StandardCategories');
 
@@ -42,22 +43,16 @@ class BlockEditorController {
    */
   constructor(project, hiddenWorkspace) {
     /**
-     * Project whose library is controlled by this BlockLibraryController instance.
+     * Project whose library is controlled by this BlockEditorController instance.
      * @type {!Project}
      */
     this.project = project;
 
     /**
-     * Keeps track of which block is currently being edited in this.project.
-     * @type {!BlockDefinition}
-     */
-    this.currentBlockDefinition = null;
-
-    /**
      * View object in charge of visible elements of DevTools Block Library editor.
      * @type {!BlockEditorView}
-     */
-    this.view = new BlockEditorView(this.currentBlockDefinition);
+     */debugger;
+    this.view = new BlockEditorView(new BlockDefinition('block_type'));
 
     /**
      * Existing direction ('ltr' vs 'rtl') of preview.
@@ -72,6 +67,21 @@ class BlockEditorController {
      * @type {!Blockly.Workspace}
      */
     this.hiddenWorkspace = hiddenWorkspace;
+
+    // Opens block in workspace when first creating the BlockEditorController.
+    this.openBlock(this.view.blockDefinition);
+  }
+
+  /**
+   * Opens a given BlockDefinition to be edited in Block Editor view.
+   * @param {BlockDefinition} blockDefinition BlockDefinition object
+   *     that will be rendered onto page.
+   */
+  openBlock(blockDefinition) {
+    // Sets the pointer to the 'current' block to blockDefinition.
+    this.view.blockDefinition = blockDefinition;
+    // Shows block at the view level.
+    this.view.showBlock(blockDefinition.getXml());
   }
 
   /**

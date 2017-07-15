@@ -75,7 +75,7 @@ p {
 
 #blockly {
   position: absolute;
-  z-index:0;
+  z-index:100000000000000000000000000000;
 }
 
 #blocklyMask {

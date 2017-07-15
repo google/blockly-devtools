@@ -29,6 +29,10 @@
  */
 goog.provide('EditorController');
 
+goog.require('BlockEditorController');
+goog.require('ToolboxController');
+goog.require('WorkspaceController');
+
 class EditorController {
   /**
    * @constructor
@@ -58,7 +62,7 @@ class EditorController {
     /**
      * Block Editor Controller
      * @type {BlockLibraryController}
-     */
+     */debugger;
     this.blockEditorController = new BlockEditorController(this.project, hiddenWorkspace);
 
     /**
@@ -66,7 +70,7 @@ class EditorController {
      * Keeps track of which editor the user is on.
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
-    this.currentEditor = null;
+    this.currentEditor = this.blockEditorController;
   }
 
   /**

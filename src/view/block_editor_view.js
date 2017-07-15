@@ -38,12 +38,12 @@ class BlockEditorView {
    */
   constructor(blockDefinition) {
     /**
-     * BlockDefinition object associated with this instance of BlockLibraryView.
+     * BlockDefinition currently being edited within the view.
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
 
-    console.log('Inject for editor!');
+    console.log('Inject for editor!'); debugger;
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
@@ -53,7 +53,8 @@ class BlockEditorView {
         collapse: false,
         toolbox: DevToolsToolboxes.blockFactory,
         media: 'media/'
-      });
+      }); debugger;
+    console.log(this.editorWorkspace);
   }
 
   /**
@@ -111,9 +112,10 @@ class BlockEditorView {
 
   /**
    * Updates the workspace to show the block user selected from library
-   * @param {string} blockType Block to edit on block factory.
+   * @param {!Element} blockXml XML of blocks to display on Block Editor workspace.
    */
-  openBlock(blockType) {
-    console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")");
+  showBlock(blockXml) {
+    this.editorWorkspace.clear();
+    Blockly.Xml.domToWorkspace(blockXml, this.editorWorkspace);
   }
 }
