@@ -105,9 +105,8 @@ goog.require('Resource');
    */
   getJson() {
     let resourceSetTreeJson = [];
-    let resourceJson;
-    for (let resourceName of this.getResourceNames()) {
-      resourceJson = this.resources[resourceName].getJson;
+    for (let resourceName of this.getNames()) {
+      var resourceJson = this.resources[resourceName].getJson();
       resourceSetTreeJson.push(resourceJson);
     }
     return resourceSetTreeJson;
