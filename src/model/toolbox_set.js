@@ -41,40 +41,6 @@ class ToolboxSet extends ResourceSet {
   }
 
   /**
-   * Adds a toolbox to the set.
-   * @param {string} toolboxName The name of the toolbox to be added.
-   */
-  //TODO #104: change param to actual object
-  addToolbox(toolboxName) {
-    super.addResource(toolboxName);
-  }
-
-  /**
-   * Removes a toolbox from the set.
-   * @param {string} toolboxName The name of the toolbox to be removed.
-   */
-  removeToolbox(toolboxName) {
-    super.removeResource(toolboxName);
-  }
-
-  /**
-   * Gets a toolbox contained within the set.
-   * @param {string} toolboxName The toolbox to be returned.
-   * @return {!Object} The toolbox, or null if it's not contained in the set.
-   */
-  getToolbox(toolboxName) {
-    return super.getResource(toolboxName);
-  }
-
-  /**
-   * Gets the names of all toolboxes contained within the set.
-   * @return {Array.<string>} The names of all toolboxes the set contains.
-   */
-  getToolboxNames() {
-    return super.getResourceNames();
-  }
-
-  /**
    * Removes a named block from the entire set.
    * @param {string} blockType The name of the block to remove.
    */

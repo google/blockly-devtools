@@ -76,7 +76,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all block types in the project.
    */
   getBlockTypes() {
-    return this.librarySet.getAllBlockTypes();
+    return this.librarySet.getBlockTypes();
   }
 
   /**
@@ -84,8 +84,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all library names.
    */
   getLibraryNames() {
-    //TODO #106: simplify method names
-    return this.librarySet.getLibraryNames();
+    return this.librarySet.getNames();
   }
 
   /**
@@ -93,8 +92,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all toolbox names.
    */
   getToolboxNames() {
-    //TODO #106: simplify method names
-    return this.toolboxSet.getToolboxNames();
+    return this.toolboxSet.getNames();
   }
 
   /**
@@ -102,8 +100,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all workspace contents names.
    */
   getWorkspaceContentsNames() {
-    //TODO #106: simplify method names
-    return this.workspaceContentsSet.getWorkspaceNames();
+    return this.workspaceContentsSet.getNames();
   }
 
   /**
@@ -111,63 +108,44 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all workspace configuration names.
    */
   getWorkspaceConfigurationNames() {
-    //TODO #106: simplify method names
-    return this.workspaceConfigSet.getWorkspaceConfigurationNames();
-  }
-
-  /**
-   * Adds a block to the project by adding it to the named block library.
-   * @param {!BlockDefinition} blockDefinition The block definition to add to
-   *     the project.
-   * @param {string} libraryName The name of the library to add the block to.
-   */
-  addBlockToProject(libraryName, blockDefinition) {
-    this.librarySet.addBlockToLibrary(libraryName, blockDefinition);
+    return this.workspaceConfigSet.getNames();
   }
 
   /**
    * Adds a library to the library set.
    *
-   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
+   * @param {!BlockLibrary} blockLibrary The BlockLibrary to add to the
    *     project.
    */
-   //TODO #104: change param to actual object
-  addBlockLibrary(blockLibraryName) {
-    //TODO #106: simplify method names
-    this.librarySet.addLibrary(blockLibraryName);
+  addBlockLibrary(blockLibrary) {
+    this.librarySet.add(blockLibrary);
   }
 
   /**
    * Adds new toolbox to the toolbox set.
    *
-   * @param {string} toolboxName Name of the toolbox to add to the project.
+   * @param {!Toolbox} toolbox The toolbox to add to the project.
    */
-  //TODO #104: change param to actual object
-  addToolbox(toolboxName) {
-    //TODO #106: simplify method names
-    this.toolboxSet.addToolbox(toolboxName);
+  addToolbox(toolbox) {
+    this.toolboxSet.add(toolbox);
   }
 
   /**
    * Adds named workspace contents to the project.
-   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   * @param {!WorkspaceContents} workspaceContents The WorkspaceContents to
    *     add to the project.
    */
-  //TODO #104: change param to actual object
-  addWorkspaceContents(workspaceContentsName) {
-    //TODO #106: simplify method names
-    this.workspaceContentsSet.addWorkspaceContents(workspaceContentsName);
+  addWorkspaceContents(workspaceContents) {
+    this.workspaceContentsSet.add(workspaceContents);
   }
 
   /**
    * Adds a workspace configuration to the project.
-   * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
+   * @param {!WorkspaceConfiguration} workspaceConfig The WorkspaceConfiguration
    *     to add to the project.
    */
-  //TODO #104: change param to actual object
-  addWorkspaceConfiguration(workspaceConfigName) {
-    //TODO #106: simplify method names
-    this.workspaceConfigSet.addWorkspaceConfiguration(workspaceConfigName);
+  addWorkspaceConfiguration(workspaceConfig) {
+    this.workspaceConfigSet.add(workspaceConfig);
   }
 
   /**
@@ -180,23 +158,12 @@ class Project extends Resource {
   }
 
   /**
-   * Returns a map of all block types in a named library in the project to their
-   *     definitions.
-   * @param {string} libraryName The name of the library to get the map from.
-   * @return {!Object<string, !BlockDefinition>} Map of the library's block types
-   *     to their definitions, or null if the library is not in the project.
-   */
-  getLibraryBlockDefinitionMap(libraryName) {
-    return this.librarySet.getBlockDefinitionMap(libraryName);
-  }
-
-  /**
    * Removes a block definition from project.
    * @param {string} blockType The name of the block to be removed.
    */
   //TODO #89: determine specifics of deletion from a project
   //TODO #90: sort out specifics of deletion for descendants
-  removeBlockFromProject(blockType) {
+  removeBlock(blockType) {
     this.librarySet.removeBlockFromSet(blockType);
     this.toolboxSet.removeBlockFromSet(blockType);
     this.workspaceContentsSet.removeBlockFromSet(blockType);
@@ -209,8 +176,7 @@ class Project extends Resource {
    *     from the project.
    */
   removeBlockLibrary(blockLibraryName) {
-    //TODO #106: simplify method names
-    this.librarySet.removeLibrary(blockLibraryName);
+    this.librarySet.remove(blockLibraryName);
   }
 
   /**
@@ -219,8 +185,7 @@ class Project extends Resource {
    * @param {string} toolboxName Name of the toolbox to remove from project.
    */
   removeToolbox(toolboxName) {
-    //TODO #106: simplify method names
-    this.toolboxSet.removeToolbox(toolboxName);
+    this.toolboxSet.remove(toolboxName);
   }
 
   /**
@@ -229,8 +194,7 @@ class Project extends Resource {
    *     remove.
    */
   removeWorkspaceContents(workspaceContentsName) {
-    //TODO #106: simplify method names
-    this.workspaceContentsSet.removeWorkspaceContents(workspaceContentsName);
+    this.workspaceContentsSet.remove(workspaceContentsName);
   }
 
   /**
@@ -238,45 +202,7 @@ class Project extends Resource {
    * @param {string} workspaceConfigName The workspace configuration to remove.
    */
   removeWorkspaceConfiguration(workspaceConfigName) {
-    //TODO #106: simplify method names
-    this.workspaceConfigSet.removeWorkspaceConfiguration(workspaceConfigName);
-  }
-
-  /**
-   * Clears a named library in the project.
-   * @param {string} libraryName The name of the library to be cleared.
-   */
-  clearLibrary(libraryName) {
-    //TODO #106: simplify method names
-    this.librarySet.clearLibrary(libraryName);
-  }
-
-  /**
-   * Clears a named toolbox in the project.
-   * @param {string} toolboxName The name of the toolbox to clear.
-   */
-  clearToolbox(toolboxName) {
-    //TODO #106: simplify method names
-    this.toolboxSet.clearToolbox(toolboxName);
-  }
-
-  /**
-   * Clears a named workspace contents in the project.
-   * @param {string} workspaceContentsName The name of the contents to clear.
-   */
-  clearWorkspaceContents(workspaceContentsName) {
-    //TODO #106: simplify method names
-    this.workspaceContentsSet.clearWorkspaceContents(workspaceContentsName);
-  }
-
-  /**
-   * Returns a named workspace configuration in the project to default settings.
-   * @param {string} workspaceConfigName The name of the workspace configuration
-   *     to be reset.
-   */
-  resetWorkspaceConfiguration(workspaceConfigName) {
-    //TODO #106: simplify method names
-    this.workspaceConfigSet.resetWorkspaceConfiguration(workspaceConfigName);
+    this.workspaceConfigSet.remove(workspaceConfigName);
   }
 
   /**
@@ -285,15 +211,7 @@ class Project extends Resource {
    */
   //TODO #52: move warning from BlockLibraryController to ProjectController.
   isDirty() {
-    return this.currentLibrary.warnIfUnsavedChanges();
-  }
-
-  /**
-   * Renames the project.
-   * @param {string} newName New name of the project.
-   */
-  setName(newName) {
-    this.name = newName;
+    throw 'unimplemented: isDirty';
   }
 
   /**
@@ -302,7 +220,7 @@ class Project extends Resource {
    * @param {string} blockType Type of block.
    * @return {boolean} Whether or not blockType is stored in block library.
    */
-  has(blockType) {
+  hasBlock(blockType) {
     return this.librarySet.hasBlock(blockType);
   }
 
@@ -312,7 +230,7 @@ class Project extends Resource {
    * @return {!Toolbox} The found toolbox or null.
    */
   getToolbox(toolboxName) {
-    return this.toolboxSet.getToolbox(toolboxName);
+    return this.toolboxSet.get(toolboxName);
   }
 
   /**
@@ -321,7 +239,7 @@ class Project extends Resource {
    * @return {!BlockLibrary} The found library or null.
    */
   getLibrary(libraryName) {
-    return this.librarySet.getLibrary(libraryName);
+    return this.librarySet.get(libraryName);
   }
 
   /**
@@ -331,7 +249,7 @@ class Project extends Resource {
    * @return {!WorkspaceContents} The found workspace contents or null.
    */
   getWorkspaceContents(workspaceContentsName) {
-    return this.workspaceContentsSet.getWorkspaceContents(workspaceContentsName);
+    return this.workspaceContentsSet.get(workspaceContentsName);
   }
 
   /**
@@ -341,7 +259,7 @@ class Project extends Resource {
    * @return {!WorkspaceConfiguration} The found workspace configuration or null.
    */
   getWorkspaceConfiguration(workspaceConfigName) {
-    return this.workspaceConfigSet.getWorkspaceConfiguration(workspaceConfigName);
+    return this.workspaceConfigSet.get(workspaceConfigName);
   }
 
   /**
@@ -349,7 +267,6 @@ class Project extends Resource {
    * @return {!Object} The data needed to export the project.
    */
   getExportData() {
-    //TODO: implement
     throw 'unimplemented: getExportData';
   }
 

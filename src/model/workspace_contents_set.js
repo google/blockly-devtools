@@ -41,67 +41,11 @@ class WorkspaceContentsSet extends ResourceSet {
   }
 
   /**
-   * Adds a workspace contents object to the set.
-   * @param {string} workspaceContentsName The name of the workspace contents to
-   *     add to the project.
-   */
-  //TODO #104: change param to actual object
-  addWorkspaceContents(workspaceContentsName) {
-    super.addResource(workspaceContentsName);
-  }
-
-  /**
-   * Removes a workspace contents object from the set.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     to be removed.
-   */
-  removeWorkspaceContents(workspaceContentsName) {
-    super.removeResource(libraryName);
-  }
-
-  /**
-   * Gets a workspace contents object contained within the set.
-   * @param {string} workspaceContentsName The workspace contents to be returned.
-   * @return {!Object} The workspace contents, or null if they're not in the set.
-   */
-  getWorkspaceContents(workspaceContentsName) {
-    return super.getResource(workspaceContentsName);
-  }
-
-  /**
-   * Gets the names of all workspace contents contained within the set.
-   * @return {Array.<string>} The names of all workspace contents in the set.
-   */
-  getWorkspaceContentsNames() {
-    super.getResourceNames();
-  }
-
-  /**
    * Removes a named block from the entire set.
    * @param {string} blockType The name of the block to remove.
    */
-  removeBlockFromSet(blockType) {
-    throw 'unimplemented: removeBlockFromSet';
-  }
-
-  /**
-   * Removes a block from a named workspace contents.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     to remove the block from.
-   * @param {string} blockType The name of the block to be removed.
-   */
-  removeBlockFromWorkspaceContents(workspaceContentsName, blockType) {
-    throw 'unimplemented: removeBlockFromWorkspaceContents';
-  }
-
-  /**
-   * Clears a workspace contents object in the set.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     to clear.
-   */
-  //TODO #103
-  clearWorkspaceContents(workspaceContentsName) {
-    throw "unimplemented: clearWorkspaceContents";
+  removeBlock(blockType) {
+    throw 'unimplemented: removeBlock';
   }
 
   /**
