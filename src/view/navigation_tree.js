@@ -24,23 +24,23 @@ goog.provide('NavigationTree');
 
 goog.require('Project');
 
+/*
+ * Global constants for organizing different node types, used when giving them
+ *     ids. Given with the assumption that the name of each object in a
+ *     project is unique across that project.
+ */
+const BLOCK_PREFIX = "Block";
+const TOOLBOX_PREFIX = "Toolbox";
+const LIBRARY_PREFIX = "BlockLibrary";
+const WORKSPACE_CONTENTS_PREFIX = "WorkspaceContents";
+const WORKSPACE_CONFIG_PREFIX = "WorkspaceConfiguration";
+
 /**
  * @class NavigationTree manages the tree user interface.
  *
  * @author sagev@google.com (Sage Vouse)
  */
 class NavigationTree {
-  /*
-   * Global constants for organizing different node types, used when giving them
-   *     ids. Given with the assumption that the name of each object in a
-   *     project is unique across that project.
-   */
-  BLOCK_PREFIX = "Block";
-  TOOLBOX_PREFIX = "Toolbox";
-  LIBRARY_PREFIX = "BlockLibrary";
-  WORKSPACE_CONTENTS_PREFIX = "WorkspaceContents";
-  WORKSPACE_CONFIG_PREFIX = "WorkspaceConfiguration";
-
   /**
    * NavigationTree Class
    * @param {!AppController} appController The AppController for the session the
@@ -174,6 +174,7 @@ class NavigationTree {
   addComponentNode(prefix, componentName, parentName) {
     $('#navigationTree').jstree().create_node(parent,
       {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
+  }
 
   /**
    * Clears the tree.
@@ -184,12 +185,20 @@ class NavigationTree {
   }
 
   /**
+   * Removes a blcok from the tree.
+   * @param {string} blockType The name of the block to be removed.
+   */
+  deleteBlockNode(blockType) {
+    deleteComponentNode(BLOCK_PREFIX, blockType);
+  }
+
+  /**
    * Removes toolbox from the tree.
    *
    * @param {string} toolboxName Name of the toolbox to remove from the tree.
    */
   deleteToolboxNode(toolboxName) {
-    deleteComponentNode(toolboxPrefix, toolboxName);
+    deleteComponentNode(TOOLBOX_PREFIX, toolboxName);
   }
 
   /**
@@ -199,7 +208,7 @@ class NavigationTree {
    *     remove from the tree.
    */
   deleteWorkspaceContentsNode(workspaceContentsName) {
-    deleteComponentNode(workspaceContentsPrefix, workspaceContentsName);
+    deleteComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName);
   }
 
   /**
@@ -209,7 +218,7 @@ class NavigationTree {
    *     WorkspaceConfiguration to remove from the tree.
    */
   deleteWorkspaceConfigurationNode(workspaceConfigName) {
-    deleteComponentNode(workspaceConfigPrefix, workspaceConfigName);
+    deleteComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName);
   }
 
   /**
@@ -219,7 +228,7 @@ class NavigationTree {
    *     from the tree.
    */
   deleteBlockLibraryNode(blockLibraryName) {
-    deleteComponentNode(libraryPrefix, blockLibraryName);
+    deleteComponentNode(LIBRARY_PREFIX, blockLibraryName);
   }
 
   /**

@@ -55,7 +55,7 @@ goog.require('Resource');
       * The resources that the project contains, mapped to their names.
       * @type {!Object<string, Resource>}
       */
-     this.resources;
+     this.resources = {};
   }
 
   /**
@@ -103,10 +103,12 @@ goog.require('Resource');
    * Returns the JSON object for the  resource set's tree representation.
    * @return {!Object} The JSON representing the set's tree structure.
    */
-  getTreeJson() {
-    const resourceSetTreeJson = [];
-    for (const resource of this.resources) {
-      resourceSetTreeJson.push(resource.getTreeJSON());
+  getJson() {
+    let resourceSetTreeJson = [];
+    let resourceJson;
+    for (let resourceName of this.getResourceNames()) {
+      resourceJson = this.resources[resourceName].getJson;
+      resourceSetTreeJson.push(resourceJson);
     }
     return resourceSetTreeJson;
   }
