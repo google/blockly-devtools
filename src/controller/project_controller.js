@@ -36,16 +36,23 @@ goog.require('Project');
 class ProjectController {
   /**
    * ProjectController class
-   * @param {!Project} project the project from which the data to be managed
+   * @param {!Project} project The project from which the data to be managed
    *     comes from.
+   * @param {!NavigationTree} tree The tree which represents that project, to be updated
+   *     by the controller alongside it.
    * @constructor
    */
-  constructor(project) {
+  constructor(project, tree) {
     /**
      * The project to be managed.
      * @type {!Project}
      */
     this.project = project;
+    /**
+     * The tree which represents the project.
+     * @type {!NavigationTree}
+     */
+    this.tree = tree;
   }
 
   /**
@@ -76,89 +83,148 @@ class ProjectController {
   }
 
   /**
-   * Adds new toolbox to this.project's toolbox set.
+   * Creates and adds new toolbox to this.project's toolbox set.
    *
-   * @param {!Toolbox} toolbox Toolbox object to add to project.
+   * @param {string} toolboxName Name of the toolbox to add to the project.
+   *
+   * @return {!Toolbox} The new toolbox added to the project.
+   */
+  createToolbox(toolboxName) {
+    //TODO #105: check for valid name, throw error upon conflict
+    const toolbox = new Toolbox(toolboxName);
+    this.addToolbox(toolbox);
+    return toolbox;
+  }
+
+  /**
+   * Creates and adds new WorkspaceContents to the workspace contents set.
+   *
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     add to the project.
+   *
+   * @return {!WorkspaceContents} The new workspace contents added to the project.
+   */
+  createWorkspaceContents(workspaceContentsName) {
+    //TODO #105: check for valid name, throw error upon conflict
+    const workspaceContents = new WorkspaceContents(workspaceContentsName);
+    this.addWorkspaceContents(workspaceContents);
+    return workspaceContents;
+  }
+
+  /**
+   * Creates and adds new WorkspaceConfiguration to this.project.
+   *
+   * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
+   *     to add to the project.
+   *
+   * @return {!WorkspaceConfiguration} The new workspace configuration added to
+   *     the project.
+   */
+  createWorkspaceConfiguration(workspaceConfigName) {
+    //TODO #105: check for valid name, throw error upon conflict
+    const workspaceConfig = new WorkspaceConfiguration(workspaceConfigName);
+    this.addWorkspaceConfiguration(workspaceConfig);
+    return workspaceConfig;
+  }
+
+  /**
+   * Creates and adds new BlockLibrary to this.project.
+   *
+   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
+   *     project.
+   *
+   * @return {!BlockLibrary} The new library added to the project.
+   */
+  createBlockLibrary(blockLibraryName) {
+    //TODO #105: check for valid name, throw error upon conflict
+    const blockLibrary = new BlockLibrary(blockLibraryName);
+    this.addBlockLibrary(blockLibrary);
+    return blockLibrary;
+  }
+
+  /**
+   * Adds toolbox to this.project's toolbox set.
+   *
+   * @param {!Toolbox} toolbox Toolbox object to add to project
    */
   addToolbox(toolbox) {
-    // TODO: Implement
-    throw 'Unimplemented: addToolbox()';
+    this.project.addToolbox(toolbox);
+    this.tree.addToolboxNode(toolbox.name);
+  }
+
+  /**
+   * Adds WorkspaceContents to this.project's workspace contents set.
+   *
+   * @param {!WorkspaceContents} workspaceContents The WorkspaceContents to
+   *     add to the project.
+   */
+  addWorkspaceContents(workspaceContents) {
+    this.project.addWorkspaceContents(workspaceContents);
+    this.tree.addWorkspaceContentsNode(workspaceContents.name);
+  }
+
+  /**
+   * Adds WorkspaceConfiguration to this.project.
+   *
+   * @param {!WorkspaceConfiguration} workspaceConfig The WorkspaceConfiguration
+   *     to add to the project.
+   */
+  addWorkspaceConfiguration(workspaceConfig) {
+    this.project.addWorkspaceConfiguration(workspaceConfig);
+    this.tree.addWorkspaceConfigurationNode(workspaceConfig.name);
+  }
+
+  /**
+   * Adds BlockLibrary to this.project.
+   *
+   * @param {!BlockLibrary} blockLibrary The BlockLibrary to add to the project.
+   */
+  addBlockLibrary(blockLibrary) {
+    this.project.addBlockLibrary(blockLibrary);
+    this.tree.addBlockLibraryNode(blockLibrary.name);
   }
 
   /**
    * Removes toolbox from this.project's toolbox set.
    *
-   * @param {!Toolbox} toolbox Toolbox object to remove from project.
+   * @param {string} toolboxName Name of the toolbox to remove from the project.
    */
   removeToolbox(toolboxName) {
-    // TODO: Implement
-    throw 'Unimplemented: removeToolbox()';
-  }
-
-  /**
-   * Adds new WorkspaceContents to this.project's workspace contents set.
-   *
-   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
-   *     add to project.
-   */
-  addWorkspaceContents(workspaceContents) {
-    // TODO: Implement
-    throw 'Unimplemented: addWorkspaceContents()';
+    this.project.removeToolbox(toolboxName);
+    this.tree.deleteToolboxtNode(toolboxName);
   }
 
   /**
    * Removes WorkspaceContents object from this.project's workspace contents set.
    *
-   * @param {!WorkspaceContents} workspaceContents WorkspaceContents object to
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
    *     remove from project.
    */
-  removeWorkspaceContents(workspaceContents) {
-    // TODO: Implement
-    throw 'Unimplemented: removeWorkspaceContents()';
+  removeWorkspaceContents(workspaceContentsName) {
+    this.project.removeWorkspaceContents(workspaceContentsName);
+    this.tree.deleteWorkspaceContentsNode(workspaceContentsName);
   }
 
   /**
-   * Adds new WorkspaceOptions to this.project. Prompts user to select from
-   * a list of checkbox options and name the grouping of options.
+   * Removes a WorkspaceConfiguration from this.project.
    *
-   * @param {!WorkspaceOptions} workspaceOptionsName WorkspaceOptions object to
-   *     add to project.
+   * @param {string} workspaceConfigName Name of the
+   *     WorkspaceConfiguration to remove from the project.
    */
-  addWorkspaceOptions(workspaceOptions) {
-    // TODO: Implement
-    throw 'Unimplemented: addWorkspaceOptions()';
+  removeWorkspaceConfiguration(workspaceConfigName) {
+    this.project.removeWorkspaceConfiguration(workspaceConfigName);
+    this.tree.deleteWorkspaceConfigurationNode(workspaceConfigName);
   }
 
   /**
-   * Removes WorkspaceOptions object from this.project.
+   * Removes a BlockLibrary from the project.
    *
-   * @param {!WorkspaceOptions} workspaceOptions WorkspaceOptions object to
-   *     remove from project.
-   */
-  removeWorkspaceOptions(workspaceOptions) {
-    // TODO: Implement
-    throw 'Unimplemented: removeWorkspaceOptions()';
-  }
-
-  /**
-   * Adds new BlockLibrary to this.project.
-   *
-   * @param {!BlockLibrary} blockLibraryName BlockLibrary object to add to
-   *     project.
-   */
-  addBlockLibrary(blockLibraryName) {
-    // TODO: Implement
-    throw 'Unimplemented: addBlockLibrary()';
-  }
-
-  /**
-   * Removes BlockLibrary from project.
-   *
-   * @param {!BlockLibrary} blockLibrary BlockLibrary object to remove from project.
+   * @param {string} blockLibraryName The name of the BlockLibrary to remove
+   *     from the project.
    */
   removeBlockLibrary(blockLibraryName) {
-    // TODO: Implement
-    throw 'Unimplemented: removeBlockLibrary()';
+    this.project.removeBlockLibrary(blockLibraryName);
+    this.tree.deleteBlockLibraryNode(blockLibraryName);
   }
 
   /**

@@ -480,4 +480,11 @@ class Toolbox extends Resource {
   getTreeJson() {
     throw "unimplemented: getTreeJson";
   }
+
+  /**
+   * Clears the toolbox.
+   */
+   clear() {
+    throw 'unimplemented: clear';
+   }
 }

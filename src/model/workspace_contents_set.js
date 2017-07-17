@@ -31,7 +31,7 @@ goog.require('WorkspaceContentsSet');
 class WorkspaceContentsSet extends ResourceSet {
   /**
    * WorkspaceContentsSet Class.
-   * @param {string} workspaceContentsName Name of the workspace contents set.
+   * @param {string} workspaceContentsSetName Name of the workspace contents set.
    * @param {string} projectName The name of the project the set belongs to.
    *
    * @constructor
@@ -41,55 +41,22 @@ class WorkspaceContentsSet extends ResourceSet {
   }
 
   /**
-   * Adds a workspace contents object to the set.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     to be added.
-   */
-  addWorkspaceContents(libraryName) {
-    super.addResource(libraryName);
-  }
-
-  /**
-   * Removes a workspace contents object from the set.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     to be removed.
-   */
-  removeWorkspaceContents(workspaceContentsName) {
-    super.removeResource(libraryName);
-  }
-
-  /**
-   * Gets a workspace contents object contained within the set.
-   * @param {string} workspaceContentsName The workspace contents to be returned.
-   * @return {!Object} The workspace contents, or null if they're not in the set.
-   */
-  getWorkspaceContents(workspaceContentsName) {
-    return super.getResource(workspaceContentsName);
-  }
-
-  /**
-   * Gets the names of all workspace contents contained within the set.
-   * @return {Array.<string>} The names of all workspace contents in the set.
-   */
-  getWorkspaceContentsNames() {
-    super.getResourceNames();
-  }
-
-  /**
    * Removes a named block from the entire set.
    * @param {string} blockType The name of the block to remove.
    */
-  removeBlockFromSet(blockType) {
-    throw "unimplemented: removeBlockFromSet";
+  removeBlock(blockType) {
+    throw 'unimplemented: removeBlock';
   }
 
   /**
-   * Removes a block from a named workspace contents.
-   * @param {string} workspaceContentsName The name of the workspace contents
-   *     to remove the block from.
-   * @param {string} blockType The name of the block to be removed.
+   * Produces the JSON needed to organize workspace contents in the tree.
+   * @return {!Object} The JSON for the tree's workspace contents section.
    */
-  removeBlockFromWorkspaceContents(workspaceContentsName, blockType) {
-    throw "unimplemented: removeBlockFromWorkspaceContents";
+  getTreeJson() {
+    const workspaceContentsSetJson = [
+      {'id': 'WorkspaceContents', 'text': 'Workspace Contents'},
+      {'children': super.getTreeJson()}
+    ];
+    return workspaceContentsSetJson;
   }
 }

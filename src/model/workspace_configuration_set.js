@@ -41,39 +41,14 @@ class WorkspaceConfigurationSet extends ResourceSet {
   }
 
   /**
-   * Adds a workspace configurationto the set.
-   * @param {string} workspaceConfigurationName The name of the workspace
-   *     configuration to be added.
+   * Produces the JSON needed to organize workspace configurations in the tree.
+   * @return {!Object} The JSON for the tree's workspace configuration section.
    */
-  addWorkspaceConfiguration(workspaceConfigurationName) {
-    super.addResource(workspaceConfigurationName);
-  }
-
-  /**
-   * Removes a workspace configuration from the set.
-   * @param {string} workspace configurationName The name of the workspace
-   *     configuration to be removed.
-   */
-  removeWorkspaceConfiguration(workspaceConfigurationName) {
-    super.removeResource(workspaceConfigurationName);
-  }
-
-  /**
-   * Gets a workspace configuration contained within the set.
-   * @param {string} workspaceConfigurationName The workspace configuration to
-   *     be returned.
-   * @return {!Object} The workspace configuration, or null if it's not in
-   *     the set.
-   */
-  getWorkspaceConfiguration(workspaceConfigurationName) {
-    return super.getResource(workspaceConfigurationName);
-  }
-
-  /**
-   * Gets the names of all workspace configurations contained within the set.
-   * @return {Array.<string>} Names of all workspace configurations in the set.
-   */
-  getWorkspaceConfigurationNames() {
-    return super.getResourceNames();
+  getTreeJson() {
+    const workspaceConfigSetJson = [
+      {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
+      {'children': super.getTreeJson()}
+    ];
+    return workspaceConfigSetJson;
   }
 }
