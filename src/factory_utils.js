@@ -1198,3 +1198,52 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
 
   return FactoryUtils.generateCategoryXml(blocks, 'Block Library');
 };
+
+/*
+ * The starting XML for the Block Editor main workspace. Contains the
+ * unmovable, undeletable factory_base block. Allows user input to change XML
+ * starter block.
+ * @param {string} inputType Type of input (statement, value, dummy).
+ * @param {string} blockTypeName Name of block, given by user.
+ * @param {string} blockStarterText Starter text to place on block, given by user (optional).
+ */
+FactoryUtils.buildBlockEditorStarterXml = function(inputType, blockTypeName, blockStarterText) {
+  // REFACTORED: Moved in from factory.js:buildStartXml()
+  inputType = inputType || 'input_statement';
+  blockTypeName = blockTypeName || 'my_block';
+  var textXmlStarter = '';
+
+  // Adds optional text to custom block.
+  if (blockStarterText.trim() !== '') {
+    textXmlStarter = '<value name="FIELDS">' +
+    '<block type="field_static">' +
+    '<field name="TEXT">' + blockStarterText + '</field></block></value>';
+  }
+
+  var customXmlStarter = `<xml>
+<block type="factory_base" deletable="false" movable="false">
+  <field name="NAME">${blockTypeName}</field>
+  <value name="INPUTS">
+    <block type="${inputType}">${textXmlStarter}</block>
+  </value>
+  <value name="TOOLTIP">
+    <block type="text" deletable="false" movable="false">
+      <field name="TEXT"></field>
+    </block>
+  </value>
+  <value name="HELPURL">
+    <block type="text" deletable="false" movable="false">
+      <field name="TEXT"></field>
+    </block>
+  </value>
+  <value name="COLOUR">
+    <block type="colour_hue">
+      <mutation colour="#5b67a5"></mutation>
+      <field name="HUE">230</field>
+    </block>
+  </value>
+</block>
+</xml>`
+
+  return customXmlStarter;
+};

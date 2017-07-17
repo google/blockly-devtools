@@ -42,6 +42,8 @@ goog.require('ProjectController');
 
 'use strict';
 
+var Emitter = require('component-emitter');
+
 // TODO(#44): Rename to AppController once refactor is finished. Temporarily named
 // to AppController2 to avoid overlapping namespaces with current AppController,
 // which will be refactored into this (and other) files.
@@ -370,17 +372,38 @@ class AppController2 {
    * Generates popup. Param must be either this.popupController.MODE.PREVIEW,
    * this.popupController.MODE.NEW_BLOCK, or this.popupController.MODE.NEW_CONFIG.
    *
-   * @param {string} popupType Type of popup.
+   * @param {string} popupMode Type of popup to be shown.
    */
-  createPopup(popupType) {
-    this.popupController.show(popupType);
+  createPopup(popupMode) {
+    if (popupMode === PopupController.NEW_BLOCK) {
+      this.popupController.exit();
+      this.popupController = new NewBlockPopupController(this);
+      this.popupController.show();
+    } else if (popupMode === PopupController.PREVIEW) {
+      // TODO: Preview popup view
+    } else if (popupMode === PopupController.NEW_CONFIG) {
+      // TODO: New config popup view
+    } else {
+      throw new Error('Popup type ' + popupMode + ' not found.');
+    }
   }
 
   /**
    * Handler for the window's 'beforeunload' event. When a user has unsaved
    * changes and refreshes or leaves the page, confirm that they want to do so
    * before actually refreshing.
-   * @param {Event} event beforeunload event.
+   * @param {Event} event The beforeunload event.
+   */
+  confirmLeavePage(event) {
+    // TODO: Move in from app_controller.js'
+    console.warn('Unimplemented: confirmLeavePage()');
+  }
+
+  /**
+   * Handler for the window's 'beforeunload' event. When a user has unsaved
+   * changes and refreshes or leaves the page, confirm that they want to do so
+   * before actually refreshing.
+   * @param {Event} event The beforeunload event.
    */
   confirmLeavePage(event) {
     // TODO: Move in from app_controller.js'

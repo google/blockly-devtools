@@ -20,6 +20,10 @@
 
 'use strict';
 
+goog.provide('NewBlockPopupView');
+
+goog.require('PopupView');
+
 /**
  * @fileoverview NewBlockPopupView deals with the UI for creating new blocks and
  * projects.
@@ -27,8 +31,13 @@
  * @author celinechoo (Celine Choo)
  */
 class NewBlockPopupView extends PopupView {
-  constructor() {
-    super();
+  /**
+   * @constructor
+   * @param {!PopupController} controller PopupController currently managing this
+   *     view.
+   */
+  constructor(controller) {
+    super(controller);
 
     /**
      * HTML contents of what is inside popup window. Does not include the popup
@@ -62,10 +71,67 @@ Dummy input:<br>
 <img src="media/input_dummy.png" width="30%" height="auto"/><br>
 `;
 
+    // Stores HTML to display new block popup.
     super.injectPopupContents(this.htmlContents);
 
-    // TODO: Insert HTML contents into page, make visible.
+    this.initListeners_();
   }
 
-  // TODO: Add functions.
+  /**
+   * Sets up event listeners and handlers for components of this popup.
+   * @private
+   */
+  initListeners_() {
+    console.log('Init called!');
+    $('#exit').click(() => {
+      Emitter(this);
+      console.log('Exit clicked!');
+      this.emit('exit');
+    });
+
+    $('#submit_block').click((event) => {
+      // Gathers and renders blocks properly in devtools editor.
+      event.preventDefault();
+
+      this.blockName = $('#block_name').val();
+      this.inputType = $('input[name="input_type"]:checked').val();
+      this.blockText = $('#block_text').val();
+
+      this.emit('submit', this);
+    });
+  }
+
+  /**
+   * Displays warning message for duplicate block type, only if there is a
+   * duplicate.
+   * @param {boolean} show Whether to show or hide the warning. True if show.
+   */
+  showWarning(show) {
+    if (show) {
+      $('#block_name').css('border', '1px solid red');
+      $('#warning_text').css('display', 'inline');
+      $('#submit_block').attr('disabled','disabled');
+    } else {
+      $('#block_name').css('border', '1px solid gray');
+      $('#warning_text').css('display', 'none');
+      $('#submit_block').removeAttr('disabled');
+    }
+  }
+
+  /**
+   * Shows popup, then adds listeners specific to this popup.
+   */
+  show() {
+    console.log('show() called.');
+    super.show();
+    this.initListeners_();
+  }
+
+  /**
+   * Hides popup, resets fields.
+   */
+  hide() {
+    console.log('hide() called.');
+    super.hide();
+  }
 }

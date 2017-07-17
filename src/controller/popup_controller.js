@@ -29,62 +29,66 @@
 
 goog.provide('PopupController');
 
-goog.require('ProjectController');
-
 class PopupController {
   /**
    * @constructor
-   * @param {!ProjectController} projectController ProjectController object that
-   *     manages the Project which may be modified as a user interacts with a
-   *     popup.
+   * @param {!AppController} appController AppController object which sends
+   *     the necessary commands in response to user's input into the popup. Also
+   *     gives access to model functions (e.g. Project).
    */
-  constructor(projectController) {
+  constructor(appController) {
     /**
-     * ProjectController associated with currently edited project. Used to make
-     * changes to project from information from popup.
-     * @type {!ProjectController}
+     * AppController that controls the currently open application. Necessary to
+     * make changes to project or application from information from popup.
+     * @type {!AppController}
      */
-    this.projectController = projectController;
-
-    /**
-     * Possible popup types. Constants used in parameters for passing in which
-     * popup is active.
-     * @type {!Object.<string, string>}
-     */
-    this.MODE = {
-      PREVIEW: 'PREVIEW',
-      NEW_BLOCK: 'NEW_BLOCK',
-      NEW_CONFIG: 'NEW_CONFIG'
-    };
+    this.appController = appController;
 
     /**
      * Popup view that is currently visible in application. Default is null when
      * no popup is open. Either null, PreviewView, NewBlockPopupView, or NewConfigView.
-     * @type {!Object}
+     * @type {?Object}
      */
     this.view = null;
   }
 
   /**
-   * Exits popup. Resets view to be null.
+   * One of three possible popup types. Preview popup is the popup of a developer's
+   * sample application before export.
+   * @return {!string} Constant string used in parameters for specifying between
+   *     popups.
    */
-  exit() {
-    // TODO: Implement.
+  static get PREVIEW() {
+    return 'PREVIEW';
   }
 
   /**
-   * Sets and generates view, which shows popup to user.
-   * @param {string} popupMode Mode of popup which will be generated.
+   * One of three possible popup types. The New Block popup allows developers to
+   * initialize their block before going right into the Block Editor.
+   * @return {!string} Constant string used in parameters for specifying between
+   *     popups.
    */
-  show(popupMode) {
-    if (popupMode == this.MODE.NEW_BLOCK) {
-      // TODO: New Block Popup view
-    } else if (popupMode == this.MODE.PREVIEW) {
-      // TODO: Preview popup view
-    } else if (popupMode == this.MODE.NEW_CONFIG) {
-      // TODO: New config popup view
-    } else {
-      throw new Error('Popup type not found.');
+  static get NEW_BLOCK() {
+    return 'NEW_BLOCK';
+  }
+
+  /**
+   * One of three possible popup types. The new config popup allows developers
+   * to click through a checkbox to configure their WorkspaceConfiguration.
+   * @return {!string} Constant string used in parameters for specifying between
+   *     popups.
+   */
+  static get NEW_CONFIG() {
+    return 'NEW_CONFIG';
+  }
+
+  /**
+   * Exits popup. Resets view reference to be null.
+   */
+  exit() {
+    if (this.view) {
+      this.view.hide();
+      this.view = null;
     }
   }
 }
