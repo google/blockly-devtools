@@ -28,7 +28,9 @@
  */
 
 goog.provide('BlockEditorView');
+
 goog.require('BlockDefinition');
+
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
 
@@ -62,11 +64,16 @@ class BlockEditorView {
       });
 
     // Render starter block.
-    this.showStarterBlock(FactoryUtils.buildBlockEditorStarterXml(
-        '', '', ''));
+    const starterXml = FactoryUtils.buildBlockEditorStarterXml(
+        '', this.blockDefinition.type(), '');
+    this.showStarterBlock(starterXml);
+    this.blockDefinition.setXml(Blockly.Xml.textToDom(starterXml));
+
+    // Update buttons for save/delete/etc.
     this.updateButtons(false, false);
 
-    this.previewPane = Blockly.inject('preview',
+    // Initialize preview workspace.
+    this.previewWorkspace = Blockly.inject('preview',
       {
         rtl: this.rtl,
         media: 'media/',
@@ -129,11 +136,34 @@ class BlockEditorView {
 
   /**
    * Updates the workspace to show the block user selected from library
-   * @param {!Element} blockXml XML of blocks to display on Block Editor workspace.
+   * @param {!BlockDefinition} blockDef BlockDefinition object to show on block
+   *     editor workspace.
    */
-  showBlock(blockXml) {
+  showBlock(blockDef) {
+    this.blockDefinition = blockDef;
+    const blockXml = this.blockDefinition.getXml();
+
     this.editorWorkspace.clear();
     Blockly.Xml.domToWorkspace(blockXml, this.editorWorkspace);
+  }
+
+  /**
+   * Updates the block definition textarea preview.
+   * @param {string} blockDefCode String representation of JSON or JavaScript
+   *     block definition. (Not to be confused with the BlockDefinition object
+   *     used only within DevTools.)
+   */
+  updateBlockDefinitionView(blockDefCode) {
+    FactoryUtils.injectCode(blockDefCode, 'languagePre');
+  }
+
+  /**
+   * Updates the generator stub textarea preview.
+   * @param {string} genStubCode String representation of JavaScript generator
+   *     stub for block that is currently being edited in the view.
+   */
+  updateGenStub(genStubCode) {
+    FactoryUtils.injectCode(genStubCode, 'generatorPre');
   }
 
   /**
@@ -191,14 +221,17 @@ class BlockEditorView {
   updateDirection(rtl) {
     const newDir = (rtl == 'rtl');
     if (this.rtl !== newDir) {
+      if (this.previewWorkspace) {
+        this.previewWorkspace.dispose();
+      }
       this.rtl = newDir;
-      this.previewPane = Blockly.inject('preview',
+      this.previewWorkspace = Blockly.inject('preview',
         {
           rtl: this.rtl,
           media: 'media/',
           scrollbars: true
         });
     }
-    this.previewPane.clear();
+    this.previewWorkspace.clear();
   }
 }

@@ -38,14 +38,13 @@ goog.provide('FactoryUtils');
 /**
  * Get block definition code for the current block.
  * @param {string} blockType Type of block.
- * @param {!Blockly.Block} rootBlock RootBlock from main workspace in which
- *    user uses Block Factory Blocks to create a custom block.
  * @param {string} format 'JSON' or 'JavaScript'.
  * @param {!Blockly.Workspace} workspace Where the root block lives.
  * @return {string} Block definition.
  */
-FactoryUtils.getBlockDefinition = function(blockType, rootBlock, format, workspace) {
+FactoryUtils.getBlockDefinition = function(blockType, format, workspace) {
   blockType = FactoryUtils.cleanBlockType(blockType);
+  const rootBlock = FactoryUtils.getRootBlock(workspace);
   switch (format) {
     case 'JSON':
       var code = FactoryUtils.formatJson_(blockType, rootBlock);
@@ -1210,7 +1209,7 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
 FactoryUtils.buildBlockEditorStarterXml = function(inputType, blockTypeName, blockStarterText) {
   // REFACTORED: Moved in from factory.js:buildStartXml()
   inputType = inputType || 'input_statement';
-  blockTypeName = blockTypeName || 'my_block';
+  blockTypeName = blockTypeName || 'block_type';
   var textXmlStarter = '';
 
   // Adds optional text to custom block.

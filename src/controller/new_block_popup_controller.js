@@ -34,8 +34,8 @@ goog.require('PopupController');
 class NewBlockPopupController extends PopupController {
   /**
    * @constructor
-   * @param {AppController2} AppController2 object which controls the application
-   *     currently being used.
+   * @param {AppController} appController AppController object which controls
+   *     the application currently being used.
    */
   constructor(appController) {
     super(appController);
@@ -87,7 +87,7 @@ class NewBlockPopupController extends PopupController {
    * that already exists in the library, warn user.
    */
   checkDuplicate() {
-    const hasDuplicate = this.appController.project.hasBlock($("#block_name").val());
+    const hasDuplicate = this.appController.project.hasBlock($('#block_name').val());
     this.view.showWarning(hasDuplicate);
   }
 
