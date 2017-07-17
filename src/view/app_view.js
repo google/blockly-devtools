@@ -74,12 +74,6 @@ class AppView {
         new WorkspaceContents('workspace_contents_name'),
         new WorkspaceConfiguration('default'));
 
-    // Assigning event handlers and listeners for application.
-    this.assignLibraryClickHandlers();
-    this.assignBlockFactoryClickHandlers();
-    this.assignBlockFactoryClickHandlers();
-    this.addBlockFactoryEventListeners();
-
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
     const menuTree = [
       ['File', [
@@ -164,6 +158,11 @@ class AppView {
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
     this.currentView = this.blockEditorView;
+
+    // Assigning event handlers and listeners for application.
+    this.assignLibraryClickHandlers();
+    this.assignBlockFactoryClickHandlers();
+    this.addBlockFactoryEventListeners();
   }
 
   /**
@@ -385,23 +384,6 @@ class AppView {
   }
 
   /**
-   * Updates the workspace to show the block user selected from library
-   * @param {string} blockType Block to edit on block factory.
-   */
-  openBlock(blockType) {
-    this.blockEditorView.openBlock(blockType);
-   }
-
-  /**
-   * Called on each tab click. Styles the tabs to reflect which tab is selected.
-   * @private
-   */
-  styleTabs_() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: styleTabs_()';
-  }
-
-  /**
    * Assign button click handlers for the block library.
    */
   assignLibraryClickHandlers() {
@@ -487,6 +469,23 @@ class AppView {
     $('#languageTA').keyup(controller.updatePreview);
     $('#format').change(controller.formatChange);
     $('#language').change(controller.updatePreview);
+  }
+
+  /**
+   * Updates the workspace to show the block user selected from library
+   * @param {string} blockType Block to edit on block factory.
+   */
+  openBlock(blockType) {
+    this.blockEditorView.openBlock(blockType);
+   }
+
+  /**
+   * Called on each tab click. Styles the tabs to reflect which tab is selected.
+   * @private
+   */
+  styleTabs_() {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: styleTabs_()';
   }
 
   /**

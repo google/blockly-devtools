@@ -87,7 +87,7 @@ class NewBlockPopupController extends PopupController {
    * that already exists in the library, warn user.
    */
   checkDuplicate() {
-    const hasDuplicate = this.appController.project.has($("#block_name").val());
+    const hasDuplicate = this.appController.project.hasBlock($("#block_name").val());
     this.view.showWarning(hasDuplicate);
   }
 

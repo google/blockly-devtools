@@ -114,7 +114,7 @@ class EditorController {
   isDefinedBlock(block) {
     // REFACTORED: from wfactory_controller.js
     const blockType = block.type;
-    return this.project.has(blockType);
+    return this.project.hasBlock(blockType);
   }
 
   /**
