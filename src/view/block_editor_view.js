@@ -49,6 +49,7 @@ class BlockEditorView {
     this.saveButton = $('#saveToBlockLibraryButton');
     this.deleteButton = $('#removeBlockFromLibraryButton');
     this.deleteButton.disabled = true;
+    this.rtl = true;
 
     /**
      * Blockly workspace of main block defining workspace.
@@ -68,7 +69,7 @@ class BlockEditorView {
 
     this.previewPane = Blockly.inject('preview',
       {
-        rtl: true,
+        rtl: this.rtl,
         media: 'media/',
         scrollbars: true
       });
@@ -173,15 +174,32 @@ class BlockEditorView {
       if (blockType == 'block_type') {
         buttonFormatClass = 'button_alert';
       }
-      console.log(goog.dom.classlist);
-      goog.dom.classlist.add(this.saveButton, buttonFormatClass);
+      goog.dom.classlist.add(this.saveButton.get(0), buttonFormatClass);
       this.saveButton.disabled = false;
-
     } else {
       // No changes to save.
       var classesToRemove = ['button_alert', 'button_warn'];
-      goog.dom.classlist.removeAll(this.saveButton, classesToRemove);
+      goog.dom.classlist.removeAll(this.saveButton.get(0), classesToRemove);
       this.saveButton.disabled = true;
     }
+  }
+
+  /**
+   * Re-injects the workspace if user switches between rtl and ltr.
+   * @param {string} rtl Input value, either 'rtl' or 'ltr', of which direction
+   *     Blocks should be in.
+   */
+  updateDirection(rtl) {
+    const newDir = (rtl == 'rtl');
+    if (this.rtl !== newDir) {
+      this.rtl = newDir;
+      this.previewPane = Blockly.inject('preview',
+        {
+          rtl: this.rtl,
+          media: 'media/',
+          scrollbars: true
+        });
+    }
+    this.previewPane.clear();
   }
 }

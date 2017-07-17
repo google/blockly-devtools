@@ -114,7 +114,9 @@ class BlockEditorController {
    * Update the preview display.
    */
   updatePreview() {
-    // TODO: Move in from factory.js
+    // REFACTORED: Moved in from factory.js
+    const newDir = $('#direction').val();
+    this.view.updateDirection(newDir);
 
     // Fetch the code and determine its format (JSON or JavaScript).
     var format = document.getElementById('format').value;
