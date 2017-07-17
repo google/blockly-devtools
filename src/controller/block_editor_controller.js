@@ -53,7 +53,6 @@ class BlockEditorController {
      * @type {!BlockEditorView}
      */
     this.view = new BlockEditorView(new BlockDefinition('block_type'));
-    this.updatePreview();
 
     /**
      * Existing direction ('ltr' vs 'rtl') of preview.
@@ -71,6 +70,7 @@ class BlockEditorController {
 
     // Opens block in workspace when first creating the BlockEditorController.
     this.openBlock(this.view.blockDefinition);
+    this.updatePreview();
   }
 
   /**
@@ -106,8 +106,10 @@ class BlockEditorController {
    * @param {!Blockly.Block} block Rendered block in preview workspace.
    */
   updateGenerator(block) {
-    // TODO: Move in from factory.js
-    throw 'Unimplemented: updateGenerator()';
+    // REFACTORED: Moved in from factory.js
+    const language = $('#language').val();
+    const generatorStub = FactoryUtils.getGeneratorStub(block, language);
+    FactoryUtils.injectCode(generatorStub, 'generatorPre');
   }
 
   /**
@@ -146,8 +148,9 @@ class BlockEditorController {
 
       if (format == 'JSON') {
         var json = JSON.parse(code);
-        Blockly.Blocks[json.type || BlockFactory.UNNAMED] = {
+        Blockly.Blocks[json.type || 'unnamed'] = {
           init: function() {
+            console.log(this);
             this.jsonInit(json);
           }
         };
@@ -171,18 +174,18 @@ class BlockEditorController {
       }
 
       // Create the preview block.
-      var previewBlock = BlockFactory.previewWorkspace.newBlock(blockType);
+      var previewBlock = this.view.previewWorkspace.newBlock(blockType);
       previewBlock.initSvg();
       previewBlock.render();
       previewBlock.setMovable(false);
       previewBlock.setDeletable(false);
       previewBlock.moveBy(15, 10);
-      BlockFactory.previewWorkspace.clearUndo();
-      BlockFactory.updateGenerator(previewBlock);
+      this.view.previewWorkspace.clearUndo();
+      this.updateGenerator(previewBlock);
 
       // Warn user only if their block type is already exists in Blockly's
       // standard library.
-      var rootBlock = FactoryUtils.getRootBlock(BlockFactory.mainWorkspace);
+      var rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
       if (StandardCategories.coreBlockTypes.indexOf(blockType) != -1) {
         rootBlock.setWarningText('A core Blockly block already exists ' +
             'under this name.');

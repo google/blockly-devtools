@@ -66,7 +66,7 @@ class BlockEditorView {
         '', '', ''));
     this.updateButtons(false, false);
 
-    this.previewPane = Blockly.inject('preview',
+    this.previewWorkspace = Blockly.inject('preview',
       {
         rtl: this.rtl,
         media: 'media/',
@@ -192,13 +192,13 @@ class BlockEditorView {
     const newDir = (rtl == 'rtl');
     if (this.rtl !== newDir) {
       this.rtl = newDir;
-      this.previewPane = Blockly.inject('preview',
+      this.previewWorkspace = Blockly.inject('preview',
         {
           rtl: this.rtl,
           media: 'media/',
           scrollbars: true
         });
     }
-    this.previewPane.clear();
+    this.previewWorkspace.clear();
   }
 }
