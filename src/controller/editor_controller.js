@@ -62,7 +62,7 @@ class EditorController {
     /**
      * Block Editor Controller
      * @type {BlockLibraryController}
-     */debugger;
+     */
     this.blockEditorController = new BlockEditorController(this.project, hiddenWorkspace);
 
     /**

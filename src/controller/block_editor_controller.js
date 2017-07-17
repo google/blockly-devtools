@@ -51,8 +51,9 @@ class BlockEditorController {
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
      * @type {!BlockEditorView}
-     */debugger;
+     */
     this.view = new BlockEditorView(new BlockDefinition('block_type'));
+    this.updatePreview();
 
     /**
      * Existing direction ('ltr' vs 'rtl') of preview.
@@ -114,7 +115,89 @@ class BlockEditorController {
    */
   updatePreview() {
     // TODO: Move in from factory.js
-    throw 'Unimplemented: updatePreview()';
+
+    // Fetch the code and determine its format (JSON or JavaScript).
+    var format = document.getElementById('format').value;
+    if (format == 'Manual') {
+      var code = document.getElementById('languageTA').value;
+      // If the code is JSON, it will parse, otherwise treat as JS.
+      try {
+        JSON.parse(code);
+        format = 'JSON';
+      } catch (e) {
+        format = 'JavaScript';
+      }
+    } else {
+      var code = document.getElementById('languagePre').textContent;
+    }
+    if (!code.trim()) {
+      // Nothing to render.  Happens while cloud storage is loading.
+      return;
+    }
+
+    const backupBlocks = Blockly.Blocks;
+    try {
+      Blockly.Blocks = Object.create(null);
+      for (let prop in backupBlocks) {
+        Blockly.Blocks[prop] = backupBlocks[prop];
+      }
+
+      if (format == 'JSON') {
+        var json = JSON.parse(code);
+        Blockly.Blocks[json.type || BlockFactory.UNNAMED] = {
+          init: function() {
+            this.jsonInit(json);
+          }
+        };
+      } else if (format == 'JavaScript') {
+        eval(code);
+      } else {
+        throw 'Unknown format: ' + format;
+      }
+
+      // Look for a block on Blockly.Blocks that does not match the backup.
+      var blockType = null;
+      for (var type in Blockly.Blocks) {
+        if (typeof Blockly.Blocks[type].init == 'function' &&
+            Blockly.Blocks[type] != backupBlocks[type]) {
+          blockType = type;
+          break;
+        }
+      }
+      if (!blockType) {
+        return;
+      }
+
+      // Create the preview block.
+      var previewBlock = BlockFactory.previewWorkspace.newBlock(blockType);
+      previewBlock.initSvg();
+      previewBlock.render();
+      previewBlock.setMovable(false);
+      previewBlock.setDeletable(false);
+      previewBlock.moveBy(15, 10);
+      BlockFactory.previewWorkspace.clearUndo();
+      BlockFactory.updateGenerator(previewBlock);
+
+      // Warn user only if their block type is already exists in Blockly's
+      // standard library.
+      var rootBlock = FactoryUtils.getRootBlock(BlockFactory.mainWorkspace);
+      if (StandardCategories.coreBlockTypes.indexOf(blockType) != -1) {
+        rootBlock.setWarningText('A core Blockly block already exists ' +
+            'under this name.');
+
+      } else if (blockType == 'block_type') {
+        // Warn user to let them know they can't save a block under the default
+        // name 'block_type'
+        rootBlock.setWarningText('You cannot save a block with the default ' +
+            'name, "block_type"');
+
+      } else {
+        rootBlock.setWarningText(null);
+      }
+
+    } finally {
+      Blockly.Blocks = backupBlocks;
+    }
   }
 
   /**

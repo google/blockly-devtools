@@ -43,7 +43,6 @@ class BlockEditorView {
      */
     this.blockDefinition = blockDefinition;
 
-    console.log('Inject for editor!'); debugger;
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
@@ -53,8 +52,18 @@ class BlockEditorView {
         collapse: false,
         toolbox: DevToolsToolboxes.blockFactory,
         media: 'media/'
-      }); debugger;
-    console.log(this.editorWorkspace);
+      });
+
+    // Render starter block.
+    this.showStarterBlock(FactoryUtils.buildBlockEditorStarterXml(
+        '', '', ''));
+
+    this.previewPane = Blockly.inject('preview',
+      {
+        rtl: true,
+        media: 'media/',
+        scrollbars: true
+      });
   }
 
   /**

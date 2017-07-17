@@ -90,7 +90,7 @@ class AppController2 {
     /**
      * EditorController object which encapsulates all editor controllers
      * @type {!EditorController}
-     */debugger;
+     */
     this.editorController = new EditorController(this.project, this.hiddenWorkspace);
 
     /**

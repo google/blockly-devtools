@@ -74,8 +74,9 @@ p {
 }
 
 #blockly {
-  position: absolute;
-  z-index:100000000000000000000000000000;
+  height:100%;
+  width:100%;
+  z-index:10;
 }
 
 #blocklyMask {
@@ -88,14 +89,14 @@ p {
 }
 
 #preview {
-  position: absolute;
+  height:100%;
+  width:100%;
 }
 
 pre,
 #languageTA {
   border: #ddd 1px solid;
   margin-top: 0;
-  position: absolute;
   overflow: scroll;
 }
 
