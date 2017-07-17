@@ -75,10 +75,8 @@ class BlockEditorController {
     this.hiddenWorkspace = hiddenWorkspace;
 
     // Opens block in workspace when first creating the BlockEditorController.
-    this.openBlock(this.view.blockDefinition);
-    console.log('hello');
-    this.updatePreview();
-    console.log('bye');
+    this.openBlock(this.view.blockDefinition.getXml());
+    // this.updatePreview();
   }
 
   /**
@@ -90,7 +88,7 @@ class BlockEditorController {
     // Sets the pointer to the 'current' block to blockDefinition.
     this.view.blockDefinition = blockDefinition;
     // Shows block at the view level.
-    this.view.showBlock(blockDefinition.getXml());
+    this.view.showBlock(this.view.blockDefinition.getXml());
   }
 
   /**
@@ -125,7 +123,6 @@ class BlockEditorController {
    */
   updatePreview() {
     // REFACTORED: Moved in from factory.js
-    console.log('updatePreview() called');
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
 
@@ -147,10 +144,8 @@ class BlockEditorController {
       // Nothing to render.  Happens while cloud storage is loading.
       return;
     }
-    console.log('hi');
     const backupBlocks = Blockly.Blocks;
     try {
-      console.log('test print');
       Blockly.Blocks = Object.create(null);
       for (let prop in backupBlocks) {
         Blockly.Blocks[prop] = backupBlocks[prop];
@@ -184,7 +179,6 @@ class BlockEditorController {
 
       // Create the preview block.
       var previewBlock = this.view.previewWorkspace.newBlock(blockType);
-      console.log(previewBlock);
       previewBlock.initSvg();
       previewBlock.render();
       previewBlock.setMovable(false);

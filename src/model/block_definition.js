@@ -65,6 +65,7 @@ class BlockDefinition extends Resource {
    */
   //TODO #87: phase out
   getXml() {
+    console.log('hi');
     return this.xml;
   }
 
