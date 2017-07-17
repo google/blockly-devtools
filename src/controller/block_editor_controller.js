@@ -48,11 +48,17 @@ class BlockEditorController {
      */
     this.project = project;
 
+    // Creating a default library
+    this.project.addBlockLibrary(new BlockLibrary('MyFirstLibrary'));
+    const defaultLibrary = this.project.getLibrary('MyFirstLibrary');
+    const firstBlock = new BlockDefinition('block_type');
+    defaultLibrary.addBlockDefinition(firstBlock);
+
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
      * @type {!BlockEditorView}
      */
-    this.view = new BlockEditorView(new BlockDefinition('block_type'));
+    this.view = new BlockEditorView(firstBlock);
 
     /**
      * Existing direction ('ltr' vs 'rtl') of preview.
@@ -70,7 +76,9 @@ class BlockEditorController {
 
     // Opens block in workspace when first creating the BlockEditorController.
     this.openBlock(this.view.blockDefinition);
+    console.log('hello');
     this.updatePreview();
+    console.log('bye');
   }
 
   /**
@@ -117,6 +125,7 @@ class BlockEditorController {
    */
   updatePreview() {
     // REFACTORED: Moved in from factory.js
+    console.log('updatePreview() called');
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
 
@@ -138,9 +147,10 @@ class BlockEditorController {
       // Nothing to render.  Happens while cloud storage is loading.
       return;
     }
-
+    console.log('hi');
     const backupBlocks = Blockly.Blocks;
     try {
+      console.log('test print');
       Blockly.Blocks = Object.create(null);
       for (let prop in backupBlocks) {
         Blockly.Blocks[prop] = backupBlocks[prop];
@@ -150,7 +160,6 @@ class BlockEditorController {
         var json = JSON.parse(code);
         Blockly.Blocks[json.type || 'unnamed'] = {
           init: function() {
-            console.log(this);
             this.jsonInit(json);
           }
         };
@@ -175,6 +184,7 @@ class BlockEditorController {
 
       // Create the preview block.
       var previewBlock = this.view.previewWorkspace.newBlock(blockType);
+      console.log(previewBlock);
       previewBlock.initSvg();
       previewBlock.render();
       previewBlock.setMovable(false);

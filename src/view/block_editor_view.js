@@ -64,6 +64,8 @@ class BlockEditorView {
     // Render starter block.
     this.showStarterBlock(FactoryUtils.buildBlockEditorStarterXml(
         '', '', ''));
+    const rootBlock = FactoryUtils.getRootBlock(this.editorWorkspace);
+    this.blockDefinition.setXml(Blockly.Xml.blockToDom(rootBlock));
     this.updateButtons(false, false);
 
     this.previewWorkspace = Blockly.inject('preview',
