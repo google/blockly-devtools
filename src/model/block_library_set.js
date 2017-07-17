@@ -41,62 +41,12 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
-   * Adds a block library to the set.
-   * @param {string} libraryName The name of the library to be added.
-   */
-  addLibrary(libraryName) {
-    super.addResource(libraryName);
-  }
-
-  /**
-   * Removes a library from the set.
-   * @param {string} libraryName The name of the library to be removed.
-   */
-  removeLibrary(libraryName) {
-    super.removeResource(libraryName);
-  }
-
-  /**
-   * Gets a library contained within the set.
-   * @param {string} libraryName The library to be returned.
-   * @return {!Object} The library, or null if it's not contained in the set.
-   */
-  getLibrary(libraryName) {
-    return super.getResource(libraryName);
-  }
-
-  /**
-   * Gets the names of all libraries contained within the set.
-   * @return {Array.<string>} The names of all libraries the set contains.
-   */
-  getLibraryNames() {
-    // TODO: Alphabetize library names in array.
-    return super.getResourceNames();
-  }
-
-  /**
    * Gets the blockTypes contained within the library set.
    * @return {Array.<string>} The block types contained across all libraries in
    *     the set.
    */
-  getAllBlockTypes() {
-    throw 'unimplemented: getAllBlockTypes';
-   }
-
-  /**
-   * Adds a block to the named library, or creates a new library with the given
-   *     name and adds the block to it.
-   * @param {string} libraryName The name of the library to add to or create.
-   * @param {!BlockDefinition} block The block definition to add to the existing
-   *     or new library.
-   */
-   addBlockToLibrary(libraryName, block) {
-    if (this.has(libraryName)) {
-      this.getLibrary(libraryName).addBlock(block);
-    } else {
-      this.addLibrary(libraryName);
-      this.getLibrary(libraryName).addBlock(block);
-    }
+  getBlockTypes() {
+    throw 'unimplemented: getBlockTypes';
    }
 
   /**
@@ -119,37 +69,23 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
-   * Removes a blockwith a given name from the entire set.
-   * @param {string} blockType The name of the block to be removed.
-   */
-  removeBlockFromSet(blockType) {
-    throw 'unimplemented: removeBlockFromSet';
-  }
-
-  /**
-   * Removes a block from a named library.
-   * @param {string} libraryName The name of the library to remove the
-   *     block from.
-   * @param {string} blockType The name of the block to be removed.
-   */
-  removeBlockFromLibrary(libraryName, blockType) {
-    throw 'unimplemented: removeBlockDefFromLibrary';
-  }
-
-  /**
-   * Clears a library in the set.
-   * @param {string} libraryName The name of the library tp be cleared.
-   */
-  clearLibrary(libraryName) {
-    throw 'unimplemented: clearLibrary';
-  }
-
-  /**
    * Returns whether or not a named block is in the library set.
    * @param {string} blockType The name of the block to be found.
    * @return {boolean} Whether or not the block is in the set.
    */
   hasBlock(blockType) {
     throw 'unimplemented: hasBlock';
+  }
+
+  /**
+   * Produces the JSON needed to organize libraries in the tree.
+   * @return {!Object} The JSON for the tree's library section.
+   */
+  getJson() {
+    const librarySetJson = [
+      {'id': 'BlockLibrary', 'text': 'Libraries'},
+      {'children': super.getJson()}
+    ];
+    return librarySetJson;
   }
 }

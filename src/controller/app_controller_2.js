@@ -76,6 +76,12 @@ class AppController2 {
      */
     this.project = new Project('');
 
+    /**
+     * The tree for the DevTools session.
+     * @type {!NavigationTree}
+     */
+    this.navTree = new NavigationTree(this, this.project);
+
     // Create div elements to insert hidden workspaces used in I/O. Hidden
     // workspaces stored in EditorController.
     this.insertHiddenWorkspace_();
@@ -86,6 +92,12 @@ class AppController2 {
      * @type {!Blockly.Workspace}
      */
     this.hiddenWorkspace = Blockly.inject('hiddenWorkspace');
+
+    /**
+     * ProjectController object associated with application.
+     * @type {!ProjectController}
+     */
+    this.projectController = new ProjectController(this.project, this.tree);
 
     /**
      * EditorController object which encapsulates all editor controllers
@@ -206,6 +218,7 @@ class AppController2 {
    * Called on each tab click. Hides and shows specific content based on which tab
    * (Block Factory, Workspace Factory, or Exporter) is selected.
    */
+  //TODO #99: have changed by tree, not tabs
   onTab() {
     // REFACTORED: Moved in from app_controller.js=
     // Get tab div elements

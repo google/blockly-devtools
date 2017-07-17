@@ -123,7 +123,7 @@ class BlockLibrary extends Resource {
    * Removes block from the block library.
    * @param {string} blockType Type of block.
    */
-  removeBlock(blockType) {
+  remove(blockType) {
     /*
      * TODO: Move from src/block_library_storage.js
      *
@@ -151,7 +151,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Returns map of blockType to associated JSON object.
-   * @return {{!Object<string, Object>} Map of block type to corresponding JSON.
+   * @return {!Object<string, Object>} Map of block type to corresponding JSON.
    */
   getBlockJsonMap() {
     /*
@@ -191,33 +191,6 @@ class BlockLibrary extends Resource {
   getExportData() {
     //TODO: implement
     throw 'unimplemented: getExportData';
-  }
-
-  /**
-   * Returns JSON object of the library's blocktypes. For use in getTreeJson.
-   * @return {!Object} the JSON of all block types
-   */
-  makeBlockTypeJson() {
-    const treeBlockTypeJson = [];
-    if (this.isEmpty()) {
-      return treeBlockTypeJson;
-    }
-    const types = this.getBlockTypes();
-    const iterationIndex = 1;
-    const finalIndex = 0;
-    let toAdd;
-    let blockType;
-    while (types[iterationIndex]) {
-      blockType = types[iterationIndex - 1];
-      toAdd = {'text': blockType, 'id': blockType};
-      treeBlockTypeJson.push(toAdd);
-      iterationIndex++;
-      finalIndex++;
-    }
-    blockType = types[finalIndex];
-    toAdd = { 'text': blockType, 'id': blockType};
-    treeBlockTypeJson.push(toAdd);
-    return treeBlockTypeJson;
   }
 
   /**
