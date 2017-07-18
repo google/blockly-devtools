@@ -172,6 +172,40 @@ class BlockEditorController {
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
 
+    const blockDef = this.getDefinitionFormat_();
+    const format = blockDef[0];
+    const format = blockDef[1];
+
+    if (!code.trim()) {
+      // Nothing to render.  Happens while cloud storage is loading.
+      return;
+    }
+
+    const backupBlocks = Blockly.Blocks;
+    try {
+      // Evaluates block definition (temporarily) for preview.
+      this.evaluateBlock_(format, code);
+
+      const blockType = this.view.blockDefinition.type();
+      // Render preview block in preview workspace.
+      this.renderPreviewBlock_(blockType);
+      // Warn user if block type is invalid.
+      this.warnUser_(blockType);
+    } finally {
+      Blockly.Blocks = backupBlocks;
+    }
+  }
+
+  /**
+   * Determines what format the user-defined block definition is in.
+   * @return {!Array.<string>} Two-element array. First element is format of code,
+   *     and second is the block definition code.
+   * @private
+   */
+  getDefinitionFormat_() {
+    // REFACTORED: Moved in from factory.js:updatePreview()
+    const blockDef = [];
+
     // Fetch the code and determine its format (JSON or JavaScript).
     const format = $('#format').val();
     if (format == 'Manual') {
@@ -186,24 +220,11 @@ class BlockEditorController {
     } else {
       var code = $('#languagePre').text();
     }
-    if (!code.trim()) {
-      // Nothing to render.  Happens while cloud storage is loading.
-      return;
-    }
-    const backupBlocks = Blockly.Blocks;
-    try {
-      // Evaluates block definition (temporarily) for preview.
-      this.evaluateBlock_(format, code);
 
-      const blockType = this.view.blockDefinition.type();
-      // Render preview block in preview workspace.
-      this.renderPreviewBlock_(blockType);
-      // Warn user if block type is invalid.
-      this.warnUser_(blockType);
+    blockDef.push(format);
+    blockDef.push(code);
 
-    } finally {
-      Blockly.Blocks = backupBlocks;
-    }
+    return blockDef;
   }
 
   /**
