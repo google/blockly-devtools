@@ -274,13 +274,21 @@ class Project extends Resource {
   /**
    * Gets the JSON object necessary to represent the project in the navigation
    *     tree.
+   * @param {string} toolboxPrefix The id prefix for toolboxes.
+   * @param {string} libraryPrefix The id prefix for libraries.
+   * @param {string} workspaceContentsPrefix The id prefix for workspace contents.
+   * @param {string} workspaceConfigurationPrefix The id prefix for workspace
+   *     configurations.
    * @return {!Object} The tree-specific JSON representation of the project.
    */
-  getTreeJson() {
+  getTreeJson(toolboxPrefix, libraryPrefix, workspaceContentsPrefix,
+      workspaceConfigurationPrefix) {
     const projectTree = [
       { 'id': this.name, 'text': this.name,
-        'children': [ this.librarySet.getJson(), this.toolboxSet.getJson(),
-          this.workspaceContentsSet.getJson(), this.workspaceConfigSet.getJson()]}
+        'children': [ this.librarySet.getJson(libraryPrefix),
+          this.toolboxSet.getJson(toolboxPrefix),
+          this.workspaceContentsSet.getJson(workspaceContentsPrefix),
+          this.workspaceConfigSet.getJson(workspaceConfigurationPrefix)]}
     ];
     return projectTree;
   }

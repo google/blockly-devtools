@@ -69,7 +69,8 @@ class NavigationTree {
    * @return {!Object} The JSON necessary to load the tree.
    */
   makeTreeJson() {
-    const data = this.project.getTreeJson();
+    const data = this.project.getTreeJson(TOOLBOX_PREFIX, LIBRARY_PREFIX,
+      WORKSPACE_CONTENTS_PREFIX, WORKSPACE_CONFIG_PREFIX);
     const tree = {
       'core': {
         'check_callback': true,

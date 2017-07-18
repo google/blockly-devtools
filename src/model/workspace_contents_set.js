@@ -50,11 +50,12 @@ class WorkspaceContentsSet extends ResourceSet {
 
   /**
    * Produces the JSON needed to organize workspace contents in the tree.
+   * @param {string} prefix The id prefix for workspace contents.
    * @return {!Object} The JSON for the tree's workspace contents section.
    */
-  getJson() {
+  getJson(prefix) {
     const workspaceContentsSetJson = {
-      'id': 'WorkspaceContents_',
+      'id': prefix,
       'text': 'Workspace Contents',
       'children': super.getJson()
     };
