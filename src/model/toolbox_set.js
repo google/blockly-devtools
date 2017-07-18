@@ -69,13 +69,15 @@ class ToolboxSet extends ResourceSet {
 
   /**
    * Produces the JSON needed to organize toolboxes in the tree.
+   * @param {string} prefix The id prefix for toolboxes.
    * @return {!Object} The JSON for the tree's toolbox section.
    */
-  getTreeJson() {
-    const toolboxSetJson = [
-      {'id': 'Toolbox', 'text': 'Toolboxes'},
-      {'children': super.getTreeJson()}
-    ];
+  getJson(prefix) {
+    const toolboxSetJson = {
+      'id': prefix,
+      'text': 'Toolboxes',
+      'children': super.getJson()
+    };
     return toolboxSetJson;
   }
 }
