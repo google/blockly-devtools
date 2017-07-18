@@ -79,13 +79,11 @@ AppController = function() {
 
   // Creates the project.
   //TODO #53: give only ProjectController
-  this.project = new Project('PROJECT');
-
-  this.tree = new NavigationTree(this, this.project);
+  this.project = new Project('EXAMPLE');
 
   this.project.setCurrentLibrary(this.blockLibraryController);
 
-  this.projectController = new ProjectController(this.project, this.tree);
+  this.projectController = new ProjectController(this.project);
 };
 
 // Constant values representing the three tabs in the controller.
