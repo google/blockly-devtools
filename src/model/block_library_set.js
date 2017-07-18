@@ -83,7 +83,7 @@ class BlockLibrarySet extends ResourceSet {
    */
   getJson() {
     const librarySetJson = {
-      'id': 'BlockL',
+      'id': 'BlockLibrary_',
       'text': 'Libraries',
       'children': super.getJson()
     };

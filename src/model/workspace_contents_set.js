@@ -54,7 +54,7 @@ class WorkspaceContentsSet extends ResourceSet {
    */
   getJson() {
     const workspaceContentsSetJson = {
-      'id': 'WCont',
+      'id': 'WorkspaceContents_',
       'text': 'Workspace Contents',
       'children': super.getJson()
     };
