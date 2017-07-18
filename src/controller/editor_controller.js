@@ -29,6 +29,10 @@
  */
 goog.provide('EditorController');
 
+goog.require('ToolboxController');
+goog.require('WorkspaceController');
+goog.require('BlockEditorController');
+
 class EditorController {
   /**
    * @constructor
@@ -67,6 +71,27 @@ class EditorController {
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
     this.currentEditor = null;
+  }
+
+  /**
+   * Switches editors (both view and controllers).
+   * @param {string} editorMode String which represents which editor to switch to.
+   */
+  switchEditor(editorMode) {
+    // TODO: Implement. Add editor-switching method at the EditorController level
+    //       so that the AppController only worries about calling this method.
+    console.log('Switch to ' + editorMode);
+
+    if (editorMode === AppController2.BLOCK_EDITOR) {
+      this.currentEditor = this.blockEditorController;
+      // TODO: Implement
+    } else if (editorMode === AppController2.TOOLBOX_EDITOR) {
+      this.currentEditor = this.toolboxController;
+      // TODO: Implement
+    } else if (editorMode === AppController2.WORKSPACE_EDITOR) {
+      this.currentEditor = this.workspaceController;
+      // TODO: Implement
+    }
   }
 
   /**

@@ -385,6 +385,24 @@ class AppView {
   }
 
   /**
+   * Switches editor views in application.
+   * @param {string} editorName Name of editor to switch to.
+   * @param {string} resourceName Name of resource to display in view.
+   */
+  switchView(editorName, resourceName) {
+    if (editorName === AppController2.BLOCK_EDITOR) {
+      this.currentView = this.blockEditorView;
+      // TODO: implement
+    } else if (editorName === AppController2.TOOLBOX_EDITOR) {
+      this.currentView = this.toolboxEditorView;
+      // TODO: Implement
+    } else if (editorName === AppController2.WORKSPACE_EDITOR) {
+      this.currentView = this.workspaceEditorView;
+      // TODO: Implement
+    }
+  }
+
+  /**
    * Updates the workspace to show the block user selected from library
    * @param {string} blockType Block to edit on block factory.
    */

@@ -194,6 +194,15 @@ class AppController2 {
   // ========================= VIEW-CONTROLLER ==========================
 
   /**
+   * Switches views.
+   * @param {string} editorName Name of editor to switch to.
+   */
+  changeViews(editorName) {
+    this.editorController.switchEditor(editorName);
+    this.view.switchView(editorName);
+  }
+
+  /**
    * Set the selected tab.
    * @param {string} tabName AppController.BLOCK_FACTORY,
    *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
@@ -386,17 +395,6 @@ class AppController2 {
     } else {
       throw new Error('Popup type ' + popupMode + ' not found.');
     }
-  }
-
-  /**
-   * Handler for the window's 'beforeunload' event. When a user has unsaved
-   * changes and refreshes or leaves the page, confirm that they want to do so
-   * before actually refreshing.
-   * @param {Event} event The beforeunload event.
-   */
-  confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js'
-    console.warn('Unimplemented: confirmLeavePage()');
   }
 
   /**
