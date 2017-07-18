@@ -50,17 +50,11 @@ class BlockEditorController {
      */
     this.project = project;
 
-    /**
-     * Keeps track of which library is currently being edited. Used to know where
-     * to 'automatically' add a block when a user creates a new block.
-     * @type {!BlockLibrary}
-     */
-    this.currentLibrary = new BlockLibrary('MyFirstLibrary');
-
-    // Creating a default library, adds a sample block to library
-    this.project.addBlockLibrary(this.currentLibrary);
+    // Creates a default library. Adds a sample block to library.
+    const firstLibrary = new BlockLibrary('MyFirstLibrary');
+    this.project.addBlockLibrary(firstLibrary);
     const firstBlock = new BlockDefinition('block_type');
-    this.currentLibrary.addBlockDefinition(firstBlock);
+    firstLibrary.addBlockDefinition(firstBlock);
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
@@ -82,13 +76,20 @@ class BlockEditorController {
      */
     this.hiddenWorkspace = hiddenWorkspace;
 
-    // Opens block in workspace when first creating the BlockEditorController.
-    // this.openBlock(this.view.blockDefinition);
-    // The above was commented out because it depends on not yet implemented
-    // model functions.
-
-    // Refreshes previews (preview block, block definition, generator stub).
     this.refreshPreviews();
+  }
+
+  /**
+   * Static constants for block definition editing modes.
+   */
+  static get FORMAT_JSON() {
+    return 'JSON';
+  }
+  static get FORMAT_JAVASCRIPT() {
+    return 'JavaScript';
+  }
+  static get FORMAT_GENERAL() {
+    return 'General';
   }
 
   /**
@@ -99,23 +100,6 @@ class BlockEditorController {
     this.updateBlockDefinitionView($('#format').val());
     this.updatePreview();
     this.updateGenerator(this.getPreviewBlock());
-  }
-
-  /**
-   * Opens a given BlockDefinition to be edited in Block Editor view. If the
-   * given BlockDefinition does not exist, creates a new BlockDefinition under
-   * that name and then displays it.
-   * @param {BlockDefinition} blockDefinition BlockDefinition object
-   *     that will be rendered onto page.
-   */
-  openBlock(blockDefinition) {
-    // If blockDefinition hasn't yet been added, add to the currently active
-    // block library.
-    if (!this.project.hasBlock(blockDefinition.name)) {
-      this.currentLibrary.addBlockDefinition(blockDefinition);
-    }
-    // Shows block at the view level.
-    this.view.showBlock(blockDefinition);
   }
 
   /**
@@ -174,7 +158,7 @@ class BlockEditorController {
 
     const blockDef = this.getDefinitionFormat_();
     const format = blockDef[0];
-    const format = blockDef[1];
+    const code = blockDef[1];
 
     if (!code.trim()) {
       // Nothing to render.  Happens while cloud storage is loading.
@@ -190,7 +174,7 @@ class BlockEditorController {
       // Render preview block in preview workspace.
       this.renderPreviewBlock_(blockType);
       // Warn user if block type is invalid.
-      this.warnUser_(blockType);
+      this.maybeWarnUser_(blockType);
     } finally {
       Blockly.Blocks = backupBlocks;
     }
@@ -208,14 +192,14 @@ class BlockEditorController {
 
     // Fetch the code and determine its format (JSON or JavaScript).
     const format = $('#format').val();
-    if (format == 'Manual') {
+    if (format == BlockEditorController.FORMAT_GENERAL) {
       var code = $('#languageTA').val();
       // If the code is JSON, it will parse, otherwise treat as JS.
       try {
         JSON.parse(code);
-        format = 'JSON';
+        format = BlockEditorController.FORMAT_JSON;
       } catch (e) {
-        format = 'JavaScript';
+        format = BlockEditorController.FORMAT_JAVASCRIPT;
       }
     } else {
       var code = $('#languagePre').text();
@@ -243,14 +227,14 @@ class BlockEditorController {
       Blockly.Blocks[prop] = backupBlocks[prop];
     }
 
-    if (format == 'JSON') {
+    if (format == BlockEditorController.FORMAT_JSON) {
       var json = JSON.parse(code);
       Blockly.Blocks[json.type || 'unnamed'] = {
         init: function() {
           this.jsonInit(json);
         }
       };
-    } else if (format == 'JavaScript') {
+    } else if (format == BlockEditorController.FORMAT_JAVASCRIPT) {
       // TODO(#114): Remove use of eval() for security reasons.
       eval(code);
     } else {
@@ -281,20 +265,18 @@ class BlockEditorController {
    * @param {string} blockType Name of block type rendered in preview.
    * @private
    */
-  warnUser_(blockType) {
+  maybeWarnUser_(blockType) {
     // Warn user only if their block type is already exists in Blockly's
     // standard library.
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     if (StandardCategories.coreBlockTypes.indexOf(blockType) != -1) {
       rootBlock.setWarningText('A core Blockly block already exists ' +
           'under this name.');
-
     } else if (blockType == 'block_type') {
       // Warn user to let them know they can't save a block under the default
       // name 'block_type'
       rootBlock.setWarningText('You cannot save a block with the default ' +
           'name, "block_type"');
-
     } else {
       rootBlock.setWarningText(null);
     }

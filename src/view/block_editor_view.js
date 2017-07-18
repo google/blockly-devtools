@@ -28,7 +28,9 @@
  */
 
 goog.provide('BlockEditorView');
+
 goog.require('BlockDefinition');
+
 goog.require('goog.dom');
 goog.require('goog.dom.classlist');
 
