@@ -301,7 +301,7 @@ class NavigationTree {
    */
   makeTreeListener() {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
-      // collect ids of first selected block
+      // collect id of first selected block
       const node = $('#navigationTree').jstree("get_selected")[0];
       //TODO #99: switch tab if necessary
       // respond to selection
