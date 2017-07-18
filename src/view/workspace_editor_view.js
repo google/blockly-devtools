@@ -88,6 +88,26 @@ class WorkspaceEditorView {
   }
 
   /**
+   * Removes elements of this editor view from application view. Used when switching
+   * editors.
+   */
+  hide() {
+    // TODO: Implement.
+    console.warn('Unimplemented: hide()');
+  }
+
+  /**
+   * Shows elements of this editor to application view. Used when switching editors.
+   * @param {string} wsContentsName Name of WorkspaceContents to populate in
+   *     workspace editor view when shown.
+   */
+  show(wsContentsName) {
+    // TODO: Add functionality for showing WorkspaceConfiguration object.
+    // TODO: Implement.
+    console.warn('Unimplemented: show()');
+  }
+
+  /**
    * Assign click handlers for Workspace editor.
    * @private
    */

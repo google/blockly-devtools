@@ -198,7 +198,9 @@ class AppController2 {
    * @param {string} editorName Name of editor to switch to.
    */
   changeViews(editorName) {
+    // Switches editor controllers.
     this.editorController.switchEditor(editorName);
+    // Switches views.
     this.view.switchView(editorName);
   }
 

@@ -42,7 +42,24 @@ class BlockEditorView {
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
+  }
 
+  /**
+   * Removes elements of this editor view from application view. Used when switching
+   * editors.
+   */
+  hide() {
+    // TODO: Implement.
+    console.warn('Unimplemented: hide()');
+  }
+
+  /**
+   * Shows elements of this editor to application view. Used when switching editors.
+   * @param {string} blockName Name of block to populate into block editor view.
+   */
+  show(blockName) {
+    // TODO: Implement.
+    $('#editorContainer').html(BlockEditorView.html);
     console.log('Inject for editor!');
     /**
      * Blockly workspace of main block defining workspace.
@@ -117,3 +134,108 @@ class BlockEditorView {
     console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")");
   }
 }
+
+BlockEditorView.html = `
+<!-- Blockly Factory Tab -->
+<table id="blockFactoryContent_">
+  <tr width="100%" height="10%">
+    <td width="50%" height="5%">
+      <table>
+        <tr id="blockLibrary">
+          <td id="blockLibraryControls">
+          <button id="createNewBlockButton" title="Create Block.">
+            Create New Block
+          </button>
+          <button id="saveToBlockLibraryButton" title="Save block to Block Library.">
+            Save "block_type"
+          </button>
+          <button id="removeBlockFromLibraryButton" title="Remove block from Block Library.">
+            Delete "block_type"
+          </button>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td height="5%">
+      <table id="blockFactoryPreview">
+        <tr>
+          <td id="previewContainer">
+            <h3>Preview:
+              <select id="direction">
+                <option value="ltr">LTR</option>
+                <option value="rtl">RTL</option>
+              </select>
+            </h3>
+          </td>
+          <td id="buttonContainer">
+            <button id="linkButton" title="Save and link to blocks.">
+              <img src="media/link.png" height="21" width="21">
+            </button>
+            <button id="clearBlockLibraryButton" title="Clear Block Library.">
+              <span>Clear Library</span>
+            </button>
+            <label for="files" class="buttonStyle">
+              <span class=>Import Block Library</span>
+            </label>
+            <input id="files" type="file" name="files"
+                accept="application/xml">
+            <button id="localSaveButton" title="Save block library XML to a local file.">
+              <span>Download Block Library</span>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr height="80%">
+    <td id="blocklyWorkspaceContainer">
+      <div id="blockly"></div>
+      <div id="blocklyMask"></div>
+    </td>
+    <td width="50%">
+      <table id="blocklyPreviewContainer">
+        <tr>
+          <td height="30%">
+            <div id="preview"></div>
+          </td>
+        </tr>
+        <tr>
+          <td height="5%">
+            <h3>Block Definition:
+              <select id="format">
+                <option value="JSON">JSON</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="Manual">Manual edit&hellip;</option>
+              </select>
+            </h3>
+          </td>
+        </tr>
+        <tr>
+          <td height="30%">
+            <pre id="languagePre"></pre>
+            <textarea id="languageTA"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td height="5%">
+            <h3>Generator stub:
+              <select id="language">
+                <option value="JavaScript">JavaScript</option>
+                <option value="Python">Python</option>
+                <option value="PHP">PHP</option>
+                <option value="Lua">Lua</option>
+                <option value="Dart">Dart</option>
+              </select>
+            </h3>
+          </td>
+        </tr>
+        <tr>
+          <td height="30%">
+            <pre id="generatorPre"></pre>
+          </td>
+        </tr>
+      </table>
+    </td>
+    </tr>
+</table>
+`;

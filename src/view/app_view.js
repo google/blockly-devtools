@@ -74,12 +74,6 @@ class AppView {
         new WorkspaceContents('workspace_contents_name'),
         new WorkspaceConfiguration('default'));
 
-    // Assigning event handlers and listeners for application.
-    this.assignLibraryClickHandlers();
-    this.assignBlockFactoryClickHandlers();
-    this.assignBlockFactoryClickHandlers();
-    this.addBlockFactoryEventListeners();
-
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
     const menuTree = [
       ['File', [
@@ -164,6 +158,18 @@ class AppView {
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
     this.currentView = this.blockEditorView;
+
+    // TODO(boomarked): Cannot read property type() of null. blockDefinition
+    // must be null (below). FIX.
+
+    // Show the current view.
+    this.currentView.show(this.blockEditorView.blockDefinition.type());
+
+    // Assigning event handlers and listeners for application.
+    this.assignLibraryClickHandlers();
+    this.assignBlockFactoryClickHandlers();
+    this.assignBlockFactoryClickHandlers();
+    this.addBlockFactoryEventListeners();
   }
 
   /**
@@ -391,14 +397,17 @@ class AppView {
    */
   switchView(editorName, resourceName) {
     if (editorName === AppController2.BLOCK_EDITOR) {
+      this.currentView.hide();
       this.currentView = this.blockEditorView;
-      // TODO: implement
+      this.currentView.show(resourceName);
     } else if (editorName === AppController2.TOOLBOX_EDITOR) {
+      this.currentView.hide();
       this.currentView = this.toolboxEditorView;
-      // TODO: Implement
+      this.currentView.show(resourceName);
     } else if (editorName === AppController2.WORKSPACE_EDITOR) {
+      this.currentView.hide();
       this.currentView = this.workspaceEditorView;
-      // TODO: Implement
+      this.currentView.show(resourceName);
     }
   }
 
