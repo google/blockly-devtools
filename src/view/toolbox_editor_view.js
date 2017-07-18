@@ -45,9 +45,15 @@ class ToolboxEditorView {
      */
     this.toolbox = toolbox;
 
+    /**
+     * JQuery container of toolbox editor view.
+     * @type {!JQuery}
+     */
     this.container = $('#workspaceFactoryContent');
 
+    // Inserts HTML into toolbox editor container. Keeps hidden.
     this.container.html(ToolboxEditorView.html);
+    this.container.hide();
 
     /**
      * Blockly workspace where users define/edit toolboxes.
@@ -98,10 +104,11 @@ class ToolboxEditorView {
    * editors.
    */
   hide() {
-    // TODO: Implement.
+    // Deselect tab.
     const tab = $('#' + AppController.TOOLBOX_EDITOR);
     tab.removeClass('tabon');
     tab.addClass('taboff');
+    // Hide this view.
     this.container.hide();
   }
 
@@ -111,10 +118,11 @@ class ToolboxEditorView {
    *     shown.
    */
   show(toolboxName) {
-    // TODO: Implement.
+    // Select tab.
     const tab = $('#' + AppController.TOOLBOX_EDITOR);
     tab.removeClass('taboff');
     tab.addClass('tabon');
+    // Show this view.
     this.container.show();
   }
 
@@ -273,7 +281,7 @@ ToolboxEditorView.html = `
     <section id="toolbox_section">
       <div id="toolbox_blocks"></div>
     </section>
-    <aside id="toolbox_div">
+    <aside id="toolboxDiv">
       <p id="categoryHeader">You currently have no categories.</p>
       <table id="categoryTable" style="width:auto; height:auto">
       </table>
@@ -363,7 +371,7 @@ ToolboxEditorView.html = `
         <h3>Preview</h3>
         <p>This is what your custom workspace will look like.</p>
       </div>
-      <div id="preview_blocks" class="content"></div>
+      <div id="toolboxPreview" class="content"></div>
     </div>
   </aside>
 `;

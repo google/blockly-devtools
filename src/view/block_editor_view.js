@@ -47,15 +47,36 @@ class BlockEditorView {
      */
     this.blockDefinition = blockDefinition;
 
+    /**
+     * JQuery container of block editor view.
+     * @type {!JQuery}
+     */
     this.container = $('#blockFactoryContent');
 
-    this.container.hide();
+    // Inserts HTML into container.
     this.container.html(BlockEditorView.html);
 
+    /**
+     * Save button in block editor view.
+     * @type {!JQuery}
+     */
     this.saveButton = $('#saveToBlockLibraryButton');
+
+    /**
+     * Delete button in block editor view.
+     * @type {!JQuery}
+     */
     this.deleteButton = $('#removeBlockFromLibraryButton');
+
+    // Disable delete button by default.
     this.deleteButton.disabled = true;
+
+    /**
+     * Whether user is creating rtl or ltr blocks.
+     * @type {boolean}
+     */
     this.rtl = true;
+
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
@@ -90,11 +111,11 @@ class BlockEditorView {
    * editors.
    */
   hide() {
-    // TODO: Implement.
     // Deselect the tab.
     const tab = $('#' + AppController.BLOCK_FACTORY);
     tab.removeClass('tabon');
     tab.addClass('taboff');
+    // Hide this view.
     this.container.hide();
   }
 
@@ -103,10 +124,11 @@ class BlockEditorView {
    * @param {string} blockName Name of block to populate into block editor view.
    */
   show(blockName) {
-    // TODO: Implement.
+    // Select the tab.
     const tab = $('#' + AppController.BLOCK_FACTORY);
     tab.removeClass('taboff');
     tab.addClass('tabon');
+    // Show this view.
     this.container.show();
   }
 

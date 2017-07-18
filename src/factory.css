@@ -148,7 +148,15 @@ button, .buttonStyle {
   float: right;
 }
 
-#blockFactoryContent {
+/* Editor elements */
+#navigationTree{
+  position: absolute;
+  left: 0px;
+  width: 20%;
+  height: 45%;
+}
+
+#editorContainer {
   position: absolute;
   right: 2px;
   height: 85%;
@@ -156,9 +164,14 @@ button, .buttonStyle {
   overflow: hidden;
 }
 
-#blockFactoryPreview {
+#blockFactoryContent {
+  width:100%;
+  height:100%;
+}
+
+#blockFactoryPreview {/*
   height: 100%;
-  width: 100%;
+  width: 100%;*/
 }
 
 #blockLibraryContainer {
@@ -193,11 +206,12 @@ button, .buttonStyle {
 }
 
 #workspaceFactoryContent {
+/*
   clear: both;
-  display: none;
   height: 90%;
   overflow-x: hidden;
   overflow-y: scroll;
+*/
 }
 
 /* Exporter */
@@ -402,6 +416,7 @@ td.taboff:hover {
   width: 0;
   z-index: -1;
 }
+
 #wfactoryHeader {
   height: 29%;
   padding: 0.5%;
@@ -424,14 +439,15 @@ td.taboff:hover {
   width: 98%;
 }
 
-#toolbox_blocks {
+#toolboxDiv {
   height: 100%;
   width: 100%;
 }
 
-#preview_blocks {
+#toolboxPreview {
   height: 80%;
   padding: 10px;
+  position:absolute;
   width: 100%;
 }
 
@@ -667,11 +683,4 @@ td.taboff:hover {
 
 .red {
   color:red;
-}
-
-#navigationTree{
-  position: absolute;
-  left: 0px;
-  width: 20%;
-  height: 45%;
 }
