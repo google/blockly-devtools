@@ -31,6 +31,8 @@
 goog.provide('BlockEditorController');
 
 goog.require('BlockDefinition');
+goog.require('BlockEditorView');
+goog.require('BlockLibrary');
 goog.require('FactoryUtils');
 goog.require('StandardCategories');
 
@@ -137,7 +139,7 @@ class BlockEditorController {
    * @param {!Blockly.Block} block Rendered block in preview workspace.
    */
   updateGenerator(block) {
-    // REFACTORED: Moved in from factory.js:updatePreview()
+    // REFACTORED: Moved in from factory.js:updateGenerator()
     const language = $('#language').val();
     const generatorStub = FactoryUtils.getGeneratorStub(block, language);
     this.view.updateGenStub(generatorStub);

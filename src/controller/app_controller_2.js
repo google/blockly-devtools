@@ -36,6 +36,7 @@ goog.require('goog.dom.classlist');
 goog.require('goog.dom.xml');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
+goog.require('NavigationTree');
 goog.require('PopupController');
 goog.require('Project');
 goog.require('ProjectController');
