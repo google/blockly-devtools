@@ -85,6 +85,7 @@ class BlockEditorController {
     // The above was commented out because it depends on not yet implemented
     // model functions.
 
+    // Refreshes previews (preview block, block definition, generator stub).
     this.refreshPreviews();
   }
 
@@ -93,10 +94,8 @@ class BlockEditorController {
    * generator stub) at once.
    */
   refreshPreviews() {
-    console.log('refreshPreviews() called!');
     this.updateBlockDefinitionView($('#format').val());
     this.updatePreview();
-    console.log(this.getPreviewBlock());
     this.updateGenerator(this.getPreviewBlock());
   }
 
@@ -138,7 +137,7 @@ class BlockEditorController {
    * @param {!Blockly.Block} block Rendered block in preview workspace.
    */
   updateGenerator(block) {
-    // REFACTORED: Moved in from factory.js
+    // REFACTORED: Moved in from factory.js:updatePreview()
     const language = $('#language').val();
     const generatorStub = FactoryUtils.getGeneratorStub(block, language);
     this.view.updateGenStub(generatorStub);
@@ -167,14 +166,14 @@ class BlockEditorController {
    * Update the preview display.
    */
   updatePreview() {
-    // REFACTORED: Moved in from factory.js
+    // REFACTORED: Moved in from factory.js:updatePreview()
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
 
     // Fetch the code and determine its format (JSON or JavaScript).
-    var format = document.getElementById('format').value;
+    const format = $('#format').val();
     if (format == 'Manual') {
-      var code = document.getElementById('languageTA').value;
+      var code = $('#languageTA').val();
       // If the code is JSON, it will parse, otherwise treat as JS.
       try {
         JSON.parse(code);
@@ -183,7 +182,7 @@ class BlockEditorController {
         format = 'JavaScript';
       }
     } else {
-      var code = document.getElementById('languagePre').textContent;
+      var code = $('#languagePre').text();
     }
     if (!code.trim()) {
       // Nothing to render.  Happens while cloud storage is loading.
@@ -191,66 +190,90 @@ class BlockEditorController {
     }
     const backupBlocks = Blockly.Blocks;
     try {
-      Blockly.Blocks = Object.create(null);
-      for (let prop in backupBlocks) {
-        Blockly.Blocks[prop] = backupBlocks[prop];
-      }
+      // Evaluates block definition (temporarily) for preview.
+      this.evaluateBlock_(format, code);
 
-      if (format == 'JSON') {
-        var json = JSON.parse(code);
-        Blockly.Blocks[json.type || 'unnamed'] = {
-          init: function() {
-            this.jsonInit(json);
-          }
-        };
-      } else if (format == 'JavaScript') {
-        eval(code);
-      } else {
-        throw 'Unknown format: ' + format;
-      }
-
-      // Look for a block on Blockly.Blocks that does not match the backup.
-      // var blockType = null;
-      // for (var type in Blockly.Blocks) {
-      //   if (typeof Blockly.Blocks[type].init == 'function' &&
-      //       Blockly.Blocks[type] != backupBlocks[type]) {
-      //     blockType = type;
-      //     break;
-      //   }
-      // }
-      // if (!blockType) {
-      //   return;
-      // }
       const blockType = this.view.blockDefinition.type();
-      // Create the preview block.
-      var previewBlock = this.view.previewWorkspace.newBlock(blockType);
-      previewBlock.initSvg();
-      previewBlock.render();
-      previewBlock.setMovable(false);
-      previewBlock.setDeletable(false);
-      previewBlock.moveBy(15, 10);
-      this.view.previewWorkspace.clearUndo();
-      this.updateGenerator(previewBlock);
-
-      // Warn user only if their block type is already exists in Blockly's
-      // standard library.
-      var rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-      if (StandardCategories.coreBlockTypes.indexOf(blockType) != -1) {
-        rootBlock.setWarningText('A core Blockly block already exists ' +
-            'under this name.');
-
-      } else if (blockType == 'block_type') {
-        // Warn user to let them know they can't save a block under the default
-        // name 'block_type'
-        rootBlock.setWarningText('You cannot save a block with the default ' +
-            'name, "block_type"');
-
-      } else {
-        rootBlock.setWarningText(null);
-      }
+      // Render preview block in preview workspace.
+      this.renderPreviewBlock_(blockType);
+      // Warn user if block type is invalid.
+      this.warnUser_(blockType);
 
     } finally {
       Blockly.Blocks = backupBlocks;
+    }
+  }
+
+  /**
+   * Evaluates block definitions in block editor by adding user's definition to
+   * Blockly.Blocks. Used to display preview in block editor.
+   * @param {string} format Format of block definition, either 'JSON' or 'JavaScript'.
+   * @param {string} code Block defintion code to evaluate.
+   * @private
+   */
+  evaluateBlock_(format, code) {
+    // REFACTORED: Moved in from factory.js:updatePreview()
+    const backupBlocks = Blockly.Blocks;
+
+    Blockly.Blocks = Object.create(null);
+    for (let prop in backupBlocks) {
+      Blockly.Blocks[prop] = backupBlocks[prop];
+    }
+
+    if (format == 'JSON') {
+      var json = JSON.parse(code);
+      Blockly.Blocks[json.type || 'unnamed'] = {
+        init: function() {
+          this.jsonInit(json);
+        }
+      };
+    } else if (format == 'JavaScript') {
+      // TODO(#114): Remove use of eval() for security reasons.
+      eval(code);
+    } else {
+      throw 'Unknown format: ' + format;
+    }
+  }
+
+  /**
+   * Renders preview block in preview workspace. Assumes block definition has
+   * already been evaluated.
+   * @param {string} blockType Name of block type to render in preview.
+   * @private
+   */
+  renderPreviewBlock_(blockType) {
+    // Create the preview block.
+    const previewBlock = this.view.previewWorkspace.newBlock(blockType);
+    previewBlock.initSvg();
+    previewBlock.render();
+    previewBlock.setMovable(false);
+    previewBlock.setDeletable(false);
+    previewBlock.moveBy(15, 10);
+    this.view.previewWorkspace.clearUndo();
+  }
+
+  /**
+   * Warns user if their block type already exists in standard library or if
+   * it is otherwise invalid.
+   * @param {string} blockType Name of block type rendered in preview.
+   * @private
+   */
+  warnUser_(blockType) {
+    // Warn user only if their block type is already exists in Blockly's
+    // standard library.
+    const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    if (StandardCategories.coreBlockTypes.indexOf(blockType) != -1) {
+      rootBlock.setWarningText('A core Blockly block already exists ' +
+          'under this name.');
+
+    } else if (blockType == 'block_type') {
+      // Warn user to let them know they can't save a block under the default
+      // name 'block_type'
+      rootBlock.setWarningText('You cannot save a block with the default ' +
+          'name, "block_type"');
+
+    } else {
+      rootBlock.setWarningText(null);
     }
   }
 
