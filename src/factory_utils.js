@@ -1209,7 +1209,7 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
 FactoryUtils.buildBlockEditorStarterXml = function(inputType, blockTypeName, blockStarterText) {
   // REFACTORED: Moved in from factory.js:buildStartXml()
   inputType = inputType || 'input_statement';
-  blockTypeName = blockTypeName || 'my_block';
+  blockTypeName = blockTypeName || 'block_type';
   var textXmlStarter = '';
 
   // Adds optional text to custom block.

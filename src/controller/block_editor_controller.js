@@ -82,9 +82,22 @@ class BlockEditorController {
 
     // Opens block in workspace when first creating the BlockEditorController.
     // this.openBlock(this.view.blockDefinition);
+    // The above was commented out because it depends on not yet implemented
+    // model functions.
+
+    this.refreshPreviews();
+  }
+
+  /**
+   * Refreshes all three previews (block preview, block definition view, and
+   * generator stub) at once.
+   */
+  refreshPreviews() {
+    console.log('refreshPreviews() called!');
+    this.updateBlockDefinitionView($('#format').val());
     this.updatePreview();
-    this.updateBlockDefinitionView('JSON');
-    this.updateGenerator(); // BOOKMARKED: needs parameters.
+    console.log(this.getPreviewBlock());
+    this.updateGenerator(this.getPreviewBlock());
   }
 
   /**
@@ -128,8 +141,6 @@ class BlockEditorController {
     // REFACTORED: Moved in from factory.js
     const language = $('#language').val();
     const generatorStub = FactoryUtils.getGeneratorStub(block, language);
-    console.log('generatorStub');
-    console.log(generatorStub);
     this.view.updateGenStub(generatorStub);
   }
 
@@ -141,8 +152,15 @@ class BlockEditorController {
     const currentBlock = this.view.blockDefinition;
     const defCode = FactoryUtils.getBlockDefinition(currentBlock.type(),
         format, this.view.editorWorkspace);
-    console.log(defCode);
     this.view.updateBlockDefinitionView(defCode);
+  }
+
+  /**
+   * Retrieves Blockly.Block given in preview.
+   * @return {!Blockly.Block} Block object in preview workspace.
+   */
+  getPreviewBlock() {
+    return this.view.previewWorkspace.getTopBlocks(false)[0];
   }
 
   /**
@@ -192,18 +210,18 @@ class BlockEditorController {
       }
 
       // Look for a block on Blockly.Blocks that does not match the backup.
-      var blockType = null;
-      for (var type in Blockly.Blocks) {
-        if (typeof Blockly.Blocks[type].init == 'function' &&
-            Blockly.Blocks[type] != backupBlocks[type]) {
-          blockType = type;
-          break;
-        }
-      }
-      if (!blockType) {
-        return;
-      }
-
+      // var blockType = null;
+      // for (var type in Blockly.Blocks) {
+      //   if (typeof Blockly.Blocks[type].init == 'function' &&
+      //       Blockly.Blocks[type] != backupBlocks[type]) {
+      //     blockType = type;
+      //     break;
+      //   }
+      // }
+      // if (!blockType) {
+      //   return;
+      // }
+      const blockType = this.view.blockDefinition.type();
       // Create the preview block.
       var previewBlock = this.view.previewWorkspace.newBlock(blockType);
       previewBlock.initSvg();
