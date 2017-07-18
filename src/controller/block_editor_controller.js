@@ -76,7 +76,7 @@ class BlockEditorController {
      */
     this.hiddenWorkspace = hiddenWorkspace;
 
-    this.refreshPreviews();
+    // this.refreshPreviews();
   }
 
   /**

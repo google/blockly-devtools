@@ -44,25 +44,11 @@ class ToolboxEditorView {
      * @type {!Toolbox}
      */
     this.toolbox = toolbox;
-  }
 
-  /**
-   * Removes elements of this editor view from application view. Used when switching
-   * editors.
-   */
-  hide() {
-    // TODO: Implement.
-    console.warn('Unimplemented: hide()');
-  }
+    this.container = $('#workspaceFactoryContent');
 
-  /**
-   * Shows elements of this editor to application view. Used when switching editors.
-   * @param {string} toolboxName Name of toolbox to populate in toolbox editor when
-   *     shown.
-   */
-  show(toolboxName) {
-    // TODO: Implement.
-    console.warn('Unimplemented: show()');
+    this.container.html(ToolboxEditorView.html);
+
     /**
      * Blockly workspace where users define/edit toolboxes.
      * @type {!Blockly.Workspace}
@@ -105,6 +91,31 @@ class ToolboxEditorView {
     document.getElementById('button_up').disabled = true;
     document.getElementById('button_down').disabled = true;
     document.getElementById('button_editCategory').disabled = true;
+  }
+
+  /**
+   * Removes elements of this editor view from application view. Used when switching
+   * editors.
+   */
+  hide() {
+    // TODO: Implement.
+    const tab = $('#' + AppController.TOOLBOX_EDITOR);
+    tab.removeClass('tabon');
+    tab.addClass('taboff');
+    this.container.hide();
+  }
+
+  /**
+   * Shows elements of this editor to application view. Used when switching editors.
+   * @param {string} toolboxName Name of toolbox to populate in toolbox editor when
+   *     shown.
+   */
+  show(toolboxName) {
+    // TODO: Implement.
+    const tab = $('#' + AppController.TOOLBOX_EDITOR);
+    tab.removeClass('taboff');
+    tab.addClass('tabon');
+    this.container.show();
   }
 
   /**
@@ -204,8 +215,6 @@ class ToolboxEditorView {
 
 ToolboxEditorView.html = `
 <!-- Workspace Factory tab -->
-
-<div id="workspaceFactoryContent">
   <div id="factoryHeader">
     <p>
       <div class="dropdown">
@@ -357,5 +366,4 @@ ToolboxEditorView.html = `
       <div id="preview_blocks" class="content"></div>
     </div>
   </aside>
-</div>
 `;

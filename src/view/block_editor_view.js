@@ -46,25 +46,11 @@ class BlockEditorView {
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
-  }
 
-  /**
-   * Removes elements of this editor view from application view. Used when switching
-   * editors.
-   */
-  hide() {
-    // TODO: Implement.
-    console.warn('Unimplemented: hide()');
-  }
+    this.container = $('#blockFactoryContent');
 
-  /**
-   * Shows elements of this editor to application view. Used when switching editors.
-   * @param {string} blockName Name of block to populate into block editor view.
-   */
-  show(blockName) {
-    // TODO: Implement.
-    $('#editorContainer').html(BlockEditorView.html);
-    console.log('Inject for editor!');
+    this.container.hide();
+    this.container.html(BlockEditorView.html);
 
     this.saveButton = $('#saveToBlockLibraryButton');
     this.deleteButton = $('#removeBlockFromLibraryButton');
@@ -97,6 +83,31 @@ class BlockEditorView {
         media: 'media/',
         scrollbars: true
       });
+  }
+
+  /**
+   * Removes elements of this editor view from application view. Used when switching
+   * editors.
+   */
+  hide() {
+    // TODO: Implement.
+    // Deselect the tab.
+    const tab = $('#' + AppController.BLOCK_FACTORY);
+    tab.removeClass('tabon');
+    tab.addClass('taboff');
+    this.container.hide();
+  }
+
+  /**
+   * Shows elements of this editor to application view. Used when switching editors.
+   * @param {string} blockName Name of block to populate into block editor view.
+   */
+  show(blockName) {
+    // TODO: Implement.
+    const tab = $('#' + AppController.BLOCK_FACTORY);
+    tab.removeClass('taboff');
+    tab.addClass('tabon');
+    this.container.show();
   }
 
   /**
@@ -256,7 +267,7 @@ class BlockEditorView {
 
 BlockEditorView.html = `
 <!-- Blockly Factory Tab -->
-<table id="blockFactoryContent_">
+<table>
   <tr width="100%" height="10%">
     <td width="50%" height="5%">
       <table>

@@ -82,13 +82,14 @@ class EditorController {
     //       so that the AppController only worries about calling this method.
     console.log('Switch to ' + editorMode);
 
-    if (editorMode === AppController2.BLOCK_EDITOR) {
+    if (editorMode === AppController.BLOCK_FACTORY) {
       this.currentEditor = this.blockEditorController;
+      this.currentEditor.refreshPreviews();
       // TODO: Implement
-    } else if (editorMode === AppController2.TOOLBOX_EDITOR) {
+    } else if (editorMode === AppController.TOOLBOX_EDITOR) {
       this.currentEditor = this.toolboxController;
       // TODO: Implement
-    } else if (editorMode === AppController2.WORKSPACE_EDITOR) {
+    } else if (editorMode === AppController.WORKSPACE_EDITOR) {
       this.currentEditor = this.workspaceController;
       // TODO: Implement
     }

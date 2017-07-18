@@ -44,9 +44,6 @@ goog.require('ProjectController');
 
 var Emitter = require('component-emitter');
 
-// TODO(#44): Rename to AppController once refactor is finished. Temporarily named
-// to AppController to avoid overlapping namespaces with current AppController,
-// which will be refactored into this (and other) files.
 class AppController {
   /**
    * Initializes AppController, creates project object, associated controllers
@@ -129,9 +126,9 @@ class AppController {
      * @type {!Object.<string, !Element>}
      */
     this.tabMap = {};
-    this.tabMap[this.BLOCK_FACTORY] = $('#blockFactory_tab');
-    this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
-    this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
+    this.tabMap[this.BLOCK_FACTORY] = $('#BLOCK_FACTORY');
+    this.tabMap[this.WORKSPACE_FACTORY] = $('#WORKSPACE_FACTORY');
+    this.tabMap[this.EXPORTER] = $('#EXPORTER');
 
     /**
      * Keeps track of name of last selected tab.

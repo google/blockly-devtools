@@ -169,6 +169,7 @@ class AppView {
     this.assignLibraryClickHandlers();
     this.assignBlockFactoryClickHandlers();
     this.addBlockFactoryEventListeners();
+    this.tabClickHandlers_();
   }
 
   /**
@@ -395,15 +396,16 @@ class AppView {
    * @param {string} resourceName Name of resource to display in view.
    */
   switchView(editorName, resourceName) {
-    if (editorName === AppController2.BLOCK_EDITOR) {
+    resourceName = resourceName || null;
+    if (editorName === AppController.BLOCK_FACTORY) {
       this.currentView.hide();
       this.currentView = this.blockEditorView;
       this.currentView.show(resourceName);
-    } else if (editorName === AppController2.TOOLBOX_EDITOR) {
+    } else if (editorName === AppController.TOOLBOX_EDITOR) {
       this.currentView.hide();
       this.currentView = this.toolboxEditorView;
       this.currentView.show(resourceName);
-    } else if (editorName === AppController2.WORKSPACE_EDITOR) {
+    } else if (editorName === AppController.WORKSPACE_EDITOR) {
       this.currentView.hide();
       this.currentView = this.workspaceEditorView;
       this.currentView.show(resourceName);
@@ -411,12 +413,16 @@ class AppView {
   }
 
   /**
-   * Called on each tab click. Styles the tabs to reflect which tab is selected.
+   * Adds click handlers for switching views.
    * @private
    */
-  styleTabs_() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: styleTabs_()';
+  tabClickHandlers_() {
+    $('.tab').click((event) => {
+      const clickedTab = event.currentTarget;
+      console.log(clickedTab);
+      this.appController.editorController.switchEditor(clickedTab.id);
+      this.switchView(clickedTab.id);
+    });
   }
 
   /**
