@@ -38,7 +38,6 @@ class ToolboxSet extends ResourceSet {
    */
   constructor(toolboxSetName, projectName) {
     super(toolboxSetName, projectName, Toolbox);
-    this.projectName = 'PROJECT';
   }
 
   /**
