@@ -478,14 +478,6 @@ class AppView {
   }
 
   /**
-   * Updates the workspace to show the block user selected from library
-   * @param {string} blockType Block to edit on block factory.
-   */
-  openBlock(blockType) {
-    this.blockEditorView.openBlock(blockType);
-   }
-
-  /**
    * Called on each tab click. Styles the tabs to reflect which tab is selected.
    * @private
    */
