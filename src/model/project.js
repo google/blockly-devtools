@@ -54,22 +54,22 @@ class Project extends Resource {
      * The libraries in the project.
      * @type {!BlockLibrarySet}
      */
-    this.librarySet = new BlockLibrarySet("Library Set", this.name);
+    this.librarySet = new BlockLibrarySet('Library Set', this.name);
     /**
      * The toolboxes in the project.
      * @type {!ToolboxSet}
      */
-    this.toolboxSet = new ToolboxSet("Toolbox Set", this.name);
+    this.toolboxSet = new ToolboxSet('Toolbox Set', this.name);
     /**
      * The workspace contents in the project.
      * @type {!WorkspaceContentsSet}
      */
-    this.workspaceContentsSet = new WorkspaceContentsSet("Contents", this.name);
+    this.workspaceContentsSet = new WorkspaceContentsSet('Contents', this.name);
     /**
      * The workspace configurations in the project.
      * @type {!WorkspaceConfigurationSet}
      */
-    this.workspaceConfigSet = new WorkspaceConfigurationSet("Configs", this.name);
+    this.workspaceConfigSet = new WorkspaceConfigurationSet('Configs', this.name);
   }
 
   /**

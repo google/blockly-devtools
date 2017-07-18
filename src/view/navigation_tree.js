@@ -28,11 +28,11 @@ goog.require('Project');
  *     ids. Given with the assumption that the name of each object in a
  *     project is unique across that project.
  */
-const BLOCK_PREFIX = "Block";
-const TOOLBOX_PREFIX = "Toolbox";
-const LIBRARY_PREFIX = "BlockLibrary";
-const WORKSPACE_CONTENTS_PREFIX = "WorkspaceContents";
-const WORKSPACE_CONFIG_PREFIX = "WorkspaceConfiguration";
+const BLOCK_PREFIX = 'Block';
+const TOOLBOX_PREFIX = 'Toolbox';
+const LIBRARY_PREFIX = 'BlockLibrary';
+const WORKSPACE_CONTENTS_PREFIX = 'WorkspaceContents';
+const WORKSPACE_CONFIG_PREFIX = 'WorkspaceConfiguration';
 
 /**
  * @class NavigationTree manages the tree user interface.
@@ -279,18 +279,19 @@ class NavigationTree {
    * @param {string} id The id of the selected node.
    */
   changeView(id) {
-    const pref = id.split("_")[0];
-    if (pref === LIBRARY_PREFIX) {
+    const prefix = id.split('_')[0];
+    console.log(prefix);
+    if (prefix === LIBRARY_PREFIX) {
       //Here's where tab switching happens
-      console.log("Node type: BlockLibray. No response has been coded.");
-    } else if (pref === TOOLBOX_PREFIX) {
+      console.log('Node type: BlockLibray. No response has been coded.');
+    } else if (prefix === TOOLBOX_PREFIX) {
       //Here's where tab switching happens
-      console.log("Node type: Toolbox. No response has been coded.");
-    } else if (pref === WORKSPACE_CONTENTS_PREFIX || pref === WORKSPACE_CONFIG_PREFIX) {
+      console.log('Node type: Toolbox. No response has been coded.');
+    } else if (prefix === WORKSPACE_CONTENTS_PREFIX || pref === WORKSPACE_CONFIG_PREFIX) {
       //Here's where tab switching happens
-      console.log("Node type: Workspace Contents or Configuration. No response has been coded.");
-    } else if (pref === BLOCK_PREFIX) {
-      //open the block
+      console.log('Node type: Workspace Contents or Configuration. No response has been coded.');
+    } else if (prefix === BLOCK_PREFIX) {
+      // Open the block.
       this.appController.editorController.blockEditorController.view.openBlock(id);
     }
   }
@@ -300,10 +301,10 @@ class NavigationTree {
    */
   makeTreeListener() {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
-      // collect id of first selected block
-      const node = $('#navigationTree').jstree("get_selected")[0];
+      // Collect id of first selected block.
+      const node = $('#navigationTree').jstree('get_selected')[0];
       //TODO #99: switch tab if necessary
-      // respond to selection
+      // Respond to selection.
       this.changeView(node);
     });
   }
