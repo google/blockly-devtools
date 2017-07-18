@@ -18,15 +18,33 @@
  * limitations under the License.
  */
 
+'use strict';
+
+goog.provide('PopupView');
+
 /**
  * @fileoverview PopupView is an abstract interface from which any popups will
  * extend.
  *
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
-
 class PopupView {
-  constructor() {
+  /**
+   * @constructor
+   * @param {!PopupController} controller PopupController currently managing this
+   *     view.
+   */
+  constructor(controller) {
+    /**
+     * PopupController that manages the currently open popup.
+     * @type {!PopupController}
+     */
+    this.controller = controller;
+
+    /**
+     * Contents of the popup which will be presented.
+     * @type {string}
+     */
     this.htmlContents = `
 <div class="bkg"></div>
 <div class="box">
@@ -49,19 +67,22 @@ class PopupView {
   ${html}
 </div>
 `;
+    $('.popup').html(this.htmlContents);
+    return this.htmlContents;
   }
 
   /**
    * Hides window of popup view.
    */
   hide() {
-    // TODO: Implement.
+    $('.popup').html('');
+    $('.popup').hide();
   }
 
   /**
    * Shows window of popup view.
    */
   show() {
-    // TODO: Implement.
+    $('.popup').show();
   }
 }
