@@ -34,7 +34,7 @@ goog.require('PopupController');
 class NewBlockPopupController extends PopupController {
   /**
    * @constructor
-   * @param {AppController2} AppController2 object which controls the application
+   * @param {AppController} AppController object which controls the application
    *     currently being used.
    */
   constructor(appController) {
