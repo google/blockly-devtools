@@ -131,11 +131,34 @@ class BlockEditorView {
 
   /**
    * Updates the workspace to show the block user selected from library
-   * @param {!Element} blockXml XML of blocks to display on Block Editor workspace.
+   * @param {!BlockDefinition} blockDef BlockDefinition object to show on block
+   *     editor workspace.
    */
-  showBlock(blockXml) {
+  showBlock(blockDef) {
+    this.blockDefinition = blockDef;
+    const blockXml = this.blockDefinition.getXml();
+
     this.editorWorkspace.clear();
     Blockly.Xml.domToWorkspace(blockXml, this.editorWorkspace);
+  }
+
+  /**
+   * Updates the block definition textarea preview.
+   * @param {string} blockDefCode String representation of JSON or JavaScript
+   *     block definition. (Not to be confused with the BlockDefinition object
+   *     used only within DevTools.)
+   */
+  updateBlockDefinitionView(blockDefCode) {
+    FactoryUtils.injectCode(blockDefCode, 'languagePre');
+  }
+
+  /**
+   * Updates the generator stub textarea preview.
+   * @param {string} genStubCode String representation of JavaScript generator
+   *     stub for block that is currently being edited in the view.
+   */
+  updateGenStub(genStubCode) {
+    FactoryUtils.injectCode(genStubCode, 'generatorPre');
   }
 
   /**
@@ -193,6 +216,9 @@ class BlockEditorView {
   updateDirection(rtl) {
     const newDir = (rtl == 'rtl');
     if (this.rtl !== newDir) {
+      if (this.previewWorkspace) {
+        this.previewWorkspace.dispose();
+      }
       this.rtl = newDir;
       this.previewWorkspace = Blockly.inject('preview',
         {

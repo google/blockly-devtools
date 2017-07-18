@@ -48,11 +48,17 @@ class BlockEditorController {
      */
     this.project = project;
 
-    // Creating a default library
-    this.project.addBlockLibrary(new BlockLibrary('MyFirstLibrary'));
-    const defaultLibrary = this.project.getLibrary('MyFirstLibrary');
+    /**
+     * Keeps track of which library is currently being edited. Used to know where
+     * to 'automatically' add a block when a user creates a new block.
+     * @type {!BlockLibrary}
+     */
+    this.currentLibrary = new BlockLibrary('MyFirstLibrary');
+
+    // Creating a default library, adds a sample block to library
+    this.project.addBlockLibrary(this.currentLibrary);
     const firstBlock = new BlockDefinition('block_type');
-    defaultLibrary.addBlockDefinition(firstBlock);
+    this.currentLibrary.addBlockDefinition(firstBlock);
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
@@ -75,20 +81,27 @@ class BlockEditorController {
     this.hiddenWorkspace = hiddenWorkspace;
 
     // Opens block in workspace when first creating the BlockEditorController.
-    this.openBlock(this.view.blockDefinition.getXml());
-    // this.updatePreview();
+    // this.openBlock(this.view.blockDefinition);
+    this.updatePreview();
+    this.updateBlockDefinitionView('JSON');
+    this.updateGenerator(); // BOOKMARKED: needs parameters.
   }
 
   /**
-   * Opens a given BlockDefinition to be edited in Block Editor view.
+   * Opens a given BlockDefinition to be edited in Block Editor view. If the
+   * given BlockDefinition does not exist, creates a new BlockDefinition under
+   * that name and then displays it.
    * @param {BlockDefinition} blockDefinition BlockDefinition object
    *     that will be rendered onto page.
    */
   openBlock(blockDefinition) {
-    // Sets the pointer to the 'current' block to blockDefinition.
-    this.view.blockDefinition = blockDefinition;
+    // If blockDefinition hasn't yet been added, add to the currently active
+    // block library.
+    if (!this.project.hasBlock(blockDefinition.name)) {
+      this.currentLibrary.addBlockDefinition(blockDefinition);
+    }
     // Shows block at the view level.
-    this.view.showBlock(this.view.blockDefinition.getXml());
+    this.view.showBlock(blockDefinition);
   }
 
   /**
@@ -115,7 +128,21 @@ class BlockEditorController {
     // REFACTORED: Moved in from factory.js
     const language = $('#language').val();
     const generatorStub = FactoryUtils.getGeneratorStub(block, language);
-    FactoryUtils.injectCode(generatorStub, 'generatorPre');
+    console.log('generatorStub');
+    console.log(generatorStub);
+    this.view.updateGenStub(generatorStub);
+  }
+
+  /**
+   * Updates the Block Definition textarea with proper JSON or JavaScript.
+   * @param {string} format Format of block definition. Either 'JSON' or 'JavaScript'.
+   */
+  updateBlockDefinitionView(format) {
+    const currentBlock = this.view.blockDefinition;
+    const defCode = FactoryUtils.getBlockDefinition(currentBlock.type(),
+        format, this.view.editorWorkspace);
+    console.log(defCode);
+    this.view.updateBlockDefinitionView(defCode);
   }
 
   /**

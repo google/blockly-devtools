@@ -74,7 +74,7 @@ class BlockLibrarySet extends ResourceSet {
    * @return {boolean} Whether or not the block is in the set.
    */
   hasBlock(blockType) {
-    throw 'unimplemented: hasBlock';
+    console.warn('Unimplemented: hasBlock');
   }
 
   /**

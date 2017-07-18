@@ -63,9 +63,8 @@ class BlockDefinition extends Resource {
    * Returns a block's XML representation.
    * @return {!Element} XML representation of the block.
    */
-  //TODO #87: phase out
+  // TODO(#87): Phase out once BlockDefinition <--> JSON
   getXml() {
-    console.log('hi');
     return this.xml;
   }
 
