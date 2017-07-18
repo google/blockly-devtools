@@ -77,16 +77,15 @@ AppController = function() {
   // Selected tab.
   this.selectedTab = AppController.BLOCK_FACTORY;
 
-  // initialize tree for AppView
-  this.view.setLibraryTree(this.blockLibraryController);
-
   // Creates the project.
   //TODO #53: give only ProjectController
-  this.project = new Project('TEST');
+  this.project = new Project('PROJECT');
+
+  this.tree = new NavigationTree(this, this.project);
 
   this.project.setCurrentLibrary(this.blockLibraryController);
 
-  this.projectController = new ProjectController(this.project);
+  this.projectController = new ProjectController(this.project, this.tree);
 };
 
 // Constant values representing the three tabs in the controller.

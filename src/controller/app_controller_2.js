@@ -72,7 +72,7 @@ class AppController2 {
      * Stores currently loaded project that user will edit.
      * @type {!Project}
      */
-    this.project = new Project('');
+    this.project = new Project('Example Project');
 
     /**
      * The tree for the DevTools session.

@@ -38,6 +38,7 @@ class ToolboxSet extends ResourceSet {
    */
   constructor(toolboxSetName, projectName) {
     super(toolboxSetName, projectName, Toolbox);
+    this.projectName = 'PROJECT';
   }
 
   /**
@@ -71,11 +72,8 @@ class ToolboxSet extends ResourceSet {
    * Produces the JSON needed to organize toolboxes in the tree.
    * @return {!Object} The JSON for the tree's toolbox section.
    */
-  getTreeJson() {
-    const toolboxSetJson = [
-      {'id': 'Toolbox', 'text': 'Toolboxes'},
-      {'children': super.getTreeJson()}
-    ];
+  getJson() {
+    const toolboxSetJson = {'id': 'ToolB', 'text': 'Toolboxes'};
     return toolboxSetJson;
   }
 }

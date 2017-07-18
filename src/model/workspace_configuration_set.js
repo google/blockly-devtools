@@ -44,11 +44,9 @@ class WorkspaceConfigurationSet extends ResourceSet {
    * Produces the JSON needed to organize workspace configurations in the tree.
    * @return {!Object} The JSON for the tree's workspace configuration section.
    */
-  getTreeJson() {
-    const workspaceConfigSetJson = [
-      {'id': 'WorkspaceConfiguration', 'text': 'Workspace Configurations'},
-      {'children': super.getTreeJson()}
-    ];
+  getJson() {
+    const workspaceConfigSetJson = {'id': 'WConf',
+      'text': 'Workspace Configurations'};
     return workspaceConfigSetJson;
   }
 }

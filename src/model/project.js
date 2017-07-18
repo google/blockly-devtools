@@ -49,26 +49,27 @@ class Project extends Resource {
      * @type {string}
      */
     super(projectName);
+
     /**
      * The libraries in the project.
      * @type {!BlockLibrarySet}
      */
-    this.librarySet = new BlockLibrarySet();
+    this.librarySet = new BlockLibrarySet("Libraryee set", this.name);
     /**
      * The toolboxes in the project.
      * @type {!ToolboxSet}
      */
-    this.toolboxSet = new ToolboxSet();
+    this.toolboxSet = new ToolboxSet("Toolbox set", this.name);
     /**
      * The workspace contents in the project.
      * @type {!WorkspaceContentsSet}
      */
-    this.workspaceContentsSet = new WorkspaceContentsSet();
+    this.workspaceContentsSet = new WorkspaceContentsSet("Contents", this.name);
     /**
      * The workspace configurations in the project.
      * @type {!WorkspaceConfigurationSet}
      */
-    this.workspaceConfigSet = new WorkspaceConfigurationSet();
+    this.workspaceConfigSet = new WorkspaceConfigurationSet("Configs", this.name);
   }
 
   /**
@@ -277,8 +278,8 @@ class Project extends Resource {
    */
   getTreeJson() {
     const projectTree = [
-      {'id': this.name, 'text': this.name},
-      {'children': [ this.librarySet.getJson(), this.toolboxSet.getJson(),
+      {'id': this.name, 'text': this.name,
+      'children': [ this.librarySet.getJson(), this.toolboxSet.getJson(),
         this.workspaceContentsSet.getJson(), this.workspaceConfigSet.getJson()]}
     ];
     return projectTree;

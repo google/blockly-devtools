@@ -30,10 +30,10 @@ goog.require('Project');
  *     project is unique across that project.
  */
 const BLOCK_PREFIX = "Block";
-const TOOLBOX_PREFIX = "Toolbox";
-const LIBRARY_PREFIX = "BlockLibrary";
-const WORKSPACE_CONTENTS_PREFIX = "WorkspaceContents";
-const WORKSPACE_CONFIG_PREFIX = "WorkspaceConfiguration";
+const TOOLBOX_PREFIX = "ToolB";
+const LIBRARY_PREFIX = "BlockL";
+const WORKSPACE_CONTENTS_PREFIX = "WCont";
+const WORKSPACE_CONFIG_PREFIX = "WConf";
 
 /**
  * @class NavigationTree manages the tree user interface.
@@ -172,7 +172,7 @@ class NavigationTree {
    * @param {string} parentName The name of the parent of the new node.
    */
   addComponentNode(prefix, componentName, parentName) {
-    $('#navigationTree').jstree().create_node(parent,
+    $('#navigationTree').jstree().create_node(parentName,
       {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
   }
 
@@ -275,20 +275,38 @@ class NavigationTree {
   }
 
   /**
+   * Gives appropriate response for selected node.
+   * @param {string} id The id of the selected node.
+   */
+  respondToChoice(id) {
+    const pref = id.substring(0,6);
+    if (pref === LIBRARY_PREFIX) {
+      //Here's where tab switching happens
+      console.log("Node type: BlockLibray. No response has been coded.");
+    } else if (pref === TOOLBOX_PREFIX) {
+      //Here's where tab switching happens
+      console.log("Node type: Toolbox. No response has been coded.");
+    } else if (pref === WORKSPACE_CONTENTS_PREFIX) {
+      //Here's where tab switching happens
+      console.log("Node type: Workspace Contents. No response has been coded.");
+    } else if (pref === WORKSPACE_CONFIG_PREFIX) {
+      //Here's where tab switching happens
+      console.log("Node type: Workspace Configuration. No response has been coded.");
+    } else if (pref === BLOCK_PREFIX) {
+      this.appController.editorController.blockEditorController.view.openBlock(id);
+    }
+  }
+
+  /**
    * Listens for block selected in tree.
    */
   makeTreeListener() {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
-      // collect data of all selected blocks
-      let i, j;
-      let r = [];
-      for (i = 0, j = data.selected.length; i < j; i++) {
-        r.push(data.instance.get_node(data.selected[i]).text);
-      }
-      // load the blocks
-     this.appController.editorController.blockEditorController.view.openBlock(r.join(', '));
-
+      // collect ids of first selected block
+      const node = $('#navigationTree').jstree("get_selected")[0];
       //TODO #99: switch tab if necessary
+      // respond to selection
+      this.respondToChoice(node);
     });
   }
 }
