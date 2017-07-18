@@ -28,11 +28,11 @@ goog.require('Project');
  *     ids. Given with the assumption that the name of each object in a
  *     project is unique across that project.
  */
-const BLOCK_PREFIX = "Block";
-const TOOLBOX_PREFIX = "ToolB";
-const LIBRARY_PREFIX = "BlockL";
-const WORKSPACE_CONTENTS_PREFIX = "WCont";
-const WORKSPACE_CONFIG_PREFIX = "WConf";
+const BLOCK_PREFIX = "Block_";
+const TOOLBOX_PREFIX = "Toolbox_";
+const LIBRARY_PREFIX = "BlockLibrary_";
+const WORKSPACE_CONTENTS_PREFIX = "WorkspaceContents_";
+const WORKSPACE_CONFIG_PREFIX = "WorkspaceConfiguration_";
 
 /**
  * @class NavigationTree manages the tree user interface.
@@ -279,7 +279,7 @@ class NavigationTree {
    * @param {string} id The id of the selected node.
    */
   changeView(id) {
-    const pref = id.substring(0,6);
+    const pref = id.split("_")[0];
     if (pref === LIBRARY_PREFIX) {
       //Here's where tab switching happens
       console.log("Node type: BlockLibray. No response has been coded.");
