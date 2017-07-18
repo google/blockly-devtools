@@ -151,7 +151,7 @@ class AppView {
      * Keeps track of which view/editor is currently used.
      * @type {string}
      */
-    this.selectedTab = AppController2.BLOCK_FACTORY;
+    this.selectedTab = AppController.BLOCK_FACTORY;
 
     /**
      * Keeps track of which view is currently active.
