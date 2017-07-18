@@ -82,8 +82,11 @@ class BlockLibrarySet extends ResourceSet {
    * @return {!Object} The JSON for the tree's library section.
    */
   getJson() {
-    const librarySetJson = {'id': 'BlockL', 'text': 'Libraries',
-      'children': super.getJson()};
+    const librarySetJson = {
+      'id': 'BlockL',
+      'text': 'Libraries',
+      'children': super.getJson()
+    };
     return librarySetJson;
   }
 }

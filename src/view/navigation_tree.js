@@ -274,10 +274,11 @@ class NavigationTree {
   }
 
   /**
-   * Gives appropriate response for selected node.
+   * Gives appropriate response for selected node. Switches the tab if
+   *     necessary, opens the block if appropriate.
    * @param {string} id The id of the selected node.
    */
-  respondToChoice(id) {
+  changeView(id) {
     const pref = id.substring(0,6);
     if (pref === LIBRARY_PREFIX) {
       //Here's where tab switching happens
@@ -285,13 +286,11 @@ class NavigationTree {
     } else if (pref === TOOLBOX_PREFIX) {
       //Here's where tab switching happens
       console.log("Node type: Toolbox. No response has been coded.");
-    } else if (pref === WORKSPACE_CONTENTS_PREFIX) {
+    } else if (pref === WORKSPACE_CONTENTS_PREFIX || pref === WORKSPACE_CONFIG_PREFIX) {
       //Here's where tab switching happens
-      console.log("Node type: Workspace Contents. No response has been coded.");
-    } else if (pref === WORKSPACE_CONFIG_PREFIX) {
-      //Here's where tab switching happens
-      console.log("Node type: Workspace Configuration. No response has been coded.");
+      console.log("Node type: Workspace Contents or Configuration. No response has been coded.");
     } else if (pref === BLOCK_PREFIX) {
+      //open the block
       this.appController.editorController.blockEditorController.view.openBlock(id);
     }
   }
@@ -305,7 +304,7 @@ class NavigationTree {
       const node = $('#navigationTree').jstree("get_selected")[0];
       //TODO #99: switch tab if necessary
       // respond to selection
-      this.respondToChoice(node);
+      this.changeView(node);
     });
   }
 }

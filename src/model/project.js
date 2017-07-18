@@ -278,9 +278,9 @@ class Project extends Resource {
    */
   getTreeJson() {
     const projectTree = [
-      {'id': this.name, 'text': this.name,
-      'children': [ this.librarySet.getJson(), this.toolboxSet.getJson(),
-        this.workspaceContentsSet.getJson(), this.workspaceConfigSet.getJson()]}
+      { 'id': this.name, 'text': this.name,
+        'children': [ this.librarySet.getJson(), this.toolboxSet.getJson(),
+          this.workspaceContentsSet.getJson(), this.workspaceConfigSet.getJson()]}
     ];
     return projectTree;
   }
