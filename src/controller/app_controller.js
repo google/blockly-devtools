@@ -2,7 +2,7 @@
  * @license
  * Blockly Demos: Block Factory
  *
- * Copyright 2016 Google Inc.
+ * Copyright 2017 Google Inc.
  * https://developers.google.com/blockly/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,412 +19,394 @@
  */
 
 /**
- * @fileoverview The AppController Class brings together the Block
- * Factory, Block Library, and Block Exporter functionality into a single web
- * app.
+ * @fileoverview AppController controls all parts of the application by creating
+ * sub-controllers (ProjectController, WorkspaceController) which individually
+ * control specific parts of application. AppController is the central part of
+ * DevTools which initializes all other parts of the application.
  *
- * @author quachtina96 (Tina Quach)
+ * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
+
 goog.provide('AppController');
 
-goog.require('BlockFactory');
+goog.require('AppView');
+goog.require('EditorController');
 goog.require('FactoryUtils');
-goog.require('BlockLibraryController');
-goog.require('BlockExporterController');
 goog.require('goog.dom.classlist');
+goog.require('goog.dom.xml');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
+goog.require('PopupController');
+goog.require('Project');
+goog.require('ProjectController');
 
-/**
- * Controller for the Blockly Factory
- * @constructor
- */
-AppController = function() {
-  this.name = 'AppController';
+'use strict';
 
-  // Initialize View
-  this.view = new AppView(this);
+var Emitter = require('component-emitter');
 
-  // Initialize Block Library
-  this.blockLibraryName = 'blockLibrary';
+// TODO(#44): Rename to AppController once refactor is finished. Temporarily named
+// to AppController to avoid overlapping namespaces with current AppController,
+// which will be refactored into this (and other) files.
+class AppController {
+  /**
+   * Initializes AppController, creates project object, associated controllers
+   * and views.
+   * @constructor
+   */
+  constructor() {
+    // Block Factory has a dependency on bits of Closure that core Blockly
+    // doesn't have. When you run this from file:// without a copy of Closure,
+    // it breaks it non-obvious ways.  Warning about this for now until the
+    // dependency is broken.
+    // TODO: #668.
+    if (!window.goog.dom.xml) {
+      alert('Sorry: Closure dependency not found. We are working on removing ' +
+        'this dependency.  In the meantime, you can use our hosted demo\n ' +
+        'https://blockly-demo.appspot.com/static/demos/blockfactory/index.html' +
+        '\nor use these instructions to continue running locally:\n' +
+        'https://developers.google.com/blockly/guides/modify/web/closure');
+      return;
+    }
 
-  this.blockLibraryController =
-      new BlockLibraryController(this.blockLibraryName);
+    // TODO: Move in functions from AppController.init().
 
-  // Construct Workspace Factory Controller.
-  this.workspaceFactoryController = new WorkspaceFactoryController
-      ('workspacefactory_toolbox', 'toolbox_blocks', 'preview_blocks');
+    /**
+     * Stores currently loaded project that user will edit.
+     * @type {!Project}
+     */
+    this.project = new Project('');
 
-  // Initialize Block Exporter
-  this.exporter =
-      new BlockExporterController(this.blockLibraryController.storage);
+    /**
+     * The tree for the DevTools session.
+     * @type {!NavigationTree}
+     */
+    this.navTree = new NavigationTree(this, this.project);
 
-  // Initialize New Block Dialog Controller
-  this.newBlockDialogController =
-      new NewBlockDialogController('blockDialog', this.blockLibraryController);
+    // Create div elements to insert hidden workspaces used in I/O. Hidden
+    // workspaces stored in EditorController.
+    this.insertHiddenWorkspace_();
 
-  // Map of tab type to the div element for the tab.
-  this.tabMap = Object.create(null);
-  this.tabMap[AppController.BLOCK_FACTORY] =
-      document.getElementById('blockFactory_tab');
-  this.tabMap[AppController.WORKSPACE_FACTORY] =
-      document.getElementById('workspaceFactory_tab');
-  this.tabMap[AppController.EXPORTER] =
-      document.getElementById('blocklibraryExporter_tab');
+    /**
+     * Hidden Blockly workspace used to generate Blockly objects by using
+     * core Blockly functions.
+     * @type {!Blockly.Workspace}
+     */
+    this.hiddenWorkspace = Blockly.inject('hiddenWorkspace');
 
-  // Last selected tab.
-  this.lastSelectedTab = null;
-  // Selected tab.
-  this.selectedTab = AppController.BLOCK_FACTORY;
+    /**
+     * ProjectController object associated with application.
+     * @type {!ProjectController}
+     */
+    this.projectController = new ProjectController(this.project, this.tree);
 
-  // initialize tree for AppView
-  this.view.setLibraryTree(this.blockLibraryController);
+    /**
+     * EditorController object which encapsulates all editor controllers
+     * @type {!EditorController}
+     */
+    this.editorController = new EditorController(this.project, this.hiddenWorkspace);
 
-  // Creates the project.
-  //TODO #53: give only ProjectController
-  this.project = new Project('TEST');
+    /**
+     * Main View class which manages view portion of application.
+     * @type {!AppView}
+     */
+    this.view = new AppView(this);
 
-  this.project.setCurrentLibrary(this.blockLibraryController);
+    /**
+     * ProjectController object associated with application.
+     * @type {!ProjectController}
+     */
+    this.projectController = new ProjectController(this.project);
 
-  this.projectController = new ProjectController(this.project);
-};
+    /**
+     * PopupController object which controls any popups that may appear throughout
+     * the course of using DevTools.
+     * @type {!PopupController}
+     */
+    this.popupController = new PopupController(this.projectController);
 
-// Constant values representing the three tabs in the controller.
-AppController.BLOCK_FACTORY = 'BLOCK_FACTORY';
-AppController.WORKSPACE_FACTORY = 'WORKSPACE_FACTORY';
-AppController.EXPORTER = 'EXPORTER';
+    /**
+     * Map of tab type to div element for the tab.
+     * @type {!Object.<string, !Element>}
+     */
+    this.tabMap = {};
+    this.tabMap[this.BLOCK_FACTORY] = $('#blockFactory_tab');
+    this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
+    this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
 
-/**
- * Tied to the 'Import Block Library' button. Imports block library from file to
- * Block Factory. Expects user to upload a single file of JSON mapping each
- * block type to its XML text representation.
- */
-AppController.prototype.importBlockLibraryFromFile = function() {
-  var files = document.getElementById('files');
-  // If the file list is empty, the user likely canceled in the dialog.
-  if (files.files.length > 0) {
-    // The input tag doesn't have the "multiple" attribute
-    // so the user can only choose 1 file.
-    var file = files.files[0];
-    var fileReader = new FileReader();
+    /**
+     * Keeps track of name of last selected tab.
+     * @type {string}
+     */
+    this.lastSelectedTab = null;
 
-    // Create a map of block type to XML text from the file when it has been
-    // read.
-    fileReader.addEventListener('load', (event) => {
-      var fileContents = event.target.result;
-      // Create empty object to hold the read block library information.
-      var blockXmlTextMap = Object.create(null);
-      try {
-        // Parse the file to get map of block type to XML text.
-        blockXmlTextMap = this.formatBlockLibraryForImport_(fileContents);
-      } catch (e) {
-        var message = 'Could not load your block library file.\n';
-        window.alert(message + '\nFile Name: ' + file.name);
-        return;
+    /**
+     * Keeps track of name of currently selected tab.
+     * @type {string}
+     */
+    this.selectedTab = this.BLOCK_FACTORY;
+  }
+
+  // ======================== CONSTANTS ===========================
+  // TODO: Remove/add tabs to fit new DevTools model.
+  /**
+   * Static get function for constant BLOCK_FACTORY. Represents one of the
+   * three tabs in the controller.
+   * @return {!string}
+   */
+  static get BLOCK_FACTORY() {
+    return 'BLOCK_FACTORY';
+  }
+
+  /**
+   * Static get function for constant WORKSPACE_FACTORY. Represents one of the
+   * three tabs in the controller.
+   * @return {!string}
+   */
+  static get WORKSPACE_FACTORY() {
+    return 'WORKSPACE_FACTORY';
+  }
+
+  /**
+   * Static get function for constant EXPORTER. Represents one of the three tabs
+   * in the controller.
+   * @return {!string}
+   */
+  static get EXPORTER() {
+    return 'EXPORTER';
+  }
+
+  /**
+   * Static get function for constant TOOLBOX_EDITOR.
+   * @return {!string}
+   */
+  static get TOOLBOX_EDITOR() {
+    return 'TOOLBOX_EDITOR';
+  }
+
+  /**
+   * Static get function for constant TOOLBOX_EDITOR.
+   * @return {!string}
+   */
+  static get WORKSPACE_EDITOR() {
+    return 'WORKSPACE_EDITOR';
+  }
+
+  // ========================= VIEW-CONTROLLER ==========================
+
+  /**
+   * Set the selected tab.
+   * @param {string} tabName AppController.BLOCK_FACTORY,
+   *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
+   */
+  setSelectedTab(tabName) {
+    // REFACTORED: from app_controller.js:setSelected_(tabName)
+    this.view.lastSelectedTab = this.view.selectedTab;
+    this.view.selectedTab = tabName;
+  }
+
+  /**
+   * Called on each tab click. Hides and shows specific content based on which tab
+   * (Block Factory, Workspace Factory, or Exporter) is selected.
+   */
+  //TODO #99: have changed by tree, not tabs
+  onTab() {
+    // REFACTORED: Moved in from app_controller.js=
+    // Get tab div elements
+    const blockFactoryTab = this.tabMap[AppController.BLOCK_FACTORY];
+    const exporterTab = this.tabMap[AppController.EXPORTER];
+    const workspaceFactoryTab = this.tabMap[AppController.WORKSPACE_FACTORY];
+    const currentTab = this.view.selectedTab;
+
+    // Only enable key events in Editors if its tab is selected.
+    this.editorController.toolboxController.keyEventsEnabled =
+        currentTab == AppController.TOOLBOX_EDITOR;
+    this.editorController.workspaceController.keyEventsEnabled =
+        currentTab == AppController.WORKSPACE_EDITOR;
+
+    // Turn selected tab on and other tabs off.
+    this.view.styleTabs_();
+
+    if (currentTab == AppController.BLOCK_FACTORY) {
+      this.showTab_('blockFactoryContent');
+      this.editorController.currentEditor = this.editorController.blockEditorController;
+    } else if (currentTab == AppController.WORKSPACE_FACTORY) {
+      // TODO(#95): Deprecate workspace factory tab. Split into two views,
+      //            toolbox editor and workspace editor view.
+
+      this.showTab_('workspaceFactoryContent');
+
+      // Update block library categories.
+      this.editorController.toolboxController.updateBlockLibCategory();
+    } else if (currentTab == AppController.EXPORTER) {
+      // TODO: Deprecate exporter tab. Keep for now to keep view in tact. Will
+      //       remove completely after #95 is resolved.
+      this.showTab_('blockLibraryExporter');
+
+      // Note: Removed exporter and usedBlockTypes() references because exporting
+      // will be done through the menubar and the block exporter tab will be
+      // deprecated.
+    } else if (currentTab == AppController.TOOLBOX_EDITOR) {
+      this.showTab_('toolboxEditor');
+
+      this.editorController.toolboxController.updateBlockLibCategory();
+      this.editorController.currentEditor = this.editorController.toolboxController;
+    } else if (currentTab == AppController.WORKSPACE_EDITOR) {
+      this.showTab_('workspaceEditor');
+
+      this.editorController.workspaceController.updateBlockLibCategory();
+      this.editorController.currentEditor = this.editorController.workspaceController;
+    }
+
+    // Resize to render workspaces' toolboxes correctly for all tabs.
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  /**
+   * Given a tab name, shows the view corresponding to that tab and hides all others.
+   * Helper function of onTab().
+   * @param {string} tabName Name of tab to be shown.
+   * @private
+   */
+  showTab_(tabName) {
+    const tabNames = ['workspaceFactoryContent', 'blockFactoryContent',
+        'blockLibraryExporter', 'toolboxEditor', 'workspaceEditor'];
+    tabNames.forEach((name) => {
+      if (name === tabName) {
+        FactoryUtils.show(name);
+      } else {
+        FactoryUtils.hide(name);
       }
-
-      // Create a new block library storage object with inputted block library.
-      var blockLibStorage = new BlockLibraryStorage(
-          this.blockLibraryName, blockXmlTextMap);
-
-      // Update block library controller with the new block library
-      // storage.
-      this.blockLibraryController.setBlockLibraryStorage(blockLibStorage);
-
-      // Update the exporter's block library storage.
-      this.exporter.setBlockLibraryStorage(blockLibStorage);
     });
-    // Read the file.
-    fileReader.readAsText(file);
-  }
-};
-
-/**
- * Tied to the 'Export Block Library' button. Exports block library to file that
- * contains JSON mapping each block type to its XML text representation.
- */
-AppController.prototype.exportBlockLibraryToFile = function() {
-  // Get map of block type to XML.
-  var blockLib = this.project.currentLibrary;
-  // Concatenate the XMLs, each separated by a blank line.
-  var blockLibText = this.formatBlockLibraryForExport_(blockLib);
-  // Get file name.
-  var filename = prompt('Enter the file name under which to save your block ' +
-      'library.', 'library.xml');
-  // Download file if all necessary parameters are provided.
-  if (filename) {
-    FactoryUtils.createAndDownloadFile(blockLibText, filename, 'xml');
-  } else {
-    alert('Could not export Block Library without file name under which to ' +
-      'save library.');
-  }
-};
-
-/**
- * Converts an object mapping block type to XML to text file for output.
- * @param {!Object} blockXmlMap Object mapping block type to XML.
- * @return {string} XML text containing the block XMLs.
- * @private
- */
-AppController.prototype.formatBlockLibraryForExport_ = function(blockXmlMap) {
-  // Create DOM for XML.
-  var xmlDom = goog.dom.createDom('xml', {
-    'xmlns':"http://www.w3.org/1999/xhtml"
-  });
-
-  // Append each block node to XML DOM.
-  for (var blockType in blockXmlMap) {
-    var blockXmlDom = Blockly.Xml.textToDom(blockXmlMap[blockType]);
-    var blockNode = blockXmlDom.firstElementChild;
-    xmlDom.appendChild(blockNode);
   }
 
-  // Return the XML text.
-  return Blockly.Xml.domToText(xmlDom);
-};
-
-/**
- * Converts imported block library to an object mapping block type to block XML.
- * @param {string} xmlText String representation of an XML with each block as
- *    a child node.
- * @return {!Object} Object mapping block type to XML text.
- * @private
- */
-AppController.prototype.formatBlockLibraryForImport_ = function(xmlText) {
-  var xmlDom = Blockly.Xml.textToDom(xmlText);
-
-  // Get array of XMLs. Use an asterisk (*) instead of a tag name for the XPath
-  // selector, to match all elements at that level and get all factory_base
-  // blocks.
-  var blockNodes = goog.dom.xml.selectNodes(xmlDom, '*');
-
-  // Create empty map. The line below creates a  truly empy object. It doesn't
-  // have built-in attributes/functions such as length or toString.
-  var blockXmlTextMap = Object.create(null);
-
-  // Populate map.
-  for (var i = 0, blockNode; blockNode = blockNodes[i]; i++) {
-
-    // Add outer XML tag to the block for proper injection in to the
-    // main workspace.
-    // Create DOM for XML.
-    var xmlDom = goog.dom.createDom('xml', {
-      'xmlns':"http://www.w3.org/1999/xhtml"
-    });
-    xmlDom.appendChild(blockNode);
-
-    xmlText = Blockly.Xml.domToText(xmlDom);
-    // All block types should be lowercase.
-    var blockType = this.getBlockTypeFromXml_(xmlText).toLowerCase();
-    // Some names are invalid so fix them up.
-    blockType = FactoryUtils.cleanBlockType(blockType);
-
-    blockXmlTextMap[blockType] = xmlText;
+  /**
+   * If given checkbox is checked, enable the given elements.  Otherwise, disable.
+   * @param {boolean} enabled True if enabled, false otherwise.
+   * @param {!Array.<string>} idArray Array of element IDs to enable when
+   *     checkbox is checked.
+   */
+  ifCheckedEnable(enabled, idArray) {
+    /*
+     * TODO: Move in from app_controller.js
+     */
+    // Note: Not implemented because it is in the exporter tab, which will be
+    // deprecated. May implement later if necessary.
+    throw 'Unimplemented: ifCheckedEnable()';
   }
 
-  return blockXmlTextMap;
-};
+  // ========================= MODEL-CONTROLLER ==========================
 
-/**
- * Extracts out block type from XML text, the kind that is saved in block
- * library storage.
- * @param {string} xmlText A block's XML text.
- * @return {string} The block type that corresponds to the provided XML text.
- * @private
- */
-AppController.prototype.getBlockTypeFromXml_ = function(xmlText) {
-  var xmlDom = Blockly.Xml.textToDom(xmlText);
-  // Find factory base block.
-  var factoryBaseBlockXml = xmlDom.getElementsByTagName('block')[0];
-  // Get field elements from factory base.
-  var fields = factoryBaseBlockXml.getElementsByTagName('field');
-  for (var i = 0; i < fields.length; i++) {
-    // The field whose name is 'NAME' holds the block type as its value.
-    if (fields[i].getAttribute('name') == 'NAME') {
-      return fields[i].childNodes[0].nodeValue;
-    }
-  }
-};
-
-/**
- * Add click handlers to each tab to allow switching between the Block Factory,
- * Workspace Factory, and Block Exporter tab.
- * @param {!Object} tabMap Map of tab name to div element that is the tab.
- */
-AppController.prototype.addTabHandlers = function(tabMap) {
-  var self = this;
-  for (var tabName in tabMap) {
-    var tab = tabMap[tabName];
-    // Use an additional closure to correctly assign the tab callback.
-    tab.addEventListener('click', self.makeTabClickHandler_(tabName));
-  }
-};
-
-/**
- * Creates the tab click handler specific to the tab specified.
- * @param {string} tabName AppController.BLOCK_FACTORY,
- *    AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
- * @return {!Function} The tab click handler.
- * @private
- */
-AppController.prototype.makeTabClickHandler_ = function(tabName) {
-  return () => {
-    this.setSelected_(tabName);
-    this.onTab();
-  };
-};
-
-/**
- * Called on each tab click. Styles the tabs to reflect which tab is selected.
- * @private
- */
-AppController.prototype.styleTabs_ = function() {
-  for (var tabName in this.tabMap) {
-    if (this.selectedTab == tabName) {
-      goog.dom.classlist.addRemove(this.tabMap[tabName], 'taboff', 'tabon');
-    } else {
-      goog.dom.classlist.addRemove(this.tabMap[tabName], 'tabon', 'taboff');
-    }
-  }
-};
-
-/**
- * Handle resizing of elements.
- */
-AppController.prototype.onresize = function(event) {
-  if (this.selectedTab == AppController.BLOCK_FACTORY) {
-    // Handle resizing of Block Factory elements.
-    var expandList = [
-      document.getElementById('blocklyPreviewContainer'),
-      document.getElementById('blockly'),
-      document.getElementById('blocklyMask'),
-      document.getElementById('preview'),
-      document.getElementById('languagePre'),
-      document.getElementById('languageTA'),
-      document.getElementById('generatorPre'),
-    ];
-    for (var i = 0, expand; expand = expandList[i]; i++) {
-      expand.style.width = (expand.parentNode.offsetWidth - 2) + 'px';
-      expand.style.height = (expand.parentNode.offsetHeight - 2) + 'px';
-    }
-  } else if (this.selectedTab == AppController.EXPORTER) {
-    // Handle resize of Exporter block options.
-    this.exporter.view.centerPreviewBlocks();
-  }
-};
-
-/**
- * Handler for the window's 'beforeunload' event. When a user has unsaved
- * changes and refreshes or leaves the page, confirm that they want to do so
- * before actually refreshing.
- * @param {!Event} e beforeunload event.
- */
-AppController.prototype.confirmLeavePage = function(e) {
-  if ((!BlockFactory.isStarterBlock() &&
-      !FactoryUtils.savedBlockChanges(blocklyFactory.project.currentLibrary)) ||
-      blocklyFactory.workspaceFactoryController.hasUnsavedChanges()) {
-
-    var confirmationMessage = 'You will lose any unsaved changes. ' +
-        'Are you sure you want to exit this page?';
-    e.returnValue = confirmationMessage;
-    return confirmationMessage;
-  }
-};
-
-/**
- * Show a modal element, usually a dropdown list.
- * @param {string} id ID of element to show.
- */
-AppController.prototype.openModal = function(id) {
-  Blockly.hideChaff();
-  this.modalName_ = id;
-  document.getElementById(id).style.display = 'block';
-  document.getElementById('modalShadow').style.display = 'block';
-};
-
-/**
- * Hide a previously shown modal element.
- */
-AppController.prototype.closeModal = function() {
-  var id = this.modalName_;
-  if (!id) {
-    return;
-  }
-  document.getElementById(id).style.display = 'none';
-  document.getElementById('modalShadow').style.display = 'none';
-  this.modalName_ = null;
-};
-
-/**
- * Name of currently open modal.
- * @type {string?}
- * @private
- */
-AppController.prototype.modalName_ = null;
-
-/**
- * Initialize Blockly and layout.  Called on page load.
- */
-AppController.prototype.init = function() {
-  // Block Factory has a dependency on bits of Closure that core Blockly
-  // doesn't have. When you run this from file:// without a copy of Closure,
-  // it breaks it non-obvious ways.  Warning about this for now until the
-  // dependency is broken.
-  // TODO: #668.
-
-  if (!window.goog.dom.xml) {
-    alert('Sorry: Closure dependency not found. We are working on removing ' +
-      'this dependency.  In the meantime, you can use our hosted demo\n ' +
-      'https://blockly-demo.appspot.com/static/demos/blockfactory/index.html' +
-      '\nor use these instructions to continue running locally:\n' +
-      'https://developers.google.com/blockly/guides/modify/web/closure');
-    return;
-  }
-
-  // Handle Blockly Storage with App Engine.
-  if ('BlocklyStorage' in window) {
-    this.initializeBlocklyStorage();
-  }
-  // Assign click handlers.
-  this.assignExporterClickHandlers();
-  this.assignLibraryClickHandlers();
-  this.assignBlockFactoryClickHandlers();
-  // Hide and show the block library dropdown.
-  document.getElementById('modalShadow').addEventListener('click',
-      () => {
-        this.closeModal();
+  /**
+   * Handle Blockly Storage with App Engine.
+   */
+  initializeBlocklyStorage() {
+    // REFACTORED: Moved in from app_controller.js
+    // TODO: Possibly remove method if unnecessary.
+    BlocklyStorage.HTTPREQUEST_ERROR =
+        'There was a problem with the request.\n';
+    BlocklyStorage.LINK_ALERT =
+        'Share your blocks with this link:\n\n%1';
+    BlocklyStorage.HASH_ERROR =
+        'Sorry, "%1" doesn\'t correspond with any saved Blockly file.';
+    BlocklyStorage.XML_ERROR = 'Could not load your saved file.\n' +
+        'Perhaps it was created with a different version of Blockly?';
+    const linkButton = document.getElementById('linkButton');
+    linkButton.style.display = 'inline-block';
+    linkButton.addEventListener('click', () => {
+        BlocklyStorage.link(
+          this.editorController.blockEditorController.view.blockDefinitionWorkspace);
       });
-
-  this.onresize();
-  window.addEventListener('resize', () => {
-    this.onresize();
-  });
-
-  // Inject Block Factory Main Workspace.
-  var toolbox = Blockly.Xml.textToDom(DevToolsToolboxes.blockFactory);
-  BlockFactory.mainWorkspace = Blockly.inject('blockly',
-      {collapse: false,
-       toolbox: toolbox,
-       media: 'media/'});
-
-  // Add tab handlers for switching between Block Factory and Block Exporter.
-  this.addTabHandlers(this.tabMap);
-
-  // Assign exporter change listeners.
-  this.assignExporterChangeListeners();
-
-  // Create the root block on Block Factory main workspace.
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
-    BlocklyStorage.retrieveXml(window.location.hash.substring(1),
-                               BlockFactory.mainWorkspace);
-  } else {
-    this.createBlocklyInitPopup(true);
+    this.editorController.blockEditorController.view.disableEnableLink();
   }
-  BlockFactory.mainWorkspace.clearUndo();
 
-  // Add Block Factory event listeners.
-  this.addBlockFactoryEventListeners();
+  /**
+   * Creates invisible/hidden Blockly workspace that is used as a tool in
+   * generating XML of blocks.
+   * @private
+   */
+  insertHiddenWorkspace_() {
+    const hiddenDiv = document.createElement('div');
+    hiddenDiv.id = 'hiddenWorkspace';
+    hiddenDiv.style.display = 'none';
+    document.body.appendChild(hiddenDiv);
+  }
 
-  // Workspace Factory init.
-  WorkspaceFactoryInit.initWorkspaceFactory(this.workspaceFactoryController);
-};
+  /**
+   * Prompts user to either open a preexisting project or create a new project.
+   */
+  openProject() {
+    // TODO: Implement.
+  }
+
+  /**
+   * Top-level function which is first called in order to save a project to
+   * developer's file system.
+   */
+  saveProject() {
+    // TODO: Implement.
+  }
+
+  /**
+   * Top-level function which is first called in order to create a sample
+   * Blockly application with user-defined workspace, toolbox, and blocks.
+   */
+  createSampleApplication() {
+    // REFACTORED: Moved in from wfactory_controller.js:exportInjectFile()
+
+    // Generate file contents for inject file.
+    const injectFileContents = this.projectController.generateInjectString();
+    // Get file name from user.
+    const fileName = prompt('File name for starter Blockly workspace code:',
+                            'workspace.js');
+    if (!fileName) {
+      return;
+    }
+
+    FactoryUtils.createAndDownloadFile(injectFileContents, fileName, 'text/javascript');
+
+    // TODO: Generate file contents for sample HTML page to create a "complete"
+    //       sample blockly app, with instructions in the comments.
+  }
+
+  /**
+   * Generates popup. Param must be either this.popupController.MODE.PREVIEW,
+   * this.popupController.MODE.NEW_BLOCK, or this.popupController.MODE.NEW_CONFIG.
+   *
+   * @param {string} popupMode Type of popup to be shown.
+   */
+  createPopup(popupMode) {
+    if (popupMode === PopupController.NEW_BLOCK) {
+      this.popupController.exit();
+      this.popupController = new NewBlockPopupController(this);
+      this.popupController.show();
+    } else if (popupMode === PopupController.PREVIEW) {
+      // TODO: Preview popup view
+    } else if (popupMode === PopupController.NEW_CONFIG) {
+      // TODO: New config popup view
+    } else {
+      throw new Error('Popup type ' + popupMode + ' not found.');
+    }
+  }
+
+  /**
+   * Handler for the window's 'beforeunload' event. When a user has unsaved
+   * changes and refreshes or leaves the page, confirm that they want to do so
+   * before actually refreshing.
+   * @param {Event} event The beforeunload event.
+   */
+  confirmLeavePage(event) {
+    // TODO: Move in from app_controller.js'
+    console.warn('Unimplemented: confirmLeavePage()');
+  }
+
+  /**
+   * Handler for the window's 'beforeunload' event. When a user has unsaved
+   * changes and refreshes or leaves the page, confirm that they want to do so
+   * before actually refreshing.
+   * @param {Event} event The beforeunload event.
+   */
+  confirmLeavePage(event) {
+    // TODO: Move in from app_controller.js'
+    console.warn('Unimplemented: confirmLeavePage()');
+  }
+}
