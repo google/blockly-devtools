@@ -28,7 +28,11 @@
  */
 
 goog.provide('BlockEditorView');
+
 goog.require('BlockDefinition');
+
+goog.require('goog.dom');
+goog.require('goog.dom.classlist');
 
 class BlockEditorView {
   /**
@@ -38,7 +42,7 @@ class BlockEditorView {
    */
   constructor(blockDefinition) {
     /**
-     * BlockDefinition object associated with this instance of BlockLibraryView.
+     * BlockDefinition currently being edited within the view.
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
@@ -61,6 +65,11 @@ class BlockEditorView {
     // TODO: Implement.
     $('#editorContainer').html(BlockEditorView.html);
     console.log('Inject for editor!');
+
+    this.saveButton = $('#saveToBlockLibraryButton');
+    this.deleteButton = $('#removeBlockFromLibraryButton');
+    this.deleteButton.disabled = true;
+    this.rtl = true;
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
@@ -70,6 +79,23 @@ class BlockEditorView {
         collapse: false,
         toolbox: DevToolsToolboxes.blockFactory,
         media: 'media/'
+      });
+
+    // Render starter block.
+    const starterXml = FactoryUtils.buildBlockEditorStarterXml(
+        '', this.blockDefinition.type(), '');
+    this.showStarterBlock(starterXml);
+    this.blockDefinition.setXml(Blockly.Xml.textToDom(starterXml));
+
+    // Update buttons for save/delete/etc.
+    this.updateButtons(false, false);
+
+    // Initialize preview workspace.
+    this.previewWorkspace = Blockly.inject('preview',
+      {
+        rtl: this.rtl,
+        media: 'media/',
+        scrollbars: true
       });
   }
 
@@ -128,10 +154,103 @@ class BlockEditorView {
 
   /**
    * Updates the workspace to show the block user selected from library
-   * @param {string} blockType Block to edit on block factory.
+   * @param {!BlockDefinition} blockDef BlockDefinition object to show on block
+   *     editor workspace.
    */
-  openBlock(blockType) {
-    console.warn("unimplemented: BlockEditorView.openBlock(" + blockType + ")");
+  showBlock(blockDef) {
+    this.blockDefinition = blockDef;
+    const blockXml = this.blockDefinition.getXml();
+
+    this.editorWorkspace.clear();
+    Blockly.Xml.domToWorkspace(blockXml, this.editorWorkspace);
+  }
+
+  /**
+   * Updates the block definition textarea preview.
+   * @param {string} blockDefCode String representation of JSON or JavaScript
+   *     block definition. (Not to be confused with the BlockDefinition object
+   *     used only within DevTools.)
+   */
+  updateBlockDefinitionView(blockDefCode) {
+    FactoryUtils.injectCode(blockDefCode, 'languagePre');
+  }
+
+  /**
+   * Updates the generator stub textarea preview.
+   * @param {string} genStubCode String representation of JavaScript generator
+   *     stub for block that is currently being edited in the view.
+   */
+  updateGenStub(genStubCode) {
+    FactoryUtils.injectCode(genStubCode, 'generatorPre');
+  }
+
+  /**
+   * Updates save and delete buttons. Includes block type name in button. Changes
+   * color depending on whether already saved or unsaved.
+   * @param {boolean} isInLibrary Whether the block type is in the library.
+   * @param {boolean} savedChanges Whether changes to block have been saved.
+   */
+  updateButtons(isInLibrary, savedChanges) {
+    // REFACTORED: From block_library_view.js:updateButtons(blockType, isInLibrary, savedChanges)
+    const rootBlock = FactoryUtils.getRootBlock(this.editorWorkspace);
+    let blockType = rootBlock.getFieldValue('NAME').trim().toLowerCase();
+    blockType = FactoryUtils.cleanBlockType(blockType);
+
+    if (!isInLibrary) {
+      // Block type has not been saved to library yet. Disable the delete button
+      // and allow user to save.
+      this.saveButton.text('Save "' + blockType + '"');
+      this.saveButton.disabled = false;
+      this.deleteButton.disabled = true;
+    } else {
+      // Block type has already been saved. Disable the save button unless the
+      // there are unsaved changes (checked below).
+      this.saveButton.text('Update "' + blockType + '"');
+      this.saveButton.disabled = true;
+      this.deleteButton.disabled = false;
+    }
+    this.deleteButton.text('Delete "' + blockType + '"');
+
+    // If changes to block have been made and are not saved, make button
+    // green to encourage user to save the block.
+    if (!savedChanges) {
+      var buttonFormatClass = 'button_warn';
+
+      // If block type is the default, 'block_type', make button red to alert
+      // user.
+      if (blockType == 'block_type') {
+        buttonFormatClass = 'button_alert';
+      }
+      goog.dom.classlist.add(this.saveButton.get(0), buttonFormatClass);
+      this.saveButton.disabled = false;
+    } else {
+      // No changes to save.
+      var classesToRemove = ['button_alert', 'button_warn'];
+      goog.dom.classlist.removeAll(this.saveButton.get(0), classesToRemove);
+      this.saveButton.disabled = true;
+    }
+  }
+
+  /**
+   * Re-injects the workspace if user switches between rtl and ltr.
+   * @param {string} rtl Input value, either 'rtl' or 'ltr', of which direction
+   *     Blocks should be in.
+   */
+  updateDirection(rtl) {
+    const newDir = (rtl == 'rtl');
+    if (this.rtl !== newDir) {
+      if (this.previewWorkspace) {
+        this.previewWorkspace.dispose();
+      }
+      this.rtl = newDir;
+      this.previewWorkspace = Blockly.inject('preview',
+        {
+          rtl: this.rtl,
+          media: 'media/',
+          scrollbars: true
+        });
+    }
+    this.previewWorkspace.clear();
   }
 }
 

@@ -60,54 +60,6 @@ BlockFactory.UNNAMED = 'unnamed';
  */
 BlockFactory.oldDir = null;
 
-/*
- * The starting XML for the Block Factory main workspace. Contains the
- * unmovable, undeletable factory_base block. Allows user input to change XML
- * starter block.
- * @param {string} inputType Type of input (statement, value, dummy).
- * @param {string} blockStarterText Starter text to place on block, given by user (optional).
- * @param {string} blockTypeName Name of block, given by user.
-*/
-BlockFactory.buildStartXml = function(inputType, blockStarterText, blockTypeName) {
-  inputType = inputType || 'input_statement';
-  blockTypeName = blockTypeName || 'my_block';
-  var textXmlStarter = '';
-
-  // Adds optional text to custom block.
-  if (blockStarterText.trim() !== '') {
-    textXmlStarter = '<value name="FIELDS">' +
-    '<block type="field_static">' +
-    '<field name="TEXT">' + blockStarterText + '</field></block></value>';
-  }
-
-  var customXmlStarter = `<xml>
-<block type="factory_base" deletable="false" movable="false">
-  <field name="NAME">${blockTypeName}</field>
-  <value name="INPUTS">
-    <block type="${inputType}">${textXmlStarter}</block>
-  </value>
-  <value name="TOOLTIP">
-    <block type="text" deletable="false" movable="false">
-      <field name="TEXT"></field>
-    </block>
-  </value>
-  <value name="HELPURL">
-    <block type="text" deletable="false" movable="false">
-      <field name="TEXT"></field>
-    </block>
-  </value>
-  <value name="COLOUR">
-    <block type="colour_hue">
-      <mutation colour="#5b67a5"></mutation>
-      <field name="HUE">230</field>
-    </block>
-  </value>
-</block>
-</xml>`
-
-  return customXmlStarter;
-};
-
 /**
  * Change the language code format.
  */
@@ -153,122 +105,6 @@ BlockFactory.updateLanguage = function() {
 };
 
 /**
- * Update the generator code.
- * @param {!Blockly.Block} block Rendered block in preview workspace.
- */
-BlockFactory.updateGenerator = function(block) {
-  var language = document.getElementById('language').value;
-  var generatorStub = FactoryUtils.getGeneratorStub(block, language);
-  FactoryUtils.injectCode(generatorStub, 'generatorPre');
-};
-
-/**
- * Update the preview display.
- */
-BlockFactory.updatePreview = function() {
-  // Toggle between LTR/RTL if needed (also used in first display).
-  var newDir = document.getElementById('direction').value;
-  if (BlockFactory.oldDir != newDir) {
-    if (BlockFactory.previewWorkspace) {
-      BlockFactory.previewWorkspace.dispose();
-    }
-    var rtl = newDir == 'rtl';
-    BlockFactory.previewWorkspace = Blockly.inject('preview',
-        {rtl: rtl,
-         media: 'media/',
-         scrollbars: true});
-    BlockFactory.oldDir = newDir;
-  }
-  BlockFactory.previewWorkspace.clear();
-
-  // Fetch the code and determine its format (JSON or JavaScript).
-  var format = document.getElementById('format').value;
-  if (format == 'Manual') {
-    var code = document.getElementById('languageTA').value;
-    // If the code is JSON, it will parse, otherwise treat as JS.
-    try {
-      JSON.parse(code);
-      format = 'JSON';
-    } catch (e) {
-      format = 'JavaScript';
-    }
-  } else {
-    var code = document.getElementById('languagePre').textContent;
-  }
-  if (!code.trim()) {
-    // Nothing to render.  Happens while cloud storage is loading.
-    return;
-  }
-
-  // Backup Blockly.Blocks object so that main workspace and preview don't
-  // collide if user creates a 'factory_base' block, for instance.
-  var backupBlocks = Blockly.Blocks;
-  try {
-    // Make a shallow copy.
-    Blockly.Blocks = Object.create(null);
-    for (var prop in backupBlocks) {
-      Blockly.Blocks[prop] = backupBlocks[prop];
-    }
-
-    if (format == 'JSON') {
-      var json = JSON.parse(code);
-      Blockly.Blocks[json.type || BlockFactory.UNNAMED] = {
-        init: function() {
-          this.jsonInit(json);
-        }
-      };
-    } else if (format == 'JavaScript') {
-      eval(code);
-    } else {
-      throw 'Unknown format: ' + format;
-    }
-
-    // Look for a block on Blockly.Blocks that does not match the backup.
-    var blockType = null;
-    for (var type in Blockly.Blocks) {
-      if (typeof Blockly.Blocks[type].init == 'function' &&
-          Blockly.Blocks[type] != backupBlocks[type]) {
-        blockType = type;
-        break;
-      }
-    }
-    if (!blockType) {
-      return;
-    }
-
-    // Create the preview block.
-    var previewBlock = BlockFactory.previewWorkspace.newBlock(blockType);
-    previewBlock.initSvg();
-    previewBlock.render();
-    previewBlock.setMovable(false);
-    previewBlock.setDeletable(false);
-    previewBlock.moveBy(15, 10);
-    BlockFactory.previewWorkspace.clearUndo();
-    BlockFactory.updateGenerator(previewBlock);
-
-    // Warn user only if their block type is already exists in Blockly's
-    // standard library.
-    var rootBlock = FactoryUtils.getRootBlock(BlockFactory.mainWorkspace);
-    if (StandardCategories.coreBlockTypes.indexOf(blockType) != -1) {
-      rootBlock.setWarningText('A core Blockly block already exists ' +
-          'under this name.');
-
-    } else if (blockType == 'block_type') {
-      // Warn user to let them know they can't save a block under the default
-      // name 'block_type'
-      rootBlock.setWarningText('You cannot save a block with the default ' +
-          'name, "block_type"');
-
-    } else {
-      rootBlock.setWarningText(null);
-    }
-
-  } finally {
-    Blockly.Blocks = backupBlocks;
-  }
-};
-
-/**
  * Disable link and save buttons if the format is 'Manual', enable otherwise.
  */
 BlockFactory.disableEnableLink = function() {
@@ -279,18 +115,6 @@ BlockFactory.disableEnableLink = function() {
   linkButton.disabled = disabled;
   saveBlockButton.disabled = disabled;
   saveToLibButton.disabled = disabled;
-};
-
-/**
- * Render starter block (factory_base).
- * @param {string} inputType Type of input (statement, value, dummy).
- * @param {string} blockStarterText Starter text to place on block, given by user (optional).
- * @param {string} blockTypeName Name of block, given by user.
- */
-BlockFactory.showStarterBlock = function(inputType, blockStarterText, blockTypeName) {
-  BlockFactory.mainWorkspace.clear();
-  var xml = Blockly.Xml.textToDom(BlockFactory.buildStartXml(inputType, blockStarterText, blockTypeName));
-  Blockly.Xml.domToWorkspace(xml, BlockFactory.mainWorkspace);
 };
 
 /**

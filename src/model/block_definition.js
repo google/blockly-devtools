@@ -35,6 +35,12 @@ class BlockDefinition extends Resource {
    */
   constructor(type) {
     super(type);
+
+    /**
+     * XML Element of blocks displayed on Block Editor workspace.
+     * @type {!Element}
+     */
+    this.xml = null;
   }
 
   /**
@@ -57,8 +63,17 @@ class BlockDefinition extends Resource {
    * Returns a block's XML representation.
    * @return {!Element} XML representation of the block.
    */
-   //TODO #87: phase out
+  // TODO(#87): Phase out once BlockDefinition <--> JSON
   getXml() {
-    throw 'unimplemented: getXml';
+    return this.xml;
+  }
+
+  /**
+   * Saves XML of block editor blocks. Used for loading editing blocks when
+   * switching blocks in the block editor.
+   * @param {string} xml XML element of current block.
+   */
+  setXml(xml) {
+    this.xml = xml;
   }
 }

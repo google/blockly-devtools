@@ -41,21 +41,24 @@ goog.require('Resource');
    */
   constructor(resourceSetName, projectName, resourceConstructor) {
     super(resourceSetName);
+
     /**
      * The name of the project the resource belongs to.
      * @type {string}
      */
-     this.project = projectName;
+    this.project = projectName;
+
     /**
      * The constructor for type of resource the set manages.
      * @type {Constructor}
      */
-     this.resourceConstructor = resourceConstructor;
-     /**
-      * The resources that the project contains, mapped to their names.
-      * @type {!Object<string, Resource>}
-      */
-     this.resources = {};
+    this.resourceConstructor = resourceConstructor;
+
+    /**
+     * The resources that the project contains, mapped to their names.
+     * @type {!Object<string, Resource>}
+     */
+    this.resources = {};
   }
 
   /**
@@ -63,7 +66,7 @@ goog.require('Resource');
    * @param {!Resource} resource The resource to be added.
    */
   add(resource) {
-    throw 'unimplemented: add';
+    this.resources[resource.name] = resource;
   }
 
   /**

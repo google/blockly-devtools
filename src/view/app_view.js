@@ -168,7 +168,6 @@ class AppView {
     // Assigning event handlers and listeners for application.
     this.assignLibraryClickHandlers();
     this.assignBlockFactoryClickHandlers();
-    this.assignBlockFactoryClickHandlers();
     this.addBlockFactoryEventListeners();
   }
 
@@ -412,14 +411,6 @@ class AppView {
   }
 
   /**
-   * Updates the workspace to show the block user selected from library
-   * @param {string} blockType Block to edit on block factory.
-   */
-  openBlock(blockType) {
-    this.blockEditorView.openBlock(blockType);
-   }
-
-  /**
    * Called on each tab click. Styles the tabs to reflect which tab is selected.
    * @private
    */
@@ -500,6 +491,7 @@ class AppView {
    * Add event listeners for the block factory.
    */
   addBlockFactoryEventListeners() {
+    console.log('listeners called');
     // REFACTORED: Moved in from app_controller.js
     // Update code on changes to block being edited.
     this.blockEditorView.editorWorkspace.addChangeListener(
@@ -509,11 +501,25 @@ class AppView {
     this.blockEditorView.editorWorkspace.addChangeListener(Blockly.Events.disableOrphans);
 
     const controller = this.appController.editorController.blockEditorController;
+
+    // Update preview on every change.
+    this.blockEditorView.editorWorkspace.addChangeListener(
+        controller.refreshPreviews);
+
     $('#direction').change(controller.updatePreview);
     $('#languageTA').change(controller.updatePreview);
     $('#languageTA').keyup(controller.updatePreview);
     $('#format').change(controller.formatChange);
     $('#language').change(controller.updatePreview);
+  }
+
+  /**
+   * Called on each tab click. Styles the tabs to reflect which tab is selected.
+   * @private
+   */
+  styleTabs_() {
+    // TODO: Move in from app_controller.js
+    throw 'Unimplemented: styleTabs_()';
   }
 
   /**

@@ -47,6 +47,7 @@
   appendScript('src/workspacefactory/wfactory_model.js');
   appendScript('res/devtools_toolboxes.js');
   appendScript('src/block_option.js');
+  appendScript('src/blocks.js');
 
   appendScript('src/model/resource.js');
   appendScript('src/model/block_definition.js');

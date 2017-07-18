@@ -29,9 +29,9 @@
  */
 goog.provide('EditorController');
 
+goog.require('BlockEditorController');
 goog.require('ToolboxController');
 goog.require('WorkspaceController');
-goog.require('BlockEditorController');
 
 class EditorController {
   /**
@@ -70,7 +70,7 @@ class EditorController {
      * Keeps track of which editor the user is on.
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
-    this.currentEditor = null;
+    this.currentEditor = this.blockEditorController;
   }
 
   /**
@@ -119,7 +119,7 @@ class EditorController {
   isDefinedBlock(block) {
     // REFACTORED: from wfactory_controller.js
     const blockType = block.type;
-    return this.project.has(blockType);
+    return this.project.hasBlock(blockType);
   }
 
   /**

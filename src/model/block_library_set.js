@@ -74,18 +74,20 @@ class BlockLibrarySet extends ResourceSet {
    * @return {boolean} Whether or not the block is in the set.
    */
   hasBlock(blockType) {
-    throw 'unimplemented: hasBlock';
+    console.warn('Unimplemented: hasBlock');
   }
 
   /**
    * Produces the JSON needed to organize libraries in the tree.
+   * @param {string} prefix The id prefix for libraries.
    * @return {!Object} The JSON for the tree's library section.
    */
-  getJson() {
-    const librarySetJson = [
-      {'id': 'BlockLibrary', 'text': 'Libraries'},
-      {'children': super.getJson()}
-    ];
+  getJson(prefix) {
+    const librarySetJson = {
+      'id': prefix,
+      'text': 'Libraries',
+      'children': super.getJson()
+    };
     return librarySetJson;
   }
 }
