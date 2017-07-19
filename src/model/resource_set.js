@@ -99,7 +99,7 @@ goog.require('Resource');
    * @return {boolean} Whether or not the set is empty.
    */
   isEmpty() {
-    return this.;
+    return this.getNames().length === 0;
   }
 
   /**
@@ -119,15 +119,15 @@ goog.require('Resource');
    * Reads the resource set from local storage.
    */
   loadFromLocalStorage() {
-    throw 'unimplemented: loadFromLocalStorage';
+    const set = goog.global.localStorage[this.name];
+    this.resources = set ? JSON.parse(set) : null;
   }
 
   /**
    * Writes the resource set to local storage.
    */
   saveToLocalStorage() {
-    //TODO: pass saving mechanism to classes which extend resource.
-    throw 'unimplemented: saveFromLocalStorage';
+    goog.global.localStorage[this.name] = JSON.stringify(this.resources);
   }
 
   /**
