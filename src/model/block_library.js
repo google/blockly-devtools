@@ -45,11 +45,15 @@ class BlockLibrary extends Resource {
      */
     super(libraryName);
 
-    /**
-     * A map of all blocks in the library to their definitions.
-     * @type {!Object<string, !BlockDefinition>}
-     */
-    this.blocks = {};
+    this.loadFromLocalStorage();
+
+    if (this.blocks === null) {
+      /**
+       * A map of all blocks in the library to their definitions.
+       * @type {!Object<string, !BlockDefinition>}
+       */
+      this.blocks = {};
+    }
   }
 
   /**
@@ -139,14 +143,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} True if empty, false otherwise.
    */
   isEmpty() {
-    /*
-     * TODO: Move from src/block_library_storage.js
-     *
-     * References:
-     * - isEmpty()
-     *
-     */
-    throw 'unimplemented: isEmpty';
+    return this.getBlockTypes.length === 0;
   }
 
   /**
@@ -154,14 +151,10 @@ class BlockLibrary extends Resource {
    * @return {!Object<string, Object>} Map of block type to corresponding JSON.
    */
   getBlockJsonMap() {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - getBlockXmlTextMap()
-     *
-     */
-    throw 'unimplemented: getBlockXmlTextMap';
+    var jsonMap = {};
+    for (let blockName of this.getBlockTypes()) {
+      jsonMap[blockName] = this.blocks[blockName].getJson();
+    }
   }
 
   /**
@@ -171,17 +164,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    /*
-     * TODO: Move from src/block_library_storage.js
-     *
-     * References:
-     * - has(blockType)
-     *
-     * Additional reference: src/block_library_controller.js
-     * - has(blockType)
-     *
-     */
-    throw 'unimplemented: has';
+    return !!this.blocks[blockType];
   }
 
   /**
@@ -212,7 +195,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Downloads a block library.
-   */
+   *
   download() {
     // Get selected blocks' information.
     var blockTypes = this.view.getSelectedBlockTypes();
@@ -260,5 +243,15 @@ class BlockLibrary extends Resource {
             genStubs, generatorStub_filename, fileType);
       }
     }
+  }*/
+
+  /**
+   * Reads the named block library from local storage and saves it in this.blocks.
+   */
+  loadFromLocalStorage() {
+    // goog.global is synonymous to window, and allows for flexibility
+    // between browsers.
+    var object = goog.global.localStorage[this.name];
+    this.blocks = object ? JSON.parse(object) : null;
   }
 }

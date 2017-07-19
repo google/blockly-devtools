@@ -41,6 +41,12 @@ class BlockDefinition extends Resource {
      * @type {!Element}
      */
     this.xml = null;
+
+    /**
+     * JSON representation of the block.
+     * @type {!Object}
+     */
+    this.json = null;
   }
 
   /**
@@ -56,7 +62,7 @@ class BlockDefinition extends Resource {
    * @return {!Object} JSON representation of the block.
    */
   getJson() {
-    throw 'unimplemented: getJson';
+    return this.json;
   }
 
   /**
