@@ -39,11 +39,10 @@ goog.require('StandardCategories');
 class BlockEditorController {
   /**
    * @constructor
-   * @param {!Project} project Project object associated with this controller.
+   * @param {!ProjectController} projectController ProjectController used to
+   *     make changes to project after user interacts with editor.
    * @param {!Blockly.Workspace} hiddenWorkspace Invisible Blockly Workspace
    *     used to generate Blockly objects for import/export.
-   * @param {!NavigationTree} navTree Navigation tree that will be updated after
-   *     changes in this editor.
    */
   constructor(projectController, hiddenWorkspace) {
     /**
@@ -100,9 +99,7 @@ class BlockEditorController {
   }
 
   /**
-   * Refreshes all three previews (block preview, block definition view, and
-   * generator stub) at once. Also updates the model side (BlockDefinition
-   * object.)
+   * Refreshes previews in view and updates model.
    */
   refreshPreviews() {
     const format = $('#format').val();
@@ -129,8 +126,7 @@ class BlockEditorController {
   }
 
   /**
-   * Updates model side of block definition. Updates the type field and the
-   * XML.
+   * Updates blockType and XML of BlockDefinition.
    * @private
    */
   updateBlockDef_() {
@@ -155,6 +151,7 @@ class BlockEditorController {
   /**
    * Updates the Block Definition textarea with proper JSON or JavaScript.
    * @param {string} format Format of block definition. Either 'JSON' or 'JavaScript'.
+   * @private
    */
   updateBlockDefinitionView_(format) {
     const currentBlock = this.view.blockDefinition;
@@ -310,7 +307,7 @@ class BlockEditorController {
   }
 
   /**
-   * Gets the block type name that is currently being edited. Extracts type from
+   * Gets the block type that is currently being edited. Extracts type from
    * field input in 'factory_base' block.
    * @return {string} Block type of currently edited block.
    * @private

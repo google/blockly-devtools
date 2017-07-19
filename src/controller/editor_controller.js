@@ -43,7 +43,7 @@ class EditorController {
    */
   constructor(projectController, hiddenWorkspace) {
     /**
-     * ProjectController which controls changes to this Project.
+     * ProjectController which controls changes to the Project.
      * @type {!ProjectController}
      */
     this.projectController = projectController;
