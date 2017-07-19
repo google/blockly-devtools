@@ -124,13 +124,6 @@ goog.require('Resource');
   }
 
   /**
-   * Writes the resource set to local storage.
-   */
-  saveToLocalStorage() {
-    goog.global.localStorage[this.name] = JSON.stringify(this.resources);
-  }
-
-  /**
    * Gets the data necessary to export the resource set.
    * @return {!Object} The data needed to export the resource set.
    */
