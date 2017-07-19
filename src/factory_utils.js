@@ -37,14 +37,14 @@ goog.provide('FactoryUtils');
 
 /**
  * Get block definition code for the current block.
- * @param {string} blockType Type of block.
  * @param {string} format 'JSON' or 'JavaScript'.
  * @param {!Blockly.Workspace} workspace Where the root block lives.
  * @return {string} Block definition.
  */
-FactoryUtils.getBlockDefinition = function(blockType, format, workspace) {
-  blockType = FactoryUtils.cleanBlockType(blockType);
+FactoryUtils.getBlockDefinition = function(format, workspace) {
   const rootBlock = FactoryUtils.getRootBlock(workspace);
+  const blockType = FactoryUtils.cleanBlockType(rootBlock.getFieldValue('NAME'));
+  console.log(blockType);
   switch (format) {
     case 'JSON':
       var code = FactoryUtils.formatJson_(blockType, rootBlock);

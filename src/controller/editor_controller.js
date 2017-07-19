@@ -39,13 +39,28 @@ class EditorController {
    * @param {!Project} project Project object associated with this controller.
    * @param {!Blockly.Workspace} hiddenWorkspace Invisible Blockly Workspace
    *     used to generate Blockly objects for import/export.
+   * @param {!NavigationTree} navTree Navigation tree that displays the resources
+   *     in the current Project.
    */
-  constructor(project, hiddenWorkspace) {
+  constructor(project, hiddenWorkspace, navTree) {
     /**
      * Project object whose components are controlled by EditorController.
      * @type {!Project}
      */
     this.project = project;
+
+    /**
+     * Navigation tree for current Project.
+     * @type {!NavigationTree}
+     */
+    this.navTree = navTree;
+
+    /**
+     * Block Editor Controller
+     * @type {BlockLibraryController}
+     */
+    this.blockEditorController = new BlockEditorController(
+        this.project, hiddenWorkspace, this.navTree);
 
     /**
      * Toolbox Controller.
@@ -58,12 +73,6 @@ class EditorController {
      * @type {!WorkspaceController}
      */
     this.workspaceController = new WorkspaceController(this.project, hiddenWorkspace);
-
-    /**
-     * Block Editor Controller
-     * @type {BlockLibraryController}
-     */
-    this.blockEditorController = new BlockEditorController(this.project, hiddenWorkspace);
 
     /**
      * Controller object which is currently controlling the developer's application.
