@@ -38,15 +38,17 @@ goog.require('WorkspaceEditorView');
 class WorkspaceController {
   /**
    * @constructor
-   * @param {!Project} project Project whose Workspace elements are managed by this controller.
+   * @param {!ProjectController} projectController ProjectController that will
+   *     make changes to WorkspaceContents and WorkspaceConfiguration when
+   *     edited in the workspace editor.
    * @param {!Blockly.Workspace} hiddenWorkspace Hidden workspace used to generate Blockly objects.
    */
-  constructor(project, hiddenWorkspace) {
+  constructor(projectController, hiddenWorkspace) {
     /**
-     * Project whose library is controlled by this BlockLibraryController instance.
-     * @type {!Project}
+     * ProjectController which will be used on modification of workspace objects.
+     * @type {!ProjectController}
      */
-    this.project = project;
+    this.projectController = projectController;
 
     /**
      * Keeps track of what WorkspaceContents is currently being edited.
@@ -145,7 +147,7 @@ class WorkspaceController {
    */
   updateEditorToolbox() {
     const newToolboxXml = FactoryUtils.updateBlockLibCategory(
-        this.project, this.hiddenWorkspace);
+        this.projectController.getProject(), this.hiddenWorkspace);
     this.view.updateEditorToolbox(newToolboxXml);
   }
 

@@ -189,7 +189,7 @@ class NavigationTree {
    * @param {string} blockType The name of the block to be removed.
    */
   deleteBlockNode(blockType) {
-    deleteComponentNode(BLOCK_PREFIX, blockType);
+    this.deleteComponentNode(BLOCK_PREFIX, blockType);
   }
 
   /**
@@ -198,7 +198,7 @@ class NavigationTree {
    * @param {string} toolboxName Name of the toolbox to remove from the tree.
    */
   deleteToolboxNode(toolboxName) {
-    deleteComponentNode(TOOLBOX_PREFIX, toolboxName);
+    this.deleteComponentNode(TOOLBOX_PREFIX, toolboxName);
   }
 
   /**
@@ -208,7 +208,7 @@ class NavigationTree {
    *     remove from the tree.
    */
   deleteWorkspaceContentsNode(workspaceContentsName) {
-    deleteComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName);
+    this.deleteComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName);
   }
 
   /**
@@ -218,7 +218,7 @@ class NavigationTree {
    *     WorkspaceConfiguration to remove from the tree.
    */
   deleteWorkspaceConfigurationNode(workspaceConfigName) {
-    deleteComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName);
+    this.deleteComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName);
   }
 
   /**
@@ -228,7 +228,7 @@ class NavigationTree {
    *     from the tree.
    */
   deleteBlockLibraryNode(blockLibraryName) {
-    deleteComponentNode(LIBRARY_PREFIX, blockLibraryName);
+    this.deleteComponentNode(LIBRARY_PREFIX, blockLibraryName);
   }
 
   /**

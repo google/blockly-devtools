@@ -39,22 +39,23 @@ goog.require('StandardCategories');
 class BlockEditorController {
   /**
    * @constructor
-   * @param {!Project} project Project object associated with this controller.
+   * @param {!ProjectController} projectController ProjectController used to
+   *     make changes to project after user interacts with editor.
    * @param {!Blockly.Workspace} hiddenWorkspace Invisible Blockly Workspace
    *     used to generate Blockly objects for import/export.
    */
-  constructor(project, hiddenWorkspace) {
+  constructor(projectController, hiddenWorkspace) {
     /**
-     * Project whose library is controlled by this BlockEditorController instance.
-     * @type {!Project}
+     * ProjectController to make changes to libraries when edited in the block
+     *     editor.
+     * @type {!ProjectController}
      */
-    this.project = project;
+    this.projectController = projectController;
 
     // Creates a default library. Adds a sample block to library.
-    const firstLibrary = new BlockLibrary('MyFirstLibrary');
-    this.project.addBlockLibrary(firstLibrary);
+    this.projectController.createBlockLibrary('MyFirstLibrary');
     const firstBlock = new BlockDefinition('block_type');
-    firstLibrary.addBlockDefinition(firstBlock);
+    this.projectController.addBlockDefinition(firstBlock, 'MyFirstLibrary');
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
@@ -77,6 +78,11 @@ class BlockEditorController {
     this.hiddenWorkspace = hiddenWorkspace;
 
     this.refreshPreviews();
+
+    // Refresh previews on workspace change.
+    this.view.editorWorkspace.addChangeListener(() => {
+      this.refreshPreviews();
+    });
   }
 
   /**
@@ -93,13 +99,14 @@ class BlockEditorController {
   }
 
   /**
-   * Refreshes all three previews (block preview, block definition view, and
-   * generator stub) at once.
+   * Refreshes previews in view and updates model.
    */
   refreshPreviews() {
-    this.updateBlockDefinitionView($('#format').val());
-    this.updatePreview();
-    this.updateGenerator(this.getPreviewBlock());
+    const format = $('#format').val();
+    this.updateBlockDefinitionView_(format);
+    this.updatePreview_();
+    this.updateGenerator_();
+    this.updateBlockDef_();
   }
 
   /**
@@ -119,23 +126,36 @@ class BlockEditorController {
   }
 
   /**
-   * Update the generator code.
-   * @param {!Blockly.Block} block Rendered block in preview workspace.
+   * Updates blockType and XML of currently open BlockDefinition.
+   * @private
    */
-  updateGenerator(block) {
+  updateBlockDef_() {
+    const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    this.projectController.renameBlockDefinition(
+        this.view.blockDefinition.type(), rootBlock.getFieldValue('NAME'));
+    this.view.blockDefinition.setXml(Blockly.Xml.blockToDom(rootBlock));
+  }
+
+  /**
+   * Update the generator code.
+   * @private
+   */
+  updateGenerator_() {
     // REFACTORED: Moved in from factory.js:updateGenerator()
     const language = $('#language').val();
-    const generatorStub = FactoryUtils.getGeneratorStub(block, language);
+    const generatorStub = FactoryUtils.getGeneratorStub(
+        this.getPreviewBlock_(), language);
     this.view.updateGenStub(generatorStub);
   }
 
   /**
    * Updates the Block Definition textarea with proper JSON or JavaScript.
    * @param {string} format Format of block definition. Either 'JSON' or 'JavaScript'.
+   * @private
    */
-  updateBlockDefinitionView(format) {
+  updateBlockDefinitionView_(format) {
     const currentBlock = this.view.blockDefinition;
-    const defCode = FactoryUtils.getBlockDefinition(currentBlock.type(),
+    const defCode = FactoryUtils.getBlockDefinition(
         format, this.view.editorWorkspace);
     this.view.updateBlockDefinitionView(defCode);
   }
@@ -143,15 +163,17 @@ class BlockEditorController {
   /**
    * Retrieves Blockly.Block given in preview.
    * @return {!Blockly.Block} Block object in preview workspace.
+   * @private
    */
-  getPreviewBlock() {
+  getPreviewBlock_() {
     return this.view.previewWorkspace.getTopBlocks(false)[0];
   }
 
   /**
    * Update the preview display.
+   * @private
    */
-  updatePreview() {
+  updatePreview_() {
     // REFACTORED: Moved in from factory.js:updatePreview()
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
@@ -280,6 +302,17 @@ class BlockEditorController {
     } else {
       rootBlock.setWarningText(null);
     }
+  }
+
+  /**
+   * Gets the block type that is currently being edited. Extracts type from
+   * field input in 'factory_base' block.
+   * @return {string} Block type of currently edited block.
+   * @private
+   */
+  getType_() {
+    const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    return rootBlock.getFieldValue('NAME');
   }
 
   /**
