@@ -83,6 +83,20 @@ class ProjectController {
   }
 
   /**
+   * Creates and adds new block definition to the project.
+   *
+   * @param {string} blockType Name of the block to add to the project.
+   *
+   * @return {!BlockDefinition} The new block definition added to the project.
+   */
+  createBlockDefinition(blockType) {
+    //TODO #105: check for valid name, throw error upon conflict
+    const block = new BlockDefinition(blockType);
+    this.addBlockDefinition(blockType);
+    return block;
+  }
+
+  /**
    * Creates and adds new toolbox to this.project's toolbox set.
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
@@ -143,6 +157,15 @@ class ProjectController {
   }
 
   /**
+   * Adds a block definition to the project.
+   *
+   * @param {!BlockDefinition} blockDef Block definition to add to the project.
+   */
+  addBlockDefinition(blockDef) {
+    throw 'unimplemented: addBlockDefinition';
+  }
+
+  /**
    * Adds toolbox to this.project's toolbox set.
    *
    * @param {!Toolbox} toolbox Toolbox object to add to project
@@ -182,6 +205,15 @@ class ProjectController {
   addBlockLibrary(blockLibrary) {
     this.project.addBlockLibrary(blockLibrary);
     this.tree.addBlockLibraryNode(blockLibrary.name);
+  }
+
+  /**
+   * Removes a block from the project.
+   *
+   * @param {string} blockType The name of the block to remove.
+   */
+  removeBlock(blockType) {
+    throw 'unimplemented: removeBlock';
   }
 
   /**
@@ -225,6 +257,15 @@ class ProjectController {
   removeBlockLibrary(blockLibraryName) {
     this.project.removeBlockLibrary(blockLibraryName);
     this.tree.deleteBlockLibraryNode(blockLibraryName);
+  }
+
+  /**
+   * Renames a block.
+   * @param {Resource} resource The resource to be named.
+   * @param {string} newName The new name for the resource.
+   */
+  rename(resource, newName) {
+    throw 'unimplemented: rename';
   }
 
   /**
