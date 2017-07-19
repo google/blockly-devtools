@@ -54,6 +54,10 @@ class WorkspaceEditorView {
      */
     this.workspaceConfig = workspaceConfig;
 
+    /**
+     * JQuery container of workspace editor view.
+     * @type {!JQuery}
+     */
     this.container = $('#workspaceEditor');
 
     // Inserts HTML into toolbox editor container. Keeps hidden.

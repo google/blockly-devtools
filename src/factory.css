@@ -149,12 +149,6 @@ button, .buttonStyle {
 }
 
 /* Editor elements */
-#navigationTree {
-  position: absolute;
-  left: 0px;
-  width: 20%;
-  height: 45%;
-}
 
 #editorContainer {
   position: absolute;
@@ -164,9 +158,11 @@ button, .buttonStyle {
   overflow: hidden;
 }
 
-#blockEditor {
-  width:100%;
-  height:100%;
+#navigationTree {
+  position: absolute;
+  left: 0px;
+  width: 20%;
+  height: 45%;
 }
 
 #blockLibraryContainer {
@@ -200,18 +196,40 @@ button, .buttonStyle {
   width: 50%;
 }
 
-#toolboxEditor {
+/* Blockly workspaces within editors */
+
+#blockEditor {
+  width: 100%;
+  height: 100%;
+}
+
+#toolboxEditor, #workspaceEditor {
   clear: both;
   height: 90%;
   overflow-x: hidden;
   overflow-y: scroll;
 }
 
-#workspaceEditor {
-  clear: both;
-  height: 90%;
-  overflow-x: hidden;
-  overflow-y: scroll;
+#toolboxDiv {
+  height: 100%;
+  width:100%;
+}
+
+#toolboxPreview {
+  height: 80%;
+  padding: 10px;
+  width: 100%;
+}
+
+#wContentsDiv {
+  height: 100%;
+  width:100%;
+}
+
+#workspacePreview {
+  height: 80%;
+  padding: 10px;
+  width: 100%;
 }
 
 /* Exporter */
@@ -437,28 +455,6 @@ td.taboff:hover {
 #previewHelp {
   padding: 10px;
   width: 98%;
-}
-
-#toolboxDiv {
-  height: 100%;
-  width:100%;
-}
-
-#toolboxPreview {
-  height: 80%;
-  padding: 10px;
-  width: 100%;
-}
-
-#wContentsDiv {
-  height: 100%;
-  width:100%;
-}
-
-#workspacePreview {
-  height: 80%;
-  padding: 10px;
-  width: 100%;
 }
 
 #createDiv {
