@@ -44,7 +44,6 @@ goog.provide('FactoryUtils');
 FactoryUtils.getBlockDefinition = function(format, workspace) {
   const rootBlock = FactoryUtils.getRootBlock(workspace);
   const blockType = FactoryUtils.cleanBlockType(rootBlock.getFieldValue('NAME'));
-  console.log(blockType);
   switch (format) {
     case 'JSON':
       var code = FactoryUtils.formatJson_(blockType, rootBlock);

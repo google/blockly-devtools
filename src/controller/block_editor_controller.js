@@ -126,7 +126,7 @@ class BlockEditorController {
   }
 
   /**
-   * Updates blockType and XML of BlockDefinition.
+   * Updates blockType and XML of currently open BlockDefinition.
    * @private
    */
   updateBlockDef_() {
@@ -250,9 +250,7 @@ class BlockEditorController {
     }
 
     if (format == BlockEditorController.FORMAT_JSON) {
-      console.log('json format detected!');
       var json = JSON.parse(code);
-      console.log('json type: ' + json.type);
       Blockly.Blocks[json.type || 'unnamed'] = {
         init: function() {
           this.jsonInit(json);

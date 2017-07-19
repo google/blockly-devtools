@@ -49,21 +49,24 @@ class EditorController {
     this.projectController = projectController;
 
     /**
-     * Block Editor Controller
+     * Controls the block editor. Manages updates to model and view within
+     * block editor.
      * @type {BlockLibraryController}
      */
     this.blockEditorController = new BlockEditorController(
         this.projectController, hiddenWorkspace);
 
     /**
-     * Toolbox Controller.
+     * Controls the toolbox editor. Manages updates to model and view within
+     * toolbox editor.
      * @type {!ToolboxController}
      */
     this.toolboxController = new ToolboxController(
         this.projectController, hiddenWorkspace);
 
     /**
-     * Workspace Controller.
+     * Controls the workspace editor. Manages updates to model and view within
+     * workspace editor.
      * @type {!WorkspaceController}
      */
     this.workspaceController = new WorkspaceController(
