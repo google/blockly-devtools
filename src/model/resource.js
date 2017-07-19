@@ -41,14 +41,6 @@ class Resource {
   }
 
   /**
-   * Returns whether or not there are unsaved elements in the resource.
-   * @return {boolean} Whether or not unsaved elements exist.
-   */
-  isDirty() {
-    throw 'abstract method: isDirty';
-  }
-
-  /**
    * Reads the resource from local storage.
    */
   loadFromLocalStorage() {
@@ -59,8 +51,7 @@ class Resource {
    * Writes the resource to local storage.
    */
   saveToLocalStorage() {
-    //TODO: pass saving mechanism to classes which extend resource.
-    throw 'unimplemented: saveFromLocalStorage';
+    goog.global.localStorage[this.name] = JSON.stringify(this.blocks);
   }
 
   /**

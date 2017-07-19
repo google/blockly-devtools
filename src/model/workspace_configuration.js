@@ -98,14 +98,6 @@ class WorkspaceConfiguration extends Resource {
   }
 
   /**
-   * Returns whether or not the workspace configuration is unsaved.
-   * @return {boolean} Whether or not there are unsaved changes.
-   */
-  isDirty() {
-    throw "unimplemented: isDirty";
-  }
-
-  /**
    * Reads the workspace configuration from local storage.
    */
   loadFromLocalStorage() {

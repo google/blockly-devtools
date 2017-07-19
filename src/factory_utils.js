@@ -947,30 +947,6 @@ FactoryUtils.isProcedureBlock = function(block) {
 };
 
 /**
- * Returns whether or not a modified block's changes has been saved to the
- * Block Library.
- * TODO(quachtina96): move into the Block Factory Controller once made.
- * @param {!BlockLibraryController} blockLibraryController Block Library
- *    Controller storing custom blocks.
- * @return {boolean} True if all changes made to the block have been saved to
- *    the given Block Library.
- */
-FactoryUtils.savedBlockChanges = function(blockLibraryController) {
-  if (BlockFactory.isStarterBlock()) {
-    return true;
-  }
-  var blockType = blockLibraryController.getCurrentBlockType();
-  var currentXml = Blockly.Xml.workspaceToDom(BlockFactory.mainWorkspace);
-
-  if (blockLibraryController.has(blockType)) {
-    // Block is saved in block library.
-    var savedXml = blockLibraryController.getBlockXml(blockType);
-    return FactoryUtils.sameBlockXml(savedXml, currentXml);
-  }
-  return false;
-};
-
-/**
  * Given the root block of the factory, return the tooltip specified by the user
  * or the empty string if no tooltip is found.
  * @param {!Blockly.Block} rootBlock Factory_base block.

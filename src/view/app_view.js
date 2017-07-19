@@ -390,20 +390,17 @@ class AppView {
     // REFACTORED: Moved in from app_controller.js
     // Button for saving block to library.
     $('#saveToBlockLibraryButton').click(() => {
-      this.appController.project.saveBlock();
-      this.view.addBlockToTree();
+      console.log("rewire app_view.js assignLibraryClickHandlers");
     });
 
     // Button for removing selected block from library.
     $('#removeBlockFromLibraryButton').click(() => {
-      this.appController.project.removeBlockFromProject();
-      this.view.removeBlockFromTree();
+      console.log("rewire app_view.js assignLibraryClickHandlers");
     });
 
     // Button for clearing the block library.
     $('#clearBlockLibraryButton').click(() => {
-      this.appController.project.clearLibrary();
-      this.view.clearLibraryFromTree();
+      console.log("rewire app_view.js assignLibraryClickHandlers");
     });
   }
 
@@ -438,16 +435,7 @@ class AppView {
     $('#createNewBlockButton').click(() => {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
-      var proceedWithUnsavedChanges =
-          this.appController.projectController.warnIfUnsaved();
-      if (!proceedWithUnsavedChanges) {
-        return;
-      }
-
-      this.createBlocklyInitPopup(false);
-
-      // Close the Block Library Dropdown.
-      this.closeModal();
+      this.appController.projectController.createBlockLibrary('testing');
     });
   }
 

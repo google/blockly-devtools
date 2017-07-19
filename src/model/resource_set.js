@@ -74,7 +74,7 @@ goog.require('Resource');
    * @param {string} resourceName The name of the resource to be removed.
    */
   remove(resourceName) {
-    throw 'unimplemented: remove';
+    delete this.resources[resourceName];
   }
 
   /**
@@ -99,7 +99,7 @@ goog.require('Resource');
    * @return {boolean} Whether or not the set is empty.
    */
   isEmpty() {
-    throw 'unimplimented: isEmpty';
+    return this.getNames().length === 0;
   }
 
   /**
@@ -113,14 +113,6 @@ goog.require('Resource');
       resourceSetTreeJson.push(resourceJson);
     }
     return resourceSetTreeJson;
-  }
-
-  /**
-   * Returns whether or not there are unsaved elements in the resource set.
-   * @return {boolean} Whether or not unsaved elements exist.
-   */
-  isDirty() {
-    throw 'unimplemented: isDirty';
   }
 
   /**

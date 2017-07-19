@@ -201,4 +201,64 @@ class BlockLibrary extends Resource {
   getTreeJson() {
     throw 'unimplemented: getTreeJson';
   }
+
+  /**
+   * Reads the library from local storage.
+   */
+  loadFromLocalStorage() {
+    var object = goog.global.localStorage[this.name];
+    this.blocks = object ? JSON.parse(object) : null;
+  }
+
+  /**
+   * Downloads a block library.
+   */
+  download() {
+    // Get selected blocks' information.
+    var blockTypes = this.view.getSelectedBlockTypes();
+    var blockXmlMap = this.blockLibStorage.getBlockXmlMap(blockTypes);
+
+    // Pull block definition(s) settings from the Export Settings form.
+    var wantBlockDef = document.getElementById('blockDefCheck').checked;
+    var definitionFormat = document.getElementById('exportFormat').value;
+    var blockDef_filename = document.getElementById('blockDef_filename').value;
+
+    // Pull block generator stub(s) settings from the Export Settings form.
+    var wantGenStub = document.getElementById('genStubCheck').checked;
+    var language = document.getElementById('exportLanguage').value;
+    var generatorStub_filename = document.getElementById(
+        'generatorStub_filename').value;
+
+    if (wantBlockDef) {
+      // User wants to export selected blocks' definitions.
+      if (!blockDef_filename) {
+        // User needs to enter filename.
+        alert('Please enter a filename for your block definition(s) download.');
+      } else {
+        // Get block definition code in the selected format for the blocks.
+        var blockDefs = this.tools.getBlockDefinitions(blockXmlMap,
+            definitionFormat);
+        // Download the file, using .js file ending for JSON or Javascript.
+        FactoryUtils.createAndDownloadFile(
+            blockDefs, blockDef_filename, 'javascript');
+      }
+    }
+
+    if (wantGenStub) {
+      // User wants to export selected blocks' generator stubs.
+      if (!generatorStub_filename) {
+        // User needs to enter filename.
+        alert('Please enter a filename for your generator stub(s) download.');
+      } else {
+        // Get generator stub code in the selected language for the blocks.
+        var genStubs = this.tools.getGeneratorCode(blockXmlMap,
+            language);
+        // Get the correct file extension.
+        var fileType = (language == 'JavaScript') ? 'javascript' : 'plain';
+        // Download the file.
+        FactoryUtils.createAndDownloadFile(
+            genStubs, generatorStub_filename, fileType);
+      }
+    }
+  }
 }
