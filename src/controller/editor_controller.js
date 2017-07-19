@@ -71,6 +71,7 @@ class EditorController {
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
     this.currentEditor = this.blockEditorController;
+    // this.currentEditor = this.toolboxController;
   }
 
   /**

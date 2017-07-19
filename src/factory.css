@@ -428,7 +428,9 @@ td.taboff:hover {
   display: table;
   width: auto;
 }
-
+table {
+  border:1px solid black;
+}
 #toolbox_section {
   height: 85%;
   width: 60%;
@@ -441,14 +443,15 @@ td.taboff:hover {
 
 #toolboxDiv {
   height: 100%;
-  width: 100%;
+  width: 35%;
+  position:absolute;
 }
 
 #toolboxPreview {
   height: 80%;
   padding: 10px;
+  width: 30%;
   position:absolute;
-  width: 100%;
 }
 
 #createDiv {

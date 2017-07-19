@@ -159,12 +159,14 @@ class AppView {
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
     this.currentView = this.blockEditorView;
+    // this.currentView = this.toolboxEditorView;
 
     // TODO(boomarked): Cannot read property type() of null. blockDefinition
     // must be null (below). FIX.
 
     // Show the current view.
-    this.currentView.show(this.blockEditorView.blockDefinition.type());
+    // this.currentView.show(this.blockEditorView.blockDefinition.type());
+    this.currentView.show(null);
 
     // Assigning event handlers and listeners for application.
     this.assignLibraryClickHandlers();

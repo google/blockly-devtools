@@ -55,6 +55,7 @@ class BlockEditorView {
 
     // Inserts HTML into container.
     this.container.html(BlockEditorView.html);
+    this.container.show();
 
     /**
      * Save button in block editor view.
