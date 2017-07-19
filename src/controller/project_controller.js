@@ -262,46 +262,46 @@ class ProjectController {
   /**
    * Renames a block.
    * @param {string} old The current name of the block.
-   * @param {string} new The name to be changed to.
+   * @param {string} newName The name to be changed to.
    */
-  renameBlock(old, new) {
+  renameBlock(old, newName) {
     throw 'unimplemented: renameBlock';
   }
 
   /**
    * Renames a toolbox.
    * @param {string} old The current name of the toolbox.
-   * @param {string} new The name to be changed to.
+   * @param {string} newName The name to be changed to.
    */
-  renameToolbox(old, new) {
+  renameToolbox(old, newName) {
     throw 'unimplemented: renameToolbox';
   }
 
   /**
    * Renames workspace contents.
    * @param {string} old The current name of the workspace contents.
-   * @param {string} new The name to be changed to.
+   * @param {string} newName The name to be changed to.
    *     remove from project.
    */
-  renameWorkspaceContents(old, new) {
+  renameWorkspaceContents(old, newName) {
     throw 'unimplemented: renameWorkspaceContents';
   }
 
   /**
    * Renames a workspace configuration.
    * @param {string} old The current name of the workspace configuration.
-   * @param {string} new The name to be changed to.
+   * @param {string} newName The name to be changed to.
    */
-  renameWorkspaceConfiguration(old, new) {
+  renameWorkspaceConfiguration(old, newName) {
     throw 'unimplemented: renameWorkspaceConfiguration';
   }
 
   /**
    * Renames a block library.
    * @param {string} old The current name of the block library.
-   * @param {string} new The name to be changed to.
+   * @param {string} newName The name to be changed to.
    */
-  renameBlockLibrary(old, new) {
+  renameBlockLibrary(old, newName) {
    throw 'unimplemented: renameBlockLibrary';
   }
 
