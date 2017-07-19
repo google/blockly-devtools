@@ -390,17 +390,17 @@ class AppView {
     // REFACTORED: Moved in from app_controller.js
     // Button for saving block to library.
     $('#saveToBlockLibraryButton').click(() => {
-      console.log("rewire app_view.js assignLibraryClickHandlers");
+      console.log('rewire app_view.js assignLibraryClickHandlers');
     });
 
     // Button for removing selected block from library.
     $('#removeBlockFromLibraryButton').click(() => {
-      console.log("rewire app_view.js assignLibraryClickHandlers");
+      console.log('rewire app_view.js assignLibraryClickHandlers');
     });
 
     // Button for clearing the block library.
     $('#clearBlockLibraryButton').click(() => {
-      console.log("rewire app_view.js assignLibraryClickHandlers");
+      console.log('rewire app_view.js assignLibraryClickHandlers');
     });
   }
 
