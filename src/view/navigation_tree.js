@@ -130,7 +130,7 @@ class NavigationTree {
    * @param {string} toolboxName Name of the toolbox to add to the tree.
    */
   addToolboxNode(toolboxName) {
-    this.addComponentNode(TOOLBOX_PREFIX, toolboxName, this.project.name);
+    this.addComponentNode(TOOLBOX_PREFIX, toolboxName, TOOLBOX_PREFIX);
   }
 
   /**
@@ -141,7 +141,7 @@ class NavigationTree {
    */
   addWorkspaceContentsNode(workspaceContentsName) {
     this.addComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName,
-        this.project.name);
+        WORKSPACE_CONTENTS_PREFIX);
   }
 
   /**
@@ -152,7 +152,7 @@ class NavigationTree {
    */
   addWorkspaceConfigurationNode(workspaceConfigName) {
     this.addComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName,
-        this.project.name);
+        WORKSPACE_CONFIG_PREFIX);
   }
 
   /**
@@ -161,7 +161,7 @@ class NavigationTree {
    * @param {string} libraryName Name of BlockLibrary to add to the tree.
    */
   addBlockLibraryNode(libraryName) {
-    this.addComponentNode(LIBRARY_PREFIX, libraryName, this.project.name);
+    this.addComponentNode(LIBRARY_PREFIX, libraryName, LIBRARY_PREFIX);
   }
 
   /**
@@ -288,7 +288,7 @@ class NavigationTree {
     } else if (prefix === TOOLBOX_PREFIX) {
       //Here's where tab switching happens
       console.log('Node type: Toolbox. No response has been coded.');
-    } else if (prefix === WORKSPACE_CONTENTS_PREFIX || pref === WORKSPACE_CONFIG_PREFIX) {
+    } else if (prefix === WORKSPACE_CONTENTS_PREFIX || prefix === WORKSPACE_CONFIG_PREFIX) {
       //Here's where tab switching happens
       console.log('Node type: Workspace Contents or Configuration. No response has been coded.');
     } else if (prefix === BLOCK_PREFIX) {
