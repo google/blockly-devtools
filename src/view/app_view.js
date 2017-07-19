@@ -418,7 +418,6 @@ class AppView {
   tabClickHandlers_() {
     $('.tab').click((event) => {
       const clickedTab = event.currentTarget;
-      console.log(clickedTab);
       this.appController.editorController.switchEditor(clickedTab.id);
       this.switchView(clickedTab.id);
     });
@@ -496,7 +495,6 @@ class AppView {
    * Add event listeners for the block factory.
    */
   addBlockFactoryEventListeners() {
-    console.log('listeners called');
     // REFACTORED: Moved in from app_controller.js
     // Update code on changes to block being edited.
     this.blockEditorView.editorWorkspace.addChangeListener(

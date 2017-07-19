@@ -51,7 +51,7 @@ class BlockEditorView {
      * JQuery container of block editor view.
      * @type {!JQuery}
      */
-    this.container = $('#blockFactoryContent');
+    this.container = $('#blockEditor');
 
     // Inserts HTML into container.
     this.container.html(BlockEditorView.html);
@@ -77,7 +77,6 @@ class BlockEditorView {
      * @type {boolean}
      */
     this.rtl = true;
-
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}

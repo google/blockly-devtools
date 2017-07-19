@@ -235,42 +235,11 @@ WorkspaceEditorView.html = `
   <section id="toolbox_section">
     <div id="wContentsDiv"></div>
   </section>
-  <aside id="toolbox_div">
-    <p id="categoryHeader">You currently have no categories.</p>
-    <table id="categoryTable" style="width:auto; height:auto">
-    </table>
-    <p>&nbsp;</p>
-
-    <div class="dropdown">
-      <button id="button_add" class="large">+</button>
-      <div id="dropdownDiv_add" class="dropdown-content">
-        <a id="dropdown_newCategory">New Category</a>
-        <a id="dropdown_loadCategory">Standard Category</a>
-        <a id="dropdown_separator">Separator</a>
-        <a id="dropdown_loadStandardToolbox">Standard Toolbox</a>
-      </div>
-    </div>
-
-    <button id="button_remove" class="large">-</button>
-
-    <button id="button_up" class="large">&#8593;</button>
-    <button id="button_down" class="large">&#8595;</button>
-
-    <br>
-    <div class="dropdown">
-      <button id="button_editCategory">Edit Category</button>
-      <div id="dropdownDiv_editCategory" class="dropdown-content">
-        <a id='dropdown_name'>Name</a>
-        <a id='dropdown_color'>Colour</a>
-      </div>
-    </div>
-
-  </aside>
 
   <button id="button_addShadow" style="display: none">Make Shadow</button>
   <button id="button_removeShadow" style="display: none">Remove Shadow</button>
 
-  <aside id="preload_div" style="display:none">
+  <aside id="preload_div">
     <div id="preloadHelp">
       <p>Configure the options for your Blockly inject call.</p>
       <button id="button_optionsHelp">Help</button>

@@ -326,53 +326,6 @@ ToolboxEditorView.html = `
   <button id="button_addShadow" style="display: none">Make Shadow</button>
   <button id="button_removeShadow" style="display: none">Remove Shadow</button>
 
-  <aside id="preload_div" style="display:none">
-    <div id="preloadHelp">
-      <p>Configure the options for your Blockly inject call.</p>
-      <button id="button_optionsHelp">Help</button>
-      <button class="small" id="button_standardOptions">Reset to Default</button>
-    </div>
-    <div id="workspace_options">
-      <label><input type="checkbox" id="option_readOnly_checkbox">Read Only</label><br>
-      <label><input type="checkbox" id="option_grid_checkbox">Use Grid</label><br>
-      <div id="grid_options" style="display: none">
-        <label>Spacing <input type="number" id="gridOption_spacing_number" style="width: 3em"></label><br>
-        <label>Length <input type="number" id="gridOption_length_number" style="width: 3em"></label><br>
-        <label>Colour <input type="text" id="gridOption_colour_text" style="width: 8em"></label><br>
-        <div id="readonly1">
-          <label><input type="checkbox" id="gridOption_snap_checkbox">Snap</label><br>
-        </div>
-      </div>
-      <label>Path to Blockly Media <input type="text" id="option_media_text" style="width: 90%"></label><br>
-      <label><input type="checkbox" id="option_rtl_checkbox">Layout with RTL</label><br>
-      <label><input type="checkbox" id="option_scrollbars_checkbox">Scrollbars</label><br>
-      <label><input type="checkbox" id="option_zoom_checkbox">Zoom</label><br>
-      <div id="zoom_options" style="display: none">
-        <label><input type="checkbox" id="zoomOption_controls_checkbox">Zoom Controls</label><br>
-        <label><input type="checkbox" id="zoomOption_wheel_checkbox">Zoom Wheel</label><br>
-        <label>Start Scale <input type="number" id="zoomOption_startScale_number" style="width: 4em"></label><br>
-        <label>Max Scale <input type="number" id="zoomOption_maxScale_number" style="width: 4em"></label><br>
-        <label>Min Scale <input type="number" id="zoomOption_minScale_number" style="width: 4em"></label><br>
-        <label>Scale Speed <input type="number" id="zoomOption_scaleSpeed_number" style="width: 4em"></label><br>
-      </div>
-      <label><input type="checkbox" id="option_css_checkbox">Use Blockly CSS</label><br>
-      <div id="readonly2">
-        <label><input type="checkbox" id="option_collapse_checkbox">Collapsible Blocks</label><br>
-        <label><input type="checkbox" id="option_comments_checkbox">Comments for Blocks</label><br>
-        <label><input type="checkbox" id="option_disable_checkbox">Disabled Blocks</label><br>
-        <label><input type="checkbox" id="option_infiniteBlocks_checkbox">Infinite Blocks</label><br>
-        <div id="maxBlockNumber_option" style="display: none">
-          <label>Max Blocks <input type="number" id="option_maxBlocks_number" style="width: 5em"></label><br>
-        </div>
-        <label><input type="checkbox" id="option_horizontalLayout_checkbox">Horizontal Toolbox</label><br>
-        <label><input type="checkbox" id="option_toolboxPosition_checkbox">Toolbox End</label><br>
-        <label><input type="checkbox" id="option_oneBasedIndex_checkbox">One-based index</label><br>
-        <label><input type="checkbox" id="option_sounds_checkbox">Sounds<br>
-        <label><input type="checkbox" id="option_trashcan_checkbox">Trashcan</label><br>
-      </div>
-    </div>
-  </aside>
-
 </section>
 
 <aside id="previewDiv">
