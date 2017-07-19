@@ -152,7 +152,7 @@ class AppView {
      * Keeps track of which view/editor is currently used.
      * @type {string}
      */
-    this.selectedTab = AppController.BLOCK_FACTORY;
+    this.selectedTab = AppController.BLOCK_EDITOR;
 
     /**
      * Keeps track of which view is currently active.
@@ -396,7 +396,7 @@ class AppView {
    */
   switchView(editorName, resourceName) {
     resourceName = resourceName || null;
-    if (editorName === AppController.BLOCK_FACTORY) {
+    if (editorName === AppController.BLOCK_EDITOR) {
       this.currentView.hide();
       this.currentView = this.blockEditorView;
       this.currentView.show(resourceName);

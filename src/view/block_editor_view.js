@@ -113,7 +113,7 @@ class BlockEditorView {
    */
   hide() {
     // Deselect the tab.
-    const tab = $('#' + AppController.BLOCK_FACTORY);
+    const tab = $('#' + AppController.BLOCK_EDITOR);
     tab.removeClass('tabon');
     tab.addClass('taboff');
     // Hide this view.
@@ -126,7 +126,7 @@ class BlockEditorView {
    */
   show(blockName) {
     // Select the tab.
-    const tab = $('#' + AppController.BLOCK_FACTORY);
+    const tab = $('#' + AppController.BLOCK_EDITOR);
     tab.removeClass('taboff');
     tab.addClass('tabon');
     // Show this view.

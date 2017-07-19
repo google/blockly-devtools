@@ -73,7 +73,7 @@ class EditorController {
     this.currentEditor = null;
 
     // Determines which editor to show on load.
-    this.switchEditor(AppController.BLOCK_FACTORY);
+    this.switchEditor(AppController.BLOCK_EDITOR);
   }
 
   /**
@@ -81,20 +81,13 @@ class EditorController {
    * @param {string} editorMode String which represents which editor to switch to.
    */
   switchEditor(editorMode) {
-    // TODO: Implement. Add editor-switching method at the EditorController level
-    //       so that the AppController only worries about calling this method.
-    console.log('Switch to ' + editorMode);
-
-    if (editorMode === AppController.BLOCK_FACTORY) {
+    if (editorMode === AppController.BLOCK_EDITOR) {
       this.currentEditor = this.blockEditorController;
       this.currentEditor.refreshPreviews();
-      // TODO: Implement
     } else if (editorMode === AppController.TOOLBOX_EDITOR) {
       this.currentEditor = this.toolboxController;
-      // TODO: Implement
     } else if (editorMode === AppController.WORKSPACE_EDITOR) {
       this.currentEditor = this.workspaceController;
-      // TODO: Implement
     }
   }
 
