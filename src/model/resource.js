@@ -44,14 +44,15 @@ class Resource {
    * Reads the resource from local storage.
    */
   loadFromLocalStorage() {
-    throw 'abstract method: loadFromLocalStorage';
+    var object = goog.global.localStorage[this.name];
+    this = object ? JSON.parse(object) : null;
   }
 
   /**
    * Writes the resource to local storage.
    */
   saveToLocalStorage() {
-    goog.global.localStorage[this.name] = JSON.stringify(this.blocks);
+    goog.global.localStorage[this.name] = JSON.stringify(this.getTreeJson());
   }
 
   /**
@@ -67,8 +68,8 @@ class Resource {
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the resource.
    */
-  getTreeJson() {
-    throw 'abstract method: getTreeJson';
+  getJson() {
+    throw 'abstract method: getJson';
   }
 
   /**
