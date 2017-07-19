@@ -146,4 +146,19 @@ class EditorController {
 
     return blockList;
   }
+
+  savedBlockChanges(blockLibraryController) {
+  if (BlockFactory.isStarterBlock()) {
+    return true;
+  }
+  var blockType = blockLibraryController.getCurrentBlockType();
+  var currentXml = Blockly.Xml.workspaceToDom(BlockFactory.mainWorkspace);
+
+  if (blockLibraryController.has(blockType)) {
+    // Block is saved in block library.
+    var savedXml = blockLibraryController.getBlockXml(blockType);
+    return FactoryUtils.sameBlockXml(savedXml, currentXml);
+  }
+  return false;
+};
 }
