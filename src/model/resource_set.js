@@ -74,7 +74,7 @@ goog.require('Resource');
    * @param {string} resourceName The name of the resource to be removed.
    */
   remove(resourceName) {
-    delete this.resources[resourceName];
+    throw 'unimplemented: remove';
   }
 
   /**
@@ -99,7 +99,7 @@ goog.require('Resource');
    * @return {boolean} Whether or not the set is empty.
    */
   isEmpty() {
-    return this.getNames().length === 0;
+    throw 'unimplemented: isEmpty';
   }
 
   /**
@@ -116,6 +116,14 @@ goog.require('Resource');
   }
 
   /**
+   * Returns whether or not there are unsaved elements in the resource set.
+   * @return {boolean} Whether or not unsaved elements exist.
+   */
+  isDirty() {
+    throw 'abstract method: isDirty';
+  }
+
+  /**
    * Reads the resource set from local storage.
    */
   loadFromLocalStorage() {
@@ -127,7 +135,7 @@ goog.require('Resource');
    */
   saveToLocalStorage() {
     //TODO: pass saving mechanism to classes which extend resource.
-    throw 'unimplemented: saveToLocalStorage';
+    throw 'unimplemented: saveFromLocalStorage';
   }
 
   /**
