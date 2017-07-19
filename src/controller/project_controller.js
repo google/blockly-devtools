@@ -83,18 +83,6 @@ class ProjectController {
   }
 
   /**
-   * Creates and adds new BlockDefinition to a given BlockLibrary.
-   * @param {string} blockType Name of block to be added.
-   * @param {string} libraryname Name of library block will be added to.
-   */
-  createBlockDefinition(blockType, libraryName) {
-    const library = this.project.getLibrary(libraryName);
-    // TODO(#105): Check if blockType is a valid name.
-    const block = new BlockDefinition(blockType);
-    this.addBlockDefinition(block);
-  }
-
-  /**
    * Creates and adds new toolbox to this.project's toolbox set.
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
@@ -152,16 +140,6 @@ class ProjectController {
     const blockLibrary = new BlockLibrary(blockLibraryName);
     this.addBlockLibrary(blockLibrary);
     return blockLibrary;
-  }
-
-  /**
-   * Adds BlockDefinition to a given BlockLibrary.
-   * @param {string} block BlockDefinition to be added.
-   * @param {string} libraryname Name of library block will be added to.
-   */
-  addBlockDefinition(block, libraryName) {
-    const library = this.project.getLibrary(libraryName);
-    library.addBlockDefinition(block);
   }
 
   /**
@@ -247,19 +225,6 @@ class ProjectController {
   removeBlockLibrary(blockLibraryName) {
     this.project.removeBlockLibrary(blockLibraryName);
     this.tree.deleteBlockLibraryNode(blockLibraryName);
-  }
-
-  /**
-   * Renames a block definition.
-   * @param {string} oldName Original type name of BlockDefintion object to change.
-   * @param {string} newName New type name of BlockDefinition object.
-   */
-  renameBlockDefinition(oldName, newName) {
-    if (this.project.hasBlock(oldName)) {
-      const block = this.project.getBlock(oldName);
-      // TODO(#105): Check if newName is a valid name.
-      block.setType(newName);
-    }
   }
 
   /**
