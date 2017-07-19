@@ -161,7 +161,7 @@ class ProjectController {
    *
    * @param {!BlockDefinition} blockDef Block definition to add to the project.
    */
-  addBlockDefinition(toolbox) {
+  addBlockDefinition(blockDef) {
     throw 'unimplemented: addBlockDefinition';
   }
 
