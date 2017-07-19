@@ -54,11 +54,9 @@ class BlockEditorController {
     this.projectController = projectController;
 
     // Creates a default library. Adds a sample block to library.
-    const firstLibrary = new BlockLibrary('MyFirstLibrary');
-    this.project.addBlockLibrary(firstLibrary);
+    this.projectController.createBlockLibrary('MyFirstLibrary');
     const firstBlock = new BlockDefinition('block_type');
-    firstLibrary.addBlockDefinition(firstBlock);
-    this.navTree.addBlockLibraryNode('MyFirstLibrary');
+    this.projectController.addBlockDefinition(firstBlock, 'MyFirstLibrary');
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
@@ -110,9 +108,8 @@ class BlockEditorController {
     const format = $('#format').val();
     this.updateBlockDefinitionView_(format);
     this.updatePreview_();
-    this.updateGenerator_(this.getPreviewBlock_());
+    this.updateGenerator_();
     this.updateBlockDef_();
-    this.updateNavTree_();
   }
 
   /**
@@ -138,19 +135,20 @@ class BlockEditorController {
    */
   updateBlockDef_() {
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    this.projectController.renameBlockDefinition(
+        this.view.blockDefinition.type(), rootBlock.getFieldValue('NAME'));
     this.view.blockDefinition.setXml(Blockly.Xml.blockToDom(rootBlock));
-    this.view.blockDefinition.setType(rootBlock.getFieldValue('NAME'));
   }
 
   /**
    * Update the generator code.
-   * @param {!Blockly.Block} block Rendered block in preview workspace.
    * @private
    */
-  updateGenerator_(block) {
+  updateGenerator_() {
     // REFACTORED: Moved in from factory.js:updateGenerator()
     const language = $('#language').val();
-    const generatorStub = FactoryUtils.getGeneratorStub(block, language);
+    const generatorStub = FactoryUtils.getGeneratorStub(
+        this.getPreviewBlock_(), language);
     this.view.updateGenStub(generatorStub);
   }
 
@@ -205,16 +203,6 @@ class BlockEditorController {
     } finally {
       Blockly.Blocks = backupBlocks;
     }
-  }
-
-  /**
-   * Updates navigation tree when block definition has been changed by user in
-   * block editor.
-   * @private
-   */
-  updateNavTree_() {
-    console.log('updateNavTree_()');
-    this.navTree.addBlockNode(this.getType_(), 'MyFirstLibrary');
   }
 
   /**

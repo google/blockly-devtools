@@ -83,6 +83,15 @@ class ProjectController {
   }
 
   /**
+   * Creates and adds new BlockDefinition to a given BlockLibrary.
+   * @param {string} blockType Name of block to be added.
+   * @param {string} libraryname Name of library block will be added to.
+   */
+  createBlockDefinition(blockType, libraryName) {
+    console.warn('Unimplemented: createBlockDefinition()');
+  }
+
+  /**
    * Creates and adds new toolbox to this.project's toolbox set.
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
@@ -140,6 +149,15 @@ class ProjectController {
     const blockLibrary = new BlockLibrary(blockLibraryName);
     this.addBlockLibrary(blockLibrary);
     return blockLibrary;
+  }
+
+  /**
+   * Adds BlockDefinition to a given BlockLibrary.
+   * @param {string} block BlockDefinition to be added.
+   * @param {string} libraryname Name of library block will be added to.
+   */
+  addBlockDefinition(block, libraryName) {
+    console.warn('Unimplemented: addBlockDefinition()');
   }
 
   /**
@@ -225,6 +243,15 @@ class ProjectController {
   removeBlockLibrary(blockLibraryName) {
     this.project.removeBlockLibrary(blockLibraryName);
     this.tree.deleteBlockLibraryNode(blockLibraryName);
+  }
+
+  /**
+   * Renames a block definition.
+   * @param {string} oldName Original type name of BlockDefintion object to change.
+   * @param {string} newName New type name of BlockDefinition object.
+   */
+  renameBlockDefinition(oldName, newName) {
+    console.warn('Unimplemented: renameBlockDefinition()');
   }
 
   /**

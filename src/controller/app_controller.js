@@ -97,7 +97,7 @@ class AppController {
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
-    this.projectController = new ProjectController(this.project, this.tree);
+    this.projectController = new ProjectController(this.project, this.navTree);
 
     /**
      * EditorController object which encapsulates all editor controllers
