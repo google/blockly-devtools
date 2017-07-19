@@ -142,30 +142,13 @@ class AppView {
     this.modalName_ = null;
 
     /**
-     * Keeps track of which view/editor was previously used before the current
-     * view.
-     * @type {string}
-     */
-    this.lastSelectedTab = null;
-
-    /**
-     * Keeps track of which view/editor is currently used.
-     * @type {string}
-     */
-    this.selectedTab = AppController.BLOCK_EDITOR;
-
-    /**
      * Keeps track of which view is currently active.
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
     this.currentView = this.blockEditorView;
 
-    // TODO(boomarked): Cannot read property type() of null. blockDefinition
-    // must be null (below). FIX.
-
     // Show the current view.
-    // this.currentView.show(this.blockEditorView.blockDefinition.type());
-    this.currentView.show(null);
+    this.currentView.show(this.currentView.blockDefinition.type());
 
     // Assigning event handlers and listeners for application.
     this.tabClickHandlers_();

@@ -130,8 +130,8 @@ class ToolboxEditorView {
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
 
-    // Initializes buttons
-
+    // TODO: Make editor show Toolbox with toolboxName (when user clicks on a
+    //       specific toolbox in the navtree).
   }
 
   /**
@@ -237,6 +237,10 @@ class ToolboxEditorView {
   }
 }
 
+/**
+ * Toolbox editor HTML contents. Injected into div on page load, then hidden.
+ * @type {string}
+ */
 ToolboxEditorView.html = `
 <!-- Workspace Factory tab -->
 <div id="factoryHeader">

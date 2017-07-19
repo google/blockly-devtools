@@ -132,6 +132,9 @@ class BlockEditorView {
     this.container.show();
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
+
+    // TODO: Make editor show BlockDefinition with blockName (when user clicks
+    //       on a specific block in the navtree to edit.)
   }
 
   /**
@@ -265,6 +268,10 @@ class BlockEditorView {
   }
 }
 
+/**
+ * Block editor HTML contents. Injected into div on page load.
+ * @type {string}
+ */
 BlockEditorView.html = `
 <!-- Blockly Factory Tab -->
 <table>

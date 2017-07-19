@@ -124,6 +124,9 @@ class WorkspaceEditorView {
     // Resizes workspace to fit container.
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
+
+    // TODO: Make editor show WorkspaceContents with name wsContentsName when
+    //       user clicks on that element in the navtree.
   }
 
   /**
@@ -181,6 +184,10 @@ class WorkspaceEditorView {
   }
 }
 
+/**
+ * Workspace editor HTML contents. Injected into div on page load, then hidden.
+ * @type {string}
+ */
 WorkspaceEditorView.html = `
 <!-- Workspace Factory tab -->
 <div id="factoryHeader">
