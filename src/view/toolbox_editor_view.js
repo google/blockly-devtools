@@ -288,12 +288,6 @@ ToolboxEditorView.html = `
     <h3>Edit Toolboxes</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure the toolbox in your custom workspace.</p>
   </div>
-  <table id="workspaceTabs" style="width:auto; height:auto">
-    <tr>
-      <td id="tab_toolbox" class="tabon">Toolbox</td>
-      <td id="tab_preload" class="taboff">Workspace</td>
-    </tr>
-  </table>
   <section id="toolbox_section">
     <div id="toolboxDiv"></div>
   </section>
