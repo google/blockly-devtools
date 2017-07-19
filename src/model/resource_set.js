@@ -116,17 +116,6 @@ goog.require('Resource');
   }
 
   /**
-<<<<<<< HEAD
-=======
-   * Returns whether or not there are unsaved elements in the resource set.
-   * @return {boolean} Whether or not unsaved elements exist.
-   */
-  isDirty() {
-    throw 'abstract method: isDirty';
-  }
-
-  /**
->>>>>>> 4782734c0331f94a754b71285dd8710e9fccefbb
    * Reads the resource set from local storage.
    */
   loadFromLocalStorage() {
