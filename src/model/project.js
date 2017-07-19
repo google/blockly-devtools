@@ -207,6 +207,15 @@ class Project extends Resource {
   }
 
   /**
+   * Returns whether or not there are unsaved elements in the project.
+   * @return {boolean} Whether or not unsaved elements exist.
+   */
+  //TODO #52: move warning from BlockLibraryController to ProjectController
+  isDirty() {
+    throw 'unimplemented: isDirty';
+  }
+
+  /**
    * Returns boolean of whether or not a given blockType is defined in a block
    *     library in this Project.
    * @param {string} blockType Type of block.

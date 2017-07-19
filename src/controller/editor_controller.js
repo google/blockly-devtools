@@ -146,14 +146,4 @@ class EditorController {
 
     return blockList;
   }
-
-  /**
-   * If there are unsaved changes to the block in open in Block Factory
-   * and the block is not the starter block, check if user wants to proceed,
-   * knowing that it will cause them to lose their changes.
-   * TODO #116: define the desired behavior, then implement
-   */
-  warnIfUnsaved() {
-    console.log('unimplemented: warnIfUnsavedProject');
-  }
 }

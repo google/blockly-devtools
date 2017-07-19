@@ -130,6 +130,7 @@ BlockExporterController.prototype.export = function() {
           genStubs, generatorStub_filename, fileType);
     }
   }
+
 };
 
 /**

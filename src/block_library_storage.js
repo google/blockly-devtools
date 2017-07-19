@@ -115,6 +115,7 @@ BlockLibraryStorage.prototype.getBlockXml = function(blockType) {
   return xml;
 };
 
+
 /**
  * Returns map of each block type to its corresponding XML stored in current
  * block library (this.blocks).

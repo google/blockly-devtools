@@ -38,13 +38,14 @@ goog.provide('FactoryUtils');
 /**
  * Get block definition code for the current block.
  * @param {string} blockType Type of block.
+ * @param {!Blockly.Block} rootBlock RootBlock from main workspace in which
+ *    user uses Block Factory Blocks to create a custom block.
  * @param {string} format 'JSON' or 'JavaScript'.
  * @param {!Blockly.Workspace} workspace Where the root block lives.
  * @return {string} Block definition.
  */
-FactoryUtils.getBlockDefinition = function(blockType, format, workspace) {
+FactoryUtils.getBlockDefinition = function(blockType, rootBlock, format, workspace) {
   blockType = FactoryUtils.cleanBlockType(blockType);
-  const rootBlock = FactoryUtils.getRootBlock(workspace);
   switch (format) {
     case 'JSON':
       var code = FactoryUtils.formatJson_(blockType, rootBlock);
@@ -947,6 +948,30 @@ FactoryUtils.isProcedureBlock = function(block) {
 };
 
 /**
+ * Returns whether or not a modified block's changes has been saved to the
+ * Block Library.
+ * TODO(quachtina96): move into the Block Factory Controller once made.
+ * @param {!BlockLibraryController} blockLibraryController Block Library
+ *    Controller storing custom blocks.
+ * @return {boolean} True if all changes made to the block have been saved to
+ *    the given Block Library.
+ */
+FactoryUtils.savedBlockChanges = function(blockLibraryController) {
+  if (BlockFactory.isStarterBlock()) {
+    return true;
+  }
+  var blockType = blockLibraryController.getCurrentBlockType();
+  var currentXml = Blockly.Xml.workspaceToDom(BlockFactory.mainWorkspace);
+
+  if (blockLibraryController.has(blockType)) {
+    // Block is saved in block library.
+    var savedXml = blockLibraryController.getBlockXml(blockType);
+    return FactoryUtils.sameBlockXml(savedXml, currentXml);
+  }
+  return false;
+};
+
+/**
  * Given the root block of the factory, return the tooltip specified by the user
  * or the empty string if no tooltip is found.
  * @param {!Blockly.Block} rootBlock Factory_base block.
@@ -1185,7 +1210,7 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
 FactoryUtils.buildBlockEditorStarterXml = function(inputType, blockTypeName, blockStarterText) {
   // REFACTORED: Moved in from factory.js:buildStartXml()
   inputType = inputType || 'input_statement';
-  blockTypeName = blockTypeName || 'block_type';
+  blockTypeName = blockTypeName || 'my_block';
   var textXmlStarter = '';
 
   // Adds optional text to custom block.

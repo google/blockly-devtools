@@ -40,19 +40,28 @@ class Resource {
      this.name = resourceName;
   }
 
+
+  /**
+   * Returns whether or not there are unsaved elements in the resource.
+   * @return {boolean} Whether or not unsaved elements exist.
+   */
+  isDirty() {
+    throw 'abstract method: isDirty';
+  }
+
   /**
    * Reads the resource from local storage.
    */
   loadFromLocalStorage() {
-    var object = goog.global.localStorage[this.name];
-    this = object ? JSON.parse(object) : null;
+    throw 'abstract method: loadFromLocalStorage';
   }
 
   /**
    * Writes the resource to local storage.
    */
   saveToLocalStorage() {
-    goog.global.localStorage[this.name] = JSON.stringify(this.getTreeJson());
+    //TODO: pass saving mechanism to classes which extend from resource.
+    throw 'abstract method: saveToLocalStorage';
   }
 
   /**
@@ -68,8 +77,8 @@ class Resource {
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the resource.
    */
-  getJson() {
-    throw 'abstract method: getJson';
+  getTreeJson() {
+    throw 'abstract method: getTreeJson';
   }
 
   /**
