@@ -119,7 +119,15 @@ goog.require('Resource');
    * Reads the resource set from local storage.
    */
   loadFromLocalStorage() {
+    throw 'unimplemented: loadFromLocalStorage';
+  }
 
+  /**
+   * Writes the resource set to local storage.
+   */
+  saveToLocalStorage() {
+    //TODO: pass saving mechanism to classes which extend resource.
+    throw 'unimplemented: saveToLocalStorage';
   }
 
   /**

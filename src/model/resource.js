@@ -40,7 +40,6 @@ class Resource {
      this.name = resourceName;
   }
 
-
   /**
    * Returns whether or not there are unsaved elements in the resource.
    * @return {boolean} Whether or not unsaved elements exist.
@@ -60,8 +59,8 @@ class Resource {
    * Writes the resource to local storage.
    */
   saveToLocalStorage() {
-    //TODO: pass saving mechanism to classes which extend from resource.
-    throw 'abstract method: saveToLocalStorage';
+    //TODO: pass saving mechanism to classes which extend resource.
+    throw 'unimplemented: saveFromLocalStorage';
   }
 
   /**

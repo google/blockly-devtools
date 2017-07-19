@@ -83,6 +83,20 @@ class ProjectController {
   }
 
   /**
+   * Creates and adds new block definition to the project.
+   *
+   * @param {string} blockType Name of the block to add to the project.
+   *
+   * @return {!BlockDefinition} The new block definition added to the project.
+   */
+  createBlockDefinition(blockType) {
+    //TODO #105: check for valid name, throw error upon conflict
+    const block = new BlockDefinition(blockType);
+    this.addBlockDefinition(blockType);
+    return block;
+  }
+
+  /**
    * Creates and adds new toolbox to this.project's toolbox set.
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
@@ -143,6 +157,15 @@ class ProjectController {
   }
 
   /**
+   * Adds a block definition to the project.
+   *
+   * @param {!BlockDefinition} blockDef Block definition to add to the project.
+   */
+  addBlockDefinition(toolbox) {
+    throw 'unimplemented: addBlockDefinition';
+  }
+
+  /**
    * Adds toolbox to this.project's toolbox set.
    *
    * @param {!Toolbox} toolbox Toolbox object to add to project
@@ -182,6 +205,15 @@ class ProjectController {
   addBlockLibrary(blockLibrary) {
     this.project.addBlockLibrary(blockLibrary);
     this.tree.addBlockLibraryNode(blockLibrary.name);
+  }
+
+  /**
+   * Removes a block from the project.
+   *
+   * @param {string} blockType The name of the block to remove.
+   */
+  removeBlock(blockType) {
+    throw 'unimplemented: removeBlock';
   }
 
   /**
@@ -225,6 +257,52 @@ class ProjectController {
   removeBlockLibrary(blockLibraryName) {
     this.project.removeBlockLibrary(blockLibraryName);
     this.tree.deleteBlockLibraryNode(blockLibraryName);
+  }
+
+  /**
+   * Renames a block.
+   * @param {string} old The current name of the block.
+   * @param {string} new The name to be changed to.
+   */
+  renameBlock(old, new) {
+    throw 'unimplemented: renameBlock';
+  }
+
+  /**
+   * Renames a toolbox.
+   * @param {string} old The current name of the toolbox.
+   * @param {string} new The name to be changed to.
+   */
+  renameToolbox(old, new) {
+    throw 'unimplemented: renameToolbox';
+  }
+
+  /**
+   * Renames workspace contents.
+   * @param {string} old The current name of the workspace contents.
+   * @param {string} new The name to be changed to.
+   *     remove from project.
+   */
+  renameWorkspaceContents(old, new) {
+    throw 'unimplemented: renameWorkspaceContents';
+  }
+
+  /**
+   * Renames a workspace configuration.
+   * @param {string} old The current name of the workspace configuration.
+   * @param {string} new The name to be changed to.
+   */
+  renameWorkspaceConfiguration(old, new) {
+    throw 'unimplemented: renameWorkspaceConfiguration';
+  }
+
+  /**
+   * Renames a block library.
+   * @param {string} old The current name of the block library.
+   * @param {string} new The name to be changed to.
+   */
+  renameBlockLibrary(old, new) {
+   throw 'unimplemented: renameBlockLibrary';
   }
 
   /**
