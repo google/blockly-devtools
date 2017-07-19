@@ -103,7 +103,7 @@ class WorkspaceConfiguration extends Resource {
    * @return {boolean} Whether or not there are unsaved changes.
    */
   isDirty() {
-    throw 'unimplemented: isDirty';
+    throw "unimplemented: isDirty";
   }
 
   /**
