@@ -206,12 +206,10 @@ button, .buttonStyle {
 }
 
 #workspaceFactoryContent {
-/*
   clear: both;
   height: 90%;
   overflow-x: hidden;
   overflow-y: scroll;
-*/
 }
 
 /* Exporter */
@@ -428,9 +426,7 @@ td.taboff:hover {
   display: table;
   width: auto;
 }
-table {
-  border:1px solid black;
-}
+
 #toolbox_section {
   height: 85%;
   width: 60%;
