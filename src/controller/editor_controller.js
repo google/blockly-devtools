@@ -36,43 +36,38 @@ goog.require('WorkspaceController');
 class EditorController {
   /**
    * @constructor
-   * @param {!Project} project Project object associated with this controller.
+   * @param {!ProjectController} projectController ProjectController used to
+   *     update the project upon changes in any editor.
    * @param {!Blockly.Workspace} hiddenWorkspace Invisible Blockly Workspace
    *     used to generate Blockly objects for import/export.
-   * @param {!NavigationTree} navTree Navigation tree that displays the resources
-   *     in the current Project.
    */
-  constructor(project, hiddenWorkspace, navTree) {
+  constructor(projectController, hiddenWorkspace) {
     /**
-     * Project object whose components are controlled by EditorController.
-     * @type {!Project}
+     * ProjectController which controls changes to this Project.
+     * @type {!ProjectController}
      */
-    this.project = project;
-
-    /**
-     * Navigation tree for current Project.
-     * @type {!NavigationTree}
-     */
-    this.navTree = navTree;
+    this.projectController = projectController;
 
     /**
      * Block Editor Controller
      * @type {BlockLibraryController}
      */
     this.blockEditorController = new BlockEditorController(
-        this.project, hiddenWorkspace, this.navTree);
+        this.projectController, hiddenWorkspace);
 
     /**
      * Toolbox Controller.
      * @type {!ToolboxController}
      */
-    this.toolboxController = new ToolboxController(this.project, hiddenWorkspace);
+    this.toolboxController = new ToolboxController(
+        this.projectController, hiddenWorkspace);
 
     /**
      * Workspace Controller.
      * @type {!WorkspaceController}
      */
-    this.workspaceController = new WorkspaceController(this.project, hiddenWorkspace);
+    this.workspaceController = new WorkspaceController(
+        this.projectController, hiddenWorkspace);
 
     /**
      * Controller object which is currently controlling the developer's application.

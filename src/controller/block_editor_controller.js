@@ -45,24 +45,20 @@ class BlockEditorController {
    * @param {!NavigationTree} navTree Navigation tree that will be updated after
    *     changes in this editor.
    */
-  constructor(project, hiddenWorkspace, navTree) {
+  constructor(projectController, hiddenWorkspace) {
     /**
-     * Project whose library is controlled by this BlockEditorController instance.
-     * @type {!Project}
+     * ProjectController to make changes to libraries when edited in the block
+     *     editor.
+     * @type {!ProjectController}
      */
-    this.project = project;
-
-    /**
-     * Navigation tree that displays all resources in this Project.
-     * @type {!NavigationTree}
-     */
-    this.navTree = navTree;
+    this.projectController = projectController;
 
     // Creates a default library. Adds a sample block to library.
     const firstLibrary = new BlockLibrary('MyFirstLibrary');
     this.project.addBlockLibrary(firstLibrary);
     const firstBlock = new BlockDefinition('block_type');
     firstLibrary.addBlockDefinition(firstBlock);
+    this.navTree.addBlockLibraryNode('MyFirstLibrary');
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
@@ -86,7 +82,10 @@ class BlockEditorController {
 
     this.refreshPreviews();
 
-    this.view.editorWorkspace.addChangeListener(() => { this.refreshPreviews(); });
+    // Refresh previews on workspace change.
+    this.view.editorWorkspace.addChangeListener(() => {
+      this.refreshPreviews();
+    });
   }
 
   /**
@@ -214,6 +213,7 @@ class BlockEditorController {
    * @private
    */
   updateNavTree_() {
+    console.log('updateNavTree_()');
     this.navTree.addBlockNode(this.getType_(), 'MyFirstLibrary');
   }
 

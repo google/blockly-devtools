@@ -104,7 +104,7 @@ class AppController {
      * @type {!EditorController}
      */
     this.editorController = new EditorController(
-        this.project, this.hiddenWorkspace, this.navTree);
+        this.projectController, this.hiddenWorkspace);
 
     /**
      * Main View class which manages view portion of application.
