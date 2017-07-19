@@ -75,8 +75,6 @@ class BlockEditorController {
      * @type {!Blockly.Workspace}
      */
     this.hiddenWorkspace = hiddenWorkspace;
-
-    this.refreshPreviews();
   }
 
   /**

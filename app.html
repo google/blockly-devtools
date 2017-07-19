@@ -23,16 +23,14 @@
   </div>
   <div id="tabContainer">
     <div id="BLOCK_FACTORY" class="tab taboff">Block Editor</div>
-    <!-- TODO(#95): Remove block exporter from view entirely after all functions are moved. -->
-    <!--div id="EXPORTER" class="tab taboff">Block Exporter</div-->
     <div id="TOOLBOX_EDITOR" class="tab taboff">Toolbox Editor</div>
     <div id="WORKSPACE_EDITOR" class="tab taboff">Workspace Editor</div>
-    <div id="WORKSPACE_FACTORY" class="tab taboff">Workspace Factory</div>
   </div>
 
   <div id="editorContainer">
     <div id="blockFactoryContent"></div>
-    <div id="workspaceFactoryContent"></div>
+    <div id="toolboxEditor"></div>
+    <div id="workspaceEditor"></div>
   </div>
 
   <div id="modalShadow"></div>
@@ -42,16 +40,5 @@
 
   <!-- Navigation Tree -->
   <div id="navigationTree"></div>
-
-  <!-- TODO(#95): Remove the div below in upcoming PR with adding the proper
-              views where the new Blockly.Workspace objects will go. For now,
-              included here to avoid the 'container not found' error for
-              Blockly.inject(). -->
-  <div style="display:none;"><!--
-    <div id="toolboxDiv"></div>
-    <div id="toolboxPreview"></div> -->
-    <div id="wContentsDiv"></div>
-    <div id="workspacePreview"></div>
-  </div>
 </body>
 </html>

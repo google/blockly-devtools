@@ -70,8 +70,10 @@ class EditorController {
      * Keeps track of which editor the user is on.
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
-    this.currentEditor = this.blockEditorController;
-    // this.currentEditor = this.toolboxController;
+    this.currentEditor = null;
+
+    // Determines which editor to show on load.
+    this.switchEditor(AppController.BLOCK_FACTORY);
   }
 
   /**

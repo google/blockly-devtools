@@ -49,7 +49,7 @@ class ToolboxEditorView {
      * JQuery container of toolbox editor view.
      * @type {!JQuery}
      */
-    this.container = $('#workspaceFactoryContent');
+    this.container = $('#toolboxEditor');
 
     // Inserts HTML into toolbox editor container. Keeps hidden.
     this.container.html(ToolboxEditorView.html);
@@ -122,8 +122,24 @@ class ToolboxEditorView {
     const tab = $('#' + AppController.TOOLBOX_EDITOR);
     tab.removeClass('taboff');
     tab.addClass('tabon');
+
     // Show this view.
     this.container.show();
+
+    // Resizes workspace to fit container.
+    Blockly.svgResize(this.editorWorkspace);
+    Blockly.svgResize(this.previewWorkspace);
+
+    // Initializes buttons
+
+  }
+
+  /**
+   * Initializes all event handlers and listeners for buttons/etc. in this view.
+   * @private
+   */
+  init_() {
+    console.warn('Unimplemented: init_()');
   }
 
   /**
@@ -269,7 +285,7 @@ ToolboxEditorView.html = `
 
 <section id="createDiv">
   <div id="createHeader">
-    <h3>Edit</h3>
+    <h3>Edit Toolboxes</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure the toolbox in your custom workspace.</p>
   </div>
   <table id="workspaceTabs" style="width:auto; height:auto">

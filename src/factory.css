@@ -205,7 +205,14 @@ button, .buttonStyle {
   width: 50%;
 }
 
-#workspaceFactoryContent {
+#toolboxEditor {
+  clear: both;
+  height: 90%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#workspaceEditor {
   clear: both;
   height: 90%;
   overflow-x: hidden;
@@ -439,15 +446,24 @@ td.taboff:hover {
 
 #toolboxDiv {
   height: 100%;
-  width: 35%;
-  position:absolute;
+  width:100%;
 }
 
 #toolboxPreview {
   height: 80%;
   padding: 10px;
-  width: 30%;
-  position:absolute;
+  width: 100%;
+}
+
+#wContentsDiv {
+  height: 100%;
+  width:100%;
+}
+
+#workspacePreview {
+  height: 80%;
+  padding: 10px;
+  width: 100%;
 }
 
 #createDiv {

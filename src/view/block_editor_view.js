@@ -131,38 +131,16 @@ class BlockEditorView {
     tab.addClass('tabon');
     // Show this view.
     this.container.show();
+    Blockly.svgResize(this.editorWorkspace);
+    Blockly.svgResize(this.previewWorkspace);
   }
 
   /**
-   * Add click handlers to each tab to allow switching between the Block Factory,
-   * Workspace Factory, and Block Exporter tab.
-   * @param {!Object} tabMap Map of tab name to div element that is the tab.
+   * Initializes all event handlers and listeners for buttons/etc. in this view.
+   * @private
    */
-  addTabHandlers(tabMap) {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - makeTabClickHandler_()
-     */
-    throw 'Unimplemented: addTabHandlers()';
-  }
-
-  /**
-   * Creates the tab click handler specific to the tab specified.
-   * @param {string} tabName AppController.BLOCK_FACTORY,
-   *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
-   * @return {!Function} The tab click handler.
-   */
-  makeTabClickHandler(tabName) {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - this.setSelected_()
-     * - this.onTab()
-     */
-    throw 'Unimplemented: makeTabClickHandler()';
+  init_() {
+    console.warn('Unimplemented: init_()');
   }
 
   /**
