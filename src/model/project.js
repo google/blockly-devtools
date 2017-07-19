@@ -226,6 +226,17 @@ class Project extends Resource {
   }
 
   /**
+   * Returns BlockDefinition object with given type name. Does not need library
+   * name specification.
+   * @param {string} blockType Name of BlockDefinition object.
+   * @param {BlockDefinition} BlockDefinition object with given name.
+   */
+  getBlock(blockType) {
+    const allBlocks = this.librarySet.getAllBlockDefinitionsMap();
+    return allBlocks[blockType];
+  }
+
+  /**
    * Gets a named toolbox contained within the project.
    * @param {string} toolboxName The name of the toolbox to be found.
    * @return {!Toolbox} The found toolbox or null.

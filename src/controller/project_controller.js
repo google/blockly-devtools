@@ -88,7 +88,10 @@ class ProjectController {
    * @param {string} libraryname Name of library block will be added to.
    */
   createBlockDefinition(blockType, libraryName) {
-    console.warn('Unimplemented: createBlockDefinition()');
+    const library = this.project.getLibrary(libraryName);
+    // TODO(#105): Check if blockType is a valid name.
+    const block = new BlockDefinition(blockType);
+    this.addBlockDefinition(block);
   }
 
   /**
@@ -157,7 +160,8 @@ class ProjectController {
    * @param {string} libraryname Name of library block will be added to.
    */
   addBlockDefinition(block, libraryName) {
-    console.warn('Unimplemented: addBlockDefinition()');
+    const library = this.project.getLibrary(libraryName);
+    library.addBlockDefinition(block);
   }
 
   /**
@@ -251,7 +255,11 @@ class ProjectController {
    * @param {string} newName New type name of BlockDefinition object.
    */
   renameBlockDefinition(oldName, newName) {
-    console.warn('Unimplemented: renameBlockDefinition()');
+    if (this.project.hasBlock(oldName)) {
+      const block = this.project.getBlock(oldName);
+      // TODO(#105): Check if newName is a valid name.
+      block.setType(newName);
+    }
   }
 
   /**
