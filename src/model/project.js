@@ -116,8 +116,9 @@ class Project extends Resource {
    * Adds a block definition to the project.
    *
    * @param {!BlockDefinition} blockDef Block definition to add to the project.
+   * @param {string} libraryName The library to add it to.
    */
-  addBlockDefinition(blockDef) {
+  addBlockDefinition(blockDef, libraryName) {
 
   }
 
@@ -168,18 +169,6 @@ class Project extends Resource {
   }
 
   /**
-   * Removes a block definition from project.
-   * @param {string} blockType The name of the block to be removed.
-   */
-  //TODO #89: determine specifics of deletion from a project
-  //TODO #90: sort out specifics of deletion for descendants
-  removeBlock(blockType) {
-    this.librarySet.removeBlockFromSet(blockType);
-    this.toolboxSet.removeBlockFromSet(blockType);
-    this.workspaceContentsSet.removeBlockFromSet(blockType);
-  }
-
-  /**
    * Removes a library from the library set.
    *
    * @param {string} blockLibraryName The name of the BlockLibrary to remove
@@ -221,7 +210,10 @@ class Project extends Resource {
    * @param {string} blockType The name of the block to remove.
    */
   removeBlock(blockType) {
-    throw 'unimplemented: removeBlock';
+    const library = this.librarySet.has(blockType);
+    if (library != null) {
+      library.remove(blockType);
+    }
   }
 
   /**

@@ -213,7 +213,8 @@ class ProjectController {
    * @param {string} blockType The name of the block to remove.
    */
   removeBlock(blockType) {
-    throw 'unimplemented: removeBlock';
+    this.project.removeBlock(blockType);
+    this.tree.deleteBlockNode(blockType);
   }
 
   /**
