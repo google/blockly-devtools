@@ -96,13 +96,11 @@ class BlockLibrary extends Resource {
    */
   //TODO #87: phase out
   getBlockXmlMap(blockTypes) {
-    /* TODO: handle the blockType not being contained within the library
-     * TODO: Move from src/block_library_storage.js, see if method necessary
-     * References:
-     * - getBlockXmlMap(blockTypes)
-     *
-     */
-    throw 'unimplemented: getBlockXmlMap';
+    var xmlMap = {};
+    for (let blockType of this.getBlockTypes) {
+      xmlMap[blockType] = this.blocks[blockType].getXml();
+    }
+    return xmlMap;
   }
 
   /**
@@ -124,14 +122,7 @@ class BlockLibrary extends Resource {
    * @param {string} blockType Type of block.
    */
   remove(blockType) {
-    /*
-     * TODO: Move from src/block_library_storage.js
-     *
-     * References:
-     * - removeBlock(blockType)
-     *
-     */
-    throw 'unimplemented: removeBlock';
+    delete this.blocks[blockType];
   }
 
   /**
@@ -139,14 +130,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} True if empty, false otherwise.
    */
   isEmpty() {
-    /*
-     * TODO: Move from src/block_library_storage.js
-     *
-     * References:
-     * - isEmpty()
-     *
-     */
-    throw 'unimplemented: isEmpty';
+    return this.getBlockTypes().length === 0;
   }
 
   /**
@@ -154,14 +138,11 @@ class BlockLibrary extends Resource {
    * @return {!Object<string, Object>} Map of block type to corresponding JSON.
    */
   getBlockJsonMap() {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - getBlockXmlTextMap()
-     *
-     */
-    throw 'unimplemented: getBlockXmlTextMap';
+    var jsonMap = {};
+    for (let blockType of this.getBlockTypes) {
+      jsonMap[blockType] = this.blocks[blockType].getXml();
+    }
+    return jsonMap;
   }
 
   /**
@@ -171,17 +152,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    /*
-     * TODO: Move from src/block_library_storage.js
-     *
-     * References:
-     * - has(blockType)
-     *
-     * Additional reference: src/block_library_controller.js
-     * - has(blockType)
-     *
-     */
-    throw 'unimplemented: has';
+    return this.getBlockTypes.includes(blockType);
   }
 
   /**

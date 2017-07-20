@@ -32,12 +32,16 @@ class Resource {
    * @param {string} resourceName The name for the resource.
    * @constructor
    */
-  constructor(resourceName) {
+  constructor(resourceName, prefix) {
     /**
      * The name of the resource.
      * @type {string}
      */
      this.name = resourceName;
+
+     /**
+      * The prefix used to identify the Resource in its Json.
+      * @type {strinh}
   }
 
   /**
