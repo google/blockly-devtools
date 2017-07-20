@@ -113,16 +113,13 @@ class Project extends Resource {
   }
 
   /**
-   * Adds a block definition to the project.
+   * Adds a block definition to the given blockLibrary in the project.
    *
    * @param {!BlockDefinition} blockDef Block definition to add to the project.
-   * @param {string} libraryName The library to add it to.
+   * @param {!BlockLibrary} library The library to add it to.
    */
   addBlockDefinition(blockDef, libraryName) {
-    const library = this.librarySet.has(blockType);
-    if (library != null) {
-      library.add(blockDef);
-    }
+    library.add(blockDef);
   }
 
   /**
@@ -213,7 +210,7 @@ class Project extends Resource {
    * @param {string} blockType The name of the block to remove.
    */
   removeBlock(blockType) {
-    const library = this.librarySet.has(blockType);
+    const library = this.librarySet.getLibrary(blockType);
     if (library != null) {
       library.remove(blockType);
     }
@@ -226,7 +223,7 @@ class Project extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   hasBlock(blockType) {
-    return this.librarySet.hasBlock(blockType);
+    return this.librarySet.has(blockType);
   }
 
   /**

@@ -165,7 +165,7 @@ class ProjectController {
    */
   addBlockDefinition(blockDef, libraryName) {
     this.project.addBlockDefinition(blockDef, libraryName);
-    this.tree.addBlockNode(blockDef.name, libraryName);
+    this.tree.addBlockNode(blockDef.type(), libraryName);
   }
 
   /**
@@ -270,7 +270,7 @@ class ProjectController {
    */
   rename(resource, newName) {
     //TODO: restrict names.
-    resource.setName();
+    resource.setName(newName);
   }
 
   /**
