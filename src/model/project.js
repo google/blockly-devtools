@@ -113,6 +113,15 @@ class Project extends Resource {
   }
 
   /**
+   * Adds a block definition to the project.
+   *
+   * @param {!BlockDefinition} blockDef Block definition to add to the project.
+   */
+  addBlockDefinition(blockDef) {
+
+  }
+
+  /**
    * Adds a library to the library set.
    *
    * @param {!BlockLibrary} blockLibrary The BlockLibrary to add to the
@@ -207,12 +216,12 @@ class Project extends Resource {
   }
 
   /**
-   * Returns whether or not there are unsaved elements in the project.
-   * @return {boolean} Whether or not unsaved elements exist.
+   * Removes a block from the project.
+   *
+   * @param {string} blockType The name of the block to remove.
    */
-  //TODO #52: move warning from BlockLibraryController to ProjectController.
-  isDirty() {
-    throw 'unimplemented: isDirty';
+  removeBlock(blockType) {
+    throw 'unimplemented: removeBlock';
   }
 
   /**
@@ -223,17 +232,6 @@ class Project extends Resource {
    */
   hasBlock(blockType) {
     return this.librarySet.hasBlock(blockType);
-  }
-
-  /**
-   * Returns BlockDefinition object with given type name. Does not need library
-   * name specification.
-   * @param {string} blockType Name of BlockDefinition object.
-   * @param {BlockDefinition} BlockDefinition object with given name.
-   */
-  getBlock(blockType) {
-    const allBlocks = this.librarySet.getAllBlockDefinitionsMap();
-    return allBlocks[blockType];
   }
 
   /**
