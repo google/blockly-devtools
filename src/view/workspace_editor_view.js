@@ -112,10 +112,10 @@ class WorkspaceEditorView {
 
   /**
    * Shows contents of this editor to application view. Used when switching editors.
-   * @param {string} wsContentsName Name of WorkspaceContents to populate in
+   * @param {!WorkspaceContents} wsContents WorkspaceContents to populate in
    *     workspace editor view when shown.
    */
-  show(wsContentsName) {
+  show(wsContents) {
     // TODO: Add functionality for showing WorkspaceConfiguration object.
     // Select tab.
     const tab = $('#' + AppController.WORKSPACE_EDITOR);
@@ -129,7 +129,7 @@ class WorkspaceEditorView {
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
 
-    // TODO: Make editor show WorkspaceContents with name wsContentsName when
+    // TODO: Make editor show WorkspaceContents when
     //       user clicks on that element in the navtree.
   }
 

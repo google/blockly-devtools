@@ -114,10 +114,10 @@ class ToolboxEditorView {
 
   /**
    * Shows contents of this editor to application view. Used when switching editors.
-   * @param {string} toolboxName Name of toolbox to populate in toolbox editor when
+   * @param {!Toolbox} toolbox Toolbox object to populate in toolbox editor when
    *     shown.
    */
-  show(toolboxName) {
+  show(toolbox) {
     // Select tab.
     const tab = $('#' + AppController.TOOLBOX_EDITOR);
     tab.removeClass('taboff');
@@ -130,7 +130,7 @@ class ToolboxEditorView {
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
 
-    // TODO: Make editor show Toolbox with toolboxName (when user clicks on a
+    // TODO: Make editor show the @param toolbox (when user clicks on a
     //       specific toolbox in the navtree).
   }
 

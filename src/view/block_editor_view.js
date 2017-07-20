@@ -69,9 +69,6 @@ class BlockEditorView {
      */
     this.deleteButton = $('#removeBlockFromLibraryButton');
 
-    // Disable delete button by default.
-    this.deleteButton.disabled = true;
-
     /**
      * Whether user is creating rtl or ltr blocks.
      * @type {boolean}
@@ -121,9 +118,9 @@ class BlockEditorView {
 
   /**
    * Shows contents of this editor to application view. Used when switching editors.
-   * @param {string} blockName Name of block to populate into block editor view.
+   * @param {!BlockDefinition} block BlockDefinition to populate into block editor view.
    */
-  show(blockName) {
+  show(block) {
     // Select the tab.
     const tab = $('#' + AppController.BLOCK_EDITOR);
     tab.removeClass('taboff');
@@ -133,7 +130,7 @@ class BlockEditorView {
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
 
-    // TODO: Make editor show BlockDefinition with blockName (when user clicks
+    // TODO: Make editor show the @param block (when user clicks
     //       on a specific block in the navtree to edit.)
   }
 

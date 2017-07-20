@@ -375,13 +375,12 @@ class AppView {
   /**
    * Switches editor views in application.
    * @param {string} editorView EditorView object to show.
-   * @param {string} resourceName Name of resource to display in view.
+   * @param {string} resource Resource object to display in view.
    */
-  switchView(editorView, resourceName) {
-    resourceName = resourceName || null;
+  switchView(editorView, resource) {
     this.currentView.hide();
     this.currentView = editorView;
-    this.currentView.show(resourceName);
+    this.currentView.show(resource);
   }
 
   /**
@@ -489,15 +488,6 @@ class AppView {
     $('#languageTA').keyup(controller.updatePreview);
     $('#format').change(controller.formatChange);
     $('#language').change(controller.updatePreview);
-  }
-
-  /**
-   * Called on each tab click. Styles the tabs to reflect which tab is selected.
-   * @private
-   */
-  styleTabs_() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: styleTabs_()';
   }
 
   /**
