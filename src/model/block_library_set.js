@@ -71,10 +71,24 @@ class BlockLibrarySet extends ResourceSet {
   /**
    * Returns whether or not a named block is in the library set.
    * @param {string} blockType The name of the block to be found.
-   * @return {boolean} Whether or not the block is in the set.
+   * @return {boolean} Whether or not it's in the set.
    */
-  hasBlock(blockType) {
-    console.warn('Unimplemented: hasBlock');
+  has(blockType) {
+    return this.getBlock(blockType) != null;
+  }
+
+  /**
+   * Returns the library that contains the named block.
+   * @param {string} blockType The name of the block to be found.
+   * @return {?BlockLibrary} The block library that has the block or null.
+   */
+  getLibrary(blockType) {
+    for (let libraryName of this.getNames()) {
+      if (this.resources[libraryName].has(blockType)) {
+        return this.resources[libraryName];
+      }
+    }
+    return null;
   }
 
   /**
