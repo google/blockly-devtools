@@ -47,11 +47,33 @@ class BlockEditorView {
      */
     this.blockDefinition = blockDefinition;
 
-    this.saveButton = $('#saveToBlockLibraryButton');
-    this.deleteButton = $('#removeBlockFromLibraryButton');
-    this.deleteButton.disabled = true;
-    this.rtl = true;
+    /**
+     * JQuery container of block editor view.
+     * @type {!JQuery}
+     */
+    this.container = $('#blockEditor');
 
+    // Inserts HTML into container.
+    this.container.html(BlockEditorView.html);
+    this.container.show();
+
+    /**
+     * Save button in block editor view.
+     * @type {!JQuery}
+     */
+    this.saveButton = $('#saveToBlockLibraryButton');
+
+    /**
+     * Delete button in block editor view.
+     * @type {!JQuery}
+     */
+    this.deleteButton = $('#removeBlockFromLibraryButton');
+
+    /**
+     * Whether user is creating RTL or LTR blocks.
+     * @type {boolean}
+     */
+    this.rtl = true;
     /**
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
@@ -82,35 +104,42 @@ class BlockEditorView {
   }
 
   /**
-   * Add click handlers to each tab to allow switching between the Block Factory,
-   * Workspace Factory, and Block Exporter tab.
-   * @param {!Object} tabMap Map of tab name to div element that is the tab.
+   * Removes contents of this editor view from application view. Used when switching
+   * editors.
    */
-  addTabHandlers(tabMap) {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - makeTabClickHandler_()
-     */
-    throw 'Unimplemented: addTabHandlers()';
+  hide() {
+    // Deselect the tab.
+    const tab = $('#' + AppController.BLOCK_EDITOR);
+    tab.removeClass('tabon');
+    tab.addClass('taboff');
+    // Hide this view.
+    this.container.hide();
   }
 
   /**
-   * Creates the tab click handler specific to the tab specified.
-   * @param {string} tabName AppController.BLOCK_FACTORY,
-   *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
-   * @return {!Function} The tab click handler.
+   * Shows contents of this editor to application view. Used when switching editors.
+   * @param {!BlockDefinition} block BlockDefinition to populate into block editor view.
    */
-  makeTabClickHandler(tabName) {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - this.setSelected_()
-     * - this.onTab()
-     */
-    throw 'Unimplemented: makeTabClickHandler()';
+  show(block) {
+    // Select the tab.
+    const tab = $('#' + AppController.BLOCK_EDITOR);
+    tab.removeClass('taboff');
+    tab.addClass('tabon');
+    // Show this view.
+    this.container.show();
+    Blockly.svgResize(this.editorWorkspace);
+    Blockly.svgResize(this.previewWorkspace);
+
+    // TODO: Make editor show the @param block (when user clicks
+    //       on a specific block in the navtree to edit.)
+  }
+
+  /**
+   * Initializes all event handlers and listeners for buttons/etc. in this view.
+   * @private
+   */
+  init_() {
+    console.warn('Unimplemented: init_()');
   }
 
   /**
@@ -235,3 +264,112 @@ class BlockEditorView {
     this.previewWorkspace.clear();
   }
 }
+
+/**
+ * Block editor HTML contents. Injected into div on page load.
+ * @type {string}
+ */
+BlockEditorView.html = `
+<!-- Blockly Factory Tab -->
+<table>
+  <tr width="100%" height="10%">
+    <td width="50%" height="5%">
+      <table>
+        <tr id="blockLibrary">
+          <td id="blockLibraryControls">
+          <button id="createNewBlockButton" title="Create Block.">
+            Create New Block
+          </button>
+          <button id="saveToBlockLibraryButton" title="Save block to Block Library.">
+            Save "block_type"
+          </button>
+          <button id="removeBlockFromLibraryButton" title="Remove block from Block Library.">
+            Delete "block_type"
+          </button>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td height="5%">
+      <table id="blockFactoryPreview">
+        <tr>
+          <td id="previewContainer">
+            <h3>Preview:
+              <select id="direction">
+                <option value="ltr">LTR</option>
+                <option value="rtl">RTL</option>
+              </select>
+            </h3>
+          </td>
+          <td id="buttonContainer">
+            <button id="linkButton" title="Save and link to blocks.">
+              <img src="media/link.png" height="21" width="21">
+            </button>
+            <button id="clearBlockLibraryButton" title="Clear Block Library.">
+              <span>Clear Library</span>
+            </button>
+            <label for="files" class="buttonStyle">
+              <span class=>Import Block Library</span>
+            </label>
+            <input id="files" type="file" name="files"
+                accept="application/xml">
+            <button id="localSaveButton" title="Save block library XML to a local file.">
+              <span>Download Block Library</span>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr height="80%">
+    <td id="blocklyWorkspaceContainer">
+      <div id="blockly"></div>
+      <div id="blocklyMask"></div>
+    </td>
+    <td width="50%">
+      <table id="blocklyPreviewContainer">
+        <tr>
+          <td height="30%">
+            <div id="preview"></div>
+          </td>
+        </tr>
+        <tr>
+          <td height="5%">
+            <h3>Block Definition:
+              <select id="format">
+                <option value="JSON">JSON</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="Manual">Manual edit&hellip;</option>
+              </select>
+            </h3>
+          </td>
+        </tr>
+        <tr>
+          <td height="30%">
+            <pre id="languagePre"></pre>
+            <textarea id="languageTA"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td height="5%">
+            <h3>Generator stub:
+              <select id="language">
+                <option value="JavaScript">JavaScript</option>
+                <option value="Python">Python</option>
+                <option value="PHP">PHP</option>
+                <option value="Lua">Lua</option>
+                <option value="Dart">Dart</option>
+              </select>
+            </h3>
+          </td>
+        </tr>
+        <tr>
+          <td height="30%">
+            <pre id="generatorPre"></pre>
+          </td>
+        </tr>
+      </table>
+    </td>
+    </tr>
+</table>
+`;
