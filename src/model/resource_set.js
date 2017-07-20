@@ -103,8 +103,8 @@ goog.require('Resource');
   }
 
   /**
-   * Returns the JSON object for the  resource set's tree representation.
-   * @return {!Object} The JSON representing the set's tree structure.
+   * Returns the JSON representation of the resource set.
+   * @return {!Object} The JSON representing the set.
    */
   getJson() {
     let resourceSetJson = [];
