@@ -31,6 +31,7 @@ goog.provide('AppView');
 goog.require('BlockDefinition');
 goog.require('NavigationTree');
 goog.require('FactoryUtils');
+
 goog.require('goog.dom.classlist');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
@@ -141,28 +142,16 @@ class AppView {
     this.modalName_ = null;
 
     /**
-     * Keeps track of which view/editor was previously used before the current
-     * view.
-     * @type {string}
-     */
-    this.lastSelectedTab = null;
-
-    /**
-     * Keeps track of which view/editor is currently used.
-     * @type {string}
-     */
-    this.selectedTab = AppController.BLOCK_FACTORY;
-
-    /**
      * Keeps track of which view is currently active.
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
     this.currentView = this.blockEditorView;
 
+    // Show the current view.
+    this.currentView.show(this.currentView.blockDefinition.type());
+
     // Assigning event handlers and listeners for application.
-    this.assignLibraryClickHandlers();
-    this.assignBlockFactoryClickHandlers();
-    this.addBlockFactoryEventListeners();
+    this.tabClickHandlers_();
   }
 
   /**
@@ -384,6 +373,43 @@ class AppView {
   }
 
   /**
+   * Switches editor views in application.
+   * @param {string} editorView EditorView object to show.
+   * @param {string} resource Resource object to display in view.
+   */
+  switchView(editorView, resource) {
+    this.currentView.hide();
+    this.currentView = editorView;
+    this.currentView.show(resource);
+  }
+
+  /**
+   * Adds click handlers for switching views.
+   * @private
+   */
+  tabClickHandlers_() {
+    $('.tab').click((event) => {
+      const clickedTab = event.currentTarget;
+      const editorName = event.currentTarget.id;
+      let editorView, editorContr;
+
+      if (editorName === AppController.BLOCK_EDITOR) {
+        editorView = this.blockEditorView;
+        editorContr = this.appController.editorController.blockEditorController;
+      } else if (editorName === AppController.TOOLBOX_EDITOR) {
+        editorView = this.toolboxEditorView;
+        editorContr = this.appController.editorController.toolboxController;
+      } else if (editorName === AppController.WORKSPACE_EDITOR) {
+        editorView = this.workspaceEditorView;
+        editorContr = this.appController.editorController.workspaceController;
+      }
+
+      this.appController.editorController.switchEditor(editorContr);
+      this.switchView(editorView);
+    });
+  }
+
+  /**
    * Assign button click handlers for the block library.
    */
   assignLibraryClickHandlers() {
@@ -443,7 +469,6 @@ class AppView {
    * Add event listeners for the block factory.
    */
   addBlockFactoryEventListeners() {
-    console.log('listeners called');
     // REFACTORED: Moved in from app_controller.js
     // Update code on changes to block being edited.
     this.blockEditorView.editorWorkspace.addChangeListener(
@@ -463,15 +488,6 @@ class AppView {
     $('#languageTA').keyup(controller.updatePreview);
     $('#format').change(controller.formatChange);
     $('#language').change(controller.updatePreview);
-  }
-
-  /**
-   * Called on each tab click. Styles the tabs to reflect which tab is selected.
-   * @private
-   */
-  styleTabs_() {
-    // TODO: Move in from app_controller.js
-    throw 'Unimplemented: styleTabs_()';
   }
 
   /**

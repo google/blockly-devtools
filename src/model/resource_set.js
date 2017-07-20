@@ -74,7 +74,7 @@ goog.require('Resource');
    * @param {string} resourceName The name of the resource to be removed.
    */
   remove(resourceName) {
-    throw 'unimplemented: remove';
+    delete this.resources[resourceName];
   }
 
   /**
@@ -99,43 +99,29 @@ goog.require('Resource');
    * @return {boolean} Whether or not the set is empty.
    */
   isEmpty() {
-    throw 'unimplemented: isEmpty';
+    return this.getNames().length === 0;
   }
 
   /**
-   * Returns the JSON object for the  resource set's tree representation.
-   * @return {!Object} The JSON representing the set's tree structure.
+   * Returns the JSON representation of the resource set.
+   * @return {!Object} The JSON representing the set.
    */
   getJson() {
-    let resourceSetTreeJson = [];
+    let resourceSetJson = [];
     for (let resourceName of this.getNames()) {
       var resourceJson = this.resources[resourceName].getJson();
       resourceSetTreeJson.push(resourceJson);
     }
-    return resourceSetTreeJson;
-  }
-
-  /**
-   * Returns whether or not there are unsaved elements in the resource set.
-   * @return {boolean} Whether or not unsaved elements exist.
-   */
-  isDirty() {
-    throw 'abstract method: isDirty';
+    return resourceSetJson;
   }
 
   /**
    * Reads the resource set from local storage.
    */
   loadFromLocalStorage() {
-    throw 'unimplemented: loadFromLocalStorage';
-  }
-
-  /**
-   * Writes the resource set to local storage.
-   */
-  saveToLocalStorage() {
-    //TODO: pass saving mechanism to classes which extend resource.
-    throw 'unimplemented: saveFromLocalStorage';
+    //TODO: validate input.
+    const set = goog.global.localStorage[this.name];
+    this.resources = JSON.parse(set).children;
   }
 
   /**

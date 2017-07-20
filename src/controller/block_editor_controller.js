@@ -131,8 +131,8 @@ class BlockEditorController {
    */
   updateBlockDef_() {
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-    this.projectController.renameBlockDefinition(
-        this.view.blockDefinition.type(), rootBlock.getFieldValue('NAME'));
+    this.projectController.rename(
+        this.view.blockDefinition, rootBlock.getFieldValue('NAME'));
     this.view.blockDefinition.setXml(Blockly.Xml.blockToDom(rootBlock));
   }
 
