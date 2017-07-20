@@ -33,21 +33,21 @@ class WorkspaceConfigurationSet extends ResourceSet {
    * WorkspaceConfigurationSet Class.
    * @param {string} workspaceConfigurationSetName The name for the set.
    * @param {string} projectName The name of the project the set belongs to.
-   *
+   * @param {string} prefix The prefix for identifying workspace configurations,
+   *     also used to identify the set.
    * @constructor
    */
-  constructor(workspaceConfigurationSetName, projectName) {
-    super(workspaceConfigurationSetName, projectName, WorkspaceConfiguration);
+  constructor(workspaceConfigurationSetName, projectName, prefix) {
+    super(workspaceConfigurationSetName, projectName, prefix);
   }
 
   /**
-   * Produces the JSON needed to organize workspace configurations in the tree.
-   * @param {string} prefix The id prefix for workspace configurations.
-   * @return {!Object} The JSON for the tree's workspace configuration section.
+   * Produces the JSON that represents the workspace configuration set.
+   * @return {!Object} The JSON for the workspace configuration set.
    */
-  getJson(prefix) {
+  getJson() {
     const workspaceConfigSetJson = {
-      'id': prefix,
+      'id': this.prefix,
       'text': 'Workspace Configurations',
       'children': super.getJson()
     };

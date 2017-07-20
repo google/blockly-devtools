@@ -33,11 +33,12 @@ class ToolboxSet extends ResourceSet {
    * ToolboxSet Class.
    * @param {string} toolboxSetName The name for the toolbox set.
    * @param {string} projectName The name of the project the set belongs to.
-   *
+   * @param {string} prefix The prefix for identifying toolboxes, also used to
+   *     identify the set.
    * @constructor
    */
-  constructor(toolboxSetName, projectName) {
-    super(toolboxSetName, projectName, Toolbox);
+  constructor(toolboxSetName, projectName, prefix) {
+    super(toolboxSetName, projectName, prefix);
   }
 
   /**
@@ -69,12 +70,11 @@ class ToolboxSet extends ResourceSet {
 
   /**
    * Produces the JSON needed to organize toolboxes in the tree.
-   * @param {string} prefix The id prefix for toolboxes.
-   * @return {!Object} The JSON for the tree's toolbox section.
+   * @return {!Object} The JSON for the toolbox set.
    */
-  getJson(prefix) {
+  getJson() {
     const toolboxSetJson = {
-      'id': prefix,
+      'id': this.prefix,
       'text': 'Toolboxes',
       'children': super.getJson()
     };

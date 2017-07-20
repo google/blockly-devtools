@@ -49,6 +49,7 @@ class ProjectController {
      * @type {!Project}
      */
     this.project = project;
+
     /**
      * The tree which represents the project.
      * @type {!NavigationTree}
@@ -104,6 +105,21 @@ class ProjectController {
   }
 
   /**
+   * Creates and adds new BlockLibrary to this.project.
+   *
+   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
+   *     project.
+   *
+   * @return {!BlockLibrary} The new library added to the project.
+   */
+  createBlockLibrary(blockLibraryName) {
+    //TODO #105: check for valid name, throw error upon conflict
+    const blockLibrary = new BlockLibrary(blockLibraryName, prefixList[2]);
+    this.addBlockLibrary(blockLibrary);
+    return blockLibrary;
+  }
+
+  /**
    * Creates and adds new toolbox to this.project's toolbox set.
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
@@ -112,7 +128,7 @@ class ProjectController {
    */
   createToolbox(toolboxName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const toolbox = new Toolbox(toolboxName, this.prefixList[2]);
+    const toolbox = new Toolbox(toolboxName, this.prefixList[3]);
     this.addToolbox(toolbox);
     return toolbox;
   }
@@ -128,7 +144,7 @@ class ProjectController {
   createWorkspaceContents(workspaceContentsName) {
     //TODO #105: check for valid name, throw error upon conflict
     const workspaceContents = new WorkspaceContents(workspaceContentsName,
-      this.prefixList[3]);
+      this.prefixList[4]);
     this.addWorkspaceContents(workspaceContents);
     return workspaceContents;
   }
@@ -145,23 +161,8 @@ class ProjectController {
   createWorkspaceConfiguration(workspaceConfigName) {
     //TODO #105: check for valid name, throw error upon conflict
     const workspaceConfig = new WorkspaceConfiguration(workspaceConfigName);
-    this.addWorkspaceConfiguration(workspaceConfig, this.prefixList[4]);
+    this.addWorkspaceConfiguration(workspaceConfig, this.prefixList[5]);
     return workspaceConfig;
-  }
-
-  /**
-   * Creates and adds new BlockLibrary to this.project.
-   *
-   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
-   *     project.
-   *
-   * @return {!BlockLibrary} The new library added to the project.
-   */
-  createBlockLibrary(blockLibraryName) {
-    //TODO #105: check for valid name, throw error upon conflict
-    const blockLibrary = new BlockLibrary(blockLibraryName);
-    this.addBlockLibrary(blockLibrary);
-    return blockLibrary;
   }
 
   /**

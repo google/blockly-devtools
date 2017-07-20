@@ -39,7 +39,7 @@ goog.require('Resource');
    *     contains, also used to identify the set.
    * @constructor
    */
-  constructor(resourceSetName, projectName prefix,) {
+  constructor(resourceSetName, projectName, prefix,) {
     super(resourceSetName, prefix);
 
     /**

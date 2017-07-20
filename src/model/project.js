@@ -51,24 +51,24 @@ class Project extends Resource {
      * The libraries in the project.
      * @type {!BlockLibrarySet}
      */
-    this.librarySet = new BlockLibrarySet('Library Set', this.name, prefixList[1]);
+    this.librarySet = new BlockLibrarySet('Library Set', this.name, prefixList[2]);
     /**
      * The toolboxes in the project.
      * @type {!ToolboxSet}
      */
-    this.toolboxSet = new ToolboxSet('Toolbox Set', this.name, prefixList[2]);
+    this.toolboxSet = new ToolboxSet('Toolbox Set', this.name, prefixList[3]);
     /**
      * The workspace contents in the project.
      * @type {!WorkspaceContentsSet}
      */
     this.workspaceContentsSet = new WorkspaceContentsSet('Contents', this.name,
-      prefixList[3]);
+      prefixList[4]);
     /**
      * The workspace configurations in the project.
      * @type {!WorkspaceConfigurationSet}
      */
     this.workspaceConfigSet = new WorkspaceConfigurationSet('Configs', this.name,
-      preixList[4]);
+      prefixList[5]);
   }
 
   /**
@@ -284,22 +284,16 @@ class Project extends Resource {
   /**
    * Gets the JSON object necessary to represent the project in the navigation
    *     tree.
-   * @param {string} toolboxPrefix The id prefix for toolboxes.
-   * @param {string} libraryPrefix The id prefix for libraries.
-   * @param {string} workspaceContentsPrefix The id prefix for workspace contents.
-   * @param {string} workspaceConfigurationPrefix The id prefix for workspace
-   *     configurations.
    * @return {!Object} The tree-specific JSON representation of the project.
    */
-  getTreeJson(toolboxPrefix, libraryPrefix, workspaceContentsPrefix,
-      workspaceConfigurationPrefix) {
-    const projectTree = [
+  getJson() {
+    const projectJson = [
       { 'id': this.name, 'text': this.name,
-        'children': [ this.librarySet.getJson(libraryPrefix),
-          this.toolboxSet.getJson(toolboxPrefix),
-          this.workspaceContentsSet.getJson(workspaceContentsPrefix),
-          this.workspaceConfigSet.getJson(workspaceConfigurationPrefix)]}
+        'children': [ this.librarySet.getJson(),
+          this.toolboxSet.getJson(),
+          this.workspaceContentsSet.getJson(),
+          this.workspaceConfigSet.getJson()]}
     ];
-    return projectTree;
+    return projectJson;
   }
 }

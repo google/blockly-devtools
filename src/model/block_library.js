@@ -171,5 +171,4 @@ class BlockLibrary extends Resource {
     };
     return libraryJson;
   }
-  }
 }

@@ -34,9 +34,10 @@ class NavigationTree {
    * @param {!AppController} appController The AppController for the session the
    *     tree is part of, and therefore must use in the listener.
    * @param {!Project} project The project the tree represents.
+   * @param {Array.<string>} prefixList List of prefixes for all Resource classes.
    * @constructor
    */
-  constructor(appController, project) {
+  constructor(appController, project, prefixList) {
 
     /**
      * The AppController for the tree to listen to.
@@ -51,6 +52,8 @@ class NavigationTree {
     this.project = project;
 
     this.makeTree();
+
+    this.prefixList = prefixList;
   }
 
   /**
@@ -58,8 +61,7 @@ class NavigationTree {
    * @return {!Object} The JSON necessary to load the tree.
    */
   makeTreeJson() {
-    const data = this.project.getTreeJson(TOOLBOX_PREFIX, LIBRARY_PREFIX,
-      WORKSPACE_CONTENTS_PREFIX, WORKSPACE_CONFIG_PREFIX);
+    const data = this.project.getJson();
     const tree = {
       'core': {
         'check_callback': true,
@@ -110,7 +112,16 @@ class NavigationTree {
      * NOTE: The libraryName is the given prefix due to the assumption that
      *     blocktypes are unique across all libraries in the project.
      */
-    this.addComponentNode(BLOCK_PREFIX, blockType, libraryName);
+    this.addComponentNode(prefixList[1], blockType, libraryName);
+  }
+
+  /**
+   * Adds BlockLibrary to the tree.
+   *
+   * @param {string} libraryName Name of BlockLibrary to add to the tree.
+   */
+  addBlockLibraryNode(libraryName) {
+    this.addComponentNode(prefixList[2], libraryName, prefixList[2]);
   }
 
   /**
@@ -119,7 +130,7 @@ class NavigationTree {
    * @param {string} toolboxName Name of the toolbox to add to the tree.
    */
   addToolboxNode(toolboxName) {
-    this.addComponentNode(TOOLBOX_PREFIX, toolboxName, TOOLBOX_PREFIX);
+    this.addComponentNode(prefixList[3], toolboxName, prefixList[3]);
   }
 
   /**
@@ -129,8 +140,7 @@ class NavigationTree {
    *     add to the tree.
    */
   addWorkspaceContentsNode(workspaceContentsName) {
-    this.addComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName,
-        WORKSPACE_CONTENTS_PREFIX);
+    this.addComponentNode(prefixList[4], workspaceContentsName, prefixList[4]);
   }
 
   /**
@@ -140,17 +150,7 @@ class NavigationTree {
    *     to add to the tree.
    */
   addWorkspaceConfigurationNode(workspaceConfigName) {
-    this.addComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName,
-        WORKSPACE_CONFIG_PREFIX);
-  }
-
-  /**
-   * Adds BlockLibrary to the tree.
-   *
-   * @param {string} libraryName Name of BlockLibrary to add to the tree.
-   */
-  addBlockLibraryNode(libraryName) {
-    this.addComponentNode(LIBRARY_PREFIX, libraryName, LIBRARY_PREFIX);
+    this.addComponentNode(prefixList[5], workspaceConfigName, prefixList[5]);
   }
 
   /**
@@ -178,36 +178,7 @@ class NavigationTree {
    * @param {string} blockType The name of the block to be removed.
    */
   deleteBlockNode(blockType) {
-    this.deleteComponentNode(BLOCK_PREFIX, blockType);
-  }
-
-  /**
-   * Removes toolbox from the tree.
-   *
-   * @param {string} toolboxName Name of the toolbox to remove from the tree.
-   */
-  deleteToolboxNode(toolboxName) {
-    this.deleteComponentNode(TOOLBOX_PREFIX, toolboxName);
-  }
-
-  /**
-   * Removes WorkspaceContents from the tree.
-   *
-   * @param {string} workspaceContentsName Name of the WorkspaceContents to
-   *     remove from the tree.
-   */
-  deleteWorkspaceContentsNode(workspaceContentsName) {
-    this.deleteComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName);
-  }
-
-  /**
-   * Removes a WorkspaceConfiguration from the tree
-   *
-   * @param {string} workspaceConfigName Name of the
-   *     WorkspaceConfiguration to remove from the tree.
-   */
-  deleteWorkspaceConfigurationNode(workspaceConfigName) {
-    this.deleteComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName);
+    this.deleteComponentNode(prefixList[1], blockType);
   }
 
   /**
@@ -217,7 +188,36 @@ class NavigationTree {
    *     from the tree.
    */
   deleteBlockLibraryNode(blockLibraryName) {
-    this.deleteComponentNode(LIBRARY_PREFIX, blockLibraryName);
+    this.deleteComponentNode(prefixList[2], blockLibraryName);
+  }
+
+  /**
+   * Removes toolbox from the tree.
+   *
+   * @param {string} toolboxName Name of the toolbox to remove from the tree.
+   */
+  deleteToolboxNode(toolboxName) {
+    this.deleteComponentNode(prefixList[3], toolboxName);
+  }
+
+  /**
+   * Removes WorkspaceContents from the tree.
+   *
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     remove from the tree.
+   */
+  deleteWorkspaceContentsNode(workspaceContentsName) {
+    this.deleteComponentNode(prefixList[4], workspaceContentsName);
+  }
+
+  /**
+   * Removes a WorkspaceConfiguration from the tree
+   *
+   * @param {string} workspaceConfigName Name of the
+   *     WorkspaceConfiguration to remove from the tree.
+   */
+  deleteWorkspaceConfigurationNode(workspaceConfigName) {
+    this.deleteComponentNode(prefixList[5], workspaceConfigName);
   }
 
   /**
