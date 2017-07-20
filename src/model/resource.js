@@ -53,6 +53,7 @@ class Resource {
    * Writes the resource to local storage.
    */
   saveToLocalStorage() {
+    // Refactored from block_library_storage.js
     goog.global.localStorage[this.name] = this.getJson();
   }
 

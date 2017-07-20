@@ -119,6 +119,7 @@ goog.require('Resource');
    * Reads the resource set from local storage.
    */
   loadFromLocalStorage() {
+    //TODO: validate input.
     const set = goog.global.localStorage[this.name];
     this.resources = JSON.parse(set).children;
   }

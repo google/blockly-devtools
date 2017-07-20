@@ -70,6 +70,7 @@ BlockLibraryStorage.prototype.loadFromLocalStorage = function() {
  * Writes the current block library (this.blocks) to local storage.
  */
 BlockLibraryStorage.prototype.saveToLocalStorage = function() {
+  //Moved to resource.js
   goog.global.localStorage[this.name] = JSON.stringify(this.blocks);
 };
 
