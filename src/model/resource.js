@@ -22,6 +22,8 @@
 
 goog.provide('Resource');
 
+goog.require('goog.global');
+
 /**
  * @class Resource is the top level interface for the parts of a project,
  *     including the project itself
@@ -67,7 +69,7 @@ class Resource {
    *
    * @return {!Object} The JSON representation of the resource.
    */
-  geJson() {
+  getJson() {
     throw 'abstract method: getJson';
   }
 
