@@ -260,12 +260,13 @@ class ProjectController {
   }
 
   /**
-   * Renames a block.
+   * Renames a resource.
    * @param {Resource} resource The resource to be named.
    * @param {string} newName The new name for the resource.
    */
   rename(resource, newName) {
-    throw 'unimplemented: rename';
+    //TODO: restrict names.
+    resource.setName();
   }
 
   /**
