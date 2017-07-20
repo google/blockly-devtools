@@ -88,11 +88,12 @@ class ProjectController {
    * @param {string} blockType Name of the block to add to the project.
    *
    * @return {!BlockDefinition} The new block definition added to the project.
+   * @param {string} libraryName The library to add it to.
    */
-  createBlockDefinition(blockType) {
+  createBlockDefinition(blockType, libraryName) {
     //TODO #105: check for valid name, throw error upon conflict
     const block = new BlockDefinition(blockType);
-    this.addBlockDefinition(blockType);
+    this.addBlockDefinition(blockType, libraryName);
     return block;
   }
 
@@ -160,9 +161,12 @@ class ProjectController {
    * Adds a block definition to the project.
    *
    * @param {!BlockDefinition} blockDef Block definition to add to the project.
+   * @param {string} libraryName The library to add it to.
    */
-  addBlockDefinition(blockDef) {
-    console.warn('Unimplemented: addBlockDefinition');
+  addBlockDefinition(blockDef, libraryName) {
+    this.project.addBlockDefinition(blockDef, libraryName);
+    this.tree.addBlockNode(blockDef.type(), libraryName);
+
   }
 
   /**
@@ -213,7 +217,8 @@ class ProjectController {
    * @param {string} blockType The name of the block to remove.
    */
   removeBlock(blockType) {
-    throw 'unimplemented: removeBlock';
+    this.project.removeBlock(blockType);
+    this.tree.deleteBlockNode(blockType);
   }
 
   /**
@@ -260,12 +265,14 @@ class ProjectController {
   }
 
   /**
-   * Renames a resource. Updates navtree view.
+   * Renames a resource.
    * @param {Resource} resource The resource to be named.
    * @param {string} newName The new name for the resource.
    */
   rename(resource, newName) {
-    console.warn('unimplemented: rename');
+    //TODO: restrict names.
+    resource.setName(newName);
+
   }
 
   /**
