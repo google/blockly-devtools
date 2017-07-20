@@ -41,14 +41,15 @@ class Project extends Resource {
   /**
    * Project Class.
    * @param {string} projectName The desired name of project.
+   * @param {string} prefix The prefix for identifying projects.
    * @constructor
    */
-  constructor(projectName) {
+  constructor(projectName, PREFIC) {
     /**
      * The name of the project.
      * @type {string}
      */
-    super(projectName);
+    super(projectName, this.name);
 
     /**
      * The libraries in the project.

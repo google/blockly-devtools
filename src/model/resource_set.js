@@ -35,24 +35,18 @@ goog.require('Resource');
    * ResourceSet Class.
    * @param {string} resourceSetName The name for the resource set.
    * @param {string} projectName The name of the project the resource belongs to.
-   * @param {Constructor} resourceConstructor The constructor for the type of
-   *     resource the set will manage.
+   * @param {string} prefix The prefix used to identify the Resource the set
+   *     contains, also used to identify the set.
    * @constructor
    */
-  constructor(resourceSetName, projectName, resourceConstructor) {
-    super(resourceSetName);
+  constructor(resourceSetName, projectName prefix,) {
+    super(resourceSetName, prefix);
 
     /**
      * The name of the project the resource belongs to.
      * @type {string}
      */
     this.project = projectName;
-
-    /**
-     * The constructor for type of resource the set manages.
-     * @type {Constructor}
-     */
-    this.resourceConstructor = resourceConstructor;
 
     /**
      * The resources that the project contains, mapped to their names.

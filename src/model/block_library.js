@@ -35,15 +35,16 @@ class BlockLibrary extends Resource {
   /**
    * BlockLibrary Class
    * @param {string} libraryName The name for the new library.
+   * @param {string} prefix The prefix for identifying block libraries.
    * @constructor
    */
-  constructor(libraryName) {
+  constructor(libraryName, prefix) {
     /*
      * TODO: fully implement
      *
      * References: N/A
      */
-    super(libraryName);
+    super(libraryName, prefix);
 
     /**
      * A map of all blocks in the library to their definitions.
@@ -107,14 +108,7 @@ class BlockLibrary extends Resource {
    * Clears the block library.
    */
   clear() {
-    /*
-     * TODO: Move from src/block_library_storage.js
-     *
-     * References:
-     * - clear()
-     *
-     */
-    throw 'unimplemented: clear';
+    this.blocks = {};
   }
 
   /**
@@ -169,7 +163,13 @@ class BlockLibrary extends Resource {
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the library.
    */
-  getTreeJson() {
-    throw 'unimplemented: getTreeJson';
+  getJson() {
+    const libraryJson = {
+      'id': this.prefix,
+      'text': this.name,
+      'children': this.getBlockJson
+    };
+    return libraryJson;
+  }
   }
 }

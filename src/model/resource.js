@@ -30,6 +30,7 @@ class Resource {
   /**
    * Resource Class.
    * @param {string} resourceName The name for the resource.
+   * @param {string} prefix The prefix used to identify the Resource in its Json.
    * @constructor
    */
   constructor(resourceName, prefix) {
@@ -39,9 +40,11 @@ class Resource {
      */
      this.name = resourceName;
 
-     /**
-      * The prefix used to identify the Resource in its Json.
-      * @type {strinh}
+    /**
+     * The prefix used to identify the Resource in its Json.
+     * @type {string}
+     */
+    this.prefix = prefix;
   }
 
   /**
@@ -82,35 +85,6 @@ class Resource {
    */
   getTreeJson() {
     throw 'abstract method: getTreeJson';
-  }
-
-  /**
-   * Makes tree JSON from array of strings. Used in most resource getTreeJson()
-   *     methods. Takes strings from array, and gives them nodes on the same
-   *     level (under this.name as a parent node) with ids equivalent to their
-   *     text.
-   * @param {!Array.<string>} nameArray Array of strings, usually names of some
-   *     objects in the resource, to be made in to JSON.
-   *
-   * @return {!Object} The tree-specific JSON representation of the array.
-   */
-  makeTreeJsonFromArray(nameArray) {
-    let treeJson;
-    let iterationIndex = 1;
-    let finalIndex = 0;
-    let toAdd;
-    let text;
-    while (nameArray[iterationIndex]) {
-      text = nameArray[iterationIndex - 1];
-      toAdd = {'text': text, 'id': text, 'parent': this.name};
-      treeJson.push(toAdd);
-      iterationIndex++;
-      finalIndex++;
-    }
-    text = nameArray[finalIndex];
-    toAdd = {'text': text, 'id': text, 'parent': this.name};
-    treeJson.push(toAdd);
-    return treeJson;
   }
 
   /**

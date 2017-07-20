@@ -23,17 +23,6 @@
 goog.provide('NavigationTree');
 goog.require('Project');
 
-/*
- * Global constants for organizing different node types, used when giving them
- *     ids. Given with the assumption that the name of each object in a
- *     project is unique across that project.
- */
-const BLOCK_PREFIX = 'Block';
-const TOOLBOX_PREFIX = 'Toolbox';
-const LIBRARY_PREFIX = 'BlockLibrary';
-const WORKSPACE_CONTENTS_PREFIX = 'WorkspaceContents';
-const WORKSPACE_CONFIG_PREFIX = 'WorkspaceConfiguration';
-
 /**
  * @class NavigationTree manages the tree user interface.
  *
