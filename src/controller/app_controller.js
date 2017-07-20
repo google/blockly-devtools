@@ -91,7 +91,7 @@ class AppController {
      * The tree for the DevTools session.
      * @type {!NavigationTree}
      */
-    this.tree = new NavigationTree(this, this.project);
+    this.tree = new NavigationTree(this, this.project, PREFIXES);
 
     // Create div elements to insert hidden workspaces used in I/O. Hidden
     // workspaces stored in EditorController.

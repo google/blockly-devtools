@@ -34,10 +34,10 @@ class NavigationTree {
    * @param {!AppController} appController The AppController for the session the
    *     tree is part of, and therefore must use in the listener.
    * @param {!Project} project The project the tree represents.
-   * @param {Array.<string>} prefixList List of prefixes for all Resource classes.
+   * @param {!Object} prefixes Dictionary of prefixes for all Resource classes.
    * @constructor
    */
-  constructor(appController, project, prefixList) {
+  constructor(appController, project, prefixes) {
 
     /**
      * The AppController for the tree to listen to.
@@ -53,7 +53,7 @@ class NavigationTree {
 
     this.makeTree();
 
-    this.prefixList = prefixList;
+    this.prefixes = prefixes;
   }
 
   /**
@@ -112,7 +112,7 @@ class NavigationTree {
      * NOTE: The libraryName is the given prefix due to the assumption that
      *     blocktypes are unique across all libraries in the project.
      */
-    this.addComponentNode(prefixList[1], blockType, libraryName);
+    this.addComponentNode(this.prefixes.BLOCK, blockType, libraryName);
   }
 
   /**
@@ -121,7 +121,8 @@ class NavigationTree {
    * @param {string} libraryName Name of BlockLibrary to add to the tree.
    */
   addBlockLibraryNode(libraryName) {
-    this.addComponentNode(prefixList[2], libraryName, prefixList[2]);
+    this.addComponentNode(this.prefixes.LIBRARY, libraryName,
+      this.prefixes.LIBRARY);
   }
 
   /**
@@ -130,7 +131,8 @@ class NavigationTree {
    * @param {string} toolboxName Name of the toolbox to add to the tree.
    */
   addToolboxNode(toolboxName) {
-    this.addComponentNode(prefixList[3], toolboxName, prefixList[3]);
+    this.addComponentNode(this.prefixes.TOOLBOX, toolboxName,
+      this.prefixes.TOOLBOX);
   }
 
   /**
@@ -140,7 +142,8 @@ class NavigationTree {
    *     add to the tree.
    */
   addWorkspaceContentsNode(workspaceContentsName) {
-    this.addComponentNode(prefixList[4], workspaceContentsName, prefixList[4]);
+    this.addComponentNode(this.prefixes.WORKSPACE_CONTENTS, workspaceContentsName,
+      this.prefixes.WORKSPACE_CONTENTS);
   }
 
   /**
@@ -150,7 +153,8 @@ class NavigationTree {
    *     to add to the tree.
    */
   addWorkspaceConfigurationNode(workspaceConfigName) {
-    this.addComponentNode(prefixList[5], workspaceConfigName, prefixList[5]);
+    this.addComponentNode(this.prefixes.WORKSPACE_CONFIG, workspaceConfigName,
+      this.prefixes.WORKSPACE_CONFIG);
   }
 
   /**
