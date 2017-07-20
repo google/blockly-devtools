@@ -116,19 +116,6 @@ class EditorController {
   }
 
   /**
-   * Determines if a block loaded in the workspace has a definition (if it
-   * is a standard block, is defined in the block library, or has a definition
-   * imported). Assumes that block types are unique in a given project.
-   * @param {!Blockly.Block} block The block to examine.
-   * @return {boolean} Whether block has been defined in project.
-   */
-  isDefinedBlock(block) {
-    // REFACTORED: from wfactory_controller.js
-    const blockType = block.type;
-    return this.project.hasBlock(blockType);
-  }
-
-  /**
    * Sets a warning on undefined blocks loaded to the current editor workspace.
    * Either in ToolboxController or WorkspaceController.
    * @private

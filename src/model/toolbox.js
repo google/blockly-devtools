@@ -25,6 +25,8 @@ goog.provide('Toolbox');
 goog.require('ListElement');
 goog.require('Resource');
 
+goog.require('goog.dom');
+
 /**
  * @class A Toolbox object is a grouping of blocks from which end-users can
  *     drag and drop blocks into the workspace. A toolbox can also be considered
@@ -46,10 +48,31 @@ class Toolbox extends Resource {
     super(toolboxName);
 
     /**
+     * List of categories in current toolbox. Empty if there is a single flyout.
+     * May contain separators (and not just categories).
+     * @type {!Array.<!ListElement>}
+     */
+    this.categoryList = [];
+
+    /**
      * A map of each block type in the toolbox to its corresponding XML.
      * @type {!Object.<string, string>}
      */
     this.xmlDefinitions = {};
+
+    /**
+     * Stores ListElement IFF there is only one category. Displayed as a flyout.
+     * Null if there are multiple categories.
+     * @type {!ListElement}
+     */
+    this.flyout = new ListElement(ListElement.TYPE_FLYOUT);
+
+    /**
+     * Stores reference to currently selected category. Points to flyout if
+     * there is only one category (as a flyout).
+     * @type {!ListElement}
+     */
+    this.selected = this.flyout;
 
     /**
      * Array of Block IDs for all user-created shadow blocks.
@@ -70,26 +93,10 @@ class Toolbox extends Resource {
     this.hasProcedureCategory = false;
 
     /**
-     * List of categories in current toolbox. Empty if there is a single flyout.
-     * May contain separators (and not just categories).
-     * Moved from wfactory_model.js:toolboxList (will remove this line after rf)
-     * @type {!Array.<!ListElement>}
+     * XML of the toolbox. Used to display onto preview workspace.
+     * @type {!Element}
      */
-    this.categoryList = [];
-
-    /**
-     * Stores ListElement IFF there is only one category. Displayed as a flyout.
-     * Null if there are multiple categories.
-     * @type {!ListElement}
-     */
-    this.flyout = new ListElement(ListElement.TYPE_FLYOUT);
-
-    /**
-     * Stores reference to currently selected category. Points to flyout if
-     * there is only one category (as a flyout).
-     * @type {!ListElement}
-     */
-    this.selected = this.flyout;
+    this.xml = Blockly.Xml.textToDom('<xml></xml>');
   }
 
   /**
@@ -102,14 +109,20 @@ class Toolbox extends Resource {
   }
 
   /**
+   * Sets XML of toolbox to given element.
+   * @param {!Element} xml XML of toolbox.
+   */
+  setXml(xml) {
+    this.xml = xml;
+  }
+
+  /**
    * Return ordered list of ListElement objects in this instance of Toolbox.
    * @return {!Array.<!ListElement>} ordered list of ListElement objects
    */
   getCategoryList() {
-    /*
-     * TODO: Move in from wfactory_model.js:getToolboxList()
-     */
-    throw 'Unimplemented: getCategoryList()';
+    // REFACTORED: Moved in from wfactory_model.js:getToolboxList()
+    return this.categoryList;
   }
 
   /**
@@ -270,10 +283,8 @@ class Toolbox extends Resource {
    *     no selected element.
    */
   getSelectedXml() {
-    /*
-     * TODO: Move in from wfactory_model.js
-     */
-    throw 'Unimplemented: getSelectedXml()';
+    // REFACTOR: Moved in from wfactory_model.js
+    return this.selected ? this.selected.xml : null;
   }
 
   /**
@@ -379,13 +390,13 @@ class Toolbox extends Resource {
    *     otherwise.
    */
   isShadowBlock(blockId) {
-    /*
-     * TODO: Move in from wfactory_model.js
-     *
-     * References:
-     * - this.shadowBlocks
-     */
-    throw 'Unimplemented: isShadowBlock()';
+    // TODO: Move in from wfactory_model.js
+    this.shadowBlocks.forEach((id) => {
+      if (id == blockId) {
+        return true;
+      }
+    });
+    return false;
   }
 
   /**
@@ -394,19 +405,8 @@ class Toolbox extends Resource {
    * @returns {!Element} XML DOM element of this Toolbox.
    */
   getExportData() {
-    /*
-     * TODO: Move in from wfactory_generator.js:generateToolboxXml()
-     *
-     * References:
-     * - hasElements()
-     * - loadToHiddenWorkspace_()
-     * - appendHiddenWorkspaceToDom_()
-     * - getSelected()
-     * - getSelectedXml()
-     * - getToolboxList()
-     * - ListElement
-     */
-    throw "unimplemented: getExportData()";
+    // REFACTORED: Moved in from wfactory_generator.js:generateToolboxXml()
+    return this.xml;
   }
 
   /**
@@ -424,15 +424,6 @@ class Toolbox extends Resource {
       }
     }
     return count === 0;
-  }
-
-  /**
-   * Gets the data necessary to export the toolbox.
-   * @return {!Object} The data needed to export the toolbox.
-   */
-  getExportData() {
-    //TODO: implement
-    throw "unimplemented: getExportData";
   }
 
   /**

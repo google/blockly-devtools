@@ -54,69 +54,6 @@ WorkspaceFactoryGenerator = function(model) {
   this.BLOCKLY_PRELOAD_XML = {};
 };
 
-/**
- * Generates the XML for the toolbox or flyout with information from
- * toolboxWorkspace and the model. Uses the hiddenWorkspace to generate XML.
- * Save state of workspace in model (saveFromWorkspace) before calling if
- * changes might have been made to the selected category.
- * @param {!Blockly.workspace} toolboxWorkspace Toolbox editing workspace where
- * blocks are added by user to be part of the toolbox.
- * @return {!Element} XML element representing toolbox or flyout corresponding
- * to toolbox workspace.
- */
-WorkspaceFactoryGenerator.prototype.generateToolboxXml = function() {
-  // Create DOM for XML.
-  var xmlDom = goog.dom.createDom('xml',
-      {
-        'id' : 'toolbox',
-        'style' : 'display:none'
-      });
-  if (!this.model.hasElements()) {
-    // Toolbox has no categories. Use XML directly from workspace.
-    this.loadToHiddenWorkspace_(this.model.getSelectedXml());
-    this.appendHiddenWorkspaceToDom_(xmlDom);
-  } else {
-    // Toolbox has categories.
-    // Assert that selected != null
-    if (!this.model.getSelected()) {
-      throw new Error('Selected is null when the toolbox is empty.');
-    }
-
-    var xml = this.model.getSelectedXml();
-    var toolboxList = this.model.getToolboxList();
-
-    // Iterate through each category to generate XML for each using the
-    // hidden workspace. Load each category to the hidden workspace to make sure
-    // that all the blocks that are not top blocks are also captured as block
-    // groups in the flyout.
-    for (var i = 0; i < toolboxList.length; i++) {
-      var element = toolboxList[i];
-      if (element.type == ListElement.TYPE_SEPARATOR) {
-        // If the next element is a separator.
-        var nextElement = goog.dom.createDom('sep');
-      } else if (element.type == ListElement.TYPE_CATEGORY) {
-        // If the next element is a category.
-        var nextElement = goog.dom.createDom('category');
-        nextElement.setAttribute('name', element.name);
-        // Add a colour attribute if one exists.
-        if (element.color != null) {
-          nextElement.setAttribute('colour', element.color);
-        }
-        // Add a custom attribute if one exists.
-        if (element.custom != null) {
-          nextElement.setAttribute('custom', element.custom);
-        }
-        // Load that category to hidden workspace, setting user-generated shadow
-        // blocks as real shadow blocks.
-        this.loadToHiddenWorkspace_(element.xml);
-        this.appendHiddenWorkspaceToDom_(nextElement);
-      }
-      xmlDom.appendChild(nextElement);
-    }
-  }
-  return xmlDom;
- };
-
  /**
   * Generates XML for the workspace (different from generateConfigXml in that
   * it includes XY and ID attributes). Uses a workspace and converts user
@@ -274,48 +211,4 @@ document.onload = function() {
 };
 `;
   return finalStr;
-};
-
-/**
- * Loads the given XML to the hidden workspace and sets any user-generated
- * shadow blocks to be actual shadow blocks.
- * @param {!Element} xml The XML to be loaded to the hidden workspace.
- * @private
- */
-WorkspaceFactoryGenerator.prototype.loadToHiddenWorkspace_ = function(xml) {
-  this.hiddenWorkspace.clear();
-  Blockly.Xml.domToWorkspace(xml, this.hiddenWorkspace);
-  this.setShadowBlocksInHiddenWorkspace_();
-};
-
-/**
- * Encodes blocks in the hidden workspace in a XML DOM element. Very
- * similar to workspaceToDom, but doesn't capture IDs. Uses the top-level
- * blocks loaded in hiddenWorkspace.
- * @private
- * @param {!Element} xmlDom Tree of XML elements to be appended to.
- */
-WorkspaceFactoryGenerator.prototype.appendHiddenWorkspaceToDom_ =
-    function(xmlDom) {
-  var blocks = this.hiddenWorkspace.getTopBlocks();
-  for (var i = 0, block; block = blocks[i]; i++) {
-    var blockChild = Blockly.Xml.blockToDom(block, /* opt_noId */ true);
-    xmlDom.appendChild(blockChild);
-  }
-};
-
-/**
- * Sets the user-generated shadow blocks loaded into hiddenWorkspace to be
- * actual shadow blocks. This is done so that blockToDom records them as
- * shadow blocks instead of regular blocks.
- * @private
- */
-WorkspaceFactoryGenerator.prototype.setShadowBlocksInHiddenWorkspace_ =
-    function() {
-  var blocks = this.hiddenWorkspace.getAllBlocks();
-  for (var i = 0; i < blocks.length; i++) {
-    if (this.model.isShadowBlock(blocks[i].id)) {
-      blocks[i].setShadow(true);
-    }
-  }
 };

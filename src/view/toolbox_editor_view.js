@@ -92,11 +92,26 @@ class ToolboxEditorView {
     this.initClickHandlers_();
     this.initEventListeners_();
 
+    /**
+     * DOM element of buttons in editor workspace.
+     * @type {!Object.<string, !Element>}
+     */
+    this.buttons = {
+      remove: $('#button_remove').get(0),
+      up: $('#button_up').get(0),
+      down: $('#button_down').get(0),
+      edit: $('#button_editCategory').get(0),
+      addCategory: $('#dropdown_newCategory').get(0),
+      removeCategory: $('#button_remove').get(0),
+      addShadow: $('#button_addShadow').get(0),
+      removeShadow: $('#button_removeShadow').get(0)
+    };
+
     // Disable category editing buttons until categories are created.
-    document.getElementById('button_remove').disabled = true;
-    document.getElementById('button_up').disabled = true;
-    document.getElementById('button_down').disabled = true;
-    document.getElementById('button_editCategory').disabled = true;
+    this.buttons.remove.disabled = true;
+    this.buttons.up.disabled = true;
+    this.buttons.down.disabled = true;
+    this.buttons.edit.disabled = true;
   }
 
   /**
@@ -136,10 +151,14 @@ class ToolboxEditorView {
 
   /**
    * Initializes all event handlers and listeners for buttons/etc. in this view.
-   * @private
+   * @param {!ToolboxController} controller ToolboxController used as reference
+   *     in event listeners.
    */
-  init_() {
-    console.warn('Unimplemented: init_()');
+  init(controller) {
+    // Workspace change listener.
+    this.editorWorkspace.addChangeListener((event) => {
+      controller.onChange(event);
+    });
   }
 
   /**
@@ -186,11 +205,9 @@ class ToolboxEditorView {
    * @param {boolean} show True if the add shadow button should be shown, false
    *     otherwise.
    */
-  displayAddShadow_(show) {
-    /*
-     * TODO: Move in from wfactory_init.js
-     */
-    console.warn('Unimplemented: displayAddShadow_()');
+  displayAddShadow(show) {
+    // REFACTOR: Moved in from wfactory_init.js:displayAddShadow_(show)
+    this.buttons.addShadow.style.display = show ? 'inline-block' : 'none';
   }
 
   /**
@@ -198,11 +215,9 @@ class ToolboxEditorView {
    * @param {boolean} show True if the remove shadow button should be shown, false
    *     otherwise.
    */
-  displayRemoveShadow_(show) {
-    /*
-     * TODO: Move in from wfactory_model.js
-     */
-    console.warn('Unimplemented: displayRemoveShadow_()');
+  displayRemoveShadow(show) {
+    // TODO: Move in from wfactory_model.js:displayRemoveShadow_(show)
+    this.buttons.removeShadow.style.display = show ? 'inline-block' : 'none';
   }
 
   /**
@@ -211,6 +226,19 @@ class ToolboxEditorView {
    */
   updateEditorToolbox(toolbox) {
     this.editorWorkspace.updateToolbox(toolbox);
+  }
+
+  /**
+   * Switches a category tab on or off.
+   * @param {string} id ID of the tab to switch on or off.
+   * @param {boolean} selected True if tab should be on, false if tab should be
+   *     off.
+   */
+  selectTab(id, selected) {
+    /*
+     * TODO: Move in from wfactory_view.js:setCategoryTabSelection(id, selected)
+     */
+    throw 'Unimplemented: setCategoryTabSelection()';
   }
 
   /**
@@ -234,6 +262,42 @@ class ToolboxEditorView {
      * TODO: Move in from wfactory_view.js:addEmptyCategoryMessage()
      */
     throw 'Unimplemented: addEmptyToolboxMessage()';
+  }
+
+  /**
+   * Given a set of blocks currently loaded user-generated shadow blocks, visually
+   * marks them without making them actual shadow blocks (allowing them to still
+   * be editable and movable).
+   * @param {!Array.<!Blockly.Block>} blocks Array of user-generated shadow blocks
+   *     currently loaded.
+   */
+  markShadowBlocks(blocks) {
+    /*
+     * TODO: Move in from wfactory_view.js:markShadowBlocks(blocks)
+     *           and from wfactory_view.js:markShadowBlock(block)
+     */
+    throw 'Unimplemented: markShadowBlocks()';
+  }
+
+  /**
+   * Given a Blockly.Block, visually marks a block in the view to look like a
+   * shadow block.
+   * @param {!Blockly.Block} block Blockly block to be marked as a shadow block.
+   */
+  markShadowBlock(block) {
+    // TODO: Move in from wfactory_view.js:markShadowBlock(block)
+    console.warn('Unimplemented: markShadowBlock()');
+  }
+
+  /**
+   * Removes visual marking for a shadow block given a rendered block.
+   * @param {!Blockly.Block} block The block that should be unmarked as a shadow
+   *     block (must be rendered).
+   */
+  unmarkShadowBlock(block) {
+    /*
+     * TODO: Move in from wfactory_view.js
+     */
   }
 }
 

@@ -44,7 +44,7 @@ class ToolboxController {
      * Keeps track of which toolbox is currently being edited.
      * @type {!Toolbox}
      */
-    this.currentToolbox = null;
+    this.currentToolbox = new Toolbox('MyFirstToolbox');
 
     /**
      * ToolboxEditorView associated with this instance of ToolboxController.
@@ -71,6 +71,12 @@ class ToolboxController {
      * @type {!Blockly.Workspace}
      */
     this.hiddenWorkspace = hiddenWorkspace;
+
+    // Adds current toolbox to model.
+    this.projectController.addToolbox(this.currentToolbox);
+
+    // Initialize event handlers and listeners for the view.
+    this.view.init(this);
   }
 
   /**
@@ -93,7 +99,7 @@ class ToolboxController {
      * - generateNewOptions()
      * - updatePreview()
      */
-    throw 'Unimplemented: ToolboxController.addCategory()';
+    console.warn('Unimplemented: ToolboxController.addCategory()');
   }
 
   /**
@@ -112,7 +118,7 @@ class ToolboxController {
      * - addCategoryRow()
      * - addClickToSwitch()
      */
-    throw 'Unimplemented: ToolboxController.createCategory()';
+    console.warn('Unimplemented: ToolboxController.createCategory()');
   }
 
   /**
@@ -136,7 +142,7 @@ class ToolboxController {
      * - createDefaultSelectedIfEmpty()
      * - updatePreview()
      */
-    throw 'Unimplemented: ToolboxController.removeElement()';
+    console.warn('Unimplemented: ToolboxController.removeElement()');
   }
 
   /**
@@ -155,7 +161,7 @@ class ToolboxController {
      * - switchElement()
      * - updatePreview()
      */
-    throw 'Unimplemented: ToolboxController.addCategorySeparator()';
+    console.warn('Unimplemented: ToolboxController.addCategorySeparator()');
   }
 
   /**
@@ -190,7 +196,7 @@ class ToolboxController {
      * - readOptions_()
      * - generateWorkspaceXml()
      */
-    throw 'Unimplemented: reinjectPreview()';
+    console.warn('Unimplemented: reinjectPreview()');
   }
 
   /**
@@ -209,7 +215,7 @@ class ToolboxController {
      * - updateCategoryName(newName, this.model.getSelectedId())
      * - updatePreview()
      */
-    throw 'Unimplemented: changeCategoryName()';
+    console.warn('Unimplemented: changeCategoryName()');
   }
 
   /**
@@ -232,7 +238,7 @@ class ToolboxController {
      * - updateState()
      * - updatePreview()
      */
-    throw 'Unimplemented: moveElement()';
+    console.warn('Unimplemented: moveElement()');
   }
 
   /**
@@ -250,7 +256,7 @@ class ToolboxController {
      * - moveElementToIndex()
      * - moveTabToIndex()
      */
-    throw 'Unimplemented: moveElementToIndex()';
+    console.warn('Unimplemented: moveElementToIndex()');
   }
 
   /**
@@ -292,15 +298,98 @@ class ToolboxController {
    * (if this might be the case, call saveStateFromWorkspace).
    */
   updatePreview() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - generateToolboxXml()
-     * - reinjectPreview(tree)
-     * - generateWorkspaceXml()
-     */
-    throw 'Unimplemented: updatePreview()';
+    // REFACTORED: Moved in from wfactory_controller.js:updatePreview()
+    Blockly.Events.disable();
+
+    const tree = Blockly.Options.parseToolboxTree(
+        this.view.toolbox.getExportData());
+
+    if (tree.getElementsByTagName('category').length == 0) {
+      // No categories, creates a simple flyout.
+      if (this.view.previewWorkspace.toolbox_) {
+        this.reinjectPreview(tree); // Switch to simple flyout.
+      } else {
+        this.view.previewWorkspace.updateToolbox(tree);
+      }
+    } else {
+      // Uses categories, creates a toolbox.
+      if (!this.view.previewWorkspace.toolbox_) {
+        tihs.reinjectPreview(tree); // Create a toolbox.
+      } else {
+        // Close toolbox before updating.
+        this.view.previewWorkspace.toolbox_.clearSelection();
+        this.view.previewWorkspace.updateToolbox(tree);
+      }
+    }
+
+    // Clear preview workspace.
+    this.view.previewWorkspace.clear();
+
+    // Reenable events.
+    Blockly.Events.enable();
+  }
+
+  /**
+   * Generates XML of currently active toolbox.
+   * @return {!Element} XML of current toolbox.
+   */
+  generateToolboxXml() {
+    const xmlDom = goog.dom.createDom('xml', {
+        'id': 'toolbox',
+        'style': 'display: none;'
+      });
+
+    if (this.view.toolbox.isEmpty()) {
+      // Toolbox has no categories.
+      this.loadToHiddenWorkspace_(this.view.toolbox.getSelectedXml());
+      this.appendHiddenWorkspaceToDom_(xmlDom);
+    } else {
+      // Toolbox has categories.
+      if (!this.selected) {
+        throw new Error('Selected is null when the toolbox is empty.');
+      }
+
+      /*
+       * Iterate through each category to generate XML for each using the
+       * hidden workspace.
+       */
+      const categories = this.view.toolbox.categoryList;
+      categories.forEach((element) => {
+        if (element.type == ListElement.TYPE_SEPARATOR) {
+          // If the next element is a separator.
+          var nextElement = goog.dom.createDom('sep');
+        } else if (element.type == ListElement.TYPE_CATEGORY) {
+          // If next element is a category.
+          var nextElement = this.generateCategoryXml_(element);
+        }
+        xmlDom.appendChild(nextElement);
+      });
+    }
+    return xmlDom;
+  }
+
+  /**
+   * Returns XML given a category ListElement.
+   * @param {!ListElement} category ListElement object of type category.
+   * @return {!Element} DOM element of category XML.
+   * @private
+   */
+  generateCategoryXml_(category) {
+    const domElement = goog.dom.createDom('category');
+    domElement.setAttribute('name', category.name);
+    // Add color attribute if exists.
+    if (category.color) {
+      category.setAttribute('colour', category.color);
+    }
+    // Add custom attribute if exists.
+    if (category.custom) {
+      category.setAttribute('custom', element.custom);
+    }
+
+    this.loadToHiddenWorkspace_(category.xml);
+    this.appendHiddenWorkspaceToDom_(domElement);
+
+    return domElement;
   }
 
   /**
@@ -313,6 +402,175 @@ class ToolboxController {
   }
 
   /**
+   * Callback function called on editor workspace change.
+   * @param {!Event} e Change event in workspace.
+   */
+  onChange(e) {
+    console.log('change!!!!!!');
+    // Listen for Blockly move and delete events to update preview.
+    // Not listening for Blockly create events because causes the user to drop
+    // blocks when dragging them into workspace. Could cause problems if ever
+    // load blocks into workspace directly without calling updatePreview.
+    if (e.type == Blockly.Events.MOVE || e.type == Blockly.Events.DELETE ||
+          e.type == Blockly.Events.CHANGE) {
+      this.saveStateFromWorkspace();
+      this.view.toolbox.setXml(this.generateToolboxXml());
+      this.updatePreview();
+    }
+
+    // Listen for Blockly UI events to correctly enable the "Edit Block" button.
+    // Only enable "Edit Block" when a block is selected and it has a
+    // surrounding parent, meaning it is nested in another block (blocks that
+    // are not nested in parents cannot be shadow blocks).
+    if (e.type == Blockly.Events.MOVE || (e.type == Blockly.Events.UI &&
+        e.element == 'selected')) {
+      const selected = Blockly.selected;
+
+      // Show shadow button if a block is selected. Show "Add Shadow" if
+      // a block is not a shadow block, show "Remove Shadow" if it is a
+      // shadow block.
+      if (selected) {
+        const isShadow = this.isUserGenShadowBlock(selected.id);
+        this.view.displayAddShadow(!isShadow);
+        this.view.displayRemoveShadow(isShadow);
+      } else {
+        this.view.displayAddShadow(false);
+        this.view.displayRemoveShadow(false);
+      }
+
+      if (selected != null && selected.getSurroundParent() != null &&
+          !this.isUserGenShadowBlock(selected.getSurroundParent().id)) {
+        // Selected block is a valid shadow block or could be a valid shadow
+        // block.
+
+        // Enable block editing and remove warnings if the block is not a
+        // variable user-generated shadow block.
+        this.view.buttons.addShadow.disabled = false;
+        this.view.buttons.removeShadow.disabled = false;
+
+        if (!FactoryUtils.hasVariableField(selected) &&
+            this.projectController.isDefinedBlock(selected)) {
+          selected.setWarningText(null);
+        }
+      } else {
+        // Selected block cannot be a valid shadow block.
+
+        if (selected != null && this.isInvalidBlockPlacement_(selected)) {
+          // Selected block breaks shadow block rules.
+          // Invalid shadow block if (1) a shadow block no longer has a valid
+          // parent, or (2) a normal block is inside of a shadow block.
+
+          if (!this.isUserGenShadowBlock(selected.id)) {
+            // Warn if a non-shadow block is nested inside a shadow block.
+            selected.setWarningText('Only shadow blocks can be nested inside\n'
+                + 'other shadow blocks.');
+          } else if (!FactoryUtils.hasVariableField(selected)) {
+            // Warn if a shadow block is invalid only if not replacing
+            // warning for variables.
+            selected.setWarningText('Shadow blocks must be nested inside other'
+                + ' blocks.')
+          }
+
+          // Give editing options so that the user can make an invalid shadow
+          // block a normal block.
+          this.view.buttons.removeShadow.disabled = false;
+          this.view.buttons.addShadow.disabled = true;
+        } else {
+          // Selected block does not break any shadow block rules, but cannot
+          // be a shadow block.
+
+          // Remove possible 'invalid shadow block placement' warning.
+          if (selected != null && this.projectController.isDefinedBlock(selected) &&
+              (!FactoryUtils.hasVariableField(selected) ||
+              !this.isUserGenShadowBlock(selected.id))) {
+            selected.setWarningText(null);
+          }
+
+          // No block selected that is a shadow block or could be a valid shadow
+          // block. Disable block editing.
+          this.view.buttons.addShadow.disabled = true;
+          this.view.buttons.removeShadow.disabled = true;
+        }
+      }
+    }
+
+    // Convert actual shadow blocks added from the toolbox to user-generated
+    // shadow blocks.
+    if (e.type == Blockly.Events.CREATE) {
+      this.convertShadowBlocks();
+
+      // Let the user create a Variables or Functions category if they use
+      // blocks from either category.
+
+      // Get all children of a block and add them to childList.
+      const getAllChildren = function(block, childList) {
+        childList.push(block);
+        var children = block.getChildren();
+        for (var i = 0, child; child = children[i]; i++) {
+          getAllChildren(child, childList);
+        }
+      };
+
+      const newBaseBlock = this.view.editorWorkspace.getBlockById(e.blockId);
+      let allNewBlocks = [];
+      getAllChildren(newBaseBlock, allNewBlocks);
+      let variableCreated = false;
+      let procedureCreated = false;
+
+      // Check if the newly created block or any of its children are variable
+      // or procedure blocks.
+      for (var i = 0, block; block = allNewBlocks[i]; i++) {
+        if (FactoryUtils.hasVariableField(block)) {
+          variableCreated = true;
+        } else if (FactoryUtils.isProcedureBlock(block)) {
+          procedureCreated = true;
+        }
+      }
+
+      // If any of the newly created blocks are variable or procedure blocks,
+      // prompt the user to create the corresponding standard category.
+      if (variableCreated && !this.hasVariablesCategory()) {
+        if (confirm('Your new block has a variables field. To use this block '
+            + 'fully, you will need a Variables category. Do you want to add '
+            + 'a Variables category to your custom toolbox?')) {
+          controller.loadCategoryByName('variables');
+        }
+      }
+
+      if (procedureCreated && !this.hasProceduresCategory()) {
+        if (confirm('Your new block is a function block. To use this block '
+            + 'fully, you will need a Functions category. Do you want to add '
+            + 'a Functions category to your custom toolbox?')) {
+          controller.loadCategoryByName('functions');
+        }
+      }
+    }
+  }
+
+  /**
+   * Determines if a block breaks shadow block placement rules. Breaks rules
+   * if (1) a shadow block no longer has a valid parent, or (2) a normal block
+   * is inside of a shadow block.
+   * @param {!Blockly.Block} block Blockly block that will be checked.
+   * @return {boolean} Whether block is placed in valid location as a shadow block.
+   * @private
+   */
+  isInvalidBlockPlacement_(block) {
+    return ((this.isUserGenShadowBlock(block.id) &&
+        !block.getSurroundParent()) ||
+        (!this.isUserGenShadowBlock(block.id) &&
+         block.getSurroundParent() &&
+         this.isUserGenShadowBlock(block.getSurroundParent().id)));
+  }
+
+  /**
+   * Saves the contents of the toolbox editor workspace.
+   */
+  saveStateFromWorkspace() {
+    this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
+  }
+
+  /**
    * Loads the given XML to the hidden Blockly.Workspace and sets any user-generated
    * shadow blocks to be actual shadow blocks in the hidden Blockly.Workspace.
    *
@@ -320,18 +578,10 @@ class ToolboxController {
    * @private
    */
   loadToHiddenWorkspace_(xml) {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - hiddenWorkspace (@type {!Blockly.Workspace})
-     * - setShadowBlocksInHiddenWorkspace_()
-     */
-
-    // TODO: Investigate if there is a better method than using hidden workspaces
-    //       for grabbing Block XML information.
-
-    throw 'Unimplemented: loadToHiddenWorkspace_()';
+    // REFACTOR: Moved in from wfactory_generator.js
+    this.hiddenWorkspace.clear();
+    Blockly.Xml.domToWorkspace(xml, this.hiddenWorkspace);
+    this.setShadowBlocksInHiddenWorkspace_();
   }
 
   /**
@@ -342,13 +592,12 @@ class ToolboxController {
    * @param {!Element} xmlDom Tree of XML elements to be appended to.
    */
   appendHiddenWorkspaceToDom_(xmlDom) {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - hiddenWorkspace (@type {!Blockly.Workspace})
-     */
-    throw 'Unimplemented: appendHiddenWorkspaceToDom_()';
+    // REFACTOR: Moved in from wfactory_generator.js
+    const blocks = this.hiddenWorkspace.getTopBlocks();
+    blocks.forEach((block) => {
+      let blockChild = Blockly.Xml.blockToDom(block, /* opt_noId */ true);
+      xmlDom.appendChild(blockChild);
+    });
   }
 
   /**
@@ -358,13 +607,13 @@ class ToolboxController {
    * @private
    */
   setShadowBlocksInHiddenWorkspace_() {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - isShadowBlock()
-     */
-    throw 'Unimplemented: setShadowBlocksInHiddenWorkspace_()';
+    // REFACTOR: Moved in from wfactory_generator.js
+    const blocks = this.hiddenWorkspace.getAllBlocks();
+    blocks.forEach((block) => {
+      if (this.view.toolbox.isShadowBlock(block.id)) {
+        block.setShadow(true);
+      }
+    });
   }
 
   /*
@@ -432,13 +681,8 @@ class ToolboxController {
    *     otherwise.
    */
   isUserGenShadowBlock(blockId) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - isShadowBlock()
-     */
-     throw 'Unimplemented: isUserGenShadowBlock()';
+    // TODO: Move in from wfactory_controller.js
+    return this.view.toolbox.isShadowBlock(blockId);
   }
 
   /**
@@ -448,16 +692,23 @@ class ToolboxController {
    * shadow blocks in the view but are still editable and movable.
    */
   convertShadowBlocks() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - isShadow()
-     * - setShadow()
-     * - addShadowBlock()
-     * - markShadowBlock()
-     */
-     throw 'Unimplemented: convertShadowBlocks()';
+    // REFACTORED: Moved in from wfactory_controller.js
+    const blocks = this.view.editorWorkspace.getAllBlocks();
+    blocks.forEach((block) => {
+      if (block.isShadow()) {
+        block.setShadow(false);
+        // Delete the shadow DOM attached to the block so that the shadow block
+        // does not respawn. Dependent on implementation details.
+        const parentConnection = block.outputConnection ?
+            block.outputConnection.targetConnection :
+            block.previousConnection.targetConnection;
+        if (parentConnection) {
+          parentConnection.setShadowDom(null);
+        }
+        this.view.toolbox.addShadowBlock(block.id);
+        this.view.markShadowBlock(block);
+      }
+    });
   }
 
   /**
@@ -751,19 +1002,6 @@ class ToolboxController {
   }
 
   /**
-   * Switches a tab on or off.
-   * @param {string} id ID of the tab to switch on or off.
-   * @param {boolean} selected True if tab should be on, false if tab should be
-   *     off.
-   */
-  setCategoryTabSelection(id, selected) {
-    /*
-     * TODO: Move in from wfactory_view.js
-     */
-    throw 'Unimplemented: setCategoryTabSelection()';
-  }
-
-  /**
    * Disables or enables the workspace by putting a div over or under the
    * toolbox workspace, depending on the value of disable. Used when switching
    * to/from separators where the user shouldn't be able to drag blocks into
@@ -786,20 +1024,28 @@ class ToolboxController {
    * to categories (not including importing).
    */
   transferFlyoutBlocksToCategory() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - hasElements()
-     * - createCategory()
-     * - getCategoryIdByName()
-     * - setSelectedById()
-     * - setCategoryTabSelection()
-     * - setCategoryOptions()
-     * - generateNewOptions()
-     * - updatePreview()
-     */
-    throw 'Unimplemented: transferFlyoutBlocksToCategory()';
+    // REFACTORED: Moved in from wfactory_controller.js
+    if (this.view.toolbox.isEmpty() &&
+        this.view.editorWorkspace.getAllBlocks().length > 0) {
+      const id = this.createCategory_('Category 1');
+      this.currentToolbox.setSelected(id);
+      this.view.selectTab(id, true);
+
+      this.updatePreview();
+    }
+  }
+
+  /**
+   * Creates a category in the currently open Toolbox model. Returns the id
+   * of the category.
+   * @param {string} name Name of new category.
+   * @return {string} ID of category that was just created.
+   * @private
+   */
+  createCategory_(name) {
+    this.currentToolbox.addElement(new ListElement(ListElement.TYPE_CATEGORY,
+        name));
+    return this.currentToolbox.getCategoryId(name);
   }
 
   /**
@@ -849,32 +1095,6 @@ class ToolboxController {
   setBorderColor(id, color) {
     // TODO: Move in from wfactory_view.js
     throw 'Unimplemented: setBorderColor()';
-  }
-
-  /**
-   * Given a set of blocks currently loaded user-generated shadow blocks, visually
-   * marks them without making them actual shadow blocks (allowing them to still
-   * be editable and movable).
-   * @param {!Array.<!Blockly.Block>} blocks Array of user-generated shadow blocks
-   *     currently loaded.
-   */
-  markShadowBlocks(blocks) {
-    /*
-     * TODO: Move in from wfactory_view.js:markShadowBlocks(blocks)
-     *           and from wfactory_view.js:markShadowBlock(block)
-     */
-    throw 'Unimplemented: markShadowBlocks()';
-  }
-
-  /**
-   * Removes visual marking for a shadow block given a rendered block.
-   * @param {!Blockly.Block} block The block that should be unmarked as a shadow
-   *     block (must be rendered).
-   */
-  unmarkShadowBlock(block) {
-    /*
-     * TODO: Move in from wfactory_view.js
-     */
   }
 
   /**
