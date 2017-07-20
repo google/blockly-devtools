@@ -33,8 +33,8 @@ class BlockDefinition extends Resource {
    * @constructor
    * @param {string} type The name of the block.
    */
-  constructor(type) {
-    super(type);
+  constructor(type, prefix) {
+    super(type, prefix);
 
     /**
      * XML Element of blocks displayed on Block Editor workspace.

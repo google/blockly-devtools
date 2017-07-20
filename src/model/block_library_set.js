@@ -33,11 +33,12 @@ class BlockLibrarySet extends ResourceSet {
    * BlockLibrarySet Class.
    * @param {string} librarySetName The name for the block library set.
    * @param {string} projectName The name of the project the set belongs to.
-   *
+   * @param {string} prefix The prefix for identifying block libraries, also
+   *     used to identify the set.
    * @constructor
    */
-  constructor(librarySetName, projectName) {
-    super(librarySetName, projectName);
+  constructor(librarySetName, projectName, prefix) {
+    super(librarySetName, projectName, prefix);
   }
 
   /**
@@ -46,7 +47,7 @@ class BlockLibrarySet extends ResourceSet {
    *     the set.
    */
   getBlockTypes() {
-    console.warn('unimplemented: getBlockTypes');
+    throw 'unimplemented: getBlockTypes';
    }
 
   /**
@@ -55,7 +56,7 @@ class BlockLibrarySet extends ResourceSet {
    *     definitions.
    */
   getAllBlockDefinitionsMap() {
-    console.warn('unimplemented: getAllBlockDefinitionsMap');
+    throw 'unimplemented: getAllBlockDefinitionsMap';
   }
 
   /**
@@ -65,7 +66,7 @@ class BlockLibrarySet extends ResourceSet {
    *     to their definitions.
    */
   getBlockDefinitionMap(libraryName) {
-    console.warn('unimplemented: getBlockDefinitionMap');
+    throw 'unimplemented: getBlockDefinitionMap';
   }
 
   /**
@@ -79,12 +80,11 @@ class BlockLibrarySet extends ResourceSet {
 
   /**
    * Produces the JSON needed to organize libraries in the tree.
-   * @param {string} prefix The id prefix for libraries.
    * @return {!Object} The JSON for the tree's library section.
    */
-  getJson(prefix) {
+  getJson() {
     const librarySetJson = {
-      'id': prefix,
+      'id': this.prefix,
       'text': 'Libraries',
       'children': super.getJson()
     };
