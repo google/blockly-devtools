@@ -107,12 +107,12 @@ goog.require('Resource');
    * @return {!Object} The JSON representing the set's tree structure.
    */
   getJson() {
-    let resourceSetTreeJson = [];
+    let resourceSetJson = [];
     for (let resourceName of this.getNames()) {
       var resourceJson = this.resources[resourceName].getJson();
       resourceSetTreeJson.push(resourceJson);
     }
-    return resourceSetTreeJson;
+    return resourceSetJson;
   }
 
   /**
@@ -120,7 +120,7 @@ goog.require('Resource');
    */
   loadFromLocalStorage() {
     const set = goog.global.localStorage[this.name];
-    this.resources = set ? JSON.parse(set) : null;
+    this.resources = JSON.parse(set).children;
   }
 
   /**
