@@ -113,16 +113,6 @@ class Project extends Resource {
   }
 
   /**
-   * Adds a block definition to the given blockLibrary in the project.
-   *
-   * @param {!BlockDefinition} blockDef Block definition to add to the project.
-   * @param {!BlockLibrary} library The library to add it to.
-   */
-  addBlockDefinition(blockDef, libraryName) {
-    library.add(blockDef);
-  }
-
-  /**
    * Adds a library to the library set.
    *
    * @param {!BlockLibrary} blockLibrary The BlockLibrary to add to the
