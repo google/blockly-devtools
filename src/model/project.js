@@ -119,7 +119,10 @@ class Project extends Resource {
    * @param {string} libraryName The library to add it to.
    */
   addBlockDefinition(blockDef, libraryName) {
-
+    const library = this.librarySet.has(blockType);
+    if (library != null) {
+      library.add(blockDef);
+    }
   }
 
   /**
