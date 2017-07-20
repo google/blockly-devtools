@@ -98,7 +98,7 @@ class BlockLibrary extends Resource {
   //TODO #87: phase out
   getBlockXmlMap(blockTypes) {
     var xmlMap = {};
-    for (let blockType of this.getBlockTypes) {
+    for (let blockType of this.getBlockTypes()) {
       xmlMap[blockType] = this.blocks[blockType].getXml();
     }
     return xmlMap;
@@ -133,7 +133,7 @@ class BlockLibrary extends Resource {
    */
   getBlockJsonMap() {
     var jsonMap = {};
-    for (let blockType of this.getBlockTypes) {
+    for (let blockType of this.getBlockTypes()) {
       jsonMap[blockType] = this.blocks[blockType].getXml();
     }
     return jsonMap;
@@ -146,7 +146,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    return this.getBlockTypes.includes(blockType);
+    return this.getBlockTypes().includes(blockType);
   }
 
   /**
@@ -167,7 +167,7 @@ class BlockLibrary extends Resource {
     const libraryJson = {
       'id': this.prefix,
       'text': this.name,
-      'children': this.getBlockJson
+      'children': this.getBlockJson()
     };
     return libraryJson;
   }
