@@ -36,41 +36,68 @@ goog.require('WorkspaceController');
 class EditorController {
   /**
    * @constructor
-   * @param {!Project} project Project object associated with this controller.
+   * @param {!ProjectController} projectController ProjectController used to
+   *     update the project upon changes in any editor.
    * @param {!Blockly.Workspace} hiddenWorkspace Invisible Blockly Workspace
    *     used to generate Blockly objects for import/export.
    */
-  constructor(project, hiddenWorkspace) {
+  constructor(projectController, hiddenWorkspace) {
     /**
-     * Project object whose components are controlled by EditorController.
-     * @type {!Project}
+     * ProjectController which controls changes to the Project.
+     * @type {!ProjectController}
      */
-    this.project = project;
+    this.projectController = projectController;
 
     /**
-     * Toolbox Controller.
-     * @type {!ToolboxController}
-     */
-    this.toolboxController = new ToolboxController(this.project, hiddenWorkspace);
-
-    /**
-     * Workspace Controller.
-     * @type {!WorkspaceController}
-     */
-    this.workspaceController = new WorkspaceController(this.project, hiddenWorkspace);
-
-    /**
-     * Block Editor Controller
+     * Controls the block editor. Manages updates to model and view within
+     * block editor.
      * @type {BlockLibraryController}
      */
-    this.blockEditorController = new BlockEditorController(this.project, hiddenWorkspace);
+    this.blockEditorController = new BlockEditorController(
+        this.projectController, hiddenWorkspace);
+
+    /**
+     * Controls the toolbox editor. Manages updates to model and view within
+     * toolbox editor.
+     * @type {!ToolboxController}
+     */
+    this.toolboxController = new ToolboxController(
+        this.projectController, hiddenWorkspace);
+
+    /**
+     * Controls the workspace editor. Manages updates to model and view within
+     * workspace editor.
+     * @type {!WorkspaceController}
+     */
+    this.workspaceController = new WorkspaceController(
+        this.projectController, hiddenWorkspace);
 
     /**
      * Controller object which is currently controlling the developer's application.
      * Keeps track of which editor the user is on.
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
-    this.currentEditor = this.blockEditorController;
+    this.currentEditor = null;
+
+    // Show the block editor on page load.
+    this.switchEditor(AppController.BLOCK_EDITOR);
+  }
+
+  /**
+   * Switches editors.
+   * @param {!BlockEditorController|!ToolboxController|!WorkspaceController}
+   *     editor Editor controller object that user switches to.
+   */
+  switchEditor(editor) {
+    this.currentEditor = editor;
+
+    if (editor instanceof BlockEditorController) {
+      this.currentEditor.refreshPreviews();
+    } else if (editor instanceof ToolboxController) {
+      // TODO: Add if necessary, delete if no other action is necessary.
+    } else if (editor instanceof WorkspaceController) {
+      // TODO: Add if necessary, delete if no other action is necessary.
+    }
   }
 
   /**
