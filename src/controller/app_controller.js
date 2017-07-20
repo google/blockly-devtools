@@ -44,6 +44,27 @@ goog.require('ProjectController');
 
 var Emitter = require('component-emitter');
 
+/*
+ * Global constants for organizing different node types, used when giving them
+ *     ids. Given with the assumption that the name of each object in a
+ *     project is unique across that project.
+ */
+const PROJECT_PREFIX = "Project";
+const BLOCK_PREFIX = 'Block';
+const LIBRARY_PREFIX = "BlockLibrary";
+const TOOLBOX_PREFIX = 'Toolbox';
+const WORKSPACE_CONTENTS_PREFIX = 'WorkspaceContents';
+const WORKSPACE_CONFIG_PREFIX = 'WorkspaceConfiguration';
+/**
+ * A list of all prefixes, for easier passing.
+ */
+const prefixList =
+  [PROJECT_PREFIX, BLOCK_PREFIX, LIBRARY_PREFIX, TOOLBOX_PREFIX,
+    WORKSPACE_CONFIG_PREFIX, WORKSPACE_CONTENTS_PREFIX];
+
+// TODO(#44): Rename to AppController once refactor is finished. Temporarily named
+// to AppController to avoid overlapping namespaces with current AppController,
+// which will be refactored into this (and other) files.
 class AppController {
   /**
    * Initializes AppController, creates project object, associated controllers
@@ -94,7 +115,7 @@ class AppController {
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
-    this.projectController = new ProjectController(this.project, this.tree);
+    this.projectController = new ProjectController(this.project, this.navTree);
 
     /**
      * EditorController object which encapsulates all editor controllers
@@ -115,17 +136,47 @@ class AppController {
      * @type {!PopupController}
      */
     this.popupController = new PopupController(this.projectController);
+
+    /**
+     * Map of tab type to div element for the tab.
+     * @type {!Object.<string, !Element>}
+     */
+    this.tabMap = {};
+    this.tabMap[this.BLOCK_FACTORY] = $('#blockFactory_tab');
+    this.tabMap[this.WORKSPACE_FACTORY] = $('#workspaceFactory_tab');
+    this.tabMap[this.EXPORTER] = $('#blocklibraryExporter_tab');
+
+    /**
+     * Keeps track of name of last selected tab.
+     * @type {string}
+     */
+    this.lastSelectedTab = null;
+
+    /**
+     * Keeps track of name of currently selected tab.
+     * @type {string}
+     */
+    this.selectedTab = this.BLOCK_FACTORY;
   }
 
   // ======================== CONSTANTS ===========================
   // TODO: Remove/add tabs to fit new DevTools model.
   /**
-   * Static get function for constant BLOCK_EDITOR. Represents one of the
+   * Static get function for constant BLOCK_FACTORY. Represents one of the
    * three tabs in the controller.
    * @return {!string}
    */
-  static get BLOCK_EDITOR() {
-    return 'BLOCK_EDITOR';
+  static get BLOCK_FACTORY() {
+    return 'BLOCK_FACTORY';
+  }
+
+  /**
+   * Static get function for constant WORKSPACE_FACTORY. Represents one of the
+   * three tabs in the controller.
+   * @return {!string}
+   */
+  static get WORKSPACE_FACTORY() {
+    return 'WORKSPACE_FACTORY';
   }
 
   /**
@@ -154,6 +205,92 @@ class AppController {
   }
 
   // ========================= VIEW-CONTROLLER ==========================
+
+  /**
+   * Set the selected tab.
+   * @param {string} tabName AppController.BLOCK_FACTORY,
+   *     AppController.WORKSPACE_FACTORY, or AppController.EXPORTER
+   */
+  setSelectedTab(tabName) {
+    // REFACTORED: from app_controller.js:setSelected_(tabName)
+    this.view.lastSelectedTab = this.view.selectedTab;
+    this.view.selectedTab = tabName;
+  }
+
+  /**
+   * Called on each tab click. Hides and shows specific content based on which tab
+   * (Block Factory, Workspace Factory, or Exporter) is selected.
+   */
+  //TODO #99: have changed by tree, not tabs
+  onTab() {
+    // REFACTORED: Moved in from app_controller.js=
+    // Get tab div elements
+    const blockFactoryTab = this.tabMap[AppController.BLOCK_FACTORY];
+    const exporterTab = this.tabMap[AppController.EXPORTER];
+    const workspaceFactoryTab = this.tabMap[AppController.WORKSPACE_FACTORY];
+    const currentTab = this.view.selectedTab;
+
+    // Only enable key events in Editors if its tab is selected.
+    this.editorController.toolboxController.keyEventsEnabled =
+        currentTab == AppController.TOOLBOX_EDITOR;
+    this.editorController.workspaceController.keyEventsEnabled =
+        currentTab == AppController.WORKSPACE_EDITOR;
+
+    // Turn selected tab on and other tabs off.
+    this.view.styleTabs_();
+
+    if (currentTab == AppController.BLOCK_FACTORY) {
+      this.showTab_('blockFactoryContent');
+      this.editorController.currentEditor = this.editorController.blockEditorController;
+    } else if (currentTab == AppController.WORKSPACE_FACTORY) {
+      // TODO(#95): Deprecate workspace factory tab. Split into two views,
+      //            toolbox editor and workspace editor view.
+
+      this.showTab_('workspaceFactoryContent');
+
+      // Update block library categories.
+      this.editorController.toolboxController.updateBlockLibCategory();
+    } else if (currentTab == AppController.EXPORTER) {
+      // TODO: Deprecate exporter tab. Keep for now to keep view in tact. Will
+      //       remove completely after #95 is resolved.
+      this.showTab_('blockLibraryExporter');
+
+      // Note: Removed exporter and usedBlockTypes() references because exporting
+      // will be done through the menubar and the block exporter tab will be
+      // deprecated.
+    } else if (currentTab == AppController.TOOLBOX_EDITOR) {
+      this.showTab_('toolboxEditor');
+
+      this.editorController.toolboxController.updateBlockLibCategory();
+      this.editorController.currentEditor = this.editorController.toolboxController;
+    } else if (currentTab == AppController.WORKSPACE_EDITOR) {
+      this.showTab_('workspaceEditor');
+
+      this.editorController.workspaceController.updateBlockLibCategory();
+      this.editorController.currentEditor = this.editorController.workspaceController;
+    }
+
+    // Resize to render workspaces' toolboxes correctly for all tabs.
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  /**
+   * Given a tab name, shows the view corresponding to that tab and hides all others.
+   * Helper function of onTab().
+   * @param {string} tabName Name of tab to be shown.
+   * @private
+   */
+  showTab_(tabName) {
+    const tabNames = ['workspaceFactoryContent', 'blockFactoryContent',
+        'blockLibraryExporter', 'toolboxEditor', 'workspaceEditor'];
+    tabNames.forEach((name) => {
+      if (name === tabName) {
+        FactoryUtils.show(name);
+      } else {
+        FactoryUtils.hide(name);
+      }
+    });
+  }
 
   /**
    * If given checkbox is checked, enable the given elements.  Otherwise, disable.
