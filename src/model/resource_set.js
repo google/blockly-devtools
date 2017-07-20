@@ -99,7 +99,7 @@ goog.require('Resource');
    * @return {boolean} Whether or not the set is empty.
    */
   isEmpty() {
-    throw 'unimplimented: isEmpty';
+    throw 'unimplemented: isEmpty';
   }
 
   /**
@@ -120,7 +120,7 @@ goog.require('Resource');
    * @return {boolean} Whether or not unsaved elements exist.
    */
   isDirty() {
-    throw 'unimplemented: isDirty';
+    throw 'abstract method: isDirty';
   }
 
   /**

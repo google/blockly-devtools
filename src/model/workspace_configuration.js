@@ -97,6 +97,7 @@ class WorkspaceConfiguration extends Resource {
     throw "unimplemented: setName";
   }
 
+
   /**
    * Returns whether or not the workspace configuration is unsaved.
    * @return {boolean} Whether or not there are unsaved changes.

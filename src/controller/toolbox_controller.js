@@ -32,12 +32,13 @@ goog.require('ToolboxEditorView');
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
 class ToolboxController {
-  constructor(project, hiddenWorkspace) {
+  constructor(projectController, hiddenWorkspace) {
     /**
-     * Project whose library is controlled by this BlockLibraryController instance.
-     * @type {!Project}
+     * ProjectController that will edit toolboxes when edited in the toolbox
+     *     editor.
+     * @type {!ProjectController}
      */
-    this.project = project;
+    this.projectController = projectController;
 
     /**
      * Keeps track of which toolbox is currently being edited.
@@ -307,7 +308,7 @@ class ToolboxController {
    */
   updateEditorToolbox() {
     const newToolboxXml = FactoryUtils.updateBlockLibCategory(
-        this.project, this.hiddenWorkspace);
+        this.projectController.getProject(), this.hiddenWorkspace);
     this.view.updateEditorToolbox(newToolboxXml);
   }
 
