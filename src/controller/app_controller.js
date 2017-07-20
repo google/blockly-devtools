@@ -92,7 +92,7 @@ class AppController {
      * Stores currently loaded project that user will edit.
      * @type {!Project}
      */
-    this.project = new Project('A Project');
+    this.project = new Project('A Project', prefixList);
 
     /**
      * The tree for the DevTools session.
@@ -115,7 +115,8 @@ class AppController {
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
-    this.projectController = new ProjectController(this.project, this.navTree);
+    this.projectController = new ProjectController(this.project, this.navTree,
+      prefixList);
 
     /**
      * EditorController object which encapsulates all editor controllers

@@ -40,9 +40,10 @@ class ProjectController {
    *     comes from.
    * @param {!NavigationTree} tree The tree which represents that project, to be updated
    *     by the controller alongside it.
+   * @param {Array.<string>} prefixList List of prefixes for all Resource classes.
    * @constructor
    */
-  constructor(project, tree) {
+  constructor(project, tree, prefixList) {
     /**
      * The project to be managed.
      * @type {!Project}
@@ -53,6 +54,12 @@ class ProjectController {
      * @type {!NavigationTree}
      */
     this.tree = tree;
+
+    /**
+     * List of prefixes for all Resource classes, used in create methods.
+     * @type {Array.<string>}
+     */
+    this.prefixList = prefixList;
   }
 
   /**
@@ -91,7 +98,7 @@ class ProjectController {
    */
   createBlockDefinition(blockType) {
     //TODO #105: check for valid name, throw error upon conflict
-    const block = new BlockDefinition(blockType);
+    const block = new BlockDefinition(blockType, this.prefixList[1]);
     this.addBlockDefinition(blockType);
     return block;
   }
@@ -105,7 +112,7 @@ class ProjectController {
    */
   createToolbox(toolboxName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const toolbox = new Toolbox(toolboxName);
+    const toolbox = new Toolbox(toolboxName, this.prefixList[2]);
     this.addToolbox(toolbox);
     return toolbox;
   }
@@ -120,7 +127,8 @@ class ProjectController {
    */
   createWorkspaceContents(workspaceContentsName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const workspaceContents = new WorkspaceContents(workspaceContentsName);
+    const workspaceContents = new WorkspaceContents(workspaceContentsName,
+      this.prefixList[3]);
     this.addWorkspaceContents(workspaceContents);
     return workspaceContents;
   }
@@ -137,7 +145,7 @@ class ProjectController {
   createWorkspaceConfiguration(workspaceConfigName) {
     //TODO #105: check for valid name, throw error upon conflict
     const workspaceConfig = new WorkspaceConfiguration(workspaceConfigName);
-    this.addWorkspaceConfiguration(workspaceConfig);
+    this.addWorkspaceConfiguration(workspaceConfig, this.prefixList[4]);
     return workspaceConfig;
   }
 
