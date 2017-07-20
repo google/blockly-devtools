@@ -162,7 +162,7 @@ class ProjectController {
    * @param {!BlockDefinition} blockDef Block definition to add to the project.
    */
   addBlockDefinition(blockDef) {
-    throw 'unimplemented: addBlockDefinition';
+    console.warn('Unimplemented: addBlockDefinition');
   }
 
   /**
@@ -260,12 +260,12 @@ class ProjectController {
   }
 
   /**
-   * Renames a block.
+   * Renames a resource. Updates navtree view.
    * @param {Resource} resource The resource to be named.
    * @param {string} newName The new name for the resource.
    */
   rename(resource, newName) {
-    throw 'unimplemented: rename';
+    console.warn('unimplemented: rename');
   }
 
   /**
