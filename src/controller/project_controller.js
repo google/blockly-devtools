@@ -48,6 +48,7 @@ class ProjectController {
      * @type {!Project}
      */
     this.project = project;
+
     /**
      * The tree which represents the project.
      * @type {!NavigationTree}
@@ -162,7 +163,7 @@ class ProjectController {
    * @param {!BlockDefinition} blockDef Block definition to add to the project.
    */
   addBlockDefinition(blockDef) {
-    throw 'unimplemented: addBlockDefinition';
+    console.warn('unimplemented: addBlockDefinition');
   }
 
   /**
@@ -265,7 +266,7 @@ class ProjectController {
    * @param {string} newName The new name for the resource.
    */
   rename(resource, newName) {
-    throw 'unimplemented: rename';
+    console.warn('unimplemented: rename');
   }
 
   /**
