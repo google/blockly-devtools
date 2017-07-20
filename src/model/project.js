@@ -158,18 +158,6 @@ class Project extends Resource {
   }
 
   /**
-   * Removes a block definition from project.
-   * @param {string} blockType The name of the block to be removed.
-   */
-  //TODO #89: determine specifics of deletion from a project
-  //TODO #90: sort out specifics of deletion for descendants
-  removeBlock(blockType) {
-    this.librarySet.removeBlockFromSet(blockType);
-    this.toolboxSet.removeBlockFromSet(blockType);
-    this.workspaceContentsSet.removeBlockFromSet(blockType);
-  }
-
-  /**
    * Removes a library from the library set.
    *
    * @param {string} blockLibraryName The name of the BlockLibrary to remove
@@ -206,12 +194,15 @@ class Project extends Resource {
   }
 
   /**
-   * Returns whether or not there are unsaved elements in the project.
-   * @return {boolean} Whether or not unsaved elements exist.
+   * Removes a block from the project.
+   *
+   * @param {string} blockType The name of the block to remove.
    */
-  //TODO #52: move warning from BlockLibraryController to ProjectController.
-  isDirty() {
-    throw 'unimplemented: isDirty';
+  removeBlock(blockType) {
+    const library = this.librarySet.getLibrary(blockType);
+    if (library != null) {
+      library.remove(blockType);
+    }
   }
 
   /**
@@ -221,18 +212,7 @@ class Project extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   hasBlock(blockType) {
-    return this.librarySet.hasBlock(blockType);
-  }
-
-  /**
-   * Returns BlockDefinition object with given type name. Does not need library
-   * name specification.
-   * @param {string} blockType Name of BlockDefinition object.
-   * @param {BlockDefinition} BlockDefinition object with given name.
-   */
-  getBlock(blockType) {
-    const allBlocks = this.librarySet.getAllBlockDefinitionsMap();
-    return allBlocks[blockType];
+    return this.librarySet.has(blockType);
   }
 
   /**

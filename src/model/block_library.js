@@ -58,7 +58,7 @@ class BlockLibrary extends Resource {
    * @param {!BlockDefinition} blockDefinition The definition of the block to be
    *    saved.
    */
-  addBlockDefinition(blockDefinition) {
+  add(blockDefinition) {
     this.blocks[blockDefinition.type()] = blockDefinition;
   }
 
