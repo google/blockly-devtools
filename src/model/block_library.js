@@ -108,7 +108,7 @@ class BlockLibrary extends Resource {
    * Clears the block library.
    */
   clear() {
-    this.blocks = {};
+    this.blocks = new Object(null);
   }
 
   /**
@@ -164,11 +164,8 @@ class BlockLibrary extends Resource {
    * @return {!Object} The tree-specific JSON representation of the library.
    */
   getJson() {
-    const libraryJson = {
-      'id': this.prefix,
-      'text': this.name,
-      'children': this.getBlockJson()
-    };
+    const libraryJson = super.getJson();
+    libraryJson.concat({'children': this.getBlockJson()});
     return libraryJson;
   }
 }

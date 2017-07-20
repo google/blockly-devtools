@@ -32,7 +32,7 @@ class Resource {
   /**
    * Resource Class.
    * @param {string} resourceName The name for the resource.
-   * @param {string} prefix The prefix used to identify the Resource in its Json.
+   * @param {string} prefix The prefix used to identify the Resource in its JSON.
    * @constructor
    */
   constructor(resourceName, prefix) {
@@ -43,7 +43,7 @@ class Resource {
      this.name = resourceName;
 
     /**
-     * The prefix used to identify the Resource in its Json.
+     * The prefix used to identify the Resource in its JSON.
      * @type {string}
      */
     this.prefix = prefix;
@@ -78,7 +78,11 @@ class Resource {
    * @return {!Object} The JSON representation of the resource.
    */
   getJson() {
-    throw 'abstract method: getJson';
+    const resourceJson = {
+      'id': this.prefix,
+      'text': this.name,
+    };
+    return resourceJson;
   }
 
   /**

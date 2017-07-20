@@ -45,22 +45,18 @@ goog.require('ProjectController');
 var Emitter = require('component-emitter');
 
 /*
- * Global constants for organizing different node types, used when giving them
- *     ids. Given with the assumption that the name of each object in a
- *     project is unique across that project.
+ * Dictionary containing the prefixes for all node types. Given with the
+ *     assumption that the name of each object in a project is unique across
+ *     that project.
  */
-const PROJECT_PREFIX = "Project";
-const BLOCK_PREFIX = 'Block';
-const LIBRARY_PREFIX = "BlockLibrary";
-const TOOLBOX_PREFIX = 'Toolbox';
-const WORKSPACE_CONTENTS_PREFIX = 'WorkspaceContents';
-const WORKSPACE_CONFIG_PREFIX = 'WorkspaceConfiguration';
-/**
- * A list of all prefixes, for easier passing.
- */
-const prefixList =
-  [PROJECT_PREFIX, BLOCK_PREFIX, LIBRARY_PREFIX, TOOLBOX_PREFIX,
-    WORKSPACE_CONFIG_PREFIX, WORKSPACE_CONTENTS_PREFIX];
+const PREFIXES = {
+  PROJECT : 'Project',
+  BLOCK : 'Block',
+  LIBRARY : 'BlockLibrary',
+  TOOLBOX : 'Toolbox',
+  WORKSPACE_CONTENTS : 'WorkspaceContents',
+  WORKSPACE_CONFIG : 'WorkspaceConfiguration'
+}
 
 class AppController {
   /**
@@ -89,7 +85,7 @@ class AppController {
      * Stores currently loaded project that user will edit.
      * @type {!Project}
      */
-    this.project = new Project('A Project', prefixList);
+    this.project = new Project('A Project', PREFIXES);
 
     /**
      * The tree for the DevTools session.
@@ -113,7 +109,7 @@ class AppController {
      * @type {!ProjectController}
      */
     this.projectController = new ProjectController(this.project, this.tree,
-      prefixList);
+      PREFIXES);
 
     /**
      * EditorController object which encapsulates all editor controllers

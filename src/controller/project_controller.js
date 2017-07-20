@@ -40,10 +40,10 @@ class ProjectController {
    *     comes from.
    * @param {!NavigationTree} tree The tree which represents that project, to be updated
    *     by the controller alongside it.
-   * @param {Array.<string>} prefixList List of prefixes for all Resource classes.
+   * @param {!Object} prefixes Dictionary of prefixes for all Resource classes.
    * @constructor
    */
-  constructor(project, tree, prefixList) {
+  constructor(project, tree, prefixes) {
     /**
      * The project to be managed.
      * @type {!Project}
@@ -57,10 +57,10 @@ class ProjectController {
     this.tree = tree;
 
     /**
-     * List of prefixes for all Resource classes, used in create methods.
-     * @type {Array.<string>}
+     * Dictionary of prefixes for all Resource classes, used in create methods.
+     * @type {Object}
      */
-    this.prefixList = prefixList;
+    this.prefixes = prefixes;
   }
 
   /**
@@ -96,11 +96,11 @@ class ProjectController {
    * @param {string} blockType Name of the block to add to the project.
    *
    * @return {!BlockDefinition} The new block definition added to the project.
-   * @param {string} libraryName The library to add it to.
+   * @param {!string} libraryName The library to add it to.
    */
   createBlockDefinition(blockType, libraryName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const block = new BlockDefinition(blockType, this.prefixList[1]);
+    const block = new BlockDefinition(blockType, this.prefixes.BLOCK);
     this.addBlockDefinition(blockType, libraryName);
     return block;
   }
@@ -115,7 +115,7 @@ class ProjectController {
    */
   createBlockLibrary(blockLibraryName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const blockLibrary = new BlockLibrary(blockLibraryName, prefixList[2]);
+    const blockLibrary = new BlockLibrary(blockLibraryName, this.prefixes.LIBRARY);
     this.addBlockLibrary(blockLibrary);
     return blockLibrary;
   }
@@ -129,7 +129,7 @@ class ProjectController {
    */
   createToolbox(toolboxName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const toolbox = new Toolbox(toolboxName, this.prefixList[3]);
+    const toolbox = new Toolbox(toolboxName, this.prefixes.TOOLBOX);
     this.addToolbox(toolbox);
     return toolbox;
   }
@@ -145,7 +145,7 @@ class ProjectController {
   createWorkspaceContents(workspaceContentsName) {
     //TODO #105: check for valid name, throw error upon conflict
     const workspaceContents = new WorkspaceContents(workspaceContentsName,
-      this.prefixList[4]);
+      this.prefixes.WORKSPACE_CONTENTS);
     this.addWorkspaceContents(workspaceContents);
     return workspaceContents;
   }
@@ -162,7 +162,7 @@ class ProjectController {
   createWorkspaceConfiguration(workspaceConfigName) {
     //TODO #105: check for valid name, throw error upon conflict
     const workspaceConfig = new WorkspaceConfiguration(workspaceConfigName);
-    this.addWorkspaceConfiguration(workspaceConfig, this.prefixList[5]);
+    this.addWorkspaceConfiguration(workspaceConfig, this.prefixes.WORKSPACE_CONFIG);
     return workspaceConfig;
   }
 
@@ -281,7 +281,6 @@ class ProjectController {
   rename(resource, newName) {
     //TODO: restrict names.
     resource.setName(newName);
-
   }
 
   /**

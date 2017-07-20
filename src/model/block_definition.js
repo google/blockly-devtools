@@ -32,6 +32,7 @@ class BlockDefinition extends Resource {
    * BlockDefinition Class.
    * @constructor
    * @param {string} type The name of the block.
+   * @param {!string} prefix The prefix for identifying blocks.
    */
   constructor(type, prefix) {
     super(type, prefix);
