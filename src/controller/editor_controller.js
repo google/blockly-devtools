@@ -79,7 +79,7 @@ class EditorController {
      */
     this.currentEditor = null;
 
-    // Determines which editor to show on load.
+    // Show the block editor on page load.
     this.switchEditor(AppController.BLOCK_EDITOR);
   }
 

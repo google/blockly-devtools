@@ -70,7 +70,7 @@ class BlockEditorView {
     this.deleteButton = $('#removeBlockFromLibraryButton');
 
     /**
-     * Whether user is creating rtl or ltr blocks.
+     * Whether user is creating RTL or LTR blocks.
      * @type {boolean}
      */
     this.rtl = true;
