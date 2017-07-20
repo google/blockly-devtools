@@ -98,7 +98,7 @@ class WorkspaceEditorView {
   }
 
   /**
-   * Removes elements of this editor view from application view. Used when switching
+   * Removes contents of this editor view from application view. Used when switching
    * editors.
    */
   hide() {
@@ -111,7 +111,7 @@ class WorkspaceEditorView {
   }
 
   /**
-   * Shows elements of this editor to application view. Used when switching editors.
+   * Shows contents of this editor to application view. Used when switching editors.
    * @param {string} wsContentsName Name of WorkspaceContents to populate in
    *     workspace editor view when shown.
    */

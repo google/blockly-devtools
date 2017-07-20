@@ -84,17 +84,19 @@ class EditorController {
   }
 
   /**
-   * Switches editors (both view and controllers).
-   * @param {string} editorMode String which represents which editor to switch to.
+   * Switches editors.
+   * @param {!BlockEditorController|!ToolboxController|!WorkspaceController}
+   *     editor Editor controller object that user switches to.
    */
-  switchEditor(editorMode) {
-    if (editorMode === AppController.BLOCK_EDITOR) {
-      this.currentEditor = this.blockEditorController;
+  switchEditor(editor) {
+    this.currentEditor = editor;
+
+    if (editor instanceof BlockEditorController) {
       this.currentEditor.refreshPreviews();
-    } else if (editorMode === AppController.TOOLBOX_EDITOR) {
-      this.currentEditor = this.toolboxController;
-    } else if (editorMode === AppController.WORKSPACE_EDITOR) {
-      this.currentEditor = this.workspaceController;
+    } else if (editor instanceof ToolboxController) {
+      // TODO: Add if necessary, delete if no other action is necessary.
+    } else if (editor instanceof WorkspaceController) {
+      // TODO: Add if necessary, delete if no other action is necessary.
     }
   }
 

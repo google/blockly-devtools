@@ -374,24 +374,14 @@ class AppView {
 
   /**
    * Switches editor views in application.
-   * @param {string} editorName Name of editor to switch to.
+   * @param {string} editorView EditorView object to show.
    * @param {string} resourceName Name of resource to display in view.
    */
-  switchView(editorName, resourceName) {
+  switchView(editorView, resourceName) {
     resourceName = resourceName || null;
-    if (editorName === AppController.BLOCK_EDITOR) {
-      this.currentView.hide();
-      this.currentView = this.blockEditorView;
-      this.currentView.show(resourceName);
-    } else if (editorName === AppController.TOOLBOX_EDITOR) {
-      this.currentView.hide();
-      this.currentView = this.toolboxEditorView;
-      this.currentView.show(resourceName);
-    } else if (editorName === AppController.WORKSPACE_EDITOR) {
-      this.currentView.hide();
-      this.currentView = this.workspaceEditorView;
-      this.currentView.show(resourceName);
-    }
+    this.currentView.hide();
+    this.currentView = editorView;
+    this.currentView.show(resourceName);
   }
 
   /**
@@ -401,8 +391,22 @@ class AppView {
   tabClickHandlers_() {
     $('.tab').click((event) => {
       const clickedTab = event.currentTarget;
-      this.appController.editorController.switchEditor(clickedTab.id);
-      this.switchView(clickedTab.id);
+      const editorName = event.currentTarget.id;
+      let editorView, editorContr;
+
+      if (editorName === AppController.BLOCK_EDITOR) {
+        editorView = this.blockEditorView;
+        editorContr = this.appController.editorController.blockEditorController;
+      } else if (editorName === AppController.TOOLBOX_EDITOR) {
+        editorView = this.toolboxEditorView;
+        editorContr = this.appController.editorController.toolboxController;
+      } else if (editorName === AppController.WORKSPACE_EDITOR) {
+        editorView = this.workspaceEditorView;
+        editorContr = this.appController.editorController.workspaceController;
+      }
+
+      this.appController.editorController.switchEditor(editorContr);
+      this.switchView(editorView);
     });
   }
 

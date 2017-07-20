@@ -100,7 +100,7 @@ class ToolboxEditorView {
   }
 
   /**
-   * Removes elements of this editor view from application view. Used when switching
+   * Removes contents of this editor view from application view. Used when switching
    * editors.
    */
   hide() {
@@ -113,7 +113,7 @@ class ToolboxEditorView {
   }
 
   /**
-   * Shows elements of this editor to application view. Used when switching editors.
+   * Shows contents of this editor to application view. Used when switching editors.
    * @param {string} toolboxName Name of toolbox to populate in toolbox editor when
    *     shown.
    */

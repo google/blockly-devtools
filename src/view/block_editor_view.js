@@ -107,7 +107,7 @@ class BlockEditorView {
   }
 
   /**
-   * Removes elements of this editor view from application view. Used when switching
+   * Removes contents of this editor view from application view. Used when switching
    * editors.
    */
   hide() {
@@ -120,7 +120,7 @@ class BlockEditorView {
   }
 
   /**
-   * Shows elements of this editor to application view. Used when switching editors.
+   * Shows contents of this editor to application view. Used when switching editors.
    * @param {string} blockName Name of block to populate into block editor view.
    */
   show(blockName) {
