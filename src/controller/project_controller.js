@@ -101,7 +101,7 @@ class ProjectController {
   createBlockDefinition(blockType, libraryName) {
     //TODO #105: check for valid name, throw error upon conflict
     const block = new BlockDefinition(blockType, this.prefixList[1]);
-    this.addBlockDefinition(blockType);
+    this.addBlockDefinition(blockType, libraryName);
     return block;
   }
 

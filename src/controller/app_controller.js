@@ -138,9 +138,8 @@ class AppController {
 
   // ======================== CONSTANTS ===========================
   // TODO: Remove/add tabs to fit new DevTools model.
-
   /**
-   * Static get function for constant BLOCK_EDITOR.Represents one of the
+   * Static get function for constant BLOCK_EDITOR. Represents one of the
    * three tabs in the controller.
    * @return {!string}
    */
