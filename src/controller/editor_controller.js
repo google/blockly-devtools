@@ -77,7 +77,27 @@ class EditorController {
      * Keeps track of which editor the user is on.
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
-    this.currentEditor = this.blockEditorController;
+    this.currentEditor = null;
+
+    // Show the block editor on page load.
+    this.switchEditor(AppController.BLOCK_EDITOR);
+  }
+
+  /**
+   * Switches editors.
+   * @param {!BlockEditorController|!ToolboxController|!WorkspaceController}
+   *     editor Editor controller object that user switches to.
+   */
+  switchEditor(editor) {
+    this.currentEditor = editor;
+
+    if (editor instanceof BlockEditorController) {
+      this.currentEditor.refreshPreviews();
+    } else if (editor instanceof ToolboxController) {
+      // TODO: Add if necessary, delete if no other action is necessary.
+    } else if (editor instanceof WorkspaceController) {
+      // TODO: Add if necessary, delete if no other action is necessary.
+    }
   }
 
   /**

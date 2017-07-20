@@ -46,7 +46,7 @@ class BlockLibrarySet extends ResourceSet {
    *     the set.
    */
   getBlockTypes() {
-    throw 'unimplemented: getBlockTypes';
+    console.warn('unimplemented: getBlockTypes');
    }
 
   /**
@@ -55,7 +55,7 @@ class BlockLibrarySet extends ResourceSet {
    *     definitions.
    */
   getAllBlockDefinitionsMap() {
-    throw 'unimplemented: getAllBlockDefinitionsMap';
+    console.warn('unimplemented: getAllBlockDefinitionsMap');
   }
 
   /**
@@ -65,7 +65,7 @@ class BlockLibrarySet extends ResourceSet {
    *     to their definitions.
    */
   getBlockDefinitionMap(libraryName) {
-    throw 'unimplemented: getBlockDefinitionMap';
+    console.warn('unimplemented: getBlockDefinitionMap');
   }
 
   /**
