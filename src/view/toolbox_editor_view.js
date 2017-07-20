@@ -46,6 +46,16 @@ class ToolboxEditorView {
     this.toolbox = toolbox;
 
     /**
+     * JQuery container of toolbox editor view.
+     * @type {!JQuery}
+     */
+    this.container = $('#toolboxEditor');
+
+    // Inserts HTML into toolbox editor container. Keeps hidden.
+    this.container.html(ToolboxEditorView.html);
+    this.container.hide();
+
+    /**
      * Blockly workspace where users define/edit toolboxes.
      * @type {!Blockly.Workspace}
      */
@@ -87,6 +97,49 @@ class ToolboxEditorView {
     document.getElementById('button_up').disabled = true;
     document.getElementById('button_down').disabled = true;
     document.getElementById('button_editCategory').disabled = true;
+  }
+
+  /**
+   * Removes contents of this editor view from application view. Used when switching
+   * editors.
+   */
+  hide() {
+    // Deselect tab.
+    const tab = $('#' + AppController.TOOLBOX_EDITOR);
+    tab.removeClass('tabon');
+    tab.addClass('taboff');
+    // Hide this view.
+    this.container.hide();
+  }
+
+  /**
+   * Shows contents of this editor to application view. Used when switching editors.
+   * @param {!Toolbox} toolbox Toolbox object to populate in toolbox editor when
+   *     shown.
+   */
+  show(toolbox) {
+    // Select tab.
+    const tab = $('#' + AppController.TOOLBOX_EDITOR);
+    tab.removeClass('taboff');
+    tab.addClass('tabon');
+
+    // Show this view.
+    this.container.show();
+
+    // Resizes workspace to fit container.
+    Blockly.svgResize(this.editorWorkspace);
+    Blockly.svgResize(this.previewWorkspace);
+
+    // TODO: Make editor show the @param toolbox (when user clicks on a
+    //       specific toolbox in the navtree).
+  }
+
+  /**
+   * Initializes all event handlers and listeners for buttons/etc. in this view.
+   * @private
+   */
+  init_() {
+    console.warn('Unimplemented: init_()');
   }
 
   /**
@@ -183,3 +236,109 @@ class ToolboxEditorView {
     throw 'Unimplemented: addEmptyToolboxMessage()';
   }
 }
+
+/**
+ * Toolbox editor HTML contents. Injected into div on page load, then hidden.
+ * @type {string}
+ */
+ToolboxEditorView.html = `
+<!-- Workspace Factory tab -->
+<div id="factoryHeader">
+  <p>
+    <div class="dropdown">
+      <button id="button_importBlocks">Import Custom Blocks</button>
+      <div id="dropdownDiv_importBlocks" class="dropdown-content">
+        <input type="file" id="input_importBlocksJson" accept=".js, .json, .txt" class="inputfile"</input>
+        <label for="input_importBlocksJson">From JSON</label>
+        <input type="file" id="input_importBlocksJs" accept=".js, .txt" class="inputfile"</input>
+        <label for="input_importBlocksJs">From Javascript</label>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button id="button_load">Load to Edit</button>
+      <div id="dropdownDiv_load" class="dropdown-content">
+        <input type="file" id="input_loadToolboxXML" accept=".xml" class="inputfile"></input>
+        <label for="input_loadToolboxXML">Toolbox as XML</label>
+        <input type="file" id="input_loadToolboxJS" accept=".js" class="inputfile"></input>
+        <label for="input_loadToolboxJS">Toolbox as JS</label>
+        <input type="file" id="input_loadPreloadXML" accept=".xml" class="inputfile"</input>
+        <label for="input_loadPreloadXML">Workspace Blocks as XML</label>
+        <input type="file" id="input_loadPreloadJS" accept=".js" class="inputfile"</input>
+        <label for="input_loadPreloadJS">Workspace Blocks as JS</label>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button id="button_export">Export</button>
+      <div id="dropdownDiv_export" class="dropdown-content">
+        <a id="dropdown_exportOptions">Starter Code</a>
+        <a id="dropdown_exportToolboxXML">Toolbox as XML</a>
+        <a id="dropdown_exportToolboxJS">Toolbox as JS</a>
+        <a id="dropdown_exportPreloadXML">Workspace Blocks as XML</a>
+        <a id="dropdown_exportPreloadJS">Workspace Blocks as JS</a>
+        <a id="dropdown_exportAll">All</a>
+      </div>
+    </div>
+
+    <button id="button_clear">Clear</button>
+
+    <span id="saved_message"></span>
+  </p>
+</div>
+
+<section id="createDiv">
+  <div id="createHeader">
+    <h3>Edit Toolboxes</h3>
+    <p id="editHelpText">Drag blocks into the workspace to configure the toolbox in your custom workspace.</p>
+  </div>
+  <section id="toolbox_section">
+    <div id="toolboxDiv"></div>
+  </section>
+  <aside id="toolbox_div">
+    <p id="categoryHeader">You currently have no categories.</p>
+    <table id="categoryTable" style="width:auto; height:auto">
+    </table>
+    <p>&nbsp;</p>
+
+    <div class="dropdown">
+      <button id="button_add" class="large">+</button>
+      <div id="dropdownDiv_add" class="dropdown-content">
+        <a id="dropdown_newCategory">New Category</a>
+        <a id="dropdown_loadCategory">Standard Category</a>
+        <a id="dropdown_separator">Separator</a>
+        <a id="dropdown_loadStandardToolbox">Standard Toolbox</a>
+      </div>
+    </div>
+
+    <button id="button_remove" class="large">-</button>
+
+    <button id="button_up" class="large">&#8593;</button>
+    <button id="button_down" class="large">&#8595;</button>
+
+    <br>
+    <div class="dropdown">
+      <button id="button_editCategory">Edit Category</button>
+      <div id="dropdownDiv_editCategory" class="dropdown-content">
+        <a id='dropdown_name'>Name</a>
+        <a id='dropdown_color'>Colour</a>
+      </div>
+    </div>
+
+  </aside>
+
+  <button id="button_addShadow" style="display: none">Make Shadow</button>
+  <button id="button_removeShadow" style="display: none">Remove Shadow</button>
+
+</section>
+
+<aside id="previewDiv">
+  <div id="previewBorder">
+    <div id="previewHelp">
+      <h3>Preview</h3>
+      <p>This is what your custom workspace will look like.</p>
+    </div>
+    <div id="toolboxPreview" class="content"></div>
+  </div>
+</aside>
+`;
