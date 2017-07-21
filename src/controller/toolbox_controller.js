@@ -84,13 +84,13 @@ class ToolboxController {
    * before), and then creates a tab and switches to it.
    */
   addCategory() {
-    console.log('Adding a category!');
     // From wfactory_controller.js:addCategory()
     // Transfers the user's blocks to a flyout if it's the first category created.
     this.transferFlyoutBlocksToCategory();
 
-    // After possibly creating a category, check again if it's the first category.
-    const isFirstCategory = this.view.toolbox.isEmpty();
+    // // After possibly creating a category, check again if it's the first category.
+    // const isFirstCategory = this.view.toolbox.isEmpty();
+
     // Get name from user.
     const name = this.promptForNewCategoryName('Enter the name of your new category:');
     if (!name) {  // Exit if cancelled.
@@ -114,11 +114,8 @@ class ToolboxController {
   createCategory(name) {
     // REFACTOR: Moved in from wfactory_controller.js
     // Create empty category.
-    console.log('Creating a category!');
     const category = new ListElement(ListElement.TYPE_CATEGORY, name);
     this.view.toolbox.addElement(category);
-    console.log('SELECTED CATEGORY IN THIS TOOLBOX');
-    console.log(this.view.toolbox.getSelectedName());
     // Create new category.
     const tab = this.view.addCategoryRow(category.name);
     this.addClickToSwitch(tab, category.id);
@@ -309,8 +306,6 @@ class ToolboxController {
     // REFACTORED: Moved in from wfactory_controller.js:updatePreview()
     Blockly.Events.disable();
     const toolboxXml = this.view.toolbox.getExportData();
-    console.log('XML in preview:');
-    console.log(toolboxXml);
     const tree = Blockly.Options.parseToolboxTree(toolboxXml);
 
     if (tree.getElementsByTagName('category').length == 0) {
@@ -353,8 +348,6 @@ class ToolboxController {
       // this.loadToHiddenWorkspace_(this.view.toolbox.getSelectedXml());
       this.loadToHiddenWorkspace_(this.generateCategoryXml_(this.view.toolbox.selected));
       this.appendHiddenWorkspaceToDom_(xmlDom);
-      console.log('ws to dom');
-      console.log(Blockly.Xml.workspaceToDom(this.hiddenWorkspace));
     } else {
       // Toolbox has categories.
       if (!this.selected) {
@@ -765,6 +758,8 @@ class ToolboxController {
     // If switching to another category, set category selection in the model and
     // view.
     if (id != null) {
+      console.log('id is not null in clearAndLoadElement()');
+      console.log(id);
       // Set next category.
       this.view.toolbox.setSelected(id);
 
@@ -772,7 +767,7 @@ class ToolboxController {
       this.clearAndLoadXml_(this.view.toolbox.getSelectedXml());
 
       // Selects the next tab.
-      this.view.setCategoryTabSelection(id, true);
+      this.view.selectTab(id, true);
 
       // Order blocks as shown in flyout.
       this.view.editorWorkspace.cleanUp();
@@ -796,9 +791,8 @@ class ToolboxController {
     // From wfactory_controller.js
     this.view.editorWorkspace.clear();
     this.view.editorWorkspace.clearUndo();
-    console.log(xml);
     Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
-    this.view.markShadowBlocks(this.model.getShadowBlocksInWorkspace
+    this.view.markShadowBlocks(this.getShadowBlocksInWorkspace
         (this.view.editorWorkspace.getAllBlocks()));
     this.warnForUndefinedBlocks_();
   }
@@ -1130,7 +1124,7 @@ class ToolboxController {
     // From wfactory_model.js:getShadowBlocksInWorkspace()
     let shadowsInWorkspace = [];
     blocks.forEach((block) => {
-      if (this.isShadowBlock(block.id)) {
+      if (this.view.toolbox.isShadowBlock(block.id)) {
         shadowsInWorkspace.push(block);
       }
     });

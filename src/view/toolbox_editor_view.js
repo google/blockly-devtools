@@ -208,7 +208,6 @@ class ToolboxEditorView {
    */
   initEventListeners_(controller) {
     // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
-    console.log(this.buttons.add);
     $('#modalShadow').click(() => {
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
@@ -409,10 +408,9 @@ class ToolboxEditorView {
    */
   markShadowBlocks(blocks) {
     // REFACTOR: Moved in from wfactory_view.js:markShadowBlocks(blocks)
-    blocks.forEach((block) => {
-      this.markShadowBlock(block);
-    });
-    this.toolbox.addShadowBlock(block.id);
+    for (let i = 0; i < blocks.length; i++){
+      this.markShadowBlock(blocks[i]);
+    }
   }
 
   /**

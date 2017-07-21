@@ -204,11 +204,12 @@ class Toolbox extends Resource {
    */
   getElementById(id) {
     // From wfactory_model.js:getElementById(id)
-    this.categoryList.forEach((element) => {
-      if (element.id == id) {
+    for (let i = 0; i < this.categoryList.length; i++) {
+      let element = this.categoryList[i];
+      if (element.id === id) {
         return element;
       }
-    });
+    }
     return null; // ID not present in categoryList
   }
 
