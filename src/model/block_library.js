@@ -35,16 +35,15 @@ class BlockLibrary extends Resource {
   /**
    * BlockLibrary Class
    * @param {string} libraryName The name for the new library.
-   * @param {string} prefix The prefix for identifying block libraries.
    * @constructor
    */
-  constructor(libraryName, prefix) {
+  constructor(libraryName) {
     /*
      * TODO: fully implement
      *
      * References: N/A
      */
-    super(libraryName, prefix);
+    super(libraryName);
 
     /**
      * A map of all blocks in the library to their definitions.
@@ -108,7 +107,7 @@ class BlockLibrary extends Resource {
    * Clears the block library.
    */
   clear() {
-    this.blocks = new Object(null);
+    this.blocks = Object.create(null);
   }
 
   /**
