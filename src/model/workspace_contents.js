@@ -64,17 +64,11 @@ class WorkspaceContents extends Resource {
 
   /**
    * Saves block to block workspace contents.
-   * @param {string} blockType Type of block.
-   * @param {Element} blockXML The block's XML pulled from workspace contents.
+   * @param {!BlockDefinition} blockDefinition The definition of the block to be
+   *    saved.
    */
-  addBlock(blockType, blockXML) {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - addBlock(blockType, blockXML)
-     */
-    throw "unimplemented: addBlock";
+  addBlock(blockDefinition) {
+
   }
 
   /**
