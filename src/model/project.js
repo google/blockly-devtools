@@ -80,7 +80,7 @@ class Project extends Resource {
    * Returns an array of all BlockLibraryController names (for storage).
    * @return {!Array.<string>} Array of all library names.
    */
-  getLibraryNames() {
+  getBlockLibraryNames() {
     return this.librarySet.getNames();
   }
 
