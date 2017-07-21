@@ -41,35 +41,34 @@ class Project extends Resource {
   /**
    * Project Class.
    * @param {string} projectName The desired name of project.
-   * @param {!Object} prefixes Dictionary of prefixes for all Resource classes.
    * @constructor
    */
-  constructor(projectName, prefixes) {
-    super(projectName, prefixes.PROJECT);
+  constructor(projectName) {
+    super(projectName);
 
     /**
      * The libraries in the project.
      * @type {!BlockLibrarySet}
      */
     this.librarySet = new BlockLibrarySet('Library Set', this.name,
-      prefixes.LIBRARY);
+      PREFIXES.LIBRARY);
     /**
      * The toolboxes in the project.
      * @type {!ToolboxSet}
      */
-    this.toolboxSet = new ToolboxSet('Toolbox Set', this.name, prefixes.TOOLBOX);
+    this.toolboxSet = new ToolboxSet('Toolbox Set', this.name, PREFIXES.TOOLBOX);
     /**
      * The workspace contents in the project.
      * @type {!WorkspaceContentsSet}
      */
     this.workspaceContentsSet = new WorkspaceContentsSet('Contents', this.name,
-      prefixes.WORKSPACE_CONTENTS);
+      PREFIXES.WORKSPACE_CONTENTS);
     /**
      * The workspace configurations in the project.
      * @type {!WorkspaceConfigurationSet}
      */
     this.workspaceConfigSet = new WorkspaceConfigurationSet('Configs', this.name,
-      prefixes.WORKSPACE_CONFIG);
+      PREFIXES.WORKSPACE_CONFIG);
   }
 
   /**

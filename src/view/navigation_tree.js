@@ -34,10 +34,9 @@ class NavigationTree {
    * @param {!AppController} appController The AppController for the session the
    *     tree is part of, and therefore must use in the listener.
    * @param {!Project} project The project the tree represents.
-   * @param {!Object} prefixes Dictionary of prefixes for all Resource classes.
    * @constructor
    */
-  constructor(appController, project, prefixes) {
+  constructor(appController, project) {
 
     /**
      * The AppController for the tree to listen to.
@@ -52,12 +51,6 @@ class NavigationTree {
     this.project = project;
 
     this.makeTree();
-
-    /**
-     * Dictionary of prefixes for all Resource classes, used in create methods.
-     * @type {Object}
-     */
-    this.prefixes = prefixes;
   }
 
   /**
@@ -116,7 +109,7 @@ class NavigationTree {
      * NOTE: The libraryName is the given prefix due to the assumption that
      *     blocktypes are unique across all libraries in the project.
      */
-    this.addComponentNode(this.prefixes.BLOCK, blockType, libraryName);
+    this.addComponentNode(PREFIXES.BLOCK, blockType, libraryName);
   }
 
   /**
@@ -125,8 +118,8 @@ class NavigationTree {
    * @param {string} libraryName Name of BlockLibrary to add to the tree.
    */
   addBlockLibraryNode(libraryName) {
-    this.addComponentNode(this.prefixes.LIBRARY, libraryName,
-      this.prefixes.LIBRARY);
+    this.addComponentNode(PREFIXES.LIBRARY, libraryName,
+      PREFIXES.LIBRARY);
   }
 
   /**
@@ -135,8 +128,8 @@ class NavigationTree {
    * @param {string} toolboxName Name of the toolbox to add to the tree.
    */
   addToolboxNode(toolboxName) {
-    this.addComponentNode(this.prefixes.TOOLBOX, toolboxName,
-      this.prefixes.TOOLBOX);
+    this.addComponentNode(PREFIXES.TOOLBOX, toolboxName,
+      PREFIXES.TOOLBOX);
   }
 
   /**
@@ -146,8 +139,8 @@ class NavigationTree {
    *     add to the tree.
    */
   addWorkspaceContentsNode(workspaceContentsName) {
-    this.addComponentNode(this.prefixes.WORKSPACE_CONTENTS, workspaceContentsName,
-      this.prefixes.WORKSPACE_CONTENTS);
+    this.addComponentNode(PREFIXES.WORKSPACE_CONTENTS, workspaceContentsName,
+      PREFIXES.WORKSPACE_CONTENTS);
   }
 
   /**
@@ -157,8 +150,8 @@ class NavigationTree {
    *     to add to the tree.
    */
   addWorkspaceConfigurationNode(workspaceConfigName) {
-    this.addComponentNode(this.prefixes.WORKSPACE_CONFIG, workspaceConfigName,
-      this.prefixes.WORKSPACE_CONFIG);
+    this.addComponentNode(PREFIXES.WORKSPACE_CONFIG, workspaceConfigName,
+      PREFIXES.WORKSPACE_CONFIG);
   }
 
   /**
@@ -279,16 +272,17 @@ class NavigationTree {
   changeView(id) {
     const prefix = id.split('_')[0];
     console.log(prefix);
-    if (prefix === LIBRARY_PREFIX) {
+    if (prefix === PREFIXES.LIBRARY) {
       //Here's where tab switching happens
       console.log('Node type: BlockLibray. No response has been coded.');
-    } else if (prefix === TOOLBOX_PREFIX) {
+    } else if (prefix === PREFIXES.TOOLBOX) {
       //Here's where tab switching happens
       console.log('Node type: Toolbox. No response has been coded.');
-    } else if (prefix === WORKSPACE_CONTENTS_PREFIX || prefix === WORKSPACE_CONFIG_PREFIX) {
-      //Here's where tab switching happens
-      console.log('Node type: Workspace Contents or Configuration. No response has been coded.');
-    } else if (prefix === BLOCK_PREFIX) {
+    } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
+      prefix === PREFIXES.WORKSPACE_CONFIG) {
+        //Here's where tab switching happens
+        console.log('Node type: Workspace Contents or Configuration. No response has been coded.');
+    } else if (prefix === PREFIXES.BLOCK) {
       // Open the block.
       this.appController.editorController.blockEditorController.view.openBlock(id);
     }

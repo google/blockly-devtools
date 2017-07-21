@@ -40,10 +40,9 @@ class ProjectController {
    *     comes from.
    * @param {!NavigationTree} tree The tree which represents that project, to be updated
    *     by the controller alongside it.
-   * @param {!Object} prefixes Dictionary of prefixes for all Resource classes.
    * @constructor
    */
-  constructor(project, tree, prefixes) {
+  constructor(project, tree) {
     /**
      * The project to be managed.
      * @type {!Project}
@@ -55,12 +54,6 @@ class ProjectController {
      * @type {!NavigationTree}
      */
     this.tree = tree;
-
-    /**
-     * Dictionary of prefixes for all Resource classes, used in create methods.
-     * @type {Object}
-     */
-    this.prefixes = prefixes;
   }
 
   /**
@@ -100,7 +93,7 @@ class ProjectController {
    */
   createBlockDefinition(blockType, libraryName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const block = new BlockDefinition(blockType, this.prefixes.BLOCK);
+    const block = new BlockDefinition(blockType, PREFIXES.BLOCK);
     this.addBlockDefinition(blockType, libraryName);
     return block;
   }
@@ -115,7 +108,7 @@ class ProjectController {
    */
   createBlockLibrary(blockLibraryName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const blockLibrary = new BlockLibrary(blockLibraryName, this.prefixes.LIBRARY);
+    const blockLibrary = new BlockLibrary(blockLibraryName, PREFIXES.LIBRARY);
     this.addBlockLibrary(blockLibrary);
     return blockLibrary;
   }
@@ -129,7 +122,7 @@ class ProjectController {
    */
   createToolbox(toolboxName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const toolbox = new Toolbox(toolboxName, this.prefixes.TOOLBOX);
+    const toolbox = new Toolbox(toolboxName, PREFIXES.TOOLBOX);
     this.addToolbox(toolbox);
     return toolbox;
   }
@@ -145,7 +138,7 @@ class ProjectController {
   createWorkspaceContents(workspaceContentsName) {
     //TODO #105: check for valid name, throw error upon conflict
     const workspaceContents = new WorkspaceContents(workspaceContentsName,
-      this.prefixes.WORKSPACE_CONTENTS);
+      PREFIXES.WORKSPACE_CONTENTS);
     this.addWorkspaceContents(workspaceContents);
     return workspaceContents;
   }
@@ -162,7 +155,7 @@ class ProjectController {
   createWorkspaceConfiguration(workspaceConfigName) {
     //TODO #105: check for valid name, throw error upon conflict
     const workspaceConfig = new WorkspaceConfiguration(workspaceConfigName);
-    this.addWorkspaceConfiguration(workspaceConfig, this.prefixes.WORKSPACE_CONFIG);
+    this.addWorkspaceConfiguration(workspaceConfig, PREFIXES.WORKSPACE_CONFIG);
     return workspaceConfig;
   }
 

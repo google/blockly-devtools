@@ -85,13 +85,13 @@ class AppController {
      * Stores currently loaded project that user will edit.
      * @type {!Project}
      */
-    this.project = new Project('A Project', PREFIXES);
+    this.project = new Project('A Project');
 
     /**
      * The tree for the DevTools session.
      * @type {!NavigationTree}
      */
-    this.tree = new NavigationTree(this, this.project, PREFIXES);
+    this.tree = new NavigationTree(this, this.project);
 
     // Create div elements to insert hidden workspaces used in I/O. Hidden
     // workspaces stored in EditorController.
@@ -108,8 +108,7 @@ class AppController {
      * ProjectController object associated with application.
      * @type {!ProjectController}
      */
-    this.projectController = new ProjectController(this.project, this.tree,
-      PREFIXES);
+    this.projectController = new ProjectController(this.project, this.tree);
 
     /**
      * EditorController object which encapsulates all editor controllers
