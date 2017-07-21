@@ -226,7 +226,7 @@ class Project extends Resource {
    * @param {string} libraryName The name of the library to be found.
    * @return {!BlockLibrary} The found library or null.
    */
-  getLibrary(libraryName) {
+  getBlockLibrary(libraryName) {
     return this.librarySet.get(libraryName);
   }
 

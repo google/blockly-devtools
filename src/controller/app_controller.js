@@ -45,18 +45,29 @@ goog.require('ProjectController');
 var Emitter = require('component-emitter');
 
 /**
- * Dictionary containing the prefixes for all node types. Given with the
- *     assumption that the name of each object in a project is unique across
- *     that project.
- * @type {!Object.<string, string>}
+ * Class containing static getters for the prefixes of all node types. Given
+ *     with the assumption that the name of each object in a project is unique
+ *     across that project.
  */
-const PREFIXES = {
-  PROJECT : 'Project',
-  BLOCK : 'Block',
-  LIBRARY : 'BlockLibrary',
-  TOOLBOX : 'Toolbox',
-  WORKSPACE_CONTENTS : 'WorkspaceContents',
-  WORKSPACE_CONFIG : 'WorkspaceConfiguration'
+class PREFIXES {
+  static get PROJECT() {
+    return 'Project';
+  }
+  static get BLOCK() {
+    return 'Block';
+  }
+  static get LIBRARY() {
+    return 'BlockLibrary';
+  }
+  static get TOOLBOX() {
+    return 'Toolbox';
+  }
+  static get WORKSPACE_CONTENTS() {
+    return 'WorkspaceContents';
+  }
+  static get WORKSPACE_CONFIG() {
+    return 'WorkspaceConfiguration';
+  }
 }
 
 class AppController {

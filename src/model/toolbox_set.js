@@ -31,8 +31,8 @@ goog.require('Toolbox');
 class ToolboxSet extends ResourceSet {
   /**
    * ToolboxSet Class.
-   * @param {!string} toolboxSetName The name for the toolbox set.
-   * @param {!string} projectName The name of the project the set belongs to.
+   * @param {string} toolboxSetName The name for the toolbox set.
+   * @param {string} projectName The name of the project the set belongs to.
    * @constructor
    */
   constructor(toolboxSetName, projectName) {

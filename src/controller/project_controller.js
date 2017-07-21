@@ -165,7 +165,7 @@ class ProjectController {
    * @param {string} libraryName The library to add it to.
    */
   addBlockDefinition(blockDef, libraryName) {
-    this.project.getLibrary(libraryName).add(blockDef);
+    this.project.getBlockLibrary(libraryName).add(blockDef);
     this.tree.addBlockNode(blockDef.type(), libraryName);
 
   }
