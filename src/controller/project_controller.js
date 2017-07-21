@@ -93,7 +93,7 @@ class ProjectController {
    */
   createBlockDefinition(blockType, libraryName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const block = new BlockDefinition(blockType, PREFIXES.BLOCK);
+    const block = new BlockDefinition(blockType);
     this.addBlockDefinition(blockType, libraryName);
     return block;
   }
@@ -108,7 +108,7 @@ class ProjectController {
    */
   createBlockLibrary(blockLibraryName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const blockLibrary = new BlockLibrary(blockLibraryName, PREFIXES.LIBRARY);
+    const blockLibrary = new BlockLibrary(blockLibraryName);
     this.addBlockLibrary(blockLibrary);
     return blockLibrary;
   }
@@ -122,7 +122,7 @@ class ProjectController {
    */
   createToolbox(toolboxName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const toolbox = new Toolbox(toolboxName, PREFIXES.TOOLBOX);
+    const toolbox = new Toolbox(toolboxName);
     this.addToolbox(toolbox);
     return toolbox;
   }
@@ -137,8 +137,7 @@ class ProjectController {
    */
   createWorkspaceContents(workspaceContentsName) {
     //TODO #105: check for valid name, throw error upon conflict
-    const workspaceContents = new WorkspaceContents(workspaceContentsName,
-      PREFIXES.WORKSPACE_CONTENTS);
+    const workspaceContents = new WorkspaceContents(workspaceContentsName);
     this.addWorkspaceContents(workspaceContents);
     return workspaceContents;
   }
@@ -155,7 +154,7 @@ class ProjectController {
   createWorkspaceConfiguration(workspaceConfigName) {
     //TODO #105: check for valid name, throw error upon conflict
     const workspaceConfig = new WorkspaceConfiguration(workspaceConfigName);
-    this.addWorkspaceConfiguration(workspaceConfig, PREFIXES.WORKSPACE_CONFIG);
+    this.addWorkspaceConfiguration(workspaceConfig);
     return workspaceConfig;
   }
 

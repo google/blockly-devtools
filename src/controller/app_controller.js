@@ -48,7 +48,7 @@ var Emitter = require('component-emitter');
  * Dictionary containing the prefixes for all node types. Given with the
  *     assumption that the name of each object in a project is unique across
  *     that project.
- * @type {!Object}
+ * @type {!Object.<string, string>}
  */
 const PREFIXES = {
   PROJECT : 'Project',

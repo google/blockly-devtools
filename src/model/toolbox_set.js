@@ -33,12 +33,10 @@ class ToolboxSet extends ResourceSet {
    * ToolboxSet Class.
    * @param {!string} toolboxSetName The name for the toolbox set.
    * @param {!string} projectName The name of the project the set belongs to.
-   * @param {!string} prefix The prefix for identifying toolboxes, also used to
-   *     identify the set.
    * @constructor
    */
-  constructor(toolboxSetName, projectName, prefix) {
-    super(toolboxSetName, projectName, prefix);
+  constructor(toolboxSetName, projectName) {
+    super(toolboxSetName, projectName);
   }
 
   /**
