@@ -171,17 +171,13 @@ class BlockLibrary extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    /*
-     * TODO: Move from src/block_library_storage.js
-     *
-     * References:
-     * - has(blockType)
-     *
-     * Additional reference: src/block_library_controller.js
-     * - has(blockType)
-     *
-     */
-    throw 'unimplemented: has';
+    // REFACTOR: Moved from src/block_library_storage.js
+    for (let type in this.blocks) {
+      if (type == blockType) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

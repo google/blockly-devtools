@@ -144,20 +144,6 @@ WorkspaceFactoryView.prototype.setCategoryTabSelection =
     };
 
 /**
- * Used to bind a click to a certain DOM element (used for category tabs).
- * Taken directly from code.js
- * @param {string|!Element} e1 Tab element or corresponding ID string.
- * @param {!Function} func Function to be executed on click.
- */
-WorkspaceFactoryView.prototype.bindClick = function(el, func) {
-  if (typeof el == 'string') {
-    el = document.getElementById(el);
-  }
-  el.addEventListener('click', func, true);
-  el.addEventListener('touchend', func, true);
-};
-
-/**
  * Given the ID of a certain category, updates the corresponding tab in
  * the DOM to show a new name.
  * @param {string} newName Name of string to be displayed on tab

@@ -87,11 +87,6 @@ class ToolboxEditorView {
         toolbox: '<xml></xml>'
       });
 
-    // Initialize editor view
-    this.initColorPicker_();
-    this.initClickHandlers_();
-    this.initEventListeners_();
-
     /**
      * DOM element of buttons in editor workspace.
      * @type {!Object.<string, !Element>}
@@ -101,17 +96,33 @@ class ToolboxEditorView {
       up: $('#button_up').get(0),
       down: $('#button_down').get(0),
       edit: $('#button_editCategory').get(0),
+      add: $('#button_add').get(0),
       addCategory: $('#dropdown_newCategory').get(0),
       removeCategory: $('#button_remove').get(0),
       addShadow: $('#button_addShadow').get(0),
       removeShadow: $('#button_removeShadow').get(0)
     };
 
+    /**
+     * Maps ID of a ListElement to the td DOM element. Used for navigating
+     * between category tabs in editor.
+     * @type {!Object.<!ListElement, !Element>}
+     */
+    this.tabMap = {};
+
     // Disable category editing buttons until categories are created.
     this.buttons.remove.disabled = true;
     this.buttons.up.disabled = true;
     this.buttons.down.disabled = true;
     this.buttons.edit.disabled = true;
+
+    /**
+     * ID of currently open modal (dropdowns, etc.) in the toolbox editor view.
+     * Null if no modal is open.
+     * @type {?string}
+     * @private
+     */
+    this.openModal_ = null;
   }
 
   /**
@@ -159,6 +170,7 @@ class ToolboxEditorView {
     this.editorWorkspace.addChangeListener((event) => {
       controller.onChange(event);
     });
+    this.initEventListeners_(controller);
   }
 
   /**
@@ -190,14 +202,25 @@ class ToolboxEditorView {
 
   /**
    * Add event listeners for Toolbox editor.
+   * @param {!ToolboxController} controller ToolboxController used as reference
+   *     in event listeners.
    * @private
    */
-  initEventListeners_() {
-    /*
-     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
-     *       (Also moved into workspace_editor_view.js)
-     */
-    console.warn('Unimplemented: initEventListeners_()');
+  initEventListeners_(controller) {
+    // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
+    console.log(this.buttons.add);
+    $('#modalShadow').click(() => {
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+    this.buttons.add.addEventListener('click', () => {
+      this.openModal_ = FactoryUtils.openModal('dropdownDiv_add');
+    });
+    this.buttons.addCategory.addEventListener('click', () => {
+      controller.addCategory();
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
   }
 
   /**
@@ -235,10 +258,11 @@ class ToolboxEditorView {
    *     off.
    */
   selectTab(id, selected) {
-    /*
-     * TODO: Move in from wfactory_view.js:setCategoryTabSelection(id, selected)
-     */
-    throw 'Unimplemented: setCategoryTabSelection()';
+    // REFACTOR: Moved in from wfactory_view.js:setCategoryTabSelection(id, selected)
+    if (!this.tabMap[id]) {
+      return; // Exit if tab does not exist.
+    }
+    this.tabMap[id].className = selected ? 'tabon' : 'taboff';
   }
 
   /**
@@ -254,6 +278,103 @@ class ToolboxEditorView {
   }
 
   /**
+   * Given the index of the currently selected element, updates the state of
+   * the buttons that allow the user to edit the list elements. Updates the edit
+   * and arrow buttons. Should be called when adding or removing elements
+   * or when changing to a new element or when swapping to a different element.
+   * TODO(evd2014): Switch to using CSS to add/remove styles.
+   * @param {number} selectedIndex The index of the currently selected category,
+   *   -1 if no categories created.
+   * @param {ListElement} selected The selected ListElement.
+   */
+  updateState(selectedIndex, selected) {
+    // From
+    // Disable/enable editing buttons as necessary.
+    this.buttons.edit.disabled = selectedIndex < 0 ||
+        selected.type != ListElement.TYPE_CATEGORY;
+    this.buttons.remove.disabled = selectedIndex < 0;
+    this.buttons.up.disabled = selectedIndex <= 0;
+    var table = document.getElementById('categoryTable');
+    this.buttons.down.disabled = selectedIndex >=
+        table.rows.length - 1 || selectedIndex < 0;
+    // Disable/enable the workspace as necessary.
+    this.disableWorkspace(this.shouldDisableWorkspace(selected));
+  }
+
+  /**
+   * Disables or enables the workspace by putting a div over or under the
+   * toolbox workspace, depending on the value of disable. Used when switching
+   * to/from separators where the user shouldn't be able to drag blocks into
+   * the workspace.
+   * @param {boolean} disable True if the workspace should be disabled, false
+   * if it should be enabled.
+   */
+  disableWorkspace(disable) {
+    // From wfactory_view.js:disableWorkspace(disable)
+    if (disable) {
+      document.getElementById('toolbox_section').className = 'disabled';
+      document.getElementById('toolboxDiv').style.pointerEvents = 'none';
+    } else {
+      document.getElementById('toolbox_section').className = '';
+      document.getElementById('toolboxDiv').style.pointerEvents = 'auto';
+    }
+  }
+
+  /**
+   * Determines if the workspace should be disabled. The workspace should be
+   * disabled if category is a separator or has VARIABLE or PROCEDURE tags.
+   * @return {boolean} True if the workspace should be disabled, false otherwise.
+   */
+  shouldDisableWorkspace(category) {
+    // From wfactory_view.js:shouldDisableWorkspace(category)
+    return category != null && category.type != ListElement.TYPE_FLYOUT &&
+        (category.type == ListElement.TYPE_SEPARATOR ||
+        category.custom == 'VARIABLE' || category.custom == 'PROCEDURE');
+  }
+
+  /**
+   * Adds a category tab to the UI, and updates tabMap accordingly.
+   * @param {string} name The name of the category being created.
+   * @param {string} id ID of category being created.
+   * @return {!Element} DOM element created for tab.
+   */
+  addCategoryRow(name, id) {
+    // TODO: Move in from wfactory_view.js:addCategoryRow(name, id)
+    const table = document.getElementById('categoryTable');
+    const count = table.rows.length;
+
+    // Delete help label and enable category buttons if it's the first category.
+    if (count == 0) {
+      document.getElementById('categoryHeader').textContent = 'Your categories:';
+    }
+
+    // Create tab.
+    const row = table.insertRow(count);
+    const nextEntry = row.insertCell(0);
+    // Configure tab.
+    nextEntry.id = 'tab_' + name;
+    nextEntry.textContent = name;
+    // Store tab.
+    this.tabMap[id] = table.rows[count].cells[0];
+    // Return tab.
+    return nextEntry;
+  }
+
+  /**
+   * Used to bind a click to a certain DOM element (used for category tabs).
+   * Taken directly from code.js
+   * @param {string|!Element} e1 Tab element or corresponding ID string.
+   * @param {!Function} func Function to be executed on click.
+   */
+  bindClick(el, func) {
+    if (typeof el == 'string') {
+      el = document.getElementById(el);
+    }
+    el.addEventListener('click', func, true);
+    el.addEventListener('touchend', func, true);
+  }
+
+  /**
    * Adds a help message to emphasize empty toolbox. Shown when starting with empty
    * Toolbox or when user manually deletes all categories in their Toolbox.
    */
@@ -261,7 +382,22 @@ class ToolboxEditorView {
     /*
      * TODO: Move in from wfactory_view.js:addEmptyCategoryMessage()
      */
-    throw 'Unimplemented: addEmptyToolboxMessage()';
+    console.warn('Unimplemented: addEmptyToolboxMessage()');
+  }
+
+  /**
+   * Given a category ID and color, use that color to color the left border of the
+   * tab for that category.
+   * @param {string} id The ID of the category to color.
+   * @param {string} color Hex color to be used for tab border. Must be valid
+   *     CSS string.
+   */
+  setBorderColor(id, color) {
+    // From wfactory_view.js:setBorderColor(id, color)
+    const tab = this.tabMap[id];
+    tab.style.borderLeftWidth = '8px';
+    tab.style.borderLeftStyle = 'solid';
+    tab.style.borderColor = color;
   }
 
   /**
@@ -272,11 +408,11 @@ class ToolboxEditorView {
    *     currently loaded.
    */
   markShadowBlocks(blocks) {
-    /*
-     * TODO: Move in from wfactory_view.js:markShadowBlocks(blocks)
-     *           and from wfactory_view.js:markShadowBlock(block)
-     */
-    throw 'Unimplemented: markShadowBlocks()';
+    // REFACTOR: Moved in from wfactory_view.js:markShadowBlocks(blocks)
+    blocks.forEach((block) => {
+      this.markShadowBlock(block);
+    });
+    this.toolbox.addShadowBlock(block.id);
   }
 
   /**
@@ -285,8 +421,17 @@ class ToolboxEditorView {
    * @param {!Blockly.Block} block Blockly block to be marked as a shadow block.
    */
   markShadowBlock(block) {
-    // TODO: Move in from wfactory_view.js:markShadowBlock(block)
-    console.warn('Unimplemented: markShadowBlock()');
+    // REFACTOR: Moved in from wfactory_view.js:markShadowBlock(block)
+    // Add Blockly CSS for user-generated shadow blocks.
+    Blockly.utils.addClass(block.svgGroup_, 'shadowBlock');
+    // If not a valid shadow block, add a warning message.
+    if (!block.getSurroundParent()) {
+      block.setWarningText('Shadow blocks must be nested inside other blocks' +
+          ' be displayed.');
+    }
+    if (FactoryUtils.hasVariableField(block)) {
+      block.setWarningText('Cannot make variable blocks shadow blocks.');
+    }
   }
 
   /**
@@ -295,9 +440,8 @@ class ToolboxEditorView {
    *     block (must be rendered).
    */
   unmarkShadowBlock(block) {
-    /*
-     * TODO: Move in from wfactory_view.js
-     */
+    // REFACTOR: Moved in from wfactory_view.js
+    Blockly.utils.removeClass(block.svgGroup_, 'shadowBlock');
   }
 }
 
@@ -399,8 +543,8 @@ ToolboxEditorView.html = `
 <aside id="previewDiv">
   <div id="previewBorder">
     <div id="previewHelp">
-      <h3>Preview</h3>
-      <p>This is what your custom workspace will look like.</p>
+      <h3>Toolbox Preview</h3>
+      <p>This is what your custom toolbox will look like in your workspace.</p>
     </div>
     <div id="toolboxPreview" class="content"></div>
   </div>
