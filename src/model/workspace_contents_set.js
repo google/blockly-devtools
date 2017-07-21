@@ -33,12 +33,10 @@ class WorkspaceContentsSet extends ResourceSet {
    * WorkspaceContentsSet Class.
    * @param {string} workspaceContentsSetName Name of the workspace contents set.
    * @param {string} projectName The name of the project the set belongs to.
-   * @param {string} prefix The prefix for identifying workspace contents, also
-   *     used to identify the set.
    * @constructor
    */
-  constructor(workspaceContentsSetName, projectName, prefix) {
-    super(workspaceContentsSetName, projectName, prefix);
+  constructor(workspaceContentsSetName, projectName) {
+    super(workspaceContentsSetName, projectName);
   }
 
   /**
@@ -55,7 +53,7 @@ class WorkspaceContentsSet extends ResourceSet {
    */
   getJson() {
     const workspaceContentsSetJson = {
-      'id': this.prefix,
+      'id': PREFIXES.WORKSPACE_CONTENTS,
       'text': 'Workspace Contents',
       'children': super.getJson()
     };

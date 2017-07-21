@@ -271,7 +271,6 @@ class NavigationTree {
    */
   changeView(id) {
     const prefix = id.split('_')[0];
-    console.log(prefix);
     if (prefix === PREFIXES.LIBRARY) {
       //Here's where tab switching happens
       console.log('Node type: BlockLibray. No response has been coded.');

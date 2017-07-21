@@ -74,7 +74,7 @@ class ToolboxSet extends ResourceSet {
    */
   getJson() {
     const toolboxSetJson = {
-      'id': this.prefix,
+      'id': PREFIXES.TOOLBOX,
       'text': 'Toolboxes',
       'children': super.getJson()
     };

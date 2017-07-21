@@ -33,12 +33,10 @@ class BlockLibrarySet extends ResourceSet {
    * BlockLibrarySet Class.
    * @param {string} librarySetName The name for the block library set.
    * @param {string} projectName The name of the project the set belongs to.
-   * @param {string} prefix The prefix for identifying block libraries, also
-   *     used to identify the set.
    * @constructor
    */
-  constructor(librarySetName, projectName, prefix) {
-    super(librarySetName, projectName, prefix);
+  constructor(librarySetName, projectName) {
+    super(librarySetName, projectName);
   }
 
   /**
@@ -98,7 +96,7 @@ class BlockLibrarySet extends ResourceSet {
    */
   getJson() {
     const librarySetJson = {
-      'id': this.prefix,
+      'id': PREFIXES.LIBRARY,
       'text': 'Libraries',
       'children': super.getJson()
     };

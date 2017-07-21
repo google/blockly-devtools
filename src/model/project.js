@@ -50,25 +50,22 @@ class Project extends Resource {
      * The libraries in the project.
      * @type {!BlockLibrarySet}
      */
-    this.librarySet = new BlockLibrarySet('Library Set', this.name,
-      PREFIXES.LIBRARY);
+    this.librarySet = new BlockLibrarySet('Library Set', this.name);
     /**
      * The toolboxes in the project.
      * @type {!ToolboxSet}
      */
-    this.toolboxSet = new ToolboxSet('Toolbox Set', this.name, PREFIXES.TOOLBOX);
+    this.toolboxSet = new ToolboxSet('Toolbox Set', this.name);
     /**
      * The workspace contents in the project.
      * @type {!WorkspaceContentsSet}
      */
-    this.workspaceContentsSet = new WorkspaceContentsSet('Contents', this.name,
-      PREFIXES.WORKSPACE_CONTENTS);
+    this.workspaceContentsSet = new WorkspaceContentsSet('Contents', this.name);
     /**
      * The workspace configurations in the project.
      * @type {!WorkspaceConfigurationSet}
      */
-    this.workspaceConfigSet = new WorkspaceConfigurationSet('Configs', this.name,
-      PREFIXES.WORKSPACE_CONFIG);
+    this.workspaceConfigSet = new WorkspaceConfigurationSet('Configs', this.name);
   }
 
   /**
@@ -267,13 +264,13 @@ class Project extends Resource {
    * @return {!Object} The tree-specific JSON representation of the project.
    */
   getJson() {
-    const projectJson = [
-      { 'id': this.name, 'text': this.name,
+    const projectJson = $.extend(true, super.getJson(),
+      { 'id': PREFIXES.PROJECT, 'text': this.name,
         'children': [ this.librarySet.getJson(),
           this.toolboxSet.getJson(),
           this.workspaceContentsSet.getJson(),
           this.workspaceConfigSet.getJson()]}
-    ];
+    );
     return projectJson;
   }
 }
