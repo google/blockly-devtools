@@ -53,6 +53,10 @@ class NavigationTree {
 
     this.makeTree();
 
+    /**
+     * Dictionary of prefixes for all Resource classes, used in create methods.
+     * @type {Object}
+     */
     this.prefixes = prefixes;
   }
 
