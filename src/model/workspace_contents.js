@@ -43,23 +43,17 @@ class WorkspaceContents extends Resource {
      */
      super(workspaceContentsName);
 
-     /**
-      * XML DOM element of this workspace contents.
-      * @type {!Element}
-      */
-     this.xml = Blockly.Xml.textToDom('<xml></xml>');
+    /**
+     * XML DOM element of this workspace contents.
+     * @type {!Element}
+     */
+    this.xml = Blockly.Xml.textToDom('<xml></xml>');
 
-     /**
-      * Block library block types.
-      * @type {Array.<string>}
-      */
-     this.libBlockTypes = [];
-
-     /**
-      * Imported block types.
-      * @type {Array.<string>}
-      */
-     this.importedBlockTypes = [];
+    /**
+     * Block library block types.
+     * @type {Array.<string>}
+     */
+    this.libBlockTypes = [];
   }
 
   /**
@@ -93,13 +87,7 @@ class WorkspaceContents extends Resource {
    * Clears the workspace contents.
    */
   clear() {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - clear()
-     */
-    throw "unimplemented: clear";
+    this.
   }
 
   /**
@@ -107,13 +95,7 @@ class WorkspaceContents extends Resource {
    * @return {boolean} True if empty, false otherwise.
    */
   isEmpty() {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - isEmpty()
-     */
-    throw "unimplemented: isEmpty";
+    return this.
   }
 
   /**
@@ -175,34 +157,5 @@ class WorkspaceContents extends Resource {
    */
   getTreeJson() {
     throw "unimplemented: getTreeJson";
-  }
-
-  /**
-   * Determines if a block type is defined as a standard block, in the block
-   * library, or as an imported block.
-   * @param {string} blockType Block type to check.
-   * @return {boolean} True if blockType is defined, false otherwise.
-   */
-  isDefinedBlockType(blockType) {
-    var isStandardBlock = StandardCategories.coreBlockTypes.indexOf(blockType)
-        != -1;
-    var isLibBlock = this.libBlockTypes.indexOf(blockType) != -1;
-    var isImportedBlock = this.importedBlockTypes.indexOf(blockType) != -1;
-    return (isStandardBlock || isLibBlock || isImportedBlock);
-  }
-
-  /**
-   * Checks if any of the block types are already defined.
-   * @param {!Array.<string>} blockTypes Array of block types.
-   * @return {boolean} True if a block type in the array is already defined,
-   *    false if none of the blocks are already defined.
-   */
-  hasDefinedBlockTypes(blockTypes) {
-    for (var i = 0, blockType; blockType = blockTypes[i]; i++) {
-      if (this.isDefinedBlockType(blockType)) {
-        return true;
-      }
-    }
-    return false;
   }
 }
