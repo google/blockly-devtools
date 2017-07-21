@@ -27,6 +27,7 @@ goog.require('Resource');
 /**
  * @class Workspacecontents contains a set of positioned blocks
  *    specified by the developer and used to initialize an app's workspace.
+ * @authors  Emma Dauterman (evd2014), sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 class WorkspaceContents extends Resource {
   /**
@@ -47,6 +48,10 @@ class WorkspaceContents extends Resource {
       * @type {!Element}
       */
      this.xml = Blockly.Xml.textToDom('<xml></xml>');
+     // Block Library block types.
+     this.libBlockTypes = [];
+     // Imported block types.
+     this.importedBlockTypes = [];
   }
 
   /**
