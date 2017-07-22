@@ -407,13 +407,6 @@ aside {
   width: auto;
 }
 
-#categoryTable td {
-  margin:7px;
-  padding:4px;
-  border-left:10px solid gray;
-  cursor:pointer;
-}
-
 td.tabon {
   background-color: #ccc;
   border-bottom-color: #ccc;
