@@ -99,41 +99,6 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Returns boolean of whether or not a given blockType is stored in the
-   * workspace contents.
-   * @param {string} blockType Type of block.
-   * @return {boolean} Whether or not blockType is in the workspace contents.
-   */
-  has(blockType) {
-    /*
-     * TODO: make specific to the nature of the workspace//more useful; perhaps
-     *     use something other than blockType
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - has(blockType)
-     *
-     * Additional reference: src/block_library_controller.js
-     * - has(blockType)
-     *
-     */
-    throw "unimplemented: has";
-  }
-
-  /**
-   * Renames the workspace contents.
-   * @param {string} newName New name of the workspace contents.
-   */
-  setName(newName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw "unimplemented: setName";
-  }
-
-  /**
    * Generates XML DOM element for WorkspaceContents. Used to insert
    * into files that user will download.
    *
@@ -156,6 +121,8 @@ class WorkspaceContents extends Resource {
    * @return {!Object} The JSON representation of the workspace contents.
    */
   getTreeJson() {
-    throw "unimplemented: getTreeJson";
+    const workspaceContentsJson = $.extend(true, super.getJson(),
+      {'id': PREFIXES.WORKSPACE_CONTENTS});
+    return workspaceContentsJson;
   }
 }
