@@ -84,7 +84,8 @@ class ToolboxEditorView {
           snap: true
         },
         media: 'media/',
-        toolbox: '<xml></xml>'
+        toolbox: '<xml></xml>',
+        trashcan: true
       });
 
     /**
