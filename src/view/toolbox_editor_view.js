@@ -339,6 +339,7 @@ class ToolboxEditorView {
    */
   addCategoryRow(name, id) {
     // TODO: Move in from wfactory_view.js:addCategoryRow(name, id)
+    console.log('Selected ID: ' + this.toolbox.getSelectedId() + ', name: ' + this.toolbox.getSelectedName());
     const table = document.getElementById('categoryTable');
     const count = table.rows.length;
 
@@ -355,6 +356,7 @@ class ToolboxEditorView {
     nextEntry.textContent = name;
     // Store tab.
     this.tabMap[id] = table.rows[count].cells[0];
+    this.selectTab(id, true);
     // Return tab.
     return nextEntry;
   }

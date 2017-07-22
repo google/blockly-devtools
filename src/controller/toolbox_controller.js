@@ -88,14 +88,13 @@ class ToolboxController {
     // Transfers the user's blocks to a flyout if it's the first category created.
     this.transferFlyoutBlocksToCategory();
 
-    // // After possibly creating a category, check again if it's the first category.
-    // const isFirstCategory = this.view.toolbox.isEmpty();
-
     // Get name from user.
     const name = this.promptForNewCategoryName('Enter the name of your new category:');
     if (!name) {  // Exit if cancelled.
       return;
     }
+
+    this.view.selectTab(this.view.toolbox.getSelectedId(), false);
     // Create category.
     this.view.toolbox.setSelected(this.createCategory(name));
     // Switch to category.
@@ -752,6 +751,7 @@ class ToolboxController {
     // From wfactory_controller.js
     // Unselect current tab if switching to and from an element.
     if (this.view.toolbox.getSelectedId() != null && id != null) {
+      console.log('Tab ' + this.view.toolbox.getSelectedId() + ' has been deselected.');
       this.view.selectTab(this.view.toolbox.getSelectedId(), false);
     }
 
