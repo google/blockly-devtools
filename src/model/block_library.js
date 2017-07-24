@@ -81,7 +81,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Returns the JSON of all blocks stored in the block library.
-   * @return {Object} The JSON that represents all bocks in the library.
+   * @return {Object} The JSON that represents all blocks in the library.
    */
   getBlockArrayJson() {
     let blockArrayJson = {};
