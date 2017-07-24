@@ -36,7 +36,7 @@ class WorkspaceContents extends Resource {
    * @constructor
    */
   constructor(workspaceContentsName) {
-     super(workspaceContentsName);
+    super(workspaceContentsName);
 
     /**
      * XML DOM element of this workspace contents.
@@ -49,15 +49,6 @@ class WorkspaceContents extends Resource {
      * @type {Array.<string>}
      */
     this.libBlockTypes = [];
-  }
-
-  /**
-   * Saves block to block workspace contents.
-   * @param {!BlockDefinition} blockDef The definition of the block to be
-   *    saved.
-   */
-  addBlock(blockDef) {
-
   }
 
   /**
@@ -76,21 +67,6 @@ class WorkspaceContents extends Resource {
   getXml() {
     // Moved in from wfactory_model.js:getPreloadXml()
     return this.xml;
-  }
-
-  /**
-   * Clears the workspace contents.
-   */
-  clear() {
-    this.
-  }
-
-  /**
-   * Checks to see if block workspace contents is empty.
-   * @return {boolean} True if empty, false otherwise.
-   */
-  isEmpty() {
-    return this.
   }
 
   /**
@@ -121,14 +97,11 @@ class WorkspaceContents extends Resource {
     return workspaceContentsJson;
   }
 
-
-/**
- * Updates block types in block library.
- * @param {!Array.<string>} blockTypes Array of block types in block library.
- */
-WorkspaceFactoryModel.prototype.updateLibBlockTypes = function(blockTypes) {
-  this.libBlockTypes = blockTypes;
-}
-
-
+  /**
+   * Updates block types in block library.
+   * @param {!Array.<string>} blockTypes Array of block types in block library.
+   */
+  updateLibBlockTypes(blockTypes) {
+    this.libBlockTypes = blockTypes;
+  }
 }
