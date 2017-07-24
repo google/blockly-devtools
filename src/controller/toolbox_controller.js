@@ -753,7 +753,6 @@ class ToolboxController {
     // From wfactory_controller.js
     // Unselect current tab if switching to and from an element.
     if (this.view.toolbox.getSelectedId() != null && id != null) {
-      console.log('Tab ' + this.view.toolbox.getSelectedId() + ' has been deselected.');
       this.view.selectTab(this.view.toolbox.getSelectedId(), false);
     }
 

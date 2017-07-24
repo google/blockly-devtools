@@ -364,7 +364,6 @@ class ToolboxEditorView {
    */
   addCategoryRow(name, id) {
     // TODO: Move in from wfactory_view.js:addCategoryRow(name, id)
-    console.log('Selected ID: ' + this.toolbox.getSelectedId() + ', name: ' + this.toolbox.getSelectedName());
     const table = document.getElementById('categoryTable');
     const count = table.rows.length;
 
