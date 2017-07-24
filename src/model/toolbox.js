@@ -196,9 +196,8 @@ class Toolbox extends Resource {
    */
   getElementById(id) {
     // From wfactory_model.js:getElementById(id)
-    for (let i = 0; i < this.categoryList.length; i++) {
-      let element = this.categoryList[i];
-      if (element.id === id) {
+    for (let element of this.categoryList) {
+      if (element.id == id) {
         return element;
       }
     }

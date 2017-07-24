@@ -1249,10 +1249,14 @@ FactoryUtils.buildBlockEditorStarterXml = function(inputType, blockTypeName, blo
 /**
  * Get all children of a block and return as a list.
  * @param {!Blockly.Block} block Block to iterate through its children blocks.
+ * @param {!Array.<!Blockly.Block>} childList List which will contain the children
+ *     of a given block.
  * @return {!Array.<Blockly.Block>} Array with all of block's children blocks.
  */
-FactoryUtils.getAllChildren = function(block) {
-  const childList = [];
+FactoryUtils.getAllChildren = function(block, childList) {
+  if (!childList) {
+    childList = [];
+  }
   childList.push(block);
   var children = block.getChildren();
   for (let child of children) {
