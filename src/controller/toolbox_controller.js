@@ -100,6 +100,8 @@ class ToolboxController {
     this.view.toolbox.setSelected(this.createCategory(name));
     // Switch to category.
     this.switchElement(this.view.toolbox.getCategoryId(name));
+    // Updates XML of toolbox model.
+    this.view.toolbox.setXml(this.generateToolboxXml());
     // Update preview.
     this.updatePreview();
   }
@@ -193,15 +195,20 @@ class ToolboxController {
    * @package
    */
   reinjectPreview(tree) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *       (ALSO used in workspace_controller.js)
-     *
-     * References:
-     * - readOptions_()
-     * - generateWorkspaceXml()
-     */
-    console.warn('Unimplemented: reinjectPreview()');
+    // From wfactory_controller.js
+    this.view.previewWorkspace.dispose();
+    let injectOptions = {
+        grid: {
+          spacing: 25,
+          length: 3,
+          colour: '#ccc',
+          snap: true
+        },
+        media: 'media/',
+        trashcan: true
+      };
+    injectOptions['toolbox'] = Blockly.Xml.domToPrettyText(tree);
+    this.view.previewWorkspace = Blockly.inject('toolboxPreview', injectOptions);
   }
 
   /**
@@ -318,7 +325,7 @@ class ToolboxController {
     } else {
       // Uses categories, creates a toolbox.
       if (!this.view.previewWorkspace.toolbox_) {
-        tihs.reinjectPreview(tree); // Create a toolbox.
+        this.reinjectPreview(tree); // Create a toolbox.
       } else {
         // Close toolbox before updating.
         this.view.previewWorkspace.toolbox_.clearSelection();
@@ -338,19 +345,20 @@ class ToolboxController {
    * @return {!Element} XML of current toolbox.
    */
   generateToolboxXml() {
+    console.log('generateToolboxXml() called.');
     const xmlDom = goog.dom.createDom('xml', {
         'id': 'toolbox',
         'style': 'display: none;'
       });
 
-    if (this.view.toolbox.isEmpty()) {
+    if (this.view.toolbox.categoryList.length == 1) {
       // Toolbox has no categories.
       // this.loadToHiddenWorkspace_(this.view.toolbox.getSelectedXml());
       this.loadToHiddenWorkspace_(this.generateCategoryXml_(this.view.toolbox.selected));
       this.appendHiddenWorkspaceToDom_(xmlDom);
     } else {
       // Toolbox has categories.
-      if (!this.selected) {
+      if (!this.view.toolbox.selected) {
         throw new Error('Selected is null when the toolbox is empty.');
       }
 
@@ -359,6 +367,7 @@ class ToolboxController {
        * hidden workspace.
        */
       const categories = this.view.toolbox.categoryList;
+      console.log('    for loop started.');
       categories.forEach((element) => {
         if (element.type == ListElement.TYPE_SEPARATOR) {
           // If the next element is a separator.
@@ -366,6 +375,7 @@ class ToolboxController {
         } else if (element.type == ListElement.TYPE_CATEGORY) {
           // If next element is a category.
           var nextElement = this.generateCategoryXml_(element);
+          console.log(Blockly.Xml.domToText(nextElement));
         }
         xmlDom.appendChild(nextElement);
       });
@@ -753,7 +763,6 @@ class ToolboxController {
     // From wfactory_controller.js
     // Unselect current tab if switching to and from an element.
     if (this.view.toolbox.getSelectedId() != null && id != null) {
-      console.log('Tab ' + this.view.toolbox.getSelectedId() + ' has been deselected.');
       this.view.selectTab(this.view.toolbox.getSelectedId(), false);
     }
 
@@ -1049,7 +1058,7 @@ class ToolboxController {
    */
   transferFlyoutBlocksToCategory() {
     // REFACTORED: Moved in from wfactory_controller.js
-    if (this.view.toolbox.isEmpty() &&
+    if (this.view.toolbox.categoryList.length == 1 &&
         this.view.editorWorkspace.getAllBlocks().length > 0) {
       const id = this.createCategory('Category 1');
       this.currentToolbox.setSelected(id);
