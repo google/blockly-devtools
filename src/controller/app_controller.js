@@ -46,8 +46,8 @@ var Emitter = require('component-emitter');
 
 /**
  * Class containing static getters for the prefixes of all node types. Given
- *     with the assumption that the name of each object in a project is unique
- *     across that project.
+ * with the assumption that the name of each object in a project is unique
+ * across that project.
  */
 class PREFIXES {
   static get PROJECT() {

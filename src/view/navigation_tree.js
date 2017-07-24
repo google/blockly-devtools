@@ -119,7 +119,7 @@ class NavigationTree {
    */
   addBlockLibraryNode(libraryName) {
     this.addComponentNode(PREFIXES.LIBRARY, libraryName,
-      PREFIXES.LIBRARY);
+        PREFIXES.LIBRARY);
   }
 
   /**
@@ -129,7 +129,7 @@ class NavigationTree {
    */
   addToolboxNode(toolboxName) {
     this.addComponentNode(PREFIXES.TOOLBOX, toolboxName,
-      PREFIXES.TOOLBOX);
+        PREFIXES.TOOLBOX);
   }
 
   /**
@@ -140,7 +140,7 @@ class NavigationTree {
    */
   addWorkspaceContentsNode(workspaceContentsName) {
     this.addComponentNode(PREFIXES.WORKSPACE_CONTENTS, workspaceContentsName,
-      PREFIXES.WORKSPACE_CONTENTS);
+        PREFIXES.WORKSPACE_CONTENTS);
   }
 
   /**
@@ -151,7 +151,7 @@ class NavigationTree {
    */
   addWorkspaceConfigurationNode(workspaceConfigName) {
     this.addComponentNode(PREFIXES.WORKSPACE_CONFIG, workspaceConfigName,
-      PREFIXES.WORKSPACE_CONFIG);
+        PREFIXES.WORKSPACE_CONFIG);
   }
 
   /**
@@ -163,7 +163,7 @@ class NavigationTree {
    */
   addComponentNode(prefix, componentName, parentName) {
     $('#navigationTree').jstree().create_node(parentName,
-      {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
+        {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
   }
 
   /**

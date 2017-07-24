@@ -27,9 +27,9 @@ goog.require('Resource');
 
 /**
  * @class BlockLibrary stores one or more block definitions. User
- *     interations with the DevTools Application change definitions in the
- *     BlockLibrary. A BlockLibrary cannot contain multiple blocks with the same
- *     type.
+ * interations with the DevTools Application change definitions in the
+ * BlockLibrary. A BlockLibrary cannot contain multiple blocks with the same
+ * type.
  */
 class BlockLibrary extends Resource {
   /**
@@ -80,12 +80,16 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns the JSON of given block type stored in the block library.
-   * @param {string} blockType Type of block.
-   * @return {Object} The JSON that represents the block type or null.
+   * Returns the JSON of all blocks stored in the block library.
+   * @return {Object} The JSON that represents all bocks in the library.
    */
-  getBlockJson(blockType) {
-    return this.blocks[blockType].getJson();
+  getBlockArrayJson() {
+    let blockArrayJson = {};
+    for (let blockType in this.getBlockTypes()) {
+      // TODO #130: configure block definition JSON to suit this object.
+      $.extend(true, blockArrayJson, this.blocks[blockType].json);
+    }
+    return blockArrayJson;
   }
 
   /**
@@ -123,19 +127,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} True if empty, false otherwise.
    */
   isEmpty() {
-    return this.getBlockTypes().length === 0;
-  }
-
-  /**
-   * Returns map of blockType to associated JSON object.
-   * @return {!Object<string, Object>} Map of block type to corresponding JSON.
-   */
-  getBlockJsonMap() {
-    var jsonMap = {};
-    for (let blockType of this.getBlockTypes()) {
-      jsonMap[blockType] = this.blocks[blockType].getXml();
-    }
-    return jsonMap;
+    return this.getBlockTypes().length == 0;
   }
 
   /**
@@ -145,7 +137,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    return this.getBlockTypes().includes(blockType);
+    return !!this.blocks[blockType];
   }
 
   /**
@@ -164,7 +156,7 @@ class BlockLibrary extends Resource {
    */
   getJson() {
     const libraryJson = $.extend(true, super.getJson(),
-      {'id': PREFIXES.LIBRARY, 'children': this.getBlockJson()});
+      {'id': PREFIXES.LIBRARY, 'children': this.getBlockArrayJson()});
     return libraryJson;
   }
 }
