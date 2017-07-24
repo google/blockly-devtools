@@ -56,7 +56,7 @@ WorkspaceFactoryInit.initWorkspaceFactory = function(controller) {
   controller.setStandardOptionsAndUpdate();
 };
 
-// FUNCTIONS REMOVED FROM REFACTOR.
+// SOME FUNCTIONS FROM THIS FILE HAVE BEEN REMOVED THROUGH THE REFACTORING PROCESS.
 
 /**
  * Initialize the color picker in workspace factory.

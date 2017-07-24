@@ -1247,30 +1247,17 @@ FactoryUtils.buildBlockEditorStarterXml = function(inputType, blockTypeName, blo
 };
 
 /**
- * Get all children of a block and return as a list.
- * @param {!Blockly.Block} block Block to iterate through its children blocks.
- * @return {!Array.<Blockly.Block>} Array with all of block's children blocks.
- */
-FactoryUtils.getAllChildren = function(block) {
-  const childList = [];
-  childList.push(block);
-  var children = block.getChildren();
-  for (let child of children) {
-    FactoryUtils.getAllChildren(child, childList);
-  }
-  return childList;
-};
-
-/**
  * Show a modal element, usually a dropdown list.
  * @param {string} id ID of element to show.
- * @return {string} ID of element shown.
  */
 FactoryUtils.openModal = function(id) {
+  const modal = $('#' + id);
+  if (!modal) {
+    return;
+  }
   Blockly.hideChaff();
-  document.getElementById(id).style.display = 'block';
-  document.getElementById('modalShadow').style.display = 'block';
-  return id;
+  modal.show();
+  $('#modalShadow').show();
 };
 
 /**
@@ -1278,9 +1265,10 @@ FactoryUtils.openModal = function(id) {
  * @param {string} id ID of element to hide.
  */
 FactoryUtils.closeModal = function(id) {
-  if (!id) {
+  const modal = $('#' + id);
+  if (!modal) {
     return;
   }
-  document.getElementById(id).style.display = 'none';
-  document.getElementById('modalShadow').style.display = 'none';
+  modal.hide();
+  $('#modalShadow').hide();
 };

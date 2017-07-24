@@ -92,19 +92,18 @@ class ToolboxEditorView {
      * DOM element of buttons in editor workspace.
      * @type {!Object.<string, !Element>}
      */
-    this.buttons = {
-      remove: $('#button_remove').get(0),
-      up: $('#button_up').get(0),
-      down: $('#button_down').get(0),
-      edit: $('#button_editCategory').get(0),
-      add: $('#button_add').get(0),
-      addCategory: $('#dropdown_newCategory').get(0),
-      removeCategory: $('#button_remove').get(0),
-      addSeparator: $('#dropdown_separator').get(0),
-      standard: $('#dropdown_loadStandardToolbox').get(0),
-      addShadow: $('#button_addShadow').get(0),
-      removeShadow: $('#button_removeShadow').get(0)
-    };
+    this.removeButton = $('#button_remove').get(0);
+    this.upButton = $('#button_up').get(0);
+    this.downButton = $('#button_down').get(0);
+    this.editButton = $('#button_editCategory').get(0);
+    this.addButton = $('#button_add').get(0);
+    this.addCategoryButton = $('#dropdown_newCategory').get(0);
+    this.removeCategoryButton = $('#button_remove').get(0);
+    this.addSeparatorButton = $('#dropdown_separator').get(0);
+    this.standardCategoryButton = $('#dropdown_loadCategory').get(0);
+    this.standardToolboxButton = $('#dropdown_loadStandardToolbox').get(0);
+    this.addShadowButton = $('#button_addShadow').get(0);
+    this.removeShadowButton = $('#button_removeShadow').get(0);
 
     /**
      * Maps ID of a ListElement to the td DOM element. Used for navigating
@@ -114,10 +113,10 @@ class ToolboxEditorView {
     this.tabMap = {};
 
     // Disable category editing buttons until categories are created.
-    this.buttons.remove.disabled = true;
-    this.buttons.up.disabled = true;
-    this.buttons.down.disabled = true;
-    this.buttons.edit.disabled = true;
+    this.removeButton.disabled = true;
+    this.upButton.disabled = true;
+    this.downButton.disabled = true;
+    this.editButton.disabled = true;
 
     /**
      * ID of currently open modal (dropdowns, etc.) in the toolbox editor view.
@@ -167,6 +166,7 @@ class ToolboxEditorView {
    * Initializes all event handlers and listeners for buttons/etc. in this view.
    * @param {!ToolboxController} controller ToolboxController used as reference
    *     in event listeners.
+   * @package
    */
   init(controller) {
     // Workspace change listener.
@@ -217,24 +217,25 @@ class ToolboxEditorView {
     });
 
     // Shows dropdown for adding elements.
-    this.buttons.add.addEventListener('click', () => {
-      this.openModal_ = FactoryUtils.openModal('dropdownDiv_add');
+    this.addButton.addEventListener('click', () => {
+      this.openModal_ = 'dropdownDiv_add';
+      FactoryUtils.openModal(this.openModal_);
     });
 
     // Listener for adding a category.
-    this.buttons.addCategory.addEventListener('click', () => {
+    this.addCategoryButton.addEventListener('click', () => {
       controller.addCategory();
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
     });
 
     // Listener for adding a separator.
-    this.buttons.addSeparator.addEventListener('click', () => {
+    this.addSeparatorButton.addEventListener('click', () => {
       // TODO
     });
 
     // Listener for importing the standard toolbox.
-    this.buttons.standard.addEventListener('click', () => {
+    this.standardToolboxButton.addEventListener('click', () => {
       // TODO
     });
   }
@@ -246,7 +247,7 @@ class ToolboxEditorView {
    */
   displayAddShadow(show) {
     // REFACTOR: Moved in from wfactory_init.js:displayAddShadow_(show)
-    this.buttons.addShadow.style.display = show ? 'inline-block' : 'none';
+    this.addShadowButton.style.display = show ? 'inline-block' : 'none';
   }
 
   /**
@@ -256,7 +257,7 @@ class ToolboxEditorView {
    */
   displayRemoveShadow(show) {
     // TODO: Move in from wfactory_model.js:displayRemoveShadow_(show)
-    this.buttons.removeShadow.style.display = show ? 'inline-block' : 'none';
+    this.removeShadowButton.style.display = show ? 'inline-block' : 'none';
   }
 
   /**
@@ -275,15 +276,16 @@ class ToolboxEditorView {
    */
   selectTab(id, selected) {
     // REFACTOR: Moved in from wfactory_view.js:setCategoryTabSelection(id, selected)
-    if (!this.tabMap[id]) {
+    const tab = this.tabMap[id];
+    if (!tab) {
       return; // Exit if tab does not exist.
     }
     if (selected) {
-      $(this.tabMap[id]).removeClass('taboff');
-      this.tabMap[id].className = 'tabon';
+      $(tab).removeClass('taboff');
+      tab.className = 'tabon';
     } else {
-      $(this.tabMap[id]).removeClass('tabon');
-      this.tabMap[id].className = 'taboff';
+      $(tab).removeClass('tabon');
+      tab.className = 'taboff';
     }
   }
 
@@ -306,18 +308,18 @@ class ToolboxEditorView {
    * or when changing to a new element or when swapping to a different element.
    * TODO(#128): Switch to using CSS to add/remove styles.
    * @param {number} selectedIndex The index of the currently selected category,
-   *   -1 if no categories created.
+   *     -1 if no categories created.
    * @param {ListElement} selected The selected ListElement.
    */
   updateState(selectedIndex, selected) {
     // From
     // Disable/enable editing buttons as necessary.
-    this.buttons.edit.disabled = selectedIndex < 0 ||
+    this.editButton.disabled = selectedIndex < 0 ||
         selected.type != ListElement.TYPE_CATEGORY;
-    this.buttons.remove.disabled = selectedIndex < 0;
-    this.buttons.up.disabled = selectedIndex <= 0;
+    this.removeButton.disabled = selectedIndex < 0;
+    this.upButton.disabled = selectedIndex <= 0;
     var table = document.getElementById('categoryTable');
-    this.buttons.down.disabled = selectedIndex >=
+    this.downButton.disabled = selectedIndex >=
         table.rows.length - 1 || selectedIndex < 0;
     // Disable/enable the workspace as necessary.
     this.disableWorkspace(this.shouldDisableWorkspace(selected));
@@ -362,7 +364,7 @@ class ToolboxEditorView {
    * @param {string} id ID of category being created.
    * @return {!Element} DOM element created for tab.
    */
-  addCategoryRow(name, id) {
+  addCategoryTab(name, id) {
     // TODO: Move in from wfactory_view.js:addCategoryRow(name, id)
     const table = document.getElementById('categoryTable');
     const count = table.rows.length;
@@ -420,6 +422,9 @@ class ToolboxEditorView {
   setBorderColor(id, color) {
     // From wfactory_view.js:setBorderColor(id, color)
     const tab = this.tabMap[id];
+    if (!tab) {
+      return;
+    }
     tab.style.borderLeftWidth = '8px';
     tab.style.borderLeftStyle = 'solid';
     tab.style.borderColor = color;

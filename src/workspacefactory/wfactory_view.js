@@ -66,7 +66,7 @@ WorkspaceFactoryView.prototype.addCategoryRow = function(name, id) {
   return nextEntry;
 };
 
-// FUNCTIONS REMOVED FROM REFACTOR.
+// SOME FUNCTIONS FROM THIS FILE HAVE BEEN REMOVED THROUGH THE REFACTORING PROCESS.
 
 /**
  * Deletes a category tab from the UI and updates tabMap accordingly.

@@ -64,7 +64,7 @@ WorkspaceFactoryModel = function() {
   //
 };
 
-// FUNCTIONS REMOVED FROM REFACTOR.
+// SOME FUNCTIONS FROM THIS FILE HAVE BEEN REMOVED THROUGH THE REFACTORING PROCESS.
 
 /**
  * Given a name, determines if it is the name of a category already present.
