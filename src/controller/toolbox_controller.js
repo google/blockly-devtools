@@ -117,7 +117,7 @@ class ToolboxController {
     const category = new ListElement(ListElement.TYPE_CATEGORY, name);
     this.view.toolbox.addElement(category);
     // Create new category.
-    const tab = this.view.addCategoryRow(category.name, category.id);
+    const tab = this.view.addCategoryTab(category.name, category.id);
     this.addClickToSwitch(tab, category.id);
     return category.id;
   }
@@ -934,7 +934,7 @@ class ToolboxController {
     this.view.toolbox.addElement(copy);
 
     // Update the copy in the view.
-    const tab = this.view.addCategoryRow(copy.name, copy.id);
+    const tab = this.view.addCategoryTab(copy.name, copy.id);
     this.addClickToSwitch(tab, copy.id);
     // Color the category tab in the view.
     if (copy.color) {

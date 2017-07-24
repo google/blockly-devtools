@@ -364,7 +364,7 @@ class ToolboxEditorView {
    * @param {string} id ID of category being created.
    * @return {!Element} DOM element created for tab.
    */
-  addCategoryRow(name, id) {
+  addCategoryTab(name, id) {
     // TODO: Move in from wfactory_view.js:addCategoryRow(name, id)
     const table = document.getElementById('categoryTable');
     const count = table.rows.length;
