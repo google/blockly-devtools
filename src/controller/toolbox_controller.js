@@ -83,7 +83,7 @@ class ToolboxController {
    * Prompts the user for a name, checking that it's valid (not used before),
    * and then creates a tab and switches to it.
    */
-  addCategory() {
+  addCategory() { debugger;
     // From wfactory_controller.js:addCategory()
     // Get name from user.
     const name = this.promptForNewCategoryName('Enter the name of your new category:');
@@ -91,9 +91,14 @@ class ToolboxController {
       return;
     }
 
-    // Transfers the user's blocks to a flyout if it's the first category created.
-    this.transferFlyoutBlocksToCategory();
+    // Transfers flyout blocks to category
+    if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT &&
+        this.view.editorWorkspace.getAllBlocks().length > 0) {
+      // Transfers the user's blocks to a flyout if it's the first category created.
+      this.transferFlyoutBlocksToCategory();
+    }
 
+    this.view.editorWorkspace.clear();
     // Deselect the currently active tab.
     this.view.selectTab(this.view.toolbox.getSelectedId(), false);
     // Create category.
@@ -345,19 +350,18 @@ class ToolboxController {
    * @return {!Element} XML of current toolbox.
    */
   generateToolboxXml() {
-    console.log('generateToolboxXml() called.');
     const xmlDom = goog.dom.createDom('xml', {
         'id': 'toolbox',
         'style': 'display: none;'
       });
 
-    if (this.view.toolbox.categoryList.length == 1) {
+    if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
       // Toolbox has no categories.
       this.loadToHiddenWorkspace_(this.generateCategoryXml_(this.view.toolbox.selected));
       this.appendHiddenWorkspaceToDom_(xmlDom);
     } else {
       // Toolbox has categories.
-      if (!this.view.toolbox.selected) {
+      if (!this.view.toolbox.getSelected()) {
         throw new Error('Selected is null when the toolbox is empty.');
       }
 
@@ -1106,16 +1110,6 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   }
 
   /**
-   * Determines the DOM ID for a category given its name.
-   * @param {string} name Name of category
-   * @return {string} ID of category tab
-   */
-  createCategoryIdName(name) {
-    // Moved in from wfactory_view.js
-    return 'tab_' + name;
-  }
-
-  /**
    * Transfers the blocks in the user's flyout to a new category if
    * the user is creating their first category and their workspace is not
    * empty. Should be called whenever it is possible to switch from single flyout
@@ -1123,14 +1117,13 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    */
   transferFlyoutBlocksToCategory() {
     // REFACTORED: Moved in from wfactory_controller.js
-    if (this.view.toolbox.categoryList.length == 1 &&
-        this.view.editorWorkspace.getAllBlocks().length > 0) {
-      const id = this.createCategory('Category 1');
-      this.currentToolbox.setSelected(id);
-      this.view.selectTab(id, true);
+    const id = this.createCategory('Category 1');
+    this.currentToolbox.setSelected(id);
+    this.currentToolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
+    this.view.selectTab(id, true);
+    this.view.toolbox.setXml(this.generateToolboxXml()); // bm
 
-      this.updatePreview();
-    }
+    this.updatePreview();
   }
 
   /**
