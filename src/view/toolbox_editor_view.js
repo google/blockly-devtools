@@ -285,7 +285,7 @@ class ToolboxEditorView {
       tab.className = 'tabon';
     } else {
       $(tab).removeClass('tabon');
-      tabitabdtab.className = 'taboff';
+      tab.className = 'taboff';
     }
   }
 

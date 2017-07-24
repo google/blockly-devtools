@@ -1249,12 +1249,11 @@ FactoryUtils.buildBlockEditorStarterXml = function(inputType, blockTypeName, blo
 /**
  * Show a modal element, usually a dropdown list.
  * @param {string} id ID of element to show.
- * @return {string} ID of element shown.
  */
 FactoryUtils.openModal = function(id) {
   const modal = $('#' + id);
   if (!modal) {
-    return null;
+    return;
   }
   Blockly.hideChaff();
   modal.show();
@@ -1268,7 +1267,7 @@ FactoryUtils.openModal = function(id) {
 FactoryUtils.closeModal = function(id) {
   const modal = $('#' + id);
   if (!modal) {
-    return null;
+    return;
   }
   modal.hide();
   $('#modalShadow').hide();

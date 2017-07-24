@@ -208,7 +208,8 @@ class Toolbox extends Resource {
    * Given the index of a list element in toolboxList, returns that ListElement
    * object.
    * @param {number} index The index of the element to return.
-   * @return {ListElement} The corresponding ListElement object in toolboxList.
+   * @return {?ListElement} The corresponding ListElement object in toolboxList,
+   *     or null if no element existed at that index.
    */
   getElementByIndex(index) {
     // From wfactory_model.js
@@ -278,11 +279,12 @@ class Toolbox extends Resource {
    */
   getIndexById(id) {
     // From wfactory_model.js:getIndexByElementId(id)
-    this.categoryList.forEach((element, index) => {
+    for (let i = 0; i < this.categoryList.length; i++) {
+      let element = this.categoryList[i];
       if (element.id == id) {
-        return index;
+        return i;
       }
-    });
+    }
     return -1; // ID not present in element list.
   }
 
@@ -293,11 +295,11 @@ class Toolbox extends Resource {
    */
   getCategoryId(name) {
     // From wfactory_model.js:getCategoryIdByName(name)
-    this.categoryList.forEach((element) => {
+    for (let element of this.categoryList) {
       if (element.name == name) {
         return element.id;
       }
-    });
+    }
     return null; // Name not present in categoryList.
   }
 
@@ -373,11 +375,11 @@ class Toolbox extends Resource {
    */
   isShadowBlock(blockId) {
     // TODO: Move in from wfactory_model.js
-    this.shadowBlocks.forEach((id) => {
+    for (let id of this.shadowBlocks) {
       if (id == blockId) {
         return true;
       }
-    });
+    }
     return false;
   }
 

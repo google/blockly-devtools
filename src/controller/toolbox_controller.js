@@ -80,19 +80,19 @@ class ToolboxController {
   }
 
   /**
-   * Currently prompts the user for a name, checking that it's valid (not used
-   * before), and then creates a tab and switches to it.
+   * Prompts the user for a name, checking that it's valid (not used before),
+   * and then creates a tab and switches to it.
    */
   addCategory() {
     // From wfactory_controller.js:addCategory()
-    // Transfers the user's blocks to a flyout if it's the first category created.
-    this.transferFlyoutBlocksToCategory();
-
     // Get name from user.
     const name = this.promptForNewCategoryName('Enter the name of your new category:');
     if (!name) {  // Exit if cancelled.
       return;
     }
+
+    // Transfers the user's blocks to a flyout if it's the first category created.
+    this.transferFlyoutBlocksToCategory();
 
     // Deselect the currently active tab.
     this.view.selectTab(this.view.toolbox.getSelectedId(), false);
@@ -116,7 +116,6 @@ class ToolboxController {
     // Create empty category.
     const category = new ListElement(ListElement.TYPE_CATEGORY, name);
     this.view.toolbox.addElement(category);
-    // Create new category.
     const tab = this.view.addCategoryTab(category.name, category.id);
     this.addClickToSwitch(tab, category.id);
     return category.id;
@@ -319,7 +318,7 @@ class ToolboxController {
     } else {
       // Uses categories, creates a toolbox.
       if (!this.view.previewWorkspace.toolbox_) {
-        tihs.reinjectPreview(tree); // Create a toolbox.
+        this.reinjectPreview(tree); // Create a toolbox.
       } else {
         // Close toolbox before updating.
         this.view.previewWorkspace.toolbox_.clearSelection();
@@ -346,7 +345,6 @@ class ToolboxController {
 
     if (this.view.toolbox.isEmpty()) {
       // Toolbox has no categories.
-      // this.loadToHiddenWorkspace_(this.view.toolbox.getSelectedXml());
       this.loadToHiddenWorkspace_(this.generateCategoryXml_(this.view.toolbox.selected));
       this.appendHiddenWorkspaceToDom_(xmlDom);
     } else {
@@ -412,12 +410,17 @@ class ToolboxController {
    * @param {!Event} e Change event in workspace.
    */
   onChange(e) {
-    // Listen for Blockly move and delete events to update preview.
-    // Not listening for Blockly create events because causes the user to drop
-    // blocks when dragging them into workspace. Could cause problems if ever
-    // load blocks into workspace directly without calling updatePreview.
-    if (e.type == Blockly.Events.MOVE || e.type == Blockly.Events.DELETE ||
-          e.type == Blockly.Events.CHANGE) {
+    const isCreateEvent = e.type == Blockly.Events.CREATE;
+    const isMoveEvent = e.type == Blockly.Events.MOVE;
+    const isDeleteEvent = e.type == Blockly.Events.DELETE;
+    const isChangeEvent = e.type == Blockly.Events.CHANGE;
+    const isUiEvent = e.type == Blockly.Events.UI;
+
+    // Listens for Blockly move, delete, and change events to update preview.
+    // Does not listen for Blockly create events because doing so causes the user
+    // to drop blocks when dragging them into workspace. Could cause problems if
+    // user loads blocks into workspace directly without calling updatePreview.
+    if (isMoveEvent || isDeleteEvent || isChangeEvent) {
       this.saveStateFromWorkspace();
       this.view.toolbox.setXml(this.generateToolboxXml());
       this.updatePreview();
@@ -427,118 +430,182 @@ class ToolboxController {
     // Only enable "Edit Block" when a block is selected and it has a
     // surrounding parent, meaning it is nested in another block (blocks that
     // are not nested in parents cannot be shadow blocks).
-    if (e.type == Blockly.Events.MOVE || (e.type == Blockly.Events.UI &&
-        e.element == 'selected')) {
+    if (isMoveEvent || (isUiEvent && e.element == 'selected')) {
       const selected = Blockly.selected;
       const project = this.projectController.getProject();
 
-      // Show shadow button if a block is selected. Show "Add Shadow" if
-      // a block is not a shadow block, show "Remove Shadow" if it is a
-      // shadow block.
-      if (selected) {
-        const isShadow = this.isUserGenShadowBlock(selected.id);
-        this.view.displayAddShadow(!isShadow);
-        this.view.displayRemoveShadow(isShadow);
+      this.showShadowButtons_(selected);
+
+      const isPotentialShadow = selected != null && selected.getSurroundParent() != null &&
+          !this.isUserGenShadowBlock(selected.getSurroundParent().id);
+      this.allowShadow_(isPotentialShadow, selected);
+    }
+
+    if (isCreateEvent) {
+      this.makeShadowishBlocks_(e.blockId);
+    }
+  }
+
+  /**
+   * Shows buttons to create/remove shadow blocks. Checks selected block if it
+   * is able to be a shadow block (e.g. top level blocks cannot be shadow blocks,
+   * etc.).
+   * @param {boolean} selected Whether block is selected.
+   * @private
+   */
+  showShadowButtons_(selected) {
+    // Show shadow button if a block is selected. Show "Add Shadow" if
+    // a block is not a shadow block, show "Remove Shadow" if it is a
+    // shadow block.
+    if (selected) {
+      const isShadow = this.isUserGenShadowBlock(selected.id);
+      this.view.displayAddShadow(!isShadow);
+      this.view.displayRemoveShadow(isShadow);
+    } else {
+      this.view.displayAddShadow(false);
+      this.view.displayRemoveShadow(false);
+    }
+  }
+
+  /**
+   * Enables or disables shadow block buttons depending on whether the currently
+   * selected block is eligible to be a shadow block.
+   * @param {boolean} isPotentialShadow Whether the selected block is a potential
+   *      shadow block.
+   * @param {Blockly.Block} selected The currently selected block.
+   * @private
+   */
+  allowShadow_(isPotentialShadow, selected) {
+    const project = this.projectController.getProject();
+    const addButton = this.view.addShadowButton;
+    const removeButton = this.view.removeShadowButton;
+
+    if (isPotentialShadow) {
+      // Selected block is a valid shadow block or could be a valid shadow
+      // block.
+
+      // Enable block editing and remove warnings if the block is not a
+      // variable user-generated shadow block.
+      addButton.disabled = false;
+      removeButton.disabled = false;
+
+      // Remove possible 'invalid shadow block placement' warning.
+      const removeWarnings = !FactoryUtils.hasVariableField(selected) &&
+          project.hasBlockDefinition(selected.type)
+      this.warnUserFromShadow_(selected, removeWarnings);
+    } else {
+      if (selected != null && this.isInvalidBlockPlacement_(selected)) {
+        this.warnUserFromShadow_(selected);
+
+        // Give editing options so that the user can make an invalid shadow
+        // block a normal block.
+        addButton.disabled = false;
+        removeButton.disabled = true;
       } else {
-        this.view.displayAddShadow(false);
-        this.view.displayRemoveShadow(false);
+        // Selected block does not break any shadow block rules, but cannot
+        // be a shadow block.
+
+        // Remove possible 'invalid shadow block placement' warning.
+        const removeWarnings = selected != null &&
+            project.hasBlockDefinition(selected.type) &&
+            (!FactoryUtils.hasVariableField(selected) ||
+                !this.isUserGenShadowBlock(selected.id));
+        this.warnUserFromShadow_(selected, removeWarnings);
+
+        // No block selected that is a shadow block or could be a valid shadow
+        // block. Disable block editing.
+        addButton.disabled = true;
+        removeButton.disabled = true;
       }
+    }
+  }
 
-      if (selected != null && selected.getSurroundParent() != null &&
-          !this.isUserGenShadowBlock(selected.getSurroundParent().id)) {
-        // Selected block is a valid shadow block or could be a valid shadow
-        // block.
+  /**
+   * Potentially warns user with help text if the selected block cannot be a valid
+   * shadow block. A block is an invalid shadow block if (1) a shadow block no
+   * longer has a valid parent, or (2) a normal block is inside of a shadow block.
+   * @param {Blockly.Block} selectedBlock Selected block that is a potential
+   *     shadow block candidate.
+   * @param {boolean} opt_null Whether to remove any warning text that might already
+   *     be on the given shadowBlock.
+   * @private
+   */
+  warnUserFromShadow_(selectedBlock, opt_null) {
+    if (opt_null) {
+      selectedBlock.setWarningText(null);
+      return;
+    }
 
-        // Enable block editing and remove warnings if the block is not a
-        // variable user-generated shadow block.
-        this.view.buttons.addShadow.disabled = false;
-        this.view.buttons.removeShadow.disabled = false;
+    if (!selectedBlock) {
+      return;
+    }
 
-        if (!FactoryUtils.hasVariableField(selected) &&
-            project.hasBlockDefinition(selected.type)) {
-          selected.setWarningText(null);
-        }
-      } else {
-        // Selected block cannot be a valid shadow block.
+    if (!this.isUserGenShadowBlock(selectedBlock.id)) {
+      // Warn if a non-shadow block is nested inside a shadow block.
+      selectedBlock.setWarningText('Only shadow blocks can be nested inside\n'
+          + 'other shadow blocks.');
+    } else if (!FactoryUtils.hasVariableField(selectedBlock)) {
+      // Warn if a shadow block is invalid only if not replacing
+      // warning for variables.
+      selectedBlock.setWarningText('Shadow blocks must be nested inside other'
+          + ' blocks.')
+    }
+  }
 
-        if (selected != null && this.isInvalidBlockPlacement_(selected)) {
-          // Selected block breaks shadow block rules.
-          // Invalid shadow block if (1) a shadow block no longer has a valid
-          // parent, or (2) a normal block is inside of a shadow block.
+  /**
+   * Convert actual shadow blocks added from the toolbox to user-generated shadow
+   * blocks.
+   * @param {boolean} blockId ID of the selected block.
+   * @private
+   */
+  makeShadowishBlocks_(blockId) {
+    // Converts actual shadow blocks to shadow-looking blocks in editor.
+    this.convertShadowBlocks();
 
-          if (!this.isUserGenShadowBlock(selected.id)) {
-            // Warn if a non-shadow block is nested inside a shadow block.
-            selected.setWarningText('Only shadow blocks can be nested inside\n'
-                + 'other shadow blocks.');
-          } else if (!FactoryUtils.hasVariableField(selected)) {
-            // Warn if a shadow block is invalid only if not replacing
-            // warning for variables.
-            selected.setWarningText('Shadow blocks must be nested inside other'
-                + ' blocks.')
-          }
+    // Let the user create a Variables or Functions category if they use
+    // blocks from either category.
+    const newBaseBlock = this.view.editorWorkspace.getBlockById(blockId);
+    this.warnForMissingCategory_(newBaseBlock.getDescendants());
+  }
 
-          // Give editing options so that the user can make an invalid shadow
-          // block a normal block.
-          this.view.buttons.removeShadow.disabled = false;
-          this.view.buttons.addShadow.disabled = true;
-        } else {
-          // Selected block does not break any shadow block rules, but cannot
-          // be a shadow block.
+  /**
+   * Checks if user is missing a category necessary for end-users to
+   * use the developer's custom blocks. Advises user to add either Variable
+   * or Functions category, depending on which category is necessary to use the
+   * developer's blocks.
+   * @param {!Array.<!Blockly.Block>} blockList List of all blocks to check for
+   *      use of variables or functions.
+   */
+  warnForMissingCategory_(blockList) {
+    let variableCreated = false;
+    let procedureCreated = false;
 
-          // Remove possible 'invalid shadow block placement' warning.
-          if (selected != null && project.hasBlockDefinition(selected.type) &&
-              (!FactoryUtils.hasVariableField(selected) ||
-              !this.isUserGenShadowBlock(selected.id))) {
-            selected.setWarningText(null);
-          }
-
-          // No block selected that is a shadow block or could be a valid shadow
-          // block. Disable block editing.
-          this.view.buttons.addShadow.disabled = true;
-          this.view.buttons.removeShadow.disabled = true;
-        }
+    for (let block of blockList) {
+      if (FactoryUtils.hasVariableField(block)) {
+        variableCreated = true;
+      } else if (FactoryUtils.isProcedureBlock(block)) {
+        procedureCreated = true;
       }
     }
 
-    // Convert actual shadow blocks added from the toolbox to user-generated
-    // shadow blocks.
-    if (e.type == Blockly.Events.CREATE) {
-      this.convertShadowBlocks();
+    // Very small helper function to generate warning message. Not used outside
+    // of this function.
+    const warningMessage = (categoryName) => {
+        return `Your new block has a ${categoryName} field. To use this block fully, you will need a ${categoryName} category.
+Do you want to add a ${categoryName} category to your custom toolbox?`;
+      };
 
-      // Let the user create a Variables or Functions category if they use
-      // blocks from either category.
-
-      const newBaseBlock = this.view.editorWorkspace.getBlockById(e.blockId);
-      let allNewBlocks = newBaseBlock.getDescendants();
-      let variableCreated = false;
-      let procedureCreated = false;
-
-      // Check if the newly created block or any of its children are variable
-      // or procedure blocks.
-      allNewBlocks.forEach((block) => {
-        if (FactoryUtils.hasVariableField(block)) {
-          variableCreated = true;
-        } else if (FactoryUtils.isProcedureBlock(block)) {
-          procedureCreated = true;
-        }
-      });
-
-      // If any of the newly created blocks are variable or procedure blocks,
-      // prompt the user to create the corresponding standard category.
-      if (variableCreated && !this.hasVariablesCategory()) {
-        if (confirm('Your new block has a variables field. To use this block '
-            + 'fully, you will need a Variables category. Do you want to add '
-            + 'a Variables category to your custom toolbox?')) {
-          controller.loadCategoryByName('variables');
-        }
+    // If any of the newly created blocks are variable or procedure blocks,
+    // prompt the user to create the corresponding standard category.
+    if (variableCreated && !this.hasVariablesCategory()) {
+      if (confirm(warningMessage('Variables'))) {
+        controller.loadCategoryByName('variables');
       }
+    }
 
-      if (procedureCreated && !this.hasProceduresCategory()) {
-        if (confirm('Your new block is a function block. To use this block '
-            + 'fully, you will need a Functions category. Do you want to add '
-            + 'a Functions category to your custom toolbox?')) {
-          controller.loadCategoryByName('functions');
-        }
+    if (procedureCreated && !this.hasProceduresCategory()) {
+      if (confirm(warningMessage('Functions'))) {
+        controller.loadCategoryByName('functions');
       }
     }
   }
@@ -759,8 +826,6 @@ class ToolboxController {
     // If switching to another category, set category selection in the model and
     // view.
     if (id != null) {
-      console.log('id is not null in clearAndLoadElement()');
-      console.log(id);
       // Set next category.
       this.view.toolbox.setSelected(id);
 
@@ -806,9 +871,9 @@ class ToolboxController {
     const blocks = this.view.editorWorkspace.getAllBlocks();
     const project = this.projectController.getProject();
     blocks.forEach((block) => {
-      if (!project.hasBlockDefinition.(block.type)) {
+      if (!project.hasBlockDefinition(block.type)) {
         block.setWarningText(block.type + ' is not defined (it is not a standard '
-            + 'block, \nin your block library, or an imported block.');
+            + 'block, \nin your block library, or an imported block).');
       }
     });
   }
