@@ -81,13 +81,12 @@ class BlockLibrary extends Resource {
 
   /**
    * Returns the JSON of all blocks stored in the block library.
-   * @return {Object} The JSON that represents all blocks in the library.
+   * @return {Object} The JSON that represents all bocks in the library.
    */
   getBlockArrayJson() {
-    let blockArrayJson = {};
+    let blockArrayJson = [];
     for (let blockType in this.getBlockTypes()) {
-      // TODO #130: configure block definition JSON to suit this object.
-      $.extend(true, blockArrayJson, this.blocks[blockType].json);
+      blockArrayJson.push(this.blocks[blockType].json);
     }
     return blockArrayJson;
   }
@@ -128,6 +127,18 @@ class BlockLibrary extends Resource {
    */
   isEmpty() {
     return this.getBlockTypes().length == 0;
+  }
+
+  /**
+   * Returns map of blockType to associated JSON object.
+   * @return {!Object<string, Object>} Map of block type to corresponding JSON.
+   */
+  getBlockJsonMap() {
+    var jsonMap = {};
+    for (let blockType of this.getBlockTypes()) {
+      jsonMap[blockType] = this.blocks[blockType].getXml();
+    }
+    return jsonMap;
   }
 
   /**
