@@ -180,7 +180,7 @@ class ToolboxController {
         return null;
       }
       defaultName = name;
-    } while (this.view.toolbox.categoryIsInToolbox(name));
+    } while (this.view.toolbox.hasCategory(name));
     return name;
   }
 
@@ -429,6 +429,7 @@ class ToolboxController {
     if (e.type == Blockly.Events.MOVE || (e.type == Blockly.Events.UI &&
         e.element == 'selected')) {
       const selected = Blockly.selected;
+      const project = this.projectController.getProject();
 
       // Show shadow button if a block is selected. Show "Add Shadow" if
       // a block is not a shadow block, show "Remove Shadow" if it is a
@@ -453,7 +454,7 @@ class ToolboxController {
         this.view.buttons.removeShadow.disabled = false;
 
         if (!FactoryUtils.hasVariableField(selected) &&
-            this.projectController.isDefinedBlock(selected)) {
+            project.hasBlock(selected.type)) {
           selected.setWarningText(null);
         }
       } else {
@@ -484,7 +485,7 @@ class ToolboxController {
           // be a shadow block.
 
           // Remove possible 'invalid shadow block placement' warning.
-          if (selected != null && this.projectController.isDefinedBlock(selected) &&
+          if (selected != null && project.hasBlock(selected.type) &&
               (!FactoryUtils.hasVariableField(selected) ||
               !this.isUserGenShadowBlock(selected.id))) {
             selected.setWarningText(null);
@@ -803,8 +804,9 @@ class ToolboxController {
    */
   warnForUndefinedBlocks_() {
     const blocks = this.view.editorWorkspace.getAllBlocks();
+    const project = this.projectController.getProject();
     blocks.forEach((block) => {
-      if (!this.projectController.isDefinedBlock(block)) {
+      if (!project.hasBlock(block.type)) {
         block.setWarningText(block.type + ' is not defined (it is not a standard '
             + 'block, \nin your block library, or an imported block.');
       }
@@ -915,7 +917,7 @@ class ToolboxController {
     }
     // Check if the user can create a category with that name.
     const standardCategory = StandardCategories.categoryMap[name.toLowerCase()]
-    if (this.view.toolbox.categoryIsInToolbox(standardCategory.name)) {
+    if (this.view.toolbox.hasCategory(standardCategory.name)) {
       alert('You already have a category with the name ' + standardCategory.name
           + '. Rename your category and try again.');
       return;
