@@ -282,7 +282,7 @@ class ToolboxEditorView {
    * the buttons that allow the user to edit the list elements. Updates the edit
    * and arrow buttons. Should be called when adding or removing elements
    * or when changing to a new element or when swapping to a different element.
-   * TODO(evd2014): Switch to using CSS to add/remove styles.
+   * TODO(#128): Switch to using CSS to add/remove styles.
    * @param {number} selectedIndex The index of the currently selected category,
    *   -1 if no categories created.
    * @param {ListElement} selected The selected ListElement.
@@ -323,6 +323,8 @@ class ToolboxEditorView {
   /**
    * Determines if the workspace should be disabled. The workspace should be
    * disabled if category is a separator or has VARIABLE or PROCEDURE tags.
+   * @param {!ListElement} category Category used to check if workspace should
+   *     be disabled.
    * @return {boolean} True if the workspace should be disabled, false otherwise.
    */
   shouldDisableWorkspace(category) {
@@ -363,7 +365,7 @@ class ToolboxEditorView {
   /**
    * Used to bind a click to a certain DOM element (used for category tabs).
    * Taken directly from code.js
-   * @param {string|!Element} e1 Tab element or corresponding ID string.
+   * @param {string|!Element} el Tab element or corresponding ID string.
    * @param {!Function} func Function to be executed on click.
    */
   bindClick(el, func) {
@@ -409,8 +411,8 @@ class ToolboxEditorView {
    */
   markShadowBlocks(blocks) {
     // REFACTOR: Moved in from wfactory_view.js:markShadowBlocks(blocks)
-    for (let i = 0; i < blocks.length; i++){
-      this.markShadowBlock(blocks[i]);
+    for (let block of blocks) {
+      this.markShadowBlock(block);
     }
   }
 

@@ -100,14 +100,6 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Renames toolbox.
-   * @param {string} newName New name of toolbox.
-   */
-  setName(newName) {
-    this.name = newName;
-  }
-
-  /**
    * Sets XML of toolbox to given element.
    * @param {!Element} xml XML of toolbox.
    */
@@ -424,7 +416,7 @@ class Toolbox extends Resource {
    * @param {string} name String name to be compared against.
    * @return {boolean} True if string is a used category name, false otherwise.
    */
-  categoryIsInToolbox(name) {
+  hasCategory(name) {
     // From wfactory_model.js:hasCategoryByName(name)
     this.categoryList.forEach((element) => {
       if (element.type == ListElement.TYPE_CATEGORY && element.name == name) {

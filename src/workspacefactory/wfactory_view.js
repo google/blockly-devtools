@@ -66,6 +66,8 @@ WorkspaceFactoryView.prototype.addCategoryRow = function(name, id) {
   return nextEntry;
 };
 
+// FUNCTIONS REMOVED FROM REFACTOR.
+
 /**
  * Deletes a category tab from the UI and updates tabMap accordingly.
  * @param {string} id ID of category to be deleted.

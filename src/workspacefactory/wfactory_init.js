@@ -56,6 +56,8 @@ WorkspaceFactoryInit.initWorkspaceFactory = function(controller) {
   controller.setStandardOptionsAndUpdate();
 };
 
+// FUNCTIONS REMOVED FROM REFACTOR.
+
 /**
  * Initialize the color picker in workspace factory.
  * @param {!FactoryController} controller The controller for the workspace

@@ -92,6 +92,8 @@ WorkspaceFactoryController = function(toolboxName, toolboxDiv, previewDiv) {
   this.hasUnsavedPreloadChanges = false;
 };
 
+// FUNCTIONS REMOVED FROM REFACTOR.
+
 // Toolbox editing mode. Changes the user makes to the workspace updates the
 // toolbox.
 WorkspaceFactoryController.MODE_TOOLBOX = 'TOOLBOX';

@@ -64,6 +64,8 @@ WorkspaceFactoryModel = function() {
   //
 };
 
+// FUNCTIONS REMOVED FROM REFACTOR.
+
 /**
  * Given a name, determines if it is the name of a category already present.
  * Used when getting a valid category name from the user.
