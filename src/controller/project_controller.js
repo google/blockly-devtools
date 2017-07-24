@@ -48,6 +48,7 @@ class ProjectController {
      * @type {!Project}
      */
     this.project = project;
+
     /**
      * The tree which represents the project.
      * @type {!NavigationTree}
@@ -88,13 +89,28 @@ class ProjectController {
    * @param {string} blockType Name of the block to add to the project.
    *
    * @return {!BlockDefinition} The new block definition added to the project.
-   * @param {string} libraryName The library to add it to.
+   * @param {!string} libraryName The library to add it to.
    */
   createBlockDefinition(blockType, libraryName) {
     //TODO #105: check for valid name, throw error upon conflict
     const block = new BlockDefinition(blockType);
     this.addBlockDefinition(blockType, libraryName);
     return block;
+  }
+
+  /**
+   * Creates and adds new BlockLibrary to this.project.
+   *
+   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
+   *     project.
+   *
+   * @return {!BlockLibrary} The new library added to the project.
+   */
+  createBlockLibrary(blockLibraryName) {
+    //TODO #105: check for valid name, throw error upon conflict
+    const blockLibrary = new BlockLibrary(blockLibraryName);
+    this.addBlockLibrary(blockLibrary);
+    return blockLibrary;
   }
 
   /**
@@ -143,28 +159,13 @@ class ProjectController {
   }
 
   /**
-   * Creates and adds new BlockLibrary to this.project.
-   *
-   * @param {string} blockLibraryName Name of the BlockLibrary to add to the
-   *     project.
-   *
-   * @return {!BlockLibrary} The new library added to the project.
-   */
-  createBlockLibrary(blockLibraryName) {
-    //TODO #105: check for valid name, throw error upon conflict
-    const blockLibrary = new BlockLibrary(blockLibraryName);
-    this.addBlockLibrary(blockLibrary);
-    return blockLibrary;
-  }
-
-  /**
    * Adds a block definition to the project.
    *
    * @param {!BlockDefinition} blockDef Block definition to add to the project.
    * @param {string} libraryName The library to add it to.
    */
   addBlockDefinition(blockDef, libraryName) {
-    this.project.addBlockDefinition(blockDef, libraryName);
+    this.project.getBlockLibrary(libraryName).add(blockDef);
     this.tree.addBlockNode(blockDef.type(), libraryName);
 
   }
@@ -272,7 +273,6 @@ class ProjectController {
   rename(resource, newName) {
     //TODO: restrict names.
     resource.setName(newName);
-
   }
 
   /**
