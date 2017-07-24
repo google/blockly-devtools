@@ -138,9 +138,10 @@ class BlockEditorView {
    * Initializes all event handlers and listeners for buttons/etc. in this view.
    * @param {!BlockEditorController} controller BlockEditorController which will
    *     manage changes within event listeners.
+   * @package
    */
   init(controller) {
-    console.warn('Unimplemented: init_()');
+    console.warn('Unimplemented: init()');
   }
 
   /**

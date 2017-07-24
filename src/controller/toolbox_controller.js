@@ -180,6 +180,7 @@ class ToolboxController {
       if (!name) {  // If cancelled.
         return null;
       }
+      // TODO(#105): Check new category name for validity.
       defaultName = name;
     } while (this.view.toolbox.hasCategory(name));
     return name;
@@ -411,7 +412,6 @@ class ToolboxController {
    * @param {!Event} e Change event in workspace.
    */
   onChange(e) {
-    console.log('change!!!!!!');
     // Listen for Blockly move and delete events to update preview.
     // Not listening for Blockly create events because causes the user to drop
     // blocks when dragging them into workspace. Could cause problems if ever
@@ -455,7 +455,7 @@ class ToolboxController {
         this.view.buttons.removeShadow.disabled = false;
 
         if (!FactoryUtils.hasVariableField(selected) &&
-            project.hasBlock(selected.type)) {
+            project.hasBlockDefinition(selected.type)) {
           selected.setWarningText(null);
         }
       } else {
@@ -486,7 +486,7 @@ class ToolboxController {
           // be a shadow block.
 
           // Remove possible 'invalid shadow block placement' warning.
-          if (selected != null && project.hasBlock(selected.type) &&
+          if (selected != null && project.hasBlockDefinition(selected.type) &&
               (!FactoryUtils.hasVariableField(selected) ||
               !this.isUserGenShadowBlock(selected.id))) {
             selected.setWarningText(null);
@@ -509,7 +509,7 @@ class ToolboxController {
       // blocks from either category.
 
       const newBaseBlock = this.view.editorWorkspace.getBlockById(e.blockId);
-      let allNewBlocks = FactoryUtils.getAllChildren(newBaseBlock);
+      let allNewBlocks = newBaseBlock.getDescendants();
       let variableCreated = false;
       let procedureCreated = false;
 
@@ -806,7 +806,7 @@ class ToolboxController {
     const blocks = this.view.editorWorkspace.getAllBlocks();
     const project = this.projectController.getProject();
     blocks.forEach((block) => {
-      if (!project.hasBlock(block.type)) {
+      if (!project.hasBlockDefinition.(block.type)) {
         block.setWarningText(block.type + ' is not defined (it is not a standard '
             + 'block, \nin your block library, or an imported block.');
       }

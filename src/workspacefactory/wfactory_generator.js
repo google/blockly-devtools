@@ -54,7 +54,7 @@ WorkspaceFactoryGenerator = function(model) {
   this.BLOCKLY_PRELOAD_XML = {};
 };
 
-// FUNCTIONS REMOVED FROM REFACTOR.
+// SOME FUNCTIONS FROM THIS FILE HAVE BEEN REMOVED THROUGH THE REFACTORING PROCESS.
 
  /**
   * Generates XML for the workspace (different from generateConfigXml in that
