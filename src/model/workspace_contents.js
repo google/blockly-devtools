@@ -36,11 +36,6 @@ class WorkspaceContents extends Resource {
    * @constructor
    */
   constructor(workspaceContentsName) {
-    /*
-     * TODO: fully implement
-     *
-     * References: N/A
-     */
      super(workspaceContentsName);
 
     /**
@@ -50,7 +45,7 @@ class WorkspaceContents extends Resource {
     this.xml = Blockly.Xml.textToDom('<xml></xml>');
 
     /**
-     * Block library block types.
+     * Block types in the project's libraries.
      * @type {Array.<string>}
      */
     this.libBlockTypes = [];
@@ -58,10 +53,10 @@ class WorkspaceContents extends Resource {
 
   /**
    * Saves block to block workspace contents.
-   * @param {!BlockDefinition} blockDefinition The definition of the block to be
+   * @param {!BlockDefinition} blockDef The definition of the block to be
    *    saved.
    */
-  addBlock(blockDefinition) {
+  addBlock(blockDef) {
 
   }
 
@@ -125,4 +120,15 @@ class WorkspaceContents extends Resource {
       {'id': PREFIXES.WORKSPACE_CONTENTS});
     return workspaceContentsJson;
   }
+
+
+/**
+ * Updates block types in block library.
+ * @param {!Array.<string>} blockTypes Array of block types in block library.
+ */
+WorkspaceFactoryModel.prototype.updateLibBlockTypes = function(blockTypes) {
+  this.libBlockTypes = blockTypes;
+}
+
+
 }
