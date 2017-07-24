@@ -25,8 +25,8 @@ goog.provide('WorkspaceContents');
 goog.require('Resource');
 
 /**
- * @class Workspacecontents contains a set of positioned blocks
- *    specified by the developer and used to initialize an app's workspace.
+ * @class Workspacecontents contains a set of positioned blocks specified by the
+ * developer to load onto a Blockly workspace upon initialization.
  * @authors  Emma Dauterman (evd2014), sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 class WorkspaceContents extends Resource {
@@ -43,12 +43,6 @@ class WorkspaceContents extends Resource {
      * @type {!Element}
      */
     this.xml = Blockly.Xml.textToDom('<xml></xml>');
-
-    /**
-     * Block types in the project's libraries.
-     * @type {Array.<string>}
-     */
-    this.libBlockTypes = [];
   }
 
   /**
@@ -95,13 +89,5 @@ class WorkspaceContents extends Resource {
     const workspaceContentsJson = $.extend(true, super.getJson(),
       {'id': PREFIXES.WORKSPACE_CONTENTS});
     return workspaceContentsJson;
-  }
-
-  /**
-   * Updates block types in block library.
-   * @param {!Array.<string>} blockTypes Array of block types in block library.
-   */
-  updateLibBlockTypes(blockTypes) {
-    this.libBlockTypes = blockTypes;
   }
 }
