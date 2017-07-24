@@ -93,6 +93,9 @@ class ToolboxController {
     if (!name) {  // Exit if cancelled.
       return;
     }
+
+    // Deselect the currently active tab.
+    this.view.selectTab(this.view.toolbox.getSelectedId(), false);
     // Create category.
     this.view.toolbox.setSelected(this.createCategory(name));
     // Switch to category.
@@ -114,7 +117,7 @@ class ToolboxController {
     const category = new ListElement(ListElement.TYPE_CATEGORY, name);
     this.view.toolbox.addElement(category);
     // Create new category.
-    const tab = this.view.addCategoryRow(category.name);
+    const tab = this.view.addCategoryRow(category.name, category.id);
     this.addClickToSwitch(tab, category.id);
     return category.id;
   }
