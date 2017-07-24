@@ -87,6 +87,7 @@ class WorkspaceConfiguration extends Resource {
 
   /**
    * Generates a string representation of the options object for injecting the
+   *      workspace and starter code.
    * @return {string} String representation of starter code for injecting.
    */
   generateInjectString() {
