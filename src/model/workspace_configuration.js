@@ -59,65 +59,10 @@ class WorkspaceConfiguration extends Resource {
   }
 
   /**
-   * Checks to see if no options have been changed/set.
-   * @return {boolean} True if same as init options, false otherwise.
-   */
-  isDefault() {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw "unimplemented: isDefault";
-  }
-
-  /**
    * Clears the workspace configuration.
    */
   reset() {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     *
-     */
-    throw "unimplemented: reset";
-  }
-
-  /**
-   * Renames the workspace configuration.
-   * @param {string} newName New name of the workspace configuration.
-   */
-  setName(newName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw "unimplemented: setName";
-  }
-
-
-  /**
-   * Returns whether or not the workspace configuration is unsaved.
-   * @return {boolean} Whether or not there are unsaved changes.
-   */
-  isDirty() {
-    throw "unimplemented: isDirty";
-  }
-
-  /**
-   * Reads the workspace configuration from local storage.
-   */
-  loadFromLocalStorage() {
-    throw "unimplemented: loadFromLocalStorage";
-  }
-
-  /**
-   * Writes the workspace configuration to local storage.
-   */
-  saveToLocalStorage() {
-    throw "unimplemented: saveFromLocalStorage";
+    this.options = new Object(null);
   }
 
   /**
@@ -137,5 +82,52 @@ class WorkspaceConfiguration extends Resource {
    */
   getTreeJson() {
     throw "unimplemented: getTreeJson";
+  }
+
+  /**
+   * Generates a string representation of the options object for injecting the
+   * @return {string} String representation of starter code for injecting.
+   */
+  generateInjectString() {
+    var addAttributes = function(obj, tabChar) {
+      if (!obj) {
+        return '{}\n';
+      }
+      var str = '';
+      for (var key in obj) {
+        if (key == 'grid' || key == 'zoom') {
+          var temp = tabChar + key + ' : {\n' + addAttributes(obj[key],
+              tabChar + '\t') + tabChar + '}, \n';
+        } else if (typeof obj[key] == 'string') {
+          var temp = tabChar + key + ' : \'' + obj[key] + '\', \n';
+        } else {
+          var temp = tabChar + key + ' : ' + obj[key] + ', \n';
+        }
+        str += temp;
+      }
+      var lastCommaIndex = str.lastIndexOf(',');
+      str = str.slice(0, lastCommaIndex) + '\n';
+      return str;
+    };
+
+    var attributes = addAttributes(this.model.options, '\t');
+    if (!this.options['readOnly']) {
+      attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
+        'imported toolbox to display here */], \n' + attributes;
+    }
+
+    // Initializing toolbox
+    var finalStr = `
+
+  var BLOCKLY_OPTIONS = {
+    ${attributes}
+  };
+
+  document.onload = function() {
+    /* Inject your workspace */
+    var workspace = Blockly.inject(/* TODO: Add ID of div to inject Blockly into */, BLOCKLY_OPTIONS);
+  };
+  `;
+    return finalStr;
   }
 }
