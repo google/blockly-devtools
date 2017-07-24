@@ -130,7 +130,7 @@ class EditorController {
     const blocks = this.currentEditor.view.editorWorkspace.getAllBlocks();
     const project = this.projectController.getProject();
     for (let block of blocks) {
-      if (!project.hasBlock(block.type) {
+      if (!project.hasBlock(block.type)) {
         block.setWarningText(block.type + ' is not defined (it is not a standard '
             + 'block, \nin your block library, or an imported block)');
       }
