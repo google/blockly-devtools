@@ -77,11 +77,12 @@ class WorkspaceConfiguration extends Resource {
   /**
    * Gets the JSON object necessary to represent the workspace configuration in
    *     the navigation tree.
-   * @return {!Object} The tree-specific JSON representation of the workspace
-   *     configuration.
+   * @return {!Object} The JSON representation of the workspace configuration.
    */
-  getTreeJson() {
-    throw "unimplemented: getTreeJson";
+  getJson() {
+    const workspaceConfigJson = $.extend(true, super.getJson(),
+      {'id': PREFIXES.WORKSPACE_CONFIG});
+    return workspaceConfigJson;
   }
 
   /**
