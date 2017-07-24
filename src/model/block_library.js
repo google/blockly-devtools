@@ -130,18 +130,6 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Returns map of blockType to associated JSON object.
-   * @return {!Object<string, Object>} Map of block type to corresponding JSON.
-   */
-  getBlockJsonMap() {
-    var jsonMap = {};
-    for (let blockType of this.getBlockTypes()) {
-      jsonMap[blockType] = this.blocks[blockType].getXml();
-    }
-    return jsonMap;
-  }
-
-  /**
    * Returns boolean of whether or not a given blockType is stored in  the block
    *     library.
    * @param {string} blockType Type of block.
