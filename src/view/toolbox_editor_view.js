@@ -100,6 +100,8 @@ class ToolboxEditorView {
       add: $('#button_add').get(0),
       addCategory: $('#dropdown_newCategory').get(0),
       removeCategory: $('#button_remove').get(0),
+      addSeparator: $('#dropdown_separator').get(0),
+      standard: $('#dropdown_loadStandardToolbox').get(0),
       addShadow: $('#button_addShadow').get(0),
       removeShadow: $('#button_removeShadow').get(0)
     };
@@ -213,13 +215,27 @@ class ToolboxEditorView {
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
     });
+
+    // Shows dropdown for adding elements.
     this.buttons.add.addEventListener('click', () => {
       this.openModal_ = FactoryUtils.openModal('dropdownDiv_add');
     });
+
+    // Listener for adding a category.
     this.buttons.addCategory.addEventListener('click', () => {
       controller.addCategory();
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
+    });
+
+    // Listener for adding a separator.
+    this.buttons.addSeparator.addEventListener('click', () => {
+      // TODO
+    });
+
+    // Listener for importing the standard toolbox.
+    this.buttons.standard.addEventListener('click', () => {
+      // TODO
     });
   }
 
@@ -262,7 +278,13 @@ class ToolboxEditorView {
     if (!this.tabMap[id]) {
       return; // Exit if tab does not exist.
     }
-    this.tabMap[id].className = selected ? 'tabon' : 'taboff';
+    if (selected) {
+      $(this.tabMap[id]).removeClass('taboff');
+      this.tabMap[id].className = 'tabon';
+    } else {
+      $(this.tabMap[id]).removeClass('tabon');
+      this.tabMap[id].className = 'taboff';
+    }
   }
 
   /**
