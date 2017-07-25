@@ -238,7 +238,7 @@ class ToolboxEditorView {
 
     // Listener for adding a separator.
     this.addSeparatorButton.addEventListener('click', () => {
-      // TODO
+      // controller.addCategorySeparator();
     });
 
     // Listener for importing the standard toolbox.
@@ -411,6 +411,30 @@ class ToolboxEditorView {
     // If last category removed, add category help text and disable category
     // buttons.
     this.addEmptyToolboxMessage();
+  }
+
+  /**
+   * Given a separator ID, creates a corresponding tab in the view, updates
+   * tab map, and returns the tab.
+   * @param {string} id The ID of the separator.
+   * @param {!Element} The td DOM element representing the separator.
+   */
+  addSeparatorTab(id) {
+    // From wfactory_view.js:addSeparatorTab(id)
+    const table = document.getElementById('categoryTable');
+    const count = table.rows.length;
+
+    if (count == 0) {
+      document.getElementById('categoryHeader').textContent = 'Your categories:';
+    }
+    // Create separator.
+    const row = table.insertRow(count);
+    const nextEntry = row.insertCell(0);
+    // Configure separator.
+    nextEntry.style.height = '10px';
+    // Store and return separator.
+    this.tabMap[id] = table.rows[count].cells[0];
+    return nextEntry;
   }
 
   /**

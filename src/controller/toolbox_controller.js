@@ -91,7 +91,7 @@ class ToolboxController {
       return;
     }
 
-    // Transfers flyout blocks to category
+    // Transfers flyout blocks to category if creating the first category.
     if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT &&
         this.view.editorWorkspace.getAllBlocks().length > 0) {
       // Transfers the user's blocks to a flyout if it's the first category created.
@@ -183,19 +183,26 @@ class ToolboxController {
    * Adds category separator to current Toolbox.
    */
   addCategorySeparator() {
-    /*
-     * TODO: Move in from wfactory_controller.js:addSeparator()
-     *          Also from from wfactory_view.js:addSeparatorTab(id)
-     *
-     * References:
-     * - transferFlyoutBlocksToCategory()
-     * - ListElement
-     * - addElementToList()
-     * - addSeparatorTab()
-     * - switchElement()
-     * - updatePreview()
-     */
-    console.warn('Unimplemented: ToolboxController.addCategorySeparator()');
+    // From wfactory_controller.js:addSeparator()
+    // If adding the first element in the toolbox, transfers the user's blocks
+    // in a flyout to a category.
+    if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT &&
+        this.view.editorWorkspace.getAllBlocks().length > 0) {
+      // Transfers the user's blocks to a flyout if it's the first category created.
+      this.transferFlyoutBlocksToCategory();
+    }
+
+    // Create the separator in the model.
+    const separator = new ListElement(ListElement.TYPE_SEPARATOR);
+    this.view.toolbox.addElement(separator);
+
+    // Create the separator in the view.
+    const tab = this.view.addSeparatorTab(separator.id);
+    this.addClickToSwitch(tab, separator.id);
+
+    // Switch to the separator and update the preview.
+    this.switchElement(separator.id);
+    this.updatePreview();
   }
 
   /**
