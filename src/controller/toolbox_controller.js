@@ -83,7 +83,7 @@ class ToolboxController {
    * Prompts the user for a name, checking that it's valid (not used before),
    * and then creates a tab and switches to it.
    */
-  addCategory() { debugger;
+  addCategory() {
     // From wfactory_controller.js:addCategory()
     // Get name from user.
     const name = this.promptForNewCategoryName('Enter the name of your new category:');
@@ -134,22 +134,49 @@ class ToolboxController {
    * a single flyout mode.
    */
   removeElement() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *          Also from wfactory_view.js:deleteElementRow(id, index)
-     *
-     * References:
-     * - getSelected()
-     * - getSelectedId()
-     * - getIndexByElementId(selectedId)
-     * - deleteElementRow(selectedId, selectedIndex)
-     * - deleteElementFromList(selectedIndex)
-     * - getElementByIndex(selectedIndex)
-     * - clearAndLoadElement(nextId)
-     * - createDefaultSelectedIfEmpty()
-     * - updatePreview()
-     */
-    console.warn('Unimplemented: ToolboxController.removeElement()');
+    // From wfactory_controller.js: removeElement()
+    const toolbox = this.view.toolbox;
+
+    // Check that there is a currently selected category to remove.
+    if (!toolbox.getSelected()) {
+      return;
+    }
+
+    // Check if user wants to remove current category.
+    const check = confirm('Are you sure you want to delete the currently selected '
+          + toolbox.getSelected().type + '?');
+    if (!check) { // If cancelled, exit.
+      return;
+    }
+
+    const selectedId = toolbox.getSelectedId();
+    const selectedIndex = toolbox.getIndexById(selectedId);
+    // Delete element visually.
+    this.view.deleteElementTab(selectedId, selectedIndex);
+    // Delete element in model.
+    toolbox.deleteElement(selectedIndex);
+
+    // Find next logical element to switch to.
+    let next = toolbox.getElementByIndex(selectedIndex);
+    if (!next && !toolbox.isEmpty()) {
+      next = toolbox.getElementByIndex(selectedIndex - 1);
+    }
+    const nextId = next ? next.id : null;
+
+    // Open next element.
+    this.clearAndLoadElement(nextId);
+
+    // If no element to switch to, display message, clear the workspace, and
+    // set a default selected element not in toolbox list in the model.
+    if (!nextId) {
+      alert('You currently have no categories or separators. All your blocks' +
+          ' will be displayed in a single flyout.');
+      this.view.editorWorkspace.clear();
+      this.view.editorWorkspace.clearUndo();
+      toolbox.clear();
+    }
+    // Update preview.
+    this.updatePreview();
   }
 
   /**

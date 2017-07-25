@@ -229,6 +229,13 @@ class ToolboxEditorView {
       this.openModal_ = null;
     });
 
+    // Listener for removing a category.
+    this.removeCategoryButton.addEventListener('click', () => {
+      controller.removeElement();
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+
     // Listener for adding a separator.
     this.addSeparatorButton.addEventListener('click', () => {
       // TODO
@@ -388,6 +395,25 @@ class ToolboxEditorView {
   }
 
   /**
+   * Deletes given element from the category-tab view.
+   * @param {string} id ID of element to remove.
+   * @param {number} index Index of element in category/element list.
+   */
+  deleteElementTab(id, index) {
+    // From wfactory_view.js:deleteElementRow(id, index)
+    // Delete tab entry.
+    delete this.tabMap[id];
+    // Delete tab row.
+    const table = document.getElementById('categoryTable');
+    const count = table.rows.length;
+    table.deleteRow(index);
+
+    // If last category removed, add category help text and disable category
+    // buttons.
+    this.addEmptyToolboxMessage();
+  }
+
+  /**
    * Used to bind a click to a certain DOM element (used for category tabs).
    * Taken directly from code.js
    * @param {string|!Element} el Tab element or corresponding ID string.
@@ -406,10 +432,12 @@ class ToolboxEditorView {
    * Toolbox or when user manually deletes all categories in their Toolbox.
    */
   addEmptyToolboxMessage() {
-    /*
-     * TODO: Move in from wfactory_view.js:addEmptyCategoryMessage()
-     */
-    console.warn('Unimplemented: addEmptyToolboxMessage()');
+    // From wfactory_view.js:addEmptyCategoryMessage()
+    const table = document.getElementById('categoryTable');
+    if (!table.rows.length) {
+      document.getElementById('categoryHeader').textContent =
+          'You currently have no categories.';
+    }
   }
 
   /**
