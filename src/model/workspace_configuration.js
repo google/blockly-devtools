@@ -36,11 +36,6 @@ class WorkspaceConfiguration extends Resource {
    * @constructor
    */
   constructor(workspaceConfigName) {
-    /*
-     * TODO: fully implement
-     *
-     * References: N/A
-     */
      super(workspaceConfigName);
 
      /**
@@ -86,33 +81,45 @@ class WorkspaceConfiguration extends Resource {
   }
 
   /**
-   * Generates a string representation of the options object for injecting the
-   *      workspace and starter code.
+   * Creates a string representation of the options, for use in making the string
+   * used to inject the workspace.
+   * @param {!Object} obj Object representing the options selected in the current
+   * configuration.
+   * @param {string} tabChar The tab character.
+   * @return {string} String representation of the workspace configuration's
+   * options.
+   * @recursive
+   * @private
+   */
+  addAttributes_(obj, tabChar) {
+    // REFACTORED from wfactory_generator.js
+    if (!obj) {
+      return '{}\n';
+    }
+    var str = '';
+    for (var key in obj) {
+      if (key == 'grid' || key == 'zoom') {
+        var temp = tabChar + key + ' : {\n' + addAttributes(obj[key],
+            tabChar + '\t') + tabChar + '}, \n';
+      } else if (typeof obj[key] == 'string') {
+        var temp = tabChar + key + ' : \'' + obj[key] + '\', \n';
+      } else {
+        var temp = tabChar + key + ' : ' + obj[key] + ', \n';
+      }
+      str += temp;
+    }
+    var lastCommaIndex = str.lastIndexOf(',');
+    str = str.slice(0, lastCommaIndex) + '\n';
+    return str;
+  }
+
+  /**
+   * Generates string necessary for injecting the workspace and starter code.
    * @return {string} String representation of starter code for injecting.
    */
   generateInjectString() {
-    var addAttributes = function(obj, tabChar) {
-      if (!obj) {
-        return '{}\n';
-      }
-      var str = '';
-      for (var key in obj) {
-        if (key == 'grid' || key == 'zoom') {
-          var temp = tabChar + key + ' : {\n' + addAttributes(obj[key],
-              tabChar + '\t') + tabChar + '}, \n';
-        } else if (typeof obj[key] == 'string') {
-          var temp = tabChar + key + ' : \'' + obj[key] + '\', \n';
-        } else {
-          var temp = tabChar + key + ' : ' + obj[key] + ', \n';
-        }
-        str += temp;
-      }
-      var lastCommaIndex = str.lastIndexOf(',');
-      str = str.slice(0, lastCommaIndex) + '\n';
-      return str;
-    };
-
-    var attributes = addAttributes(this.model.options, '\t');
+    // REFACTORED from wfactory_generator.js
+    var attributes = addAttributes_(this.options, '\t');
     if (!this.options['readOnly']) {
       attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
         'imported toolbox to display here */], \n' + attributes;
