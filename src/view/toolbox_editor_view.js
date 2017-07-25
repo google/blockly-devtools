@@ -200,7 +200,7 @@ class ToolboxEditorView {
      * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
      *       (Also moved into workspace_editor_view.js)
      */
-     console.warn('Unimplemented: initClickHandlers_()');
+    console.warn('Unimplemented: initClickHandlers_()');
   }
 
   /**
@@ -238,12 +238,17 @@ class ToolboxEditorView {
 
     // Listener for adding a separator.
     this.addSeparatorButton.addEventListener('click', () => {
-      // controller.addCategorySeparator();
+      controller.addCategorySeparator();
     });
 
     // Listener for importing the standard toolbox.
     this.standardToolboxButton.addEventListener('click', () => {
-      // TODO
+      controller.loadStandardToolbox();
+    });
+
+    // Listener for importing a standard category.
+    this.standardCategoryButton.addEventListener('click', () => {
+      controller.loadStandardCategory();
     });
   }
 
@@ -276,18 +281,19 @@ class ToolboxEditorView {
   }
 
   /**
-   * Switches a category tab on or off.
+   * Switches a category tab on or off. If tab is switched on, all other tabs
+   * are turned off.
    * @param {string} id ID of the tab to switch on or off.
-   * @param {boolean} selected True if tab should be on, false if tab should be
-   *     off.
+   * @param {boolean} opt_selected True if tab should be on, false if tab should be
+   *     off. Optional, assumed to be true if not passed in.
    */
-  selectTab(id, selected) {
+  selectTab(id, opt_selected) {
     // REFACTOR: Moved in from wfactory_view.js:setCategoryTabSelection(id, selected)
     const tab = this.tabMap[id];
     if (!tab) {
       return; // Exit if tab does not exist.
     }
-    if (selected) {
+    if (opt_selected) {
       $(tab).removeClass('taboff');
       tab.className = 'tabon';
     } else {

@@ -129,6 +129,23 @@ class ToolboxController {
   }
 
   /**
+   * Transfers the blocks in the user's flyout to a new category if
+   * the user is creating their first category and their workspace is not
+   * empty. Should be called whenever it is possible to switch from single flyout
+   * to categories (not including importing).
+   */
+  transferFlyoutBlocksToCategory() {
+    // REFACTORED: Moved in from wfactory_controller.js
+    const id = this.createCategory('Category 1');
+    this.currentToolbox.setSelected(id);
+    this.currentToolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
+    this.view.selectTab(id, true);
+    this.view.toolbox.setXml(this.generateToolboxXml()); // bm
+
+    this.updatePreview();
+  }
+
+  /**
    * Checks if the user wants to delete the current category. Removes the category
    * and switches to another. When the last category is removed, it switches to
    * a single flyout mode.
@@ -388,7 +405,7 @@ class ToolboxController {
     xmlDom.setAttribute('id', 'toolbox');
     xmlDom.setAttribute('style', 'display: none;');
 
-    if (this.view.toolbox.isEmpty()) {
+    if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
       // Toolbox has no categories.
       this.loadToHiddenWorkspace_(this.generateCategoryXml_(this.view.toolbox.selected));
       this.appendHiddenWorkspaceToDom_(xmlDom);
@@ -403,7 +420,6 @@ class ToolboxController {
        * hidden workspace.
        */
       const categories = this.view.toolbox.categoryList;
-      console.log('    for loop started.');
       categories.forEach((element) => {
         if (element.type == ListElement.TYPE_SEPARATOR) {
           // If the next element is a separator.
@@ -411,7 +427,6 @@ class ToolboxController {
         } else if (element.type == ListElement.TYPE_CATEGORY) {
           // If next element is a category.
           var nextElement = this.generateCategoryXml_(element);
-          console.log(Blockly.Xml.domToText(nextElement));
         }
         xmlDom.appendChild(nextElement);
       });
@@ -430,11 +445,11 @@ class ToolboxController {
     domElement.setAttribute('name', category.name);
     // Add color attribute if exists.
     if (category.color) {
-      category.setAttribute('colour', category.color);
+      domElement.setAttribute('colour', category.color);
     }
     // Add custom attribute if exists.
     if (category.custom) {
-      category.setAttribute('custom', element.custom);
+      domElement.setAttribute('custom', category.custom);
     }
 
     this.loadToHiddenWorkspace_(category.xml);
@@ -646,13 +661,13 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
     // prompt the user to create the corresponding standard category.
     if (variableCreated && !this.hasVariablesCategory()) {
       if (confirm(warningMessage('Variables'))) {
-        controller.loadCategoryByName('variables');
+        this.loadCategoryByName('variables');
       }
     }
 
     if (procedureCreated && !this.hasProceduresCategory()) {
       if (confirm(warningMessage('Functions'))) {
-        controller.loadCategoryByName('functions');
+        this.loadCategoryByName('functions');
       }
     }
   }
@@ -674,7 +689,8 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   }
 
   /**
-   * Saves the contents of the toolbox editor workspace.
+   * Saves the contents of the toolbox editor workspace to the corresponding
+   * ListElement.
    */
   saveStateFromWorkspace() {
     this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
@@ -859,58 +875,6 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   }
 
   /**
-   * Switches to a new tab for the element by ID. Helper for switchElement.
-   * Updates selected, clears the workspace and clears undo, loads a new element.
-   * @param {string} id ID of category to load.
-   */
-  clearAndLoadElement(id) {
-    // From wfactory_controller.js
-    // Unselect current tab if switching to and from an element.
-    if (this.view.toolbox.getSelectedId() != null && id != null) {
-      this.view.selectTab(this.view.toolbox.getSelectedId(), false);
-    }
-
-    // If switching to another category, set category selection in the model and
-    // view.
-    if (id != null) {
-      // Set next category.
-      this.view.toolbox.setSelected(id);
-
-      // Clears workspace and loads next category.
-      this.clearAndLoadXml_(this.view.toolbox.getSelectedXml());
-
-      // Selects the next tab.
-      this.view.selectTab(id, true);
-
-      // Order blocks as shown in flyout.
-      this.view.editorWorkspace.cleanUp();
-
-      // Update category editing buttons.
-      this.view.updateState(this.view.toolbox.getIndexById
-          (this.view.toolbox.getSelectedId()), this.view.toolbox.getSelected());
-    } else {
-      // Update category editing buttons for no categories.
-      this.view.updateState(-1, null);
-    }
-  }
-
-  /**
-   * Clears the toolbox workspace and loads XML to it, marking shadow blocks
-   * as necessary. Helper function of clearAndLoadElement().
-   * @private
-   * @param {!Element} xml The XML to be loaded to the workspace.
-   */
-  clearAndLoadXml_(xml) {
-    // From wfactory_controller.js
-    this.view.editorWorkspace.clear();
-    this.view.editorWorkspace.clearUndo();
-    Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
-    this.view.markShadowBlocks(this.getShadowBlocksInWorkspace
-        (this.view.editorWorkspace.getAllBlocks()));
-    this.warnForUndefinedBlocks_();
-  }
-
-  /**
    * Sets a warning on blocks loaded to the workspace that are not defined.
    * @private
    */
@@ -991,8 +955,8 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    * Prompts user for name of a standard Blockly category (case insensitive),
    * loads it as a new category, and switches to it. Leverages StandardCategories.
    */
-  loadCategory() {
-    // From wfactory_controller.js
+  loadStandardCategory() {
+    // From wfactory_controller.js:loadCategory()
     // Prompt user for the name of the standard category to load.
     do {
       var name = prompt('Enter the name of the category you would like to import '
@@ -1004,6 +968,26 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
 
     // Load category.
     this.loadCategoryByName(name);
+
+    FactoryUtils.closeModal(this.view.openModal_);
+    this.view.openModal_ = null;
+  }
+
+  /**
+   * Loads the standard Blockly toolbox into the editing space. Should only
+   * be called when the mode is set to toolbox.
+   */
+  loadStandardToolbox() {
+    // From wfactory_controller.js:loadStandardToolbox()
+    this.loadCategoryByName('Logic');
+    this.loadCategoryByName('Loops');
+    this.loadCategoryByName('Math');
+    this.loadCategoryByName('Text');
+    this.loadCategoryByName('Lists');
+    this.loadCategoryByName('Colour');
+    this.addCategorySeparator();
+    this.loadCategoryByName('Variables');
+    this.loadCategoryByName('Functions');
   }
 
   /**
@@ -1036,14 +1020,21 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
     }
     // Transfers current flyout blocks to a category if it's the first category
     // created.
-    this.transferFlyoutBlocksToCategory();
-
-    const isFirstCategory = this.view.toolbox.isEmpty();
+    if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT &&
+        this.view.editorWorkspace.getAllBlocks().length > 0) {
+      // Transfers the user's blocks to a flyout if it's the first category created.
+      this.transferFlyoutBlocksToCategory();
+    }
+    this.view.selectTab(this.view.toolbox.getSelectedId(), false);
     // Copy the standard category in the model.
     const copy = standardCategory.copy();
 
     // Add it to the model.
     this.view.toolbox.addElement(copy);
+    this.view.toolbox.setXml(this.generateToolboxXml());
+
+    // Load category blocks onto editor workspace.
+    Blockly.Xml.domToWorkspace(copy.xml, this.view.editorWorkspace);
 
     // Update the copy in the view.
     const tab = this.view.addCategoryTab(copy.name, copy.id);
@@ -1063,18 +1054,94 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   }
 
   /**
-   * Loads the standard Blockly toolbox into the editing space. Should only
-   * be called when the mode is set to toolbox.
+   * Given a tab and a ID to be associated to that tab, adds a listener to
+   * that tab so that when the user clicks on the tab, it switches to the
+   * element associated with that ID.
+   * @param {!Element} tab The DOM element to add the listener to.
+   * @param {string} id The ID of the element to switch to when tab is clicked.
    */
-  loadStandardToolbox() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - loadCategoryByName()
-     * - addSeparator()
-     */
-    throw 'Unimplemented: loadStandardToolbox()';
+  addClickToSwitch(tab, id) {
+    // REFACTOR: Moved in from wfactory_controller.js:addClickToSwitch(tab, id)
+    const clickFunction = (id) => {
+      return () => {
+        this.switchElement(id);
+      };
+    };
+    this.view.bindClick(tab, clickFunction(id));
+  }
+
+  /**
+   * Switches to a new tab for the element given by ID. Stores XML and blocks
+   * to reload later, updates selected accordingly, and clears the workspace
+   * and clears undo, then loads the new element.
+   * @param {string} id ID of tab to be opened, must be valid element ID.
+   */
+  switchElement(id) {
+    // From wfactory_controller.js:switchElement(id)
+    // Disables events while switching so that Blockly delete and create events
+    // don't update the preview repeatedly.
+    Blockly.Events.disable();
+    // Caches information to reload or generate XML if switching to/from element.
+    // Only saves if a category is selected.
+    if (this.view.toolbox.getSelectedId() != null && id != null) {
+      this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
+    }
+    // Load element.
+    this.clearAndLoadElement(id);
+    // Enable Blockly events again.
+    Blockly.Events.enable();
+  }
+
+  /**
+   * Switches to a new tab for the element by ID. Helper for switchElement.
+   * Updates selected, clears the workspace and clears undo, loads a new element.
+   * @param {string} id ID of category to load.
+   */
+  clearAndLoadElement(id) {
+    // From wfactory_controller.js
+    // Unselect current tab if switching to and from an element.
+    if (this.view.toolbox.getSelectedId() != null && id != null) {
+      this.view.selectTab(this.view.toolbox.getSelectedId(), false);
+    }
+
+    // If switching to another category, set category selection in the model and
+    // view.
+    if (id != null) {
+      // Set next category.
+      this.view.toolbox.setSelected(id);
+
+      // Clears workspace and loads next category.
+      this.clearAndLoadXml_(this.view.toolbox.getSelectedXml());
+
+      // Selects the next tab.
+      this.view.selectTab(id, true);
+
+      // Order blocks as shown in flyout.
+      this.view.editorWorkspace.cleanUp();
+
+      // Update category editing buttons.
+      this.view.updateState(this.view.toolbox.getIndexById
+          (this.view.toolbox.getSelectedId()), this.view.toolbox.getSelected());
+    } else {
+      // Update category editing buttons for no categories.
+      this.view.updateState(-1, null);
+    }
+  }
+
+  /**
+   * Clears the toolbox workspace and loads XML to it, marking shadow blocks
+   * as necessary. Helper function of clearAndLoadElement().
+   * @private
+   * @param {!Element} xml The XML to be loaded to the workspace.
+   */
+  clearAndLoadXml_(xml) {
+    // From wfactory_controller.js
+    this.view.editorWorkspace.clear();
+    this.view.editorWorkspace.clearUndo();
+    Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
+    this.view.markShadowBlocks(this.getShadowBlocksInWorkspace
+        (this.view.editorWorkspace.getAllBlocks()));
+    this.warnForUndefinedBlocks_();
   }
 
   /*
@@ -1140,62 +1207,6 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    */
   exportToolbox() {
     throw 'Unimplemented: exportToolbox()';
-  }
-
-  /**
-   * Transfers the blocks in the user's flyout to a new category if
-   * the user is creating their first category and their workspace is not
-   * empty. Should be called whenever it is possible to switch from single flyout
-   * to categories (not including importing).
-   */
-  transferFlyoutBlocksToCategory() {
-    // REFACTORED: Moved in from wfactory_controller.js
-    const id = this.createCategory('Category 1');
-    this.currentToolbox.setSelected(id);
-    this.currentToolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
-    this.view.selectTab(id, true);
-    this.view.toolbox.setXml(this.generateToolboxXml()); // bm
-
-    this.updatePreview();
-  }
-
-  /**
-   * Given a tab and a ID to be associated to that tab, adds a listener to
-   * that tab so that when the user clicks on the tab, it switches to the
-   * element associated with that ID.
-   * @param {!Element} tab The DOM element to add the listener to.
-   * @param {string} id The ID of the element to switch to when tab is clicked.
-   */
-  addClickToSwitch(tab, id) {
-    // REFACTOR: Moved in from wfactory_controller.js:addClickToSwitch(tab, id)
-    const clickFunction = (id) => {
-      return () => {
-        this.switchElement(id);
-      };
-    };
-    this.view.bindClick(tab, clickFunction(id));
-  }
-
-  /**
-   * Switches to a new tab for the element given by ID. Stores XML and blocks
-   * to reload later, updates selected accordingly, and clears the workspace
-   * and clears undo, then loads the new element.
-   * @param {string} id ID of tab to be opened, must be valid element ID.
-   */
-  switchElement(id) {
-    // From wfactory_controller.js:switchElement(id)
-    // Disables events while switching so that Blockly delete and create events
-    // don't update the preview repeatedly.
-    Blockly.Events.disable();
-    // Caches information to reload or generate XML if switching to/from element.
-    // Only saves if a category is selected.
-    if (this.view.toolbox.getSelectedId() != null && id != null) {
-      this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
-    }
-    // Load element.
-    this.clearAndLoadElement(id);
-    // Enable Blockly events again.
-    Blockly.Events.enable();
   }
 
   /**
