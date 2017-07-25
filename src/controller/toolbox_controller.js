@@ -377,12 +377,11 @@ class ToolboxController {
    * @return {!Element} XML of current toolbox.
    */
   generateToolboxXml() {
-    const xmlDom = goog.dom.createDom('xml', {
-        'id': 'toolbox',
-        'style': 'display: none;'
-      });
+    const xmlDom = goog.dom.createDom('xml');
+    xmlDom.setAttribute('id', 'toolbox');
+    xmlDom.setAttribute('style', 'display: none;');
 
-    if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
+    if (this.view.toolbox.isEmpty()) {
       // Toolbox has no categories.
       this.loadToHiddenWorkspace_(this.generateCategoryXml_(this.view.toolbox.selected));
       this.appendHiddenWorkspaceToDom_(xmlDom);
