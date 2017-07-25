@@ -167,7 +167,6 @@ class ProjectController {
   addBlockDefinition(blockDef, libraryName) {
     this.project.getBlockLibrary(libraryName).add(blockDef);
     this.tree.addBlockNode(blockDef.type(), libraryName);
-
   }
 
   /**

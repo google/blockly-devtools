@@ -208,7 +208,7 @@ class Project extends Resource {
    * @param {string} blockType Type of block.
    * @return {boolean} Whether or not blockType is stored in block library.
    */
-  hasBlock(blockType) {
+  hasBlockDefinition(blockType) {
     return this.librarySet.has(blockType);
   }
 

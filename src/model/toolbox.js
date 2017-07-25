@@ -25,6 +25,8 @@ goog.provide('Toolbox');
 goog.require('ListElement');
 goog.require('Resource');
 
+goog.require('goog.dom');
+
 /**
  * @class A Toolbox object is a grouping of blocks from which end-users can
  *     drag and drop blocks into the workspace. A toolbox can also be considered
@@ -46,10 +48,31 @@ class Toolbox extends Resource {
     super(toolboxName);
 
     /**
+     * List of categories in current toolbox. Empty if there is a single flyout.
+     * May contain separators (and not just categories).
+     * @type {!Array.<!ListElement>}
+     */
+    this.categoryList = [];
+
+    /**
      * A map of each block type in the toolbox to its corresponding XML.
      * @type {!Object.<string, string>}
      */
     this.xmlDefinitions = {};
+
+    /**
+     * Stores ListElement IFF there is only one category. Displayed as a flyout.
+     * Null if there are multiple categories.
+     * @type {!ListElement}
+     */
+    this.flyout = new ListElement(ListElement.TYPE_FLYOUT);
+
+    /**
+     * Stores reference to currently selected category. Points to flyout if
+     * there is only one category (as a flyout).
+     * @type {!ListElement}
+     */
+    this.selected = this.flyout;
 
     /**
      * Array of Block IDs for all user-created shadow blocks.
@@ -70,35 +93,18 @@ class Toolbox extends Resource {
     this.hasProcedureCategory = false;
 
     /**
-     * List of categories in current toolbox. Empty if there is a single flyout.
-     * May contain separators (and not just categories).
-     * Moved from wfactory_model.js:toolboxList (will remove this line after rf)
-     * @type {!Array.<!ListElement>}
+     * XML of the toolbox. Used to display onto preview workspace.
+     * @type {!Element}
      */
-    this.categoryList = [];
-
-    /**
-     * Stores ListElement IFF there is only one category. Displayed as a flyout.
-     * Null if there are multiple categories.
-     * @type {!ListElement}
-     */
-    this.flyout = new ListElement(ListElement.TYPE_FLYOUT);
-
-    /**
-     * Stores reference to currently selected category. Points to flyout if
-     * there is only one category (as a flyout).
-     * @type {!ListElement}
-     */
-    this.selected = this.flyout;
+    this.xml = Blockly.Xml.textToDom('<xml></xml>');
   }
 
   /**
-   * Renames toolbox.
-   * @param {string} newName New name of toolbox.
+   * Sets XML of toolbox to given element.
+   * @param {!Element} xml XML of toolbox.
    */
-  setName(newName) {
-    // TODO: Implement function.
-    throw "Unimplemented: setName()";
+  setXml(xml) {
+    this.xml = xml;
   }
 
   /**
@@ -106,10 +112,8 @@ class Toolbox extends Resource {
    * @return {!Array.<!ListElement>} ordered list of ListElement objects
    */
   getCategoryList() {
-    /*
-     * TODO: Move in from wfactory_model.js:getToolboxList()
-     */
-    throw 'Unimplemented: getCategoryList()';
+    // REFACTORED: Moved in from wfactory_model.js:getToolboxList()
+    return this.categoryList;
   }
 
   /**
@@ -130,20 +134,21 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Given a ListElement, adds it to category list.
+   * Given a ListElement, adds it to category list. Selects newly added category.
    * @param {!ListElement} element Element to be added to the list.
    */
   addElement(element) {
-    /*
-     * TODO: Move in from wfactory_model.js:addElementToList(element)
-     *
-     * References:
-     * - this.hasVariableCategory
-     * - this.hasProcedureCategory
-     * - this.toolboxList
-     * - this.flyout
-     */
-    throw 'Unimplemented: addElement()';
+    // REFACTOR: Moved in from wfactory_model.js:addElementToList(element)
+    // Update state if the copied category has a custom tag.
+    this.hasVariableCategory = element.custom == 'VARIABLE' ? true :
+        this.hasVariableCategory;
+    this.hasProcedureCategory = element.custom == 'PROCEDURE' ? true :
+        this.hasProcedureCategory;
+    // Add element to toolboxList.
+    this.categoryList.push(element);
+    // Empty single flyout.
+    this.flyout = null;
+    this.selected = element;
   }
 
   /**
@@ -190,29 +195,28 @@ class Toolbox extends Resource {
    *     null if that element does not exist.
    */
   getElementById(id) {
-    /*
-     * TODO: Move in from wfactory_model.js
-     *
-     * References:
-     * - this.toolboxList
-     */
-    throw 'Unimplemented: getElementById()';
+    // From wfactory_model.js:getElementById(id)
+    for (let element of this.categoryList) {
+      if (element.id == id) {
+        return element;
+      }
+    }
+    return null; // ID not present in categoryList
   }
 
   /**
    * Given the index of a list element in toolboxList, returns that ListElement
    * object.
    * @param {number} index The index of the element to return.
-   * @return {ListElement} The corresponding ListElement object in toolboxList.
+   * @return {?ListElement} The corresponding ListElement object in toolboxList,
+   *     or null if no element existed at that index.
    */
   getElementByIndex(index) {
-    /*
-     * TODO: Move in from wfactory_model.js
-     *
-     * References:
-     * - this.toolboxList
-     */
-    throw 'Unimplemented: getElementByIndex()';
+    // From wfactory_model.js
+    if (index < 0 || index >= this.categoryList.length) {
+      return null;
+    }
+    return this.categoryList[index];
   }
 
   /**
@@ -230,12 +234,8 @@ class Toolbox extends Resource {
    * @param {string} id ID of list element that should now be selected.
    */
   setSelected(id) {
-    /*
-     * TODO: Move in from wfactory_model.js:setSelectedById(id)
-     *
-     * References: N/A
-     */
-    throw 'Unimplemented: setSelected()';
+    // REFACTOR: Moved in from wfactory_model.js:setSelectedById(id)
+    this.selected = this.getElementById(id);
   }
 
   /**
@@ -244,10 +244,8 @@ class Toolbox extends Resource {
    * @return {string} The ID of the element currently selected.
    */
   getSelectedId() {
-    /*
-     * TODO: Move in from wfactory_model.js
-     */
-    throw 'Unimplemented: getSelectedId()';
+    // From wfactory_model.js
+    return this.selected ? this.selected.id : null;
   }
 
   /**
@@ -258,10 +256,8 @@ class Toolbox extends Resource {
    * @return {string} The name of the category currently selected.
    */
   getSelectedName() {
-    /*
-     * TODO: Move in from wfactory_model.js:getSelectedName()
-     */
-    throw 'Unimplemented: getSelectedName()';
+    // From wfactory_model.js:getSelectedName()
+    return this.selected ? this.selected.name : null;
   }
 
   /**
@@ -270,10 +266,8 @@ class Toolbox extends Resource {
    *     no selected element.
    */
   getSelectedXml() {
-    /*
-     * TODO: Move in from wfactory_model.js
-     */
-    throw 'Unimplemented: getSelectedXml()';
+    // REFACTOR: Moved in from wfactory_model.js
+    return this.selected ? this.selected.xml : null;
   }
 
   /**
@@ -283,14 +277,15 @@ class Toolbox extends Resource {
    * @return {number} The index of the list element in toolboxList, or -1 if it
    *     doesn't exist.
    */
-  getElementIndex(id) {
-    /*
-     * TODO: Move in from wfactory_model.js:getIndexByElementId(id)
-     *
-     * References:
-     * - this.toolboxList
-     */
-    throw 'Unimplemented: getElementIndex()';
+  getIndexById(id) {
+    // From wfactory_model.js:getIndexByElementId(id)
+    for (let i = 0; i < this.categoryList.length; i++) {
+      let element = this.categoryList[i];
+      if (element.id == id) {
+        return i;
+      }
+    }
+    return -1; // ID not present in element list.
   }
 
   /**
@@ -299,13 +294,13 @@ class Toolbox extends Resource {
    * @return {number} ID of category
    */
   getCategoryId(name) {
-    /*
-     * TODO: Move in from wfactory_model.js:getCategoryIdByName(name)
-     *
-     * References:
-     * - this.toolboxList
-     */
-    throw 'Unimplemented: getCategoryId()';
+    // From wfactory_model.js:getCategoryIdByName(name)
+    for (let element of this.categoryList) {
+      if (element.name == name) {
+        return element.id;
+      }
+    }
+    return null; // Name not present in categoryList.
   }
 
   /**
@@ -379,13 +374,13 @@ class Toolbox extends Resource {
    *     otherwise.
    */
   isShadowBlock(blockId) {
-    /*
-     * TODO: Move in from wfactory_model.js
-     *
-     * References:
-     * - this.shadowBlocks
-     */
-    throw 'Unimplemented: isShadowBlock()';
+    // TODO: Move in from wfactory_model.js
+    for (let id of this.shadowBlocks) {
+      if (id == blockId) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -394,19 +389,8 @@ class Toolbox extends Resource {
    * @returns {!Element} XML DOM element of this Toolbox.
    */
   getExportData() {
-    /*
-     * TODO: Move in from wfactory_generator.js:generateToolboxXml()
-     *
-     * References:
-     * - hasElements()
-     * - loadToHiddenWorkspace_()
-     * - appendHiddenWorkspaceToDom_()
-     * - getSelected()
-     * - getSelectedXml()
-     * - getToolboxList()
-     * - ListElement
-     */
-    throw "unimplemented: getExportData()";
+    // REFACTORED: Moved in from wfactory_generator.js:generateToolboxXml()
+    return this.xml;
   }
 
   /**
@@ -427,29 +411,20 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Gets the data necessary to export the toolbox.
-   * @return {!Object} The data needed to export the toolbox.
-   */
-  getExportData() {
-    //TODO: implement
-    throw "unimplemented: getExportData";
-  }
-
-  /**
    * Determines whether user-given category name already exists. Used when getting
    * a valid category name from the user.
    *
    * @param {string} name String name to be compared against.
    * @return {boolean} True if string is a used category name, false otherwise.
    */
-  categoryIsInToolbox(name) {
-    /*
-     * TODO: Move in from wfactory_model.js:hasCategoryByName
-     *
-     * References:
-     * - ListElement
-     */
-    throw 'Unimplemented: categoryIsInToolbox()';
+  hasCategory(name) {
+    // From wfactory_model.js:hasCategoryByName(name)
+    for (let element of this.categoryList) {
+      if (element.type == ListElement.TYPE_CATEGORY && element.name == name) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -484,7 +459,7 @@ class Toolbox extends Resource {
   /**
    * Clears the toolbox.
    */
-   clear() {
+  clear() {
     throw 'unimplemented: clear';
-   }
+  }
 }

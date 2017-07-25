@@ -32,13 +32,15 @@ goog.provide('AppController');
 goog.require('AppView');
 goog.require('EditorController');
 goog.require('FactoryUtils');
+goog.require('PopupController');
+goog.require('Project');
+goog.require('ProjectController');
+
 goog.require('goog.dom.classlist');
 goog.require('goog.dom.xml');
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
-goog.require('PopupController');
-goog.require('Project');
-goog.require('ProjectController');
+
 
 'use strict';
 

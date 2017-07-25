@@ -66,6 +66,8 @@ WorkspaceFactoryView.prototype.addCategoryRow = function(name, id) {
   return nextEntry;
 };
 
+// SOME FUNCTIONS FROM THIS FILE HAVE BEEN REMOVED THROUGH THE REFACTORING PROCESS.
+
 /**
  * Deletes a category tab from the UI and updates tabMap accordingly.
  * @param {string} id ID of category to be deleted.
@@ -142,20 +144,6 @@ WorkspaceFactoryView.prototype.setCategoryTabSelection =
       }
       this.tabMap[id].className = selected ? 'tabon' : 'taboff';
     };
-
-/**
- * Used to bind a click to a certain DOM element (used for category tabs).
- * Taken directly from code.js
- * @param {string|!Element} e1 Tab element or corresponding ID string.
- * @param {!Function} func Function to be executed on click.
- */
-WorkspaceFactoryView.prototype.bindClick = function(el, func) {
-  if (typeof el == 'string') {
-    el = document.getElementById(el);
-  }
-  el.addEventListener('click', func, true);
-  el.addEventListener('touchend', func, true);
-};
 
 /**
  * Given the ID of a certain category, updates the corresponding tab in
