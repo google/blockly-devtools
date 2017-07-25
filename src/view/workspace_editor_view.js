@@ -68,7 +68,7 @@ class WorkspaceEditorView {
      * Blockly workspace where users define a group of WorkspaceContents.
      * @type {!Blockly.Workspace}
      */
-    this.editorWorkspace = Blockly.inject('wContentsDiv',
+    this.editorWorkspace = Blockly.inject('wsContentsDiv',
       {
         grid: {
           spacing: 25,
@@ -93,7 +93,7 @@ class WorkspaceEditorView {
           snap: true
         },
         media: 'media/',
-        toolbox: '<xml></xml>'
+        toolbox: DevToolsToolboxes.toolboxEditor([])
       });
   }
 
@@ -134,6 +134,25 @@ class WorkspaceEditorView {
   }
 
   /**
+   * Initializes event handlers and listeners for the workspace editor.
+   * @param {!WorkspaceController} controller WorkspaceController that makes
+   *     changes to editor based upon user interaction with application.
+   * @package
+   */
+  init(controller) {
+    console.log('init() called.'); debugger;
+    this.editorWorkspace.addChangeListener((event) => {
+      debugger;
+      console.log('change detected...');
+      controller.onChange(event);
+    });
+    this.previewWorkspace.addChangeListener((event) => {
+      console.log('Aha! A change!');
+    });
+    console.log('init() finished.');
+  }
+
+  /**
    * Assign click handlers for Workspace editor.
    * @private
    */
@@ -147,9 +166,11 @@ class WorkspaceEditorView {
 
   /**
    * Add event listeners for Workspace editor.
+   * @param {!WorkspaceController} controller WorkspaceController that manages
+   *     workspace resource elements on user input.
    * @private
    */
-  initEventListeners_() {
+  initEventListeners_(controller) {
     /*
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
      *       (Also moved into toolbox_editor_view.js)
@@ -241,10 +262,10 @@ WorkspaceEditorView.html = `
 <section id="createDiv">
   <div id="createHeader">
     <h3>Edit Workspace elements</h3>
-    <p id="editHelpText">Drag blocks into the workspace to configure the toolbox in your custom workspace.</p>
+    <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
   </div>
   <section id="toolbox_section">
-    <div id="wContentsDiv"></div>
+    <div id="wsContentsDiv"></div>
   </section>
 
   <button id="button_addShadow" style="display: none">Make Shadow</button>

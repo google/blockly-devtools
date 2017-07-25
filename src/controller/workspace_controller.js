@@ -54,13 +54,13 @@ class WorkspaceController {
      * Keeps track of what WorkspaceContents is currently being edited.
      * @type {!WorkspaceContents}
      */
-    this.currentWorkspaceContents = null;
+    this.currentWorkspaceContents = new WorkspaceContents('WSContents');
 
     /**
      * Keeps track of what WorkspaceConfig is currently being edited.
      * @type {!WorkspaceContents}
      */
-    this.currentWorkspaceConfig = null;
+    this.currentWorkspaceConfig = new WorkspaceConfiguration('WSConfig');
 
     /**
      * WorkspaceEditorView associated with this instance of WorkspaceController.
@@ -81,6 +81,9 @@ class WorkspaceController {
      * @type {!Blockly.Workspace}
      */
     this.hiddenWorkspace = hiddenWorkspace;
+
+    // Initializes view's event listeners/handlers.
+    // this.view.init(this);
   }
 
   /**
@@ -116,7 +119,34 @@ class WorkspaceController {
      * - readOptions_()
      * - generateWorkspaceXml()
      */
-    throw 'Unimplemented: reinjectPreview()';
+    console.warn('Unimplemented: reinjectPreview()');
+  }
+
+  /**
+   * Called every time there is a change to the editor workspace. Called from
+   * a change listener on the editor workspace.
+   * @param {!Event} event The change event which triggered the listener.
+   */
+  onChange(event) {
+    console.log('Change detected!');
+    const isCreateEvent = event.type == Blockly.Events.CREATE;
+    const isMoveEvent = event.type == Blockly.Events.MOVE;
+    const isDeleteEvent = event.type == Blockly.Events.DELETE;
+    const isChangeEvent = event.type == Blockly.Events.CHANGE;
+    const isUiEvent = event.type == Blockly.Events.UI;
+
+    if (isCreateEvent || isDeleteEvent || isChangeEvent) {
+      this.saveStateFromWorkspace();
+      this.updatePreview();
+    }
+  }
+
+  /**
+   * Saves blocks on editor workspace into the WorkspaceContents model.
+   */
+  saveStateFromWorkspace() {
+    const workspaceBlocks = Blockly.Xml.workspaceToDom(this.view.editorWorkspace);
+    this.view.workspaceContents.setXml(workspaceBlocks);
   }
 
   /**
