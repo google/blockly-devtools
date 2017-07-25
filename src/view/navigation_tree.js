@@ -23,17 +23,6 @@
 goog.provide('NavigationTree');
 goog.require('Project');
 
-/*
- * Global constants for organizing different node types, used when giving them
- *     ids. Given with the assumption that the name of each object in a
- *     project is unique across that project.
- */
-const BLOCK_PREFIX = 'Block';
-const TOOLBOX_PREFIX = 'Toolbox';
-const LIBRARY_PREFIX = 'BlockLibrary';
-const WORKSPACE_CONTENTS_PREFIX = 'WorkspaceContents';
-const WORKSPACE_CONFIG_PREFIX = 'WorkspaceConfiguration';
-
 /**
  * @class NavigationTree manages the tree user interface.
  *
@@ -69,8 +58,7 @@ class NavigationTree {
    * @return {!Object} The JSON necessary to load the tree.
    */
   makeTreeJson() {
-    const data = this.project.getTreeJson(TOOLBOX_PREFIX, LIBRARY_PREFIX,
-      WORKSPACE_CONTENTS_PREFIX, WORKSPACE_CONFIG_PREFIX);
+    const data = this.project.getJson();
     const tree = {
       'core': {
         'check_callback': true,
@@ -121,7 +109,17 @@ class NavigationTree {
      * NOTE: The libraryName is the given prefix due to the assumption that
      *     blocktypes are unique across all libraries in the project.
      */
-    this.addComponentNode(BLOCK_PREFIX, blockType, libraryName);
+    this.addComponentNode(PREFIXES.BLOCK, blockType, libraryName);
+  }
+
+  /**
+   * Adds BlockLibrary to the tree.
+   *
+   * @param {string} libraryName Name of BlockLibrary to add to the tree.
+   */
+  addBlockLibraryNode(libraryName) {
+    this.addComponentNode(PREFIXES.LIBRARY, libraryName,
+        PREFIXES.LIBRARY);
   }
 
   /**
@@ -130,7 +128,8 @@ class NavigationTree {
    * @param {string} toolboxName Name of the toolbox to add to the tree.
    */
   addToolboxNode(toolboxName) {
-    this.addComponentNode(TOOLBOX_PREFIX, toolboxName, TOOLBOX_PREFIX);
+    this.addComponentNode(PREFIXES.TOOLBOX, toolboxName,
+        PREFIXES.TOOLBOX);
   }
 
   /**
@@ -140,8 +139,8 @@ class NavigationTree {
    *     add to the tree.
    */
   addWorkspaceContentsNode(workspaceContentsName) {
-    this.addComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName,
-        WORKSPACE_CONTENTS_PREFIX);
+    this.addComponentNode(PREFIXES.WORKSPACE_CONTENTS, workspaceContentsName,
+        PREFIXES.WORKSPACE_CONTENTS);
   }
 
   /**
@@ -151,17 +150,8 @@ class NavigationTree {
    *     to add to the tree.
    */
   addWorkspaceConfigurationNode(workspaceConfigName) {
-    this.addComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName,
-        WORKSPACE_CONFIG_PREFIX);
-  }
-
-  /**
-   * Adds BlockLibrary to the tree.
-   *
-   * @param {string} libraryName Name of BlockLibrary to add to the tree.
-   */
-  addBlockLibraryNode(libraryName) {
-    this.addComponentNode(LIBRARY_PREFIX, libraryName, LIBRARY_PREFIX);
+    this.addComponentNode(PREFIXES.WORKSPACE_CONFIG, workspaceConfigName,
+        PREFIXES.WORKSPACE_CONFIG);
   }
 
   /**
@@ -173,7 +163,7 @@ class NavigationTree {
    */
   addComponentNode(prefix, componentName, parentName) {
     $('#navigationTree').jstree().create_node(parentName,
-      {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
+        {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
   }
 
   /**
@@ -189,36 +179,7 @@ class NavigationTree {
    * @param {string} blockType The name of the block to be removed.
    */
   deleteBlockNode(blockType) {
-    this.deleteComponentNode(BLOCK_PREFIX, blockType);
-  }
-
-  /**
-   * Removes toolbox from the tree.
-   *
-   * @param {string} toolboxName Name of the toolbox to remove from the tree.
-   */
-  deleteToolboxNode(toolboxName) {
-    this.deleteComponentNode(TOOLBOX_PREFIX, toolboxName);
-  }
-
-  /**
-   * Removes WorkspaceContents from the tree.
-   *
-   * @param {string} workspaceContentsName Name of the WorkspaceContents to
-   *     remove from the tree.
-   */
-  deleteWorkspaceContentsNode(workspaceContentsName) {
-    this.deleteComponentNode(WORKSPACE_CONTENTS_PREFIX, workspaceContentsName);
-  }
-
-  /**
-   * Removes a WorkspaceConfiguration from the tree
-   *
-   * @param {string} workspaceConfigName Name of the
-   *     WorkspaceConfiguration to remove from the tree.
-   */
-  deleteWorkspaceConfigurationNode(workspaceConfigName) {
-    this.deleteComponentNode(WORKSPACE_CONFIG_PREFIX, workspaceConfigName);
+    this.deleteComponentNode(PREFIXES.BLOCK, blockType);
   }
 
   /**
@@ -228,7 +189,36 @@ class NavigationTree {
    *     from the tree.
    */
   deleteBlockLibraryNode(blockLibraryName) {
-    this.deleteComponentNode(LIBRARY_PREFIX, blockLibraryName);
+    this.deleteComponentNode(PREFIXES.LIBRARY, blockLibraryName);
+  }
+
+  /**
+   * Removes toolbox from the tree.
+   *
+   * @param {string} toolboxName Name of the toolbox to remove from the tree.
+   */
+  deleteToolboxNode(toolboxName) {
+    this.deleteComponentNode(PREFIXES.TOOLBOX, toolboxName);
+  }
+
+  /**
+   * Removes WorkspaceContents from the tree.
+   *
+   * @param {string} workspaceContentsName Name of the WorkspaceContents to
+   *     remove from the tree.
+   */
+  deleteWorkspaceContentsNode(workspaceContentsName) {
+    this.deleteComponentNode(PREFIXES.WORKSPACE_CONTENTS, workspaceContentsName);
+  }
+
+  /**
+   * Removes a WorkspaceConfiguration from the tree
+   *
+   * @param {string} workspaceConfigName Name of the
+   *     WorkspaceConfiguration to remove from the tree.
+   */
+  deleteWorkspaceConfigurationNode(workspaceConfigName) {
+    this.deleteComponentNode(PREFIXES.WORKSPACE_CONFIG, workspaceConfigName);
   }
 
   /**
@@ -281,17 +271,17 @@ class NavigationTree {
    */
   changeView(id) {
     const prefix = id.split('_')[0];
-    console.log(prefix);
-    if (prefix === LIBRARY_PREFIX) {
+    if (prefix === PREFIXES.LIBRARY) {
       //Here's where tab switching happens
       console.log('Node type: BlockLibray. No response has been coded.');
-    } else if (prefix === TOOLBOX_PREFIX) {
+    } else if (prefix === PREFIXES.TOOLBOX) {
       //Here's where tab switching happens
       console.log('Node type: Toolbox. No response has been coded.');
-    } else if (prefix === WORKSPACE_CONTENTS_PREFIX || prefix === WORKSPACE_CONFIG_PREFIX) {
-      //Here's where tab switching happens
-      console.log('Node type: Workspace Contents or Configuration. No response has been coded.');
-    } else if (prefix === BLOCK_PREFIX) {
+    } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
+      prefix === PREFIXES.WORKSPACE_CONFIG) {
+        //Here's where tab switching happens
+        console.log('Node type: Workspace Contents or Configuration. No response has been coded.');
+    } else if (prefix === PREFIXES.BLOCK) {
       // Open the block.
       this.appController.editorController.blockEditorController.view.openBlock(id);
     }
