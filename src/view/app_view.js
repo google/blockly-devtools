@@ -152,6 +152,10 @@ class AppView {
 
     // Assigning event handlers and listeners for application.
     this.tabClickHandlers_();
+
+    this.assignBlockFactoryClickHandlers();
+
+    this.assignLibraryClickHandlers();
   }
 
   /**
@@ -428,6 +432,10 @@ class AppView {
     $('#clearBlockLibraryButton').click(() => {
       console.log('rewire app_view.js assignLibraryClickHandlers');
     });
+
+    $('#addButton').click(() => {
+
+    });
   }
 
   /**
@@ -456,12 +464,13 @@ class AppView {
         // want to reload the workspace with its contents.
         this.value = null;
       }
+      console.log('rewire app_view.js assignBlockFactoryClickHandlers');
     });
 
     $('#createNewBlockButton').click(() => {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
-      this.appController.projectController.createBlockLibrary('testing');
+      console.log('rewire app_view.js assignBlockFactoryClickHandlers');
     });
   }
 
