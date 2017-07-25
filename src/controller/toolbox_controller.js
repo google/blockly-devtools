@@ -431,7 +431,7 @@ class ToolboxController {
     // surrounding parent, meaning it is nested in another block (blocks that
     // are not nested in parents cannot be shadow blocks).
     if (isMoveEvent || (isUiEvent && e.element == 'selected')) {
-      const selected = Blockly.selected;
+      const selected = this.view.editorWorkspace.getBlockById(e.blockId);
       const project = this.projectController.getProject();
 
       this.showShadowButtons_(selected);

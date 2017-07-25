@@ -419,11 +419,11 @@ class Toolbox extends Resource {
    */
   hasCategory(name) {
     // From wfactory_model.js:hasCategoryByName(name)
-    this.categoryList.forEach((element) => {
+    for (let element of this.categoryList) {
       if (element.type == ListElement.TYPE_CATEGORY && element.name == name) {
         return true;
       }
-    });
+    }
     return false;
   }
 
