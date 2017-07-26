@@ -52,15 +52,12 @@ class NewBlockPopupController extends PopupController {
      * @type {!NewBlockPopupView}
      */
     this.view = new NewBlockPopupView(this);
-    console.log('View: ' + this.view);
 
     // Listeners in the popup
     Emitter(this.view);
     this.view.on('exit', () => {
-      console.log('Exit emit received!');
       // If there are no blocks in any library
-      // const noBlocks = this.project.getBlockTypes().length == 0;
-      const noBlocks = true;
+      const noBlocks = this.project.getBlockTypes().length == 0;
       if (noBlocks) {
         // Creates empty starter block.
         const starterXml = FactoryUtils.buildBlockEditorStarterXml(

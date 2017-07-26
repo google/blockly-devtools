@@ -142,6 +142,9 @@ class BlockEditorView {
    */
   init(controller) {
     console.warn('Unimplemented: init()');
+    // $('#createNewBlockButton').click(() => {
+    //   controller.createNewBlock();
+    // });
   }
 
   /**

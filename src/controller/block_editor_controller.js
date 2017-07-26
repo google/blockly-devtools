@@ -54,8 +54,8 @@ class BlockEditorController {
 
     // Creates a default library. Adds a sample block to library.
     this.projectController.createBlockLibrary('MyFirstLibrary');
-    const firstBlock = new BlockDefinition('block_type');
-    this.projectController.addBlockDefinition(firstBlock, 'MyFirstLibrary');
+    const firstBlock = this.projectController.createBlockDefinition('block_type',
+        'MyFirstLibrary');
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
@@ -96,6 +96,14 @@ class BlockEditorController {
   }
   static get FORMAT_GENERAL() {
     return 'General';
+  }
+
+  /**
+   * Prompts user with new block popup, then clears workspace if
+   */
+  createNewBlock() {
+    // TODO: Implement
+    console.warn('Unimplemented: createNewBlock()');
   }
 
   /**

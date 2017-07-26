@@ -151,7 +151,7 @@ class AppView {
     this.currentView.show(this.currentView.blockDefinition.type());
 
     // Assigning event handlers and listeners for application.
-    this.tabClickHandlers_();
+    this.init();
   }
 
   /**
@@ -384,6 +384,16 @@ class AppView {
   }
 
   /**
+   * Initializes event listeners/handlers for application.
+   */
+  init() {
+    this.tabClickHandlers_();
+    this.assignLibraryClickHandlers();
+    this.assignBlockFactoryClickHandlers();
+    this.addBlockFactoryEventListeners();
+  }
+
+  /**
    * Adds click handlers for switching views.
    * @private
    */
@@ -461,7 +471,7 @@ class AppView {
     $('#createNewBlockButton').click(() => {
       // If there are unsaved changes warn user, check if they'd like to
       // proceed with unsaved changes, and act accordingly.
-      this.appController.projectController.createBlockLibrary('testing');
+      this.appController.createPopup(PopupController.NEW_BLOCK);
     });
   }
 

@@ -87,9 +87,9 @@ class ProjectController {
    * Creates and adds new block definition to the project.
    *
    * @param {string} blockType Name of the block to add to the project.
+   * @param {!string} libraryName The library to add it to.
    *
    * @return {!BlockDefinition} The new block definition added to the project.
-   * @param {!string} libraryName The library to add it to.
    */
   createBlockDefinition(blockType, libraryName) {
     //TODO #105: check for valid name, throw error upon conflict
