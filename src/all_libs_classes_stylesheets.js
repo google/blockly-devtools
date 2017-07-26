@@ -44,7 +44,6 @@
   appendScript('src/factory_utils.js');
   appendScript('src/list_element.js');
   appendScript('res/standard_categories.js');
-  appendScript('src/workspacefactory/wfactory_model.js');
   appendScript('res/devtools_toolboxes.js');
   appendScript('src/block_option.js');
   appendScript('src/blocks.js');

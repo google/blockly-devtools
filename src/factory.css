@@ -221,7 +221,7 @@ button, .buttonStyle {
   width: 100%;
 }
 
-#wContentsDiv {
+#wsContentsDiv {
   height: 100%;
   width:100%;
 }
@@ -448,14 +448,21 @@ td.taboff:hover {
   width: auto;
 }
 
-#toolbox_section {
-  height: 85%;
-  width: 60%;
-}
-
 #previewHelp {
   padding: 10px;
   width: 98%;
+}
+
+.disabled {
+  background-color: white;
+  opacity: 0.5;
+}
+
+/* Toolbox & Workspace Editor Workspace */
+
+#toolbox_section, #workspace_section {
+  height: 85%;
+  width: 60%;
 }
 
 #createDiv {
@@ -476,11 +483,6 @@ td.taboff:hover {
   border: 5px solid #ddd;
   height: 100%;
   padding-right: 20px;
-}
-
-.disabled {
-  background-color: white;
-  opacity: 0.5;
 }
 
 #toolbox_div {
