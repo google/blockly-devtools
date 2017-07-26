@@ -50,24 +50,15 @@ class WorkspaceController {
      */
     this.projectController = projectController;
 
-    /**
-     * Keeps track of what WorkspaceContents is currently being edited.
-     * @type {!WorkspaceContents}
-     */
-    this.currentWorkspaceContents = this.projectController.createWorkspaceContents('WSContents');
-
-    /**
-     * Keeps track of what WorkspaceConfig is currently being edited.
-     * @type {!WorkspaceContents}
-     */
-    this.currentWorkspaceConfig = this.projectController.createWorkspaceConfiguration('WSConfig');
+    // Creates first workspace contents and config to add to project.
+    const wsContents = this.projectController.createWorkspaceContents('WSContents');
+    const wsConfig = this.projectController.createWorkspaceConfiguration('WSConfig');
 
     /**
      * WorkspaceEditorView associated with this instance of WorkspaceController.
      * @type {!WorkspaceEditorView}
      */
-    this.view = new WorkspaceEditorView(
-        this.currentWorkspaceContents, this.currentWorkspaceConfig);
+    this.view = new WorkspaceEditorView(wsContents, wsConfig);
 
     /**
      * True if key events are enabled. False otherwise. Used to enable/disable
