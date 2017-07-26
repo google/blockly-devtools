@@ -149,9 +149,16 @@ button, .buttonStyle {
 }
 
 /* Add resource button */
+#addContainer {
+  bottom: 35px;
+  left: 10px;
+  position: absolute;
+  width: 200px;
+}
+
 #addButton {
   border-radius: 50%;
-  bottom: 35px;
+  bottom: 15px;
   cursor: pointer;
   height: 48px;
   left: 10px;
@@ -161,10 +168,11 @@ button, .buttonStyle {
 #addOptions {
   background-color: #e8f1ff;
   border: 1px solid #ddd;
-  bottom:75px;
+  bottom:55px;
   display: none;
   left:50px;
   position: absolute;
+  white-space: nowrap;
 }
 
 #addOptions.expanded {
@@ -176,6 +184,7 @@ button, .buttonStyle {
   cursor:default;
   font-size: small;
   line-height: 42px;
+  padding: 10px;
   text-align: center;
 }
 
