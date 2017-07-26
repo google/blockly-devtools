@@ -153,8 +153,11 @@ class AppView {
     // Assigning event handlers and listeners for application.
     this.tabClickHandlers_();
 
+    // Assign button click handlers for the block factory.
+    // TODO: reorganize/change listeners to reflect new DevTools
     this.assignBlockFactoryClickHandlers();
 
+    // Assign button click handlers for the block library.
     this.assignLibraryClickHandlers();
   }
 
@@ -467,7 +470,7 @@ class AppView {
     // TODO: Move in from app_controller.js
     // Assign button event handlers for Block Factory.
     $('#localSaveButton').click(() => {
-      this.exportBlockLibraryToFile();
+      console.log('rewire app_view.js assignBlockFactoryClickHandlers');
     });
 
     $('#helpButton').click(() => {
