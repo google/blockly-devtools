@@ -222,12 +222,13 @@ class ToolboxEditorView {
    */
   initClickHandlers_(controller) {
     // From wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+    // Listener for user clicking outside of modal popup.
     $('#modalShadow').click(() => {
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
     });
 
-    // Listener for clearing editor
+    // Listener for clearing editor.
     this.clearButton.addEventListener('click', () => {
       controller.clear();
     });
@@ -267,23 +268,23 @@ class ToolboxEditorView {
       controller.loadStandardCategory();
     });
 
-    // Listener for moving a category up
+    // Listener for moving a category up.
     this.upButton.addEventListener('click', () => {
       controller.moveElement(-1);
     });
 
-    // Listener for moving a category down
+    // Listener for moving a category down.
     this.downButton.addEventListener('click', () => {
       controller.moveElement(1);
     });
 
-    // Listener for edit category dropdown button
+    // Listener for edit category dropdown button.
     this.editButton.addEventListener('click', () => {
       this.openModal_ = 'dropdownDiv_editCategory';
       FactoryUtils.openModal(this.openModal_);
     });
 
-    // Listener for editing category name
+    // Listener for editing category name.
     this.editNameButton.addEventListener('click', () => {
       controller.changeCategoryName();
       FactoryUtils.closeModal(this.openModal_);
@@ -514,6 +515,7 @@ class ToolboxEditorView {
    * @param {string} id The ID of the category to move.
    * @param {number} newIndex The index to move the category to.
    * @param {number} oldIndex The index the category is currently at.
+   * @throws {Error} For index out of bounds error if newIndex is invalid.
    */
   moveTabToIndex(id, newIndex, oldIndex) {
     // TODO: Move in from wfactory_view.js:moveTabToIndex(id, newIndex, oldIndex)

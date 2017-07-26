@@ -356,7 +356,7 @@ class ToolboxController {
    * reflect this.
    */
   clear() {
-    /**
+    /*
      * REFACTORED: from wfactory_view.js:clearToolboxTabs()
      *                  wfactory_controller.js:clearAll()
      */
@@ -845,7 +845,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    *     otherwise.
    */
   isUserGenShadowBlock(blockId) {
-    // TODO: Move in from wfactory_controller.js
+    // From wfactory_controller.js
     return this.view.toolbox.isShadowBlock(blockId);
   }
 
@@ -1251,7 +1251,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
       return;
     }
 
-    // Return is color is not valid.
+    // Return if color is not valid.
     if (!FactoryUtils.isValidHex(color)) {
       return;
     }
