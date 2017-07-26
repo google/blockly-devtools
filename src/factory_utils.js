@@ -1282,17 +1282,3 @@ FactoryUtils.closeModal = function(id) {
   modal.hide();
   $('#modalShadow').hide();
 };
-
-/**
- * Determines whether a given XML string is empty.
- * @param {string} xmlString XML string to check.
- * @return {boolean} Whether given string is an empty XML.
- */
-FactoryUtils.isEmptyXml = function(xmlString) {
-  const closingTag = /<\//g;
-  const emptyXml = /( |\n)*<xml\/>( |\n)*/g;
-
-  const match = xmlString.match(closingTag);
-  const hasOneTag = match ? match.length <= 1 : false;
-  return hasOneTag || emptyXml.test(xmlString);
-};
