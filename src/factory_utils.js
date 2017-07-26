@@ -1078,9 +1078,8 @@ FactoryUtils.isStandardCategoryName = function(name) {
  * @param {number} s Saturation, in [0, 1].
  * @param {number} v Value, in [0, 1].
  * @return {string} hex representation of the color.
- * @private
  */
-FactoryUtils.hsvToHex_ = function(h, s, v) {
+FactoryUtils.hsvToHex = function(h, s, v) {
   // Moved in from wfactory_init.js
   var brightness = v * 255;
   var red = 0;
@@ -1135,6 +1134,17 @@ FactoryUtils.hsvToHex_ = function(h, s, v) {
   var hexG = ('0' + Math.floor(green).toString(16)).slice(-2);
   var hexB = ('0' + Math.floor(blue).toString(16)).slice(-2);
   return '#' + hexR + hexG + hexB;
+};
+
+/**
+ * Checks whether a given color is a valid hex color to be used in CSS.
+ * @param {string} hex Hex representation of color, as a string.
+ * @return {boolean} Whether given string is valid color.
+ */
+FactoryUtils.isValidHex = function(hex) {
+  const shortHexFormat = /^#[0-9A-F]{3}$/i;
+  const longHexFormat = /^#[0-9A-F]{6}$/i;
+  return shortHexFormat.test(hex) || longHexFormat.test(hex);
 };
 
 /**

@@ -66,7 +66,7 @@ ListElement.prototype.saveFromWorkspace = function(workspace) {
  * not a category.
  * @param {string} name New name of category.
  */
-ListElement.prototype.changeName = function (name) {
+ListElement.prototype.changeName = function(name) {
   // Only update list elements that are categories.
   if (this.type != ListElement.TYPE_CATEGORY) {
     return;
@@ -79,7 +79,7 @@ ListElement.prototype.changeName = function (name) {
  * than a category, returns.
  * @param {string} color The color that should be used for that category.
  */
-ListElement.prototype.changeColor = function (color) {
+ListElement.prototype.changeColor = function(color) {
   if (this.type != ListElement.TYPE_CATEGORY) {
     return;
   }

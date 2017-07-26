@@ -181,14 +181,14 @@ class Toolbox extends Resource {
    * @param {number} oldIndex The index the element is currently at.
    */
   moveElement(element, newIndex, oldIndex) {
-    /*
-     * TODO: Move in from wfactory_model.js:moveElementToIndex(element, newIndex, oldIndex)
-     *
-     * References:
-     * - this.toolboxList
-     * - deleteElementFromList(oldIndex)
-     */
-    throw 'Unimplemented: moveElement()';
+    // From wfactory_model.js:moveElementToIndex(element, newIndex, oldIndex)
+    // Check that indexes are in bounds.
+    if (newIndex < 0 || newIndex >= this.categoryList.length || oldIndex < 0 ||
+        oldIndex >= this.categoryList.length) {
+      throw new Error('Index out of bounds when moving element in the model.');
+    }
+    this.deleteElement(oldIndex);
+    this.categoryList.splice(newIndex, 0, element);
   }
 
   /**
