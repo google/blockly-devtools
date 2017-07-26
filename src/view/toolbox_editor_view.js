@@ -106,6 +106,7 @@ class ToolboxEditorView {
     this.removeShadowButton = $('#button_removeShadow').get(0);
     this.editNameButton = $('#dropdown_name').get(0);
     this.editColorButton = $('#dropdown_color').get(0);
+    this.clearButton = $('#button_clearToolbox').get(0);
 
     /**
      * Maps ID of a ListElement to the td DOM element. Used for navigating
@@ -177,6 +178,7 @@ class ToolboxEditorView {
     });
     this.initEventListeners_(controller);
     this.initClickHandlers_(controller);
+    this.initColorPicker_(controller);
   }
 
   /**
@@ -205,7 +207,7 @@ class ToolboxEditorView {
     popupPicker.render();
     popupPicker.attach(document.getElementById('dropdown_color'));
     popupPicker.setFocusable(true);
-    goog.events.listen(popupPicker, 'change', function(e) {
+    goog.events.listen(popupPicker, 'change', (event) => {
       controller.changeSelectedCategoryColor(popupPicker.getSelectedColor());
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
@@ -223,6 +225,11 @@ class ToolboxEditorView {
     $('#modalShadow').click(() => {
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
+    });
+
+    // Listener for clearing editor
+    this.clearButton.addEventListener('click', () => {
+      controller.clear();
     });
 
     // Shows dropdown for adding elements.
@@ -281,11 +288,6 @@ class ToolboxEditorView {
       controller.changeCategoryName();
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
-    });
-
-    // Listener for editing category color
-    this.editColorButton.addEventListener('click', () => {
-      return;
     });
   }
 
@@ -365,8 +367,11 @@ class ToolboxEditorView {
    * Removes all categories and separators in the view.
    */
   clearElements() {
-    const oldCategoryTable = $('#categoryTable');
-    const newCategoryTable = $('#table');
+    if (this.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
+      return;
+    }
+    const oldCategoryTable = document.getElementById('categoryTable');
+    const newCategoryTable = document.createElement('table');
     newCategoryTable.id = 'categoryTable';
     newCategoryTable.style.width = 'auto';
     oldCategoryTable.parentElement.replaceChild(newCategoryTable,
@@ -667,7 +672,7 @@ ToolboxEditorView.html = `
       </div>
     </div>
 
-    <button id="button_clear">Clear</button>
+    <button id="button_clearToolbox">Clear</button>
 
     <span id="saved_message"></span>
   </p>

@@ -360,16 +360,21 @@ class ToolboxController {
      * REFACTORED: from wfactory_view.js:clearToolboxTabs()
      *                  wfactory_controller.js:clearAll()
      */
+    if (!window.confirm('Are you sure you would like to clear your toolbox ' +
+          'editor workspace?')) {
+      return;
+    }
+
     // Clears tabs
     this.categoryTabs = {};
-
-    // Clears model
-    this.view.toolbox.clearCategoryList();
 
     // Clears view elements
     this.view.clearElements();
     this.view.addEmptyToolboxMessage();
-    this.updateElementButtons(-1, null);
+    // this.updateElementButtons(-1, null);
+
+    // Clears model
+    this.view.toolbox.clear();
 
     // Clears Blockly toolbox editor workspace
     this.view.editorWorkspace.clear();
@@ -1254,6 +1259,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
     // Change color of selected category.
     this.view.toolbox.getSelected().changeColor(color);
     this.view.setBorderColor(this.view.toolbox.getSelectedId(), color);
+    this.view.toolbox.setXml(this.generateToolboxXml());
     this.updatePreview();
   }
 

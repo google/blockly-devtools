@@ -117,23 +117,6 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Clears category list in this instance of Toolbox. Deletes all ListElements.
-   */
-  clearCategoryList() {
-    /*
-     * TODO: Move in from wfactory_model.js:clearToolboxList()
-     *
-     * References:
-     * - this.toolboxList
-     * - this.hasVariablesCategory
-     * - this.hasProceduresCategory
-     * - this.shadowBlocks
-     * - this.selected
-     */
-    throw 'Unimplemented: clearCategoryList()';
-  }
-
-  /**
    * Given a ListElement, adds it to category list. Selects newly added category.
    * @param {!ListElement} element Element to be added to the list.
    */
@@ -447,5 +430,6 @@ class Toolbox extends Resource {
     this.categoryList = [];
     this.flyout = new ListElement(ListElement.TYPE_FLYOUT);
     this.selected = this.flyout;
+    this.xml = '<xml></xml>';
   }
 }
