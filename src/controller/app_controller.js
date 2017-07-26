@@ -181,25 +181,6 @@ class AppController {
     return 'WORKSPACE_EDITOR';
   }
 
-  // ========================= VIEW-CONTROLLER ==========================
-
-  /**
-   * If given checkbox is checked, enable the given elements.  Otherwise, disable.
-   * @param {boolean} enabled True if enabled, false otherwise.
-   * @param {!Array.<string>} idArray Array of element IDs to enable when
-   *     checkbox is checked.
-   */
-  ifCheckedEnable(enabled, idArray) {
-    /*
-     * TODO: Move in from app_controller.js
-     */
-    // Note: Not implemented because it is in the exporter tab, which will be
-    // deprecated. May implement later if necessary.
-    throw 'Unimplemented: ifCheckedEnable()';
-  }
-
-  // ========================= MODEL-CONTROLLER ==========================
-
   /**
    * Handle Blockly Storage with App Engine.
    */
