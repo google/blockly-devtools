@@ -443,6 +443,11 @@ class AppView {
    * Assigns button click handlers for the general app interface.
    */
   assignClickHandlers() {
+    $('#helpButton').click(() => {
+      open('https://developers.google.com/blockly/custom-blocks/block-factory',
+          'BlockFactoryHelp');
+    });
+
     $('#addButton').click(() => {
       if (this.addFlyoutOpen) {
         this.closeAddFlyout_();
@@ -450,106 +455,32 @@ class AppView {
         this.openAddFlyout_();
       }
     });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    // TODO: define click handlers for the different addition options
+    this.assignAddFlyoutClickHandlers();
   }
 
   /**
    * Assigns button click handlers for the general app interface.
    */
-  assign() {
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
-    });
-    $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
-        this.closeAddFlyout_();
-      } else {
-        this.openAddFlyout_();
-      }
+  assignAddFlyoutClickHandlers() {
+    $('#addBlock').click(() => {
+      this.appController.projectController.
     });
 
-    // TODO: define click handlers for the different addition options
+    $('#addLibrary').click(() => {
+      this.appController.projectController.
+    });
+
+    $('#addToolbox').click(() => {
+      this.appController.projectController.
+    });
+
+    $('#addWorkspaceContents').click(() => {
+      this.appController.projectController.
+    });
+
+    $('#addWorkspaceConfig').click(() => {
+      this.appController.projectController.
+    });
   }
   /**
    * Add event listeners for the block factory.
