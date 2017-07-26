@@ -426,7 +426,7 @@ class AppView {
   closeAddFlyout_() {
     const opt = document.getElementById('addOptions');
     this.addFlyoutOpen = false;
-    opt.className ='';
+    opt.className = '';
   }
 
   /*
