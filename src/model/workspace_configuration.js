@@ -41,7 +41,7 @@ class WorkspaceConfiguration extends Resource {
      /**
       * Options object to be configured for Blockly inject call.
       */
-     this.options = new Object(null);
+     this.options = Object.create(null);
   }
 
   /**
@@ -57,7 +57,7 @@ class WorkspaceConfiguration extends Resource {
    * Clears the workspace configuration.
    */
   reset() {
-    this.options = new Object(null);
+    this.options = Object.create(null);
   }
 
   /**
@@ -84,10 +84,10 @@ class WorkspaceConfiguration extends Resource {
    * Creates a string representation of the options, for use in making the string
    * used to inject the workspace.
    * @param {!Object} obj Object representing the options selected in the current
-   * configuration.
+   *     configuration.
    * @param {string} tabChar The tab character.
    * @return {string} String representation of the workspace configuration's
-   * options.
+   *     options.
    * @recursive
    * @private
    */
