@@ -110,7 +110,7 @@ class WorkspaceController {
    */
   reinjectPreview() {
     // From wfactory_controller.js:reinjectPreview(tree)
-    this.previewWorkspace.dispose();
+    this.view.previewWorkspace.dispose();
     const injectOptions = this.view.workspaceConfig.options;
     injectOptions['toolbox'] = '<xml></xml>';
 
@@ -125,11 +125,10 @@ class WorkspaceController {
    * @param {!Event} event The change event which triggered the listener.
    */
   onChange(event) {
-    console.log('Change detected!');
     const isCreateEvent = event.type == Blockly.Events.CREATE;
-    const isMoveEvent = event.type == Blockly.Events.MOVE;
     const isDeleteEvent = event.type == Blockly.Events.DELETE;
     const isChangeEvent = event.type == Blockly.Events.CHANGE;
+    const isMoveEvent = event.type == Blockly.Events.MOVE;
     const isUiEvent = event.type == Blockly.Events.UI;
 
     if (isCreateEvent || isDeleteEvent || isChangeEvent) {
@@ -157,7 +156,6 @@ class WorkspaceController {
     this.view.resetConfigs();
     this.generateNewOptions();
     this.updatePreview();
-    throw 'Unimplemented: clear()';
   }
 
   /**
@@ -165,8 +163,10 @@ class WorkspaceController {
    * currently being edited.
    */
   updatePreview() {
-    // TODO: Move in from wfactory_controller.js:updatePreview()
-    throw 'Unimplemented: updatePreview()';
+    // From wfactory_controller.js:updatePreview()
+    this.view.previewWorkspace.clear();
+    Blockly.Xml.domToWorkspace(this.view.workspaceContents.getXml(),
+        this.view.previewWorkspace);
   }
 
   /**

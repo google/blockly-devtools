@@ -139,17 +139,15 @@ class WorkspaceEditorView {
    * @package
    */
   init(controller) {
-    console.log('init() called.');
     this.editorWorkspace.addChangeListener((event) => {
-      debugger;
-      console.log('change detected...');
+      Blockly.Events.disable();
       controller.onChange(event);
+      Blockly.Events.enable();
     });
-    this.previewWorkspace.addChangeListener((event) => {
-      console.log('Aha! A change!');
-    });
-    console.log('init() finished.');
     this.initConfigListeners_(controller);
+    this.initEventListeners_(controller);
+    this.resetConfigs();
+    controller.generateNewOptions();
   }
 
   /**
@@ -171,10 +169,7 @@ class WorkspaceEditorView {
    * @private
    */
   initEventListeners_(controller) {
-    /*
-     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
-     *       (Also moved into toolbox_editor_view.js)
-     */
+    // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
     $('#button_standardOptions').click(() => {
       controller.setStandardOptionsAndUpdate();
     });
@@ -400,8 +395,8 @@ WorkspaceEditorView.html = `
 <aside id="previewDiv">
   <div id="previewBorder">
     <div id="previewHelp">
-      <h3>Preview</h3>
-      <p>This is what your custom workspace will look like.</p>
+      <h3>Workspace Preview</h3>
+      <p>This is what your custom workspace will look like without your toolbox.</p>
     </div>
     <div id="workspacePreview" class="content"></div>
   </div>

@@ -71,9 +71,8 @@ class AppView {
      * The workspace view for the session.
      * @type {!WorkspaceEditorView}
      */
-    this.workspaceEditorView = new WorkspaceEditorView(
-        new WorkspaceContents('workspace_contents_name'),
-        new WorkspaceConfiguration('default'));
+    this.workspaceEditorView =
+        this.appController.editorController.workspaceController.view;
 
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
     const menuTree = [
