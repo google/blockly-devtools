@@ -148,7 +148,6 @@ button, .buttonStyle {
   float: right;
 }
 
-
 #addButton {
   position: absolute;
   bottom: 35px;
@@ -159,6 +158,24 @@ button, .buttonStyle {
   cursor: pointer;
 }
 
+#addOptions {
+  position: absolute;
+  width:200px;
+  height:200px;
+  left:50px;
+  bottom:75px;
+  background-color: #f442f1;
+  visibility: hidden;
+}
+
+#addOptions.expanded {
+  visibility: visible;
+}
+
+.optionsList li {
+  list-style: none;
+
+}
 /* Editor elements */
 
 #editorContainer {

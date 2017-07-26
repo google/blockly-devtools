@@ -434,7 +434,19 @@ class AppView {
     });
 
     $('#addButton').click(() => {
-
+    var add = document.getElementById('addButton');
+    var opt = document.getElementById('addOptions');
+      function collapse(e) {
+        opt.className='';
+        add.removeEventListener('click', collapse);
+        add.addEventListener('click', expand);
+      }
+      function expand(e) {
+        opt.className= 'expanded';
+        add.removeEventListener('click',expand);
+        add.addEventListener('click', collapse);
+      }
+      expand();
     });
   }
 
