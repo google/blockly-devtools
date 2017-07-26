@@ -127,9 +127,9 @@ button, .buttonStyle {
   border: 1px solid #ddd;
   background-color: #eee;
   color: #000;
+  font-size: small;
   padding: 10px;
   margin: 10px 5px;
-  font-size: small;
 }
 
 .buttonStyle:hover:not(:disabled), button:hover:not(:disabled) {
@@ -148,28 +148,29 @@ button, .buttonStyle {
   float: right;
 }
 
+/* Add resource button */
 #addButton {
-  position: absolute;
-  bottom: 35px;
-  left: 10px;
-  font-size: 48px;
   border-radius: 50%;
-  height: 5%;
+  bottom: 35px;
   cursor: pointer;
+  font-size: 48px;
+  height: 5%;
+  left: 10px;
+  position: absolute;
 }
 
 #addOptions {
-  position: absolute;
-  width:200px;
+  background-color: #e8f1ff;
+  bottom:75px;
   height:350px;
   left:50px;
-  bottom:75px;
-  background-color: #e8f1ff;
-  visibility: hidden;
+  position: absolute;
+  display: none;
+  width:200px;
 }
 
 #addOptions.expanded {
-  visibility: visible;
+  display: initial;
 }
 
 .optionsList li {

@@ -155,10 +155,8 @@ class AppView {
 
     // Assign button click handlers for the block factory.
     // TODO: reorganize/change listeners to reflect new DevTools
-    this.assignBlockFactoryClickHandlers();
-
-    // Assign button click handlers for the block library.
-    this.assignLibraryClickHandlers();
+    // Assign button click handlers
+    this.assignClickHandlers();
   }
 
   /**
@@ -417,25 +415,9 @@ class AppView {
   }
 
   /**
-   * Assign button click handlers for the block library.
+   * Assigns button click handlers for the general app interface.
    */
-  assignLibraryClickHandlers() {
-    // REFACTORED: Moved in from app_controller.js
-    // Button for saving block to library.
-    $('#saveToBlockLibraryButton').click(() => {
-      console.log('rewire app_view.js assignLibraryClickHandlers');
-    });
-
-    // Button for removing selected block from library.
-    $('#removeBlockFromLibraryButton').click(() => {
-      console.log('rewire app_view.js assignLibraryClickHandlers');
-    });
-
-    // Button for clearing the block library.
-    $('#clearBlockLibraryButton').click(() => {
-      console.log('rewire app_view.js assignLibraryClickHandlers');
-    });
-
+  assignClickHandlers() {
     $('#addButton').click(() => {
       const add = document.getElementById('addButton');
       const opt = document.getElementById('addOptions');
@@ -461,42 +443,6 @@ class AppView {
       expand();
       });
     // TODO: define click handlers for the different addition options
-  }
-
-  /**
-   * Assign button click handlers for the block factory.
-   */
-  assignBlockFactoryClickHandlers() {
-    // TODO: Move in from app_controller.js
-    // Assign button event handlers for Block Factory.
-    $('#localSaveButton').click(() => {
-      console.log('rewire app_view.js assignBlockFactoryClickHandlers');
-    });
-
-    $('#helpButton').click(() => {
-      open('https://developers.google.com/blockly/custom-blocks/block-factory',
-          'BlockFactoryHelp');
-    });
-
-    $('#files').click(() => {
-      // Warn user.
-      var replace = confirm('This imported block library will ' +
-          'replace your current block library.');
-      if (replace) {
-       this.importBlockLibraryFromFile();
-        // Clear this so that the change event still fires even if the
-        // same file is chosen again. If the user re-imports a file, we
-        // want to reload the workspace with its contents.
-        this.value = null;
-      }
-      console.log('rewire app_view.js assignBlockFactoryClickHandlers');
-    });
-
-    $('#createNewBlockButton').click(() => {
-      // If there are unsaved changes warn user, check if they'd like to
-      // proceed with unsaved changes, and act accordingly.
-      console.log('rewire app_view.js assignBlockFactoryClickHandlers');
-    });
   }
 
   /**
