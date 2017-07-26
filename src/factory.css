@@ -153,28 +153,39 @@ button, .buttonStyle {
   border-radius: 50%;
   bottom: 35px;
   cursor: pointer;
-  font-size: 48px;
-  height: 5%;
+  height: 48px;
   left: 10px;
   position: absolute;
 }
 
 #addOptions {
   background-color: #e8f1ff;
+  border: 1px solid #ddd;
   bottom:75px;
-  height:350px;
+  display: none;
   left:50px;
   position: absolute;
-  display: none;
-  width:200px;
 }
 
 #addOptions.expanded {
-  display: initial;
+  display: block;
 }
 
-.optionsList li {
-  list-style: none;
+#addOptions div {
+  border-bottom: 1px solid #ddd;
+  cursor:default;
+  font-size: small;
+  line-height: 42px;
+  text-align: center;
+}
+
+
+#addButton:hover {
+  background-color: #7de889;
+}
+
+#addOptions div:hover {
+  background-color: #7de889;
 }
 
 /* Editor elements */
