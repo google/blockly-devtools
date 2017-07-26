@@ -79,10 +79,8 @@ class BlockEditorController {
 
     this.refreshPreviews();
 
-    // Refresh previews on workspace change.
-    this.view.editorWorkspace.addChangeListener(() => {
-      this.refreshPreviews();
-    });
+    // Initialize event listeners/handlers specific to block editor.
+    this.view.init(this);
   }
 
   /**

@@ -87,7 +87,7 @@ class BlockEditorView {
 
     // Render starter block.
     const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-        '', this.blockDefinition.type(), '');
+        '', this.blockDefinition.type(), 'My First Block');
     this.showStarterBlock(starterXml);
     this.blockDefinition.setXml(Blockly.Xml.textToDom(starterXml));
 
@@ -141,10 +141,10 @@ class BlockEditorView {
    * @package
    */
   init(controller) {
-    console.warn('Unimplemented: init()');
-    // $('#createNewBlockButton').click(() => {
-    //   controller.createNewBlock();
-    // });
+    this.editorWorkspace.addChangeListener((event) => {
+      controller.refreshPreviews();
+      // Save block's changes into BlockDefinition object.
+    });
   }
 
   /**
