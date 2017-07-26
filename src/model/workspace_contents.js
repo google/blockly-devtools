@@ -25,8 +25,9 @@ goog.provide('WorkspaceContents');
 goog.require('Resource');
 
 /**
- * @class Workspacecontents contains a set of positioned blocks
- *    specified by the developer and used to initialize an app's workspace.
+ * @class Workspacecontents contains a set of positioned blocks specified by the
+ * developer to load onto a Blockly workspace upon initialization.
+ * @authors  Emma Dauterman (evd2014), sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 class WorkspaceContents extends Resource {
   /**
@@ -35,33 +36,13 @@ class WorkspaceContents extends Resource {
    * @constructor
    */
   constructor(workspaceContentsName) {
-    /*
-     * TODO: fully implement
-     *
-     * References: N/A
-     */
-     super(workspaceContentsName);
+    super(workspaceContentsName);
 
-     /**
-      * XML DOM element of this workspace contents.
-      * @type {!Element}
-      */
-     this.xml = Blockly.Xml.textToDom('<xml></xml>');
-  }
-
-  /**
-   * Saves block to block workspace contents.
-   * @param {string} blockType Type of block.
-   * @param {Element} blockXML The block's XML pulled from workspace contents.
-   */
-  addBlock(blockType, blockXML) {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - addBlock(blockType, blockXML)
+    /**
+     * XML DOM element of this workspace contents.
+     * @type {!Element}
      */
-    throw "unimplemented: addBlock";
+    this.xml = Blockly.Xml.textToDom('<xml></xml>');
   }
 
   /**
@@ -80,68 +61,6 @@ class WorkspaceContents extends Resource {
   getXml() {
     // Moved in from wfactory_model.js:getPreloadXml()
     return this.xml;
-  }
-
-  /**
-   * Clears the workspace contents.
-   */
-  clear() {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - clear()
-     */
-    throw "unimplemented: clear";
-  }
-
-  /**
-   * Checks to see if block workspace contents is empty.
-   * @return {boolean} True if empty, false otherwise.
-   */
-  isEmpty() {
-    /*
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - isEmpty()
-     */
-    throw "unimplemented: isEmpty";
-  }
-
-  /**
-   * Returns boolean of whether or not a given blockType is stored in the
-   * workspace contents.
-   * @param {string} blockType Type of block.
-   * @return {boolean} Whether or not blockType is in the workspace contents.
-   */
-  has(blockType) {
-    /*
-     * TODO: make specific to the nature of the workspace//more useful; perhaps
-     *     use something other than blockType
-     * TODO: implement
-     *
-     * References: src/block_library_storage.js
-     * - has(blockType)
-     *
-     * Additional reference: src/block_library_controller.js
-     * - has(blockType)
-     *
-     */
-    throw "unimplemented: has";
-  }
-
-  /**
-   * Renames the workspace contents.
-   * @param {string} newName New name of the workspace contents.
-   */
-  setName(newName) {
-    /*
-     * TODO: implement
-     *
-     * References: N/A
-     */
-    throw "unimplemented: setName";
   }
 
   /**
@@ -166,7 +85,9 @@ class WorkspaceContents extends Resource {
    *     navigation tree.
    * @return {!Object} The JSON representation of the workspace contents.
    */
-  getTreeJson() {
-    throw "unimplemented: getTreeJson";
+  getJson() {
+    const workspaceContentsJson = $.extend(true, super.getJson(),
+      {'id': PREFIXES.WORKSPACE_CONTENTS});
+    return workspaceContentsJson;
   }
 }
