@@ -149,9 +149,17 @@ button, .buttonStyle {
 }
 
 /* Add resource button */
+
+#addContainer {
+  bottom: 35px;
+  left: 10px;
+  position: absolute;
+  width: 200px;
+}
+
 #addButton {
   border-radius: 50%;
-  bottom: 35px;
+  bottom: 15px;
   cursor: pointer;
   height: 48px;
   left: 10px;
@@ -161,10 +169,11 @@ button, .buttonStyle {
 #addOptions {
   background-color: #e8f1ff;
   border: 1px solid #ddd;
-  bottom:75px;
+  bottom:55px;
   display: none;
   left:50px;
   position: absolute;
+  white-space: nowrap;
 }
 
 #addOptions.expanded {
@@ -176,6 +185,7 @@ button, .buttonStyle {
   cursor:default;
   font-size: small;
   line-height: 42px;
+  padding: 10px;
   text-align: center;
 }
 
@@ -261,7 +271,7 @@ button, .buttonStyle {
   width: 100%;
 }
 
-#wContentsDiv {
+#wsContentsDiv {
   height: 100%;
   width:100%;
 }
@@ -488,14 +498,21 @@ td.taboff:hover {
   width: auto;
 }
 
-#toolbox_section {
-  height: 85%;
-  width: 60%;
-}
-
 #previewHelp {
   padding: 10px;
   width: 98%;
+}
+
+.disabled {
+  background-color: white;
+  opacity: 0.5;
+}
+
+/* Toolbox & Workspace Editor Workspace */
+
+#toolbox_section, #workspace_section {
+  height: 85%;
+  width: 60%;
 }
 
 #createDiv {
@@ -516,11 +533,6 @@ td.taboff:hover {
   border: 5px solid #ddd;
   height: 100%;
   padding-right: 20px;
-}
-
-.disabled {
-  background-color: white;
-  opacity: 0.5;
 }
 
 #toolbox_div {
