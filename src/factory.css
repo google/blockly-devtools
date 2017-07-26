@@ -127,9 +127,9 @@ button, .buttonStyle {
   border: 1px solid #ddd;
   background-color: #eee;
   color: #000;
+  font-size: small;
   padding: 10px;
   margin: 10px 5px;
-  font-size: small;
 }
 
 .buttonStyle:hover:not(:disabled), button:hover:not(:disabled) {
@@ -146,6 +146,55 @@ button, .buttonStyle {
 
 #helpButton {
   float: right;
+}
+
+/* Add resource button */
+#addContainer {
+  bottom: 35px;
+  left: 10px;
+  position: absolute;
+  width: 200px;
+}
+
+#addButton {
+  border-radius: 50%;
+  bottom: 15px;
+  cursor: pointer;
+  height: 48px;
+  left: 10px;
+  position: absolute;
+}
+
+#addOptions {
+  background-color: #e8f1ff;
+  border: 1px solid #ddd;
+  bottom:55px;
+  display: none;
+  left:50px;
+  position: absolute;
+  white-space: nowrap;
+}
+
+#addOptions.expanded {
+  display: block;
+}
+
+#addOptions div {
+  border-bottom: 1px solid #ddd;
+  cursor:default;
+  font-size: small;
+  line-height: 42px;
+  padding: 10px;
+  text-align: center;
+}
+
+
+#addButton:hover {
+  background-color: #7de889;
+}
+
+#addOptions div:hover {
+  background-color: #7de889;
 }
 
 /* Editor elements */
