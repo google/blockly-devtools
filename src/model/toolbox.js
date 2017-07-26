@@ -194,7 +194,7 @@ class Toolbox extends Resource {
   /**
    * Given the ID of a list element, returns that ListElement object.
    * @param {string} id The ID of element to search for.
-   * @return {ListElement} Corresponding ListElement object in toolboxList, or
+   * @return {?ListElement} Corresponding ListElement object in toolboxList, or
    *     null if that element does not exist.
    */
   getElementById(id) {
@@ -413,7 +413,7 @@ class Toolbox extends Resource {
   /**
    * Determines if a category with the 'VARIABLE' tag exists.
    * @return {boolean} True if there exists a category with the Variables tag,
-   * false otherwise.
+   *     false otherwise.
    */
   hasVariables() {
     // Moved in from wfactory_model.js
@@ -423,7 +423,7 @@ class Toolbox extends Resource {
   /**
    * Determines if a category with the 'PROCEDURE' tag exists.
    * @return {boolean} True if there exists a category with the Procedures tag,
-   * false otherwise.
+   *     false otherwise.
    */
   hasProcedures() {
     // Moved in from wfactory_model.js

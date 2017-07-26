@@ -344,7 +344,7 @@ class ToolboxEditorView {
    * to/from separators where the user shouldn't be able to drag blocks into
    * the workspace.
    * @param {boolean} disable True if the workspace should be disabled, false
-   * if it should be enabled.
+   *     if it should be enabled.
    */
   disableWorkspace(disable) {
     // From wfactory_view.js:disableWorkspace(disable)
