@@ -423,7 +423,7 @@ class ToolboxEditorView {
    * Given a separator ID, creates a corresponding tab in the view, updates
    * tab map, and returns the tab.
    * @param {string} id The ID of the separator.
-   * @param {!Element} The td DOM element representing the separator.
+   * @return {!Element} The td DOM element representing the separator.
    */
   addSeparatorTab(id) {
     // From wfactory_view.js:addSeparatorTab(id)

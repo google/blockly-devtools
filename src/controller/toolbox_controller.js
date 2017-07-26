@@ -41,16 +41,10 @@ class ToolboxController {
     this.projectController = projectController;
 
     /**
-     * Keeps track of which toolbox is currently being edited.
-     * @type {!Toolbox}
-     */
-    this.currentToolbox = new Toolbox('MyFirstToolbox');
-
-    /**
      * ToolboxEditorView associated with this instance of ToolboxController.
      * @type {!ToolboxEditorView}
      */
-    this.view = new ToolboxEditorView(this.currentToolbox);
+    this.view = new ToolboxEditorView(new Toolbox('MyFirstToolbox'));
 
     /**
      * Keeps track of association between ListElement ID and the DOM element
@@ -73,7 +67,7 @@ class ToolboxController {
     this.hiddenWorkspace = hiddenWorkspace;
 
     // Adds current toolbox to model.
-    this.projectController.addToolbox(this.currentToolbox);
+    this.projectController.addToolbox(this.view.toolbox);
 
     // Initialize event handlers and listeners for the view.
     this.view.init(this);
@@ -92,8 +86,7 @@ class ToolboxController {
     }
 
     // Transfers flyout blocks to category if creating the first category.
-    if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT &&
-        this.view.editorWorkspace.getAllBlocks().length > 0) {
+    if (this.shouldTransferFlyout_()) {
       // Transfers the user's blocks to a flyout if it's the first category created.
       this.transferFlyoutBlocksToCategory();
     }
@@ -137,12 +130,23 @@ class ToolboxController {
   transferFlyoutBlocksToCategory() {
     // REFACTORED: Moved in from wfactory_controller.js
     const id = this.createCategory('Category 1');
-    this.currentToolbox.setSelected(id);
-    this.currentToolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
+    this.view.toolbox.setSelected(id);
+    this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
     this.view.selectTab(id, true);
     this.view.toolbox.setXml(this.generateToolboxXml()); // bm
 
     this.updatePreview();
+  }
+
+  /**
+   * Returns whether the toolbox (currently being edited) is a flyout and has
+   * blocks within the flyout. Used to determine whether to transfer the flyout
+   * blocks to a category when a user adds a new category for the first time.
+   * @private
+   */
+  shouldTransferFlyout_() {
+    return this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT &&
+        this.view.editorWorkspace.getAllBlocks().length > 0;
   }
 
   /**
@@ -192,6 +196,9 @@ class ToolboxController {
       this.view.editorWorkspace.clearUndo();
       toolbox.clear();
     }
+
+    // Update toolbox model.
+    this.view.toolbox.setXml(this.generateToolboxXml());
     // Update preview.
     this.updatePreview();
   }
@@ -203,8 +210,7 @@ class ToolboxController {
     // From wfactory_controller.js:addSeparator()
     // If adding the first element in the toolbox, transfers the user's blocks
     // in a flyout to a category.
-    if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT &&
-        this.view.editorWorkspace.getAllBlocks().length > 0) {
+    if (this.shouldTransferFlyout_()) {
       // Transfers the user's blocks to a flyout if it's the first category created.
       this.transferFlyoutBlocksToCategory();
     }
@@ -340,7 +346,7 @@ class ToolboxController {
     this.categoryTabs = {};
 
     // Clears model
-    this.currentToolbox.clearCategoryList();
+    this.view.toolbox.clearCategoryList();
 
     // Clears view elements
     this.view.clearElements();
@@ -1120,8 +1126,8 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
       this.view.editorWorkspace.cleanUp();
 
       // Update category editing buttons.
-      this.view.updateState(this.view.toolbox.getIndexById
-          (this.view.toolbox.getSelectedId()), this.view.toolbox.getSelected());
+      this.view.updateState(this.view.toolbox.getIndexById(this.view.toolbox.getSelectedId()),
+          this.view.toolbox.getSelected());
     } else {
       // Update category editing buttons for no categories.
       this.view.updateState(-1, null);
