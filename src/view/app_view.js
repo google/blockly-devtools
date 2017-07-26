@@ -138,6 +138,16 @@ class AppView {
     // Show the current view.
     this.currentView.show(this.currentView.blockDefinition.type());
 
+    // TODO: reorganize/change listeners to reflect new DevTools
+    // Assign general app button click handlers
+    this.assignClickHandlers();
+
+    /**
+     * Whether or not the flyout for the add button is open.
+     * @type {boolean}
+     */
+    this.addFlyoutOpen = false;
+
     // Assigning event handlers and listeners for application.
     this.init();
   }
@@ -376,8 +386,7 @@ class AppView {
    */
   init() {
     this.tabClickHandlers_();
-    this.assignLibraryClickHandlers();
-    this.assignBlockFactoryClickHandlers();
+    this.assignClickHandlers();
     this.addBlockFactoryEventListeners();
   }
 
@@ -407,52 +416,35 @@ class AppView {
     });
   }
 
-  /**
-   * Assign button click handlers for the block library.
+  /*
+   * Collapse the add button flyout by changing the class name of the division.
+   * @private
    */
-  assignLibraryClickHandlers() {
-    // REFACTORED: Moved in from app_controller.js
-    // Button for saving block to library.
-    $('#saveToBlockLibraryButton').click(() => {
-      console.log('rewire app_view.js assignLibraryClickHandlers');
-    });
+  closeAddFlyout_() {
+    const opt = document.getElementById('addOptions');
+    this.addFlyoutOpen = false;
+    opt.className = '';
+  }
 
-    // Button for removing selected block from library.
-    $('#removeBlockFromLibraryButton').click(() => {
-      console.log('rewire app_view.js assignLibraryClickHandlers');
-    });
-
-    // Button for clearing the block library.
-    $('#clearBlockLibraryButton').click(() => {
-      console.log('rewire app_view.js assignLibraryClickHandlers');
-    });
+  /*
+   * Expand the add button flyout by changing the class name of the division.
+   * @private
+   */
+  openAddFlyout_() {
+    const opt = document.getElementById('addOptions');
+    this.addFlyoutOpen = true;
+    opt.className = 'expanded';
   }
 
   /**
-   * Assign button click handlers for the block factory.
+   * Assigns button click handlers for the general app interface.
    */
-  assignBlockFactoryClickHandlers() {
-    // TODO: Move in from app_controller.js
-    // Assign button event handlers for Block Factory.
-    $('#localSaveButton').click(() => {
-      this.exportBlockLibraryToFile();
-    });
-
-    $('#helpButton').click(() => {
-      open('https://developers.google.com/blockly/custom-blocks/block-factory',
-          'BlockFactoryHelp');
-    });
-
-    $('#files').click(() => {
-      // Warn user.
-      var replace = confirm('This imported block library will ' +
-          'replace your current block library.');
-      if (replace) {
-       this.importBlockLibraryFromFile();
-        // Clear this so that the change event still fires even if the
-        // same file is chosen again. If the user re-imports a file, we
-        // want to reload the workspace with its contents.
-        this.value = null;
+  assignClickHandlers() {
+    $('#addButton').click(() => {
+      if (this.addFlyoutOpen) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
       }
     });
 
