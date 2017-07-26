@@ -156,15 +156,18 @@ class Toolbox extends Resource {
    * @param {number} index The index of the list element to delete.
    */
   deleteElement(index) {
-    /*
-     * TODO: Move in from wfactory_model.js:deleteElementFromList(index)
-     *
-     * References:
-     * - this.toolboxList
-     * - this.hasVariableCategory
-     * - this.hasProcedureCategory
-     */
-    throw 'Unimplemented: deleteElement()';
+    // From wfactory_model.js:deleteElementFromList(index)
+    // Check if index is out of bounds.
+    if (index < 0 || index >= this.categoryList.length) {
+      return; // No entry to delete.
+    }
+    // Check if need to update flags.
+    this.hasVariableCategory = this.categoryList[index].custom == 'VARIABLE' ?
+        false : this.hasVariableCategory;
+    this.hasProcedureCategory = this.categoryList[index].custom == 'PROCEDURE' ?
+        false : this.hasProcedureCategory;
+    // Remove element.
+    this.categoryList.splice(index, 1);
   }
 
   /**
@@ -191,7 +194,7 @@ class Toolbox extends Resource {
   /**
    * Given the ID of a list element, returns that ListElement object.
    * @param {string} id The ID of element to search for.
-   * @return {ListElement} Corresponding ListElement object in toolboxList, or
+   * @return {?ListElement} Corresponding ListElement object in toolboxList, or
    *     null if that element does not exist.
    */
   getElementById(id) {
@@ -321,26 +324,6 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Creates a single empty category if there are no categories left in toolbox.
-   * Called when user manually removes all categories in a toolbox. Sets this.selected
-   * field to point to the empty category.
-   */
-  createDefaultSelectedIfEmpty() {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - this.toolboxList
-     * - this.flyout
-     * - ListElement
-     * - this.selected
-     */
-    throw 'Unimplemented: createDefaultSelectedIfEmpty()';
-
-    // TODO: Rename function to be more clear/readable.
-  }
-
-  /**
    * Class for a ListElement
    * Adds a shadow block to the list of shadow blocks.
    * @param {string} blockId The unique ID of block to be added.
@@ -430,7 +413,7 @@ class Toolbox extends Resource {
   /**
    * Determines if a category with the 'VARIABLE' tag exists.
    * @return {boolean} True if there exists a category with the Variables tag,
-   * false otherwise.
+   *     false otherwise.
    */
   hasVariables() {
     // Moved in from wfactory_model.js
@@ -440,7 +423,7 @@ class Toolbox extends Resource {
   /**
    * Determines if a category with the 'PROCEDURE' tag exists.
    * @return {boolean} True if there exists a category with the Procedures tag,
-   * false otherwise.
+   *     false otherwise.
    */
   hasProcedures() {
     // Moved in from wfactory_model.js
@@ -457,9 +440,12 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Clears the toolbox.
+   * Clears the toolbox and creates single empty flyout category.
    */
   clear() {
-    throw 'unimplemented: clear';
+    // From wfactory_model.js:createDefaultSelectedIfEmpty()
+    this.categoryList = [];
+    this.flyout = new ListElement(ListElement.TYPE_FLYOUT);
+    this.selected = this.flyout;
   }
 }

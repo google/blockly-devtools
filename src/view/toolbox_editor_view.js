@@ -200,7 +200,7 @@ class ToolboxEditorView {
      * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
      *       (Also moved into workspace_editor_view.js)
      */
-     console.warn('Unimplemented: initClickHandlers_()');
+    console.warn('Unimplemented: initClickHandlers_()');
   }
 
   /**
@@ -229,14 +229,26 @@ class ToolboxEditorView {
       this.openModal_ = null;
     });
 
+    // Listener for removing a category.
+    this.removeCategoryButton.addEventListener('click', () => {
+      controller.removeElement();
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+
     // Listener for adding a separator.
     this.addSeparatorButton.addEventListener('click', () => {
-      // TODO
+      controller.addCategorySeparator();
     });
 
     // Listener for importing the standard toolbox.
     this.standardToolboxButton.addEventListener('click', () => {
-      // TODO
+      controller.loadStandardToolbox();
+    });
+
+    // Listener for importing a standard category.
+    this.standardCategoryButton.addEventListener('click', () => {
+      controller.loadStandardCategory();
     });
   }
 
@@ -269,18 +281,19 @@ class ToolboxEditorView {
   }
 
   /**
-   * Switches a category tab on or off.
+   * Switches a category tab on or off. If tab is switched on, all other tabs
+   * are turned off.
    * @param {string} id ID of the tab to switch on or off.
-   * @param {boolean} selected True if tab should be on, false if tab should be
-   *     off.
+   * @param {boolean} opt_selected True if tab should be on, false if tab should be
+   *     off. Optional, assumed to be true if not passed in.
    */
-  selectTab(id, selected) {
+  selectTab(id, opt_selected) {
     // REFACTOR: Moved in from wfactory_view.js:setCategoryTabSelection(id, selected)
     const tab = this.tabMap[id];
     if (!tab) {
       return; // Exit if tab does not exist.
     }
-    if (selected) {
+    if (opt_selected) {
       $(tab).removeClass('taboff');
       tab.className = 'tabon';
     } else {
@@ -331,7 +344,7 @@ class ToolboxEditorView {
    * to/from separators where the user shouldn't be able to drag blocks into
    * the workspace.
    * @param {boolean} disable True if the workspace should be disabled, false
-   * if it should be enabled.
+   *     if it should be enabled.
    */
   disableWorkspace(disable) {
     // From wfactory_view.js:disableWorkspace(disable)
@@ -388,6 +401,49 @@ class ToolboxEditorView {
   }
 
   /**
+   * Deletes given element from the category-tab view.
+   * @param {string} id ID of element to remove.
+   * @param {number} index Index of element in category/element list.
+   */
+  deleteElementTab(id, index) {
+    // From wfactory_view.js:deleteElementRow(id, index)
+    // Delete tab entry.
+    delete this.tabMap[id];
+    // Delete tab row.
+    const table = document.getElementById('categoryTable');
+    const count = table.rows.length;
+    table.deleteRow(index);
+
+    // If last category removed, add category help text and disable category
+    // buttons.
+    this.addEmptyToolboxMessage();
+  }
+
+  /**
+   * Given a separator ID, creates a corresponding tab in the view, updates
+   * tab map, and returns the tab.
+   * @param {string} id The ID of the separator.
+   * @return {!Element} The td DOM element representing the separator.
+   */
+  addSeparatorTab(id) {
+    // From wfactory_view.js:addSeparatorTab(id)
+    const table = document.getElementById('categoryTable');
+    const count = table.rows.length;
+
+    if (count == 0) {
+      document.getElementById('categoryHeader').textContent = 'Your categories:';
+    }
+    // Create separator.
+    const row = table.insertRow(count);
+    const nextEntry = row.insertCell(0);
+    // Configure separator.
+    nextEntry.style.height = '10px';
+    // Store and return separator.
+    this.tabMap[id] = table.rows[count].cells[0];
+    return nextEntry;
+  }
+
+  /**
    * Used to bind a click to a certain DOM element (used for category tabs).
    * Taken directly from code.js
    * @param {string|!Element} el Tab element or corresponding ID string.
@@ -406,10 +462,12 @@ class ToolboxEditorView {
    * Toolbox or when user manually deletes all categories in their Toolbox.
    */
   addEmptyToolboxMessage() {
-    /*
-     * TODO: Move in from wfactory_view.js:addEmptyCategoryMessage()
-     */
-    console.warn('Unimplemented: addEmptyToolboxMessage()');
+    // From wfactory_view.js:addEmptyCategoryMessage()
+    const table = document.getElementById('categoryTable');
+    if (!table.rows.length) {
+      document.getElementById('categoryHeader').textContent =
+          'You currently have no categories.';
+    }
   }
 
   /**
