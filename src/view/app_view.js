@@ -71,9 +71,8 @@ class AppView {
      * The workspace view for the session.
      * @type {!WorkspaceEditorView}
      */
-    this.workspaceEditorView = new WorkspaceEditorView(
-        new WorkspaceContents('workspace_contents_name'),
-        new WorkspaceConfiguration('default'));
+    this.workspaceEditorView =
+        this.appController.editorController.workspaceController.view;
 
     // Initializes menu structure. Leaf nodes are actionable MenuItems.
     const menuTree = [
@@ -129,17 +128,6 @@ class AppView {
      * @type {!HtmlElement}
      */
     this.win.menu = this.mainMenu;
-
-    /**
-     * Div ID of currently open modal. Modals are usually dropdown elements.
-     * @type {?string}
-     * @private
-     * Moved in from app_controller.js
-     */
-    // TODO: Separate modal management into each editor (block definition editor,
-    //       toolbox editor, workspace editor) instead of managing/tracking all
-    //       dropdowns in AppView.
-    this.modalName_ = null;
 
     /**
      * Keeps track of which view is currently active.
@@ -359,7 +347,7 @@ class AppView {
    *
    * @param {string} label Name of MenuItem to enable/disable.
    * @param {boolean} enable Whether to enable or disable the MenuItem (true is
-   * to enable).
+   *     to enable).
    */
   enableMenuItem(label, enable) {
     this.menuItems[label].enabled = enable;

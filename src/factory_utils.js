@@ -1272,3 +1272,25 @@ FactoryUtils.closeModal = function(id) {
   modal.hide();
   $('#modalShadow').hide();
 };
+
+/**
+ * If given checkbox is checked, enable the given elements.  Otherwise, disable.
+ * @param {boolean} enabled True if enabled, false otherwise.
+ * @param {!Array.<string>} idArray Array of element IDs to enable when
+ *     checkbox is checked.
+ */
+FactoryUtils.ifCheckedEnable = function(enabled, idArray) {
+  // From app_controller.js:ifCheckedEnable()
+  for (let id of idArray) {
+    let element = document.getElementById(id);
+    if (enabled) {
+      element.classList.remove('disabled');
+    } else {
+      element.classList.add('disabled');
+    }
+    let fields = element.querySelectorAll('input, textarea, select');
+    for (let field of fields) {
+      field.disabled = !enabled;
+    }
+  }
+};
