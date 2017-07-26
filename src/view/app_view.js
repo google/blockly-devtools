@@ -437,8 +437,8 @@ class AppView {
     });
 
     $('#addButton').click(() => {
-      var add = document.getElementById('addButton');
-      var opt = document.getElementById('addOptions');
+      const add = document.getElementById('addButton');
+      const opt = document.getElementById('addOptions');
       /*
        * Collapse the options by changing the class name of the division, set up
        * listener for expanding.
