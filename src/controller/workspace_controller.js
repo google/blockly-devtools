@@ -338,7 +338,7 @@ class WorkspaceController {
    */
   readOptions_() {
     // From wfactory_controller.js
-    var optionsObj = Object.create(null);
+    const optionsObj = Object.create(null);
 
     // Add all standard options to the options object.
     // Use parse int to get numbers from value inputs.
