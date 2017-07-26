@@ -161,10 +161,10 @@ button, .buttonStyle {
 #addOptions {
   position: absolute;
   width:200px;
-  height:200px;
+  height:350px;
   left:50px;
   bottom:75px;
-  background-color: #f442f1;
+  background-color: #e8f1ff;
   visibility: hidden;
 }
 

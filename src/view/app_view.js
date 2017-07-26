@@ -434,20 +434,30 @@ class AppView {
     });
 
     $('#addButton').click(() => {
-    var add = document.getElementById('addButton');
-    var opt = document.getElementById('addOptions');
-      function collapse(e) {
+      var add = document.getElementById('addButton');
+      var opt = document.getElementById('addOptions');
+      /*
+       * Collapse the options by changing the class name of the division, set up
+       * listener for expanding.
+       */
+      function collapse() {
         opt.className='';
         add.removeEventListener('click', collapse);
         add.addEventListener('click', expand);
       }
-      function expand(e) {
+      /*
+       * Expand the options by changing the class name of the division, set up
+       * listener for collapsing.
+       */
+      function expand() {
         opt.className= 'expanded';
         add.removeEventListener('click',expand);
         add.addEventListener('click', collapse);
       }
+      // Upon click, the expand function is called.
       expand();
-    });
+      });
+    // TODO: define click handlers for the different addition options
   }
 
   /**
