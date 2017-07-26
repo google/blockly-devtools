@@ -426,7 +426,7 @@ class AppView {
   closeAddFlyout_() {
     const opt = document.getElementById('addOptions');
     this.addFlyoutOpen = false;
-    opt.className='';
+    opt.className = '';
   }
 
   /*
@@ -436,7 +436,7 @@ class AppView {
   openAddFlyout_() {
     const opt = document.getElementById('addOptions');
     this.addFlyoutOpen = true;
-    opt.className= 'expanded';
+    opt.className = 'expanded';
   }
 
   /**
@@ -444,7 +444,7 @@ class AppView {
    */
   assignClickHandlers() {
     $('#addButton').click(() => {
-      if(this.addFlyoutOpen == true) {
+      if (this.addFlyoutOpen) {
         this.closeAddFlyout_();
       } else {
         this.openAddFlyout_();
