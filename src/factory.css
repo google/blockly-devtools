@@ -221,7 +221,7 @@ button, .buttonStyle {
   width: 100%;
 }
 
-#wContentsDiv {
+#wsContentsDiv {
   height: 100%;
   width:100%;
 }
@@ -460,7 +460,7 @@ td.taboff:hover {
 
 /* Toolbox & Workspace Editor Workspace */
 
-#toolbox_section {
+#toolbox_section, #workspace_section {
   height: 85%;
   width: 60%;
 }
