@@ -152,9 +152,13 @@ class WorkspaceController {
    */
   clear() {
     // REFACTORED: Moved in (partially) from wfactory_controller.js:clearAll()
-    this.currentWorkspaceContents.setXml('<xml></xml>');
+    // Resets WS Contents
+    this.view.editorWorkspace.clear();
+    this.saveStateFromWorkspace();
+    // Resets WS Configs
     this.view.resetConfigs();
     this.generateNewOptions();
+
     this.updatePreview();
   }
 

@@ -145,33 +145,31 @@ class WorkspaceEditorView {
       Blockly.Events.enable();
     });
     this.initConfigListeners_(controller);
-    this.initEventListeners_(controller);
+    this.initClickHandlers_(controller);
     this.resetConfigs();
     controller.generateNewOptions();
   }
 
   /**
    * Assign click handlers for Workspace editor.
-   * @private
-   */
-  initClickHandlers_() {
-    /*
-     * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
-     *       (Also moved into toolbox_editor_view.js)
-     */
-     console.warn('Unimplemented: initClickHandlers_()');
-  }
-
-  /**
-   * Add event listeners for Workspace editor.
    * @param {!WorkspaceController} controller WorkspaceController that manages
    *     workspace resource elements on user input.
    * @private
    */
-  initEventListeners_(controller) {
-    // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
+  initClickHandlers_(controller) {
+    // From wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
     $('#button_standardOptions').click(() => {
       controller.setStandardOptionsAndUpdate();
+    });
+    $('#button_optionsHelp').click(() => {
+      open('https://developers.google.com/blockly/guides/get-started/web#configuration');
+    });
+    $('#button_clearWorkspace').click(() => {
+      this.editorWorkspace.clear();
+      if (confirm('Are you sure you would like to clear your workspace contents' +
+          ' and configurations?')) {
+        controller.clear();
+      }
     });
   }
 
@@ -325,7 +323,7 @@ WorkspaceEditorView.html = `
       </div>
     </div>
 
-    <button id="button_clear">Clear</button>
+    <button id="button_clearWorkspace">Clear</button>
 
     <span id="saved_message"></span>
   </p>
