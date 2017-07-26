@@ -153,9 +153,8 @@ class AppView {
     // Assigning event handlers and listeners for application.
     this.tabClickHandlers_();
 
-    // Assign button click handlers for the block factory.
     // TODO: reorganize/change listeners to reflect new DevTools
-    // Assign button click handlers
+    // Assign general app button click handlers
     this.assignClickHandlers();
 
     /**
