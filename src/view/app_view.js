@@ -157,6 +157,12 @@ class AppView {
     // TODO: reorganize/change listeners to reflect new DevTools
     // Assign button click handlers
     this.assignClickHandlers();
+
+    /**
+     * Whether or not the flyout for the add button is open.
+     * @type {boolean}
+     */
+    this.addFlyoutOpen = false;
   }
 
   /**
@@ -414,34 +420,37 @@ class AppView {
     });
   }
 
+  /*
+   * Collapse the add button flyout by changing the class name of the division.
+   * @private
+   */
+  closeAddFlyout_() {
+    const opt = document.getElementById('addOptions');
+    this.addFlyoutOpen = false;
+    opt.className='';
+  }
+
+  /*
+   * Expand the add button flyout by changing the class name of the division.
+   * @private
+   */
+  openAddFlyout_() {
+    const opt = document.getElementById('addOptions');
+    this.addFlyoutOpen = true;
+    opt.className= 'expanded';
+  }
+
   /**
    * Assigns button click handlers for the general app interface.
    */
   assignClickHandlers() {
     $('#addButton').click(() => {
-      const add = document.getElementById('addButton');
-      const opt = document.getElementById('addOptions');
-      /*
-       * Collapse the options by changing the class name of the division, set up
-       * listener for expanding.
-       */
-      function collapse() {
-        opt.className='';
-        add.removeEventListener('click', collapse);
-        add.addEventListener('click', expand);
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
       }
-      /*
-       * Expand the options by changing the class name of the division, set up
-       * listener for collapsing.
-       */
-      function expand() {
-        opt.className= 'expanded';
-        add.removeEventListener('click',expand);
-        add.addEventListener('click', collapse);
-      }
-      // Upon click, the expand function is called.
-      expand();
-      });
+    });
     // TODO: define click handlers for the different addition options
   }
 
