@@ -167,8 +167,8 @@ class ToolboxController {
     }
 
     // Check if user wants to remove current category.
-    const check = confirm('Are you sure you want to delete the currently selected '
-          + toolbox.getSelected().type + '?');
+    const check = window.confirm('Are you sure you want to delete the currently '
+          + 'selected ' + toolbox.getSelected().type + '?');
     if (!check) { // If cancelled, exit.
       return;
     }
@@ -193,8 +193,8 @@ class ToolboxController {
     // If no element to switch to, display message, clear the workspace, and
     // set a default selected element not in toolbox list in the model.
     if (!nextId) {
-      alert('You currently have no categories or separators. All your blocks' +
-          ' will be displayed in a single flyout.');
+      window.alert('You currently have no categories or separators. All your' +
+          ' blocks will be displayed in a single flyout.');
       this.view.editorWorkspace.clear();
       this.view.editorWorkspace.clearUndo();
       toolbox.clear();
