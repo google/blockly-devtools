@@ -68,7 +68,7 @@ class WorkspaceEditorView {
      * Blockly workspace where users define a group of WorkspaceContents.
      * @type {!Blockly.Workspace}
      */
-    this.editorWorkspace = Blockly.inject('wContentsDiv',
+    this.editorWorkspace = Blockly.inject('wsContentsDiv',
       {
         grid: {
           spacing: 25,
@@ -92,8 +92,7 @@ class WorkspaceEditorView {
           colour: '#ccc',
           snap: true
         },
-        media: 'media/',
-        toolbox: '<xml></xml>'
+        media: 'media/'
       });
   }
 
@@ -134,49 +133,143 @@ class WorkspaceEditorView {
   }
 
   /**
-   * Assign click handlers for Workspace editor.
-   * @private
+   * Initializes event handlers and listeners for the workspace editor.
+   * @param {!WorkspaceController} controller WorkspaceController that makes
+   *     changes to editor based upon user interaction with application.
+   * @package
    */
-  initClickHandlers_() {
-    /*
-     * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
-     *       (Also moved into toolbox_editor_view.js)
-     */
-     console.warn('Unimplemented: initClickHandlers_()');
+  init(controller) {
+    this.editorWorkspace.addChangeListener((event) => {
+      Blockly.Events.disable();
+      controller.onChange(event);
+      Blockly.Events.enable();
+    });
+    this.initConfigListeners_(controller);
+    this.initClickHandlers_(controller);
+    this.resetConfigs();
+    controller.generateNewOptions();
   }
 
   /**
-   * Add event listeners for Workspace editor.
+   * Assign click handlers for Workspace editor.
+   * @param {!WorkspaceController} controller WorkspaceController that manages
+   *     workspace resource elements on user input.
    * @private
    */
-  initEventListeners_() {
-    /*
-     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
-     *       (Also moved into toolbox_editor_view.js)
-     */
-    console.warn('Unimplemented: initEventListeners_()');
+  initClickHandlers_(controller) {
+    // From wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+    $('#button_standardOptions').click(() => {
+      controller.setStandardOptionsAndUpdate();
+    });
+    $('#button_optionsHelp').click(() => {
+      open('https://developers.google.com/blockly/guides/get-started/web#configuration');
+    });
+    $('#button_clearWorkspace').click(() => {
+      this.editorWorkspace.clear();
+      if (confirm('Are you sure you would like to clear your workspace contents' +
+          ' and configurations?')) {
+        controller.clear();
+      }
+    });
   }
 
   /**
    * Add listeners for Workspace editor input elements. Used for creating/editing
    * WorkspaceConfig objects.
+   * @param {!WorkspaceController} controller WorkspaceController that manages
+   *     workspace resource elements on user input.
    * @private
    */
-  initConfigListeners_() {
+  initConfigListeners_(controller) {
     /*
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryOptionsListeners_()
      */
-    console.warn('Unimplemented: initConfigListeners_()');
+    // Checking the grid checkbox displays grid options.
+    document.getElementById('option_grid_checkbox').addEventListener('change',
+        function(e) {
+          document.getElementById('grid_options').style.display =
+              document.getElementById('option_grid_checkbox').checked ?
+              'block' : 'none';
+        });
+
+    // Checking the zoom checkbox displays zoom options.
+    document.getElementById('option_zoom_checkbox').addEventListener('change',
+        function(e) {
+          document.getElementById('zoom_options').style.display =
+              document.getElementById('option_zoom_checkbox').checked ?
+              'block' : 'none';
+        });
+
+    // Checking the readonly checkbox enables/disables other options.
+    document.getElementById('option_readOnly_checkbox').addEventListener('change',
+      function(e) {
+        const checkbox = document.getElementById('option_readOnly_checkbox');
+        FactoryUtils.ifCheckedEnable(!checkbox.checked,
+            ['readonly1', 'readonly2']);
+      });
+
+      document.getElementById('option_infiniteBlocks_checkbox').addEventListener('change',
+      function(e) {
+        document.getElementById('maxBlockNumber_option').style.display =
+            document.getElementById('option_infiniteBlocks_checkbox').checked ?
+              'none' : 'block';
+      });
+
+    // Generate new options every time an options input is updated.
+    const div = document.getElementById('workspace_options');
+    const options = div.getElementsByTagName('input');
+    for (let option of options) {
+      option.addEventListener('change', () => {
+        controller.generateNewOptions();
+      });
+    }
   }
 
   /**
-   * Resets WorkspaceConfig checkboxes to default settings.
+   * Resets WorkspaceConfig checkboxes to default settings. Does not edit the
+   * model-side.
    */
   resetConfigs() {
-    /*
-     * TODO: Move in from wfactory_view.js:setBaseOptions()
-     */
-    console.warn('Unimplemented: resetConfigs()');
+    // From wfactory_view.js:setBaseOptions()
+    // Readonly mode.
+    document.getElementById('option_readOnly_checkbox').checked = false;
+    FactoryUtils.ifCheckedEnable(true, ['readonly1', 'readonly2']);
+
+    // Set basic options.
+    document.getElementById('option_css_checkbox').checked = true;
+    document.getElementById('option_maxBlocks_number').value = 100;
+    document.getElementById('option_media_text').value =
+        'https://blockly-demo.appspot.com/static/media/';
+    document.getElementById('option_rtl_checkbox').checked = false;
+    document.getElementById('option_sounds_checkbox').checked = true;
+    document.getElementById('option_oneBasedIndex_checkbox').checked = true;
+    document.getElementById('option_horizontalLayout_checkbox').checked = false;
+    document.getElementById('option_toolboxPosition_checkbox').checked = false;
+
+    // Check infinite blocks and hide suboption.
+    document.getElementById('option_infiniteBlocks_checkbox').checked = true;
+    document.getElementById('maxBlockNumber_option').style.display =
+        'none';
+
+    // Uncheck grid and zoom options and hide suboptions.
+    document.getElementById('option_grid_checkbox').checked = false;
+    document.getElementById('grid_options').style.display = 'none';
+    document.getElementById('option_zoom_checkbox').checked = false;
+    document.getElementById('zoom_options').style.display = 'none';
+
+    // Set grid options.
+    document.getElementById('gridOption_spacing_number').value = 20;
+    document.getElementById('gridOption_length_number').value = 1;
+    document.getElementById('gridOption_colour_text').value = '#888';
+    document.getElementById('gridOption_snap_checkbox').checked = false;
+
+    // Set zoom options.
+    document.getElementById('zoomOption_controls_checkbox').checked = true;
+    document.getElementById('zoomOption_wheel_checkbox').checked = true;
+    document.getElementById('zoomOption_startScale_number').value = 1.0;
+    document.getElementById('zoomOption_maxScale_number').value = 3;
+    document.getElementById('zoomOption_minScale_number').value = 0.3;
+    document.getElementById('zoomOption_scaleSpeed_number').value = 1.2;
   }
 
   /**
@@ -232,7 +325,7 @@ WorkspaceEditorView.html = `
       </div>
     </div>
 
-    <button id="button_clear">Clear</button>
+    <button id="button_clearWorkspace">Clear</button>
 
     <span id="saved_message"></span>
   </p>
@@ -241,10 +334,10 @@ WorkspaceEditorView.html = `
 <section id="createDiv">
   <div id="createHeader">
     <h3>Edit Workspace elements</h3>
-    <p id="editHelpText">Drag blocks into the workspace to configure the toolbox in your custom workspace.</p>
+    <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
   </div>
-  <section id="toolbox_section">
-    <div id="wContentsDiv"></div>
+  <section id="workspace_section">
+    <div id="wsContentsDiv"></div>
   </section>
 
   <button id="button_addShadow" style="display: none">Make Shadow</button>
@@ -302,8 +395,8 @@ WorkspaceEditorView.html = `
 <aside id="previewDiv">
   <div id="previewBorder">
     <div id="previewHelp">
-      <h3>Preview</h3>
-      <p>This is what your custom workspace will look like.</p>
+      <h3>Workspace Preview</h3>
+      <p>This is what your custom workspace will look like without your toolbox.</p>
     </div>
     <div id="workspacePreview" class="content"></div>
   </div>
