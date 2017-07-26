@@ -54,13 +54,13 @@ class WorkspaceController {
      * Keeps track of what WorkspaceContents is currently being edited.
      * @type {!WorkspaceContents}
      */
-    this.currentWorkspaceContents = new WorkspaceContents('WSContents');
+    this.currentWorkspaceContents = this.projectController.createWorkspaceContents('WSContents');
 
     /**
      * Keeps track of what WorkspaceConfig is currently being edited.
      * @type {!WorkspaceContents}
      */
-    this.currentWorkspaceConfig = new WorkspaceConfiguration('WSConfig');
+    this.currentWorkspaceConfig = this.projectController.createWorkspaceConfiguration('WSConfig');
 
     /**
      * WorkspaceEditorView associated with this instance of WorkspaceController.
