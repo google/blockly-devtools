@@ -92,8 +92,7 @@ class WorkspaceEditorView {
           colour: '#ccc',
           snap: true
         },
-        media: 'media/',
-        toolbox: DevToolsToolboxes.toolboxEditor([])
+        media: 'media/'
       });
   }
 
@@ -140,7 +139,7 @@ class WorkspaceEditorView {
    * @package
    */
   init(controller) {
-    console.log('init() called.'); debugger;
+    console.log('init() called.');
     this.editorWorkspace.addChangeListener((event) => {
       debugger;
       console.log('change detected...');
@@ -150,6 +149,7 @@ class WorkspaceEditorView {
       console.log('Aha! A change!');
     });
     console.log('init() finished.');
+    this.initConfigListeners_(controller);
   }
 
   /**
@@ -175,7 +175,9 @@ class WorkspaceEditorView {
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryEventListeners_()
      *       (Also moved into toolbox_editor_view.js)
      */
-    console.warn('Unimplemented: initEventListeners_()');
+    $('#button_standardOptions').click(() => {
+      controller.setStandardOptionsAndUpdate();
+    });
   }
 
   /**
@@ -183,21 +185,96 @@ class WorkspaceEditorView {
    * WorkspaceConfig objects.
    * @private
    */
-  initConfigListeners_() {
+  initConfigListeners_(controller) {
     /*
      * TODO: Move in from wfactory_init.js:addWorkspaceFactoryOptionsListeners_()
      */
-    console.warn('Unimplemented: initConfigListeners_()');
+    // Checking the grid checkbox displays grid options.
+    document.getElementById('option_grid_checkbox').addEventListener('change',
+        function(e) {
+          document.getElementById('grid_options').style.display =
+              document.getElementById('option_grid_checkbox').checked ?
+              'block' : 'none';
+        });
+
+    // Checking the zoom checkbox displays zoom options.
+    document.getElementById('option_zoom_checkbox').addEventListener('change',
+        function(e) {
+          document.getElementById('zoom_options').style.display =
+              document.getElementById('option_zoom_checkbox').checked ?
+              'block' : 'none';
+        });
+
+    // Checking the readonly checkbox enables/disables other options.
+    document.getElementById('option_readOnly_checkbox').addEventListener('change',
+      function(e) {
+        const checkbox = document.getElementById('option_readOnly_checkbox');
+        FactoryUtils.ifCheckedEnable(!checkbox.checked,
+            ['readonly1', 'readonly2']);
+      });
+
+      document.getElementById('option_infiniteBlocks_checkbox').addEventListener('change',
+      function(e) {
+        document.getElementById('maxBlockNumber_option').style.display =
+            document.getElementById('option_infiniteBlocks_checkbox').checked ?
+              'none' : 'block';
+      });
+
+    // Generate new options every time an options input is updated.
+    const div = document.getElementById('workspace_options');
+    const options = div.getElementsByTagName('input');
+    for (let option of options) {
+      option.addEventListener('change', () => {
+        controller.generateNewOptions();
+      });
+    }
   }
 
   /**
-   * Resets WorkspaceConfig checkboxes to default settings.
+   * Resets WorkspaceConfig checkboxes to default settings. Does not edit the
+   * model-side.
    */
   resetConfigs() {
-    /*
-     * TODO: Move in from wfactory_view.js:setBaseOptions()
-     */
-    console.warn('Unimplemented: resetConfigs()');
+    // From wfactory_view.js:setBaseOptions()
+    // Readonly mode.
+    document.getElementById('option_readOnly_checkbox').checked = false;
+    FactoryUtils.ifCheckedEnable(true, ['readonly1', 'readonly2']);
+
+    // Set basic options.
+    document.getElementById('option_css_checkbox').checked = true;
+    document.getElementById('option_maxBlocks_number').value = 100;
+    document.getElementById('option_media_text').value =
+        'https://blockly-demo.appspot.com/static/media/';
+    document.getElementById('option_rtl_checkbox').checked = false;
+    document.getElementById('option_sounds_checkbox').checked = true;
+    document.getElementById('option_oneBasedIndex_checkbox').checked = true;
+    document.getElementById('option_horizontalLayout_checkbox').checked = false;
+    document.getElementById('option_toolboxPosition_checkbox').checked = false;
+
+    // Check infinite blocks and hide suboption.
+    document.getElementById('option_infiniteBlocks_checkbox').checked = true;
+    document.getElementById('maxBlockNumber_option').style.display =
+        'none';
+
+    // Uncheck grid and zoom options and hide suboptions.
+    document.getElementById('option_grid_checkbox').checked = false;
+    document.getElementById('grid_options').style.display = 'none';
+    document.getElementById('option_zoom_checkbox').checked = false;
+    document.getElementById('zoom_options').style.display = 'none';
+
+    // Set grid options.
+    document.getElementById('gridOption_spacing_number').value = 20;
+    document.getElementById('gridOption_length_number').value = 1;
+    document.getElementById('gridOption_colour_text').value = '#888';
+    document.getElementById('gridOption_snap_checkbox').checked = false;
+
+    // Set zoom options.
+    document.getElementById('zoomOption_controls_checkbox').checked = true;
+    document.getElementById('zoomOption_wheel_checkbox').checked = true;
+    document.getElementById('zoomOption_startScale_number').value = 1.0;
+    document.getElementById('zoomOption_maxScale_number').value = 3;
+    document.getElementById('zoomOption_minScale_number').value = 0.3;
+    document.getElementById('zoomOption_scaleSpeed_number').value = 1.2;
   }
 
   /**
@@ -264,7 +341,7 @@ WorkspaceEditorView.html = `
     <h3>Edit Workspace elements</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
   </div>
-  <section id="toolbox_section">
+  <section id="workspace_section">
     <div id="wsContentsDiv"></div>
   </section>
 

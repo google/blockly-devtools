@@ -453,6 +453,11 @@ td.taboff:hover {
   width: 60%;
 }
 
+#workspace_section {
+  height: 85%;
+  width: 60%;
+}
+
 #previewHelp {
   padding: 10px;
   width: 98%;

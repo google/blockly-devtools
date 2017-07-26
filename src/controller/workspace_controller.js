@@ -83,7 +83,7 @@ class WorkspaceController {
     this.hiddenWorkspace = hiddenWorkspace;
 
     // Initializes view's event listeners/handlers.
-    // this.view.init(this);
+    this.view.init(this);
   }
 
   /**
@@ -106,20 +106,17 @@ class WorkspaceController {
    * Used to completely reinject the contents/config preview. Used only
    * when switching from simple flyout to categories, or categories to simple
    * flyout. More expensive than simply updating flyout or toolbox.
-   *
-   * @param {!Element} Tree of XML elements
    * @package
    */
-  reinjectPreview(tree) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *       (Also moved into: toolbox_controller.js)
-     *
-     * References:
-     * - readOptions_()
-     * - generateWorkspaceXml()
-     */
-    console.warn('Unimplemented: reinjectPreview()');
+  reinjectPreview() {
+    // From wfactory_controller.js:reinjectPreview(tree)
+    this.previewWorkspace.dispose();
+    const injectOptions = this.view.workspaceConfig.options;
+    injectOptions['toolbox'] = '<xml></xml>';
+
+    this.view.previewWorkspace = Blockly.inject('workspacePreview', injectOptions);
+    Blockly.Xml.domToWorkspace(
+        this.view.workspaceContents.getXml(), this.view.previewWorkspace);
   }
 
   /**
@@ -318,16 +315,9 @@ class WorkspaceController {
    * are present.
    */
   setStandardOptionsAndUpdate() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - setBaseOptions()
-     * - setCategoryOptions()
-     * - hasElements()
-     * - generateNewOptions()
-     */
-    throw 'Unimplemented: setStandardOptionsAndUpdate()';
+    // From wfactory_controller.js:setStandardOptionsAndUpdate()
+    this.view.resetConfigs();
+    this.generateNewOptions();
   }
 
   /**
@@ -337,21 +327,15 @@ class WorkspaceController {
    * and reinjects the preview workspace.
    */
   generateNewOptions() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - setOptions()
-     * - readOptions_()
-     * - reinjectPreview()
-     * - generateToolboxXml()
-     */
+    // From wfactory_controller.js:generateNewOptions()
 
     // TODO: Add popup for workspace config so that preview is updated only when
     //       creating a new WorkspaceConfig object in completion, or when user
     //       clicks on an already defined WorkspaceConfig object in list.
     //       See Design Doc for more info.
-    throw 'Unimplemented: generateNewOptions()';
+
+    this.view.workspaceConfig.setOptions(this.readOptions_());
+    this.reinjectPreview();
   }
 
   /**
@@ -361,13 +345,93 @@ class WorkspaceController {
    * @private
    */
   readOptions_() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - user input (no other relevant DevTools fcn's)
-     */
-    throw 'Unimplemented: readOptions_()';
+    // From wfactory_controller.js
+    var optionsObj = Object.create(null);
+
+    // Add all standard options to the options object.
+    // Use parse int to get numbers from value inputs.
+    var readonly = document.getElementById('option_readOnly_checkbox').checked;
+    if (readonly) {
+      optionsObj['readOnly'] = true;
+    } else {
+      optionsObj['collapse'] =
+          document.getElementById('option_collapse_checkbox').checked;
+      optionsObj['comments'] =
+          document.getElementById('option_comments_checkbox').checked;
+      optionsObj['disable'] =
+          document.getElementById('option_disable_checkbox').checked;
+      if (document.getElementById('option_infiniteBlocks_checkbox').checked) {
+        optionsObj['maxBlocks'] = Infinity;
+      } else {
+        var maxBlocksValue =
+            document.getElementById('option_maxBlocks_number').value;
+        optionsObj['maxBlocks'] = typeof maxBlocksValue == 'string' ?
+            parseInt(maxBlocksValue) : maxBlocksValue;
+      }
+      optionsObj['trashcan'] =
+          document.getElementById('option_trashcan_checkbox').checked;
+      optionsObj['horizontalLayout'] =
+          document.getElementById('option_horizontalLayout_checkbox').checked;
+      optionsObj['toolboxPosition'] =
+          document.getElementById('option_toolboxPosition_checkbox').checked ?
+          'end' : 'start';
+    }
+
+    optionsObj['css'] = document.getElementById('option_css_checkbox').checked;
+    optionsObj['media'] = document.getElementById('option_media_text').value;
+    optionsObj['rtl'] = document.getElementById('option_rtl_checkbox').checked;
+    optionsObj['scrollbars'] =
+        document.getElementById('option_scrollbars_checkbox').checked;
+    optionsObj['sounds'] =
+        document.getElementById('option_sounds_checkbox').checked;
+    optionsObj['oneBasedIndex'] =
+        document.getElementById('option_oneBasedIndex_checkbox').checked;
+
+    // If using a grid, add all grid options.
+    if (document.getElementById('option_grid_checkbox').checked) {
+      var grid = Object.create(null);
+      var spacingValue =
+          document.getElementById('gridOption_spacing_number').value;
+      grid['spacing'] = typeof spacingValue == 'string' ?
+          parseInt(spacingValue) : spacingValue;
+      var lengthValue = document.getElementById('gridOption_length_number').value;
+      grid['length'] = typeof lengthValue == 'string' ?
+          parseInt(lengthValue) : lengthValue;
+      grid['colour'] = document.getElementById('gridOption_colour_text').value;
+      if (!readonly) {
+        grid['snap'] =
+          document.getElementById('gridOption_snap_checkbox').checked;
+      }
+      optionsObj['grid'] = grid;
+    }
+
+    // If using zoom, add all zoom options.
+    if (document.getElementById('option_zoom_checkbox').checked) {
+      var zoom = Object.create(null);
+      zoom['controls'] =
+          document.getElementById('zoomOption_controls_checkbox').checked;
+      zoom['wheel'] =
+          document.getElementById('zoomOption_wheel_checkbox').checked;
+      var startScaleValue =
+          document.getElementById('zoomOption_startScale_number').value;
+      zoom['startScale'] = typeof startScaleValue == 'string' ?
+          parseFloat(startScaleValue) : startScaleValue;
+      var maxScaleValue =
+          document.getElementById('zoomOption_maxScale_number').value;
+      zoom['maxScale'] = typeof maxScaleValue == 'string' ?
+          parseFloat(maxScaleValue) : maxScaleValue;
+      var minScaleValue =
+          document.getElementById('zoomOption_minScale_number').value;
+      zoom['minScale'] = typeof minScaleValue == 'string' ?
+          parseFloat(minScaleValue) : minScaleValue;
+      var scaleSpeedValue =
+          document.getElementById('zoomOption_scaleSpeed_number').value;
+      zoom['scaleSpeed'] = typeof scaleSpeedValue == 'string' ?
+          parseFloat(scaleSpeedValue) : scaleSpeedValue;
+      optionsObj['zoom'] = zoom;
+    }
+
+    return optionsObj;
   }
 
   /**
