@@ -450,9 +450,107 @@ class AppView {
         this.openAddFlyout_();
       }
     });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
     // TODO: define click handlers for the different addition options
   }
 
+  /**
+   * Assigns button click handlers for the general app interface.
+   */
+  assign() {
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+    $('#addButton').click(() => {
+      if(this.addFlyoutOpen == true) {
+        this.closeAddFlyout_();
+      } else {
+        this.openAddFlyout_();
+      }
+    });
+
+    // TODO: define click handlers for the different addition options
+  }
   /**
    * Add event listeners for the block factory.
    */
