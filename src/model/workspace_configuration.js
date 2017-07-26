@@ -134,7 +134,8 @@ class WorkspaceConfiguration extends Resource {
 
   document.onload = function() {
     /* Inject your workspace */
-    var workspace = Blockly.inject(/* TODO: Add ID of div to inject Blockly into */, BLOCKLY_OPTIONS);
+    /* TODO: Add ID of div to inject Blockly into */
+    var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);
   };
   `;
     return finalStr;
