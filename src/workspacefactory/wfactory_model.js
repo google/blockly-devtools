@@ -64,6 +64,8 @@ WorkspaceFactoryModel = function() {
   //
 };
 
+// SOME FUNCTIONS FROM THIS FILE HAVE BEEN REMOVED THROUGH THE REFACTORING PROCESS.
+
 /**
  * Given a name, determines if it is the name of a category already present.
  * Used when getting a valid category name from the user.
@@ -105,22 +107,6 @@ WorkspaceFactoryModel.prototype.hasProcedures = function() {
  */
 WorkspaceFactoryModel.prototype.hasElements = function() {
   return this.toolboxList.length > 0;
-};
-
-/**
- * Given a ListElement, adds it to the toolbox list.
- * @param {!ListElement} element The element to be added to the list.
- */
-WorkspaceFactoryModel.prototype.addElementToList = function(element) {
-  // Update state if the copied category has a custom tag.
-  this.hasVariableCategory = element.custom == 'VARIABLE' ? true :
-      this.hasVariableCategory;
-  this.hasProcedureCategory = element.custom == 'PROCEDURE' ? true :
-      this.hasProcedureCategory;
-  // Add element to toolboxList.
-  this.toolboxList.push(element);
-  // Empty single flyout.
-  this.flyout = null;
 };
 
 /**
@@ -175,116 +161,6 @@ WorkspaceFactoryModel.prototype.moveElementToIndex = function(element, newIndex,
 };
 
 /**
- * Returns the ID of the currently selected element. Returns null if there are
- * no categories (if selected == null).
- * @return {string} The ID of the element currently selected.
- */
-WorkspaceFactoryModel.prototype.getSelectedId = function() {
-  return this.selected ? this.selected.id : null;
-};
-
-/**
- * Returns the name of the currently selected category. Returns null if there
- * are no categories (if selected == null) or the selected element is not
- * a category (in which case its name is null).
- * @return {string} The name of the category currently selected.
- */
-WorkspaceFactoryModel.prototype.getSelectedName = function() {
-  return this.selected ? this.selected.name : null;
-};
-
-/**
- * Returns the currently selected list element object.
- * @return {ListElement} The currently selected ListElement
- */
-WorkspaceFactoryModel.prototype.getSelected = function() {
-  return this.selected;
-};
-
-/**
- * Sets list element currently selected by id.
- * @param {string} id ID of list element that should now be selected.
- */
-WorkspaceFactoryModel.prototype.setSelectedById = function(id) {
-  this.selected = this.getElementById(id);
-};
-
-/**
- * Given an ID of a list element, returns the index of that list element in
- * toolboxList. Returns -1 if ID is not present.
- * @param {string} id The ID of list element to search for.
- * @return {number} The index of the list element in toolboxList, or -1 if it
- * doesn't exist.
- */
-WorkspaceFactoryModel.prototype.getIndexByElementId = function(id) {
-  for (var i = 0; i < this.toolboxList.length; i++) {
-    if (this.toolboxList[i].id == id) {
-      return i;
-    }
-  }
-  return -1;  // ID not present in toolboxList.
-};
-
-/**
- * Given the ID of a list element, returns that ListElement object.
- * @param {string} id The ID of element to search for.
- * @return {ListElement} Corresponding ListElement object in toolboxList, or
- *     null if that element does not exist.
- */
-WorkspaceFactoryModel.prototype.getElementById = function(id) {
-  for (var i = 0; i < this.toolboxList.length; i++) {
-    if (this.toolboxList[i].id == id) {
-      return this.toolboxList[i];
-    }
-  }
-  return null;  // ID not present in toolboxList.
-};
-
-/**
- * Given the index of a list element in toolboxList, returns that ListElement
- * object.
- * @param {number} index The index of the element to return.
- * @return {ListElement} The corresponding ListElement object in toolboxList.
- */
-WorkspaceFactoryModel.prototype.getElementByIndex = function(index) {
-  if (index < 0 || index >= this.toolboxList.length) {
-    return null;
-  }
-  return this.toolboxList[index];
-};
-
-/**
- * Returns the XML to load the selected element.
- * @return {!Element} The XML of the selected element, or null if there is
- * no selected element.
- */
-WorkspaceFactoryModel.prototype.getSelectedXml = function() {
-  return this.selected ? this.selected.xml : null;
-};
-
-/**
- * Return ordered list of ListElement objects.
- * @return {!Array.<!ListElement>} ordered list of ListElement objects
- */
-WorkspaceFactoryModel.prototype.getToolboxList = function() {
-  return this.toolboxList;
-};
-
-/**
- * Gets the ID of a category given its name.
- * @param {string} name Name of category.
- * @return {number} ID of category
- */
-WorkspaceFactoryModel.prototype.getCategoryIdByName = function(name) {
-  for (var i = 0; i < this.toolboxList.length; i++) {
-    if (this.toolboxList[i].name == name) {
-      return this.toolboxList[i].id;
-    }
-  }
-  return null;  // Name not present in toolboxList.
-};
-
-/**
  * Clears the toolbox list, deleting all ListElements.
  */
 WorkspaceFactoryModel.prototype.clearToolboxList = function() {
@@ -331,24 +207,6 @@ WorkspaceFactoryModel.prototype.isShadowBlock = function(blockId) {
     }
   }
   return false;
-};
-
-/**
- * Given a set of blocks currently loaded, returns all blocks in the workspace
- * that are user generated shadow blocks.
- * @param {!<Blockly.Block>} blocks Array of blocks currently loaded.
- * @return {!<Blockly.Block>} Array of user-generated shadow blocks currently
- *   loaded.
- */
-WorkspaceFactoryModel.prototype.getShadowBlocksInWorkspace =
-    function(workspaceBlocks) {
-  var shadowsInWorkspace = [];
-  for (var i = 0; i < workspaceBlocks.length; i++) {
-    if (this.isShadowBlock(workspaceBlocks[i].id)) {
-      shadowsInWorkspace.push(workspaceBlocks[i]);
-    }
-  }
-  return shadowsInWorkspace;
 };
 
 /**

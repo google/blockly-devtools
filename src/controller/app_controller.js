@@ -32,17 +32,45 @@ goog.provide('AppController');
 goog.require('AppView');
 goog.require('EditorController');
 goog.require('FactoryUtils');
-goog.require('goog.dom.classlist');
-goog.require('goog.dom.xml');
-goog.require('goog.ui.PopupColorPicker');
-goog.require('goog.ui.ColorPicker');
 goog.require('PopupController');
 goog.require('Project');
 goog.require('ProjectController');
 
+goog.require('goog.dom.classlist');
+goog.require('goog.dom.xml');
+goog.require('goog.ui.PopupColorPicker');
+goog.require('goog.ui.ColorPicker');
+
+
 'use strict';
 
 var Emitter = require('component-emitter');
+
+/**
+ * Class containing static getters for the prefixes of all node types. Given
+ * with the assumption that the name of each object in a project is unique
+ * across that project.
+ */
+class PREFIXES {
+  static get PROJECT() {
+    return 'Project';
+  }
+  static get BLOCK() {
+    return 'Block';
+  }
+  static get LIBRARY() {
+    return 'BlockLibrary';
+  }
+  static get TOOLBOX() {
+    return 'Toolbox';
+  }
+  static get WORKSPACE_CONTENTS() {
+    return 'WorkspaceContents';
+  }
+  static get WORKSPACE_CONFIG() {
+    return 'WorkspaceConfiguration';
+  }
+}
 
 class AppController {
   /**

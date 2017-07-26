@@ -33,7 +33,6 @@ class BlockLibrarySet extends ResourceSet {
    * BlockLibrarySet Class.
    * @param {string} librarySetName The name for the block library set.
    * @param {string} projectName The name of the project the set belongs to.
-   *
    * @constructor
    */
   constructor(librarySetName, projectName) {
@@ -74,7 +73,7 @@ class BlockLibrarySet extends ResourceSet {
    * @return {boolean} Whether or not it's in the set.
    */
   has(blockType) {
-    return this.getBlock(blockType) != null;
+    return this.getLibrary(blockType) ? true : false;
   }
 
   /**
@@ -93,12 +92,11 @@ class BlockLibrarySet extends ResourceSet {
 
   /**
    * Produces the JSON needed to organize libraries in the tree.
-   * @param {string} prefix The id prefix for libraries.
    * @return {!Object} The JSON for the tree's library section.
    */
-  getJson(prefix) {
+  getJson() {
     const librarySetJson = {
-      'id': prefix,
+      'id': PREFIXES.LIBRARY,
       'text': 'Libraries',
       'children': super.getJson()
     };

@@ -44,10 +44,6 @@ class Project extends Resource {
    * @constructor
    */
   constructor(projectName) {
-    /**
-     * The name of the project.
-     * @type {string}
-     */
     super(projectName);
 
     /**
@@ -84,7 +80,7 @@ class Project extends Resource {
    * Returns an array of all BlockLibraryController names (for storage).
    * @return {!Array.<string>} Array of all library names.
    */
-  getLibraryNames() {
+  getBlockLibraryNames() {
     return this.librarySet.getNames();
   }
 
@@ -212,7 +208,7 @@ class Project extends Resource {
    * @param {string} blockType Type of block.
    * @return {boolean} Whether or not blockType is stored in block library.
    */
-  hasBlock(blockType) {
+  hasBlockDefinition(blockType) {
     return this.librarySet.has(blockType);
   }
 
@@ -230,7 +226,7 @@ class Project extends Resource {
    * @param {string} libraryName The name of the library to be found.
    * @return {!BlockLibrary} The found library or null.
    */
-  getLibrary(libraryName) {
+  getBlockLibrary(libraryName) {
     return this.librarySet.get(libraryName);
   }
 
@@ -265,22 +261,16 @@ class Project extends Resource {
   /**
    * Gets the JSON object necessary to represent the project in the navigation
    *     tree.
-   * @param {string} toolboxPrefix The id prefix for toolboxes.
-   * @param {string} libraryPrefix The id prefix for libraries.
-   * @param {string} workspaceContentsPrefix The id prefix for workspace contents.
-   * @param {string} workspaceConfigurationPrefix The id prefix for workspace
-   *     configurations.
    * @return {!Object} The tree-specific JSON representation of the project.
    */
-  getTreeJson(toolboxPrefix, libraryPrefix, workspaceContentsPrefix,
-      workspaceConfigurationPrefix) {
-    const projectTree = [
-      { 'id': this.name, 'text': this.name,
-        'children': [ this.librarySet.getJson(libraryPrefix),
-          this.toolboxSet.getJson(toolboxPrefix),
-          this.workspaceContentsSet.getJson(workspaceContentsPrefix),
-          this.workspaceConfigSet.getJson(workspaceConfigurationPrefix)]}
-    ];
-    return projectTree;
+  getJson() {
+    const projectJson = $.extend(true, super.getJson(),
+      { 'id': PREFIXES.PROJECT, 'text': this.name,
+        'children': [ this.librarySet.getJson(),
+          this.toolboxSet.getJson(),
+          this.workspaceContentsSet.getJson(),
+          this.workspaceConfigSet.getJson()]}
+    );
+    return projectJson;
   }
 }
