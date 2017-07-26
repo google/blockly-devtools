@@ -150,6 +150,7 @@ button, .buttonStyle {
 
 /* Add resource button */
 #addButton {
+  border-radius: 50%;
   bottom: 35px;
   cursor: pointer;
   height: 48px;
@@ -159,12 +160,11 @@ button, .buttonStyle {
 
 #addOptions {
   background-color: #e8f1ff;
+  border: 1px solid #ddd;
   bottom:75px;
-  height:220px;
+  display: none;
   left:50px;
   position: absolute;
-  display: none;
-  width:200px;
 }
 
 #addOptions.expanded {
@@ -172,12 +172,16 @@ button, .buttonStyle {
 }
 
 #addOptions div {
-  border: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   cursor:default;
   font-size: small;
-  height:42px;
   line-height: 42px;
   text-align: center;
+}
+
+
+#addButton:hover {
+  background-color: #7de889;
 }
 
 #addOptions div:hover {
