@@ -333,10 +333,7 @@ class WorkspaceController {
   generateNewOptions() {
     // From wfactory_controller.js:generateNewOptions()
 
-    // TODO: Add popup for workspace config so that preview is updated only when
-    //       creating a new WorkspaceConfig object in completion, or when user
-    //       clicks on an already defined WorkspaceConfig object in list.
-    //       See Design Doc for more info.
+    // TODO (#141): Add popup for workspace config.
 
     this.view.workspaceConfig.setOptions(this.readOptions_());
     this.reinjectPreview();

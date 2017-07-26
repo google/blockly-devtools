@@ -130,17 +130,6 @@ class AppView {
     this.win.menu = this.mainMenu;
 
     /**
-     * Div ID of currently open modal. Modals are usually dropdown elements.
-     * @type {?string}
-     * @private
-     * Moved in from app_controller.js
-     */
-    // TODO: Separate modal management into each editor (block definition editor,
-    //       toolbox editor, workspace editor) instead of managing/tracking all
-    //       dropdowns in AppView.
-    this.modalName_ = null;
-
-    /**
      * Keeps track of which view is currently active.
      * @type {!BlockEditorView|!ToolboxEditorView|!WorkspaceEditorView}
      */
@@ -348,7 +337,7 @@ class AppView {
    *
    * @param {string} label Name of MenuItem to enable/disable.
    * @param {boolean} enable Whether to enable or disable the MenuItem (true is
-   * to enable).
+   *     to enable).
    */
   enableMenuItem(label, enable) {
     this.menuItems[label].enabled = enable;

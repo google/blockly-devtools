@@ -176,6 +176,8 @@ class WorkspaceEditorView {
   /**
    * Add listeners for Workspace editor input elements. Used for creating/editing
    * WorkspaceConfig objects.
+   * @param {!WorkspaceController} controller WorkspaceController that manages
+   *     workspace resource elements on user input.
    * @private
    */
   initConfigListeners_(controller) {
