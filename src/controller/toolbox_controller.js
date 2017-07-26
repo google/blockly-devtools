@@ -40,11 +40,14 @@ class ToolboxController {
      */
     this.projectController = projectController;
 
+    // Creates first toolbox to add to project.
+    const toolbox = this.projectController.createToolbox('MyFirstToolbox');
+
     /**
      * ToolboxEditorView associated with this instance of ToolboxController.
      * @type {!ToolboxEditorView}
      */
-    this.view = new ToolboxEditorView(new Toolbox('MyFirstToolbox'));
+    this.view = new ToolboxEditorView(toolbox);
 
     /**
      * Keeps track of association between ListElement ID and the DOM element
@@ -253,7 +256,7 @@ class ToolboxController {
    * Used to completely reinject the preview workspace. This should be used only
    * when switching from simple flyout to categories, or categories to simple
    * flyout. More expensive than simply updating the flyout or toolbox.
-   * @param {!Element} Tree of XML elements
+   * @param {!Element} tree Tree of XML elements
    * @package
    */
   reinjectPreview(tree) {
