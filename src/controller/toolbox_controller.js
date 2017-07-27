@@ -511,7 +511,7 @@ class ToolboxController {
     // Does not listen for Blockly create events because doing so causes the user
     // to drop blocks when dragging them into workspace. Could cause problems if
     // user loads blocks into workspace directly without calling updatePreview.
-    if (isMoveEvent || isDeleteEvent || isChangeEvent) {
+    if (isMoveEvent || isDeleteEvent || isChangeEvent || isUiEvent) {
       this.saveStateFromWorkspace();
       this.view.toolbox.setXml(this.generateToolboxXml());
       this.updatePreview();
@@ -521,15 +521,18 @@ class ToolboxController {
     // Only enable "Edit Block" when a block is selected and it has a
     // surrounding parent, meaning it is nested in another block (blocks that
     // are not nested in parents cannot be shadow blocks).
-    if (isMoveEvent || (isUiEvent && e.element == 'selected')) {
+    if (isMoveEvent || isUiEvent) {
       const selected = this.view.editorWorkspace.getBlockById(e.blockId);
-      const project = this.projectController.getProject();
+      // const project = this.projectController.getProject();
 
+      // // Displays shadow buttons only when user clicks on a block.
+      // this.showShadowButtons_(selected);
+      // // Enables shadow buttons only if the clicked block can actually be a
+      // // shadow block.
+      // const isPotentialShadow = selected != null && selected.getSurroundParent() != null &&
+      //     !this.isUserGenShadowBlock(selected.getSurroundParent().id);
+      // this.allowShadow_(isPotentialShadow, selected);
       this.showShadowButtons_(selected);
-
-      const isPotentialShadow = selected != null && selected.getSurroundParent() != null &&
-          !this.isUserGenShadowBlock(selected.getSurroundParent().id);
-      this.allowShadow_(isPotentialShadow, selected);
     }
 
     if (isCreateEvent) {
@@ -541,20 +544,31 @@ class ToolboxController {
    * Shows buttons to create/remove shadow blocks. Checks selected block if it
    * is able to be a shadow block (e.g. top level blocks cannot be shadow blocks,
    * etc.).
-   * @param {boolean} selected Whether block is selected.
+   * @param {!Blockly.BlockSvg} selected The currently selected BlockSvg object.
    * @private
    */
   showShadowButtons_(selected) {
-    // Show shadow button if a block is selected. Show "Add Shadow" if
-    // a block is not a shadow block, show "Remove Shadow" if it is a
-    // shadow block.
-    if (selected) {
-      const isShadow = this.isUserGenShadowBlock(selected.id);
-      this.view.displayAddShadow(!isShadow);
-      this.view.displayRemoveShadow(isShadow);
+    // Show shadow button if a block is selected.
+    const show = selected ? true : false;
+    this.view.displayAddShadow(show);
+    this.view.displayRemoveShadow(show);
+
+    // Return after hiding buttons if no block was selected.
+    if (!show) {
+      return;
+    }
+
+    // Check if shadow block.
+    const isShadow = this.isUserGenShadowBlock(selected.id);
+    // Check if valid shadow block position.
+    const isValid = selected != null && selected.getSurroundParent() != null &&
+        !this.isUserGenShadowBlock(selected.getSurroundParent().id);
+    this.view.enableShadowButtons(isShadow, isValid);
+
+    if (isShadow && !isValid) {
+      selected.setWarningText('');
     } else {
-      this.view.displayAddShadow(false);
-      this.view.displayRemoveShadow(false);
+      selected.setWarningText(null);
     }
   }
 
@@ -574,6 +588,8 @@ class ToolboxController {
     if (isPotentialShadow) {
       // Selected block is a valid shadow block or could be a valid shadow
       // block.
+      console.log('Potential shadow: ');
+      console.log(selected);
 
       // Enable block editing and remove warnings if the block is not a
       // variable user-generated shadow block.
@@ -582,7 +598,8 @@ class ToolboxController {
 
       // Remove possible 'invalid shadow block placement' warning.
       const removeWarnings = !FactoryUtils.hasVariableField(selected) &&
-          project.hasBlockDefinition(selected.type)
+          project.hasBlockDefinition(selected.type);
+      console.log('remove warnings: ' + removeWarnings);
       this.warnUserFromShadow_(selected, removeWarnings);
     } else {
       if (selected != null && this.isInvalidBlockPlacement_(selected)) {
@@ -601,6 +618,7 @@ class ToolboxController {
             project.hasBlockDefinition(selected.type) &&
             (!FactoryUtils.hasVariableField(selected) ||
                 !this.isUserGenShadowBlock(selected.id));
+        console.log('remove warnings: ' + removeWarnings);
         this.warnUserFromShadow_(selected, removeWarnings);
 
         // No block selected that is a shadow block or could be a valid shadow
@@ -622,15 +640,14 @@ class ToolboxController {
    * @private
    */
   warnUserFromShadow_(selectedBlock, opt_null) {
+    if (!selectedBlock) {
+      return;
+    }
     if (opt_null) {
       selectedBlock.setWarningText(null);
       return;
     }
-
-    if (!selectedBlock) {
-      return;
-    }
-
+    console.log('Passed');
     if (!this.isUserGenShadowBlock(selectedBlock.id)) {
       // Warn if a non-shadow block is nested inside a shadow block.
       selectedBlock.setWarningText('Only shadow blocks can be nested inside\n'

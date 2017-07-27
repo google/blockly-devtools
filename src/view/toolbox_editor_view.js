@@ -628,6 +628,35 @@ class ToolboxEditorView {
     // REFACTOR: Moved in from wfactory_view.js
     Blockly.utils.removeClass(block.svgGroup_, 'shadowBlock');
   }
+
+  /**
+   * Enables or disables the add/remove shadow block buttons depending on whether
+   * the selected block (1) is already marked as a shadow block, and (2) is in
+   * a valid shadow block position.
+   * @param {boolean} isShadow Whether the selected block is already marked as
+   *     a shadow block.
+   * @param {boolean} isValid Whether the selected block is in a valid shadow
+   *     block position.
+   */
+  enableShadowButtons(isShadow, isValid) {
+    if (isShadow && isValid) {
+      // Is a shadow block that is in a valid shadow block position.
+      addButton.disabled = true;
+      removeButton.disabled = false;
+    } else if (isShadow && !isValid) {
+      // Is a shadow block that is no longer in a valid shadow block position.
+      addButton.disabled = true;
+      removeButton.disabled = false;
+    } else if (!isShadow && isValid) {
+      // Is not a shadow block but can be a valid shadow block.
+      addButton.disabled = false;
+      removeButton.disabled = true;
+    } else {
+      // Is not a shadow block and is not in a valid shadow block position.
+      addButton.disabled = true;
+      removeButton.disabled = true;
+    }
+  }
 }
 
 /**
