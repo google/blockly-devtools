@@ -69,7 +69,7 @@ class NewBlockPopupController extends PopupController {
     });
 
     this.view.on('submit', () => {
-      const starterXml = FactoryUtils.buildBlockEditorStarterXml(
+      this.blockEditorController.createNewBlock(
           this.view.inputType, this.view.blockName, this.view.blockText);
       this.blockEditorController.view.showStarterBlock(starterXml);
       this.exit();

@@ -66,7 +66,11 @@ class BlockLibrary extends Resource {
    * @return {!Array.<string>} Array of block types stored in block library.
    */
   getBlockTypes() {
-    return Object.keys(this.blocks);
+    const types = [];
+    for (let blockType in this.blocks) {
+      types.push(blockType);
+    }
+    return types;
   }
 
   /**

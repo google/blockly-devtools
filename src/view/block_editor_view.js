@@ -37,15 +37,24 @@ goog.require('goog.dom.classlist');
 class BlockEditorView {
   /**
    * @constructor
-   * @param {BlockDefinition} blockDefinition BlockDefinition object currently
+   * @param {!BlockDefinition} blockDefinition BlockDefinition object currently
    *      shown in view.
+   * @param {!BlockLibrary} blockLibrary BlockLibrary object that the current
+   *     BlockDefinition is in.
    */
-  constructor(blockDefinition) {
+  constructor(blockDefinition, blockLibrary) {
     /**
      * BlockDefinition currently being edited within the view.
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
+
+    /**
+     * BlockLibrary currently being edited (in which the current BlockDefinition
+     * belongs).
+     * @type {!BlockLibrary}
+     */
+    this.blockLibrary = blockLibrary;
 
     /**
      * JQuery container of block editor view.
@@ -142,8 +151,10 @@ class BlockEditorView {
    */
   init(controller) {
     this.editorWorkspace.addChangeListener((event) => {
+      // Update the block editor view.
       controller.refreshPreviews();
-      // Save block's changes into BlockDefinition object.
+      // Save block's changes into BlockDefinition model object.
+      controller.updateBlockDefinition();
     });
   }
 
