@@ -100,7 +100,7 @@ class BlockEditorController {
    * Creates new block, adds to Project model, and renders onto block editor view.
    * @param {string} inputType Type of input (statement, value, dummy).
    * @param {string} blockTypeName Name of block, given by user.
-   * @param {string} opt_blockStarterText Starter text to place on block, given
+   * @param {string=} opt_blockStarterText Starter text to place on block, given
    *     by user (optional).
    */
   createNewBlock(inputType, blockTypeName, opt_blockStarterText) {

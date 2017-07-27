@@ -1218,7 +1218,7 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
  * starter block.
  * @param {string} inputType Type of input (statement, value, dummy).
  * @param {string} blockTypeName Name of block, given by user.
- * @param {string} opt_blockStarterText Starter text to place on block, given by
+ * @param {string=} opt_blockStarterText Starter text to place on block, given by
  *     user (optional).
  */
 FactoryUtils.buildBlockEditorStarterXml = function(
