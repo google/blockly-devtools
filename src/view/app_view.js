@@ -452,28 +452,51 @@ class AppView {
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
       // TODO: prompt for name
-      this.appController.projectController.createBlockDefinition('test_block',
-       'test_library');
+      const block = this.appController.projectController.createBlockDefinition(
+          'test_block','test_library');
+      this.appController.editorController.switchEditor(this);
+      this.switchView(this.blockEditorView);
+      this.blockEditorView.block = block;
     });
 
     $('#addLibrary').click(() => {
       // TODO: prompt for name
-      this.appController.projectController.createBlockLibrary('test_library');
+      const library = this.appController.projectController.createBlockLibrary(
+          'test_library');
+      this.appController.editorController.switchEditor();
+      this.switchView(this.blockEditorView);
     });
 
     $('#addToolbox').click(() => {
       // TODO: prompt for name
-      this.appController.projectController.createToolbox('test_toolbox');
+      const toolbox = this.appController.projectController.createToolbox(
+          'test_toolbox');
+      this.appController.editorController.switchEditor(
+          this.appController.editorController.toolboxController);
+      this.switchView(this.toolboxEditorView);
+      this.toolboxEditorView.toolbox = toolbox;
     });
 
     $('#addWorkspaceContents').click(() => {
       // TODO: prompt for name
-      this.appController.projectController.createWorkspaceContents('test_contents');
+      const workspaceContents =
+        this.appController.projectController.createWorkspaceContents(
+            'test_contents');
+      this.appController.editorController.switchEditor(
+          this.appController.editorController.workspaceController);
+      this.switchView(this.workspaceEditorView);
+      this.workspaceEditorView.workspaceContents = workspaceContents;
     });
 
     $('#addWorkspaceConfig').click(() => {
       // TODO: prompt for name
-      this.appController.projectController.createWorkspaceConfiguration('test_config');
+      const workspaceConfig =
+        this.appController.projectController.createWorkspaceConfiguration(
+            'test_config');
+      this.appController.editorController.switchEditor(
+          this.appController.editorController.workspaceController);
+      this.switchView(this.workspaceEditorView);
+      this.workspaceEditorView.workspaceConfig = workspaceConfig;
     });
   }
 
