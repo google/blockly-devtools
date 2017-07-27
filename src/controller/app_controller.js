@@ -137,9 +137,6 @@ class AppController {
      */
     this.view = new AppView(this);
 
-    // Give this instance of AppView to the ProjectController.
-   // this.projectController.setAppView(this.view);
-
     /**
      * PopupController object which controls any popups that may appear throughout
      * the course of using DevTools.
