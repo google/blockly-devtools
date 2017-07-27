@@ -1137,14 +1137,19 @@ FactoryUtils.hsvToHex = function(h, s, v) {
 };
 
 /**
+ * Accepted hex color formats as RegEx.
+ * @type {!RegExp}
+ */
+FactoryUtils.shortHexFormat = /^#[0-9A-F]{3}$/i;
+FactoryUtils.longHexFormat = /^#[0-9A-F]{6}$/i;
+
+/**
  * Checks whether a given color is a valid hex color to be used in CSS.
  * @param {string} hex Hex representation of color, as a string.
  * @return {boolean} Whether given string is valid color.
  */
 FactoryUtils.isValidHex = function(hex) {
-  const shortHexFormat = /^#[0-9A-F]{3}$/i;
-  const longHexFormat = /^#[0-9A-F]{6}$/i;
-  return shortHexFormat.test(hex) || longHexFormat.test(hex);
+  return FactoryUtils.shortHexFormat.test(hex) || FactoryUtils.longHexFormat.test(hex);
 };
 
 /**
