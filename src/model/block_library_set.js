@@ -45,8 +45,12 @@ class BlockLibrarySet extends ResourceSet {
    *     the set.
    */
   getBlockTypes() {
-    console.warn('unimplemented: getBlockTypes');
-   }
+    let allBlockTypes = [];
+    for (let blockLib in this.resources) {
+      allBlockTypes = allBlockTypes.concat(this.resources[blockLib].getBlockTypes());
+    }
+    return allBlockTypes;
+  }
 
   /**
    * Returns a map of all block types in the library set to their definitions.

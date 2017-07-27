@@ -53,9 +53,9 @@ class BlockEditorController {
     this.projectController = projectController;
 
     // Creates a default library. Adds a sample block to library.
-    this.projectController.createBlockLibrary('MyFirstLibrary');
-    const firstBlock = new BlockDefinition('block_type');
-    this.projectController.addBlockDefinition(firstBlock, 'MyFirstLibrary');
+    const firstLib = this.projectController.createBlockLibrary('MyFirstLibrary');
+    const firstBlock = this.projectController.createBlockDefinition('block_type',
+        firstLib.name);
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
@@ -79,10 +79,8 @@ class BlockEditorController {
 
     this.refreshPreviews();
 
-    // Refresh previews on workspace change.
-    this.view.editorWorkspace.addChangeListener(() => {
-      this.refreshPreviews();
-    });
+    // Initialize event listeners/handlers specific to block editor.
+    this.view.init(this);
   }
 
   /**
@@ -99,6 +97,26 @@ class BlockEditorController {
   }
 
   /**
+   * Creates new block, adds to Project model, and renders onto block editor view.
+   * @param {string} inputType Type of input (statement, value, dummy).
+   * @param {string} blockTypeName Name of block, given by user.
+   * @param {string=} opt_blockStarterText Starter text to place on block, given
+   *     by user (optional).
+   */
+  createNewBlock(inputType, blockTypeName, opt_blockStarterText) {
+    // Creates new BlockDefinition object, marks as the current block being edited.
+    const currentLib = this.projectController.getLibrary(this.view.blockDefinition.type());
+    const newBlock = this.projectController.createBlockDefinition(
+        blockTypeName, currentLib);
+    this.view.blockDefinition = newBlock;
+
+    // Displays BlockDefinition onto view.
+    const starterXml = FactoryUtils.buildBlockEditorStarterXml(
+        inputType, blockTypeName, opt_blockStarterText);
+    this.view.showStarterBlock(starterXml);
+  }
+
+  /**
    * Refreshes previews in view and updates model.
    */
   refreshPreviews() {
@@ -106,7 +124,6 @@ class BlockEditorController {
     this.updateBlockDefinitionView_(format);
     this.updatePreview_();
     this.updateGenerator_();
-    this.updateBlockDef_();
   }
 
   /**
@@ -127,13 +144,13 @@ class BlockEditorController {
 
   /**
    * Updates blockType and XML of currently open BlockDefinition.
-   * @private
    */
-  updateBlockDef_() {
+  updateBlockDefinition() {
+    const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     this.projectController.rename(
-        this.view.blockDefinition, rootBlock.getFieldValue('NAME'));
-    this.view.blockDefinition.setXml(Blockly.Xml.blockToDom(rootBlock));
+        currentBlock, rootBlock.getFieldValue('NAME'));
+    currentBlock.setXml(Blockly.Xml.blockToDom(rootBlock));
   }
 
   /**

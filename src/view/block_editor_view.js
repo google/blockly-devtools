@@ -37,7 +37,7 @@ goog.require('goog.dom.classlist');
 class BlockEditorView {
   /**
    * @constructor
-   * @param {BlockDefinition} blockDefinition BlockDefinition object currently
+   * @param {!BlockDefinition} blockDefinition BlockDefinition object currently
    *      shown in view.
    */
   constructor(blockDefinition) {
@@ -87,7 +87,7 @@ class BlockEditorView {
 
     // Render starter block.
     const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-        '', this.blockDefinition.type(), '');
+        '', this.blockDefinition.type(), 'My First Block');
     this.showStarterBlock(starterXml);
     this.blockDefinition.setXml(Blockly.Xml.textToDom(starterXml));
 
@@ -141,7 +141,12 @@ class BlockEditorView {
    * @package
    */
   init(controller) {
-    console.warn('Unimplemented: init()');
+    this.editorWorkspace.addChangeListener((event) => {
+      // Update the block editor view.
+      controller.refreshPreviews();
+      // Save block's changes into BlockDefinition model object.
+      controller.updateBlockDefinition();
+    });
   }
 
   /**
