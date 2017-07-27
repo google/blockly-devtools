@@ -447,7 +447,7 @@ class AppView {
   }
 
   /**
-   * Assigns button click handlers for the general app interface.
+   * Assigns button click handlers for add button flyout.
    */
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
