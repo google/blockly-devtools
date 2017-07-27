@@ -57,6 +57,17 @@ class ProjectController {
   }
 
   /**
+   * Given the name of a block, returs the BlockLibrary that it belongs to.
+   * Returns null if it does not exist within the project.
+   * @param {string} blockType Block name of a BlockDefinition.
+   * @return {?BlockLibrary} BlockLibrary to which the given block type belongs,
+   *     or null if it DNE.
+   */
+  getLibrary(blockType) {
+    return this.project.librarySet.getLibrary(blockType);
+  }
+
+  /**
    * Creates new project that the ProjectController is controlling.
    *
    * @param {!Project} newProject New project to create that the user

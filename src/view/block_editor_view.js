@@ -39,22 +39,13 @@ class BlockEditorView {
    * @constructor
    * @param {!BlockDefinition} blockDefinition BlockDefinition object currently
    *      shown in view.
-   * @param {!BlockLibrary} blockLibrary BlockLibrary object that the current
-   *     BlockDefinition is in.
    */
-  constructor(blockDefinition, blockLibrary) {
+  constructor(blockDefinition) {
     /**
      * BlockDefinition currently being edited within the view.
      * @type {!BlockDefinition}
      */
     this.blockDefinition = blockDefinition;
-
-    /**
-     * BlockLibrary currently being edited (in which the current BlockDefinition
-     * belongs).
-     * @type {!BlockLibrary}
-     */
-    this.blockLibrary = blockLibrary;
 
     /**
      * JQuery container of block editor view.

@@ -55,13 +55,13 @@ class BlockEditorController {
     // Creates a default library. Adds a sample block to library.
     const firstLib = this.projectController.createBlockLibrary('MyFirstLibrary');
     const firstBlock = this.projectController.createBlockDefinition('block_type',
-        'MyFirstLibrary');
+        firstLib.name);
 
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
      * @type {!BlockEditorView}
      */
-    this.view = new BlockEditorView(firstBlock, firstLib);
+    this.view = new BlockEditorView(firstBlock);
 
     /**
      * Existing direction ('ltr' vs 'rtl') of preview.
@@ -105,7 +105,7 @@ class BlockEditorController {
    */
   createNewBlock(inputType, blockTypeName, opt_blockStarterText) {
     // Creates new BlockDefinition object, marks as the current block being edited.
-    const currentLib = this.view.blockLibrary;
+    const currentLib = this.projectController.getLibrary(this.view.blockDefinition.type());
     const newBlock = this.projectController.createBlockDefinition(
         blockTypeName, currentLib);
     this.view.blockDefinition = newBlock;
