@@ -138,18 +138,14 @@ class AppView {
     // Show the current view.
     this.currentView.show(this.currentView.blockDefinition.type());
 
-    // Assigning event handlers and listeners for application.
-    this.tabClickHandlers_();
-
-    // TODO: reorganize/change listeners to reflect new DevTools
-    // Assign general app button click handlers
-    this.assignClickHandlers();
-
     /**
      * Whether or not the flyout for the add button is open.
      * @type {boolean}
      */
     this.addFlyoutOpen = false;
+
+    // Assigning event handlers and listeners for application.
+    this.init();
   }
 
   /**
@@ -382,6 +378,17 @@ class AppView {
   }
 
   /**
+   * Initializes event listeners/handlers for application.
+   */
+  init() {
+    // TODO: reorganize/change listeners to reflect new DevTools
+    this.tabClickHandlers_();
+    // Assign general app button click handlers
+    this.assignClickHandlers();
+    this.addBlockFactoryEventListeners();
+  }
+
+  /**
    * Adds click handlers for switching views.
    * @private
    */
@@ -504,6 +511,11 @@ class AppView {
           this.appController.editorController.workspaceController);
       this.switchView(this.workspaceEditorView);
       this.workspaceEditorView.workspaceConfig = workspaceConfig;
+
+    $('#createNewBlockButton').click(() => {
+      // If there are unsaved changes warn user, check if they'd like to
+      // proceed with unsaved changes, and act accordingly.
+      this.appController.createPopup(PopupController.NEW_BLOCK);
     });
   }
 

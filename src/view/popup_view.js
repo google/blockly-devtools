@@ -61,7 +61,6 @@ class PopupView {
    */
   injectPopupContents(html) {
     this.htmlContents = `
-<div class="bkg"></div>
 <div class="box">
   <div id="exit">x</div>
   ${html}
@@ -77,6 +76,7 @@ class PopupView {
   hide() {
     $('.popup').html('');
     $('.popup').hide();
+    $('#modalShadow').hide();
   }
 
   /**
@@ -84,5 +84,6 @@ class PopupView {
    */
   show() {
     $('.popup').show();
+    $('#modalShadow').show();
   }
 }

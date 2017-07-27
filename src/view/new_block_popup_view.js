@@ -33,8 +33,8 @@ goog.require('PopupView');
 class NewBlockPopupView extends PopupView {
   /**
    * @constructor
-   * @param {!PopupController} controller PopupController currently managing this
-   *     view.
+   * @param {!NewBlockPopupController} controller NewBlockPopupController currently
+   *     managing this view.
    */
   constructor(controller) {
     super(controller);
@@ -82,10 +82,8 @@ Dummy input:<br>
    * @private
    */
   initListeners_() {
-    console.log('Init called!');
     $('#exit').click(() => {
       Emitter(this);
-      console.log('Exit clicked!');
       this.emit('exit');
     });
 
@@ -122,7 +120,6 @@ Dummy input:<br>
    * Shows popup, then adds listeners specific to this popup.
    */
   show() {
-    console.log('show() called.');
     super.show();
     this.initListeners_();
   }
@@ -131,7 +128,6 @@ Dummy input:<br>
    * Hides popup, resets fields.
    */
   hide() {
-    console.log('hide() called.');
     super.hide();
   }
 }

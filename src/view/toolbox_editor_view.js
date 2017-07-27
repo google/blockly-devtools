@@ -104,6 +104,9 @@ class ToolboxEditorView {
     this.standardToolboxButton = $('#dropdown_loadStandardToolbox').get(0);
     this.addShadowButton = $('#button_addShadow').get(0);
     this.removeShadowButton = $('#button_removeShadow').get(0);
+    this.editNameButton = $('#dropdown_name').get(0);
+    this.editColorButton = $('#dropdown_color').get(0);
+    this.clearButton = $('#button_clearToolbox').get(0);
 
     /**
      * Maps ID of a ListElement to the td DOM element. Used for navigating
@@ -174,46 +177,60 @@ class ToolboxEditorView {
       controller.onChange(event);
     });
     this.initEventListeners_(controller);
+    this.initClickHandlers_(controller);
+    this.initColorPicker_(controller);
   }
 
   /**
    * Initialize the color picker in Toolbox editor.
-   * @private
-   */
-  initColorPicker_() {
-    /*
-     * TODO: Move in from wfactory_init.js:initColorPicker_(controller)
-     *
-     * References:
-     * - hsvToHex_()
-     * - changeSelectedCategoryColor()
-     */
-    console.warn('Unimplemented: initColorPicker_()');
-  }
-
-  /**
-   * Assign click handlers for Toolbox editor.
-   * @private
-   */
-  initClickHandlers_() {
-    /*
-     * TODO: Move in from wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
-     *       (Also moved into workspace_editor_view.js)
-     */
-    console.warn('Unimplemented: initClickHandlers_()');
-  }
-
-  /**
-   * Add event listeners for Toolbox editor.
    * @param {!ToolboxController} controller ToolboxController used as reference
    *     in event listeners.
    * @private
    */
-  initEventListeners_(controller) {
-    // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
+  initColorPicker_(controller) {
+    // From wfactory_init.js:initColorPicker_(controller)
+    // Array of Blockly category colours, consitent with the 15 degree default
+    // of the block factory's colour wheel.
+    const colours = [];
+    for (let hue = 0; hue < 360; hue += 15) {
+      colours.push(FactoryUtils.hsvToHex(hue,
+          Blockly.HSV_SATURATION, Blockly.HSV_VALUE));
+    }
+
+    // Create color picker with specific set of Blockly colours.
+    const colourPicker = new goog.ui.ColorPicker();
+    colourPicker.setSize(6);
+    colourPicker.setColors(colours);
+
+    // Create and render the popup colour picker and attach to button.
+    const popupPicker = new goog.ui.PopupColorPicker(null, colourPicker);
+    popupPicker.render();
+    popupPicker.attach(document.getElementById('dropdown_color'));
+    popupPicker.setFocusable(true);
+    goog.events.listen(popupPicker, 'change', (event) => {
+      controller.changeSelectedCategoryColor(popupPicker.getSelectedColor());
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+  }
+
+  /**
+   * Assign click handlers for Toolbox editor.
+   * @param {!ToolboxController} controller ToolboxController used as reference
+   *     in event listeners.
+   * @private
+   */
+  initClickHandlers_(controller) {
+    // From wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+    // Listener for user clicking outside of modal popup.
     $('#modalShadow').click(() => {
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
+    });
+
+    // Listener for clearing editor.
+    this.clearButton.addEventListener('click', () => {
+      controller.clear();
     });
 
     // Shows dropdown for adding elements.
@@ -250,6 +267,39 @@ class ToolboxEditorView {
     this.standardCategoryButton.addEventListener('click', () => {
       controller.loadStandardCategory();
     });
+
+    // Listener for moving a category up.
+    this.upButton.addEventListener('click', () => {
+      controller.moveElement(-1);
+    });
+
+    // Listener for moving a category down.
+    this.downButton.addEventListener('click', () => {
+      controller.moveElement(1);
+    });
+
+    // Listener for edit category dropdown button.
+    this.editButton.addEventListener('click', () => {
+      this.openModal_ = 'dropdownDiv_editCategory';
+      FactoryUtils.openModal(this.openModal_);
+    });
+
+    // Listener for editing category name.
+    this.editNameButton.addEventListener('click', () => {
+      controller.changeCategoryName();
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+  }
+
+  /**
+   * Add event listeners for Toolbox editor.
+   * @param {!ToolboxController} controller ToolboxController used as reference
+   *     in event listeners.
+   * @private
+   */
+  initEventListeners_(controller) {
+    // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
   }
 
   /**
@@ -281,6 +331,18 @@ class ToolboxEditorView {
   }
 
   /**
+   * Given the ID of a certain category, updates the corresponding tab in
+   * the DOM to show a new name.
+   * @param {string} newName Name of string to be displayed on tab
+   * @param {string} id ID of category to be updated
+   */
+  updateCategoryName(newName, id) {
+    // TODO: Move in from wfactory_view.js:updateCategoryName(name, id)
+    this.tabMap[id].textContent = newName;
+    this.tabMap[id].id = 'tab_' + newName;
+  }
+
+  /**
    * Switches a category tab on or off. If tab is switched on, all other tabs
    * are turned off.
    * @param {string} id ID of the tab to switch on or off.
@@ -306,8 +368,11 @@ class ToolboxEditorView {
    * Removes all categories and separators in the view.
    */
   clearElements() {
-    const oldCategoryTable = $('#categoryTable');
-    const newCategoryTable = $('#table');
+    if (this.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
+      return;
+    }
+    const oldCategoryTable = document.getElementById('categoryTable');
+    const newCategoryTable = document.createElement('table');
     newCategoryTable.id = 'categoryTable';
     newCategoryTable.style.width = 'auto';
     oldCategoryTable.parentElement.replaceChild(newCategoryTable,
@@ -444,6 +509,39 @@ class ToolboxEditorView {
   }
 
   /**
+   * Moves a tab from one index to another. Adjusts index inserting before
+   * based on if inserting before or after. Checks that the indexes are in
+   * bounds, throws error if not.
+   * @param {string} id The ID of the category to move.
+   * @param {number} newIndex The index to move the category to.
+   * @param {number} oldIndex The index the category is currently at.
+   * @throws {Error} For index out of bounds error if newIndex is invalid.
+   */
+  moveTabToIndex(id, newIndex, oldIndex) {
+    // TODO: Move in from wfactory_view.js:moveTabToIndex(id, newIndex, oldIndex)
+    const table = document.getElementById('categoryTable');
+
+    // Check that indexes are in bounds.
+    const outOfBounds = newIndex < 0 || newIndex >= table.rows.length ||
+        oldIndex < 0 || oldIndex >= table.rows.length;
+    if (outOfBounds) {
+      throw new Error('Index out of bounds when moving tab in the view.');
+    }
+
+    if (newIndex < oldIndex) {
+      // Inserting before.
+      const row = table.insertRow(newIndex);
+      row.appendChild(this.tabMap[id]);
+      table.deleteRow(oldIndex + 1);
+    } else {
+      // Inserting after.
+      const row = table.insertRow(newIndex + 1);
+      row.appendChild(this.tabMap[id]);
+      table.deleteRow(oldIndex);
+    }
+  }
+
+  /**
    * Used to bind a click to a certain DOM element (used for category tabs).
    * Taken directly from code.js
    * @param {string|!Element} el Tab element or corresponding ID string.
@@ -576,7 +674,7 @@ ToolboxEditorView.html = `
       </div>
     </div>
 
-    <button id="button_clear">Clear</button>
+    <button id="button_clearToolbox">Clear</button>
 
     <span id="saved_message"></span>
   </p>

@@ -217,6 +217,8 @@ class ToolboxController {
       // Transfers the user's blocks to a flyout if it's the first category created.
       this.transferFlyoutBlocksToCategory();
     }
+    // Deselect the currently active tab.
+    this.view.selectTab(this.view.toolbox.getSelectedId(), false);
 
     // Create the separator in the model.
     const separator = new ListElement(ListElement.TYPE_SEPARATOR);
@@ -235,7 +237,7 @@ class ToolboxController {
    * Gets a valid name for a new category from the user.
    * @param {string} promptString Prompt for the user to enter a name.
    * @param {string=} opt_oldName The current name.
-   * @return {string?} Valid name for a new category, or null if cancelled.
+   * @return {?string} Valid name for a new category, or null if cancelled.
    */
   promptForNewCategoryName(promptString, opt_oldName) {
     // From wfactory_controller.js
@@ -281,18 +283,28 @@ class ToolboxController {
    * they input a category name that is not currently in use. Exits if canceled.
    */
   changeCategoryName() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *          Also from wfactory_view.js:updateCategoryName(name, id)
-     *
-     * References:
-     * - getSelected()
-     * - promptForNewCategoryName()
-     * - changeName(newName)
-     * - updateCategoryName(newName, this.model.getSelectedId())
-     * - updatePreview()
-     */
-    console.warn('Unimplemented: changeCategoryName()');
+    // From wfactory_controller.js:changeCategoryName()
+    const selected = this.view.toolbox.getSelected();
+    // Return if a category is not selected.
+    if (selected.type != ListElement.TYPE_CATEGORY) {
+      return;
+    }
+
+    // Get new name from user.
+    window.foo = selected;
+    const newName = this.promptForNewCategoryName('What do you want to change this'
+      + ' category\'s name to?', selected.name);
+    if (!newName) {  // If cancelled.
+      return;
+    }
+
+    // Change category name in toolbox model.
+    selected.changeName(newName);
+    this.view.toolbox.setXml(this.generateToolboxXml());
+
+    // Update view/preview.
+    this.view.updateCategoryName(newName, this.view.toolbox.getSelectedId());
+    this.updatePreview();
   }
 
   /**
@@ -303,19 +315,26 @@ class ToolboxController {
    *     if the element to be swapped with is above.
    */
   moveElement(offset) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *          Also from wfactory_view.js:moveTabToIndex(id, newIndex, oldIndex)
-     *
-     * References:
-     * - getSelected()
-     * - getIndexByElementId()
-     * - getElementByIndex(swapIndex)
-     * - moveElementToIndex()
-     * - updateState()
-     * - updatePreview()
-     */
-    console.warn('Unimplemented: moveElement()');
+    // From wfactory_controller.js
+    const curr = this.view.toolbox.getSelected();
+    if (!curr) {  // Return if no selected element.
+      return;
+    }
+    const currIndex = this.view.toolbox.getIndexById(curr.id);
+    const swapIndex = this.view.toolbox.getIndexById(curr.id) + offset;
+    const swap = this.view.toolbox.getElementByIndex(swapIndex);
+    if (!swap) {  // Return if cannot swap in that direction.
+      return;
+    }
+    // Move currently selected element to index of other element.
+    // Indexes must be valid because confirmed that curr and swap exist.
+    this.moveElementToIndex_(curr, swapIndex, currIndex);
+    // Update the toolbox model.
+    this.view.toolbox.setXml(this.generateToolboxXml());
+    // Update element editing buttons.
+    this.view.updateState(swapIndex, this.view.toolbox.getSelected());
+    // Update preview.
+    this.updatePreview();
   }
 
   /**
@@ -324,16 +343,12 @@ class ToolboxController {
    * @param {!Element} element The element to move.
    * @param {number} newIndex The index to insert the element at.
    * @param {number} oldIndex The index the element is currently at.
+   * @private
    */
-  moveElementToIndex(element, newIndex, oldIndex) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - moveElementToIndex()
-     * - moveTabToIndex()
-     */
-    console.warn('Unimplemented: moveElementToIndex()');
+  moveElementToIndex_(element, newIndex, oldIndex) {
+    // From wfactory_controller.js:moveElementToIndex()
+    this.view.toolbox.moveElement(element, newIndex, oldIndex);
+    this.view.moveTabToIndex(element.id, newIndex, oldIndex);
   }
 
   /**
@@ -341,20 +356,25 @@ class ToolboxController {
    * reflect this.
    */
   clear() {
-    /**
+    /*
      * REFACTORED: from wfactory_view.js:clearToolboxTabs()
      *                  wfactory_controller.js:clearAll()
      */
+    if (!window.confirm('Are you sure you would like to clear your toolbox ' +
+          'editor workspace?')) {
+      return;
+    }
+
     // Clears tabs
     this.categoryTabs = {};
-
-    // Clears model
-    this.view.toolbox.clearCategoryList();
 
     // Clears view elements
     this.view.clearElements();
     this.view.addEmptyToolboxMessage();
-    this.updateElementButtons(-1, null);
+    // this.updateElementButtons(-1, null);
+
+    // Clears model
+    this.view.toolbox.clear();
 
     // Clears Blockly toolbox editor workspace
     this.view.editorWorkspace.clear();
@@ -825,7 +845,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    *     otherwise.
    */
   isUserGenShadowBlock(blockId) {
-    // TODO: Move in from wfactory_controller.js
+    // From wfactory_controller.js
     return this.view.toolbox.isShadowBlock(blockId);
   }
 
@@ -1230,9 +1250,16 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
     if (this.view.toolbox.getSelected().type != ListElement.TYPE_CATEGORY) {
       return;
     }
+
+    // Return if color is not valid.
+    if (!FactoryUtils.isValidHex(color)) {
+      return;
+    }
+
     // Change color of selected category.
     this.view.toolbox.getSelected().changeColor(color);
     this.view.setBorderColor(this.view.toolbox.getSelectedId(), color);
+    this.view.toolbox.setXml(this.generateToolboxXml());
     this.updatePreview();
   }
 
