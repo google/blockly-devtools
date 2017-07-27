@@ -45,6 +45,12 @@ class ToolboxEditorView {
      */
     this.toolbox = toolbox;
 
+    /**
+     * Keeps track of currently selected block in the editor workspace. Used for
+     * checking the shadow block status of selected blocks and its descendants/
+     * connected blocks. Null if no block is selected.
+     * @type {?Blockly.Block}
+     */
     this.selectedBlock = null;
 
     /**
@@ -295,20 +301,12 @@ class ToolboxEditorView {
 
     // Listener for adding a shadow block.
     this.addShadowButton.addEventListener('click', () => {
-      if (this.selectedBlock) {
-        this.markShadowBlock(this.selectedBlock);
-        this.toolbox.addShadowBlock(this.selectedBlock.id);
-        this.enableShadowButtons(true, true);
-      }
+      controller.addShadow();
     });
 
     // Listener for removing a shadow block.
     this.removeShadowButton.addEventListener('click', () => {
-      if (this.selectedBlock) {
-        this.unmarkShadowBlock(this.selectedBlock);
-        this.toolbox.removeShadowBlock(this.selectedBlock.id);
-        this.enableShadowButtons(false, true);
-      }
+      controller.removeShadow();
     });
   }
 

@@ -313,7 +313,7 @@ class Toolbox extends Resource {
    */
   addShadowBlock(blockId) {
     // Moved in from wfactory_model.js
-    if (this.shadowBlocks.indexOf(blockId) != -1) {
+    if (this.shadowBlocks.indexOf(blockId) == -1) {
       this.shadowBlocks.push(blockId);
     }
   }
