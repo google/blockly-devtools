@@ -415,7 +415,6 @@ class AppView {
     const opt = document.getElementById('addOptions');
     this.addFlyoutOpen = false;
     opt.className = '';
-    this.closeModal();
   }
 
   /*
@@ -426,7 +425,6 @@ class AppView {
     const opt = document.getElementById('addOptions');
     this.addFlyoutOpen = true;
     opt.className = 'expanded';
-    this.openModal('addOptions');
   }
 
   /**
@@ -440,10 +438,10 @@ class AppView {
 
     $('#addButton').click(() => {
       if (this.addFlyoutOpen) {
-        this.closeModal();
+        this.closeAddFlyout_();
         this.addFlyoutOpen = false;
       } else {
-        this.openModal('addOptions');
+        this.openAddFlyout_();
         this.addFlyoutOpen = true;
       }
     });
