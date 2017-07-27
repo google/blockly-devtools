@@ -456,13 +456,7 @@ class AppView {
       // TODO: prompt for name
       const block = this.appController.projectController.createBlockDefinition(
           'test_block','test_library');
-      this.appController.editorController.switchEditor(
-        this.appController.editorController.blockEditorController);
-      this.switchView(this.blockEditorView);
-      this.blockEditorView.block = block;
-      this.appController.createPopup(PopupController.NEW_BLOCK);
-      FactoryUtils.closeModal('addOptions');
-      this.addFlyoutOpen = false;
+      this.switchEnvironment('block', block);
     });
 
     $('#addLibrary').click(() => {
@@ -471,27 +465,14 @@ class AppView {
           'test_library');
       const block = this.appController.projectController.createBlockDefinition(
           'test_block','test_library');
-      this.appController.editorController.switchEditor(
-        this.appController.editorController.workspaceController);
-      this.switchView(this.blockEditorView, block);
-      this.blockEditorView.block = block;
-      this.appController.createPopup(PopupController.NEW_BLOCK);
-      FactoryUtils.closeModal('addOptions');
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.switchEnvironment('block', block);
     });
 
     $('#addToolbox').click(() => {
       // TODO: prompt for name
       const toolbox = this.appController.projectController.createToolbox(
           'test_toolbox');
-      this.appController.editorController.switchEditor(
-          this.appController.editorController.blockEditorController);
-      this.switchView(this.toolboxEditorView);
-      this.toolboxEditorView.toolbox = toolbox;
-      FactoryUtils.closeModal('addOptions');
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.switchEnvironment('toolbox', toolbox);
     });
 
     $('#addWorkspaceContents').click(() => {
@@ -499,13 +480,7 @@ class AppView {
       const workspaceContents =
         this.appController.projectController.createWorkspaceContents(
             'test_contents');
-      this.appController.editorController.switchEditor(
-          this.appController.editorController.workspaceController);
-      this.switchView(this.workspaceEditorView);
-      this.workspaceEditorView.workspaceContents = workspaceContents;
-      FactoryUtils.closeModal('addOptions');
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.switchEnvironment('workspaceContents', workspaceContents);
     });
 
     $('#addWorkspaceConfig').click(() => {
@@ -513,18 +488,39 @@ class AppView {
       const workspaceConfig =
         this.appController.projectController.createWorkspaceConfiguration(
             'test_config');
-      this.appController.editorController.switchEditor(
-          this.appController.editorController.workspaceController);
-      this.switchView(this.workspaceEditorView);
-      this.workspaceEditorView.workspaceConfig = workspaceConfig;
-      FactoryUtils.closeModal('addOptions');
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.switchEnvironment('workspaceConfig', workspaceConfig);
     });
 
     $('#createNewBlockButton').click(() => {
       this.appController.createPopup(PopupController.NEW_BLOCK);
     });
+  }
+
+  /**
+   * Switches view and editor, closes any open modal elements.
+   * @param {string} element The type of element to switch the view and editor
+   *     based off of, in camel case (but beginning with a lower case letter).
+   * @param {!Resource} resource The resource to display upon switching the view.
+   */
+  switchEnvironment(element, resource) {
+    var resourceReference;
+    if (element == 'block') {
+      this.appController.createPopup(PopupController.NEW_BLOCK);
+    } else if (element == 'workspaceContents' || element == 'workspaceConfig') {
+      resourceReference = element;
+      element = 'workspace';
+    } else {
+      resourceReference = element;
+    }
+    const controller = element + 'EditorController';
+    const view = element + 'EditorView';
+    this.appController.editorController.switchEditor(
+          this.appController.editorController.controller);
+      this.switchView(this[view]);
+      this[view][resourceReference] = resource;
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
   }
 
   /**
