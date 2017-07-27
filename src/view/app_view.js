@@ -466,7 +466,7 @@ class AppView {
     });
 
     $('#addWorkspaceContents').click(() => {
-      this.appController.createWorkspaceContents();;
+      this.appController.createWorkspaceContents();
     });
 
     $('#addWorkspaceConfig').click(() => {
