@@ -641,20 +641,20 @@ class ToolboxEditorView {
   enableShadowButtons(isShadow, isValid) {
     if (isShadow && isValid) {
       // Is a shadow block that is in a valid shadow block position.
-      addButton.disabled = true;
-      removeButton.disabled = false;
+      this.addShadowButton.disabled = true;
+      this.removeShadowButton.disabled = false;
     } else if (isShadow && !isValid) {
       // Is a shadow block that is no longer in a valid shadow block position.
-      addButton.disabled = true;
-      removeButton.disabled = false;
+      this.addShadowButton.disabled = true;
+      this.removeShadowButton.disabled = false;
     } else if (!isShadow && isValid) {
       // Is not a shadow block but can be a valid shadow block.
-      addButton.disabled = false;
-      removeButton.disabled = true;
+      this.addShadowButton.disabled = false;
+      this.removeShadowButton.disabled = true;
     } else {
       // Is not a shadow block and is not in a valid shadow block position.
-      addButton.disabled = true;
-      removeButton.disabled = true;
+      this.addShadowButton.disabled = true;
+      this.removeShadowButton.disabled = true;
     }
   }
 }
@@ -749,7 +749,7 @@ ToolboxEditorView.html = `
 
   </aside>
 
-  <button id="button_addShadow" style="display: none">Make Shadow</button>
+  <button id="button_addShadow" style="display: none">Make Shadow</button><br>
   <button id="button_removeShadow" style="display: none">Remove Shadow</button>
 
 </section>

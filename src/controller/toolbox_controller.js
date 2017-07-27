@@ -559,14 +559,27 @@ class ToolboxController {
     }
 
     // Check if shadow block.
-    const isShadow = this.isUserGenShadowBlock(selected.id);
+    const isShadow = this.isUserGenShadowBlock(selected.id) ||
+        $(selected.svgGroup_).hasClass('shadowBlock');
     // Check if valid shadow block position.
     const isValid = selected != null && selected.getSurroundParent() != null &&
         !this.isUserGenShadowBlock(selected.getSurroundParent().id);
+    // Check if block has variables (variable blocks cannot be shadow blocks).
+    const hasVar = !FactoryUtils.hasVariableField(selected);
     this.view.enableShadowButtons(isShadow, isValid);
 
+    console.log('isShadow: ' + isShadow);
+    console.log('isValid: ' + isValid);
+    console.log('hasVar: ' + hasVar);
+    console.log('\n');
+
     if (isShadow && !isValid) {
-      selected.setWarningText('');
+      selected.setWarningText('Shadow blocks must be nested inside\n'
+          + 'other shadow blocks or regular blocks.\nRegular blocks '
+          + 'cannot be nested inside\nshadow blocks.');
+    } else if (isShadow && hasVar) {
+      selected.setWarningText('Shadow blocks must be nested inside other'
+          + ' blocks.');
     } else {
       selected.setWarningText(null);
     }
@@ -656,7 +669,7 @@ class ToolboxController {
       // Warn if a shadow block is invalid only if not replacing
       // warning for variables.
       selectedBlock.setWarningText('Shadow blocks must be nested inside other'
-          + ' blocks.')
+          + ' blocks.');
     }
   }
 
@@ -672,8 +685,8 @@ class ToolboxController {
 
     // Let the user create a Variables or Functions category if they use
     // blocks from either category.
-    const newBaseBlock = this.view.editorWorkspace.getBlockById(blockId);
-    this.warnForMissingCategory_(newBaseBlock.getDescendants());
+    const newBlock = this.view.editorWorkspace.getBlockById(blockId);
+    this.warnForMissingCategory_(newBlock.getDescendants());
   }
 
   /**
