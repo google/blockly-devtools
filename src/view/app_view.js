@@ -451,23 +451,29 @@ class AppView {
    */
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
-      this.appController.projectController.
+      // TODO: prompt for name
+      this.appController.projectController.createBlockDefinition('test_block',
+       'test_library');
     });
 
     $('#addLibrary').click(() => {
-      this.appController.projectController.
+      // TODO: prompt for name
+      this.appController.projectController.createBlockLibrary('test_library');
     });
 
     $('#addToolbox').click(() => {
-      this.appController.projectController.
+      // TODO: prompt for name
+      this.appController.projectController.createToolbox('test_toolbox');
     });
 
     $('#addWorkspaceContents').click(() => {
-      this.appController.projectController.
+      // TODO: prompt for name
+      this.appController.projectController.createWorkspaceContents('test_contents');
     });
 
     $('#addWorkspaceConfig').click(() => {
-      this.appController.projectController.
+      // TODO: prompt for name
+      this.appController.projectController.createWorkspaceConfiguration('test_config');
     });
   }
 

@@ -283,15 +283,4 @@ class AppController {
     // TODO: Move in from app_controller.js'
     console.warn('Unimplemented: confirmLeavePage()');
   }
-
-  /**
-   * Handler for the window's 'beforeunload' event. When a user has unsaved
-   * changes and refreshes or leaves the page, confirm that they want to do so
-   * before actually refreshing.
-   * @param {Event} event The beforeunload event.
-   */
-  confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js'
-    console.warn('Unimplemented: confirmLeavePage()');
-  }
 }
