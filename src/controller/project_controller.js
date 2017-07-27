@@ -38,8 +38,8 @@ class ProjectController {
    * ProjectController class
    * @param {!Project} project The project from which the data to be managed
    *     comes from.
-   * @param {!NavigationTree} tree The tree which represents that project, to be updated
-   *     by the controller alongside it.
+   * @param {!NavigationTree} tree The tree which represents that project, to be
+   *     updated by the controller alongside it.
    * @constructor
    */
   constructor(project, tree) {

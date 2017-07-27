@@ -445,6 +445,7 @@ class AppView {
     $('#modalShadow').click(() => {
       FactoryUtils.closeModal(this.modalId_);
       this.modalId_ = null;
+      this.addFlyoutOpen = false;
     });
   }
 
@@ -453,42 +454,23 @@ class AppView {
    */
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
-      // TODO: prompt for name
-      const block = this.appController.projectController.createBlockDefinition(
-          'test_block','test_library');
-      this.switchEnvironment('block', block);
+      this.appController.createBlockDefinition();
     });
 
     $('#addLibrary').click(() => {
-      // TODO: prompt for name
-      const library = this.appController.projectController.createBlockLibrary(
-          'test_library');
-      const block = this.appController.projectController.createBlockDefinition(
-          'test_block','test_library');
-      this.switchEnvironment('block', block);
+      this.appController.createLibrary();
     });
 
     $('#addToolbox').click(() => {
-      // TODO: prompt for name
-      const toolbox = this.appController.projectController.createToolbox(
-          'test_toolbox');
-      this.switchEnvironment('toolbox', toolbox);
+      this.appController.createToolbox();
     });
 
     $('#addWorkspaceContents').click(() => {
-      // TODO: prompt for name
-      const workspaceContents =
-        this.appController.projectController.createWorkspaceContents(
-            'test_contents');
-      this.switchEnvironment('workspaceContents', workspaceContents);
+      this.appController.createWorkspaceContents();;
     });
 
     $('#addWorkspaceConfig').click(() => {
-      // TODO: prompt for name
-      const workspaceConfig =
-        this.appController.projectController.createWorkspaceConfiguration(
-            'test_config');
-      this.switchEnvironment('workspaceConfig', workspaceConfig);
+      this.appController.createWorkspaceConfiguration();
     });
 
     $('#createNewBlockButton').click(() => {

@@ -137,6 +137,9 @@ class AppController {
      */
     this.view = new AppView(this);
 
+    // Give this instance of AppView to the ProjectController.
+   // this.projectController.setAppView(this.view);
+
     /**
      * PopupController object which controls any popups that may appear throughout
      * the course of using DevTools.
@@ -282,5 +285,59 @@ class AppController {
   confirmLeavePage(event) {
     // TODO: Move in from app_controller.js'
     console.warn('Unimplemented: confirmLeavePage()');
+  }
+
+  /**
+   * Top-level function for block creation. Updates views, editors, and model.
+   */
+  createBlockDefinition() {
+    // TODO: get name from popup
+    const block = this.projectController.createBlockDefinition(
+        'test_block','test_library');
+    this.view.switchEnvironment('block', block);
+  }
+
+  /**
+   * Top-level function for library creation. Updates views, editors, and model.
+   */
+  createLibrary() {
+    // TODO: prompt for name, define behavior
+    const library = this.projectController.createBlockLibrary(
+        'test_library');
+    this.view.switchEnvironment('block', library);
+  }
+
+  /**
+   * Top-level function for toolbox creation. Updates views, editors, and model.
+   */
+  createToolbox() {
+    // TODO: prompt for name
+    const toolbox = this.projectController.createToolbox(
+        'test_toolbox');
+    this.view.switchEnvironment('toolbox', toolbox);
+  }
+
+  /**
+   * Top-level function for workspace contents creation. Updates views, editors,
+   * and model.
+   */
+  createWorkspaceContents() {
+    // TODO: prompt for name
+    const workspaceContents =
+      this.projectController.createWorkspaceContents(
+          'test_contents');
+    this.view.switchEnvironment('workspaceContents', workspaceContents);
+  }
+
+  /**
+   * Top-level function for workspace configuration creation. Updates views,
+   * editors, and model.
+   */
+  createWorkspaceConfiguration() {
+    // TODO: prompt for name
+    const workspaceConfig =
+      this.projectController.createWorkspaceConfiguration(
+          'test_config');
+    this.view.switchEnvironment('workspaceConfig', workspaceConfig);
   }
 }
