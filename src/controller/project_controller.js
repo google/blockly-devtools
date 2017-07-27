@@ -88,7 +88,6 @@ class ProjectController {
    *
    * @param {string} blockType Name of the block to add to the project.
    * @param {!string} libraryName The library to add it to.
-   *
    * @return {!BlockDefinition} The new block definition added to the project.
    */
   createBlockDefinition(blockType, libraryName) {
@@ -103,7 +102,6 @@ class ProjectController {
    *
    * @param {string} blockLibraryName Name of the BlockLibrary to add to the
    *     project.
-   *
    * @return {!BlockLibrary} The new library added to the project.
    */
   createBlockLibrary(blockLibraryName) {
@@ -117,7 +115,6 @@ class ProjectController {
    * Creates and adds new toolbox to this.project's toolbox set.
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
-   *
    * @return {!Toolbox} The new toolbox added to the project.
    */
   createToolbox(toolboxName) {
@@ -132,7 +129,6 @@ class ProjectController {
    *
    * @param {string} workspaceContentsName Name of the WorkspaceContents to
    *     add to the project.
-   *
    * @return {!WorkspaceContents} The new workspace contents added to the project.
    */
   createWorkspaceContents(workspaceContentsName) {
@@ -147,7 +143,6 @@ class ProjectController {
    *
    * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
    *     to add to the project.
-   *
    * @return {!WorkspaceConfiguration} The new workspace configuration added to
    *     the project.
    */

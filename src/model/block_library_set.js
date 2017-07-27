@@ -47,7 +47,6 @@ class BlockLibrarySet extends ResourceSet {
   getBlockTypes() {
     let allBlockTypes = [];
     for (let blockLib in this.resources) {
-      console.log(this.resources[blockLib].getBlockTypes());
       allBlockTypes = allBlockTypes.concat(this.resources[blockLib].getBlockTypes());
     }
     return allBlockTypes;
