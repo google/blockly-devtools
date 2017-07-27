@@ -57,6 +57,17 @@ class ProjectController {
   }
 
   /**
+   * Given the name of a block, returs the BlockLibrary that it belongs to.
+   * Returns null if it does not exist within the project.
+   * @param {string} blockType Block name of a BlockDefinition.
+   * @return {?BlockLibrary} BlockLibrary to which the given block type belongs,
+   *     or null if it DNE.
+   */
+  getLibrary(blockType) {
+    return this.project.librarySet.getLibrary(blockType);
+  }
+
+  /**
    * Creates new project that the ProjectController is controlling.
    *
    * @param {!Project} newProject New project to create that the user
@@ -87,14 +98,13 @@ class ProjectController {
    * Creates and adds new block definition to the project.
    *
    * @param {string} blockType Name of the block to add to the project.
-   *
-   * @return {!BlockDefinition} The new block definition added to the project.
    * @param {!string} libraryName The library to add it to.
+   * @return {!BlockDefinition} The new block definition added to the project.
    */
   createBlockDefinition(blockType, libraryName) {
     //TODO #105: check for valid name, throw error upon conflict
     const block = new BlockDefinition(blockType);
-    this.addBlockDefinition(blockType, libraryName);
+    this.addBlockDefinition(block, libraryName);
     return block;
   }
 
@@ -103,7 +113,6 @@ class ProjectController {
    *
    * @param {string} blockLibraryName Name of the BlockLibrary to add to the
    *     project.
-   *
    * @return {!BlockLibrary} The new library added to the project.
    */
   createBlockLibrary(blockLibraryName) {
@@ -117,7 +126,6 @@ class ProjectController {
    * Creates and adds new toolbox to this.project's toolbox set.
    *
    * @param {string} toolboxName Name of the toolbox to add to the project.
-   *
    * @return {!Toolbox} The new toolbox added to the project.
    */
   createToolbox(toolboxName) {
@@ -132,7 +140,6 @@ class ProjectController {
    *
    * @param {string} workspaceContentsName Name of the WorkspaceContents to
    *     add to the project.
-   *
    * @return {!WorkspaceContents} The new workspace contents added to the project.
    */
   createWorkspaceContents(workspaceContentsName) {
@@ -147,7 +154,6 @@ class ProjectController {
    *
    * @param {string} workspaceConfigName The name of the WorkspaceConfiguration
    *     to add to the project.
-   *
    * @return {!WorkspaceConfiguration} The new workspace configuration added to
    *     the project.
    */
