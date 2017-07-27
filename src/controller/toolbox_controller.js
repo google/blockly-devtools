@@ -522,8 +522,19 @@ class ToolboxController {
     // surrounding parent, meaning it is nested in another block (blocks that
     // are not nested in parents cannot be shadow blocks).
     if (isMoveEvent || isUiEvent) {
+      Blockly.Events.disable();
       const selected = this.view.editorWorkspace.getBlockById(e.blockId);
       this.view.selectedBlock = selected;
+
+      if (selected &&
+          selected.getSurroundParent() &&
+          $(selected.getSurroundParent().svgGroup_).hasClass('shadowBlock')) {
+        console.log(selected.getSurroundParent());
+        console.log('selected:' );
+        console.log(selected);
+        selected.setWarningText('Regular blocks cannot be children of shadow\n'
+            + 'blocks.');
+      }
       // const project = this.projectController.getProject();
 
       // // Displays shadow buttons only when user clicks on a block.
@@ -534,6 +545,9 @@ class ToolboxController {
       //     !this.isUserGenShadowBlock(selected.getSurroundParent().id);
       // this.allowShadow_(isPotentialShadow, selected);
       this.showShadowButtons_(selected);
+      Blockly.Events.enable();
+    } else {
+      this.view.selectedBlock = null;
     }
 
     if (isCreateEvent) {
@@ -564,7 +578,8 @@ class ToolboxController {
         $(selected.svgGroup_).hasClass('shadowBlock');
     // Check if valid shadow block position.
     const isValid = selected != null && selected.getSurroundParent() != null &&
-        !this.isUserGenShadowBlock(selected.getSurroundParent().id);
+        !this.isUserGenShadowBlock(selected.getSurroundParent().id) &&
+        selected.getChildren().length == 0;
     // Check if block has variables (variable blocks cannot be shadow blocks).
     const hasVar = FactoryUtils.hasVariableField(selected);
     this.view.enableShadowButtons(isShadow, isValid);

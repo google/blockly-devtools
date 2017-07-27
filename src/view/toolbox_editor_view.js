@@ -297,13 +297,18 @@ class ToolboxEditorView {
     this.addShadowButton.addEventListener('click', () => {
       if (this.selectedBlock) {
         this.markShadowBlock(this.selectedBlock);
-        this.toolbox.shadowBlocks.push(this.selectedBlock.type);
+        this.toolbox.addShadowBlock(this.selectedBlock.id);
+        this.enableShadowButtons(true, true);
       }
     });
 
     // Listener for removing a shadow block.
     this.removeShadowButton.addEventListener('click', () => {
-      //
+      if (this.selectedBlock) {
+        this.unmarkShadowBlock(this.selectedBlock);
+        this.toolbox.removeShadowBlock(this.selectedBlock.id);
+        this.enableShadowButtons(false, true);
+      }
     });
   }
 
