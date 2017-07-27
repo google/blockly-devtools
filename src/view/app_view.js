@@ -415,6 +415,7 @@ class AppView {
     const opt = document.getElementById('addOptions');
     this.addFlyoutOpen = false;
     opt.className = '';
+    this.closeModal();
   }
 
   /*
@@ -425,6 +426,7 @@ class AppView {
     const opt = document.getElementById('addOptions');
     this.addFlyoutOpen = true;
     opt.className = 'expanded';
+    this.openModal('addOptions');
   }
 
   /**
@@ -438,9 +440,11 @@ class AppView {
 
     $('#addButton').click(() => {
       if (this.addFlyoutOpen) {
-        this.closeAddFlyout_();
+        this.closeModal();
+        this.addFlyoutOpen = false;
       } else {
-        this.openAddFlyout_();
+        this.openModal('addOptions');
+        this.addFlyoutOpen = true;
       }
     });
     this.assignAddFlyoutClickHandlers();
@@ -454,7 +458,8 @@ class AppView {
       // TODO: prompt for name
       const block = this.appController.projectController.createBlockDefinition(
           'test_block','test_library');
-      this.appController.editorController.switchEditor(this);
+      this.appController.editorController.switchEditor(
+        this.appController.editorController.blockEditorController);
       this.switchView(this.blockEditorView);
       this.blockEditorView.block = block;
     });
@@ -463,8 +468,12 @@ class AppView {
       // TODO: prompt for name
       const library = this.appController.projectController.createBlockLibrary(
           'test_library');
-      this.appController.editorController.switchEditor();
-      this.switchView(this.blockEditorView);
+      const block = this.appController.projectController.createBlockDefinition(
+          'test_block','test_library');
+      this.appController.editorController.switchEditor(
+        this.appController.editorController.workspaceController);
+      this.switchView(this.blockEditorView, block);
+      this.blockEditorView.block = block;
     });
 
     $('#addToolbox').click(() => {
@@ -472,7 +481,7 @@ class AppView {
       const toolbox = this.appController.projectController.createToolbox(
           'test_toolbox');
       this.appController.editorController.switchEditor(
-          this.appController.editorController.toolboxController);
+          this.appController.editorController.blockEditorController);
       this.switchView(this.toolboxEditorView);
       this.toolboxEditorView.toolbox = toolbox;
     });
@@ -539,14 +548,23 @@ class AppView {
    * @param {string} id ID of element to show.
    */
   openModal(id) {
-    // TODO: Move in from app_controller.js
+    Blockly.hideChaff();
+    this.modalName_ = id;
+    document.getElementById(id).style.display = 'block';
+    document.getElementById('modalShadow').style.display = 'block';
   }
 
   /**
    * Hide a previously shown modal element.
    */
   closeModal() {
-    // TODO: Move in from app_controller.js
+    var id = this.modalName_;
+    if (!id) {
+      return;
+    }
+    document.getElementById(id).style.display = 'none';
+    document.getElementById('modalShadow').style.display = 'none';
+    this.modalName_ = null;
   }
 
   /**

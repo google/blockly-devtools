@@ -173,10 +173,7 @@ button, .buttonStyle {
   left:50px;
   position: absolute;
   white-space: nowrap;
-}
-
-#addOptions.expanded {
-  display: block;
+  z-index: 1000;
 }
 
 #addOptions div {
