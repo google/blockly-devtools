@@ -523,6 +523,7 @@ class ToolboxController {
     // are not nested in parents cannot be shadow blocks).
     if (isMoveEvent || isUiEvent) {
       const selected = this.view.editorWorkspace.getBlockById(e.blockId);
+      this.view.selectedBlock = selected;
       // const project = this.projectController.getProject();
 
       // // Displays shadow buttons only when user clicks on a block.
@@ -565,7 +566,7 @@ class ToolboxController {
     const isValid = selected != null && selected.getSurroundParent() != null &&
         !this.isUserGenShadowBlock(selected.getSurroundParent().id);
     // Check if block has variables (variable blocks cannot be shadow blocks).
-    const hasVar = !FactoryUtils.hasVariableField(selected);
+    const hasVar = FactoryUtils.hasVariableField(selected);
     this.view.enableShadowButtons(isShadow, isValid);
 
     console.log('isShadow: ' + isShadow);

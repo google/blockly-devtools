@@ -45,6 +45,8 @@ class ToolboxEditorView {
      */
     this.toolbox = toolbox;
 
+    this.selectedBlock = null;
+
     /**
      * JQuery container of toolbox editor view.
      * @type {!JQuery}
@@ -289,6 +291,19 @@ class ToolboxEditorView {
       controller.changeCategoryName();
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
+    });
+
+    // Listener for adding a shadow block.
+    this.addShadowButton.addEventListener('click', () => {
+      if (this.selectedBlock) {
+        this.markShadowBlock(this.selectedBlock);
+        this.toolbox.shadowBlocks.push(this.selectedBlock.type);
+      }
+    });
+
+    // Listener for removing a shadow block.
+    this.removeShadowButton.addEventListener('click', () => {
+      //
     });
   }
 
