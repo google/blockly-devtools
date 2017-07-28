@@ -524,22 +524,25 @@ class ToolboxController {
       const selected = this.view.editorWorkspace.getBlockById(e.blockId);
       this.view.selectedBlock = selected;
 
-      // Displays and styles shadow buttons according to whether block
-      // can or cannot be a shadow block.
-      this.showShadowButtons_();
-
-      if (selected && selected.getSurroundParent()) {
-        for (let block of selected.getSurroundParent().getDescendants()) {
-          this.view.selectedBlock = block;
-          this.checkShadowStatus();
+      if (!selected) {
+        // User does not select a block.
+        this.view.showAndEnableShadow(false, false, true);
+      } else {
+        // User selects a block.
+        if (selected.getSurroundParent()) {
+          for (let block of selected.getSurroundParent().getDescendants()) {
+            this.view.selectedBlock = block;
+            this.checkShadowStatus();
+          }
+          this.view.selectedBlock = selected;
         }
-        this.view.selectedBlock = selected;
-      }
 
-      this.checkShadowStatus();
+        this.checkShadowStatus();
+      }
       Blockly.Events.enable();
     } else {
       this.view.selectedBlock = null;
+      this.view.showAndEnableShadow(false, false, true);
     }
 
     if (isCreateEvent) {
@@ -569,7 +572,8 @@ class ToolboxController {
       this.view.toolbox.addShadowBlock(block.id);
     }
 
-    this.view.enableShadowButtons(true, true);
+    this.view.showAndEnableShadow(false,
+        this.isValidShadow_(this.view.selectedBlock, true));
     this.checkShadowStatus();
     // Save and update the preview.
     this.saveStateFromWorkspace();
@@ -589,7 +593,8 @@ class ToolboxController {
     this.view.unmarkShadowBlock(this.view.selectedBlock);
     this.view.toolbox.removeShadowBlock(this.view.selectedBlock.id);
     this.checkShadowStatus();
-    this.view.enableShadowButtons(false, true);
+    this.view.showAndEnableShadow(true,
+        this.isValidShadow_(this.view.selectedBlock, true));
 
     // Save and update the preview.
     this.saveStateFromWorkspace();
@@ -627,15 +632,7 @@ class ToolboxController {
         $(selected.svgGroup_).hasClass('shadowBlock');
 
     // Check if valid shadow block position.
-    const children = selected.getChildren();
-    let isValid = selected.getSurroundParent() != null &&
-        !this.isUserGenShadowBlock(selected.getSurroundParent().id);
-    if (!isShadow) {
-      // If the block is not a shadow block, it can only be a valid shadow
-      // block if all of its children are also shadow blocks.
-      isValid = isValid &&
-          FactoryUtils.getShadowBlocks(children).length == children.length;
-    }
+    const isValid = this.isValidShadow_(selected, isShadow);
 
     // Check if block has variables (variable blocks cannot be shadow blocks).
     const hasVar = FactoryUtils.hasVariableField(selected);
@@ -666,6 +663,24 @@ class ToolboxController {
   }
 
   /**
+   * Checks whether the given block is a valid shadow block.
+   * @param {!Blockly.Block} block The block to be evaluated for shadow block
+   *     validity.
+   * @param {boolean} isShadow Whether the given block is a shadow block.
+   * @return {boolean} Whether the given block is a valid shadow block that
+   *     does not need warning text.
+   */
+  isValidShadow_(block, isShadow) {
+    // Check if valid shadow block position.
+    const children = block.getChildren();
+    // To be a valid shadow block candidate, the block must (1) have a parent,
+    // and (2) have only shadow blocks as its children.
+    const isValid = block.getSurroundParent() != null &&
+        (isShadow || FactoryUtils.getShadowBlocks(children).length == children.length);
+    return isValid;
+  }
+
+  /**
    * Convert actual shadow blocks added from the toolbox to user-generated shadow
    * blocks.
    * @param {boolean} blockId ID of the selected block.
@@ -688,6 +703,7 @@ class ToolboxController {
    * developer's blocks.
    * @param {!Array.<!Blockly.Block>} blockList List of all blocks to check for
    *      use of variables or functions.
+   * @private
    */
   warnForMissingCategory_(blockList) {
     let variableCreated = false;
@@ -766,8 +782,8 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    * Encodes blocks in the hidden workspace in a XML DOM element. Very
    * similar to workspaceToDom, but doesn't capture IDs. Uses the top-level
    * blocks loaded in hiddenWorkspace.
-   * @private
    * @param {!Element} xmlDom Tree of XML elements to be appended to.
+   * @private
    */
   appendHiddenWorkspaceToDom_(xmlDom) {
     // REFACTOR: Moved in from wfactory_generator.js

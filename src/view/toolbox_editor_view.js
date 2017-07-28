@@ -321,6 +321,26 @@ class ToolboxEditorView {
   }
 
   /**
+   * Shows and enables shadow buttons.
+   * @param {boolean} ifAdd Whether to show the add button. Shows remove button
+   *     if false.
+   * @param {boolean} ifEnable Whether to enable the add or remove button that
+   *     is shown.
+   * @param {boolean=} opt_disableAll Whether to hide both buttons entirely.
+   */
+  showAndEnableShadow(ifAdd, ifEnable, opt_disableAll) {
+    if (opt_disableAll) {
+      this.displayAddShadow(false);
+      this.displayRemoveShadow(false);
+      return;
+    }
+    this.displayAddShadow(ifAdd);
+    this.displayRemoveShadow(!ifAdd);
+    const button = ifAdd ? this.addShadowButton : this.removeShadowButton;
+    button.disabled = ifEnable ? false : true;
+  }
+
+  /**
    * Display or hide the add shadow button.
    * @param {boolean} show True if the add shadow button should be shown, false
    *     otherwise.
@@ -659,20 +679,16 @@ class ToolboxEditorView {
   enableShadowButtons(isShadow, isValid) {
     if (isShadow && isValid) {
       // Is a shadow block that is in a valid shadow block position.
-      this.addShadowButton.disabled = true;
-      this.removeShadowButton.disabled = false;
+      this.showAndEnableShadow(false, true);
     } else if (isShadow && !isValid) {
       // Is a shadow block that is no longer in a valid shadow block position.
-      this.addShadowButton.disabled = true;
-      this.removeShadowButton.disabled = false;
+      this.showAndEnableShadow(false, true);
     } else if (!isShadow && isValid) {
       // Is not a shadow block but can be a valid shadow block.
-      this.addShadowButton.disabled = false;
-      this.removeShadowButton.disabled = true;
+      this.showAndEnableShadow(true, true);
     } else {
       // Is not a shadow block and is not in a valid shadow block position.
-      this.addShadowButton.disabled = true;
-      this.removeShadowButton.disabled = true;
+      this.showAndEnableShadow(true, false);
     }
   }
 }

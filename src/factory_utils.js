@@ -926,11 +926,7 @@ FactoryUtils.hasVariableField = function(block) {
   if (!block) {
     return false;
   }
-  const vars = block.getVars();
-  if (vars.length > 0) {
-    console.log(block.getVars());
-  }
-  return vars.length > 0;
+  return block.getVars().length > 0;
 };
 
 /**
