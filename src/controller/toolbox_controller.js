@@ -556,7 +556,7 @@ class ToolboxController {
    * them (which would be impossible with actual shadow blocks). Updates the
    * preview when done.
    */
-  addShadow() {
+  setSelectedAsShadowBlock() {
     // From wfactory_controller.js:addShadow()
     // No block selected to make a shadow block.
     if (!this.view.selectedBlock) {
@@ -584,7 +584,7 @@ class ToolboxController {
    * block from list of shadow blocks and then reloads workspace. Updates the
    * preview when done.
    */
-  removeShadow() {
+  unsetSelectedAsShadowBlock() {
     // From wfactory_controller.js
     if (!this.view.selectedBlock) {
       return;

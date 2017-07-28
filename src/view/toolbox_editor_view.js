@@ -301,12 +301,12 @@ class ToolboxEditorView {
 
     // Listener for adding a shadow block.
     this.addShadowButton.addEventListener('click', () => {
-      controller.addShadow();
+      controller.setSelectedAsShadowBlock();
     });
 
     // Listener for removing a shadow block.
     this.removeShadowButton.addEventListener('click', () => {
-      controller.removeShadow();
+      controller.unsetSelectedAsShadowBlock();
     });
   }
 
