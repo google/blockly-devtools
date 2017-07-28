@@ -285,13 +285,56 @@ class AppController {
   }
 
   /**
-   * Handler for the window's 'beforeunload' event. When a user has unsaved
-   * changes and refreshes or leaves the page, confirm that they want to do so
-   * before actually refreshing.
-   * @param {Event} event The beforeunload event.
+   * Top-level function for block creation. Updates views, editors, and model.
    */
-  confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js'
-    console.warn('Unimplemented: confirmLeavePage()');
+  createBlockDefinition() {
+    // TODO: get name from popup
+    const block = this.projectController.createBlockDefinition(
+        'test_block','test_library');
+    this.view.switchEnvironment('block', block);
+  }
+
+  /**
+   * Top-level function for library creation. Updates views, editors, and model.
+   */
+  createLibrary() {
+    // TODO: prompt for name, define behavior
+    const library = this.projectController.createBlockLibrary(
+        'test_library');
+    this.view.switchEnvironment('block', library);
+  }
+
+  /**
+   * Top-level function for toolbox creation. Updates views, editors, and model.
+   */
+  createToolbox() {
+    // TODO: prompt for name
+    const toolbox = this.projectController.createToolbox(
+        'test_toolbox');
+    this.view.switchEnvironment('toolbox', toolbox);
+  }
+
+  /**
+   * Top-level function for workspace contents creation. Updates views, editors,
+   * and model.
+   */
+  createWorkspaceContents() {
+    // TODO: prompt for name
+    const workspaceContents =
+      this.projectController.createWorkspaceContents(
+          'test_contents');
+    this.view.switchEnvironment('workspaceContents', workspaceContents);
+  }
+
+  /**
+   * Top-level function for workspace configuration creation. Updates views,
+   * editors, and model.
+   */
+  createWorkspaceConfiguration() {
+    // TODO: prompt for name
+    const workspaceConfig =
+      this.projectController.createWorkspaceConfiguration(
+          'test_config');
+    this.view.switchEnvironment('workspaceConfig', workspaceConfig);
   }
 }

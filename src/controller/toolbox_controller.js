@@ -513,7 +513,6 @@ class ToolboxController {
     // user loads blocks into workspace directly without calling updatePreview.
     if (isMoveEvent || isDeleteEvent || isChangeEvent || isUiEvent) {
       this.saveStateFromWorkspace();
-      this.view.toolbox.setXml(this.generateToolboxXml());
       this.updatePreview();
     }
 
@@ -581,9 +580,9 @@ class ToolboxController {
   }
 
   /**
-   * If the currently selected block is a user-generated shadow block, this
-   * function makes it a normal block again, removing it from the list of
-   * shadow blocks and loading the workspace again. Updates the preview again.
+   * Makes user-generated shadow block back to a normal block again. Removes
+   * block from list of shadow blocks and then reloads workspace. Updates the
+   * preview when done.
    */
   removeShadow() {
     // From wfactory_controller.js
@@ -602,12 +601,12 @@ class ToolboxController {
   }
 
   /**
-   * Checks the currently selected block if it is breaking any shadow block rules.
-   * Sets warning text to user if it is breaking a rule, and removes warning
-   * text if it not.
-   * Shadow blocks must be nested within another block, and cannot have any
+   * Checks currently selected block if it is breaking any shadow block rules.
+   * Sets warning text to user if it breaks a rule, and removes warning
+   * text if not.
+   * Shadow blocks must be nested within another block and cannot have any
    * non-shadow blocks as children.
-   * @recursive Checks children and connected blocks for their status as well.
+   * @recursive Checks connected blocks for their shadow block status.
    */
   checkShadowStatus() {
     const selected = this.view.selectedBlock;
