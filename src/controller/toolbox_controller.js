@@ -602,17 +602,6 @@ class ToolboxController {
   }
 
   /**
-   * Shows buttons to create/remove shadow blocks only when a block is selected.
-   * @private
-   */
-  showShadowButtons_() {
-    // Show shadow button if a block is selected.
-    const show = this.view.selectedBlock ? true : false;
-    this.view.displayAddShadow(show);
-    this.view.displayRemoveShadow(show);
-  }
-
-  /**
    * Checks the currently selected block if it is breaking any shadow block rules.
    * Sets warning text to user if it is breaking a rule, and removes warning
    * text if it not.
