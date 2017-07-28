@@ -930,21 +930,6 @@ FactoryUtils.hasVariableField = function(block) {
 };
 
 /**
- * Returns array of shadow blocks from a list of blocks.
- * @param {!Array.<!Blockly.Block>} blockList List of blocks.
- * @return {!Array.<!Blockly.Block>} List of shadow blocks from given list.
- */
-FactoryUtils.getShadowBlocks = function(blockList) {
-  let shadowBlocks = [];
-  for (let block of blockList) {
-    if ($(block.svgGroup_).hasClass('shadowBlock')) {
-      shadowBlocks.push(block);
-    }
-  }
-  return shadowBlocks;
-};
-
-/**
  * Checks if a block is a procedures block. If procedures block names are
  * ever updated or expanded, this function should be updated as well (no
  * other known markers for procedure blocks beyond name).
@@ -1343,17 +1328,14 @@ FactoryUtils.getShadowBlocks = function(blockList) {
 };
 
 /**
- * Given a set of blocks currently loaded user-generated shadow blocks, visually
- * marks them without making them actual shadow blocks (allowing them to still
- * be editable and movable).
- * @param {!Array.<!Blockly.Block>} blocks Array of user-generated shadow blocks
- *     currently loaded.
+ * Removes visual marking for a shadow block given a rendered block.
+ * @param {!Blockly.Block} block The block that should be unmarked as a shadow
+ *     block (must be rendered).
  */
-FactoryUtils.markShadowBlocks = function(blocks) {
-  for (let block of blocks) {
-    FactoryUtils.markShadowBlock(block);
-  }
-};
+FactoryUtils.unmarkShadowBlock = function(block) {
+  // REFACTOR: Moved in from wfactory_view.js
+  Blockly.utils.removeClass(block.svgGroup_, 'shadowBlock');
+}
 
 /**
  * Given a Blockly.Block, visually marks a block in the view to look like a
@@ -1421,7 +1403,8 @@ FactoryUtils.isValidShadowBlock = function(block, isShadow) {
  */
 FactoryUtils.warnForUndefinedBlocks = function(blocks, project) {
   blocks.forEach((block) => {
-    if (!project.hasBlockDefinition(block.type)) {
+    if (!project.hasBlockDefinition(block.type) ||
+        !StandardCategories.categoryMap[block.type]) {
       block.setWarningText(block.type + ' is not defined (it is not a standard '
           + 'block, \nin your block library, or an imported block).');
     }

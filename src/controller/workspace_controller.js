@@ -156,7 +156,7 @@ class WorkspaceController {
     }
 
     if (isCreateEvent) {
-      this.makeShadowishBlocks_(event.blockId);
+      this.createFakeShadowBlocks_(event.blockId);
     }
   }
 
@@ -379,7 +379,7 @@ class WorkspaceController {
     if (!this.view.selectedBlock) {
       return;
     }
-    this.view.unmarkShadowBlock(this.view.selectedBlock);
+    FactoryUtils.unmarkShadowBlock(this.view.selectedBlock);
     this.view.workspaceContents.removeShadowBlock(this.view.selectedBlock.id);
     this.checkShadowStatus();
     this.view.showAndEnableShadow(true,
@@ -396,7 +396,7 @@ class WorkspaceController {
    * @param {boolean} blockId ID of the selected block.
    * @private
    */
-  makeShadowishBlocks_(blockId) {
+  createFakeShadowBlocks_(blockId) {
     // Converts actual shadow blocks to shadow-looking blocks in editor.
     this.convertShadowBlocks();
 
@@ -442,7 +442,10 @@ class WorkspaceController {
     this.view.editorWorkspace.clearUndo();
     Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
     const blocks = this.view.editorWorkspace.getAllBlocks();
-    FactoryUtils.markShadowBlocks(this.getShadowBlocksInWorkspace(blocks));
+    const shadowBlocks =  this.getShadowBlocksInWorkspace(blocks);
+    for (let block of shadowBlocks) {
+      FactoryUtils.markShadowBlock(block);
+    }
     FactoryUtils.warnForUndefinedBlocks(blocks, this.projectController.getProject());
   }
 
@@ -462,21 +465,6 @@ class WorkspaceController {
       }
     });
     return shadowsInWorkspace;
-  }
-
-  /**
-   * Sets a warning on blocks loaded to the workspace that are not defined.
-   * @private
-   */
-  warnForUndefinedBlocks_() {
-    const blocks = this.view.editorWorkspace.getAllBlocks();
-    const project = this.projectController.getProject();
-    blocks.forEach((block) => {
-      if (!project.hasBlockDefinition(block.type)) {
-        block.setWarningText(block.type + ' is not defined (it is not a standard '
-            + 'block, \nin your block library, or an imported block).');
-      }
-    });
   }
 
   /**

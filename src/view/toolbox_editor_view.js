@@ -585,16 +585,6 @@ class ToolboxEditorView {
   }
 
   /**
-   * Removes visual marking for a shadow block given a rendered block.
-   * @param {!Blockly.Block} block The block that should be unmarked as a shadow
-   *     block (must be rendered).
-   */
-  unmarkShadowBlock(block) {
-    // REFACTOR: Moved in from wfactory_view.js
-    Blockly.utils.removeClass(block.svgGroup_, 'shadowBlock');
-  }
-
-  /**
    * Enables or disables the add/remove shadow block buttons depending on whether
    * the selected block (1) is already marked as a shadow block, and (2) is in
    * a valid shadow block position.
