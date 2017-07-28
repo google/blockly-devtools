@@ -513,7 +513,6 @@ class ToolboxController {
     // user loads blocks into workspace directly without calling updatePreview.
     if (isMoveEvent || isDeleteEvent || isChangeEvent || isUiEvent) {
       this.saveStateFromWorkspace();
-      this.view.toolbox.setXml(this.generateToolboxXml());
       this.updatePreview();
     }
 
