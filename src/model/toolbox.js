@@ -329,7 +329,7 @@ class Toolbox extends Resource {
    */
   addShadowBlock(blockId) {
     // Moved in from wfactory_model.js
-    if (this.shadowBlocks.indexOf(blockId) != -1) {
+    if (this.shadowBlocks.indexOf(blockId) == -1) {
       this.shadowBlocks.push(blockId);
     }
   }
@@ -340,13 +340,13 @@ class Toolbox extends Resource {
    * @param {string} blockId The unique ID of block to be removed.
    */
   removeShadowBlock(blockId) {
-    /*
-     * TODO: Move in from wfactory_model.js
-     *
-     * References:
-     * - this.shadowBlocks
-     */
-    throw 'Unimplemented: removeShadowBlock()';
+    // From wfactory_model.js:removeShadowBlock(blockId)
+    for (let i = 0; i < this.shadowBlocks.length; i++) {
+      if (this.shadowBlocks[i] == blockId) {
+        this.shadowBlocks.splice(i, 1);
+        return;
+      }
+    }
   }
 
   /**
