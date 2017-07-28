@@ -163,6 +163,7 @@ button, .buttonStyle {
   height: 48px;
   left: 10px;
   position: absolute;
+  z-index: 101;
 }
 
 #addOptions {
@@ -173,10 +174,7 @@ button, .buttonStyle {
   left:50px;
   position: absolute;
   white-space: nowrap;
-}
-
-#addOptions.expanded {
-  display: block;
+  z-index: 101;
 }
 
 #addOptions div {
