@@ -105,7 +105,7 @@ class BlockEditorController {
    */
   createNewBlock(inputType, blockTypeName, opt_blockStarterText) {
     // Creates new BlockDefinition object, marks as the current block being edited.
-    const currentLib = this.projectController.getLibrary(this.view.blockDefinition.type());
+    const currentLib = 'test_library';//this.projectController.getLibrary(this.view.blockDefinition.type());
     const newBlock = this.projectController.createBlockDefinition(
         blockTypeName, currentLib);
     this.view.blockDefinition = newBlock;

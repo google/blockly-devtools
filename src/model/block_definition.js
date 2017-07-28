@@ -24,6 +24,7 @@ goog.provide('BlockDefinition');
 
 /**
  * @class BlockDefinition provides accessors to a block definition for the
+
  *     purposes of the DevTools Application.
  */
 class BlockDefinition extends Resource {
@@ -64,7 +65,7 @@ class BlockDefinition extends Resource {
    * @return {!Object} JSON representation of the block.
    */
   getJson() {
-    throw 'unimplemented: getJson';
+    return {'id': this.type(), 'text': this.type()};
   }
 
   /**

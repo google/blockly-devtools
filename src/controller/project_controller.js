@@ -57,7 +57,7 @@ class ProjectController {
   }
 
   /**
-   * Given the name of a block, returs the BlockLibrary that it belongs to.
+   * Given the name of a block, returns the BlockLibrary that it belongs to.
    * Returns null if it does not exist within the project.
    * @param {string} blockType Block name of a BlockDefinition.
    * @return {?BlockLibrary} BlockLibrary to which the given block type belongs,
