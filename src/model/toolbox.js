@@ -100,6 +100,22 @@ class Toolbox extends Resource {
   }
 
   /**
+   * Static constant used to determine the export type of a toolbox as JavaScript.
+   * @return {string} String constant to represent JavaScript.
+   */
+  static get TYPE_JS() {
+    return 'js';
+  }
+
+  /**
+   * Static constant used to determine the export type of a toolbox as XML.
+   * @return {string} String constant to represent XML.
+   */
+  static get TYPE_XML() {
+    return 'xml';
+  }
+
+  /**
    * Sets XML of toolbox to given element.
    * @param {!Element} xml XML of toolbox.
    */

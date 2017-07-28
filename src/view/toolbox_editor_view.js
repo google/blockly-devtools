@@ -120,6 +120,7 @@ class ToolboxEditorView {
     this.upButton.disabled = true;
     this.downButton.disabled = true;
     this.editButton.disabled = true;
+    $('#currentToolbox').text(this.toolbox.name);
 
     /**
      * ID of currently open modal (dropdowns, etc.) in the toolbox editor view.
@@ -290,6 +291,29 @@ class ToolboxEditorView {
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
     });
+
+    $('#button_importBlocks').click(() => {
+      this.openModal_ = 'dropdownDiv_importBlocks';
+      FactoryUtils.openModal(this.openModal_);
+    });
+
+    $('#button_load').click(() => {
+      this.openModal_ = 'dropdownDiv_load';
+      FactoryUtils.openModal(this.openModal_);
+    });
+
+    $('#button_export').click(() => {
+      this.openModal_ = 'dropdownDiv_export';
+      FactoryUtils.openModal(this.openModal_);
+    });
+
+    $('#dropdown_exportToolboxXML').click(() => {
+      controller.export(this.toolbox, Toolbox.TYPE_XML);
+    });
+
+    $('#dropdown_exportToolboxJS').click(() => {
+      controller.export(this.toolbox, Toolbox.TYPE_JS);
+    });
   }
 
   /**
@@ -300,6 +324,14 @@ class ToolboxEditorView {
    */
   initEventListeners_(controller) {
     // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
+  }
+
+  /**
+   * Refreshes any information in the view (such as the name of the currently
+   * edited toolbox) to match any changes in the Toolbox model object.
+   */
+  refreshToolboxInfo() {
+    $('#currentToolbox').text(this.toolbox.name);
   }
 
   /**
@@ -665,11 +697,8 @@ ToolboxEditorView.html = `
     <div class="dropdown">
       <button id="button_export">Export</button>
       <div id="dropdownDiv_export" class="dropdown-content">
-        <a id="dropdown_exportOptions">Starter Code</a>
         <a id="dropdown_exportToolboxXML">Toolbox as XML</a>
         <a id="dropdown_exportToolboxJS">Toolbox as JS</a>
-        <a id="dropdown_exportPreloadXML">Workspace Blocks as XML</a>
-        <a id="dropdown_exportPreloadJS">Workspace Blocks as JS</a>
         <a id="dropdown_exportAll">All</a>
       </div>
     </div>
@@ -684,6 +713,7 @@ ToolboxEditorView.html = `
   <div id="createHeader">
     <h3>Edit Toolboxes</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure the toolbox in your custom workspace.</p>
+    <p><b>Current toolbox:</b> <span id="currentToolbox"></span></p>
   </div>
   <section id="toolbox_section">
     <div id="toolboxDiv"></div>

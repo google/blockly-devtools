@@ -1214,28 +1214,56 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   }
 
   /**
+   * Creates file with toolbox contents, prompts user, then downloads onto user's
+   * file system.
+   * @param {!Toolbox} toolbox The toolbox to export.
+   * @param {string} type String constant to determine whether to export as a
+   *     JavaScript or XML file (either Toolbox.TYPE_JS or Toolbox.TYPE_XML).
+   */
+  export(toolbox, type) {
+    // Prompt user for file name.
+    const fileName = prompt('File name for toolbox:',
+        toolbox.name + '.' + type);
+
+    if (!fileName) {
+      return;
+    }
+
+    let fileContents = Blockly.Xml.domToPrettyText(toolbox.getExportData());
+
+    if (type == Toolbox.TYPE_JS) {
+      fileContents = this.generateJsFileContents(toolbox);
+    } else if (type != Toolbox.TYPE_XML) {
+      throw new Error('Unknown export mode: file types with extension .' + type
+          + ' not supported.');
+    }
+
+    FactoryUtils.createAndDownloadFile(fileContents, fileName, 'text/' + type);
+  }
+
+  /**
    * Generates JavaScript string representation of toolbox for user to download.
    * Does not deal with popups or file system access; just generates content.
    *
    * @returns {string} String representation of JS file to be exported.
    */
-  generateJsFileContents() {
-    /*
-     * TODO: Move in from wfactory_generator.js:generateJsFromXml(xml, name, mode)
-     *       (Also moved into: workspace_contents.js)
-     *
-     * References:
-     * - [NEW] this.generateXml()
-     * - [NEW] this.name
-     */
-    throw 'Unimplemented: generateJsFileContents()';
-  }
+  generateJsFileContents(toolbox) {
+    const xml = Blockly.Xml.domToText(toolbox.getExportData());
+    const xmlStorageVariable = 'BLOCKLY_TOOLBOX_XML';
 
-  /**
-   * Exports the toolbox.
-   */
-  exportToolbox() {
-    throw 'Unimplemented: exportToolbox()';
+    // XML ASSIGNMENT STRING (not to be executed)
+    let jsFromXml = `
+// If ${xmlStorageVariable} does not exist.
+if (!${xmlStorageVariable}) {
+  ${xmlStorageVariable} = {};
+}
+
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+${xmlStorageVariable}['${toolbox.name}'] =
+    ${FactoryUtils.concatenateXmlString(xml)};
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
+`;
+      return jsFromXml;
   }
 
   /**
