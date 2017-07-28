@@ -126,6 +126,38 @@ class WorkspaceController {
       this.saveStateFromWorkspace();
       this.updatePreview();
     }
+
+    // Refresh the shadow block buttons only if the state of blocks has changed
+    // (i.e. only on move or UI events).
+    if (isMoveEvent || isUiEvent) {
+      Blockly.Events.disable();
+      const selected = this.view.editorWorkspace.getBlockById(e.blockId);
+      this.view.selectedBlock = selected;
+
+      if (!selected) {
+        // User does not select a block.
+        this.view.showAndEnableShadow(false, false, true);
+      } else {
+        // User selects a block.
+        if (selected.getSurroundParent()) {
+          for (let block of selected.getSurroundParent().getDescendants()) {
+            this.view.selectedBlock = block;
+            this.checkShadowStatus();
+          }
+          this.view.selectedBlock = selected;
+        }
+
+        this.checkShadowStatus();
+      }
+      Blockly.Events.enable();
+    } else {
+      this.view.selectedBlock = null;
+      this.view.showAndEnableShadow(false, false, true);
+    }
+
+    if (isCreateEvent) {
+      this.makeShadowishBlocks_(e.blockId);
+    }
   }
 
   /**
@@ -266,6 +298,56 @@ class WorkspaceController {
     throw 'Unimplemented: setShadowBlocksInHiddenWorkspace_()';
   }
 
+  /**
+   * Checks the currently selected block if it is breaking any shadow block rules.
+   * Sets warning text to user if it is breaking a rule, and removes warning
+   * text if it not.
+   * Shadow blocks must be nested within another block, and cannot have any
+   * non-shadow blocks as children.
+   * @recursive Checks children and connected blocks for their status as well.
+   */
+  checkShadowStatus() {
+    const selected = this.view.selectedBlock;
+    if (!selected) {
+      // Return if no block is selected.
+      return;
+    }
+
+    // Check if shadow block.
+    const isShadow = this.isUserGenShadowBlock(selected.id) ||
+        $(selected.svgGroup_).hasClass('shadowBlock');
+
+    // Check if valid shadow block position.
+    const isValid = this.isValidShadow_(selected, isShadow);
+
+    // Check if block has variables (variable blocks cannot be shadow blocks).
+    const hasVar = FactoryUtils.hasVariableField(selected);
+    this.view.enableShadowButtons(isShadow, isValid);
+
+    // Checks various states of the selected block to make the warning text
+    // more helpful/descriptive. Removes warning text if no rules are broken.
+    if (isShadow && !isValid) {
+      selected.setWarningText('Shadow blocks must be nested inside\n'
+          + 'other shadow blocks or regular blocks.');
+    } else if (isShadow && hasVar) {
+      selected.setWarningText('Shadow blocks must be nested inside other'
+          + ' blocks.');
+    } else if (!isShadow && selected.getSurroundParent() &&
+        $(selected.getSurroundParent().svgGroup_).hasClass('shadowBlock')) {
+      selected.setWarningText('Regular blocks cannot be children\nof shadow '
+          + 'blocks.');
+    } else {
+      selected.setWarningText(null);
+    }
+
+    if (selected.getNextBlock()) {
+      // Recursively check next block in connection for its status.
+      this.view.selectedBlock = selected.getNextBlock();
+      this.checkShadowStatus();
+      this.view.selectedBlock = selected;
+    }
+  }
+
   /*
    * Makes the currently selected block a user-generated shadow block. These
    * blocks are not made into real shadow blocks, but recorded in the model
@@ -274,16 +356,47 @@ class WorkspaceController {
    * preview when done.
    */
   addShadow() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *       (Also moved into: toolbox_controller.js)
-     *
-     * References:
-     * - addShadowForBlockAndChildren_()
-     * - saveStateFromWorkspace()
-     * - updatePreview()
-     */
-    throw 'Unimplemented: addShadow()';
+    // From wfactory_controller.js:addShadow()
+    // No block selected to make a shadow block.
+    if (!this.view.selectedBlock) {
+      return;
+    }
+    FactoryUtils.markShadowBlock(this.view.selectedBlock);
+    this.view.toolbox.addShadowBlock(this.view.selectedBlock.id);
+
+    // Apply shadow block to the children as well.
+    for (let block of this.view.selectedBlock.getDescendants()) {
+      FactoryUtils.markShadowBlock(block);
+      this.view.toolbox.addShadowBlock(block.id);
+    }
+
+    this.view.showAndEnableShadow(false,
+        this.isValidShadow_(this.view.selectedBlock, true));
+    this.checkShadowStatus();
+    // Save and update the preview.
+    this.saveStateFromWorkspace();
+    this.updatePreview();
+  }
+
+  /**
+   * If the currently selected block is a user-generated shadow block, this
+   * function makes it a normal block again, removing it from the list of
+   * shadow blocks and loading the workspace again. Updates the preview again.
+   */
+  removeShadow() {
+    // From wfactory_controller.js
+    if (!this.view.selectedBlock) {
+      return;
+    }
+    this.view.unmarkShadowBlock(this.view.selectedBlock);
+    this.view.toolbox.removeShadowBlock(this.view.selectedBlock.id);
+    this.checkShadowStatus();
+    this.view.showAndEnableShadow(true,
+        this.isValidShadow_(this.view.selectedBlock, true));
+
+    // Save and update the preview.
+    this.saveStateFromWorkspace();
+    this.updatePreview();
   }
 
   /**

@@ -585,39 +585,6 @@ class ToolboxEditorView {
   }
 
   /**
-   * Given a set of blocks currently loaded user-generated shadow blocks, visually
-   * marks them without making them actual shadow blocks (allowing them to still
-   * be editable and movable).
-   * @param {!Array.<!Blockly.Block>} blocks Array of user-generated shadow blocks
-   *     currently loaded.
-   */
-  markShadowBlocks(blocks) {
-    // REFACTOR: Moved in from wfactory_view.js:markShadowBlocks(blocks)
-    for (let block of blocks) {
-      this.markShadowBlock(block);
-    }
-  }
-
-  /**
-   * Given a Blockly.Block, visually marks a block in the view to look like a
-   * shadow block.
-   * @param {!Blockly.Block} block Blockly block to be marked as a shadow block.
-   */
-  markShadowBlock(block) {
-    // REFACTOR: Moved in from wfactory_view.js:markShadowBlock(block)
-    // Add Blockly CSS for user-generated shadow blocks.
-    Blockly.utils.addClass(block.svgGroup_, 'shadowBlock');
-    // If not a valid shadow block, add a warning message.
-    if (!block.getSurroundParent()) {
-      block.setWarningText('Shadow blocks must be nested inside other blocks' +
-          ' be displayed.');
-    }
-    if (FactoryUtils.hasVariableField(block)) {
-      block.setWarningText('Cannot make variable blocks shadow blocks.');
-    }
-  }
-
-  /**
    * Removes visual marking for a shadow block given a rendered block.
    * @param {!Blockly.Block} block The block that should be unmarked as a shadow
    *     block (must be rendered).

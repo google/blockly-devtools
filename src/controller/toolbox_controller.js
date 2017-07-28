@@ -563,12 +563,12 @@ class ToolboxController {
     if (!this.view.selectedBlock) {
       return;
     }
-    this.view.markShadowBlock(this.view.selectedBlock);
+    FactoryUtils.markShadowBlock(this.view.selectedBlock);
     this.view.toolbox.addShadowBlock(this.view.selectedBlock.id);
 
     // Apply shadow block to the children as well.
     for (let block of this.view.selectedBlock.getDescendants()) {
-      this.view.markShadowBlock(block);
+      FactoryUtils.markShadowBlock(block);
       this.view.toolbox.addShadowBlock(block.id);
     }
 
@@ -628,7 +628,7 @@ class ToolboxController {
     }
 
     // Check if shadow block.
-    const isShadow = this.isUserGenShadowBlock(selected.id) ||
+    const isShadow = FactoryUtils.isUserGenShadowBlock(selected.id, this.view.toolbox) ||
         $(selected.svgGroup_).hasClass('shadowBlock');
 
     // Check if valid shadow block position.
@@ -748,11 +748,10 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    * @private
    */
   isInvalidBlockPlacement_(block) {
-    return ((this.isUserGenShadowBlock(block.id) &&
-        !block.getSurroundParent()) ||
-        (!this.isUserGenShadowBlock(block.id) &&
-         block.getSurroundParent() &&
-         this.isUserGenShadowBlock(block.getSurroundParent().id)));
+    const isShadow = FactoryUtils.isUserGenShadowBlock(block.id, this.view.toolbox);
+    return ((isShadow && !block.getSurroundParent()) ||
+        (!isShadow && block.getSurroundParent() &&
+         FactoryUtils.isUserGenShadowBlock(block.getSurroundParent().id, this.view.toolbox)));
   }
 
   /**
@@ -820,7 +819,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   addShadowForBlockAndChildren_(block) {
     // From wfactory_controller.js:addShadowForBlockAndChildren_(block)
     // Convert to shadow block.
-    this.view.markShadowBlock(block);
+    FactoryUtils.markShadowBlock(block);
     this.view.toolbox.addShadowBlock(block.id);
 
     if (FactoryUtils.hasVariableField(block)) {
@@ -867,7 +866,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
           parentConnection.setShadowDom(null);
         }
         this.view.toolbox.addShadowBlock(block.id);
-        this.view.markShadowBlock(block);
+        FactoryUtils.markShadowBlock(block);
       }
     });
   }
@@ -1165,7 +1164,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
     this.view.editorWorkspace.clear();
     this.view.editorWorkspace.clearUndo();
     Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
-    this.view.markShadowBlocks(this.getShadowBlocksInWorkspace
+    FactoryUtils.markShadowBlocks(this.getShadowBlocksInWorkspace
         (this.view.editorWorkspace.getAllBlocks()));
     this.warnForUndefinedBlocks_();
   }

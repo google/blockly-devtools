@@ -1326,3 +1326,56 @@ FactoryUtils.ifCheckedEnable = function(enabled, idArray) {
     }
   }
 };
+
+/**
+ * Given a set of blocks currently loaded user-generated shadow blocks, visually
+ * marks them without making them actual shadow blocks (allowing them to still
+ * be editable and movable).
+ * @param {!Array.<!Blockly.Block>} blocks Array of user-generated shadow blocks
+ *     currently loaded.
+ */
+FactoryUtils.markShadowBlocks = function(blocks) {
+  for (let block of blocks) {
+    FactoryUtils.markShadowBlock(block);
+  }
+};
+
+/**
+ * Given a Blockly.Block, visually marks a block in the view to look like a
+ * shadow block.
+ * @param {!Blockly.Block} block Blockly block to be marked as a shadow block.
+ */
+FactoryUtils.markShadowBlock = function(block) {
+  // REFACTOR: Moved in from wfactory_view.js:markShadowBlock(block)
+  // Add Blockly CSS for user-generated shadow blocks.
+  Blockly.utils.addClass(block.svgGroup_, 'shadowBlock');
+  // If not a valid shadow block, add a warning message.
+  if (!block.getSurroundParent()) {
+    block.setWarningText('Shadow blocks must be nested inside other blocks' +
+        ' be displayed.');
+  }
+  if (FactoryUtils.hasVariableField(block)) {
+    block.setWarningText('Cannot make variable blocks shadow blocks.');
+  }
+};
+
+/**
+ * Given a unique block ID, uses the model to determine if a block is a
+ * user-generated shadow block.
+ * @param {string} blockId The unique ID of the block to examine.
+ * @param {!Toolbox|!WorkspaceContents} resource The resource (which has a
+ *     this.shadowBlocks field) to check for shadow blocks.
+ * @return {boolean} True if the block is a user-generated shadow block, false
+ *     otherwise.
+ * @throws {Error} Will throw an error if the given resource is not of type
+ *     Toolbox or WorkspaceContents.
+ */
+FactoryUtils.isUserGenShadowBlock = function(blockId, resource) {
+  if (resource instanceof Toolbox || resource instanceof WorkspaceContents) {
+    return toolbox.isShadowBlock(blockId);
+  } else {
+    throw new Error('The given resource, ' + resource.name + ', is not a ' +
+        'Toolbox or a WorkspaceContents object, and therefore cannot store ' +
+        'shadow blocks.');
+  }
+}

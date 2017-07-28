@@ -94,6 +94,20 @@ class WorkspaceEditorView {
         },
         media: 'media/'
       });
+
+    /**
+     * Currently selected block in the editor workspace. Null if no block is
+     * selected.
+     * @type {?Blockly.Block}
+     */
+    this.selectedBlock = null;
+
+    /**
+     * Button elements used in workspace editor.
+     * @type {!Element}
+     */
+    this.addShadowButton = $('#button_addShadowWorkspace').get(0);
+    this.removeShadowButton = $('#button_removeShadowWorkspace').get(0);
   }
 
   /**
@@ -279,6 +293,46 @@ class WorkspaceEditorView {
   updateEditorToolbox(toolbox) {
     this.editorWorkspace.updateToolbox(toolbox);
   }
+
+  /**
+   * Shows and enables shadow buttons.
+   * @param {boolean} ifAdd Whether to show the add button. Shows remove button
+   *     if false.
+   * @param {boolean} ifEnable Whether to enable the add or remove button that
+   *     is shown.
+   * @param {boolean=} opt_disableAll Whether to hide both buttons entirely.
+   */
+  showAndEnableShadow(ifAdd, ifEnable, opt_disableAll) {
+    if (opt_disableAll) {
+      this.displayAddShadow(false);
+      this.displayRemoveShadow(false);
+      return;
+    }
+    this.displayAddShadow(ifAdd);
+    this.displayRemoveShadow(!ifAdd);
+    const button = ifAdd ? this.addShadowButton : this.removeShadowButton;
+    button.disabled = ifEnable ? false : true;
+  }
+
+  /**
+   * Display or hide the add shadow button.
+   * @param {boolean} show True if the add shadow button should be shown, false
+   *     otherwise.
+   */
+  displayAddShadow(show) {
+    // REFACTOR: Moved in from wfactory_init.js:displayAddShadow_(show)
+    this.addShadowButton.style.display = show ? 'inline-block' : 'none';
+  }
+
+  /**
+   * Display or hide the remove shadow button.
+   * @param {boolean} show True if the remove shadow button should be shown, false
+   *     otherwise.
+   */
+  displayRemoveShadow(show) {
+    // TODO: Move in from wfactory_model.js:displayRemoveShadow_(show)
+    this.removeShadowButton.style.display = show ? 'inline-block' : 'none';
+  }
 }
 
 /**
@@ -340,8 +394,8 @@ WorkspaceEditorView.html = `
     <div id="wsContentsDiv"></div>
   </section>
 
-  <button id="button_addShadow" style="display: none">Make Shadow</button>
-  <button id="button_removeShadow" style="display: none">Remove Shadow</button>
+  <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
+  <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
 
   <aside id="preload_div">
     <div id="preloadHelp">
