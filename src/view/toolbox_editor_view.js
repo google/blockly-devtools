@@ -326,11 +326,11 @@ class ToolboxEditorView {
     });
 
     $('#dropdown_exportToolboxXML').click(() => {
-      controller.export(this.toolbox, Toolbox.TYPE_XML);
+      controller.export(this.toolbox, ProjectController.TYPE_XML);
     });
 
     $('#dropdown_exportToolboxJS').click(() => {
-      controller.export(this.toolbox, Toolbox.TYPE_JS);
+      controller.export(this.toolbox, ProjectController.TYPE_JS);
     });
   }
 

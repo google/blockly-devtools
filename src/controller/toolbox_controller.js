@@ -1203,7 +1203,8 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    * file system.
    * @param {!Toolbox} toolbox The toolbox to export.
    * @param {string} type String constant to determine whether to export as a
-   *     JavaScript or XML file (either Toolbox.TYPE_JS or Toolbox.TYPE_XML).
+   *     JavaScript or XML file (either ProjectController.TYPE_JS or
+   *     ProjectController.TYPE_XML).
    */
   export(toolbox, type) {
     // Prompt user for file name.
@@ -1216,9 +1217,9 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
 
     let fileContents = Blockly.Xml.domToPrettyText(toolbox.getExportData());
 
-    if (type == Toolbox.TYPE_JS) {
+    if (type == ProjectController.TYPE_JS) {
       fileContents = this.generateJsFileContents(toolbox);
-    } else if (type != Toolbox.TYPE_XML) {
+    } else if (type != ProjectController.TYPE_XML) {
       throw new Error('Unknown export mode: file types with extension .' + type
           + ' not supported.');
     }
