@@ -94,6 +94,13 @@ class WorkspaceEditorView {
         },
         media: 'media/'
       });
+
+    /**
+     * ID of currently open modal element. Null if nothing is open.
+     * @type {?string}
+     * @private
+     */
+    this.openModal_ = null;
   }
 
   /**
@@ -158,6 +165,11 @@ class WorkspaceEditorView {
    */
   initClickHandlers_(controller) {
     // From wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+    $('#modalShadow').click(() => {
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+
     $('#button_standardOptions').click(() => {
       controller.setStandardOptionsAndUpdate();
     });
@@ -170,6 +182,30 @@ class WorkspaceEditorView {
           ' and configurations?')) {
         controller.clear();
       }
+    });
+
+    $('#button_exportWS').click(() => {
+      this.openModal_ = 'dropdownDiv_exportWS';
+      FactoryUtils.openModal(this.openModal_);
+    });
+
+    $('#dropdown_exportOptions').click(() => {
+      console.log('export options clicked!');
+      controller.export(this.workspaceConfig);
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+
+    $('#dropdown_exportWContentsXML').click(() => {
+      controller.export(this.workspaceContents, ProjectController.TYPE_XML);
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+
+    $('#dropdown_exportWContentsJS').click(() => {
+      controller.export(this.workspaceContents, ProjectController.TYPE_JS);
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
     });
   }
 
@@ -314,13 +350,11 @@ WorkspaceEditorView.html = `
     </div>
 
     <div class="dropdown">
-      <button id="button_export">Export</button>
-      <div id="dropdownDiv_export" class="dropdown-content">
+      <button id="button_exportWS">Export</button>
+      <div id="dropdownDiv_exportWS" class="dropdown-content">
         <a id="dropdown_exportOptions">Starter Code</a>
-        <a id="dropdown_exportToolboxXML">Toolbox as XML</a>
-        <a id="dropdown_exportToolboxJS">Toolbox as JS</a>
-        <a id="dropdown_exportPreloadXML">Workspace Blocks as XML</a>
-        <a id="dropdown_exportPreloadJS">Workspace Blocks as JS</a>
+        <a id="dropdown_exportWContentsXML">Workspace Blocks as XML</a>
+        <a id="dropdown_exportWContentsJS">Workspace Blocks as JS</a>
         <a id="dropdown_exportAll">All</a>
       </div>
     </div>
