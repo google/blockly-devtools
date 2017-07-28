@@ -930,21 +930,6 @@ FactoryUtils.hasVariableField = function(block) {
 };
 
 /**
- * Returns array of shadow blocks from a list of blocks.
- * @param {!Array.<!Blockly.Block>} blockList List of blocks.
- * @return {!Array.<!Blockly.Block>} List of shadow blocks from given list.
- */
-FactoryUtils.getShadowBlocks = function(blockList) {
-  let shadowBlocks = [];
-  for (let block of blockList) {
-    if ($(block.svgGroup_).hasClass('shadowBlock')) {
-      shadowBlocks.push(block);
-    }
-  }
-  return shadowBlocks;
-};
-
-/**
  * Checks if a block is a procedures block. If procedures block names are
  * ever updated or expanded, this function should be updated as well (no
  * other known markers for procedure blocks beyond name).
@@ -1328,6 +1313,21 @@ FactoryUtils.ifCheckedEnable = function(enabled, idArray) {
 };
 
 /**
+ * Returns array of shadow blocks from a list of blocks.
+ * @param {!Array.<!Blockly.Block>} blockList List of blocks.
+ * @return {!Array.<!Blockly.Block>} List of shadow blocks from given list.
+ */
+FactoryUtils.getShadowBlocks = function(blockList) {
+  let shadowBlocks = [];
+  for (let block of blockList) {
+    if ($(block.svgGroup_).hasClass('shadowBlock')) {
+      shadowBlocks.push(block);
+    }
+  }
+  return shadowBlocks;
+};
+
+/**
  * Given a set of blocks currently loaded user-generated shadow blocks, visually
  * marks them without making them actual shadow blocks (allowing them to still
  * be editable and movable).
@@ -1372,7 +1372,7 @@ FactoryUtils.markShadowBlock = function(block) {
  */
 FactoryUtils.isUserGenShadowBlock = function(blockId, resource) {
   if (resource instanceof Toolbox || resource instanceof WorkspaceContents) {
-    return toolbox.isShadowBlock(blockId);
+    return resource.isShadowBlock(blockId);
   } else {
     throw new Error('The given resource, ' + resource.name + ', is not a ' +
         'Toolbox or a WorkspaceContents object, and therefore cannot store ' +
@@ -1396,4 +1396,19 @@ FactoryUtils.isValidShadowBlock = function(block, isShadow) {
   const isValid = block.getSurroundParent() != null &&
       (isShadow || FactoryUtils.getShadowBlocks(children).length == children.length);
   return isValid;
+};
+
+/**
+ * Sets a warning on blocks that are not defined within a given project.
+ * @param {!Array.<Blockly.Block>} blocks A list of blocks to check if they are
+ *     defined.
+ * @param {!Project} project The project which contains the block definitions.
+ */
+FactoryUtils.warnForUndefinedBlocks = function(blocks, project) {
+  blocks.forEach((block) => {
+    if (!project.hasBlockDefinition(block.type)) {
+      block.setWarningText(block.type + ' is not defined (it is not a standard '
+          + 'block, \nin your block library, or an imported block).');
+    }
+  });
 };

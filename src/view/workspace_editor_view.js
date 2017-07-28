@@ -185,6 +185,12 @@ class WorkspaceEditorView {
         controller.clear();
       }
     });
+    this.addShadowButton.addEventListener('click', () => {
+      controller.addShadow();
+    });
+    this.removeShadowButton.addEventListener('click', () => {
+      controller.removeShadow();
+    });
   }
 
   /**

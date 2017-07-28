@@ -431,7 +431,7 @@ class ToolboxController {
    */
   generateToolboxXml() {
     const xmlDom = goog.dom.createDom('xml');
-    xmlDom.setAttribute('id', 'toolbox');
+    xmlDom.setAttribute('id', this.view.toolbox.name);
     xmlDom.setAttribute('style', 'display: none;');
 
     if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
@@ -652,24 +652,6 @@ class ToolboxController {
   }
 
   /**
-   * Checks whether the given block is a valid shadow block.
-   * @param {!Blockly.Block} block The block to be evaluated for shadow block
-   *     validity.
-   * @param {boolean} isShadow Whether the given block is a shadow block.
-   * @return {boolean} Whether the given block is a valid shadow block that
-   *     does not need warning text.
-   */
-  isValidShadow_(block, isShadow) {
-    // Check if valid shadow block position.
-    const children = block.getChildren();
-    // To be a valid shadow block candidate, the block must (1) have a parent,
-    // and (2) have only shadow blocks as its children.
-    const isValid = block.getSurroundParent() != null &&
-        (isShadow || FactoryUtils.getShadowBlocks(children).length == children.length);
-    return isValid;
-  }
-
-  /**
    * Convert actual shadow blocks added from the toolbox to user-generated shadow
    * blocks.
    * @param {boolean} blockId ID of the selected block.
@@ -749,7 +731,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    */
   saveStateFromWorkspace() {
     this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
-    this.view.toolbox.setXml(this.generateToolboxXml()); // celine
+    this.view.toolbox.setXml(this.generateToolboxXml());
   }
 
   /**
@@ -1145,17 +1127,17 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   /**
    * Clears the toolbox workspace and loads XML to it, marking shadow blocks
    * as necessary. Helper function of clearAndLoadElement().
-   * @private
    * @param {!Element} xml The XML to be loaded to the workspace.
+   * @private
    */
   clearAndLoadXml_(xml) {
     // From wfactory_controller.js
     this.view.editorWorkspace.clear();
     this.view.editorWorkspace.clearUndo();
     Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
-    FactoryUtils.markShadowBlocks(this.getShadowBlocksInWorkspace
-        (this.view.editorWorkspace.getAllBlocks()));
-    this.warnForUndefinedBlocks_();
+    const blocks = this.view.editorWorkspace.getAllBlocks();
+    FactoryUtils.markShadowBlocks(this.getShadowBlocksInWorkspace(blocks));
+    FactoryUtils.warnForUndefinedBlocks(blocks, this.projectController.getProject());
   }
 
   /*

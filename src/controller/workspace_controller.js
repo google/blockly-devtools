@@ -78,19 +78,19 @@ class WorkspaceController {
   }
 
   /**
-   * Saves the WorkspaceContents currently being edited into the current Project.
+   * Generates XML of currently active WorkspaceContents.
+   * @return {!Element} XML of current workspace contents blocks.
    */
-  saveState() {
-    /*
-     * TODO: Move in from wfactory_controller.js:saveStateFromWorkspace()
-     *
-     * References:
-     * - getSelectedXml()
-     * - saveFromWorkspace(this.toolboxWorkspace)
-     * - getPreloadXml()
-     * - savePreloadXml()
-     */
-    throw 'Unimplemented: saveState()';
+  generateContentsXml() {
+    const xmlDom = goog.dom.createDom('xml');
+    xmlDom.setAttribute('id', this.view.workspaceContents.name);
+    xmlDom.setAttribute('style', 'display: none');
+
+    const xml = Blockly.Xml.workspaceToDom(this.view.editorWorkspace);
+    this.loadToHiddenWorkspace_(xml);
+    this.appendHiddenWorkspaceToDom_(xmlDom);
+
+    return xmlDom;
   }
 
   /**
@@ -131,7 +131,7 @@ class WorkspaceController {
     // (i.e. only on move or UI events).
     if (isMoveEvent || isUiEvent) {
       Blockly.Events.disable();
-      const selected = this.view.editorWorkspace.getBlockById(e.blockId);
+      const selected = this.view.editorWorkspace.getBlockById(event.blockId);
       this.view.selectedBlock = selected;
 
       if (!selected) {
@@ -156,7 +156,7 @@ class WorkspaceController {
     }
 
     if (isCreateEvent) {
-      this.makeShadowishBlocks_(e.blockId);
+      this.makeShadowishBlocks_(event.blockId);
     }
   }
 
@@ -164,8 +164,7 @@ class WorkspaceController {
    * Saves blocks on editor workspace into the WorkspaceContents model.
    */
   saveStateFromWorkspace() {
-    const workspaceBlocks = Blockly.Xml.workspaceToDom(this.view.editorWorkspace);
-    this.view.workspaceContents.setXml(workspaceBlocks);
+    this.view.workspaceContents.setXml(this.generateContentsXml());
   }
 
   /**
@@ -251,18 +250,10 @@ class WorkspaceController {
    * @private
    */
   loadToHiddenWorkspace_(xml) {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - hiddenWorkspace (@type {!Blockly.Workspace})
-     * - setShadowBlocksInHiddenWorkspace_()
-     */
-
-    // TODO: Investigate if there is a better method than using hidden workspaces
-    //       for grabbing Block XML information.
-
-    throw 'Unimplemented: loadToHiddenWorkspace_()';
+    // From wfactory_generator.js:loadToHiddenWorkspace_(xml)
+    this.hiddenWorkspace.clear();
+    Blockly.Xml.domToWorkspace(xml, this.hiddenWorkspace);
+    this.setShadowBlocksInHiddenWorkspace_();
   }
 
   /**
@@ -273,13 +264,12 @@ class WorkspaceController {
    * @param {!Element} xmlDom Tree of XML elements to be appended to.
    */
   appendHiddenWorkspaceToDom_(xmlDom) {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - hiddenWorkspace (@type {!Blockly.Workspace})
-     */
-    throw 'Unimplemented: appendHiddenWorkspaceToDom_()';
+    // From wfactory_generator.js:appendHiddenWorkspaceToDom_(xmlDom)
+    const blocks = this.hiddenWorkspace.getTopBlocks();
+    blocks.forEach((block) => {
+      let blockChild = Blockly.Xml.blockToDom(block, /* opt_noId */ true);
+      xmlDom.appendChild(blockChild);
+    });
   }
 
   /**
@@ -289,13 +279,13 @@ class WorkspaceController {
    * @private
    */
   setShadowBlocksInHiddenWorkspace_() {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - isShadowBlock()
-     */
-    throw 'Unimplemented: setShadowBlocksInHiddenWorkspace_()';
+    // REFACTOR: Moved in from wfactory_generator.js
+    const blocks = this.hiddenWorkspace.getAllBlocks();
+    blocks.forEach((block) => {
+      if (this.view.workspaceContents.isShadowBlock(block.id)) {
+        block.setShadow(true);
+      }
+    });
   }
 
   /**
@@ -372,7 +362,7 @@ class WorkspaceController {
     }
 
     this.view.showAndEnableShadow(false,
-        FactoyUtils.isValidShadowBlock(this.view.selectedBlock, true));
+        FactoryUtils.isValidShadowBlock(this.view.selectedBlock, true));
     this.checkShadowStatus();
     // Save and update the preview.
     this.saveStateFromWorkspace();
@@ -401,21 +391,92 @@ class WorkspaceController {
   }
 
   /**
-   * Clears the toolbox workspace and loads XML to it, marking shadow blocks
-   * as necessary.
+   * Convert actual shadow blocks added from the toolbox to user-generated shadow
+   * blocks.
+   * @param {boolean} blockId ID of the selected block.
    * @private
+   */
+  makeShadowishBlocks_(blockId) {
+    // Converts actual shadow blocks to shadow-looking blocks in editor.
+    this.convertShadowBlocks();
+
+    // TODO(#147): Warn user that if they use a block that has variables or functions,
+    // they should have a variable/function category in the corresponding toolbox.
+  }
+
+  /**
+   * Call when importing XML containing real shadow blocks. This function turns
+   * all real shadow blocks loaded in the workspace into user-generated shadow
+   * blocks, meaning they are marked as shadow blocks by the model and appear as
+   * shadow blocks in the view but are still editable and movable.
+   */
+  convertShadowBlocks() {
+    // REFACTORED: Moved in from wfactory_controller.js
+    const blocks = this.view.editorWorkspace.getAllBlocks();
+    blocks.forEach((block) => {
+      if (block.isShadow()) {
+        block.setShadow(false);
+        // Delete the shadow DOM attached to the block so that the shadow block
+        // does not respawn. Dependent on implementation details.
+        const parentConnection = block.outputConnection ?
+            block.outputConnection.targetConnection :
+            block.previousConnection.targetConnection;
+        if (parentConnection) {
+          parentConnection.setShadowDom(null);
+        }
+        this.view.workspaceContents.addShadowBlock(block.id);
+        FactoryUtils.markShadowBlock(block);
+      }
+    });
+  }
+
+  /**
+   * Clears the workspace editor and loads XML to it, marking shadow blocks
+   * as necessary.
    * @param {!Element} xml The XML to be loaded to the workspace.
+   * @private
    */
   clearAndLoadXml_(xml) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *       (Also moved into: toolbox_controller.js)
-     *
-     * References:
-     * - markShadowBlocks()
-     * - warnForUndefinedBlocks_()
-     */
-    throw 'Unimplemented: clearAndLoadXml_()';
+    // From wfactory_controller.js:clearAndLoadXml_(xml)
+    this.view.editorWorkspace.clear();
+    this.view.editorWorkspace.clearUndo();
+    Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
+    const blocks = this.view.editorWorkspace.getAllBlocks();
+    FactoryUtils.markShadowBlocks(this.getShadowBlocksInWorkspace(blocks));
+    FactoryUtils.warnForUndefinedBlocks(blocks, this.projectController.getProject());
+  }
+
+  /**
+   * Given a set of blocks currently loaded, returns all blocks in the workspace
+   * that are user generated shadow blocks.
+   * @param {Array.<!Blockly.Block>} blocks Array of blocks currently loaded.
+   * @return {Array.<!Blockly.Block>} Array of user-generated shadow blocks currently
+   *     loaded.
+   */
+  getShadowBlocksInWorkspace(blocks) {
+    // From wfactory_model.js:getShadowBlocksInWorkspace()
+    let shadowsInWorkspace = [];
+    blocks.forEach((block) => {
+      if (this.view.workspaceContents.isShadowBlock(block.id)) {
+        shadowsInWorkspace.push(block);
+      }
+    });
+    return shadowsInWorkspace;
+  }
+
+  /**
+   * Sets a warning on blocks loaded to the workspace that are not defined.
+   * @private
+   */
+  warnForUndefinedBlocks_() {
+    const blocks = this.view.editorWorkspace.getAllBlocks();
+    const project = this.projectController.getProject();
+    blocks.forEach((block) => {
+      if (!project.hasBlockDefinition(block.type)) {
+        block.setWarningText(block.type + ' is not defined (it is not a standard '
+            + 'block, \nin your block library, or an imported block).');
+      }
+    });
   }
 
   /**
