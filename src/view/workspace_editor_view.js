@@ -315,6 +315,28 @@ class WorkspaceEditorView {
   }
 
   /**
+   * Enables or disables the add/remove shadow block buttons depending on whether
+   * the selected block (1) is already marked as a shadow block, and (2) is in
+   * a valid shadow block position.
+   * @param {boolean} isShadow Whether the selected block is already marked as
+   *     a shadow block.
+   * @param {boolean} isValid Whether the selected block is in a valid shadow
+   *     block position.
+   */
+  enableShadowButtons(isShadow, isValid) {
+    if (isShadow) {
+      // Is a shadow block
+      this.showAndEnableShadow(false, true);
+    } else if (!isShadow && isValid) {
+      // Is not a shadow block but can be a valid shadow block.
+      this.showAndEnableShadow(true, true);
+    } else {
+      // Is not a shadow block and is not in a valid shadow block position.
+      this.showAndEnableShadow(true, false);
+    }
+  }
+
+  /**
    * Display or hide the add shadow button.
    * @param {boolean} show True if the add shadow button should be shown, false
    *     otherwise.

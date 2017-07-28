@@ -1378,4 +1378,22 @@ FactoryUtils.isUserGenShadowBlock = function(blockId, resource) {
         'Toolbox or a WorkspaceContents object, and therefore cannot store ' +
         'shadow blocks.');
   }
-}
+};
+
+/**
+ * Checks whether the given block is a valid shadow block.
+ * @param {!Blockly.Block} block The block to be evaluated for shadow block
+ *     validity.
+ * @param {boolean} isShadow Whether the given block is a shadow block.
+ * @return {boolean} Whether the given block is a valid shadow block that
+ *     does not need warning text.
+ */
+FactoryUtils.isValidShadowBlock = function(block, isShadow) {
+  // Check if valid shadow block position.
+  const children = block.getChildren();
+  // To be a valid shadow block candidate, the block must (1) have a parent,
+  // and (2) have only shadow blocks as its children.
+  const isValid = block.getSurroundParent() != null &&
+      (isShadow || FactoryUtils.getShadowBlocks(children).length == children.length);
+  return isValid;
+};

@@ -573,7 +573,7 @@ class ToolboxController {
     }
 
     this.view.showAndEnableShadow(false,
-        this.isValidShadow_(this.view.selectedBlock, true));
+        FactoryUtils.isValidShadowBlock(this.view.selectedBlock, true));
     this.checkShadowStatus();
     // Save and update the preview.
     this.saveStateFromWorkspace();
@@ -594,22 +594,11 @@ class ToolboxController {
     this.view.toolbox.removeShadowBlock(this.view.selectedBlock.id);
     this.checkShadowStatus();
     this.view.showAndEnableShadow(true,
-        this.isValidShadow_(this.view.selectedBlock, true));
+        FactoryUtils.isValidShadowBlock(this.view.selectedBlock, true));
 
     // Save and update the preview.
     this.saveStateFromWorkspace();
     this.updatePreview();
-  }
-
-  /**
-   * Shows buttons to create/remove shadow blocks only when a block is selected.
-   * @private
-   */
-  showShadowButtons_() {
-    // Show shadow button if a block is selected.
-    const show = this.view.selectedBlock ? true : false;
-    this.view.displayAddShadow(show);
-    this.view.displayRemoveShadow(show);
   }
 
   /**
@@ -632,7 +621,7 @@ class ToolboxController {
         $(selected.svgGroup_).hasClass('shadowBlock');
 
     // Check if valid shadow block position.
-    const isValid = this.isValidShadow_(selected, isShadow);
+    const isValid = FactoryUtils.isValidShadowBlock(selected, isShadow);
 
     // Check if block has variables (variable blocks cannot be shadow blocks).
     const hasVar = FactoryUtils.hasVariableField(selected);

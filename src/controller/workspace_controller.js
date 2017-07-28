@@ -314,11 +314,12 @@ class WorkspaceController {
     }
 
     // Check if shadow block.
-    const isShadow = this.isUserGenShadowBlock(selected.id) ||
+    const isShadow = FactoryUtils.isUserGenShadowBlock(selected.id,
+        this.view.workspaceContents) ||
         $(selected.svgGroup_).hasClass('shadowBlock');
 
     // Check if valid shadow block position.
-    const isValid = this.isValidShadow_(selected, isShadow);
+    const isValid = FactoryUtils.isValidShadowBlock(selected, isShadow);
 
     // Check if block has variables (variable blocks cannot be shadow blocks).
     const hasVar = FactoryUtils.hasVariableField(selected);
@@ -362,16 +363,16 @@ class WorkspaceController {
       return;
     }
     FactoryUtils.markShadowBlock(this.view.selectedBlock);
-    this.view.toolbox.addShadowBlock(this.view.selectedBlock.id);
+    this.view.workspaceContents.addShadowBlock(this.view.selectedBlock.id);
 
     // Apply shadow block to the children as well.
     for (let block of this.view.selectedBlock.getDescendants()) {
       FactoryUtils.markShadowBlock(block);
-      this.view.toolbox.addShadowBlock(block.id);
+      this.view.workspaceContents.addShadowBlock(block.id);
     }
 
     this.view.showAndEnableShadow(false,
-        this.isValidShadow_(this.view.selectedBlock, true));
+        FactoyUtils.isValidShadowBlock(this.view.selectedBlock, true));
     this.checkShadowStatus();
     // Save and update the preview.
     this.saveStateFromWorkspace();
@@ -389,10 +390,10 @@ class WorkspaceController {
       return;
     }
     this.view.unmarkShadowBlock(this.view.selectedBlock);
-    this.view.toolbox.removeShadowBlock(this.view.selectedBlock.id);
+    this.view.workspaceContents.removeShadowBlock(this.view.selectedBlock.id);
     this.checkShadowStatus();
     this.view.showAndEnableShadow(true,
-        this.isValidShadow_(this.view.selectedBlock, true));
+        FactoryUtils.isValidShadowBlock(this.view.selectedBlock, true));
 
     // Save and update the preview.
     this.saveStateFromWorkspace();

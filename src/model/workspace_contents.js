@@ -98,6 +98,33 @@ class WorkspaceContents extends Resource {
   }
 
   /**
+   * Class for a ListElement
+   * Adds a shadow block to the list of shadow blocks.
+   * @param {string} blockId The unique ID of block to be added.
+   */
+  addShadowBlock(blockId) {
+    // Moved in from wfactory_model.js
+    if (this.shadowBlocks.indexOf(blockId) == -1) {
+      this.shadowBlocks.push(blockId);
+    }
+  }
+
+  /**
+   * Removes a shadow block ID from the list of shadow block IDs if that ID is
+   * in the list.
+   * @param {string} blockId The unique ID of block to be removed.
+   */
+  removeShadowBlock(blockId) {
+    // From wfactory_model.js:removeShadowBlock(blockId)
+    for (let i = 0; i < this.shadowBlocks.length; i++) {
+      if (this.shadowBlocks[i] == blockId) {
+        this.shadowBlocks.splice(i, 1);
+        return;
+      }
+    }
+  }
+
+  /**
    * Determines if a block is a shadow block given a unique block ID.
    * @param {string} blockId The unique ID of the block to examine.
    * @return {boolean} True if the block is a user-generated shadow block, false
