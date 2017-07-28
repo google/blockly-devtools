@@ -580,9 +580,9 @@ class ToolboxController {
   }
 
   /**
-   * If the currently selected block is a user-generated shadow block, this
-   * function makes it a normal block again, removing it from the list of
-   * shadow blocks and loading the workspace again. Updates the preview.
+   * Makes user-generated shadow block back to a normal block again. Removes
+   * block from list of shadow blocks and then reloads workspace. Updates the
+   * preview when done.
    */
   removeShadow() {
     // From wfactory_controller.js
