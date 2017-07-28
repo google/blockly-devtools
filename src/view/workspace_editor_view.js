@@ -408,6 +408,8 @@ WorkspaceEditorView.html = `
     </div>
 
     <button id="button_clearWorkspace">Clear</button>
+    <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
+    <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
 
     <span id="saved_message"></span>
   </p>
@@ -421,9 +423,6 @@ WorkspaceEditorView.html = `
   <section id="workspace_section">
     <div id="wsContentsDiv"></div>
   </section>
-
-  <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
-  <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
 
   <aside id="preload_div">
     <div id="preloadHelp">

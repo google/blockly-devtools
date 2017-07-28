@@ -58,8 +58,6 @@ class WorkspaceContents extends Resource {
   setXml(xml) {
     // Moved in from wfactory_model.js:savePreloadXml(xml)
     this.xml = xml;
-    console.log('setXml()');
-    console.log(this.xml);
   }
 
   /**
@@ -68,8 +66,6 @@ class WorkspaceContents extends Resource {
    */
   getXml() {
     // Moved in from wfactory_model.js:getPreloadXml()
-    console.log('getXml()');
-    console.log(this.xml);
     return this.xml;
   }
 
