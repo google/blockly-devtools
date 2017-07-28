@@ -301,12 +301,12 @@ class ToolboxEditorView {
 
     // Listener for adding a shadow block.
     this.addShadowButton.addEventListener('click', () => {
-      controller.addShadow();
+      controller.setSelectedAsShadowBlock();
     });
 
     // Listener for removing a shadow block.
     this.removeShadowButton.addEventListener('click', () => {
-      controller.removeShadow();
+      controller.unsetSelectedAsShadowBlock();
     });
   }
 
@@ -592,6 +592,68 @@ class ToolboxEditorView {
   unmarkShadowBlock(block) {
     // REFACTOR: Moved in from wfactory_view.js
     Blockly.utils.removeClass(block.svgGroup_, 'shadowBlock');
+  }
+
+  /**
+   * Enables or disables the add/remove shadow block buttons depending on whether
+   * the selected block (1) is already marked as a shadow block, and (2) is in
+   * a valid shadow block position.
+   * @param {boolean} isShadow Whether the selected block is already marked as
+   *     a shadow block.
+   * @param {boolean} isValid Whether the selected block is in a valid shadow
+   *     block position.
+   */
+  enableShadowButtons(isShadow, isValid) {
+    if (isShadow) {
+      // Is a shadow block
+      this.showAndEnableShadow(false, true);
+    } else if (!isShadow && isValid) {
+      // Is not a shadow block but can be a valid shadow block.
+      this.showAndEnableShadow(true, true);
+    } else {
+      // Is not a shadow block and is not in a valid shadow block position.
+      this.showAndEnableShadow(true, false);
+    }
+  }
+
+  /**
+   * Shows and enables shadow buttons.
+   * @param {boolean} ifAdd Whether to show the add button. Shows remove button
+   *     if false.
+   * @param {boolean} ifEnable Whether to enable the add or remove button that
+   *     is shown.
+   * @param {boolean=} opt_disableAll Whether to hide both buttons entirely.
+   */
+  showAndEnableShadow(ifAdd, ifEnable, opt_disableAll) {
+    if (opt_disableAll) {
+      this.displayAddShadow(false);
+      this.displayRemoveShadow(false);
+      return;
+    }
+    this.displayAddShadow(ifAdd);
+    this.displayRemoveShadow(!ifAdd);
+    const button = ifAdd ? this.addShadowButton : this.removeShadowButton;
+    button.disabled = ifEnable ? false : true;
+  }
+
+  /**
+   * Display or hide the add shadow button.
+   * @param {boolean} show True if the add shadow button should be shown, false
+   *     otherwise.
+   */
+  displayAddShadow(show) {
+    // REFACTOR: Moved in from wfactory_init.js:displayAddShadow_(show)
+    this.addShadowButton.style.display = show ? 'inline-block' : 'none';
+  }
+
+  /**
+   * Display or hide the remove shadow button.
+   * @param {boolean} show True if the remove shadow button should be shown, false
+   *     otherwise.
+   */
+  displayRemoveShadow(show) {
+    // TODO: Move in from wfactory_model.js:displayRemoveShadow_(show)
+    this.removeShadowButton.style.display = show ? 'inline-block' : 'none';
   }
 
   /**

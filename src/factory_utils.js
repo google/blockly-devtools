@@ -930,6 +930,21 @@ FactoryUtils.hasVariableField = function(block) {
 };
 
 /**
+ * Returns array of shadow blocks from a list of blocks.
+ * @param {!Array.<!Blockly.Block>} blockList List of blocks.
+ * @return {!Array.<!Blockly.Block>} List of shadow blocks from given list.
+ */
+FactoryUtils.getShadowBlocks = function(blockList) {
+  let shadowBlocks = [];
+  for (let block of blockList) {
+    if ($(block.svgGroup_).hasClass('shadowBlock')) {
+      shadowBlocks.push(block);
+    }
+  }
+  return shadowBlocks;
+};
+
+/**
  * Checks if a block is a procedures block. If procedures block names are
  * ever updated or expanded, this function should be updated as well (no
  * other known markers for procedure blocks beyond name).

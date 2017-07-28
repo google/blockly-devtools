@@ -556,7 +556,7 @@ class ToolboxController {
    * them (which would be impossible with actual shadow blocks). Updates the
    * preview when done.
    */
-  addShadow() {
+  setSelectedAsShadowBlock() {
     // From wfactory_controller.js:addShadow()
     // No block selected to make a shadow block.
     if (!this.view.selectedBlock) {
@@ -584,7 +584,7 @@ class ToolboxController {
    * block from list of shadow blocks and then reloads workspace. Updates the
    * preview when done.
    */
-  removeShadow() {
+  unsetSelectedAsShadowBlock() {
     // From wfactory_controller.js
     if (!this.view.selectedBlock) {
       return;
@@ -648,6 +648,24 @@ class ToolboxController {
       this.checkShadowStatus();
       this.view.selectedBlock = selected;
     }
+  }
+
+  /**
+   * Checks whether the given block is a valid shadow block.
+   * @param {!Blockly.Block} block The block to be evaluated for shadow block
+   *     validity.
+   * @param {boolean} isShadow Whether the given block is a shadow block.
+   * @return {boolean} Whether the given block is a valid shadow block that
+   *     does not need warning text.
+   */
+  isValidShadow_(block, isShadow) {
+    // Check if valid shadow block position.
+    const children = block.getChildren();
+    // To be a valid shadow block candidate, the block must (1) have a parent,
+    // and (2) have only shadow blocks as its children.
+    const isValid = block.getSurroundParent() != null &&
+        (isShadow || FactoryUtils.getShadowBlocks(children).length == children.length);
+    return isValid;
   }
 
   /**
