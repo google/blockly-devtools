@@ -144,6 +144,12 @@ class AppView {
      */
     this.addFlyoutOpen = false;
 
+    /**
+     * ID of currently open modal element. Null if no element is open.
+     * {?string}
+     */
+    this.modalId_ = null;
+
     // Assigning event handlers and listeners for application.
     this.init();
   }
@@ -414,43 +420,89 @@ class AppView {
     });
   }
 
-  /*
-   * Collapse the add button flyout by changing the class name of the division.
-   * @private
-   */
-  closeAddFlyout_() {
-    const opt = document.getElementById('addOptions');
-    this.addFlyoutOpen = false;
-    opt.className = '';
-  }
-
-  /*
-   * Expand the add button flyout by changing the class name of the division.
-   * @private
-   */
-  openAddFlyout_() {
-    const opt = document.getElementById('addOptions');
-    this.addFlyoutOpen = true;
-    opt.className = 'expanded';
-  }
-
   /**
    * Assigns button click handlers for the general app interface.
    */
   assignClickHandlers() {
+    $('#helpButton').click(() => {
+      open('https://developers.google.com/blockly/custom-blocks/block-factory',
+          'BlockFactoryHelp');
+    });
+
     $('#addButton').click(() => {
       if (this.addFlyoutOpen) {
-        this.closeAddFlyout_();
+        FactoryUtils.closeModal('addOptions');
+        this.modalId_ = null;
+        this.addFlyoutOpen = false;
       } else {
-        this.openAddFlyout_();
+        FactoryUtils.openModal('addOptions');
+        this.modalId_ = 'addOptions';
+        this.addFlyoutOpen = true;
       }
+    });
+    this.assignAddFlyoutClickHandlers();
+
+    $('#modalShadow').click(() => {
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
+    });
+  }
+
+  /**
+   * Assigns button click handlers for add button flyout.
+   */
+  assignAddFlyoutClickHandlers() {
+    $('#addBlock').click(() => {
+      this.appController.createBlockDefinition();
+    });
+
+    $('#addLibrary').click(() => {
+      this.appController.createLibrary();
+    });
+
+    $('#addToolbox').click(() => {
+      this.appController.createToolbox();
+    });
+
+    $('#addWorkspaceContents').click(() => {
+      this.appController.createWorkspaceContents();
+    });
+
+    $('#addWorkspaceConfig').click(() => {
+      this.appController.createWorkspaceConfiguration();
     });
 
     $('#createNewBlockButton').click(() => {
-      // If there are unsaved changes warn user, check if they'd like to
-      // proceed with unsaved changes, and act accordingly.
       this.appController.createPopup(PopupController.NEW_BLOCK);
     });
+  }
+
+  /**
+   * Switches view and editor, closes any open modal elements.
+   * @param {string} element The type of element to switch the view and editor
+   *     based off of, in camel case (but beginning with a lower case letter).
+   * @param {!Resource} resource The resource to display upon switching the view.
+   */
+  switchEnvironment(element, resource) {
+    var resourceReference;
+    if (element == 'block') {
+      this.appController.createPopup(PopupController.NEW_BLOCK);
+    } else if (element == 'workspaceContents' || element == 'workspaceConfig') {
+      resourceReference = element;
+      element = 'workspace';
+    } else {
+      resourceReference = element;
+    }
+    const controller = element + 'EditorController';
+    const view = element + 'EditorView';
+    this.appController.editorController.switchEditor(
+          this.appController.editorController.controller);
+      this.switchView(this[view]);
+      this[view][resourceReference] = resource;
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
   }
 
   /**
@@ -485,21 +537,6 @@ class AppView {
   onresize(event) {
     // Move in from app_controller.js
     throw 'Unimplemented: onresize()';
-  }
-
-  /**
-   * Show a modal element, usually a dropdown list.
-   * @param {string} id ID of element to show.
-   */
-  openModal(id) {
-    // TODO: Move in from app_controller.js
-  }
-
-  /**
-   * Hide a previously shown modal element.
-   */
-  closeModal() {
-    // TODO: Move in from app_controller.js
   }
 
   /**
