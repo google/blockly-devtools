@@ -1199,8 +1199,8 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   }
 
   /**
-   * Creates file with toolbox contents, prompts user, then downloads onto user's
-   * file system.
+   * Creates file with toolbox contents, prompts user for file name, then
+   * downloads onto user's file system.
    * @param {!Toolbox} toolbox The toolbox to export.
    * @param {string} type String constant to determine whether to export as a
    *     JavaScript or XML file (either ProjectController.TYPE_JS or
@@ -1218,7 +1218,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
     let fileContents = Blockly.Xml.domToPrettyText(toolbox.getExportData());
 
     if (type == ProjectController.TYPE_JS) {
-      fileContents = this.generateJsFileContents(toolbox);
+      fileContents = this.generateToolboxFile(toolbox);
     } else if (type != ProjectController.TYPE_XML) {
       throw new Error('Unknown export mode: file types with extension .' + type
           + ' not supported.');
@@ -1231,9 +1231,10 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    * Generates JavaScript string representation of toolbox for user to download.
    * Does not deal with popups or file system access; just generates content.
    *
+   * @param {!Toolbox} toolbox The toolbox to export into a JS file.
    * @returns {string} String representation of JS file to be exported.
    */
-  generateJsFileContents(toolbox) {
+  generateToolboxFile(toolbox) {
     const xml = Blockly.Xml.domToText(toolbox.getExportData());
     const xmlStorageVariable = 'BLOCKLY_TOOLBOX_XML';
 
