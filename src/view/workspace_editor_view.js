@@ -171,18 +171,6 @@ class WorkspaceEditorView {
         controller.clear();
       }
     });
-
-    $('#dropdown_exportOptions').click(() => {
-      console.warn('Unimplemented: Starter Code');
-    });
-
-    $('#dropdown_exportWContentsXML').click(() => {
-      console.warn('Unimplemented: Export Workspace Contents XML');
-    });
-
-    $('#dropdown_exportWContentsJS').click(() => {
-      console.warn('Unimplemented: Export Workspace Contents JS');
-    });
   }
 
   /**
@@ -329,8 +317,10 @@ WorkspaceEditorView.html = `
       <button id="button_export">Export</button>
       <div id="dropdownDiv_export" class="dropdown-content">
         <a id="dropdown_exportOptions">Starter Code</a>
-        <a id="dropdown_exportWContentsXML">Workspace Blocks as XML</a>
-        <a id="dropdown_exportWContentsJS">Workspace Blocks as JS</a>
+        <a id="dropdown_exportToolboxXML">Toolbox as XML</a>
+        <a id="dropdown_exportToolboxJS">Toolbox as JS</a>
+        <a id="dropdown_exportPreloadXML">Workspace Blocks as XML</a>
+        <a id="dropdown_exportPreloadJS">Workspace Blocks as JS</a>
         <a id="dropdown_exportAll">All</a>
       </div>
     </div>
