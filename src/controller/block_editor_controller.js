@@ -100,14 +100,14 @@ class BlockEditorController {
    * Creates new block, adds to Project model, and renders onto block editor view.
    * @param {string} inputType Type of input (statement, value, dummy).
    * @param {string} blockTypeName Name of block, given by user.
+   * @param {string} libraryName The name of the library to add the block to.
    * @param {string=} opt_blockStarterText Starter text to place on block, given
    *     by user (optional).
    */
-  createNewBlock(inputType, blockTypeName, opt_blockStarterText) {
+  createNewBlock(inputType, blockTypeName, libraryName, opt_blockStarterText) {
     // Creates new BlockDefinition object, marks as the current block being edited.
-    const currentLib = 'test_library';//this.projectController.getLibrary(this.view.blockDefinition.type());
     const newBlock = this.projectController.createBlockDefinition(
-        blockTypeName, currentLib);
+        blockTypeName, libraryName);
     this.view.blockDefinition = newBlock;
 
     // Displays BlockDefinition onto view.

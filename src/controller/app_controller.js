@@ -288,10 +288,10 @@ class AppController {
    * Top-level function for block creation. Updates views, editors, and model.
    */
   createBlockDefinition() {
-    // TODO: get name from popup
-    const block = this.projectController.createBlockDefinition(
-        'test_block','test_library');
-    this.view.switchEnvironment('block', block);
+    this.view.switchEnvironment('block', null);
+    this.createPopup(PopupController.NEW_BLOCK);
+    //const block = this.projectController.createBlockDefinition(
+       // 'test_block','test_library');
   }
 
   /**

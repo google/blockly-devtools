@@ -109,7 +109,7 @@ class NavigationTree {
      * NOTE: The libraryName is the given prefix due to the assumption that
      *     blocktypes are unique across all libraries in the project.
      */
-    this.addComponentNode(PREFIXES.BLOCK, blockType, libraryName);
+    this.addComponentNode(PREFIXES.BLOCK, blockType, PREFIXES.LIBRARY + '_' + libraryName);
   }
 
   /**
