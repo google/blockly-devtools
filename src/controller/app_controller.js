@@ -290,8 +290,6 @@ class AppController {
   createBlockDefinition() {
     this.view.switchEnvironment('block', null);
     this.createPopup(PopupController.NEW_BLOCK);
-    //const block = this.projectController.createBlockDefinition(
-       // 'test_block','test_library');
   }
 
   /**
