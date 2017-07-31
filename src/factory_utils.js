@@ -1354,3 +1354,16 @@ ${xmlStorageVariable}['${resource.name}'] =
 `;
   return jsFromXml;
 };
+
+/**
+ * Given a file name and platform, makes sure that the given file name is safe
+ * to download given the platform. Different platform have different file name
+ * requirements.
+ * @param {string} fileName Name of file given by user (usually name of resource).
+ * @param {string} platform Constant representing which platform the file is to
+ *     be saved as.
+ */
+FactoryUtils.escapeForFileSystem = function(fileName, platform) {
+  // TODO(#156): Implement escaping a file name so that it is file-system friendly,
+  // depending on platform.
+};
