@@ -288,7 +288,7 @@ class AppController {
    * Top-level function for block creation. Updates views, editors, and model.
    */
   createBlockDefinition() {
-    this.view.switchEnvironment('block', null);
+    this.switchEnvironment('block', null);
     this.createPopup(PopupController.NEW_BLOCK);
   }
 
@@ -299,7 +299,7 @@ class AppController {
     // TODO: prompt for name, define behavior
     const library = this.projectController.createBlockLibrary(
         'test_library');
-    this.view.switchEnvironment('block', library);
+    this.switchEnvironment('block', library);
   }
 
   /**
@@ -309,7 +309,7 @@ class AppController {
     // TODO: prompt for name
     const toolbox = this.projectController.createToolbox(
         'test_toolbox');
-    this.view.switchEnvironment('toolbox', toolbox);
+    this.switchEnvironment('toolbox', toolbox);
   }
 
   /**
@@ -321,7 +321,7 @@ class AppController {
     const workspaceContents =
       this.projectController.createWorkspaceContents(
           'test_contents');
-    this.view.switchEnvironment('workspaceContents', workspaceContents);
+    this.switchEnvironment('workspaceContents', workspaceContents);
   }
 
   /**
@@ -333,6 +333,33 @@ class AppController {
     const workspaceConfig =
       this.projectController.createWorkspaceConfiguration(
           'test_config');
-    this.view.switchEnvironment('workspaceConfig', workspaceConfig);
+    this.switchEnvironment('workspaceConfig', workspaceConfig);
+  }
+
+  /**
+   * Switches view and editor, closes any open modal elements.
+   * @param {string} element The type of element to switch the view and editor
+   *     based off of, in camel case (but beginning with a lower case letter).
+   * @param {?Resource} resource The resource to display upon switching the view.
+   */
+  switchEnvironment(element, resource) {
+    var resourceReference;
+    if (element == 'workspaceContents' || element == 'workspaceConfig') {
+      resourceReference = element;
+      element = 'workspace';
+    } else {
+      resourceReference = element;
+    }
+    const controller = element + 'EditorController';
+    const view = element + 'EditorView';
+    this.editorController.switchEditor(
+          this.editorController[controller]);
+    if (resource) {
+      this.view[view][resourceReference] = resource;
+    }
+    this.view.switchView(this.view[view], resource);
+    FactoryUtils.closeModal(this.modalId_);
+    this.modalId_ = null;
+    this.addFlyoutOpen = false;
   }
 }

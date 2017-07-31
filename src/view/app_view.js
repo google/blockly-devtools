@@ -462,33 +462,6 @@ class AppView {
   }
 
   /**
-   * Switches view and editor, closes any open modal elements.
-   * @param {string} element The type of element to switch the view and editor
-   *     based off of, in camel case (but beginning with a lower case letter).
-   * @param {?Resource} resource The resource to display upon switching the view.
-   */
-  switchEnvironment(element, resource) {
-    var resourceReference;
-    if (element == 'workspaceContents' || element == 'workspaceConfig') {
-      resourceReference = element;
-      element = 'workspace';
-    } else {
-      resourceReference = element;
-    }
-    const controller = element + 'EditorController';
-    const view = element + 'EditorView';
-    this.appController.editorController.switchEditor(
-          this.appController.editorController.controller);
-      this.switchView(this[view]);
-      if (resource) {
-        this[view][resourceReference] = resource;
-      }
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
-  }
-
-  /**
    * Add event listeners for the block factory.
    */
   addBlockFactoryEventListeners() {
