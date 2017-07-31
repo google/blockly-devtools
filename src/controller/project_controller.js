@@ -57,7 +57,23 @@ class ProjectController {
   }
 
   /**
-   * Given the name of a block, returns the BlockLibrary that it belongs to.
+   * Static constant used to determine the export type of a resource as JavaScript.
+   * @return {string} String constant to represent JavaScript.
+   */
+  static get TYPE_JS() {
+    return 'js';
+  }
+
+  /**
+   * Static constant used to determine the export type of a resource as XML.
+   * @return {string} String constant to represent XML.
+   */
+  static get TYPE_XML() {
+    return 'xml';
+  }
+
+  /**
+   * Given the name of a block, returs the BlockLibrary that it belongs to.
    * Returns null if it does not exist within the project.
    * @param {string} blockType Block name of a BlockDefinition.
    * @return {?BlockLibrary} BlockLibrary to which the given block type belongs,
