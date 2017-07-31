@@ -31,6 +31,15 @@ goog.provide('ShadowController');
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
 class ShadowController {
+  /**
+   * Creates abstract class which manages editor controllers that involve
+   * shadow blocks.
+   * @param {!ProjectController} projectController ProjectController which will
+   *     manage model-side changes.
+   * @param {!Blockly.Workspace} hiddenWorkspace Hidden blockly workspace used
+   *     to create shadow blocks.
+   * @constructor
+   */
   constructor(projectController, hiddenWorkspace) {
     /**
      * ProjectController that will edit toolboxes when edited in the toolbox
@@ -131,7 +140,7 @@ class ShadowController {
 
     // Check if block has variables (variable blocks cannot be shadow blocks).
     const hasVar = FactoryUtils.hasVariableField(selected);
-    this.view.enableShadowButtons(isShadow, isValid);
+    this.view.enableShadowButtons(isShadow, isValid && !hasVar);
 
     // Checks various states of the selected block to make the warning text
     // more helpful/descriptive. Removes warning text if no rules are broken.
@@ -217,8 +226,8 @@ class ShadowController {
   /**
    * Given a set of blocks currently loaded, returns all blocks in the workspace
    * that are user generated shadow blocks.
-   * @param {Array.<!Blockly.Block>} blocks Array of blocks currently loaded.
-   * @return {Array.<!Blockly.Block>} Array of user-generated shadow blocks currently
+   * @param {Array<!Blockly.Block>} blocks Array of blocks currently loaded.
+   * @return {Array<!Blockly.Block>} Array of user-generated shadow blocks currently
    *     loaded.
    */
   getShadowBlocksInWorkspace(blocks) {
@@ -264,6 +273,7 @@ class ShadowController {
    * @param {!Blockly.Block} block The block to be converted to a user-generated
    *     shadow block.
    * @private
+   * @recursive
    */
   addShadowForBlockAndChildren_(block) {
     // From wfactory_controller.js:addShadowForBlockAndChildren_(block)

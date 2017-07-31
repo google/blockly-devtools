@@ -897,7 +897,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
     const blocks = this.view.editorWorkspace.getAllBlocks();
     const shadowBlocks =  this.getShadowBlocksInWorkspace(blocks);
     for (let block of shadowBlocks) {
-      FactoryUtils.markShadowBlock(block);
+      ShadowController.markShadowBlock(block);
     }
     FactoryUtils.warnForUndefinedBlocks(blocks, this.projectController.getProject());
   }

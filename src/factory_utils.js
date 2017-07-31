@@ -1314,7 +1314,7 @@ FactoryUtils.ifCheckedEnable = function(enabled, idArray) {
 
 /**
  * Sets a warning on blocks that are not defined within a given project.
- * @param {!Array.<Blockly.Block>} blocks A list of blocks to check if they are
+ * @param {!Array<!Blockly.Block>} blocks A list of blocks to check if they are
  *     defined.
  * @param {!Project} project The project which contains the block definitions.
  */
