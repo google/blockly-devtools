@@ -490,7 +490,8 @@ class WorkspaceController {
       if (!opt_type) {
         return;
       }
-      fileContents = Blockly.Xml.domToPrettyText(resource.getExportData());
+      fileContents = FactoryUtils.escapeForFileSystem(
+          Blockly.Xml.domToPrettyText(resource.getExportData()));
 
       if (opt_type == ProjectController.TYPE_JS) {
         fileContents = FactoryUtils.generateXmlAsJsFile(this.view.workspaceContents,

@@ -1360,10 +1360,10 @@ ${xmlStorageVariable}['${resource.name}'] =
  * to download given the platform. Different platform have different file name
  * requirements.
  * @param {string} fileName Name of file given by user (usually name of resource).
- * @param {string} platform Constant representing which platform the file is to
- *     be saved as.
+ * @param {string} opt_platform Constant representing which platform the file is to
+ *     be saved as. Defaults to web as platform if no param given.
  */
-FactoryUtils.escapeForFileSystem = function(fileName, platform) {
+FactoryUtils.escapeForFileSystem = function(fileName, opt_platform) {
   // TODO(#156): Implement escaping a file name so that it is file-system friendly,
   // depending on platform.
 };
