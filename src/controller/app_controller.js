@@ -72,19 +72,16 @@ class PREFIXES {
   }
 
   /* prefixes for classes when used in variable names */
-  static get variable_block() {
+  static get VARIABLE_BLOCK() {
     return 'block';
   }
-  static get variable_library() {
-    return 'library';
-  }
-  static get variable_toolbox() {
+  static get VARIABLE_TOOLBOX() {
     return 'toolbox';
   }
-  static get variable_workspaceContents() {
+  static get VARIABLE_WORKSPACECONTENTS() {
     return 'workspaceContents';
   }
-  static get variable_workspaceConfiguration() {
+  static get VARIABLE_WORKSPACECONFIGURATION() {
     return 'workspaceConfig';
   }
 }
@@ -316,7 +313,7 @@ class AppController {
     // TODO: prompt for name, define behavior
     const library = this.projectController.createBlockLibrary(
         'test_library');
-    this.switchEnvironment(PREFIXES.variable_library, library);
+    this.switchEnvironment(PREFIXES.VARIABLE_BLOCK, library);
   }
 
   /**
@@ -326,7 +323,7 @@ class AppController {
     // TODO: prompt for name
     const toolbox = this.projectController.createToolbox(
         'test_toolbox');
-    this.switchEnvironment(PREFIXES.variable_toolbox, toolbox);
+    this.switchEnvironment(PREFIXES.VARIABLE_TOOLBOX, toolbox);
   }
 
   /**
@@ -338,7 +335,7 @@ class AppController {
     const workspaceContents =
       this.projectController.createWorkspaceContents(
           'test_contents');
-    this.switchEnvironment(PREFIXES.variable_workspaceContents, workspaceContents);
+    this.switchEnvironment(PREFIXES.VARIABLE_WORKSPACECONTENTS, workspaceContents);
   }
 
   /**
@@ -350,7 +347,7 @@ class AppController {
     const workspaceConfig =
       this.projectController.createWorkspaceConfiguration(
           'test_config');
-    this.switchEnvironment(PREFIXES.variable_workspaceConfiguration, workspaceConfig);
+    this.switchEnvironment(PREFIXES.VARIABLE_WORKSPACECONFIGURATION, workspaceConfig);
   }
 
   /**
@@ -361,8 +358,8 @@ class AppController {
    */
   switchEnvironment(element, resource) {
     var resourceReference;
-    if (element == PREFIXES.variable_workspaceContents ||
-        element == PREFIXES.variable_workspaceConfiguration) {
+    if (element == PREFIXES.VARIABLE_WORKSPACECONTENTS ||
+        element == PREFIXES.VARIABLE_WORKSPACECONFIGURATION) {
       resourceReference = element;
       element = 'workspace';
     } else {

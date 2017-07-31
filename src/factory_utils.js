@@ -1233,21 +1233,21 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
  * starter block.
  * @param {string} inputType Type of input (statement, value, dummy).
  * @param {string} blockTypeName Name of block, given by user.
- * @param {string=} opt_blockStarterText Starter text to place on block, given by
+ * @param {string=} optBlockStarterText Starter text to place on block, given by
  *     user (optional).
  */
 FactoryUtils.buildBlockEditorStarterXml = function(
-    inputType, blockTypeName, opt_blockStarterText) {
+    inputType, blockTypeName, optBlockStarterText) {
   // REFACTORED: Moved in from factory.js:buildStartXml()
   inputType = inputType || 'input_statement';
   blockTypeName = blockTypeName || 'block_type';
   var textXmlStarter = '';
 
-  if (opt_blockStarterText.trim()) {
+  if (optBlockStarterText.trim()) {
     // Adds optional text to custom block.
     textXmlStarter = '<value name="FIELDS">' +
     '<block type="field_static">' +
-    '<field name="TEXT">' + opt_blockStarterText + '</field></block></value>';
+    '<field name="TEXT">' + optBlockStarterText + '</field></block></value>';
   }
 
   var customXmlStarter = `<xml>
