@@ -20,33 +20,15 @@
 
 'use strict';
 
-  goog.provide('NewConfigView');
+goog.provide('NewProjectPopupView');
 
-  goog.require('NewResourcePopupView');
+goog.require('NewResourcePopupView');
 
 /**
- * @fileoverview NewConfigView manages the UI for creating new WorkspaceConfigs.
+ * @fileoverview NewLibraryPopupView deals with the UI for creating new projects.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-
-class NewConfigView extends NewResourcePopupView {
-  constructor() {
-    super();
-
-    /**
-     * HTML contents of what is inside popup window. Does not include the popup
-     * window itself.
-     * @type {string}
-     */
-    this.htmlContents = `
-<div id="sample"></div>
-`;
-
-    super.injectPopupContents(this.htmlContents);
-
-    // TODO: Insert HTML contents into page, make visible.
-  }
-
+class NewProjectPopupView extends NewResourcePopupView {
   // TODO: Add functions.
 }
