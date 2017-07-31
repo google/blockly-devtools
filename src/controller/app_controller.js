@@ -45,6 +45,7 @@ goog.require('goog.ui.ColorPicker');
 'use strict';
 
 var Emitter = require('component-emitter');
+var fs = require('graceful-fs');
 
 /**
  * Class containing static getters for the prefixes of all node types. Given
@@ -63,6 +64,9 @@ class PREFIXES {
   }
   static get TOOLBOX() {
     return 'Toolbox';
+  }
+  static get GENERAL_WORKSPACE() {
+    return 'Workspace';
   }
   static get WORKSPACE_CONTENTS() {
     return 'WorkspaceContents';
@@ -143,6 +147,12 @@ class AppController {
      * @type {!PopupController}
      */
     this.popupController = new PopupController(this.projectController);
+
+    /**
+     * Location where the project directory is saved.
+     */
+    this.storageLocation = localStorage.getItem('devToolsProjectLocation') ||
+        this.getNewStorageLocation();
   }
 
   // ======================== CONSTANTS ===========================
@@ -224,11 +234,38 @@ class AppController {
   }
 
   /**
+   * Prompts the user for a new location to store the project, stores and
+   * returns the result.
+   */
+  getNewStorageLocation() {
+
+  }
+
+  /**
+   * Creates the properly nested directory in which to save the project.
+   */
+  initProjectDirectory() {
+    const projectDir = storageLocation + this.project.name;
+    const libraryDir = projectDir + '/' + PREFIXES.LIBRARY;
+    const toolboxDir = projectDir + '/' + PREFIXES.TOOLBOX;
+    const workspaceDir = projectDir + '/' + PREFIXES.GENERAL_WORKSPACE;
+    const dirs = [ projectDir, libraryDir, toolboxDir, workspaceDir];
+    for (let dir in dirs) {
+      if (!fs.existsSync(dirs[dir])) {
+        fs.mkdir(dirs[dir]);
+        console.log('made directory ' + dirs[dir]);
+      }
+    }
+  }
+
+  /**
    * Top-level function which is first called in order to save a project to
    * developer's file system.
    */
   saveProject() {
-    // TODO: Implement.
+    // Create directory in which to save the project.
+    this.initProjectDirectory();
+
   }
 
   /**

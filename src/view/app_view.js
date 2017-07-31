@@ -85,7 +85,7 @@ class AppView {
         ]],
         ['Open Project', () => { this.openProject(); }],
         ['Save', [
-          ['Save All', () => { this.saveProject(); }],
+          ['Save All', () => { this.appController.saveProject(); }],
           ['Save as Web Only', () => { this.saveForWeb(); }],
           ['Save as iOS Only', () => { this.saveForIos(); }],
           ['Save as Android Only', () => { this.saveForAndroid(); }]
@@ -446,6 +446,18 @@ class AppView {
       FactoryUtils.closeModal(this.modalId_);
       this.modalId_ = null;
       this.addFlyoutOpen = false;
+    });
+
+    $('#addButton').click(() => {
+      if (this.addFlyoutOpen) {
+        FactoryUtils.closeModal('addOptions');
+        this.modalId_ = null;
+        this.addFlyoutOpen = false;
+      } else {
+        FactoryUtils.openModal('addOptions');
+        this.modalId_ = 'addOptions';
+        this.addFlyoutOpen = true;
+      }
     });
   }
 
