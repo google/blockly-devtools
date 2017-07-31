@@ -186,10 +186,10 @@ class WorkspaceEditorView {
       }
     });
     this.addShadowButton.addEventListener('click', () => {
-      controller.addShadow();
+      controller.setSelectedAsShadowBlock();
     });
     this.removeShadowButton.addEventListener('click', () => {
-      controller.removeShadow();
+      controller.unsetSelectedAsShadowBlock();
     });
   }
 
