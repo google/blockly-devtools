@@ -1345,7 +1345,6 @@ FactoryUtils.generateXmlAsJsFile = function(resource, storageVar) {
 
   // XML ASSIGNMENT STRING (not to be executed)
   const jsFromXml = `
-// If ${xmlStorageVariable} does not exist.
 var ${xmlStorageVariable} = ${xmlStorageVariable} || Object.create(null);
 
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */

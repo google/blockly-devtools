@@ -146,7 +146,6 @@ class WorkspaceEditorView {
    * @package
    */
   init(controller) {
-    console.log('init() called');
     this.editorWorkspace.addChangeListener((event) => {
       Blockly.Events.disable();
       controller.onChange(event);
@@ -189,9 +188,7 @@ class WorkspaceEditorView {
       this.openModal_ = 'dropdownDiv_exportWS';
       FactoryUtils.openModal(this.openModal_);
     });
-    console.log('Reached');
     $('#dropdown_exportWSOptions').click(() => {
-      console.log('export options clicked!');
       controller.export(this.workspaceConfig);
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;

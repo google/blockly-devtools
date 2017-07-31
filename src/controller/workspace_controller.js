@@ -510,47 +510,17 @@ class WorkspaceController {
   }
 
   /**
-   * Generates JavaScript string representation of WorkspaceContents for user to
-   * download. Does not deal with popups or file system access; just generates content.
-   *
-   * @param {!WorkspaceContents} workspaceContents The WorkspaceContents object
-   *     which is being exported.
-   * @returns {string} String representation of JS file to be exported.
-   */
-  generateWorkspaceContentsFile(workspaceContents) {
-    // From wfactory_generator.js:generateJsFromXml(xml, name, mode)
-    // Escape for ' when exporting to JS.
-    const xmlStorageVariable = 'BLOCKLY_PRELOAD_XML';
-    const xmlString = FactoryUtils.concatenateXmlString(
-        Blockly.Xml.domToPrettyText(workspaceContents.getExportData()));
-
-    // XML ASSIGNMENT STRING (not to be executed)
-    const jsFromXml = `
-// If ${xmlStorageVariable} does not exist.
-if (!${xmlStorageVariable}) {
-  ${xmlStorageVariable} = {};
-}
-
-/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
-${xmlStorageVariable}['${workspaceContents.name}'] =
-    ${xmlString};
-/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
-`;
-    return jsFromXml;
-  }
-
-  /**
    * Creates a string representation of the options, for use in making the string
    * used to inject the workspace.
    * @param {!Object} obj Object representing the options selected in the current
    *     configuration.
-   * @param {string} tabChar String representation of a tab character.
+   * @param {string} indent String representation of an indent.
    * @return {string} String representation of the workspace configuration's
    *     options.
    * @recursive
    * @private
    */
-  stringifyOptions_(obj, tabChar) {
+  stringifyOptions_(obj, indent) {
     // REFACTORED from wfactory_generator.js:addAttributes_(obj, tabChar)
     if (!obj) {
       return '{}\n';
@@ -558,13 +528,13 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
     var str = '';
     for (var key in obj) {
       if (key == 'grid' || key == 'zoom') {
-        var temp = tabChar + key + ' : {\n' +
-            this.stringifyOptions_(obj[key], tabChar + '\t') +
-            tabChar + '}, \n';
+        var temp = indent + key + ' : {\n' +
+            this.stringifyOptions_(obj[key], indent + '\t') +
+            indent + '}, \n';
       } else if (typeof obj[key] == 'string') {
-        var temp = tabChar + key + ' : \'' + obj[key] + '\', \n';
+        var temp = indent + key + ' : \'' + obj[key] + '\', \n';
       } else {
-        var temp = tabChar + key + ' : ' + obj[key] + ', \n';
+        var temp = indent + key + ' : ' + obj[key] + ', \n';
       }
       str += temp;
     }
