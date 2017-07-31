@@ -23,6 +23,7 @@
 goog.provide('WorkspaceContents');
 
 goog.require('Resource');
+goog.require('ShadowController');
 
 /**
  * @class Workspacecontents contains a set of positioned blocks specified by the

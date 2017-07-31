@@ -102,7 +102,7 @@ class WorkspaceEditorView {
      */
     this.selectedBlock = null;
 
-    /**
+    /*
      * Button elements used in workspace editor.
      * @type {!Element}
      */

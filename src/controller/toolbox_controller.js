@@ -22,6 +22,7 @@
 
 goog.provide('ToolboxController');
 
+goog.require('ShadowController');
 goog.require('ToolboxEditorView');
 
 /**
