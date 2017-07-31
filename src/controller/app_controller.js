@@ -70,6 +70,23 @@ class PREFIXES {
   static get WORKSPACE_CONFIG() {
     return 'WorkspaceConfiguration';
   }
+
+  /* prefixes for classes when used in variable names */
+  static get variable_block() {
+    return 'block';
+  }
+  static get variable_library() {
+    return 'library';
+  }
+  static get variable_toolbox() {
+    return 'toolbox';
+  }
+  static get variable_workspaceContents() {
+    return 'workspaceContents';
+  }
+  static get variable_workspaceConfiguration() {
+    return 'workspaceConfig';
+  }
 }
 
 class AppController {
@@ -174,7 +191,7 @@ class AppController {
   }
 
   /**
-   * Static get function for constant TOOLBOX_EDITOR.
+   * Static get function for constant WORKSPACE_EDITOR.
    * @return {!string}
    */
   static get WORKSPACE_EDITOR() {
@@ -299,7 +316,7 @@ class AppController {
     // TODO: prompt for name, define behavior
     const library = this.projectController.createBlockLibrary(
         'test_library');
-    this.switchEnvironment('block', library);
+    this.switchEnvironment(PREFIXES.variable_library, library);
   }
 
   /**
@@ -309,7 +326,7 @@ class AppController {
     // TODO: prompt for name
     const toolbox = this.projectController.createToolbox(
         'test_toolbox');
-    this.switchEnvironment('toolbox', toolbox);
+    this.switchEnvironment(PREFIXES.variable_toolbox, toolbox);
   }
 
   /**
@@ -321,7 +338,7 @@ class AppController {
     const workspaceContents =
       this.projectController.createWorkspaceContents(
           'test_contents');
-    this.switchEnvironment('workspaceContents', workspaceContents);
+    this.switchEnvironment(PREFIXES.variable_workspaceContents, workspaceContents);
   }
 
   /**
@@ -333,7 +350,7 @@ class AppController {
     const workspaceConfig =
       this.projectController.createWorkspaceConfiguration(
           'test_config');
-    this.switchEnvironment('workspaceConfig', workspaceConfig);
+    this.switchEnvironment(PREFIXES.variable_workspaceConfiguration, workspaceConfig);
   }
 
   /**
@@ -344,7 +361,8 @@ class AppController {
    */
   switchEnvironment(element, resource) {
     var resourceReference;
-    if (element == 'workspaceContents' || element == 'workspaceConfig') {
+    if (element == PREFIXES.variable_workspaceContents ||
+        element == PREFIXES.variable_workspaceConfiguration) {
       resourceReference = element;
       element = 'workspace';
     } else {
