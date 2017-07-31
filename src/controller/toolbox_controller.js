@@ -1207,19 +1207,14 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    *     ProjectController.TYPE_XML).
    */
   export(toolbox, type) {
-    // Prompt user for file name.
-    const fileName = prompt('File name for toolbox:',
-        toolbox.name + '.' + type);
-
-    if (!fileName) {
-      return;
-    }
-
-    let fileContents = Blockly.Xml.domToPrettyText(toolbox.getExportData());
+    let fileContents = '';
+    const fileName = toolbox.name + '.' + type;
 
     if (type == ProjectController.TYPE_JS) {
-      fileContents = this.generateToolboxFile(toolbox);
-    } else if (type != ProjectController.TYPE_XML) {
+      fileContents = this.generateToolboxJsFile(toolbox);
+    } else if (type == ProjectController.TYPE_XML) {
+      fileContents = Blockly.Xml.domToPrettyText(toolbox.getExportData());
+    } else {
       throw new Error('Unknown export mode: file types with extension .' + type
           + ' not supported.');
     }
@@ -1234,16 +1229,13 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    * @param {!Toolbox} toolbox The toolbox to export into a JS file.
    * @returns {string} String representation of JS file to be exported.
    */
-  generateToolboxFile(toolbox) {
-    const xml = Blockly.Xml.domToText(toolbox.getExportData());
+  generateToolboxJsFile(toolbox) {
+    const xml = Blockly.Xml.domToPrettyText(toolbox.getExportData());
     const xmlStorageVariable = 'BLOCKLY_TOOLBOX_XML';
 
     // XML ASSIGNMENT STRING (not to be executed)
     let jsFromXml = `
-// If ${xmlStorageVariable} does not exist.
-if (!${xmlStorageVariable}) {
-  ${xmlStorageVariable} = {};
-}
+${xmlStorageVariable} = ${xmlStorageVariable} || null;
 
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 ${xmlStorageVariable}['${toolbox.name}'] =
