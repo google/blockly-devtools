@@ -74,7 +74,6 @@ class NewBlockPopupController extends PopupController {
       blockEditorController.createNewBlock(
           view.inputType, view.blockName, view.libraryName, view.blockText);
       this.exit();
-      return;
     });
 
     $('#block_name').change(() => {

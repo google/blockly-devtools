@@ -1243,7 +1243,7 @@ FactoryUtils.buildBlockEditorStarterXml = function(
   blockTypeName = blockTypeName || 'block_type';
   var textXmlStarter = '';
 
-  if (opt_blockStarterText) {
+  if (opt_blockStarterText.trim()) {
     // Adds optional text to custom block.
     textXmlStarter = '<value name="FIELDS">' +
     '<block type="field_static">' +

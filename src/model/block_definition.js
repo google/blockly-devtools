@@ -64,7 +64,10 @@ class BlockDefinition extends Resource {
    * @return {!Object} JSON representation of the block.
    */
   getJson() {
-    return {'id': this.type(), 'text': this.type()};
+    return {
+      'id': this.type(),
+      'text': this.type()
+    };
   }
 
   /**

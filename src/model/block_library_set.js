@@ -87,7 +87,7 @@ class BlockLibrarySet extends ResourceSet {
    */
   getLibrary(blockType) {
     for (let libraryName of this.getNames()) {
-      if (this.resources[libraryName].has(blockType).name) {
+      if (this.resources[libraryName].has(blockType).x) {
         return this.resources[libraryName];
       }
     }
