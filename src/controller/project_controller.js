@@ -23,6 +23,7 @@
 goog.provide('ProjectController');
 
 goog.require('Project');
+goog.require('WorkspaceContents');
 
 /**
  * @fileoverview The ProjectController Class controls the management of the
@@ -54,6 +55,22 @@ class ProjectController {
      * @type {!NavigationTree}
      */
     this.tree = tree;
+  }
+
+  /**
+   * Static constant used to determine the export type of a resource as JavaScript.
+   * @return {string} String constant to represent JavaScript.
+   */
+  static get TYPE_JS() {
+    return 'js';
+  }
+
+  /**
+   * Static constant used to determine the export type of a resource as XML.
+   * @return {string} String constant to represent XML.
+   */
+  static get TYPE_XML() {
+    return 'xml';
   }
 
   /**

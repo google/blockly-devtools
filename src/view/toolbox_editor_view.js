@@ -128,6 +128,7 @@ class ToolboxEditorView {
     this.upButton.disabled = true;
     this.downButton.disabled = true;
     this.editButton.disabled = true;
+    this.refreshToolboxInfo();
 
     /**
      * ID of currently open modal (dropdowns, etc.) in the toolbox editor view.
@@ -308,6 +309,29 @@ class ToolboxEditorView {
     this.removeShadowButton.addEventListener('click', () => {
       controller.unsetSelectedAsShadowBlock();
     });
+
+    $('#button_importBlocks').click(() => {
+      this.openModal_ = 'dropdownDiv_importBlocks';
+      FactoryUtils.openModal(this.openModal_);
+    });
+
+    $('#button_load').click(() => {
+      this.openModal_ = 'dropdownDiv_load';
+      FactoryUtils.openModal(this.openModal_);
+    });
+
+    $('#button_export').click(() => {
+      this.openModal_ = 'dropdownDiv_export';
+      FactoryUtils.openModal(this.openModal_);
+    });
+
+    $('#dropdown_exportToolboxXML').click(() => {
+      controller.export(this.toolbox, ProjectController.TYPE_XML);
+    });
+
+    $('#dropdown_exportToolboxJS').click(() => {
+      controller.export(this.toolbox, ProjectController.TYPE_JS);
+    });
   }
 
   /**
@@ -318,6 +342,34 @@ class ToolboxEditorView {
    */
   initEventListeners_(controller) {
     // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
+  }
+
+  /**
+   * Refreshes any information in the view (such as the name of the currently
+   * edited toolbox) to match any changes in the Toolbox model object.
+   */
+  refreshToolboxInfo() {
+    $('#currentToolbox').text(this.toolbox.name);
+  }
+
+  /**
+   * Display or hide the add shadow button.
+   * @param {boolean} show True if the add shadow button should be shown, false
+   *     otherwise.
+   */
+  displayAddShadow(show) {
+    // REFACTOR: Moved in from wfactory_init.js:displayAddShadow_(show)
+    this.addShadowButton.style.display = show ? 'inline-block' : 'none';
+  }
+
+  /**
+   * Display or hide the remove shadow button.
+   * @param {boolean} show True if the remove shadow button should be shown, false
+   *     otherwise.
+   */
+  displayRemoveShadow(show) {
+    // TODO: Move in from wfactory_model.js:displayRemoveShadow_(show)
+    this.removeShadowButton.style.display = show ? 'inline-block' : 'none';
   }
 
   /**
@@ -645,68 +697,6 @@ class ToolboxEditorView {
     // TODO: Move in from wfactory_model.js:displayRemoveShadow_(show)
     this.removeShadowButton.style.display = show ? 'inline-block' : 'none';
   }
-
-  /**
-   * Enables or disables the add/remove shadow block buttons depending on whether
-   * the selected block (1) is already marked as a shadow block, and (2) is in
-   * a valid shadow block position.
-   * @param {boolean} isShadow Whether the selected block is already marked as
-   *     a shadow block.
-   * @param {boolean} isValid Whether the selected block is in a valid shadow
-   *     block position.
-   */
-  enableShadowButtons(isShadow, isValid) {
-    if (isShadow) {
-      // Is a shadow block
-      this.showAndEnableShadow(false, true);
-    } else if (!isShadow && isValid) {
-      // Is not a shadow block but can be a valid shadow block.
-      this.showAndEnableShadow(true, true);
-    } else {
-      // Is not a shadow block and is not in a valid shadow block position.
-      this.showAndEnableShadow(true, false);
-    }
-  }
-
-  /**
-   * Shows and enables shadow buttons.
-   * @param {boolean} ifAdd Whether to show the add button. Shows remove button
-   *     if false.
-   * @param {boolean} ifEnable Whether to enable the add or remove button that
-   *     is shown.
-   * @param {boolean=} opt_disableAll Whether to hide both buttons entirely.
-   */
-  showAndEnableShadow(ifAdd, ifEnable, opt_disableAll) {
-    if (opt_disableAll) {
-      this.displayAddShadow(false);
-      this.displayRemoveShadow(false);
-      return;
-    }
-    this.displayAddShadow(ifAdd);
-    this.displayRemoveShadow(!ifAdd);
-    const button = ifAdd ? this.addShadowButton : this.removeShadowButton;
-    button.disabled = ifEnable ? false : true;
-  }
-
-  /**
-   * Display or hide the add shadow button.
-   * @param {boolean} show True if the add shadow button should be shown, false
-   *     otherwise.
-   */
-  displayAddShadow(show) {
-    // REFACTOR: Moved in from wfactory_init.js:displayAddShadow_(show)
-    this.addShadowButton.style.display = show ? 'inline-block' : 'none';
-  }
-
-  /**
-   * Display or hide the remove shadow button.
-   * @param {boolean} show True if the remove shadow button should be shown, false
-   *     otherwise.
-   */
-  displayRemoveShadow(show) {
-    // TODO: Move in from wfactory_model.js:displayRemoveShadow_(show)
-    this.removeShadowButton.style.display = show ? 'inline-block' : 'none';
-  }
 }
 
 /**
@@ -744,11 +734,8 @@ ToolboxEditorView.html = `
     <div class="dropdown">
       <button id="button_export">Export</button>
       <div id="dropdownDiv_export" class="dropdown-content">
-        <a id="dropdown_exportOptions">Starter Code</a>
         <a id="dropdown_exportToolboxXML">Toolbox as XML</a>
         <a id="dropdown_exportToolboxJS">Toolbox as JS</a>
-        <a id="dropdown_exportPreloadXML">Workspace Blocks as XML</a>
-        <a id="dropdown_exportPreloadJS">Workspace Blocks as JS</a>
         <a id="dropdown_exportAll">All</a>
       </div>
     </div>
@@ -763,6 +750,7 @@ ToolboxEditorView.html = `
   <div id="createHeader">
     <h3>Edit Toolboxes</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure the toolbox in your custom workspace.</p>
+    <p><b>Current toolbox:</b> <span id="currentToolbox"></span></p>
   </div>
   <section id="toolbox_section">
     <div id="toolboxDiv"></div>

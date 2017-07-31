@@ -943,28 +943,50 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   }
 
   /**
-   * Generates JavaScript string representation of toolbox for user to download.
-   * Does not deal with popups or file system access; just generates content.
-   *
-   * @returns {string} String representation of JS file to be exported.
+   * Creates file with toolbox contents, prompts user for file name, then
+   * downloads onto user's file system.
+   * @param {!Toolbox} toolbox The toolbox to export.
+   * @param {string} type String constant to determine whether to export as a
+   *     JavaScript or XML file (either ProjectController.TYPE_JS or
+   *     ProjectController.TYPE_XML).
    */
-  generateJsFileContents() {
-    /*
-     * TODO: Move in from wfactory_generator.js:generateJsFromXml(xml, name, mode)
-     *       (Also moved into: workspace_contents.js)
-     *
-     * References:
-     * - [NEW] this.generateXml()
-     * - [NEW] this.name
-     */
-    throw 'Unimplemented: generateJsFileContents()';
+  export(toolbox, type) {
+    let fileContents = '';
+    const fileName = FactoryUtils.escapeForFileSystem(toolbox.name) + '.' + type;
+
+    if (type == ProjectController.TYPE_JS) {
+      fileContents = this.generateToolboxJsFile(toolbox);
+    } else if (type == ProjectController.TYPE_XML) {
+      fileContents = Blockly.Xml.domToPrettyText(toolbox.getExportData());
+    } else {
+      throw new Error('Unknown export mode: file types with extension .' + type
+          + ' not supported.');
+    }
+
+    FactoryUtils.createAndDownloadFile(fileContents, fileName, 'text/' + type);
   }
 
   /**
-   * Exports the toolbox.
+   * Generates JavaScript string representation of toolbox for user to download.
+   * Does not deal with popups or file system access; just generates content.
+   *
+   * @param {!Toolbox} toolbox The toolbox to export into a JS file.
+   * @returns {string} String representation of JS file to be exported.
    */
-  exportToolbox() {
-    throw 'Unimplemented: exportToolbox()';
+  generateToolboxJsFile(toolbox) {
+    const xml = Blockly.Xml.domToPrettyText(toolbox.getExportData());
+    const xmlStorageVariable = 'BLOCKLY_TOOLBOX_XML';
+
+    // XML ASSIGNMENT STRING (not to be executed)
+    let jsFromXml = `
+var ${xmlStorageVariable} = ${xmlStorageVariable} || null;
+
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+${xmlStorageVariable}['${toolbox.name}'] =
+    ${FactoryUtils.concatenateXmlString(xml)};
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
+`;
+      return jsFromXml;
   }
 
   /**
