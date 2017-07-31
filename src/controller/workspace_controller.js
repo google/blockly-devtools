@@ -483,31 +483,20 @@ class WorkspaceController {
    */
   export(resource, opt_type) {
     let fileContents = '';
-    let fileName = '';
+    let fileName = resource.name;
 
     if (resource instanceof WorkspaceContents) {
       // Return if no file type was specified.
       if (!opt_type) {
         return;
       }
-      fileName = prompt('File name for workspace blocks:',
-          resource.name + '.' + opt_type);
-
-      if (!fileName) {
-        return;
-      }
-
       fileContents = Blockly.Xml.domToPrettyText(resource.getExportData());
 
       if (opt_type == ProjectController.TYPE_JS) {
-        fileContents = this.generateWorkspaceContentsFile(this.view.workspaceContents);
+        fileContents = FactoryUtils.generateXmlAsJsFile(this.view.workspaceContents,
+            PREFIXES.WORKSPACE_CONTENTS.toUpperCase());
       }
     } else if (resource instanceof WorkspaceConfiguration) {
-      fileName = prompt('File name for starter workspace code:', 'myBlocklyApp.js');
-      if (!fileName) {
-        return;
-      }
-
       fileContents = this.generateInjectFile(this.view.workspaceConfig);
       opt_type = ProjectController.TYPE_JS;
     } else if (resource instanceof Resource) {
@@ -515,7 +504,9 @@ class WorkspaceController {
           + ' from the workspace editor.');
     }
 
-    FactoryUtils.createAndDownloadFile(fileContents, fileName, 'text/' + opt_type);
+    FactoryUtils.createAndDownloadFile(fileContents,
+        fileName + '.' + opt_type,
+        'text/' + opt_type);
   }
 
   /**
@@ -553,22 +544,23 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
    * used to inject the workspace.
    * @param {!Object} obj Object representing the options selected in the current
    *     configuration.
-   * @param {string} tabChar The tab character.
+   * @param {string} tabChar String representation of a tab character.
    * @return {string} String representation of the workspace configuration's
    *     options.
    * @recursive
    * @private
    */
-  addAttributes_(obj, tabChar) {
-    // REFACTORED from wfactory_generator.js
+  stringifyOptions_(obj, tabChar) {
+    // REFACTORED from wfactory_generator.js:addAttributes_(obj, tabChar)
     if (!obj) {
       return '{}\n';
     }
     var str = '';
     for (var key in obj) {
       if (key == 'grid' || key == 'zoom') {
-        var temp = tabChar + key + ' : {\n' + addAttributes(obj[key],
-            tabChar + '\t') + tabChar + '}, \n';
+        var temp = tabChar + key + ' : {\n' +
+            this.stringifyOptions_(obj[key], tabChar + '\t') +
+            tabChar + '}, \n';
       } else if (typeof obj[key] == 'string') {
         var temp = tabChar + key + ' : \'' + obj[key] + '\', \n';
       } else {
@@ -590,7 +582,7 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
    */
   generateInjectFile(workspaceConfig) {
     // REFACTORED from wfactory_generator.js
-    var attributes = addAttributes_(workspaceConfig.options, '\t');
+    var attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
     if (!workspaceConfig.options['readOnly']) {
       attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
         'imported toolbox to display here */], \n' + attributes;

@@ -1328,32 +1328,30 @@ FactoryUtils.ifCheckedEnable = function(enabled, idArray) {
 };
 
 /**
- * Creates a string representation of the options, for use in making the string
- * used to inject the workspace.
- * @param {!Object} obj Object representing the options selected in the current
- *     configuration.
- * @param {string} tabChar The tab character.
- * @return {string} String representation of the workspace configuration's
- *     options.
- * @recursive
+ * Generates JavaScript file contents for given resource object for user to
+ * download. Used for Toolbox and WorkspaceContents, both of which save blocks
+ * as XML files.
+ * @param {!Toolbox|!WorkspaceContents} resource The resource to download as JS
+ *     file.
+ * @param {string} storageVar Name of storage variable in which the resource's
+ *     XML will be saved.
  */
-FactoryUtils.addAttributes = function(obj, tabChar) {
-  if (!obj) {
-    return '{}\n';
-  }
-  var str = '';
-  for (var key in obj) {
-    if (key == 'grid' || key == 'zoom') {
-      var temp = tabChar + key + ' : {\n' + addAttributes(obj[key],
-          tabChar + '\t') + tabChar + '}, \n';
-    } else if (typeof obj[key] == 'string') {
-      var temp = tabChar + key + ' : \'' + obj[key] + '\', \n';
-    } else {
-      var temp = tabChar + key + ' : ' + obj[key] + ', \n';
-    }
-    str += temp;
-  }
-  var lastCommaIndex = str.lastIndexOf(',');
-  str = str.slice(0, lastCommaIndex) + '\n';
-  return str;
-}
+FactoryUtils.generateXmlAsJsFile = function(resource, storageVar) {
+// From wfactory_generator.js:generateJsFromXml(xml, name, mode)
+  // Escape for ' when exporting to JS.
+  const xmlStorageVariable = 'BLOCKLY_' + storageVar + '_XML';
+  const xmlString = FactoryUtils.concatenateXmlString(
+      Blockly.Xml.domToPrettyText(resource.getExportData()));
+
+  // XML ASSIGNMENT STRING (not to be executed)
+  const jsFromXml = `
+// If ${xmlStorageVariable} does not exist.
+${xmlStorageVariable} = ${xmlStorageVariable} || Object.create(null);
+
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+${xmlStorageVariable}['${resource.name}'] =
+    ${xmlString};
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
+`;
+  return jsFromXml;
+};

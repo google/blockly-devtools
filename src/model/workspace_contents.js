@@ -61,6 +61,7 @@ class WorkspaceContents extends Resource {
    * @return {!Element} XML DOM element of this WorkspaceContents.
    */
   getExportData() {
+    this.xml.setAttribute('id', this.name);
     return this.xml;
   }
 
