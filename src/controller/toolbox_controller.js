@@ -1208,7 +1208,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
    */
   export(toolbox, type) {
     let fileContents = '';
-    const fileName = toolbox.name + '.' + type;
+    const fileName = FactoryUtils.escapeForFileSystem(toolbox.name) + '.' + type;
 
     if (type == ProjectController.TYPE_JS) {
       fileContents = this.generateToolboxJsFile(toolbox);
@@ -1235,7 +1235,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
 
     // XML ASSIGNMENT STRING (not to be executed)
     let jsFromXml = `
-${xmlStorageVariable} = ${xmlStorageVariable} || null;
+var ${xmlStorageVariable} = ${xmlStorageVariable} || null;
 
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 ${xmlStorageVariable}['${toolbox.name}'] =
