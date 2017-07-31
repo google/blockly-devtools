@@ -64,7 +64,13 @@
   appendScript('src/view/navigation_tree.js');
   appendScript('src/view/block_editor_view.js');
   appendScript('src/view/popup_view.js');
+  appendScript('src/view/new_resource_popup_view.js');
   appendScript('src/view/new_block_popup_view.js');
+  appendScript('src/view/new_project_popup_view.js');
+  appendScript('src/view/new_library_popup_view.js');
+  appendScript('src/view/new_toolbox_popup_view.js');
+  appendScript('src/view/new_workspace_contents_popup_view.js');
+  appendScript('src/view/new_config_view.js');
   appendScript('src/view/app_view.js');
   appendScript('src/new_block_dialog_view.js');
   appendScript('src/view/toolbox_editor_view.js');

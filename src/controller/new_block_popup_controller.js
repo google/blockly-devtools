@@ -68,10 +68,11 @@ class NewBlockPopupController extends PopupController {
       this.exit();
     });
 
+    const view = this.view;
+    const blockEditorController = this.blockEditorController;
     this.view.on('submit', () => {
-      this.blockEditorController.createNewBlock(
-          this.view.inputType, this.view.blockName, this.view.blockText);
-      this.blockEditorController.view.showStarterBlock(starterXml);
+      blockEditorController.createNewBlock(
+          view.inputType, view.blockName, view.libraryName, view.blockText);
       this.exit();
     });
 
