@@ -356,6 +356,7 @@ class Toolbox extends Resource {
    */
   getExportData() {
     // REFACTORED: Moved in from wfactory_generator.js:generateToolboxXml()
+    this.xml.setAttribute('id', this.name);
     return this.xml;
   }
 

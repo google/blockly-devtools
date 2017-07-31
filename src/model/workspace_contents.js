@@ -55,29 +55,14 @@ class WorkspaceContents extends Resource {
   }
 
   /**
-   * Gets XML DOM element associated with this WorkspaceContents.
-   * @return {!Element} XML DOM element of this WorkspaceContents.
-   */
-  getXml() {
-    // Moved in from wfactory_model.js:getPreloadXml()
-    return this.xml;
-  }
-
-  /**
    * Generates XML DOM element for WorkspaceContents. Used to insert
    * into files that user will download.
    *
    * @return {!Element} XML DOM element of this WorkspaceContents.
    */
   getExportData() {
-    /*
-     * TODO: Move in from wfactory_generator.js:generateWorkspaceXml()
-     *
-     * References:
-     * - hiddenWorkspace.clear()
-     * - setShadowBlocksInHiddenWorkspace_()
-     */
-    throw "unimplemented: getExportData";
+    this.xml.setAttribute('id', this.name);
+    return this.xml;
   }
 
   /**
