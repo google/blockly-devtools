@@ -128,7 +128,7 @@ class ToolboxEditorView {
     this.upButton.disabled = true;
     this.downButton.disabled = true;
     this.editButton.disabled = true;
-    $('#currentToolbox').text(this.toolbox.name);
+    this.refreshToolboxInfo();
 
     /**
      * ID of currently open modal (dropdowns, etc.) in the toolbox editor view.

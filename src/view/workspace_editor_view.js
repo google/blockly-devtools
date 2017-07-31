@@ -62,6 +62,7 @@ class WorkspaceEditorView {
 
     // Inserts HTML into toolbox editor container. Keeps hidden.
     this.container.html(WorkspaceEditorView.html);
+    this.refreshWorkspaceInfo();
     this.container.hide();
 
     /**
@@ -313,6 +314,15 @@ class WorkspaceEditorView {
   updateEditorToolbox(toolbox) {
     this.editorWorkspace.updateToolbox(toolbox);
   }
+
+  /**
+   * Refreshes any information in the view (such as the name of the currently
+   * edited workspace contents) to match any changes in the WorkspaceContents
+   * model object.
+   */
+  refreshWorkspaceInfo() {
+    $('#currentWorkspace').text(this.workspaceContents.name);
+  }
 }
 
 /**
@@ -367,6 +377,7 @@ WorkspaceEditorView.html = `
   <div id="createHeader">
     <h3>Edit Workspace elements</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
+    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
   </div>
   <section id="workspace_section">
     <div id="wsContentsDiv"></div>
