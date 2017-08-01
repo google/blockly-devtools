@@ -414,9 +414,7 @@ class AppView {
 
     $('#addButton').click(() => {
       if (this.addFlyoutOpen) {
-        FactoryUtils.closeModal('addOptions');
-        this.modalId_ = null;
-        this.addFlyoutOpen = false;
+        this.closeModal_();
       } else {
         FactoryUtils.openModal('addOptions');
         this.modalId_ = 'addOptions';
@@ -426,56 +424,51 @@ class AppView {
     this.assignAddFlyoutClickHandlers();
 
     $('#modalShadow').click(() => {
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.closeModal_();
     });
   }
 
+  /**
+   * Closes all modal elements and sets this.modalId_ to null.
+   * @private
+   */
+  closeModal_() {
+    FactoryUtils.closeModal(this.modalId_);
+    this.modalId_ = null;
+    this.addFlyoutOpen = false;
+  }
   /**
    * Assigns button click handlers for add button flyout.
    */
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
       this.appController.createBlockDefinition();
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.closeModal_();
     });
 
     $('#addLibrary').click(() => {
       this.appController.createLibrary();
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.closeModal_();
     });
 
     $('#addToolbox').click(() => {
       this.appController.createToolbox();
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.closeModal_();
     });
 
     $('#addWorkspaceContents').click(() => {
       this.appController.createWorkspaceContents();
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.closeModal_();
     });
 
     $('#addWorkspaceConfig').click(() => {
       this.appController.createWorkspaceConfiguration();
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.closeModal_();
     });
 
     $('#createNewBlockButton').click(() => {
       this.appController.createPopup(PopupController.NEW_BLOCK);
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.closeModal_();
     });
   }
 
