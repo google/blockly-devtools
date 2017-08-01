@@ -430,18 +430,6 @@ class AppView {
       this.modalId_ = null;
       this.addFlyoutOpen = false;
     });
-
-    $('#addButton').click(() => {
-      if (this.addFlyoutOpen) {
-        FactoryUtils.closeModal('addOptions');
-        this.modalId_ = null;
-        this.addFlyoutOpen = false;
-      } else {
-        FactoryUtils.openModal('addOptions');
-        this.modalId_ = 'addOptions';
-        this.addFlyoutOpen = true;
-      }
-    });
   }
 
   /**
@@ -450,26 +438,44 @@ class AppView {
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
       this.appController.createBlockDefinition();
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
     });
 
     $('#addLibrary').click(() => {
       this.appController.createLibrary();
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
     });
 
     $('#addToolbox').click(() => {
       this.appController.createToolbox();
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
     });
 
     $('#addWorkspaceContents').click(() => {
       this.appController.createWorkspaceContents();
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
     });
 
     $('#addWorkspaceConfig').click(() => {
       this.appController.createWorkspaceConfiguration();
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
     });
 
     $('#createNewBlockButton').click(() => {
       this.appController.createPopup(PopupController.NEW_BLOCK);
+      FactoryUtils.closeModal(this.modalId_);
+      this.modalId_ = null;
+      this.addFlyoutOpen = false;
     });
   }
 
