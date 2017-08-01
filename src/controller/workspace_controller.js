@@ -35,7 +35,7 @@ goog.require('WorkspaceEditorView');
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
-class WorkspaceController {
+class WorkspaceController extends ShadowController {
   /**
    * @constructor
    * @param {!ProjectController} projectController ProjectController that will
@@ -44,11 +44,7 @@ class WorkspaceController {
    * @param {!Blockly.Workspace} hiddenWorkspace Hidden workspace used to generate Blockly objects.
    */
   constructor(projectController, hiddenWorkspace) {
-    /**
-     * ProjectController which will be used on modification of workspace objects.
-     * @type {!ProjectController}
-     */
-    this.projectController = projectController;
+    super(projectController, hiddenWorkspace);
 
     // Creates first workspace contents and config to add to project.
     const wsContents = this.projectController.createWorkspaceContents('WSContents');
@@ -67,30 +63,27 @@ class WorkspaceController {
      */
     this.keyEventsEnabled = true;
 
-    /**
-     * Hidden workspace used to generate Blockly objects for export.
-     * @type {!Blockly.Workspace}
-     */
-    this.hiddenWorkspace = hiddenWorkspace;
+    // Sets current resource for shadow block class.
+    this.setResource(this.view.workspaceContents);
 
     // Initializes view's event listeners/handlers.
     this.view.init(this);
   }
 
   /**
-   * Saves the WorkspaceContents currently being edited into the current Project.
+   * Generates XML of currently active WorkspaceContents.
+   * @return {!Element} XML of current workspace contents blocks.
    */
-  saveState() {
-    /*
-     * TODO: Move in from wfactory_controller.js:saveStateFromWorkspace()
-     *
-     * References:
-     * - getSelectedXml()
-     * - saveFromWorkspace(this.toolboxWorkspace)
-     * - getPreloadXml()
-     * - savePreloadXml()
-     */
-    throw 'Unimplemented: saveState()';
+  generateContentsXml() {
+    const xmlDom = goog.dom.createDom('xml');
+    xmlDom.setAttribute('id', this.view.workspaceContents.name);
+    xmlDom.setAttribute('style', 'display: none');
+
+    const xml = Blockly.Xml.workspaceToDom(this.view.editorWorkspace);
+    this.loadToHiddenWorkspace_(xml);
+    this.appendHiddenWorkspaceToDom_(xmlDom);
+
+    return xmlDom;
   }
 
   /**
@@ -126,14 +119,45 @@ class WorkspaceController {
       this.saveStateFromWorkspace();
       this.updatePreview();
     }
+
+    // Refresh the shadow block buttons only if the state of blocks has changed
+    // (i.e. only on move or UI events).
+    if (isMoveEvent || isUiEvent) {
+      Blockly.Events.disable();
+      const selected = this.view.editorWorkspace.getBlockById(event.blockId);
+      this.view.selectedBlock = selected;
+
+      if (!selected) {
+        // User does not select a block.
+        this.view.showAndEnableShadow(false, false, true);
+      } else {
+        // User selects a block.
+        if (selected.getSurroundParent()) {
+          for (let block of selected.getSurroundParent().getDescendants()) {
+            this.view.selectedBlock = block;
+            this.checkShadowStatus();
+          }
+          this.view.selectedBlock = selected;
+        }
+
+        this.checkShadowStatus();
+      }
+      Blockly.Events.enable();
+    } else {
+      this.view.selectedBlock = null;
+      this.view.showAndEnableShadow(false, false, true);
+    }
+
+    if (isCreateEvent) {
+      this.createFakeShadowBlocks_(event.blockId);
+    }
   }
 
   /**
    * Saves blocks on editor workspace into the WorkspaceContents model.
    */
   saveStateFromWorkspace() {
-    const workspaceBlocks = Blockly.Xml.workspaceToDom(this.view.editorWorkspace);
-    this.view.workspaceContents.setXml(workspaceBlocks);
+    this.view.workspaceContents.setXml(this.generateContentsXml());
   }
 
   /**
@@ -212,96 +236,22 @@ class WorkspaceController {
   }
 
   /**
-   * Loads the given XML to the hidden Blockly.Workspace and sets any user-generated
-   * shadow blocks to be actual shadow blocks in the hidden Blockly.Workspace.
-   *
-   * @param {!Element} xml XML to be loaded to the hidden workspace.
-   * @private
-   */
-  loadToHiddenWorkspace_(xml) {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - hiddenWorkspace (@type {!Blockly.Workspace})
-     * - setShadowBlocksInHiddenWorkspace_()
-     */
-
-    // TODO: Investigate if there is a better method than using hidden workspaces
-    //       for grabbing Block XML information.
-
-    throw 'Unimplemented: loadToHiddenWorkspace_()';
-  }
-
-  /**
-   * Encodes blocks in the hidden workspace in a XML DOM element. Very
-   * similar to workspaceToDom, but doesn't capture IDs. Uses the top-level
-   * blocks loaded in hiddenWorkspace.
-   * @private
-   * @param {!Element} xmlDom Tree of XML elements to be appended to.
-   */
-  appendHiddenWorkspaceToDom_(xmlDom) {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - hiddenWorkspace (@type {!Blockly.Workspace})
-     */
-    throw 'Unimplemented: appendHiddenWorkspaceToDom_()';
-  }
-
-  /**
-   * Sets the user-generated shadow blocks loaded into hiddenWorkspace to be
-   * actual shadow blocks. This is done so that blockToDom records them as
-   * shadow blocks instead of regular blocks.
-   * @private
-   */
-  setShadowBlocksInHiddenWorkspace_() {
-    /*
-     * TODO: Move in from wfactory_generator.js
-     *
-     * References:
-     * - isShadowBlock()
-     */
-    throw 'Unimplemented: setShadowBlocksInHiddenWorkspace_()';
-  }
-
-  /*
-   * Makes the currently selected block a user-generated shadow block. These
-   * blocks are not made into real shadow blocks, but recorded in the model
-   * and visually marked as shadow blocks, allowing the user to move and edit
-   * them (which would be impossible with actual shadow blocks). Updates the
-   * preview when done.
-   */
-  addShadow() {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *       (Also moved into: toolbox_controller.js)
-     *
-     * References:
-     * - addShadowForBlockAndChildren_()
-     * - saveStateFromWorkspace()
-     * - updatePreview()
-     */
-    throw 'Unimplemented: addShadow()';
-  }
-
-  /**
-   * Clears the toolbox workspace and loads XML to it, marking shadow blocks
+   * Clears the workspace editor and loads XML to it, marking shadow blocks
    * as necessary.
-   * @private
    * @param {!Element} xml The XML to be loaded to the workspace.
+   * @private
    */
   clearAndLoadXml_(xml) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *       (Also moved into: toolbox_controller.js)
-     *
-     * References:
-     * - markShadowBlocks()
-     * - warnForUndefinedBlocks_()
-     */
-    throw 'Unimplemented: clearAndLoadXml_()';
+    // From wfactory_controller.js:clearAndLoadXml_(xml)
+    this.view.editorWorkspace.clear();
+    this.view.editorWorkspace.clearUndo();
+    Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
+    const blocks = this.view.editorWorkspace.getAllBlocks();
+    const shadowBlocks =  this.getShadowBlocksInWorkspace(blocks);
+    for (let block of shadowBlocks) {
+      FactoryUtils.markShadowBlock(block);
+    }
+    FactoryUtils.warnForUndefinedBlocks(blocks, this.projectController.getProject());
   }
 
   /**

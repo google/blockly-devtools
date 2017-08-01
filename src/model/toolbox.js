@@ -340,7 +340,7 @@ class Toolbox extends Resource {
    *     otherwise.
    */
   isShadowBlock(blockId) {
-    // TODO: Move in from wfactory_model.js
+    // From wfactory_model.js
     for (let id of this.shadowBlocks) {
       if (id == blockId) {
         return true;
