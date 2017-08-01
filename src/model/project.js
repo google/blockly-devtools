@@ -281,5 +281,6 @@ class Project extends Resource {
    */
   buildMetaData(obj) {
    super.buildMetaData(obj);
+   obj.resources = [];
   }
 }
