@@ -75,7 +75,7 @@ class NewLibraryPopupView extends NewResourcePopupView {
 NewLibraryPopupView.html = `
 <header>New Library</header>
 <form>
-  <input type="text" id="new_library_name" placeholder="Library Name"></input><br>
+  <input type="text" id="new_library_name" placeholder="Library Name" value="MyLibrary"></input><br>
   <span id="new_library_warning" class="red"></span><br>
   <button class="create" id="button_sampleBlock" style="float: right;">Create Library</button>
   <button id="button_customBlock" style="float: right;">Create Library with Custom Block</button>
