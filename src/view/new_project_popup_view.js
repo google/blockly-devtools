@@ -25,30 +25,10 @@ goog.provide('NewProjectPopupView');
 goog.require('NewResourcePopupView');
 
 /**
- * @fileoverview NewLibraryPopupView deals with the UI for creating new projects.
+ * @fileoverview NewProjectPopupView deals with the UI for creating new projects.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 class NewProjectPopupView extends NewResourcePopupView {
-  /**
-   * @constructor
-   * @param {!NewBlockPopupController} controller NewBlockPopupController currently
-   *     managing this view.
-   */
-  constructor(controller) {
-    super(controller);
-
-    /**
-     * HTML contents of what is inside popup window. Does not include the popup
-     * window itself.
-     * @type {string}
-     */
-    this.htmlContents = `
-<header>Choose a Project Location</header>
-  	<input type="file" nwdirectory id="directory"></input>
-`;
-
-    // Stores HTML to display new block popup.
-    super.injectPopupContents(this.htmlContents);
-  }
+  // TODO: Add functions
 }

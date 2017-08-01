@@ -33,7 +33,7 @@ goog.require('AppView');
 goog.require('EditorController');
 goog.require('FactoryUtils');
 goog.require('PopupController');
-goog.require('NewProjectPopupView');
+goog.require('SaveProjectPopupController');
 goog.require('Project');
 goog.require('ProjectController');
 
@@ -163,11 +163,14 @@ class AppController {
      */
     this.popupController = new PopupController(this.projectController);
 
+    this.saveProject();
+
     /**
      * Location where the project directory is saved.
      */
-    this.storageLocation = localStorage.getItem('devToolsProjectLocation') ||
-        this.getNewStorageLocation();
+   // this.storageLocation = localStorage.getItem('devToolsProjectLocation');
+
+   // console.log('the be ya storage: ' + this.storageLocation);
   }
 
   // ======================== CONSTANTS ===========================
@@ -253,14 +256,16 @@ class AppController {
    * returns the result.
    */
   getNewStorageLocation() {
-    const projectPop = new NewProjectPopupView(this);
+    const projectPop = new SaveProjectPopup(this);
+    projectPop.show();
+    return projectPop.storageLocation;
   }
 
   /**
    * Creates the properly nested directory in which to save the project.
    */
   initProjectDirectory() {
-    const projectDir = storageLocation + this.project.name;
+    const projectDir = this.storageLocation + this.project.name;
     const libraryDir = projectDir + '/' + PREFIXES.LIBRARY;
     const toolboxDir = projectDir + '/' + PREFIXES.TOOLBOX;
     const workspaceDir = projectDir + '/' + PREFIXES.GENERAL_WORKSPACE;
@@ -278,6 +283,14 @@ class AppController {
    * developer's file system.
    */
   saveProject() {
+    // Check for viable save location.
+    if (this.storageLocation == undefined) {
+      console.log('what a time to be alive');
+      this.popupController = new SaveProjectPopupController(this);
+      this.storageLocation = this.getNewStorageLocation();
+      console.log('AY ' + this.storageLocation);
+      localStorage.setItem('devToolsProjectLocation', this.storageLocation);
+    }
     // Create directory in which to save the project.
     this.initProjectDirectory();
 
@@ -312,13 +325,13 @@ class AppController {
    * @param {string} popupMode Type of popup to be shown.
    */
   createPopup(popupMode) {
-    if (popupMode === PopupController.NEW_BLOCK) {
+    if (popupMode == PopupController.NEW_BLOCK) {
       this.popupController.exit();
       this.popupController = new NewBlockPopupController(this);
       this.popupController.show();
-    } else if (popupMode === PopupController.PREVIEW) {
+    } else if (popupMode == PopupController.PREVIEW) {
       // TODO: Preview popup view
-    } else if (popupMode === PopupController.NEW_CONFIG) {
+    } else if (popupMode == PopupController.NEW_CONFIG) {
       // TODO: New config popup view
     } else {
       throw new Error('Popup type ' + popupMode + ' not found.');
@@ -371,8 +384,7 @@ class AppController {
   createWorkspaceContents() {
     // TODO: prompt for name
     const workspaceContents =
-      this.projectController.createWorkspaceContents(
-          'test_contents');
+      this.projectController.createWorkspaceContents('test_contents');
     this.switchEnvironment(PREFIXES.VARIABLE_WORKSPACECONTENTS, workspaceContents);
   }
 
