@@ -45,7 +45,7 @@ class Resource {
      * The type of resource.
      * @type {string}
      */
-    this.resourceType = resourceType || 'Resource';
+    this.resourceType = resourceType;
   }
 
   /**
