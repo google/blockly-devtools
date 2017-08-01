@@ -44,7 +44,7 @@ class Project extends Resource {
    * @constructor
    */
   constructor(projectName) {
-    super(projectName);
+    super(projectName, PREFIXES.PROJECT);
 
     /**
      * The libraries in the project.
@@ -272,5 +272,16 @@ class Project extends Resource {
           this.workspaceConfigSet.getJson()]}
     );
     return projectJson;
+  }
+
+  /**
+   * Modifies the JSON object that comprises the project's metadata.
+   * @param {!Object} obj Object to extend with necessary data.
+   * @return {!Object} The project metadata.
+   */
+  buildMetaData(obj) {
+    console.log('building this: ');
+   super.buildMetaData(obj);
+   console.log(obj);
   }
 }

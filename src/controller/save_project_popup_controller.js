@@ -23,6 +23,8 @@
 goog.provide('SaveProjectPopupController');
 
 goog.require('SaveProjectPopupView');
+goog.require('PopupController');
+
 
 /**
  * @fileoverview SaveProjectPopup deals with the UI for saving projects.
@@ -55,18 +57,9 @@ class SaveProjectPopupController extends PopupController {
     this.view.on('submit', () => {
       this.appController.storageLocation = this.view.storageLocation;
       console.log('AY ' + this.appController.storageLocation);
-      localStorage.setItem('devToolsProjectLocation', this.storageLocation);
+      localStorage.setItem('devToolsProjectLocation', this.appController.storageLocation);
       this.exit();
     });
-  }
-
-  /**
-   * Checks for duplicate block type. If user is trying to create a block under a type name
-   * that already exists in the library, warn user.
-   */
-  checkDuplicate() {
-    const hasDuplicate = this.appController.project.hasBlockDefinition($('#block_name').val());
-    this.view.showWarning(hasDuplicate);
   }
 
   /**
