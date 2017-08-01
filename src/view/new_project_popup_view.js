@@ -30,5 +30,25 @@ goog.require('NewResourcePopupView');
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 class NewProjectPopupView extends NewResourcePopupView {
-  // TODO: Add functions.
+  /**
+   * @constructor
+   * @param {!NewBlockPopupController} controller NewBlockPopupController currently
+   *     managing this view.
+   */
+  constructor(controller) {
+    super(controller);
+
+    /**
+     * HTML contents of what is inside popup window. Does not include the popup
+     * window itself.
+     * @type {string}
+     */
+    this.htmlContents = `
+<header>Choose a Project Location</header>
+  	<input type="file" nwdirectory id="directory"></input>
+`;
+
+    // Stores HTML to display new block popup.
+    super.injectPopupContents(this.htmlContents);
+  }
 }
