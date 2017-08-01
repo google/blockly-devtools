@@ -45,7 +45,7 @@ class Resource {
      * The type of resource.
      * @type {string}
      */
-    this.resourceType = resourceType || null;
+    this.resourceType = resourceType || 'Resource';
   }
 
   /**
@@ -106,9 +106,9 @@ class Resource {
   }
 
   /**
-   * Modifies the JSON object that comprises the resource's metadata.
-   * @param {!Object} obj Object to extend with necessary data.
-   * @return {!Object} The resource metadata.
+   * Converts data object to string, for use in writing save files.
+   * @param {!Object} obj Object to create string representation of.
+   * @return {!string} String representation of the object.
    */
   getDataString(obj) {
     let objectString = '';

@@ -269,7 +269,7 @@ class AppController {
    */
   saveProject() {
     // Check for viable save location.
-    if (this.storageLocation == undefined) {
+    if (!this.storageLocation) {
       this.popupController = new SaveProjectPopupController(this);
       this.popupController.show();
     } else {
