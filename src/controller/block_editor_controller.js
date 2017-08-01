@@ -52,16 +52,11 @@ class BlockEditorController {
      */
     this.projectController = projectController;
 
-    // Creates a default library. Adds a sample block to library.
-    const firstLib = this.projectController.createBlockLibrary('MyFirstLibrary');
-    const firstBlock = this.projectController.createBlockDefinition('block_type',
-        firstLib.name);
-
     /**
      * View object in charge of visible elements of DevTools Block Library editor.
      * @type {!BlockEditorView}
      */
-    this.view = new BlockEditorView(firstBlock);
+    this.view = new BlockEditorView(null);
 
     /**
      * Existing direction ('ltr' vs 'rtl') of preview.
@@ -77,7 +72,7 @@ class BlockEditorController {
      */
     this.hiddenWorkspace = hiddenWorkspace;
 
-    this.refreshPreviews();
+    // this.refreshPreviews();
 
     // Initialize event listeners/handlers specific to block editor.
     this.view.init(this);
@@ -105,15 +100,19 @@ class BlockEditorController {
    *     by user (optional).
    */
   createNewBlock(inputType, blockTypeName, libraryName, opt_blockStarterText) {
-    // Creates new BlockDefinition object, marks as the current block being edited.
+    // Creates new BlockDefinition object.
     const newBlock = this.projectController.createBlockDefinition(
         blockTypeName, libraryName);
-    this.view.blockDefinition = newBlock;
 
-    // Displays BlockDefinition onto view.
-    const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-        inputType, blockTypeName, opt_blockStarterText);
-    this.view.showStarterBlock(starterXml);
+    // Sets XML in BlockDefinition model object.
+    const starterXml = Blockly.Xml.textToDom(
+        FactoryUtils.buildBlockEditorStarterXml(
+          inputType, blockTypeName, opt_blockStarterText));
+    newBlock.setXml(starterXml);
+
+    // Shows onto view.
+    this.view.show(newBlock);
+    this.refreshPreviews();
   }
 
   /**
@@ -209,6 +208,7 @@ class BlockEditorController {
       // Evaluates block definition (temporarily) for preview.
       this.evaluateBlock_(format, code);
 
+      console.log(this.view.blockDefinition);
       const blockType = this.view.blockDefinition.type();
       // Render preview block in preview workspace.
       this.renderPreviewBlock_(blockType);

@@ -1220,6 +1220,7 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
  * @param {string} blockTypeName Name of block, given by user.
  * @param {string=} optBlockStarterText Starter text to place on block, given by
  *     user (optional).
+ * @return {string} String representation of XML starter code for block editor.
  */
 FactoryUtils.buildBlockEditorStarterXml = function(
     inputType, blockTypeName, optBlockStarterText) {
@@ -1367,4 +1368,15 @@ ${xmlStorageVariable}['${resource.name}'] =
 FactoryUtils.escapeForFileSystem = function(fileName, opt_platform) {
   // TODO(#156): Implement escaping a file name so that it is file-system friendly,
   // depending on platform.
+};
+
+/**
+ * Given the name of a resource object, return the DevTools-safe name. Must not
+ * have special characters, no spaces. If there are spaces, will default to
+ * camelCase.
+ * @param {string} resourceName Name of resource object to clean.
+ */
+FactoryUtils.cleanResourceName = function(resourceName) {
+  // TODO: Clean names of resources (given by users) to minimize errors.
+  return resourceName;
 };

@@ -86,13 +86,13 @@ class BlockEditorView {
       });
 
     // Render starter block.
-    const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-        '', this.blockDefinition.type(), 'My First Block');
-    this.showStarterBlock(starterXml);
-    this.blockDefinition.setXml(Blockly.Xml.textToDom(starterXml));
+    // const starterXml = FactoryUtils.buildBlockEditorStarterXml(
+    //     '', this.blockDefinition.type(), 'My First Block');
+    // this.showStarterBlock(starterXml);
+    // this.blockDefinition.setXml(Blockly.Xml.textToDom(starterXml));
 
     // Update buttons for save/delete/etc.
-    this.updateButtons(false, false);
+    // this.updateButtons(false, false);
 
     // Initialize preview workspace.
     this.previewWorkspace = Blockly.inject('preview',
@@ -132,6 +132,14 @@ class BlockEditorView {
 
     // TODO: Make editor show the @param block (when user clicks
     //       on a specific block in the navtree to edit.)
+    this.blockDefinition = block;
+    console.log('Setting blockDef within show()');
+    console.log(this.blockDefinition);
+    const blockXml = this.blockDefinition.getXml();
+
+    this.editorWorkspace.clear();
+    Blockly.Xml.domToWorkspace(blockXml, this.editorWorkspace);
+    // this.controller.refreshPreviews();
   }
 
   /**

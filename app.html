@@ -9,9 +9,9 @@
     window.addEventListener('load', () => {
       DevTools = new AppController();
       window.addEventListener('beforeunload', DevTools.confirmLeavePage);
-      // Generate new block popup.
+      // Generate new project popup.
       // Uncomment line below to enable popup on load.
-      // DevTools.createPopup(PopupController.NEW_BLOCK);
+      DevTools.createPopup(PopupController.NEW_PROJECT);
     });
   </script>
 </head>

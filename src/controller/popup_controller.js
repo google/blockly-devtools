@@ -86,6 +86,17 @@ class PopupController {
     return 'NEW_PROJECT';
   }
 
+  static get NEW_LIBRARY() {
+    return 'NEW_LIBRARY';
+  }
+
+  /**
+   * Sets and generates view, which shows popup to user.
+   */
+  show() {
+    this.view.show();
+  }
+
   /**
    * Exits popup. Resets view reference to be null.
    */

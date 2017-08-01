@@ -730,10 +730,12 @@ td.taboff:hover {
   border-radius: 50%;
   color: f00;
   cursor: pointer;
-  float: right;
-  font-size:20px;
+  font-size:15px;
   height: 15px;
   opacity: .4;
+  position: absolute;
+  right: 5px;
+  top: 5px;
   width: 15px;
 }
 

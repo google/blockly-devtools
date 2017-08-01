@@ -30,5 +30,55 @@ goog.require('NewResourcePopupView');
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 class NewLibraryPopupView extends NewResourcePopupView {
-  // TODO: Add functions.
+  constructor(controller) {
+    super(controller);
+    super.injectPopupContents(NewLibraryPopupView.html);
+
+    $('#button_sampleBlock').click((event) => {
+      event.preventDefault();
+
+      this.createLibraryIfValid(false);
+    });
+
+    $('#button_customBlock').click((event) => {
+      event.preventDefault();
+
+      this.createLibraryIfValid(true);
+    });
+
+    $('#new_library_name').change(() => {
+      $('#new_library_warning').html('');
+    });
+  }
+
+  createLibraryIfValid(ifSample) {
+    const libName = FactoryUtils.cleanResourceName($('#new_library_name').val());
+    if (libName.trim()) {
+      this.controller.appController.projectController.createBlockLibrary(libName);
+
+      if (ifSample) {
+        this.controller.appController.createPopup(PopupController.NEW_BLOCK);
+      } else {
+        this.controller.appController.editorController.blockEditorController.createNewBlock(
+            '', 'block_type', libName, 'BlockName');
+        this.controller.exit();
+      }
+    } else {
+      $('#new_library_warning').html('Please enter a valid library name.');
+    }
+  }
+
+  newBlock() {
+  }
 }
+
+NewLibraryPopupView.html = `
+<header>New Library</header>
+<form>
+  <input type="text" id="new_library_name" placeholder="Library Name"></input><br>
+  <span id="new_library_warning" class="red"></span><br>
+  <button class="create" id="button_sampleBlock" style="float: right;">Create Library</button>
+  <button id="button_customBlock" style="float: right;">Create Library with Custom Block</button>
+
+</form>
+`;

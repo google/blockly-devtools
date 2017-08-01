@@ -38,34 +38,55 @@ class NewProjectPopupView extends NewResourcePopupView {
    * @constructor
    */
   constructor(controller) {
-    // TODO: Implement
     super(controller);
-    super.injectPopupContents(NewProjectPopupView.html);
-    this.init();
+
+    /**
+     * Determines whether to allow user to exit the popup. When loading the app
+     * for the first time, the user must choose between opening or starting a new
+     * project.
+     * @type {boolean}
+     */
+    this.allowExit = false;
+
+    $('#modalShadow').show();
+    $('#modalShadow').click(() => {
+      if (this.allowExit) {
+        controller.exit();
+      } else {
+        $('#modalShadow').show();
+      }
+    });
+    this.projectOptions();
   }
 
-  init() {
+  projectOptions() {
+    super.injectPopupContents(NewProjectPopupView.html);
 
     $('#new_project').click((event) => {
+      event.preventDefault();
       this.newProject(event);
+    });
+    $('#open_project').click((event) => {
+      event.preventDefault();
+      this.controller.appController.openProject();
     });
   }
 
   newProject(event) {
-    event.preventDefault();
-    super.injectPopupContents(NewProjectPopupView.html2);
+    super.injectPopupContents(NewProjectPopupView.newProject);
 
-    $('#sample_block').click((event) => {
-      console.log($('#input_library').val());
-      this.controller.appController.projectController.createBlockLibrary($('#input_library').val());
-      console.log(this.controller.appController.projectController.getProject());
-      this.newBlock(event);
+    $('#button_newLibrary').click((event) => {
+      event.preventDefault();
+      const projName = FactoryUtils.cleanResourceName($('#new_project_name').val());
+
+      this.controller.appController.initProject(projName);
+      this.controller.appController.createPopup(PopupController.NEW_LIBRARY);
     });
-  }
 
-  newBlock(event) {
-    event.preventDefault();
-    this.controller.appController.createPopup(PopupController.NEW_BLOCK);
+    $('#project_back').click((event) => {
+      event.preventDefault();
+      this.projectOptions();
+    });
   }
 }
 
@@ -73,24 +94,20 @@ NewProjectPopupView.html = `
 <header>Blockly Developer Tools</header>
 <form>
 <span style="float:right;">
-<button>Open a pre-existing project</button>
+<button id="open_project">Open a pre-existing project</button>
 <button class="create" id="new_project">Create new project</button>
 </span>
 </form>
 `;
 
-NewProjectPopupView.html2 = `
+NewProjectPopupView.newProject = `
 <header>New Project</header>
 <form>
-  Project name<span class="red">*</span><br>
-    <input type="text" id="block_name" value="MyProject" placeholder="MyProject" style="width:100%"></input><br><br>
-  Library name<span class="red">*</span><br>
-    <input type="text" id="input_library" value="MyLibrary" placeholder="MyLibrary"></input>
-    <span id="no_library_warning">No library by that name exists.</span><br><br>
-  <button>Back</button>
+  Project name<br>
+  <input type="text" id="new_project_name" value="MyProject" placeholder="MyProject" style="width:100%"></input><br><br>
   <span style="float: right;">
-  <button type="submit">Configure First Block</button>
-  <button type="submit" id="sample_block" class="create">Start with Sample Block</button>
+  <button id="project_back">Back</button>
+  <button type="submit" id="button_newLibrary" class="action">Next</button>
   </span>
 </form>
 `;

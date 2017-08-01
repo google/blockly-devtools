@@ -61,18 +61,18 @@ class NewBlockPopupView extends NewResourcePopupView {
     <br><br>
   Starter text<br>
     <input type="text" id="block_text" placeholder="Optional"><br><br>
-  <button type="submit" class="create" id="submit_block">Create Block</button>
+  <button type="submit" class="create" id="submit_block" style="float: right">Create Block</button>
 </form>
 <br>
+<!-- TODO(#28): Replace with uneditable Blockly workspace --
 <hr>
-<!-- TODO(#28): Replace with uneditable Blockly workspace -->
 <h3>Examples</h3>
 Statement input:<br>
 <img src="media/input_statement.png" width="30%" height="auto"/><br>
 Value input:<br>
 <img src="media/input_value.png" width="30%" height="auto"/><br>
 Dummy input:<br>
-<img src="media/input_dummy.png" width="30%" height="auto"/><br>
+<img src="media/input_dummy.png" width="30%" height="auto"/><br-->
 `;
 
     // Stores HTML to display new block popup.
@@ -96,7 +96,7 @@ Dummy input:<br>
       event.preventDefault();
 
       this.blockName = $('#block_name').val();
-      this.libraryName = $('#library').val();
+      this.libraryName = $('#dropdown_libraryList').val();
       this.inputType = $('input[name="input_type"]:checked').val();
       this.blockText = $('#block_text').val();
 

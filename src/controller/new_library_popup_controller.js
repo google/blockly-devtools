@@ -20,19 +20,19 @@
 
 'use strict';
 
-goog.provide('NewProjectPopupController');
+goog.provide('NewLibraryPopupController');
 
 goog.require('PopupController');
 
 /**
- * @fileoverview NewProjectPopupController manages the UI for creating new blocks and
- * projects.
+ * @fileoverview NewLibraryPopupView deals with the UI for creating new libraries.
  *
- * @author celinechoo (Celine Choo)
+ * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-class NewProjectPopupController extends PopupController {
+class NewLibraryPopupController extends PopupController {
   constructor(appController) {
     super(appController);
-    this.view = new NewProjectPopupView(this);
+
+    this.view = new NewLibraryPopupView(this);
   }
 }
