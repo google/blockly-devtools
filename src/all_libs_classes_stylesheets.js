@@ -78,6 +78,7 @@
   appendScript('node_modules/jstree/dist/jstree.min.js');
 
   appendScript('src/controller/block_editor_controller.js');
+  appendScript('src/controller/shadow_controller.js');
   appendScript('src/controller/toolbox_controller.js');
   appendScript('src/controller/workspace_controller.js');
   appendScript('src/controller/project_controller.js');

@@ -930,21 +930,6 @@ FactoryUtils.hasVariableField = function(block) {
 };
 
 /**
- * Returns array of shadow blocks from a list of blocks.
- * @param {!Array.<!Blockly.Block>} blockList List of blocks.
- * @return {!Array.<!Blockly.Block>} List of shadow blocks from given list.
- */
-FactoryUtils.getShadowBlocks = function(blockList) {
-  let shadowBlocks = [];
-  for (let block of blockList) {
-    if ($(block.svgGroup_).hasClass('shadowBlock')) {
-      shadowBlocks.push(block);
-    }
-  }
-  return shadowBlocks;
-};
-
-/**
  * Checks if a block is a procedures block. If procedures block names are
  * ever updated or expanded, this function should be updated as well (no
  * other known markers for procedure blocks beyond name).
@@ -1325,6 +1310,22 @@ FactoryUtils.ifCheckedEnable = function(enabled, idArray) {
       field.disabled = !enabled;
     }
   }
+};
+
+/**
+ * Sets a warning on blocks that are not defined within a given project.
+ * @param {!Array<!Blockly.Block>} blocks A list of blocks to check if they are
+ *     defined.
+ * @param {!Project} project The project which contains the block definitions.
+ */
+FactoryUtils.warnForUndefinedBlocks = function(blocks, project) {
+  blocks.forEach((block) => {
+    if (!project.hasBlockDefinition(block.type) ||
+        !StandardCategories.categoryMap[block.type]) {
+      block.setWarningText(block.type + ' is not defined (it is not a standard '
+          + 'block, \nin your block library, or an imported block).');
+    }
+  });
 };
 
 /**
