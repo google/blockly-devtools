@@ -62,6 +62,7 @@ class WorkspaceEditorView {
 
     // Inserts HTML into toolbox editor container. Keeps hidden.
     this.container.html(WorkspaceEditorView.html);
+    this.refreshWorkspaceInfo();
     this.container.hide();
 
     /**
@@ -94,6 +95,13 @@ class WorkspaceEditorView {
         },
         media: 'media/'
       });
+
+    /**
+     * ID of currently open modal element. Null if nothing is open.
+     * @type {?string}
+     * @private
+     */
+    this.openModal_ = null;
   }
 
   /**
@@ -158,6 +166,11 @@ class WorkspaceEditorView {
    */
   initClickHandlers_(controller) {
     // From wfactory_init.js:assignWorkspaceFactoryClickHandlers_()
+    $('#modalShadow').click(() => {
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+
     $('#button_standardOptions').click(() => {
       controller.setStandardOptionsAndUpdate();
     });
@@ -170,6 +183,28 @@ class WorkspaceEditorView {
           ' and configurations?')) {
         controller.clear();
       }
+    });
+
+    $('#button_exportWS').click(() => {
+      this.openModal_ = 'dropdownDiv_exportWS';
+      FactoryUtils.openModal(this.openModal_);
+    });
+    $('#dropdown_exportWSOptions').click(() => {
+      controller.export(this.workspaceConfig);
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+
+    $('#dropdown_exportWContentsXML').click(() => {
+      controller.export(this.workspaceContents, ProjectController.TYPE_XML);
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
+    });
+
+    $('#dropdown_exportWContentsJS').click(() => {
+      controller.export(this.workspaceContents, ProjectController.TYPE_JS);
+      FactoryUtils.closeModal(this.openModal_);
+      this.openModal_ = null;
     });
   }
 
@@ -279,6 +314,15 @@ class WorkspaceEditorView {
   updateEditorToolbox(toolbox) {
     this.editorWorkspace.updateToolbox(toolbox);
   }
+
+  /**
+   * Refreshes any information in the view (such as the name of the currently
+   * edited workspace contents) to match any changes in the WorkspaceContents
+   * model object.
+   */
+  refreshWorkspaceInfo() {
+    $('#currentWorkspace').text(this.workspaceContents.name);
+  }
 }
 
 /**
@@ -314,13 +358,11 @@ WorkspaceEditorView.html = `
     </div>
 
     <div class="dropdown">
-      <button id="button_export">Export</button>
-      <div id="dropdownDiv_export" class="dropdown-content">
-        <a id="dropdown_exportOptions">Starter Code</a>
-        <a id="dropdown_exportToolboxXML">Toolbox as XML</a>
-        <a id="dropdown_exportToolboxJS">Toolbox as JS</a>
-        <a id="dropdown_exportPreloadXML">Workspace Blocks as XML</a>
-        <a id="dropdown_exportPreloadJS">Workspace Blocks as JS</a>
+      <button id="button_exportWS">Export</button>
+      <div id="dropdownDiv_exportWS" class="dropdown-content">
+        <a id="dropdown_exportWSOptions">Starter Code</a>
+        <a id="dropdown_exportWContentsXML">Workspace Blocks as XML</a>
+        <a id="dropdown_exportWContentsJS">Workspace Blocks as JS</a>
         <a id="dropdown_exportAll">All</a>
       </div>
     </div>
@@ -335,6 +377,7 @@ WorkspaceEditorView.html = `
   <div id="createHeader">
     <h3>Edit Workspace elements</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
+    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
   </div>
   <section id="workspace_section">
     <div id="wsContentsDiv"></div>

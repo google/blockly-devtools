@@ -289,7 +289,7 @@ class AppView {
    */
   initMenuTree(menu, tree) {
     // If menu is null, it means that we are at the end of the tree.
-    if (menu === null) {
+    if (menu == null) {
       return tree;
     }
 
@@ -356,23 +356,6 @@ class AppView {
   }
 
   /**
-   * Given a tab and a ID to be associated to that tab, adds a listener to
-   * that tab so that when the user clicks on the tab, it switches to the
-   * element associated with that ID.
-   * @param {!Element} tab The DOM element to add the listener to.
-   * @param {string} id The ID of the element to switch to when tab is clicked.
-   */
-  addClickToSwitch(tab, id) {
-    /*
-     * TODO: Move in from wfactory_controller.js
-     *
-     * References:
-     * - switchElement()
-     * - bindClick()
-     */
-  }
-
-  /**
    * Switches editor views in application.
    * @param {string} editorView EditorView object to show.
    * @param {string} resource Resource object to display in view.
@@ -404,13 +387,13 @@ class AppView {
       const editorName = event.currentTarget.id;
       let editorView, editorContr;
 
-      if (editorName === AppController.BLOCK_EDITOR) {
+      if (editorName == AppController.BLOCK_EDITOR) {
         editorView = this.blockEditorView;
         editorContr = this.appController.editorController.blockEditorController;
-      } else if (editorName === AppController.TOOLBOX_EDITOR) {
+      } else if (editorName == AppController.TOOLBOX_EDITOR) {
         editorView = this.toolboxEditorView;
         editorContr = this.appController.editorController.toolboxController;
-      } else if (editorName === AppController.WORKSPACE_EDITOR) {
+      } else if (editorName == AppController.WORKSPACE_EDITOR) {
         editorView = this.workspaceEditorView;
         editorContr = this.appController.editorController.workspaceController;
       }
@@ -488,33 +471,6 @@ class AppView {
     $('#createNewBlockButton').click(() => {
       this.appController.createPopup(PopupController.NEW_BLOCK);
     });
-  }
-
-  /**
-   * Switches view and editor, closes any open modal elements.
-   * @param {string} element The type of element to switch the view and editor
-   *     based off of, in camel case (but beginning with a lower case letter).
-   * @param {!Resource} resource The resource to display upon switching the view.
-   */
-  switchEnvironment(element, resource) {
-    var resourceReference;
-    if (element == 'block') {
-      this.appController.createPopup(PopupController.NEW_BLOCK);
-    } else if (element == 'workspaceContents' || element == 'workspaceConfig') {
-      resourceReference = element;
-      element = 'workspace';
-    } else {
-      resourceReference = element;
-    }
-    const controller = element + 'EditorController';
-    const view = element + 'EditorView';
-    this.appController.editorController.switchEditor(
-          this.appController.editorController.controller);
-      this.switchView(this[view]);
-      this[view][resourceReference] = resource;
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
   }
 
   /**

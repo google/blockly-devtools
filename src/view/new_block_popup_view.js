@@ -22,15 +22,14 @@
 
 goog.provide('NewBlockPopupView');
 
-goog.require('PopupView');
+goog.require('NewResourcePopupView');
 
 /**
- * @fileoverview NewBlockPopupView deals with the UI for creating new blocks and
- * projects.
+ * @fileoverview NewBlockPopupView deals with the UI for creating new blocks.
  *
  * @author celinechoo (Celine Choo)
  */
-class NewBlockPopupView extends PopupView {
+class NewBlockPopupView extends NewResourcePopupView {
   /**
    * @constructor
    * @param {!NewBlockPopupController} controller NewBlockPopupController currently
@@ -50,6 +49,9 @@ class NewBlockPopupView extends PopupView {
   Block name<span class="red">*</span><br>
     <input type="text" id="block_name" placeholder="block_type"></input>
     <span id="warning_text">This block already exists!</span><br><br>
+  Library<span class="red">*</span><br>
+    <input type="text" id="library" placeholder="my_library"></input>
+    <span id="no_library_warning">No library by that name exists.</span><br><br>
   Block type<span class="red">*</span><br>
     <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
     <input type="radio" name="input_type" value="input_value">value input</input>
@@ -92,6 +94,7 @@ Dummy input:<br>
       event.preventDefault();
 
       this.blockName = $('#block_name').val();
+      this.libraryName = $('#library').val();
       this.inputType = $('input[name="input_type"]:checked').val();
       this.blockText = $('#block_text').val();
 

@@ -1233,21 +1233,21 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
  * starter block.
  * @param {string} inputType Type of input (statement, value, dummy).
  * @param {string} blockTypeName Name of block, given by user.
- * @param {string=} opt_blockStarterText Starter text to place on block, given by
+ * @param {string=} optBlockStarterText Starter text to place on block, given by
  *     user (optional).
  */
 FactoryUtils.buildBlockEditorStarterXml = function(
-    inputType, blockTypeName, opt_blockStarterText) {
+    inputType, blockTypeName, optBlockStarterText) {
   // REFACTORED: Moved in from factory.js:buildStartXml()
   inputType = inputType || 'input_statement';
   blockTypeName = blockTypeName || 'block_type';
   var textXmlStarter = '';
 
-  // Adds optional text to custom block.
-  if (opt_blockStarterText.trim() !== '') {
+  if (optBlockStarterText.trim()) {
+    // Adds optional text to custom block.
     textXmlStarter = '<value name="FIELDS">' +
     '<block type="field_static">' +
-    '<field name="TEXT">' + opt_blockStarterText + '</field></block></value>';
+    '<field name="TEXT">' + optBlockStarterText + '</field></block></value>';
   }
 
   var customXmlStarter = `<xml>
@@ -1325,4 +1325,45 @@ FactoryUtils.ifCheckedEnable = function(enabled, idArray) {
       field.disabled = !enabled;
     }
   }
+};
+
+/**
+ * Generates JavaScript file contents for given resource object for user to
+ * download. Used for Toolbox and WorkspaceContents, both of which save blocks
+ * as XML files.
+ * @param {!Toolbox|!WorkspaceContents} resource The resource to download as JS
+ *     file.
+ * @param {string} storageVar Name of storage variable in which the resource's
+ *     XML will be saved.
+ */
+FactoryUtils.generateXmlAsJsFile = function(resource, storageVar) {
+// From wfactory_generator.js:generateJsFromXml(xml, name, mode)
+  // Escape for ' when exporting to JS.
+  const xmlStorageVariable = 'BLOCKLY_' + storageVar + '_XML';
+  const xmlString = FactoryUtils.concatenateXmlString(
+      Blockly.Xml.domToPrettyText(resource.getExportData()));
+
+  // XML ASSIGNMENT STRING (not to be executed)
+  const jsFromXml = `
+var ${xmlStorageVariable} = ${xmlStorageVariable} || Object.create(null);
+
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+${xmlStorageVariable}['${resource.name}'] =
+    ${xmlString};
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
+`;
+  return jsFromXml;
+};
+
+/**
+ * Given a file name and platform, makes sure that the given file name is safe
+ * to download given the platform. Different platform have different file name
+ * requirements.
+ * @param {string} fileName Name of file given by user (usually name of resource).
+ * @param {string} opt_platform Constant representing which platform the file is to
+ *     be saved as. Defaults to web as platform if no param given.
+ */
+FactoryUtils.escapeForFileSystem = function(fileName, opt_platform) {
+  // TODO(#156): Implement escaping a file name so that it is file-system friendly,
+  // depending on platform.
 };

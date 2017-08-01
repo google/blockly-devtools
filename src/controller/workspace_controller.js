@@ -107,7 +107,7 @@ class WorkspaceController {
 
     this.view.previewWorkspace = Blockly.inject('workspacePreview', injectOptions);
     Blockly.Xml.domToWorkspace(
-        this.view.workspaceContents.getXml(), this.view.previewWorkspace);
+        this.view.workspaceContents.getExportData(), this.view.previewWorkspace);
   }
 
   /**
@@ -160,7 +160,7 @@ class WorkspaceController {
   updatePreview() {
     // From wfactory_controller.js:updatePreview()
     this.view.previewWorkspace.clear();
-    Blockly.Xml.domToWorkspace(this.view.workspaceContents.getXml(),
+    Blockly.Xml.domToWorkspace(this.view.workspaceContents.getExportData(),
         this.view.previewWorkspace);
   }
 
@@ -472,20 +472,105 @@ class WorkspaceController {
   }
 
   /**
-   * Generates JavaScript string representation of WorkspaceContents for user to
-   * download. Does not deal with popups or file system access; just generates content.
-   *
-   * @returns {string} String representation of JS file to be exported.
+   * Creates file with proper contents (for either WorkspaceContents or
+   * WorkspaceConfiguration), prompts user, then downloads onto user's file system.
+   * @param {!WorkspaceContents|!WorkspaceConfiguration} resource The Workspace
+   *     resource to download. Either contents or configuration.
+   * @param {string=} opt_type Type of file to download. For WorkspaceContents,
+   *     this parameter is required. Not required for WorkspaceConfiguration.
+   * @throws {Error} Will throw an error if the given resource is not of type
+   *     WorkspaceContents or WorkspaceConfiguration.
    */
-  generateJsFileContents() {
-    /*
-     * TODO: Move in from wfactory_generator.js:generateJsFromXml(xml, name, mode)
-     *       (Also moved into: toolbox.js)
-     *
-     * References:
-     * [NEW] this.generateXml()
-     * [NEW] this.name
-     */
-    throw 'Unimplemented: generateJsFileContents()';
+  export(resource, opt_type) {
+    let fileContents = '';
+    let fileName = resource.name;
+
+    if (resource instanceof WorkspaceContents) {
+      // Return if no file type was specified.
+      if (!opt_type) {
+        return;
+      }
+      fileContents = FactoryUtils.escapeForFileSystem(
+          Blockly.Xml.domToPrettyText(resource.getExportData()));
+
+      if (opt_type == ProjectController.TYPE_JS) {
+        fileContents = FactoryUtils.generateXmlAsJsFile(this.view.workspaceContents,
+            PREFIXES.WORKSPACE_CONTENTS.toUpperCase());
+      }
+    } else if (resource instanceof WorkspaceConfiguration) {
+      fileContents = this.generateInjectFile(this.view.workspaceConfig);
+      opt_type = ProjectController.TYPE_JS;
+    } else if (resource instanceof Resource) {
+      throw new Error('This resource, ' + resource.name + ', cannot be exported'
+          + ' from the workspace editor.');
+    }
+
+    FactoryUtils.createAndDownloadFile(fileContents,
+        fileName + '.' + opt_type,
+        'text/' + opt_type);
+  }
+
+  /**
+   * Creates a string representation of the options, for use in making the string
+   * used to inject the workspace.
+   * @param {!Object} obj Object representing the options selected in the current
+   *     configuration.
+   * @param {string} indent String representation of an indent.
+   * @return {string} String representation of the workspace configuration's
+   *     options.
+   * @recursive
+   * @private
+   */
+  stringifyOptions_(obj, indent) {
+    // REFACTORED from wfactory_generator.js:addAttributes_(obj, tabChar)
+    if (!obj) {
+      return '{}\n';
+    }
+    var str = '';
+    for (var key in obj) {
+      if (key == 'grid' || key == 'zoom') {
+        var temp = indent + key + ' : {\n' +
+            this.stringifyOptions_(obj[key], indent + '\t') +
+            indent + '}, \n';
+      } else if (typeof obj[key] == 'string') {
+        var temp = indent + key + ' : \'' + obj[key] + '\', \n';
+      } else {
+        var temp = indent + key + ' : ' + obj[key] + ', \n';
+      }
+      str += temp;
+    }
+    var lastCommaIndex = str.lastIndexOf(',');
+    str = str.slice(0, lastCommaIndex) + '\n';
+    return str;
+  }
+
+  /**
+   * Generates JavaScript string representation of the inject file for a user's
+   * sample Blockly app.
+   * @param {!WorkspaceConfiguration} workspaceConfig The workspace configuration
+   *     which will contains the options for the inject call.
+   * @return {string} String representation of starter code for injecting.
+   */
+  generateInjectFile(workspaceConfig) {
+    // REFACTORED from wfactory_generator.js
+    var attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
+    if (!workspaceConfig.options['readOnly']) {
+      attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
+        'imported toolbox to display here */], \n' + attributes;
+    }
+
+    // Initializing toolbox
+    var finalStr = `
+var BLOCKLY_OPTIONS = {
+  ${attributes}
+};
+
+document.onload = function() {
+  /* Inject your workspace */
+  /* TODO: Add ID of div to inject Blockly into */
+  var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);
+};
+`;
+    return finalStr;
   }
 }

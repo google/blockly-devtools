@@ -20,33 +20,19 @@
 
 'use strict';
 
-  goog.provide('NewConfigView');
+goog.provide('ToolboxController');
 
-  goog.require('NewResourcePopupView');
+goog.require('ToolboxEditorView');
 
 /**
- * @fileoverview NewConfigView manages the UI for creating new WorkspaceConfigs.
+ * @fileoverview ShadowController is an abstract class for any controller that
+ * deals with shadow blocks. Children of ShadowController can inherit and share
+ * shadow-block managing code, such as loading onto a hidden workspace to generate
+ * real shadow blocks from the fake shadow blocks in the editor.
  *
- * @author celinechoo (Celine Choo), sagev (Sage Vouse)
+ * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
-
-class NewConfigView extends NewResourcePopupView {
-  constructor() {
-    super();
-
-    /**
-     * HTML contents of what is inside popup window. Does not include the popup
-     * window itself.
-     * @type {string}
-     */
-    this.htmlContents = `
-<div id="sample"></div>
-`;
-
-    super.injectPopupContents(this.htmlContents);
-
-    // TODO: Insert HTML contents into page, make visible.
-  }
-
-  // TODO: Add functions.
+class ShadowController {
+  // TODO (#151): Complete shadow block class. Make ToolboxController and
+  // WorkspaceController extend ShadowController.
 }
