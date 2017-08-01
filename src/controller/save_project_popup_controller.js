@@ -27,22 +27,21 @@ goog.require('PopupController');
 
 
 /**
- * @fileoverview SaveProjectPopup deals with the UI for saving projects.
+ * @fileoverview SaveProjectPopup manages app response to the UI for saving projects.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 class SaveProjectPopupController extends PopupController {
   /**
    * @constructor
-   * @param {AppController} appController AppController object which controls
-   *     the application currently being used.
+   * @param {AppController} appController AppController for the session.
    */
   constructor(appController) {
     super(appController);
 
     /**
      * The popup view that this popup controller manages.
-     * @type {!NewBlockPopupView}
+     * @type {!SaveProjectPopupView}
      */
     this.view = new SaveProjectPopupView(this);
 
@@ -56,14 +55,21 @@ class SaveProjectPopupController extends PopupController {
     const blockEditorController = this.blockEditorController;
     this.view.on('submit', () => {
       this.appController.storageLocation = this.view.storageLocation;
-      console.log('AY ' + this.appController.storageLocation);
       localStorage.setItem('devToolsProjectLocation', this.appController.storageLocation);
+      // NOTE: This will be moved/functionalized
+      this.appController.initProjectDirectory();
+      let data = Object.create(null);
+      this.appController.project.buildMetaData(data);
+      let dataString = this.appController.project.getDataString(data);
+      fs.writeFileSync(
+          this.appController.storageLocation + '/' + this.appController.project.name +
+            '/' +  this.appController.project.name, dataString);
       this.exit();
     });
   }
 
   /**
-   * Sets and generates view, which shows popup to user.
+   * Generates view, which shows popup to user.
    */
   show() {
     this.view.show();

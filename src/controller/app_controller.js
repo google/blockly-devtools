@@ -163,14 +163,11 @@ class AppController {
      */
     this.popupController = new PopupController(this.projectController);
 
+    this.saveProject();
     /**
      * Location where the project directory is saved.
      */
-    this.storageLocation = localStorage.getItem('devToolsProjectLocation') ||
-        'no_location_sotrage_selected';
-
-    this.saveProject();
-   // console.log('the be ya storage: ' + this.storageLocation);
+    this.storageLocation = localStorage.getItem('devToolsProjectLocation');
   }
 
   // ======================== CONSTANTS ===========================
@@ -263,7 +260,6 @@ class AppController {
     for (let dir in dirs) {
       if (!fs.existsSync(dirs[dir])) {
         fs.mkdir(dirs[dir]);
-        console.log('made directory ' + dirs[dir]);
       }
     }
   }
@@ -274,17 +270,20 @@ class AppController {
    */
   saveProject() {
     // Check for viable save location.
-    if (!this.storageLocation) {
+    if (this.storageLocation == undefined) {
       this.popupController = new SaveProjectPopupController(this);
       this.popupController.show();
     } else {
       // Create directory in which to save the project if none exists.
+      // NOTE: This will be moved/functionalized
       this.initProjectDirectory();
+      let data = Object.create(null);
+      this.project.buildMetaData(data);
+      let dataString = this.project.getDataString(data);
+      fs.writeFileSync(
+          this.storageLocation + '/' + this.project.name + '/' +  this.project.name,
+            dataString);
     }
-    let data = Object.create(null);
-    this.project.buildMetaData(data);
-    let d = this.project.getDataString(data);
-    fs.writeFileSync(this.storageLocation + '/' + this.project.name + '/' + 'FILE', d);
   }
 
   /**

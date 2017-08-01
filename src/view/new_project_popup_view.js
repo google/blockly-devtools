@@ -30,5 +30,5 @@ goog.require('NewResourcePopupView');
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 class NewProjectPopupView extends NewResourcePopupView {
-  // TODO: Add functions
+  // TODO: Add functions.
 }

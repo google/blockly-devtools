@@ -280,8 +280,6 @@ class Project extends Resource {
    * @return {!Object} The project metadata.
    */
   buildMetaData(obj) {
-    console.log('building this: ');
    super.buildMetaData(obj);
-   console.log(obj);
   }
 }
