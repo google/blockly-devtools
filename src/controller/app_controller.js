@@ -33,6 +33,7 @@ goog.require('AppView');
 goog.require('EditorController');
 goog.require('FactoryUtils');
 goog.require('PopupController');
+goog.require('NewProjectPopupView');
 goog.require('Project');
 goog.require('ProjectController');
 
@@ -238,7 +239,7 @@ class AppController {
    * returns the result.
    */
   getNewStorageLocation() {
-
+    const projectPop = new NewProjectPopupView(this);
   }
 
   /**
