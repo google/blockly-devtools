@@ -22,6 +22,7 @@
 
 goog.provide('ToolboxController');
 
+goog.require('ShadowController');
 goog.require('ToolboxEditorView');
 
 /**
@@ -31,14 +32,16 @@ goog.require('ToolboxEditorView');
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
-class ToolboxController {
+class ToolboxController extends ShadowController {
+  /**
+   * Manages toolbox editor.
+   * @param {!ProjectController} projectController ProjectController object which
+   *     will make changes to current project upon user's changes in editor.
+   * @param {!Blockly.Workspace} hiddenWorkspace Hidden blockly workspace used
+   *     to create shadow blocks.
+   */
   constructor(projectController, hiddenWorkspace) {
-    /**
-     * ProjectController that will edit toolboxes when edited in the toolbox
-     *     editor.
-     * @type {!ProjectController}
-     */
-    this.projectController = projectController;
+    super(projectController, hiddenWorkspace);
 
     // Creates first toolbox to add to project.
     const toolbox = this.projectController.createToolbox('MyFirstToolbox');
@@ -63,11 +66,8 @@ class ToolboxController {
      */
     this.keyEventsEnabled = true;
 
-    /**
-     * Hidden Blockly workspace used to generate XML for shadow blocks.
-     * @type {!Blockly.Workspace}
-     */
-    this.hiddenWorkspace = hiddenWorkspace;
+    // Sets current resource for shadow block class.
+    this.setResource(this.view.toolbox);
 
     // Adds current toolbox to model.
     this.projectController.addToolbox(this.view.toolbox);
@@ -431,7 +431,7 @@ class ToolboxController {
    */
   generateToolboxXml() {
     const xmlDom = goog.dom.createDom('xml');
-    xmlDom.setAttribute('id', 'toolbox');
+    xmlDom.setAttribute('id', this.view.toolbox.name);
     xmlDom.setAttribute('style', 'display: none;');
 
     if (this.view.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
@@ -545,127 +545,8 @@ class ToolboxController {
     }
 
     if (isCreateEvent) {
-      this.makeShadowishBlocks_(e.blockId);
+      this.createFakeShadowBlocks_(e.blockId);
     }
-  }
-
-  /*
-   * Makes the currently selected block a user-generated shadow block. These
-   * blocks are not made into real shadow blocks, but recorded in the model
-   * and visually marked as shadow blocks, allowing the user to move and edit
-   * them (which would be impossible with actual shadow blocks). Updates the
-   * preview when done.
-   */
-  setSelectedAsShadowBlock() {
-    // From wfactory_controller.js:addShadow()
-    // No block selected to make a shadow block.
-    if (!this.view.selectedBlock) {
-      return;
-    }
-    this.view.markShadowBlock(this.view.selectedBlock);
-    this.view.toolbox.addShadowBlock(this.view.selectedBlock.id);
-
-    // Apply shadow block to the children as well.
-    for (let block of this.view.selectedBlock.getDescendants()) {
-      this.view.markShadowBlock(block);
-      this.view.toolbox.addShadowBlock(block.id);
-    }
-
-    this.view.showAndEnableShadow(false,
-        this.isValidShadow_(this.view.selectedBlock, true));
-    this.checkShadowStatus();
-    // Save and update the preview.
-    this.saveStateFromWorkspace();
-    this.updatePreview();
-  }
-
-  /**
-   * Makes user-generated shadow block back to a normal block again. Removes
-   * block from list of shadow blocks and then reloads workspace. Updates the
-   * preview when done.
-   */
-  unsetSelectedAsShadowBlock() {
-    // From wfactory_controller.js
-    if (!this.view.selectedBlock) {
-      return;
-    }
-    this.view.unmarkShadowBlock(this.view.selectedBlock);
-    this.view.toolbox.removeShadowBlock(this.view.selectedBlock.id);
-    this.checkShadowStatus();
-    this.view.showAndEnableShadow(true,
-        this.isValidShadow_(this.view.selectedBlock, true));
-
-    // Save and update the preview.
-    this.saveStateFromWorkspace();
-    this.updatePreview();
-  }
-
-  /**
-   * Checks currently selected block if it is breaking any shadow block rules.
-   * Sets warning text to user if it breaks a rule, and removes warning
-   * text if not.
-   * Shadow blocks must be nested within another block and cannot have any
-   * non-shadow blocks as children.
-   * @recursive Checks connected blocks for their shadow block status.
-   */
-  checkShadowStatus() {
-    const selected = this.view.selectedBlock;
-    if (!selected) {
-      // Return if no block is selected.
-      return;
-    }
-
-    // Check if shadow block.
-    const isShadow = this.isUserGenShadowBlock(selected.id) ||
-        $(selected.svgGroup_).hasClass('shadowBlock');
-
-    // Check if valid shadow block position.
-    const isValid = this.isValidShadow_(selected, isShadow);
-
-    // Check if block has variables (variable blocks cannot be shadow blocks).
-    const hasVar = FactoryUtils.hasVariableField(selected);
-    this.view.enableShadowButtons(isShadow, isValid);
-
-    // Checks various states of the selected block to make the warning text
-    // more helpful/descriptive. Removes warning text if no rules are broken.
-    if (isShadow && !isValid) {
-      selected.setWarningText('Shadow blocks must be nested inside\n'
-          + 'other shadow blocks or regular blocks.');
-    } else if (isShadow && hasVar) {
-      selected.setWarningText('Shadow blocks must be nested inside other'
-          + ' blocks.');
-    } else if (!isShadow && selected.getSurroundParent() &&
-        $(selected.getSurroundParent().svgGroup_).hasClass('shadowBlock')) {
-      selected.setWarningText('Regular blocks cannot be children\nof shadow '
-          + 'blocks.');
-    } else {
-      selected.setWarningText(null);
-    }
-
-    if (selected.getNextBlock()) {
-      // Recursively check next block in connection for its status.
-      this.view.selectedBlock = selected.getNextBlock();
-      this.checkShadowStatus();
-      this.view.selectedBlock = selected;
-    }
-  }
-
-  /**
-   * Checks whether the given block is a valid shadow block.
-   * @param {!Blockly.Block} block The block to be evaluated for shadow block
-   *     validity.
-   * @param {boolean} isShadow Whether the given block is a shadow block.
-   * @return {boolean} Whether the given block is a valid shadow block that
-   *     does not need warning text.
-   */
-  isValidShadow_(block, isShadow) {
-    // Check if valid shadow block position.
-    const children = block.getChildren();
-    // To be a valid shadow block candidate, the block must (1) have a parent,
-    // and (2) have only shadow blocks as its children.
-    const isValid = block.getSurroundParent() != null &&
-        (isShadow || FactoryUtils.getShadowBlocks(children).length == children.length);
-    return isValid;
   }
 
   /**
@@ -674,9 +555,8 @@ class ToolboxController {
    * @param {boolean} blockId ID of the selected block.
    * @private
    */
-  makeShadowishBlocks_(blockId) {
-    // Converts actual shadow blocks to shadow-looking blocks in editor.
-    this.convertShadowBlocks();
+  createFakeShadowBlocks_(blockId) {
+    super.createFakeShadowBlocks_(blockId);
 
     // Let the user create a Variables or Functions category if they use
     // blocks from either category.
@@ -728,136 +608,12 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   }
 
   /**
-   * Determines if a block breaks shadow block placement rules. Breaks rules
-   * if (1) a shadow block no longer has a valid parent, or (2) a normal block
-   * is inside of a shadow block.
-   * @param {!Blockly.Block} block Blockly block that will be checked.
-   * @return {boolean} Whether block is placed in valid location as a shadow block.
-   * @private
-   */
-  isInvalidBlockPlacement_(block) {
-    return ((this.isUserGenShadowBlock(block.id) &&
-        !block.getSurroundParent()) ||
-        (!this.isUserGenShadowBlock(block.id) &&
-         block.getSurroundParent() &&
-         this.isUserGenShadowBlock(block.getSurroundParent().id)));
-  }
-
-  /**
    * Saves the contents of the toolbox editor workspace to the corresponding
    * ListElement. Updates the XML in the model.
    */
   saveStateFromWorkspace() {
     this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
     this.view.toolbox.setXml(this.generateToolboxXml());
-  }
-
-  /**
-   * Loads the given XML to the hidden Blockly.Workspace and sets any user-generated
-   * shadow blocks to be actual shadow blocks in the hidden Blockly.Workspace.
-   *
-   * @param {!Element} xml XML to be loaded to the hidden workspace.
-   * @private
-   */
-  loadToHiddenWorkspace_(xml) {
-    // REFACTOR: Moved in from wfactory_generator.js
-    this.hiddenWorkspace.clear();
-    Blockly.Xml.domToWorkspace(xml, this.hiddenWorkspace);
-    this.setShadowBlocksInHiddenWorkspace_();
-  }
-
-  /**
-   * Encodes blocks in the hidden workspace in a XML DOM element. Very
-   * similar to workspaceToDom, but doesn't capture IDs. Uses the top-level
-   * blocks loaded in hiddenWorkspace.
-   * @param {!Element} xmlDom Tree of XML elements to be appended to.
-   * @private
-   */
-  appendHiddenWorkspaceToDom_(xmlDom) {
-    // REFACTOR: Moved in from wfactory_generator.js
-    const blocks = this.hiddenWorkspace.getTopBlocks();
-    blocks.forEach((block) => {
-      let blockChild = Blockly.Xml.blockToDom(block, /* opt_noId */ true);
-      xmlDom.appendChild(blockChild);
-    });
-  }
-
-  /**
-   * Sets the user-generated shadow blocks loaded into hiddenWorkspace to be
-   * actual shadow blocks. This is done so that blockToDom records them as
-   * shadow blocks instead of regular blocks.
-   * @private
-   */
-  setShadowBlocksInHiddenWorkspace_() {
-    // REFACTOR: Moved in from wfactory_generator.js
-    const blocks = this.hiddenWorkspace.getAllBlocks();
-    blocks.forEach((block) => {
-      if (this.view.toolbox.isShadowBlock(block.id)) {
-        block.setShadow(true);
-      }
-    });
-  }
-
-  /**
-   * Sets a block and all of its children to be user-generated shadow blocks,
-   * both in the model and view.
-   * @param {!Blockly.Block} block The block to be converted to a user-generated
-   *     shadow block.
-   * @private
-   */
-  addShadowForBlockAndChildren_(block) {
-    // From wfactory_controller.js:addShadowForBlockAndChildren_(block)
-    // Convert to shadow block.
-    this.view.markShadowBlock(block);
-    this.view.toolbox.addShadowBlock(block.id);
-
-    if (FactoryUtils.hasVariableField(block)) {
-      block.setWarningText('Cannot make variable blocks shadow blocks.');
-    }
-
-    // Convert all children to shadow blocks recursively.
-    const children = block.getChildren();
-    children.forEach((child) => {
-      this.addShadowForBlockAndChildren_(child);
-    });
-  }
-
-  /**
-   * Given a unique block ID, uses the model to determine if a block is a
-   * user-generated shadow block.
-   * @param {string} blockId The unique ID of the block to examine.
-   * @return {boolean} True if the block is a user-generated shadow block, false
-   *     otherwise.
-   */
-  isUserGenShadowBlock(blockId) {
-    // From wfactory_controller.js
-    return this.view.toolbox.isShadowBlock(blockId);
-  }
-
-  /**
-   * Call when importing XML containing real shadow blocks. This function turns
-   * all real shadow blocks loaded in the workspace into user-generated shadow
-   * blocks, meaning they are marked as shadow blocks by the model and appear as
-   * shadow blocks in the view but are still editable and movable.
-   */
-  convertShadowBlocks() {
-    // REFACTORED: Moved in from wfactory_controller.js
-    const blocks = this.view.editorWorkspace.getAllBlocks();
-    blocks.forEach((block) => {
-      if (block.isShadow()) {
-        block.setShadow(false);
-        // Delete the shadow DOM attached to the block so that the shadow block
-        // does not respawn. Dependent on implementation details.
-        const parentConnection = block.outputConnection ?
-            block.outputConnection.targetConnection :
-            block.previousConnection.targetConnection;
-        if (parentConnection) {
-          parentConnection.setShadowDom(null);
-        }
-        this.view.toolbox.addShadowBlock(block.id);
-        this.view.markShadowBlock(block);
-      }
-    });
   }
 
   /**
@@ -886,21 +642,6 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
      * - updatePreview()
      */
     throw 'Unimplemented: importToolboxFromTree_()';
-  }
-
-  /**
-   * Sets a warning on blocks loaded to the workspace that are not defined.
-   * @private
-   */
-  warnForUndefinedBlocks_() {
-    const blocks = this.view.editorWorkspace.getAllBlocks();
-    const project = this.projectController.getProject();
-    blocks.forEach((block) => {
-      if (!project.hasBlockDefinition(block.type)) {
-        block.setWarningText(block.type + ' is not defined (it is not a standard '
-            + 'block, \nin your block library, or an imported block).');
-      }
-    });
   }
 
   /**
@@ -1145,17 +886,20 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   /**
    * Clears the toolbox workspace and loads XML to it, marking shadow blocks
    * as necessary. Helper function of clearAndLoadElement().
-   * @private
    * @param {!Element} xml The XML to be loaded to the workspace.
+   * @private
    */
   clearAndLoadXml_(xml) {
     // From wfactory_controller.js
     this.view.editorWorkspace.clear();
     this.view.editorWorkspace.clearUndo();
     Blockly.Xml.domToWorkspace(xml, this.view.editorWorkspace);
-    this.view.markShadowBlocks(this.getShadowBlocksInWorkspace
-        (this.view.editorWorkspace.getAllBlocks()));
-    this.warnForUndefinedBlocks_();
+    const blocks = this.view.editorWorkspace.getAllBlocks();
+    const shadowBlocks =  this.getShadowBlocksInWorkspace(blocks);
+    for (let block of shadowBlocks) {
+      ShadowController.markShadowBlock(block);
+    }
+    FactoryUtils.warnForUndefinedBlocks(blocks, this.projectController.getProject());
   }
 
   /*
@@ -1268,23 +1012,5 @@ ${xmlStorageVariable}['${toolbox.name}'] =
     this.view.setBorderColor(this.view.toolbox.getSelectedId(), color);
     this.view.toolbox.setXml(this.generateToolboxXml());
     this.updatePreview();
-  }
-
-  /**
-   * Given a set of blocks currently loaded, returns all blocks in the workspace
-   * that are user generated shadow blocks.
-   * @param {Array.<!Blockly.Block>} blocks Array of blocks currently loaded.
-   * @return {Array.<!Blockly.Block>} Array of user-generated shadow blocks currently
-   *     loaded.
-   */
-  getShadowBlocksInWorkspace(blocks) {
-    // From wfactory_model.js:getShadowBlocksInWorkspace()
-    let shadowsInWorkspace = [];
-    blocks.forEach((block) => {
-      if (this.view.toolbox.isShadowBlock(block.id)) {
-        shadowsInWorkspace.push(block);
-      }
-    });
-    return shadowsInWorkspace;
   }
 }
