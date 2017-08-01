@@ -83,10 +83,12 @@
   appendScript('src/controller/project_controller.js');
   appendScript('src/controller/popup_controller.js');
   appendScript('src/controller/new_block_popup_controller.js');
+  appendScript('src/controller/new_project_popup_controller.js');
   appendScript('src/controller/editor_controller.js');
   appendScript('src/new_block_dialog_controller.js');
   appendScript('src/controller/app_controller.js');
 
   appendStylesheet('src/factory.css');
   appendStylesheet('node_modules/jstree/dist/themes/default/style.min.css');
+  appendStylesheet('https://ssl.gstatic.com/docs/script/css/add-ons1.css');
 })();

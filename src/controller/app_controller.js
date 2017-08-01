@@ -282,6 +282,10 @@ class AppController {
       // TODO: Preview popup view
     } else if (popupMode === PopupController.NEW_CONFIG) {
       // TODO: New config popup view
+    } else if (popupMode === PopupController.NEW_PROJECT) {
+      this.popupController.exit();
+      this.popupController = new NewProjectPopupController(this);
+      this.popupController.show();
     } else {
       throw new Error('Popup type ' + popupMode + ' not found.');
     }

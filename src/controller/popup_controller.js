@@ -82,6 +82,10 @@ class PopupController {
     return 'NEW_CONFIG';
   }
 
+  static get NEW_PROJECT() {
+    return 'NEW_PROJECT';
+  }
+
   /**
    * Exits popup. Resets view reference to be null.
    */

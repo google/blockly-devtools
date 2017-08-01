@@ -51,6 +51,8 @@ class NewBlockPopupView extends NewResourcePopupView {
     <span id="warning_text">This block already exists!</span><br><br>
   Library<span class="red">*</span><br>
     <input type="text" id="library" placeholder="my_library"></input>
+    <select id="dropdown_libraryList">
+    </select>
     <span id="no_library_warning">No library by that name exists.</span><br><br>
   Block type<span class="red">*</span><br>
     <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
@@ -59,7 +61,7 @@ class NewBlockPopupView extends NewResourcePopupView {
     <br><br>
   Starter text<br>
     <input type="text" id="block_text" placeholder="Optional"><br><br>
-  <button type="submit" id="submit_block">Start Blockly</button>
+  <button type="submit" class="create" id="submit_block">Create Block</button>
 </form>
 <br>
 <hr>

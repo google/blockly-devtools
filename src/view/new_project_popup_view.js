@@ -30,5 +30,67 @@ goog.require('NewResourcePopupView');
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 class NewProjectPopupView extends NewResourcePopupView {
-  // TODO: Add functions.
+  /**
+   * View portion of new project popup.
+   * @param {!NewProjectPopupController} controller Controller object which
+   *     manages the new project popup and the information passed on to the rest
+   *     of the application.
+   * @constructor
+   */
+  constructor(controller) {
+    // TODO: Implement
+    super(controller);
+    super.injectPopupContents(NewProjectPopupView.html);
+    this.init();
+  }
+
+  init() {
+
+    $('#new_project').click((event) => {
+      this.newProject(event);
+    });
+  }
+
+  newProject(event) {
+    event.preventDefault();
+    super.injectPopupContents(NewProjectPopupView.html2);
+
+    $('#sample_block').click((event) => {
+      console.log($('#input_library').val());
+      this.controller.appController.projectController.createBlockLibrary($('#input_library').val());
+      console.log(this.controller.appController.projectController.getProject());
+      this.newBlock(event);
+    });
+  }
+
+  newBlock(event) {
+    event.preventDefault();
+    this.controller.appController.createPopup(PopupController.NEW_BLOCK);
+  }
 }
+
+NewProjectPopupView.html = `
+<header>Blockly Developer Tools</header>
+<form>
+<span style="float:right;">
+<button>Open a pre-existing project</button>
+<button class="create" id="new_project">Create new project</button>
+</span>
+</form>
+`;
+
+NewProjectPopupView.html2 = `
+<header>New Project</header>
+<form>
+  Project name<span class="red">*</span><br>
+    <input type="text" id="block_name" value="MyProject" placeholder="MyProject" style="width:100%"></input><br><br>
+  Library name<span class="red">*</span><br>
+    <input type="text" id="input_library" value="MyLibrary" placeholder="MyLibrary"></input>
+    <span id="no_library_warning">No library by that name exists.</span><br><br>
+  <button>Back</button>
+  <span style="float: right;">
+  <button type="submit">Configure First Block</button>
+  <button type="submit" id="sample_block" class="create">Start with Sample Block</button>
+  </span>
+</form>
+`;

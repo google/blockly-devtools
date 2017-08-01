@@ -166,6 +166,7 @@ class AppView {
    */
   showNewProject() {
     // TODO: Fill in action.
+    this.appController.createPopup(PopupController.NEW_PROJECT);
   }
 
   /**

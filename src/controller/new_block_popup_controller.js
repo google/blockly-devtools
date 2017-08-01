@@ -53,6 +53,8 @@ class NewBlockPopupController extends PopupController {
      */
     this.view = new NewBlockPopupView(this);
 
+    this.updateLibraryDropdown();
+
     // Listeners in the popup
     Emitter(this.view);
     this.view.on('exit', () => {
@@ -95,5 +97,16 @@ class NewBlockPopupController extends PopupController {
    */
   show() {
     this.view.show();
+  }
+
+  /**
+   *
+   */
+  updateLibraryDropdown() {
+    const libList = this.appController.projectController.getProject().getBlockLibraryNames();
+    for (let libName of libList) {
+      $('#dropdown_libraryList').append(
+        $('<option></option>').val(libName).html(libName));
+    }
   }
 }
