@@ -252,16 +252,6 @@ class AppController {
   }
 
   /**
-   * Prompts the user for a new location to store the project, stores and
-   * returns the result.
-   */
-  getNewStorageLocation() {
-    const projectPop = new SaveProjectPopup(this);
-    projectPop.show();
-    return projectPop.storageLocation;
-  }
-
-  /**
    * Creates the properly nested directory in which to save the project.
    */
   initProjectDirectory() {
@@ -287,10 +277,8 @@ class AppController {
     if (this.storageLocation == undefined) {
       console.log('what a time to be alive');
       this.popupController = new SaveProjectPopupController(this);
-      this.storageLocation = this.getNewStorageLocation();
-      console.log('AY ' + this.storageLocation);
-      localStorage.setItem('devToolsProjectLocation', this.storageLocation);
     }
+    console.log('THE PLACE: ' + this.storageLocation);
     // Create directory in which to save the project.
     this.initProjectDirectory();
 

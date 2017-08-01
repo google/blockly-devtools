@@ -76,6 +76,7 @@ class SaveProjectPopupView extends PopupView {
       this.storageLocation = $('#directory').val();
       console.log('STORING IN: ' + this.storageLocation);
     	this.hide();
+      this.emit('submit');
     });
   }
 }

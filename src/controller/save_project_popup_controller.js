@@ -39,43 +39,24 @@ class SaveProjectPopupController extends PopupController {
     super(appController);
 
     /**
-     * Block Editor Controller that will dictate changes to application in response
-     * to user input in the new block popup.
-     * @type {!BlockEditorController}
-     */
-    this.blockEditorController = appController.editorController.blockEditorController;
-
-    /**
      * The popup view that this popup controller manages.
      * @type {!NewBlockPopupView}
      */
-    this.view = new NewBlockPopupView(this);
+    this.view = new SaveProjectPopupView(this);
 
     // Listeners in the popup
     Emitter(this.view);
     this.view.on('exit', () => {
-      // If there are no blocks in any library
-      const project = this.appController.project;
-      const noBlocks = project.getBlockTypes().length == 0;
-      if (noBlocks) {
-        // Creates empty starter block.
-        const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-            '', '', 'My First Block');
-        this.blockEditorController.view.showStarterBlock(starterXml);
-      }
       this.exit();
     });
 
     const view = this.view;
     const blockEditorController = this.blockEditorController;
     this.view.on('submit', () => {
-      blockEditorController.createNewBlock(
-          view.inputType, view.blockName, view.libraryName, view.blockText);
+      this.appController.storageLocation = this.view.storageLocation;
+      console.log('AY ' + this.appController.storageLocation);
+      localStorage.setItem('devToolsProjectLocation', this.storageLocation);
       this.exit();
-    });
-
-    $('#block_name').change(() => {
-      this.checkDuplicate();
     });
   }
 
