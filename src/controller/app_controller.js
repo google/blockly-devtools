@@ -163,7 +163,6 @@ class AppController {
      */
     this.popupController = new PopupController(this.projectController);
 
-    this.saveProject();
     /**
      * Location where the project directory is saved.
      */

@@ -32,9 +32,9 @@ class Resource {
   /**
    * Resource Class.
    * @param {string} resourceName The name for the resource.
-   * @param {string} The type of resource.
+   * @param {string} resourceType The type of resource.
    */
-  constructor(resourceName, thing) {
+  constructor(resourceName, resourceType) {
     /**
      * The name of the resource.
      * @type {string}
@@ -45,7 +45,7 @@ class Resource {
      * The type of resource.
      * @type {string}
      */
-    this.thing = thing || null;
+    this.resourceType = resourceType || null;
   }
 
   /**
@@ -98,7 +98,7 @@ class Resource {
    */
   buildMetaData(obj) {
     obj.name = this.name;
-    obj.resourceType = this.thing;
+    obj.resourceType = this.resourceType;
     obj.file = '';
     obj.web_export = true;
     obj.ios_export = false;
