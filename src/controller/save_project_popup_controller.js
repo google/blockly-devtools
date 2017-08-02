@@ -79,10 +79,11 @@ class SaveProjectPopupController extends PopupController {
           } else {
           /*
            * No location has been chosen, leading to the creation of a default
-           * directory of the same name as the local storage tag.
+           * directory of the same name as the local storage tag under the
+           * directory specified for the project.
            */
             localStorage.setItem(DIRECTORY_LOCAL_STORAGE_TAGS[directory],
-              DIRECTORY_LOCAL_STORAGE_TAGS[directory]);
+              DIRECTORIES.PROJECT + DIRECTORY_LOCAL_STORAGE_TAGS[directory]);
           }
         }
       }
