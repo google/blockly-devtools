@@ -32,6 +32,9 @@ goog.provide('AppController');
 goog.require('AppView');
 goog.require('EditorController');
 goog.require('FactoryUtils');
+goog.require('NewBlockPopupController');
+goog.require('NewLibraryPopupController');
+goog.require('NewProjectPopupController');
 goog.require('PopupController');
 goog.require('SaveProjectPopupController');
 goog.require('Project');
@@ -113,19 +116,23 @@ class AppController {
       return;
     }
 
-    // TODO: Move in functions from AppController.init().
-
     /**
      * Stores currently loaded project that user will edit.
-     * @type {!Project}
+     * @type {Project}
      */
-    this.project = new Project('A Project');
+    this.project = null;
 
     /**
      * The tree for the DevTools session.
-     * @type {!NavigationTree}
+     * @type {NavigationTree}
      */
-    this.tree = new NavigationTree(this, this.project);
+    this.tree = null;
+
+    /**
+     * ProjectController object associated with application.
+     * @type {ProjectController}
+     */
+    this.projectController = null;
 
     // Create div elements to insert hidden workspaces used in I/O. Hidden
     // workspaces stored in EditorController.
@@ -139,35 +146,31 @@ class AppController {
     this.hiddenWorkspace = Blockly.inject('hiddenWorkspace');
 
     /**
-     * ProjectController object associated with application.
-     * @type {!ProjectController}
-     */
-    this.projectController = new ProjectController(this.project, this.tree);
-
-    /**
      * EditorController object which encapsulates all editor controllers
-     * @type {!EditorController}
+     * @type {EditorController}
      */
-    this.editorController = new EditorController(
-        this.projectController, this.hiddenWorkspace);
+    this.editorController = null;
 
     /**
      * Main View class which manages view portion of application.
-     * @type {!AppView}
+     * @type {AppView}
      */
-    this.view = new AppView(this);
+    this.view = null;
 
     /**
      * PopupController object which controls any popups that may appear throughout
-     * the course of using DevTools.
-     * @type {!PopupController}
+     * the course of using DevTools. Null if no popup is open.
+     * @type {?PopupController}
      */
-    this.popupController = new PopupController(this.projectController);
+    this.popupController = null;
 
     /**
      * ReadWriteController, which controls reading/writing project data.
      */
     this.readWriteController = new ReadWriteController(this);
+
+    // Creates project.
+    this.initProject('MyProject');
   }
 
   // ======================== CONSTANTS ===========================
@@ -246,6 +249,21 @@ class AppController {
    */
   openProject() {
     // TODO: Implement.
+    console.warn('Unimplemented: openProject()');
+  }
+
+  /**
+   * Creates new project with the proper user-given name, then initializes
+   * controllers and components of application dependent on the project.
+   * @param {string} projectName Name of project (user-given).
+   */
+  initProject(projectName) {
+    this.project = new Project(projectName);
+    this.tree = new NavigationTree(this, this.project);
+    this.projectController = new ProjectController(this.project, this.tree);
+    this.editorController = new EditorController(this.projectController,
+        this.hiddenWorkspace);
+    this.view = new AppView(this);
   }
 
   /**
@@ -285,17 +303,30 @@ class AppController {
    * @param {string} popupMode Type of popup to be shown.
    */
   createPopup(popupMode) {
-    if (popupMode == PopupController.NEW_BLOCK) {
+    // Exit last popup if exists.
+    if (this.popupController) {
       this.popupController.exit();
-      this.popupController = new NewBlockPopupController(this);
-      this.popupController.show();
-    } else if (popupMode == PopupController.PREVIEW) {
+    }
+    // Create popup.
+    if (popupMode === PopupController.NEW_BLOCK) {
+      if (this.project.librarySet.isEmpty()) {
+        this.popupController = new NewLibraryPopupController(this, true);
+      } else {
+        this.popupController = new NewBlockPopupController(this);
+      }
+    } else if (popupMode === PopupController.PREVIEW) {
       // TODO: Preview popup view
     } else if (popupMode == PopupController.NEW_CONFIG) {
       // TODO: New config popup view
+    } else if (popupMode === PopupController.NEW_PROJECT) {
+      this.popupController = new NewProjectPopupController(this);
+    } else if (popupMode === PopupController.NEW_LIBRARY) {
+      this.popupController = new NewLibraryPopupController(this);
     } else {
       throw new Error('Popup type ' + popupMode + ' not found.');
+      return;
     }
+    this.popupController.show();
   }
 
   /**
@@ -313,8 +344,8 @@ class AppController {
    * Top-level function for block creation. Updates views, editors, and model.
    */
   createBlockDefinition() {
-    this.switchEnvironment('block', null);
     this.createPopup(PopupController.NEW_BLOCK);
+    this.view.closeFlyout();
   }
 
   /**
@@ -322,9 +353,8 @@ class AppController {
    */
   createLibrary() {
     // TODO: prompt for name, define behavior
-    const library = this.projectController.createBlockLibrary(
-        'test_library');
-    this.switchEnvironment(PREFIXES.VARIABLE_BLOCK, library);
+    this.createPopup(PopupController.NEW_LIBRARY);
+    this.view.closeFlyout();
   }
 
   /**
@@ -362,29 +392,31 @@ class AppController {
 
   /**
    * Switches view and editor, closes any open modal elements.
-   * @param {string} element The type of element to switch the view and editor
-   *     based off of, in camel case (but beginning with a lower case letter).
-   * @param {?Resource} resource The resource to display upon switching the view.
+   * @param {string} editor The editor to switch to.
+   * @param {!Resource} resource The resource to display upon switching the view.
    */
-  switchEnvironment(element, resource) {
-    var resourceReference;
-    if (element == PREFIXES.VARIABLE_WORKSPACECONTENTS ||
-        element == PREFIXES.VARIABLE_WORKSPACECONFIGURATION) {
-      resourceReference = element;
-      element = 'workspace';
-    } else {
-      resourceReference = element;
+  switchEnvironment(editor, resource) {
+    var view = 'EditorView';
+    var controller = 'EditorController';
+
+    if (editor == AppController.BLOCK_EDITOR) {
+      view = PREFIXES.VARIABLE_BLOCK + view;
+      controller = PREFIXES.VARIABLE_BLOCK + controller;
+    } else if (editor == AppController.TOOLBOX_EDITOR) {
+      view = PREFIXES.VARIABLE_TOOLBOX + view;
+      controller = PREFIXES.VARIABLE_TOOLBOX + controller;
+    } else if (editor == AppController.WORKSPACE_EDITOR) {
+      view = 'workspace' + view;
+      controller = 'workspace' + controller;
     }
-    const controller = element + 'EditorController';
-    const view = element + 'EditorView';
-    this.editorController.switchEditor(
-          this.editorController[controller]);
-    if (resource) {
-      this.view[view][resourceReference] = resource;
-    }
+
+    // Switch view.
     this.view.switchView(this.view[view], resource);
-    FactoryUtils.closeModal(this.modalId_);
-    this.modalId_ = null;
-    this.addFlyoutOpen = false;
+
+    // Switch editor.
+    this.editorController.switchEditor(this.editorController[controller]);
+
+    // Close flyout if open.
+    this.view.closeFlyout();
   }
 }

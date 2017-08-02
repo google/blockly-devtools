@@ -50,7 +50,7 @@ class NewBlockPopupView extends NewResourcePopupView {
     <input type="text" id="block_name" placeholder="block_type"></input>
     <span id="warning_text">This block already exists!</span><br><br>
   Library<span class="red">*</span><br>
-    <input type="text" id="library" placeholder="my_library"></input>
+    <select id="dropdown_libraryList"></select>
     <span id="no_library_warning">No library by that name exists.</span><br><br>
   Block type<span class="red">*</span><br>
     <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
@@ -59,18 +59,18 @@ class NewBlockPopupView extends NewResourcePopupView {
     <br><br>
   Starter text<br>
     <input type="text" id="block_text" placeholder="Optional"><br><br>
-  <button type="submit" id="submit_block">Start Blockly</button>
+  <button type="submit" class="create" id="submit_block" style="float: right">Create Block</button>
 </form>
 <br>
+<!-- TODO(#28): Replace with uneditable Blockly workspace --
 <hr>
-<!-- TODO(#28): Replace with uneditable Blockly workspace -->
 <h3>Examples</h3>
 Statement input:<br>
 <img src="media/input_statement.png" width="30%" height="auto"/><br>
 Value input:<br>
 <img src="media/input_value.png" width="30%" height="auto"/><br>
 Dummy input:<br>
-<img src="media/input_dummy.png" width="30%" height="auto"/><br>
+<img src="media/input_dummy.png" width="30%" height="auto"/><br-->
 `;
 
     // Stores HTML to display new block popup.
@@ -89,15 +89,14 @@ Dummy input:<br>
       this.emit('exit');
     });
 
-    $('#submit_block').click((event) => {
+    $('#submit_block').unbind('click').click((event) => {
       // Gathers and renders blocks properly in devtools editor.
       event.preventDefault();
 
       this.blockName = $('#block_name').val();
-      this.libraryName = $('#library').val();
+      this.libraryName = $('#dropdown_libraryList').val();
       this.inputType = $('input[name="input_type"]:checked').val();
       this.blockText = $('#block_text').val();
-
       this.emit('submit', this);
     });
   }

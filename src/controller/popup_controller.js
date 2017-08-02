@@ -82,11 +82,27 @@ class PopupController {
     return 'NEW_CONFIG';
   }
 
+  static get NEW_PROJECT() {
+    return 'NEW_PROJECT';
+  }
+
+  static get NEW_LIBRARY() {
+    return 'NEW_LIBRARY';
+  }
+
+  /**
+   * Sets and generates view, which shows popup to user.
+   */
+  show() {
+    this.view.show();
+  }
+
   /**
    * Exits popup. Resets view reference to be null.
    */
   exit() {
     if (this.view) {
+      $('#modalShadow').hide();
       this.view.hide();
       this.view = null;
     }
