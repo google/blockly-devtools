@@ -9,7 +9,8 @@
     "component-emitter": "github:component/emitter",
     "graceful-fs": "^4.1.11",
     "jquery": "^3.2.1",
-    "jstree": "git://github.com/vakata/jstree.git"
+    "jstree": "git://github.com/vakata/jstree.git",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "eslint": "^4.0.0"
