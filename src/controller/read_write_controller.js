@@ -63,7 +63,7 @@ class DIRECTORIES {
 }
 
 /**
- * @fileoverview ReadWriteController manages reading/writing all files
+ * @fileoverview ReadWriteController manages reading and writing all files
  * pertinent to the project.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
