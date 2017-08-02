@@ -42,16 +42,17 @@ class ReadWriteController {
      * Location where the project directory is saved.
      */
     this.storageLocation = localStorage.getItem('devToolsProjectLocation');
+
+    this.projectDir = this.storageLocation + '/' + this.project.name;
+    this.libraryDir = projectDir + '/' + PREFIXES.LIBRARY;
+    this.toolboxDir = projectDir + '/' + PREFIXES.TOOLBOX;
+    this.workspaceDir = projectDir + '/' + PREFIXES.GENERAL_WORKSPACE;
+    this.dirs = [ projectDir, libraryDir, toolboxDir, workspaceDir];
   }
   /**
    * Creates the properly nested directory in which to save the project.
    */
   initProjectDirectory() {
-    const projectDir = this.storageLocation + '/' + this.project.name;
-    const libraryDir = projectDir + '/' + PREFIXES.LIBRARY;
-    const toolboxDir = projectDir + '/' + PREFIXES.TOOLBOX;
-    const workspaceDir = projectDir + '/' + PREFIXES.GENERAL_WORKSPACE;
-    const dirs = [ projectDir, libraryDir, toolboxDir, workspaceDir];
     for (let dir in dirs) {
       if (!fs.existsSync(dirs[dir])) {
         fs.mkdir(dirs[dir]);
