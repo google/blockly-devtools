@@ -99,7 +99,6 @@ class Resource {
   buildMetadata(obj) {
     obj.name = this.name;
     obj.resourceType = this.resourceType;
-    obj.filepath = '';
     obj.web = {
       filepath: '',
       export: 'true'
