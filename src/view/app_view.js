@@ -365,8 +365,6 @@ class AppView {
   switchView(editorView, resource) {
     this.currentView.hide();
     this.currentView = editorView;
-    console.log('current view');
-    console.log(this.currentView);
     this.currentView.show(resource);
   }
 
@@ -406,7 +404,6 @@ class AppView {
       }
 
       // Switches editor.
-      console.log(editorView[resource]);
       this.appController.switchEnvironment(editorName, editorView[resource]);
     });
   }

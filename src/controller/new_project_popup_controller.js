@@ -31,8 +31,18 @@ goog.require('PopupController');
  * @author celinechoo (Celine Choo)
  */
 class NewProjectPopupController extends PopupController {
+  /**
+   * Manages popup which allows users to create or open new projects.
+   * @param {!AppController} appController Controller which manages application
+   *     and makes proper changes after the user interacts with popup.
+   */
   constructor(appController) {
     super(appController);
+
+    /**
+     * View portion of new project popup.
+     * @type {!NewProjectPopupView}
+     */
     this.view = new NewProjectPopupView(this);
   }
 }

@@ -53,6 +53,7 @@ class NewBlockPopupController extends PopupController {
      */
     this.view = new NewBlockPopupView(this);
 
+    // Updates library dropdown to populate with user-created block libraries.
     this.updateLibraryDropdown();
 
     // Listeners in the popup
@@ -66,10 +67,6 @@ class NewBlockPopupController extends PopupController {
     this.view.on('submit', () => {
       blockEditorController.createNewBlock(
           view.inputType, view.blockName, view.libraryName, view.blockText);
-      // const blockDef = this.appController.projectController.createBlockDefinition(view.blockName, view.libraryName);
-      // blockEditorController.view.blockDefinition = blockDef;
-      // blockDef.setXml(FactoryUtils.buildBlockEditorStarterXml(view.inputType, view.blockName, view.blockText));
-      // this.appController.switchEnvironment(AppController.BLOCK_EDITOR, blockDef);
       this.exit();
     });
 
@@ -95,7 +92,8 @@ class NewBlockPopupController extends PopupController {
   }
 
   /**
-   *
+   * Updates dropdown options for library to populate with user-created block
+   * libraries.
    */
   updateLibraryDropdown() {
     const libList = this.appController.projectController.getProject().getBlockLibraryNames();

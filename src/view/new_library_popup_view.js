@@ -30,35 +30,34 @@ goog.require('NewResourcePopupView');
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 class NewLibraryPopupView extends NewResourcePopupView {
+  /**
+   * Manages visual elements of new library popup.
+   * @param {!NewLibraryPopupController} controller Controller which manages
+   *     user interaction with popup.
+   * @constructor
+   */
   constructor(controller) {
     super(controller);
     super.injectPopupContents(NewLibraryPopupView.html);
 
+    // Creates library.
     $('#button_createLibrary').click((event) => {
       event.preventDefault();
 
-      this.createLibraryIfValid(false);
+      this.controller.createLibraryIfValid();
     });
 
+    // Resets warning on library name.
     $('#new_library_name').change(() => {
       $('#new_library_warning').html('');
     });
   }
-
-  createLibraryIfValid(ifSample) {
-    const libName = FactoryUtils.cleanResourceName($('#new_library_name').val());
-    if (libName.trim()) {
-      this.controller.appController.projectController.createBlockLibrary(libName);
-      this.controller.exit();
-    } else {
-      $('#new_library_warning').html('Please enter a valid library name.');
-    }
-  }
-
-  newBlock() {
-  }
 }
 
+/**
+ * HTML to go within popup.
+ * @type {string}
+ */
 NewLibraryPopupView.html = `
 <header>New Library</header>
 <form>

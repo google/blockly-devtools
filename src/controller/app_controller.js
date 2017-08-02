@@ -250,6 +250,7 @@ class AppController {
    */
   initProject(projectName) {
     this.project = new Project(projectName);
+    this.project.addBlockLibrary(new BlockLibrary('MyLibrary'));
     this.tree = new NavigationTree(this, this.project);
     this.projectController = new ProjectController(this.project, this.tree);
     this.editorController = new EditorController(this.projectController,

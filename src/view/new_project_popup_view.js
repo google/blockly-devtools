@@ -25,7 +25,7 @@ goog.provide('NewProjectPopupView');
 goog.require('NewResourcePopupView');
 
 /**
- * @fileoverview NewLibraryPopupView deals with the UI for creating new projects.
+ * @fileoverview NewProjectPopupView deals with the UI for creating new projects.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
@@ -56,15 +56,20 @@ class NewProjectPopupView extends NewResourcePopupView {
         $('#modalShadow').show();
       }
     });
+
+    // Generate popup to let user choose between opening and creating new project.
     this.projectOptions();
   }
 
+  /**
+   * Manages popup which allows user to open or create a project.
+   */
   projectOptions() {
-    super.injectPopupContents(NewProjectPopupView.html);
+    super.injectPopupContents(NewProjectPopupView.openOrCreate);
 
     $('#new_project').click((event) => {
       event.preventDefault();
-      this.newProject(event);
+      this.newProject();
     });
     $('#open_project').click((event) => {
       event.preventDefault();
@@ -72,8 +77,11 @@ class NewProjectPopupView extends NewResourcePopupView {
     });
   }
 
-  newProject(event) {
-    super.injectPopupContents(NewProjectPopupView.newProject);
+  /**
+   * Manages popup which allows user to enter a new project name.
+   */
+  newProject() {
+    super.injectPopupContents(NewProjectPopupView.newProjectName);
 
     $('#button_newLibrary').click((event) => {
       event.preventDefault();
@@ -90,7 +98,11 @@ class NewProjectPopupView extends NewResourcePopupView {
   }
 }
 
-NewProjectPopupView.html = `
+/**
+ * HTML for popup from which users either create or open a project.
+ * @type {string}
+ */
+NewProjectPopupView.openOrCreate = `
 <header>Blockly Developer Tools</header>
 <form>
 <span style="float:right;">
@@ -100,7 +112,11 @@ NewProjectPopupView.html = `
 </form>
 `;
 
-NewProjectPopupView.newProject = `
+/**
+ * HTML for popup from which users name their new project.
+ * @type {string}
+ */
+NewProjectPopupView.newProjectName = `
 <header>New Project</header>
 <form>
   Project name<br>

@@ -133,7 +133,7 @@ class BlockEditorView {
     // TODO: Make editor show the @param block (when user clicks
     //       on a specific block in the navtree to edit.
     if (!block) {
-      console.warn('Trying to show a ' + block + ' in BlockEditorView');
+      console.warn('Incorrect type: Trying to show a ' + block + ' in BlockEditorView');
       return;
     }
     this.blockDefinition = block;

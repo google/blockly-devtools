@@ -35,4 +35,20 @@ class NewLibraryPopupController extends PopupController {
 
     this.view = new NewLibraryPopupView(this);
   }
+
+  /**
+   * Creates library object and adds to current project if the given library
+   * name is valid.
+   */
+  createLibraryIfValid() {
+    const libName = FactoryUtils.cleanResourceName($('#new_library_name').val());
+    const projectController = this.appController.projectController;
+    if (libName.trim() && !projectController.getProject().getBlockLibrary(libName)) {
+      projectController.createBlockLibrary(libName);
+      this.exit();
+    } else {
+      // If library name is empty, give warning.
+      $('#new_library_warning').html('Please enter a valid library name.');
+    }
+  }
 }
