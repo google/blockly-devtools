@@ -279,14 +279,9 @@ class Project extends Resource {
    * @param {!Object} obj Object to extend with necessary data.
    * @return {!Object} The project metadata.
    */
-<<<<<<< HEAD
-  buildMetaData(obj) {
-    super.buildMetaData(obj);
-=======
   buildMetadata(obj) {
     super.buildMetadata(obj);
     delete obj.file;
->>>>>>> project_metadata
     obj.resources = [];
     obj.platform = 'web';
   }
