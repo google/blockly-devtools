@@ -103,7 +103,7 @@ class Resource {
     obj.web = {
       filepath: ''
       export: true;
-    }
+    };
   }
 
   /**
