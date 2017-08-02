@@ -53,18 +53,12 @@ class NewBlockPopupController extends PopupController {
      */
     this.view = new NewBlockPopupView(this);
 
+    // Updates library dropdown to populate with user-created block libraries.
+    this.updateLibraryDropdown();
+
     // Listeners in the popup
     Emitter(this.view);
     this.view.on('exit', () => {
-      // If there are no blocks in any library
-      const project = this.appController.project;
-      const noBlocks = project.getBlockTypes().length == 0;
-      if (noBlocks) {
-        // Creates empty starter block.
-        const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-            '', '', 'My First Block');
-        this.blockEditorController.view.showStarterBlock(starterXml);
-      }
       this.exit();
     });
 
@@ -95,5 +89,17 @@ class NewBlockPopupController extends PopupController {
    */
   show() {
     this.view.show();
+  }
+
+  /**
+   * Updates dropdown options for library to populate with user-created block
+   * libraries.
+   */
+  updateLibraryDropdown() {
+    const libList = this.appController.projectController.getProject().getBlockLibraryNames();
+    for (let libName of libList) {
+      $('#dropdown_libraryList').append(
+        $('<option></option>').val(libName).html(libName));
+    }
   }
 }

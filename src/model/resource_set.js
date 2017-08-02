@@ -102,7 +102,7 @@ goog.require('Resource');
     let resourceSetJson = [];
     for (let resourceName of this.getNames()) {
       var resourceJson = this.resources[resourceName].getJson();
-      resourceSetTreeJson.push(resourceJson);
+      resourceSetJson.push(resourceJson);
     }
     return resourceSetJson;
   }

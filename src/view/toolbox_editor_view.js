@@ -767,7 +767,7 @@ ToolboxEditorView.html = `
       </div>
     </div>
 
-    <button id="button_remove" class="large">-</button>
+    <button id="button_remove" class="large">-</button><br>
 
     <button id="button_up" class="large">&#8593;</button>
     <button id="button_down" class="large">&#8595;</button>
