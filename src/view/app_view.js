@@ -398,8 +398,8 @@ class AppView {
         editorContr = this.appController.editorController.workspaceController;
       }
 
-      this.appController.editorController.switchEditor(editorContr);
       this.switchView(editorView);
+      this.appController.editorController.switchEditor(editorContr);
     });
   }
 

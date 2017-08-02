@@ -41,7 +41,6 @@ class BlockEditorView {
    *      shown in view.
    */
   constructor(blockDefinition) {
-    console.log('hi');
     /**
      * BlockDefinition currently being edited within the view.
      * @type {!BlockDefinition}
@@ -165,6 +164,10 @@ class BlockEditorView {
     $('#languageTA').on('input', () => {
       controller.updatePreview_();
     });
+
+    $('#language').change(() => {
+      controller.updateGenerator_();
+    });
   }
 
   /**
@@ -286,13 +289,10 @@ class BlockEditorView {
   updateDirection(rtl) {
     const newDir = (rtl == 'rtl');
     if (this.rtl !== newDir) {
-      console.log('Newdir! ' + rtl);
       if (this.previewWorkspace) {
-        console.log('disposed!');
         this.previewWorkspace.dispose();
       }
       this.rtl = newDir;
-      console.log('this.rtl: ' + this.rtl);
       this.previewWorkspace = Blockly.inject('preview',
         {
           rtl: this.rtl,

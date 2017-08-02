@@ -267,10 +267,7 @@ class BlockEditorController {
 
     // Fetch the code and determine its format (JSON or JavaScript).
     let format = $('#format').val();
-    console.log('definition format: ' + format);
-    console.log('format general: ' + BlockEditorController.FORMAT_GENERAL);
     if (format == BlockEditorController.FORMAT_GENERAL) {
-      console.log('General format!');
       var code = $('#languageTA').val();
       // If the code is JSON, it will parse, otherwise treat as JS.
       try {
