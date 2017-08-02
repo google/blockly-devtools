@@ -1,8 +1,0 @@
-name: A Project
-resourceType: Project
-file: 
-web_export: true
-ios_export: false
-android_export: false
-resources: 
-platform: web
