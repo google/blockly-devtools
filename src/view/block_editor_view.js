@@ -85,15 +85,6 @@ class BlockEditorView {
         media: 'media/'
       });
 
-    // Render starter block.
-    // const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-    //     '', this.blockDefinition.type(), 'My First Block');
-    // this.showStarterBlock(starterXml);
-    // this.blockDefinition.setXml(Blockly.Xml.textToDom(starterXml));
-
-    // Update buttons for save/delete/etc.
-    // this.updateButtons(false, false);
-
     // Initialize preview workspace.
     this.previewWorkspace = Blockly.inject('preview',
       {

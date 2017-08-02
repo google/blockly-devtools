@@ -25,10 +25,8 @@ goog.provide('NewProjectPopupController');
 goog.require('PopupController');
 
 /**
- * @fileoverview NewProjectPopupController manages the UI for creating new blocks and
+ * @fileoverview NewProjectPopupController manages the UI for creating new
  * projects.
- *
- * @author celinechoo (Celine Choo)
  */
 class NewProjectPopupController extends PopupController {
   /**

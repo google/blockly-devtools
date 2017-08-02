@@ -86,10 +86,9 @@ class BlockDefinition extends Resource {
    */
   setXml(xml) {
     if (!(xml instanceof Element)) {
+      console.warn('XML set to be a string. Converted to DOM element.');
       xml = Blockly.Xml.textToDom(xml);
     }
-    if (Blockly.Xml.domToText(xml) != Blockly.Xml.domToText(this.xml)) {
-      this.xml = xml;
-    }
+    this.xml = xml;
   }
 }
