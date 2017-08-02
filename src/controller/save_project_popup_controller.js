@@ -31,18 +31,19 @@ goog.require('PopupController');
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-class SaveProjectPopupController extends PopupController{
+class SaveProjectPopupController extends PopupController {
   /**
    * @constructor
    * @param {!AppController} appController AppController for the session.
    * @param {ReadWriteController} readWriteController ReadWriteController for
-   * the session.
+   * the session, used to write files.
    */
   constructor(appController, readWriteController) {
     super(appController);
 
     /**
      * The ReadWriteController for the session, used to write files.
+     * @type {!ReadWriteController}
      */
     this.readWriteController = readWriteController;
 
@@ -66,7 +67,12 @@ class SaveProjectPopupController extends PopupController{
          * prototype, which only remains because it cannot be deleted.
          */
         if (directory != 'prototype') {
-          // The user has chosen a location.
+          /*
+           * The user has chosen a location, indicated by the existence of the
+           * appropriate view variable (the name of this variable is the lower
+           * case version of the matching DIRECTORIES attribute, which conveniently
+           * shares a name with the matching DIRECTORY_LOCAL_STORAGE_TAG attribute).
+           */
           if (this.view[directory.toLowerCase()]) {
             localStorage.setItem(DIRECTORY_LOCAL_STORAGE_TAGS[directory],
               this.view[directory.toLowerCase()]);
