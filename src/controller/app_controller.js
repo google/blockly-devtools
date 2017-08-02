@@ -165,9 +165,15 @@ class AppController {
     this.popupController = new PopupController(this.projectController);
 
     /**
+<<<<<<< HEAD
      * ReadWriteController, which controls reading/writing project data.
      */
     this.readWriteController = new ReadWriteController(this);
+=======
+     * Location where the project directory is saved.
+     */
+    this.storageLocation = localStorage.getItem('devToolsProjectLocation');
+>>>>>>> 626001f31f1405a1f359a86def0eeee741267039
   }
 
   // ======================== CONSTANTS ===========================
@@ -250,7 +256,10 @@ class AppController {
 
   /**
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 626001f31f1405a1f359a86def0eeee741267039
    * Creates the properly nested directory in which to save the project.
    */
   initProjectDirectory() {

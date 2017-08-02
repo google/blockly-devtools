@@ -39,15 +39,16 @@ class ReadWriteController {
    */
   constructor(appController) {
     /**
-     * Location where the project directory is saved.
+     * Whether or not the user has saved before.
+     * @type {string}
      */
-    this.storageLocation = localStorage.getItem('devToolsProjectLocation');
+    this.hasSaved = localStorage.getItem('hasSavedProjectBefore');
 
-    this.projectDir = this.storageLocation + '/' + this.project.name;
-    this.libraryDir = projectDir + '/' + PREFIXES.LIBRARY;
-    this.toolboxDir = projectDir + '/' + PREFIXES.TOOLBOX;
-    this.workspaceDir = projectDir + '/' + PREFIXES.GENERAL_WORKSPACE;
-    this.dirs = [ projectDir, libraryDir, toolboxDir, workspaceDir];
+    this.projectDir = localStorage.getItem('projectDirectory');
+    this.libraryDir = localStorage.getItem('libraryDirectory');
+    this.toolboxDir = localStorage.getItem('toolboxDirectory');
+    this.workspaceDir = localStorage.getItem('workspaceDirectory');
+    this.dirs = [projectDir, libraryDir, toolboxDir, workspaceDir];
   }
   /**
    * Creates the properly nested directory in which to save the project.
@@ -65,7 +66,7 @@ class ReadWriteController {
    */
   saveProject() {
     // Check for viable save location.
-    if (!this.storageLocation) {
+    if (!this.hasSaved) {
       this.popupController = new SaveProjectPopupController(this);
       this.popupController.show();
     } else {
@@ -73,11 +74,10 @@ class ReadWriteController {
       // NOTE: This will be moved/functionalized
       this.initProjectDirectory();
       let data = Object.create(null);
-      this.project.buildMetaData(data);
-      let dataString = this.project.getDataString(data);
+      this.project.buildMetadata(data);
+      let dataString = JSON.stringify(data, null, '\t');
       fs.writeFileSync(
-          this.storageLocation + '/' + this.project.name + '/' +  this.project.name,
-            dataString);
+          this.storageLocation + path.sep + 'metadata', dataString);
     }
   }
 }

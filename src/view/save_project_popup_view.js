@@ -44,9 +44,16 @@ class SaveProjectPopupView extends PopupView {
      * @type {string}
      */
     this.htmlContents = `
-<header>Choose a Project Location</header>
+<header>Choose Project File Locations</header>
 	<form>
-  	<input type="file" nwdirectory id="directory"></input>
+    Project
+      <input type="file" nwdirectory id="projectDirectory"></input>
+    Library
+      <input type="file" nwdirectory id="libraryDirectory"></input>
+    Toolbox
+      <input type="file" nwdirectory id="toolboxDirectory"></input>
+    Workspace
+      <input type="file" nwdirectory id="workspaceDirectory"></input>
   	<input type="button" value="Submit" id="submit">
   	</form>
 `;
