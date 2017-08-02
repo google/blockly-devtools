@@ -171,8 +171,6 @@ class AppController {
 
     // Creates project.
     this.initProject('MyProject');
-    // Creates popup.
-    // this.createPopup(PopupController.NEW_BLOCK);
   }
 
   // ======================== CONSTANTS ===========================
@@ -342,10 +340,8 @@ class AppController {
     if (popupMode === PopupController.NEW_BLOCK) {
       if (this.project.librarySet.isEmpty()) {
         this.popupController = new NewLibraryPopupController(this, true);
-        this.popupController.show();
       } else {
         this.popupController = new NewBlockPopupController(this);
-        this.popupController.show();
       }
     } else if (popupMode === PopupController.PREVIEW) {
       // TODO: Preview popup view
@@ -353,13 +349,13 @@ class AppController {
       // TODO: New config popup view
     } else if (popupMode === PopupController.NEW_PROJECT) {
       this.popupController = new NewProjectPopupController(this);
-      this.popupController.show();
     } else if (popupMode === PopupController.NEW_LIBRARY) {
       this.popupController = new NewLibraryPopupController(this);
-      this.popupController.show();
     } else {
       throw new Error('Popup type ' + popupMode + ' not found.');
+      return;
     }
+    this.popupController.show();
   }
 
   /**
@@ -377,7 +373,6 @@ class AppController {
    * Top-level function for block creation. Updates views, editors, and model.
    */
   createBlockDefinition() {
-    // this.switchEnvironment('block', null);
     this.createPopup(PopupController.NEW_BLOCK);
     this.view.closeFlyout();
   }
@@ -444,11 +439,11 @@ class AppController {
       controller = 'workspace' + controller;
     }
 
-    // Switch editor.
-    this.editorController.switchEditor(this.editorController[controller]);
-
     // Switch view.
     this.view.switchView(this.view[view], resource);
+
+    // Switch editor.
+    this.editorController.switchEditor(this.editorController[controller]);
 
     // Close flyout if open.
     this.view.closeFlyout();

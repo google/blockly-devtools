@@ -1401,6 +1401,6 @@ FactoryUtils.escapeForFileSystem = function(fileName, opt_platform) {
  * @param {string} resourceName Name of resource object to clean.
  */
 FactoryUtils.cleanResourceName = function(resourceName) {
-  // TODO: Clean names of resources (given by users) to minimize errors.
+  // TODO(#166): Clean names of resources (given by users) to minimize errors.
   return resourceName;
 };

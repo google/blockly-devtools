@@ -135,9 +135,6 @@ class AppView {
      */
     this.currentView = this.blockEditorView;
 
-    // Show the current view.
-    // this.currentView.show(this.currentView.blockDefinition.type());
-
     /**
      * Whether or not the flyout for the add button is open.
      * @type {boolean}
@@ -165,7 +162,6 @@ class AppView {
    * Action taken when new project is created.
    */
   showNewProject() {
-    // TODO: Fill in action.
     this.appController.createPopup(PopupController.NEW_PROJECT);
   }
 
@@ -173,7 +169,6 @@ class AppView {
    * Action taken when new library is created.
    */
   showNewLibrary() {
-    // TODO: Fill in action.
     this.appController.createPopup(PopupController.NEW_LIBRARY);
   }
 
