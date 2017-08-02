@@ -250,7 +250,6 @@ class AppController {
    */
   initProject(projectName) {
     this.project = new Project(projectName);
-    this.project.addBlockLibrary(new BlockLibrary('MyLibrary'));
     this.tree = new NavigationTree(this, this.project);
     this.projectController = new ProjectController(this.project, this.tree);
     this.editorController = new EditorController(this.projectController,
@@ -302,8 +301,13 @@ class AppController {
     }
     // Create popup.
     if (popupMode === PopupController.NEW_BLOCK) {
-      this.popupController = new NewBlockPopupController(this);
-      this.popupController.show();
+      if (this.project.librarySet.isEmpty()) {
+        this.popupController = new NewLibraryPopupController(this, true);
+        this.popupController.show();
+      } else {
+        this.popupController = new NewBlockPopupController(this);
+        this.popupController.show();
+      }
     } else if (popupMode === PopupController.PREVIEW) {
       // TODO: Preview popup view
     } else if (popupMode === PopupController.NEW_CONFIG) {

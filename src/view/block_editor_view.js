@@ -292,14 +292,8 @@ BlockEditorView.html = `
       <table>
         <tr id="blockLibrary">
           <td id="blockLibraryControls">
-          <button id="createNewBlockButton" title="Create Block.">
-            Create New Block
-          </button>
-          <button id="saveToBlockLibraryButton" title="Save block to Block Library.">
-            Save "block_type"
-          </button>
-          <button id="removeBlockFromLibraryButton" title="Remove block from Block Library.">
-            Delete "block_type"
+          <button id="createNewBlockButton" class="create" title="Create Block.">
+            Create Block
           </button>
           </td>
         </tr>

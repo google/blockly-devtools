@@ -50,9 +50,7 @@ class NewBlockPopupView extends NewResourcePopupView {
     <input type="text" id="block_name" placeholder="block_type"></input>
     <span id="warning_text">This block already exists!</span><br><br>
   Library<span class="red">*</span><br>
-    <input type="text" id="library" placeholder="my_library"></input>
-    <select id="dropdown_libraryList">
-    </select>
+    <select id="dropdown_libraryList"></select>
     <span id="no_library_warning">No library by that name exists.</span><br><br>
   Block type<span class="red">*</span><br>
     <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
