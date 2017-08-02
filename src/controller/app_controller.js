@@ -279,7 +279,7 @@ class AppController {
       this.initProjectDirectory();
       let data = Object.create(null);
       this.project.buildMetadata(data);
-      let dataString = this.project.getDataString(data);
+      let dataString = this.project.getDataString(data, '');
       fs.writeFileSync(
           this.storageLocation + path.sep + this.project.name + path.sep +
             'metadata', dataString);

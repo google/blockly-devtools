@@ -101,20 +101,28 @@ class Resource {
     obj.resourceType = this.resourceType;
     obj.filepath = '';
     obj.web = {
-      filepath: ''
-      export: true;
+      filepath: '',
+      export: 'true'
     };
   }
 
   /**
    * Converts data object to string, for use in writing save files.
    * @param {!Object} obj Object to create string representation of.
+   * @param {string} indent Indent for nesting web object.
    * @return {!string} String representation of the object.
+   * @recursive
    */
-  getDataString(obj) {
+  getDataString(obj, indent) {
     let objectString = '';
     for (let property in obj) {
-      objectString = objectString + property + ': ' + obj[property] + '\n';
+      if (property != 'web') {
+        objectString = objectString + indent + property + ': ' + obj[property] +
+            '\n';
+      } else {
+        objectString = objectString + property + ': ' + '\n' +
+            this.getDataString(obj[property], '\t')+ '\n';
+      }
     }
     return objectString;
   }
