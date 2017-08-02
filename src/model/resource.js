@@ -32,13 +32,20 @@ class Resource {
   /**
    * Resource Class.
    * @param {string} resourceName The name for the resource.
+   * @param {string} resourceType The type of resource.
    */
-  constructor(resourceName) {
+  constructor(resourceName, resourceType) {
     /**
      * The name of the resource.
      * @type {string}
      */
      this.name = resourceName;
+
+    /**
+     * The type of resource.
+     * @type {string}
+     */
+    this.resourceType = resourceType;
   }
 
   /**
@@ -82,5 +89,19 @@ class Resource {
    */
   setName(newName) {
     this.name = newName;
+  }
+
+  /**
+   * Modifies the JSON object that comprises the resource's metadata.
+   * @param {!Object} obj Object to extend with necessary data.
+   * @return {!Object} The resource metadata.
+   */
+  buildMetadata(obj) {
+    obj.name = this.name;
+    obj.resourceType = this.resourceType;
+    obj.web = {
+      filepath: '',
+      export: 'true'
+    };
   }
 }

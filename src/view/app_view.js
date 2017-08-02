@@ -85,7 +85,7 @@ class AppView {
         ]],
         ['Open Project', () => { this.openProject(); }],
         ['Save', [
-          ['Save All', () => { this.saveProject(); }],
+          ['Save All', () => { this.appController.saveProject(); }],
           ['Save as Web Only', () => { this.saveForWeb(); }],
           ['Save as iOS Only', () => { this.saveForIos(); }],
           ['Save as Android Only', () => { this.saveForAndroid(); }]
@@ -414,9 +414,7 @@ class AppView {
 
     $('#addButton').click(() => {
       if (this.addFlyoutOpen) {
-        FactoryUtils.closeModal('addOptions');
-        this.modalId_ = null;
-        this.addFlyoutOpen = false;
+        this.closeModal_();
       } else {
         FactoryUtils.openModal('addOptions');
         this.modalId_ = 'addOptions';
@@ -426,38 +424,51 @@ class AppView {
     this.assignAddFlyoutClickHandlers();
 
     $('#modalShadow').click(() => {
-      FactoryUtils.closeModal(this.modalId_);
-      this.modalId_ = null;
-      this.addFlyoutOpen = false;
+      this.closeModal_();
     });
   }
 
+  /**
+   * Closes all modal elements and sets this.modalId_ to null.
+   * @private
+   */
+  closeModal_() {
+    FactoryUtils.closeModal(this.modalId_);
+    this.modalId_ = null;
+    this.addFlyoutOpen = false;
+  }
   /**
    * Assigns button click handlers for add button flyout.
    */
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
       this.appController.createBlockDefinition();
+      this.closeModal_();
     });
 
     $('#addLibrary').click(() => {
       this.appController.createLibrary();
+      this.closeModal_();
     });
 
     $('#addToolbox').click(() => {
       this.appController.createToolbox();
+      this.closeModal_();
     });
 
     $('#addWorkspaceContents').click(() => {
       this.appController.createWorkspaceContents();
+      this.closeModal_();
     });
 
     $('#addWorkspaceConfig').click(() => {
       this.appController.createWorkspaceConfiguration();
+      this.closeModal_();
     });
 
     $('#createNewBlockButton').click(() => {
       this.appController.createPopup(PopupController.NEW_BLOCK);
+      this.closeModal_();
     });
   }
 

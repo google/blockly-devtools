@@ -25,7 +25,7 @@ goog.provide('NewProjectPopupView');
 goog.require('NewResourcePopupView');
 
 /**
- * @fileoverview NewLibraryPopupView deals with the UI for creating new projects.
+ * @fileoverview NewProjectPopupView deals with the UI for creating new projects.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
