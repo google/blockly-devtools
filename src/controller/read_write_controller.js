@@ -25,36 +25,42 @@ goog.provide('ReadWriteController');
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 
-
-  class DIRECTORY_LOCAL_STORAGE_TAGS {
-    static get PROJECT() {
-      return PREFIXES.PROJECT;
-    }
-    static get LIBRARY() {
-      return PREFIXES.LIBRARY;
-    }
-    static get TOOLBOX() {
-      return PREFIXES.TOOLBOX;
-    }
-    static get GENERAL_WORKSPACE() {
-      return PREFIXES.GENERAL_WORKSPACE;
-    }
+/**
+ * Class containing static getters for the keys used to locally store directory
+ * locatons.
+ */
+class DIRECTORY_LOCAL_STORAGE_KEYS {
+  static get PROJECT() {
+    return PREFIXES.PROJECT;
   }
-
-  class DIRECTORIES {
-    static get PROJECT() {
-      return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_TAGS.PROJECT);
-    }
-    static get LIBRARY() {
-      return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_TAGS.LIBRARY);
-    }
-    static get TOOLBOX() {
-      return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_TAGS.TOOLBOX);
-    }
-    static get GENERAL_WORKSPACE() {
-      return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_TAGS.GENERAL_WORKSPACE);
-    }
+  static get LIBRARY() {
+    return PREFIXES.LIBRARY;
   }
+  static get TOOLBOX() {
+    return PREFIXES.TOOLBOX;
+  }
+  static get GENERAL_WORKSPACE() {
+    return PREFIXES.GENERAL_WORKSPACE;
+  }
+}
+
+/**
+ * Class containing static getters for directory locations of each resource.
+ */
+class DIRECTORIES {
+  static get PROJECT() {
+    return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_KEYS.PROJECT);
+  }
+  static get LIBRARY() {
+    return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_KEYS.LIBRARY);
+  }
+  static get TOOLBOX() {
+    return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_KEYS.TOOLBOX);
+  }
+  static get GENERAL_WORKSPACE() {
+    return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_KEYS.GENERAL_WORKSPACE);
+  }
+}
 
 /**
  * @fileoverview ReadWriteController manages reading/writing all files
@@ -69,21 +75,26 @@ class ReadWriteController {
    */
   constructor(appController) {
 
+    /**
+     * The app controller for the session, used to get the project.
+     * @type {AppController}
+     */
     this.appController = appController;
 
     /**
      * Whether or not the user has saved before.
-     * @type {string}
+     * @type {?string}
      */
     this.hasSaved = localStorage.getItem('hasSavedProjectBefore');
 
+    /*
+     * Remove unused attributes of the DIRECTORIES and
+     * DIRECTORY_LOCAL_STORAGE_KEYS classes.
+     */
     delete DIRECTORIES.length;
-
     delete DIRECTORIES.name;
-
-    delete DIRECTORY_LOCAL_STORAGE_TAGS.length;
-
-    delete DIRECTORY_LOCAL_STORAGE_TAGS.name;
+    delete DIRECTORY_LOCAL_STORAGE_KEYS.length;
+    delete DIRECTORY_LOCAL_STORAGE_KEYS.name;
   }
 
   /**
@@ -101,8 +112,7 @@ class ReadWriteController {
    * Saves entire project to the developer's file system.
    */
   saveProject() {
-    // Check for viable save location.
-    if (!this.hasSaved || !DIRECTORIES.PROJECT) {
+    if (!this.hasSaved) {
       this.popupController = new SaveProjectPopupController(this.appController,
           this);
       this.popupController.show();
