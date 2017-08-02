@@ -437,6 +437,7 @@ class AppView {
     this.modalId_ = null;
     this.addFlyoutOpen = false;
   }
+
   /**
    * Assigns button click handlers for add button flyout.
    */
@@ -451,7 +452,7 @@ class AppView {
       this.closeModal_();
     });
 
-    $('#addToolbox').click(() => {
+    $('#addToolbox').unbind('click').click(() => {
       this.appController.createToolbox();
       this.closeModal_();
     });
@@ -504,14 +505,5 @@ class AppView {
   onresize(event) {
     // Move in from app_controller.js
     throw 'Unimplemented: onresize()';
-  }
-
-  /**
-   * Closes the new element flyout.
-   */
-  closeFlyout() {
-    FactoryUtils.closeModal(this.modalId_);
-    this.modalId_ = null;
-    this.addFlyoutOpen = false;
   }
 }
