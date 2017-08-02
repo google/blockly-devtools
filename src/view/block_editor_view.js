@@ -143,10 +143,12 @@ class BlockEditorView {
    */
   init(controller) {
     this.editorWorkspace.addChangeListener((event) => {
-      // Update the block editor view.
-      controller.refreshPreviews();
       // Save block's changes into BlockDefinition model object.
       controller.updateBlockDefinition();
+      // Update the block editor view.
+      controller.refreshPreviews();
+      // Disable orphans.
+      Blockly.Events.disableOrphans(event);
     });
 
     // LTR <-> RTL
