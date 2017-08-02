@@ -165,15 +165,9 @@ class AppController {
     this.popupController = new PopupController(this.projectController);
 
     /**
-<<<<<<< HEAD
      * ReadWriteController, which controls reading/writing project data.
      */
     this.readWriteController = new ReadWriteController(this);
-=======
-     * Location where the project directory is saved.
-     */
-    this.storageLocation = localStorage.getItem('devToolsProjectLocation');
->>>>>>> 626001f31f1405a1f359a86def0eeee741267039
   }
 
   // ======================== CONSTANTS ===========================
@@ -255,32 +249,11 @@ class AppController {
   }
 
   /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 626001f31f1405a1f359a86def0eeee741267039
-   * Creates the properly nested directory in which to save the project.
-   */
-  initProjectDirectory() {
-    const projectDir = this.storageLocation + path.sep + this.project.name;
-    const libraryDir = projectDir + path.sep + PREFIXES.LIBRARY;
-    const toolboxDir = projectDir + path.sep + PREFIXES.TOOLBOX;
-    const workspaceDir = projectDir + path.sep + PREFIXES.GENERAL_WORKSPACE;
-    const dirs = [projectDir, libraryDir, toolboxDir, workspaceDir];
-    for (let dir in dirs) {
-      if (!fs.existsSync(dirs[dir])) {
-        fs.mkdir(dirs[dir]);
-      }
-    }
-  }
-
-  /**
    * Top-level function which is first called in order to save a project to
    * developer's file system.
    */
   saveProject() {
-    this.readWriteController.saveAll();
+    this.readWriteController.saveProject();
   }
 
   /**

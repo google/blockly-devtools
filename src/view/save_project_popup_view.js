@@ -46,14 +46,14 @@ class SaveProjectPopupView extends PopupView {
     this.htmlContents = `
 <header>Choose Project File Locations</header>
 	<form>
-    Project
-      <input type="file" nwdirectory id="projectDirectory"></input>
+    Project<span class="red">*</span>
+      <input type="file" nwdirectory id="projectDirectory"></input><br><br>
     Library
-      <input type="file" nwdirectory id="libraryDirectory"></input>
+      <input type="file" nwdirectory id="libraryDirectory"></input><br><br>
     Toolbox
-      <input type="file" nwdirectory id="toolboxDirectory"></input>
+      <input type="file" nwdirectory id="toolboxDirectory"></input><br><br>
     Workspace
-      <input type="file" nwdirectory id="workspaceDirectory"></input>
+      <input type="file" nwdirectory id="workspaceDirectory"></input><br><br>
   	<input type="button" value="Submit" id="submit">
   	</form>
 `;
@@ -80,7 +80,10 @@ class SaveProjectPopupView extends PopupView {
       this.emit('exit');
     });
     $('#submit').click(() => {
-      this.storageLocation = $('#directory').val();
+      this.project = $('#projectDirectory').val();
+      this.library = $('#libraryDirectory').val();
+      this.toolbox = $('#toolboxDirectory').val();
+      this.general_workspace = $('#workspaceDirectory').val();
     	this.hide();
       this.emit('submit');
     });

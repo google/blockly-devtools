@@ -31,13 +31,20 @@ goog.require('PopupController');
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-class SaveProjectPopupController extends PopupController {
+class SaveProjectPopupController extends PopupController{
   /**
    * @constructor
-   * @param {AppController} appController AppController for the session.
+   * @param {!AppController} appController AppController for the session.
+   * @param {ReadWriteController} readWriteController ReadWriteController for
+   * the session.
    */
-  constructor(appController) {
+  constructor(appController, readWriteController) {
     super(appController);
+
+    /**
+     * The ReadWriteController for the session, used to write files.
+     */
+    this.readWriteController = readWriteController;
 
     /**
      * The popup view that this popup controller manages.
@@ -51,18 +58,31 @@ class SaveProjectPopupController extends PopupController {
       this.exit();
     });
 
-    const blockEditorController = this.blockEditorController;
     this.view.on('submit', () => {
-      this.appController.storageLocation = this.view.storageLocation;
-      localStorage.setItem('devToolsProjectLocation', this.appController.storageLocation);
-      // NOTE: This will be moved/functionalized
-      this.appController.initProjectDirectory();
-      let data = Object.create(null);
-      this.appController.project.buildMetaData(data);
-      let dataString = this.appController.project.getDataString(data);
-      fs.writeFileSync(
-          this.appController.storageLocation + '/' + this.appController.project.name +
-            '/' +  this.appController.project.name, dataString);
+      // Save location for each directory, or, if none chosen, set a default.
+      for (let directory of Object.getOwnPropertyNames(DIRECTORIES)) {
+        /*
+         * Set locations for all properties of the DIRECTORIES class except for
+         * prototype, which only remains because it cannot be deleted.
+         */
+        if (directory != 'prototype') {
+          // The user has chosen a location.
+          if (this.view[directory.toLowerCase()]) {
+            localStorage.setItem(DIRECTORY_LOCAL_STORAGE_TAGS[directory],
+              this.view[directory.toLowerCase()]);
+          } else {
+          /*
+           * No location has been chosen, leading to the creation of a default
+           * directory of the same name as the local storage tag.
+           */
+            localStorage.setItem(DIRECTORY_LOCAL_STORAGE_TAGS[directory],
+              DIRECTORY_LOCAL_STORAGE_TAGS[directory]);
+          }
+        }
+      }
+      // Save the project.
+      this.readWriteController.writeDataFile(this.appController.project,
+          DIRECTORIES.PROJECT);
       this.exit();
     });
   }
