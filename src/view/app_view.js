@@ -135,9 +135,6 @@ class AppView {
      */
     this.currentView = this.blockEditorView;
 
-    // Show the current view.
-    this.currentView.show(this.currentView.blockDefinition.type());
-
     /**
      * Whether or not the flyout for the add button is open.
      * @type {boolean}
@@ -165,14 +162,14 @@ class AppView {
    * Action taken when new project is created.
    */
   showNewProject() {
-    // TODO: Fill in action.
+    this.appController.createPopup(PopupController.NEW_PROJECT);
   }
 
   /**
    * Action taken when new library is created.
    */
   showNewLibrary() {
-    // TODO: Fill in action.
+    this.appController.createPopup(PopupController.NEW_LIBRARY);
   }
 
   /**
@@ -382,24 +379,27 @@ class AppView {
    * @private
    */
   tabClickHandlers_() {
-    $('.tab').click((event) => {
+    $('.tab').unbind('click').click((event) => {
       const clickedTab = event.currentTarget;
       const editorName = event.currentTarget.id;
-      let editorView, editorContr;
+      let editorView, editorContr, resource;
 
       if (editorName == AppController.BLOCK_EDITOR) {
         editorView = this.blockEditorView;
         editorContr = this.appController.editorController.blockEditorController;
+        resource = PREFIXES.VARIABLE_BLOCK + 'Definition';
       } else if (editorName == AppController.TOOLBOX_EDITOR) {
         editorView = this.toolboxEditorView;
         editorContr = this.appController.editorController.toolboxController;
+        resource = PREFIXES.VARIABLE_TOOLBOX;
       } else if (editorName == AppController.WORKSPACE_EDITOR) {
         editorView = this.workspaceEditorView;
         editorContr = this.appController.editorController.workspaceController;
+        resource = PREFIXES.VARIABLE_WORKSPACECONTENTS;
       }
 
-      this.switchView(editorView);
-      this.appController.editorController.switchEditor(editorContr);
+      // Switches editor.
+      this.appController.switchEnvironment(editorName, editorView[resource]);
     });
   }
 
@@ -507,19 +507,11 @@ class AppView {
   }
 
   /**
-   * Creates modal popup for populating inputs into block definition starter
-   * block in Block Definition Editor.
-   *
-   * @param {boolean} firstLoad Whether the popup is generated upon first loading
-   *     the application.
+   * Closes the new element flyout.
    */
-  createBlocklyInitPopup(firstLoad) {
-    /*
-     * TODO: Move in from app_controller.js
-     *
-     * References:
-     * - this.newBlockDialogController.showNewBlockDiaog(firstLoad)
-     */
-    throw 'Unimplemented: createBlocklyInitPopup()';
+  closeFlyout() {
+    FactoryUtils.closeModal(this.modalId_);
+    this.modalId_ = null;
+    this.addFlyoutOpen = false;
   }
 }

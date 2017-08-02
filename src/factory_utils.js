@@ -36,13 +36,37 @@ goog.provide('FactoryUtils');
 
 
 /**
- * Get block definition code for the current block.
+ * Get block definition code for the current block, given editor workspace.
  * @param {string} format 'JSON' or 'JavaScript'.
  * @param {!Blockly.Workspace} workspace Where the root block lives.
  * @return {string} Block definition.
  */
 FactoryUtils.getBlockDefinition = function(format, workspace) {
-  const rootBlock = FactoryUtils.getRootBlock(workspace);
+  var rootBlock = FactoryUtils.getRootBlock(workspace);
+  return FactoryUtils.getBlockDefFromRoot_(format, rootBlock);
+};
+
+/**
+ * Get block definition code for the current block, given XML.
+ * @param {string} format 'JSON' or 'JavaScript'.
+ * @param {!Element} rootXml XML of root block which contains information about
+ *     block.
+ * @param {!Blockly.Workspace} workspace Hidden workspace used to generate the
+ *     root block.
+ * @return {string} Block definition.
+ */
+FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
+  var rootBlock = Blockly.Xml.domToBlock(rootXml, workspace);
+  return FactoryUtils.getBlockDefFromRoot_(format, rootBlock);
+};
+
+/**
+ * Get block definition code for the current block, given root block.
+ * @param {string} format 'JSON' or 'JavaScript'.
+ * @param {!Blockly.Block} rootBlock The root block displayed on editor workspace.
+ * @return {string} Block definition.
+ */
+FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock) {
   const blockType = FactoryUtils.cleanBlockType(rootBlock.getFieldValue('NAME'));
   switch (format) {
     case 'JSON':
@@ -1220,6 +1244,7 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
  * @param {string} blockTypeName Name of block, given by user.
  * @param {string=} optBlockStarterText Starter text to place on block, given by
  *     user (optional).
+ * @return {string} String representation of XML starter code for block editor.
  */
 FactoryUtils.buildBlockEditorStarterXml = function(
     inputType, blockTypeName, optBlockStarterText) {
@@ -1228,7 +1253,7 @@ FactoryUtils.buildBlockEditorStarterXml = function(
   blockTypeName = blockTypeName || 'block_type';
   var textXmlStarter = '';
 
-  if (optBlockStarterText.trim()) {
+  if (optBlockStarterText && optBlockStarterText.trim()) {
     // Adds optional text to custom block.
     textXmlStarter = '<value name="FIELDS">' +
     '<block type="field_static">' +
@@ -1367,4 +1392,15 @@ ${xmlStorageVariable}['${resource.name}'] =
 FactoryUtils.escapeForFileSystem = function(fileName, opt_platform) {
   // TODO(#156): Implement escaping a file name so that it is file-system friendly,
   // depending on platform.
+};
+
+/**
+ * Given the name of a resource object, return the DevTools-safe name. Must not
+ * have special characters, no spaces. If there are spaces, will default to
+ * camelCase.
+ * @param {string} resourceName Name of resource object to clean.
+ */
+FactoryUtils.cleanResourceName = function(resourceName) {
+  // TODO(#166): Clean names of resources (given by users) to minimize errors.
+  return resourceName;
 };

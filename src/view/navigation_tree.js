@@ -272,15 +272,15 @@ class NavigationTree {
   changeView(id) {
     const prefix = id.split('_')[0];
     if (prefix === PREFIXES.LIBRARY) {
-      //Here's where tab switching happens
-      console.log('Node type: BlockLibray. No response has been coded.');
+      // Here's where tab switching happens
+      console.warn('Node type: BlockLibrary. No response has been coded.');
     } else if (prefix === PREFIXES.TOOLBOX) {
-      //Here's where tab switching happens
-      console.log('Node type: Toolbox. No response has been coded.');
+      // Here's where tab switching happens
+      console.warn('Node type: Toolbox. No response has been coded.');
     } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
       prefix === PREFIXES.WORKSPACE_CONFIG) {
-        //Here's where tab switching happens
-        console.log('Node type: Workspace Contents or Configuration. No response has been coded.');
+      // Here's where tab switching happens
+      console.warn('Node type: Workspace Contents or Configuration. No response has been coded.');
     } else if (prefix === PREFIXES.BLOCK) {
       // Open the block.
       this.appController.editorController.blockEditorController.view.openBlock(id);

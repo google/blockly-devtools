@@ -31,9 +31,9 @@ body {
 }
 
 header {
-  font-weight:bold;
-  font-size:140%;
-  text-align:center;
+  font-weight: bold;
+  font-size: 140%;
+  margin-bottom: 20px;
 }
 
 h1 {
@@ -66,6 +66,10 @@ p {
   -webkit-margin-start: 0px;
   -webkit-margin-end: 0px;
   padding: 5px 0px;
+}
+
+input {
+  width: 100%;
 }
 
 #factoryHeader {
@@ -697,15 +701,16 @@ td.taboff:hover {
 
 .popup .box {
   background: white;
-  border: 1px solid #8c8c8c;
+  border: 1px solid #e0e0e0;
+  border-radius:3px;
   left: 0;
-  margin: 10% 20%;
+  margin: 10% 30%;
   max-height: 80%;
   overflow: scroll;
-  padding: 20px;
+  padding: 40px;
   position: absolute;
   top: 0;
-  width: 60%;
+  width: 40%;
   z-index:101;
 }
 
@@ -721,14 +726,16 @@ td.taboff:hover {
 }
 
 #exit {
-  border: 1px solid black;
+  border: 10px solid white;
   border-radius: 50%;
   color: f00;
   cursor: pointer;
-  float: right;
+  font-size:15px;
   height: 15px;
   opacity: .4;
-  padding: 10px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
   width: 15px;
 }
 

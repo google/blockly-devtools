@@ -86,15 +86,6 @@ class BlockEditorView {
         media: 'media/'
       });
 
-    // Render starter block.
-    const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-        '', this.blockDefinition.type(), 'My First Block');
-    this.showStarterBlock(starterXml);
-    this.blockDefinition.setXml(Blockly.Xml.textToDom(starterXml));
-
-    // Update buttons for save/delete/etc.
-    this.updateButtons(false, false);
-
     // Initialize preview workspace.
     this.previewWorkspace = Blockly.inject('preview',
       {
@@ -132,7 +123,15 @@ class BlockEditorView {
     Blockly.svgResize(this.previewWorkspace);
 
     // TODO: Make editor show the @param block (when user clicks
-    //       on a specific block in the navtree to edit.)
+    //       on a specific block in the navtree to edit.
+    if (!block) {
+      console.warn('Incorrect type: Trying to show a ' + block + ' in BlockEditorView');
+      return;
+    }
+    this.blockDefinition = block;
+
+    this.editorWorkspace.clear();
+    Blockly.Xml.domToWorkspace(block.getXml(), this.editorWorkspace);
   }
 
   /**
@@ -287,14 +286,8 @@ BlockEditorView.html = `
       <table>
         <tr id="blockLibrary">
           <td id="blockLibraryControls">
-          <button id="createNewBlockButton" title="Create Block.">
-            Create New Block
-          </button>
-          <button id="saveToBlockLibraryButton" title="Save block to Block Library.">
-            Save "block_type"
-          </button>
-          <button id="removeBlockFromLibraryButton" title="Remove block from Block Library.">
-            Delete "block_type"
+          <button id="createNewBlockButton" class="create" title="Create Block.">
+            Create Block
           </button>
           </td>
         </tr>
