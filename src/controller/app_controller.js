@@ -255,7 +255,7 @@ class AppController {
     const libraryDir = projectDir + '/' + PREFIXES.LIBRARY;
     const toolboxDir = projectDir + '/' + PREFIXES.TOOLBOX;
     const workspaceDir = projectDir + '/' + PREFIXES.GENERAL_WORKSPACE;
-    const dirs = [ projectDir, libraryDir, toolboxDir, workspaceDir];
+    const dirs = [projectDir, libraryDir, toolboxDir, workspaceDir];
     for (let dir in dirs) {
       if (!fs.existsSync(dirs[dir])) {
         fs.mkdir(dirs[dir]);
@@ -277,10 +277,10 @@ class AppController {
       // NOTE: This will be moved/functionalized
       this.initProjectDirectory();
       let data = Object.create(null);
-      this.project.buildMetaData(data);
+      this.project.buildMetadata(data);
       let dataString = this.project.getDataString(data);
       fs.writeFileSync(
-          this.storageLocation + '/' + this.project.name + '/' +  this.project.name,
+          this.storageLocation + '/' + this.project.name + '/' +  'metadata',
             dataString);
     }
   }
