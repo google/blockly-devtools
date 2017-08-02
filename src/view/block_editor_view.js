@@ -159,14 +159,15 @@ class BlockEditorView {
 
     // JSON <-> JS for Block Definition
     $('#format').change(() => {
-      // controller.updateBlockDefinitionView_($('#format').val());
       controller.changeFormat();
     });
 
+    // Update preview as user manually defines block.
     $('#languageTA').on('input', () => {
       controller.updatePreview_();
     });
 
+    // Update code generator
     $('#language').change(() => {
       controller.updateGenerator_();
     });
