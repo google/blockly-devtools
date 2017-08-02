@@ -20,18 +20,27 @@
 
 'use strict';
 
-goog.provide('NewResourcePopupView');
+goog.provide('NewProjectPopupController');
 
-goog.require('PopupView');
+goog.require('PopupController');
+
 /**
- * @fileoverview Top-level class for all new resource popup UIs.
- *
- * @author celinechoo (Celine Choo), sagev (Sage Vouse)
+ * @fileoverview NewProjectPopupController manages the UI for creating new
+ * projects.
  */
+class NewProjectPopupController extends PopupController {
+  /**
+   * Manages popup which allows users to create or open new projects.
+   * @param {!AppController} appController Controller which manages application
+   *     and makes proper changes after the user interacts with popup.
+   */
+  constructor(appController) {
+    super(appController);
 
-class NewResourcePopupView extends PopupView {
-  // TODO: Add functions.
-  constructor(controller) {
-    super(controller);
+    /**
+     * View portion of new project popup.
+     * @type {!NewProjectPopupView}
+     */
+    this.view = new NewProjectPopupView(this);
   }
 }

@@ -67,6 +67,11 @@ class PopupView {
 </div>
 `;
     $('.popup').html(this.htmlContents);
+
+    $('#exit').click(() => {
+      this.controller.exit();
+    });
+
     return this.htmlContents;
   }
 
