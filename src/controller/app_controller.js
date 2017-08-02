@@ -164,9 +164,9 @@ class AppController {
     this.popupController = new PopupController(this.projectController);
 
     /**
-     * Location where the project directory is saved.
+     * ReadWriteController, which controls reading/writing project data.
      */
-    this.storageLocation = localStorage.getItem('devToolsProjectLocation');
+    this.readWriteController = new ReadWriteController(this);
   }
 
   // ======================== CONSTANTS ===========================
@@ -248,41 +248,11 @@ class AppController {
   }
 
   /**
-   * Creates the properly nested directory in which to save the project.
-   */
-  initProjectDirectory() {
-    const projectDir = this.storageLocation + '/' + this.project.name;
-    const libraryDir = projectDir + '/' + PREFIXES.LIBRARY;
-    const toolboxDir = projectDir + '/' + PREFIXES.TOOLBOX;
-    const workspaceDir = projectDir + '/' + PREFIXES.GENERAL_WORKSPACE;
-    const dirs = [ projectDir, libraryDir, toolboxDir, workspaceDir];
-    for (let dir in dirs) {
-      if (!fs.existsSync(dirs[dir])) {
-        fs.mkdir(dirs[dir]);
-      }
-    }
-  }
-
-  /**
    * Top-level function which is first called in order to save a project to
    * developer's file system.
    */
   saveProject() {
-    // Check for viable save location.
-    if (!this.storageLocation) {
-      this.popupController = new SaveProjectPopupController(this);
-      this.popupController.show();
-    } else {
-      // Create directory in which to save the project if none exists.
-      // NOTE: This will be moved/functionalized
-      this.initProjectDirectory();
-      let data = Object.create(null);
-      this.project.buildMetaData(data);
-      let dataString = this.project.getDataString(data);
-      fs.writeFileSync(
-          this.storageLocation + '/' + this.project.name + '/' +  this.project.name,
-            dataString);
-    }
+    this.readWriteController.saveAll();
   }
 
   /**

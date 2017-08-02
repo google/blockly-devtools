@@ -280,8 +280,8 @@ class Project extends Resource {
    * @return {!Object} The project metadata.
    */
   buildMetaData(obj) {
-   super.buildMetaData(obj);
-   obj.resources = [];
-   obj.platform = 'web';
+    super.buildMetaData(obj);
+    obj.resources = [];
+    obj.platform = 'web';
   }
 }
