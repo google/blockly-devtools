@@ -127,22 +127,22 @@ class BlockEditorController {
    */
   changeFormat() {
     // From factory.js:formatChange()
-    const mask = document.getElementById('blocklyMask');
-    const languagePre = document.getElementById('languagePre');
-    const languageTA = document.getElementById('languageTA');
-    if (document.getElementById('format').value == 'Manual') {
+    const mask = $('#blocklyMask');
+    const languagePre = $('#languagePre');
+    const languageTA = $('#languageTA');
+    if ($('#format').val() == BlockEditorController.FORMAT_MANUAL) {
       Blockly.hideChaff();
-      mask.style.display = 'block';
-      languagePre.style.display = 'none';
-      languageTA.style.display = 'block';
-      var code = languagePre.textContent.trim();
-      languageTA.value = code;
+      mask.show();
+      languagePre.hide();
+      languageTA.show();
+      const code = languagePre.text().trim();
+      languageTA.val(code);
       languageTA.focus();
       this.updatePreview_();
     } else {
-      mask.style.display = 'none';
-      languageTA.style.display = 'none';
-      languagePre.style.display = 'block';
+      mask.hide();
+      languageTA.hide();
+      languagePre.show();
       this.updateLanguage();
     }
   }
@@ -197,9 +197,7 @@ class BlockEditorController {
    * @private
    */
   updateBlockDefinitionView_(format) {
-    const manual = format == BlockEditorController.FORMAT_MANUAL ? true : false;
-
-    if (manual) {
+    if (format == BlockEditorController.FORMAT_MANUAL) {
       const defCode = $('#languagePre').val();
       this.view.updateBlockDefinitionView(defCode, /* opt_manual */ true);
     } else {
