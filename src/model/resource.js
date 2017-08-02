@@ -99,10 +99,11 @@ class Resource {
   buildMetadata(obj) {
     obj.name = this.name;
     obj.resourceType = this.resourceType;
-    obj.file = '';
-    obj.web_export = true;
-    obj.ios_export = false;
-    obj.android_export = false;
+    obj.filepath = '';
+    obj.web = {
+      filepath: ''
+      export: true;
+    }
   }
 
   /**
