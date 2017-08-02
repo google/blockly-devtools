@@ -51,7 +51,6 @@ class SaveProjectPopupController extends PopupController {
       this.exit();
     });
 
-    const view = this.view;
     const blockEditorController = this.blockEditorController;
     this.view.on('submit', () => {
       this.appController.storageLocation = this.view.storageLocation;

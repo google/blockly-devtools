@@ -96,7 +96,7 @@ class Resource {
    * @param {!Object} obj Object to extend with necessary data.
    * @return {!Object} The resource metadata.
    */
-  buildMetaData(obj) {
+  buildMetadata(obj) {
     obj.name = this.name;
     obj.resourceType = this.resourceType;
     obj.file = '';
