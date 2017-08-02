@@ -10,7 +10,8 @@
       DevTools = new AppController();
       window.addEventListener('beforeunload', DevTools.confirmLeavePage);
       // Generate new project popup.
-      DevTools.createPopup(PopupController.NEW_PROJECT);
+      // DevTools.createPopup(PopupController.NEW_PROJECT);
+      DevTools.initProject('MyProject');
     });
   </script>
 </head>

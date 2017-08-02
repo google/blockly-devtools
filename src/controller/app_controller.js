@@ -156,7 +156,12 @@ class AppController {
      * the course of using DevTools. Null if no popup is open.
      * @type {?PopupController}
      */
-    this.popupController = new NewProjectPopupController(this);
+    this.popupController = null;
+
+    // Creates project.
+    this.initProject('MyProject');
+    // Creates popup.
+    // this.createPopup(PopupController.NEW_BLOCK);
   }
 
   // ======================== CONSTANTS ===========================
@@ -290,8 +295,12 @@ class AppController {
    * @param {string} popupMode Type of popup to be shown.
    */
   createPopup(popupMode) {
-    if (popupMode === PopupController.NEW_BLOCK) {
+    // Exit last popup if exists.
+    if (this.popupController) {
       this.popupController.exit();
+    }
+    // Create popup.
+    if (popupMode === PopupController.NEW_BLOCK) {
       this.popupController = new NewBlockPopupController(this);
       this.popupController.show();
     } else if (popupMode === PopupController.PREVIEW) {
@@ -299,11 +308,9 @@ class AppController {
     } else if (popupMode === PopupController.NEW_CONFIG) {
       // TODO: New config popup view
     } else if (popupMode === PopupController.NEW_PROJECT) {
-      this.popupController.exit();
       this.popupController = new NewProjectPopupController(this);
       this.popupController.show();
     } else if (popupMode === PopupController.NEW_LIBRARY) {
-      this.popupController.exit();
       this.popupController = new NewLibraryPopupController(this);
       this.popupController.show();
     } else {
@@ -376,27 +383,31 @@ class AppController {
 
   /**
    * Switches view and editor, closes any open modal elements.
-   * @param {string} element The type of element to switch the view and editor
-   *     based off of, in camel case (but beginning with a lower case letter).
-   * @param {?Resource} resource The resource to display upon switching the view.
+   * @param {string} editor The editor to switch to.
+   * @param {!Resource} resource The resource to display upon switching the view.
    */
-  switchEnvironment(element, resource) {
-    var resourceReference;
-    if (element == PREFIXES.VARIABLE_WORKSPACECONTENTS ||
-        element == PREFIXES.VARIABLE_WORKSPACECONFIGURATION) {
-      resourceReference = element;
-      element = 'workspace';
-    } else {
-      resourceReference = element;
+  switchEnvironment(editor, resource) {
+    var view = 'EditorView';
+    var controller = 'EditorController';
+
+    if (editor == AppController.BLOCK_EDITOR) {
+      view = PREFIXES.VARIABLE_BLOCK + view;
+      controller = PREFIXES.VARIABLE_BLOCK + controller;
+    } else if (editor == AppController.TOOLBOX_EDITOR) {
+      view = PREFIXES.VARIABLE_TOOLBOX + view;
+      controller = PREFIXES.VARIABLE_TOOLBOX + controller;
+    } else if (editor == AppController.WORKSPACE_EDITOR) {
+      view = 'workspace' + view;
+      controller = 'workspace' + controller;
     }
-    const controller = element + 'EditorController';
-    const view = element + 'EditorView';
-    this.editorController.switchEditor(
-          this.editorController[controller]);
-    if (resource) {
-      this.view[view][resourceReference] = resource;
-    }
+
+    // Switch editor.
+    this.editorController.switchEditor(this.editorController[controller]);
+
+    // Switch view.
     this.view.switchView(this.view[view], resource);
+
+    // Close flyout if open.
     this.view.closeFlyout();
   }
 }

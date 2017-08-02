@@ -365,6 +365,8 @@ class AppView {
   switchView(editorView, resource) {
     this.currentView.hide();
     this.currentView = editorView;
+    console.log('current view');
+    console.log(this.currentView);
     this.currentView.show(resource);
   }
 
@@ -384,7 +386,7 @@ class AppView {
    * @private
    */
   tabClickHandlers_() {
-    $('.tab').click((event) => {
+    $('.tab').unbind('click').click((event) => {
       const clickedTab = event.currentTarget;
       const editorName = event.currentTarget.id;
       let editorView, editorContr, resource;
@@ -403,8 +405,9 @@ class AppView {
         resource = PREFIXES.VARIABLE_WORKSPACECONTENTS;
       }
 
-      this.appController.editorController.switchEditor(editorContr);
-      this.switchView(editorView, editorView[resource]);
+      // Switches editor.
+      console.log(editorView[resource]);
+      this.appController.switchEnvironment(editorName, editorView[resource]);
     });
   }
 

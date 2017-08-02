@@ -131,15 +131,15 @@ class BlockEditorView {
     Blockly.svgResize(this.previewWorkspace);
 
     // TODO: Make editor show the @param block (when user clicks
-    //       on a specific block in the navtree to edit.)
+    //       on a specific block in the navtree to edit.
+    if (!block) {
+      console.warn('Trying to show a ' + block + ' in BlockEditorView');
+      return;
+    }
     this.blockDefinition = block;
-    console.log('Setting blockDef within show()');
-    console.log(this.blockDefinition);
-    const blockXml = this.blockDefinition.getXml();
 
     this.editorWorkspace.clear();
-    Blockly.Xml.domToWorkspace(blockXml, this.editorWorkspace);
-    // this.controller.refreshPreviews();
+    Blockly.Xml.domToWorkspace(block.getXml(), this.editorWorkspace);
   }
 
   /**

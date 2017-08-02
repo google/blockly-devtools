@@ -58,15 +58,6 @@ class NewBlockPopupController extends PopupController {
     // Listeners in the popup
     Emitter(this.view);
     this.view.on('exit', () => {
-      // If there are no blocks in any library
-      const project = this.appController.project;
-      const noBlocks = project.getBlockTypes().length == 0;
-      if (noBlocks) {
-        // Creates empty starter block.
-        const starterXml = FactoryUtils.buildBlockEditorStarterXml(
-            '', '', 'My First Block');
-        this.blockEditorController.view.showStarterBlock(starterXml);
-      }
       this.exit();
     });
 
@@ -75,6 +66,10 @@ class NewBlockPopupController extends PopupController {
     this.view.on('submit', () => {
       blockEditorController.createNewBlock(
           view.inputType, view.blockName, view.libraryName, view.blockText);
+      // const blockDef = this.appController.projectController.createBlockDefinition(view.blockName, view.libraryName);
+      // blockEditorController.view.blockDefinition = blockDef;
+      // blockDef.setXml(FactoryUtils.buildBlockEditorStarterXml(view.inputType, view.blockName, view.blockText));
+      // this.appController.switchEnvironment(AppController.BLOCK_EDITOR, blockDef);
       this.exit();
     });
 

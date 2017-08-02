@@ -91,7 +91,7 @@ Dummy input:<br>
       this.emit('exit');
     });
 
-    $('#submit_block').click((event) => {
+    $('#submit_block').unbind('click').click((event) => {
       // Gathers and renders blocks properly in devtools editor.
       event.preventDefault();
 
@@ -99,7 +99,6 @@ Dummy input:<br>
       this.libraryName = $('#dropdown_libraryList').val();
       this.inputType = $('input[name="input_type"]:checked').val();
       this.blockText = $('#block_text').val();
-
       this.emit('submit', this);
     });
   }

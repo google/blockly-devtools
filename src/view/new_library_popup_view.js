@@ -34,16 +34,10 @@ class NewLibraryPopupView extends NewResourcePopupView {
     super(controller);
     super.injectPopupContents(NewLibraryPopupView.html);
 
-    $('#button_sampleBlock').click((event) => {
+    $('#button_createLibrary').click((event) => {
       event.preventDefault();
 
       this.createLibraryIfValid(false);
-    });
-
-    $('#button_customBlock').click((event) => {
-      event.preventDefault();
-
-      this.createLibraryIfValid(true);
     });
 
     $('#new_library_name').change(() => {
@@ -55,14 +49,7 @@ class NewLibraryPopupView extends NewResourcePopupView {
     const libName = FactoryUtils.cleanResourceName($('#new_library_name').val());
     if (libName.trim()) {
       this.controller.appController.projectController.createBlockLibrary(libName);
-
-      if (ifSample) {
-        this.controller.appController.createPopup(PopupController.NEW_BLOCK);
-      } else {
-        this.controller.appController.editorController.blockEditorController.createNewBlock(
-            '', 'block_type', libName, 'BlockName');
-        this.controller.exit();
-      }
+      this.controller.exit();
     } else {
       $('#new_library_warning').html('Please enter a valid library name.');
     }
@@ -77,8 +64,7 @@ NewLibraryPopupView.html = `
 <form>
   <input type="text" id="new_library_name" placeholder="Library Name" value="MyLibrary"></input><br>
   <span id="new_library_warning" class="red"></span><br>
-  <button class="create" id="button_sampleBlock" style="float: right;">Create Library</button>
-  <button id="button_customBlock" style="float: right;">Create Library with Custom Block</button>
+  <button class="create" id="button_createLibrary" style="float: right;">Create Library</button>
 
 </form>
 `;

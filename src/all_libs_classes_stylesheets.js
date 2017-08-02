@@ -72,7 +72,6 @@
   appendScript('src/view/new_workspace_contents_popup_view.js');
   appendScript('src/view/new_config_view.js');
   appendScript('src/view/app_view.js');
-  appendScript('src/new_block_dialog_view.js');
   appendScript('src/view/toolbox_editor_view.js');
   appendScript('src/view/workspace_editor_view.js');
   appendScript('node_modules/jstree/dist/jstree.min.js');
@@ -87,7 +86,6 @@
   appendScript('src/controller/new_library_popup_controller.js');
   appendScript('src/controller/new_project_popup_controller.js');
   appendScript('src/controller/editor_controller.js');
-  appendScript('src/new_block_dialog_controller.js');
   appendScript('src/controller/app_controller.js');
 
   appendStylesheet('src/factory.css');

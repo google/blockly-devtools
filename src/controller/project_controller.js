@@ -188,10 +188,11 @@ class ProjectController {
    * @param {string} libraryName The library to add it to.
    */
   addBlockDefinition(blockDef, libraryName) {
-    console.log('addBlockDefinition()');
-    console.log(libraryName);
-    this.project.getBlockLibrary(libraryName).add(blockDef);
-    this.tree.addBlockNode(blockDef.type(), libraryName);
+    const lib = this.project.getBlockLibrary(libraryName);
+    if (lib) {
+      lib.add(blockDef);
+      this.tree.addBlockNode(blockDef.type(), libraryName);
+    }
   }
 
   /**

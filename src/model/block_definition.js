@@ -40,7 +40,7 @@ class BlockDefinition extends Resource {
      * XML Element of blocks displayed on Block Editor workspace.
      * @type {!Element}
      */
-    this.xml = null;
+    this.xml = Blockly.Xml.textToDom('<xml></xml>');
   }
 
   /**
@@ -82,9 +82,14 @@ class BlockDefinition extends Resource {
   /**
    * Saves XML of block editor blocks. Used for loading editing blocks when
    * switching blocks in the block editor.
-   * @param {string} xml XML element of current block.
+   * @param {!Element} xml XML element of current block.
    */
   setXml(xml) {
-    this.xml = xml;
+    if (!(xml instanceof Element)) {
+      xml = Blockly.Xml.textToDom(xml);
+    }
+    if (Blockly.Xml.domToText(xml) != Blockly.Xml.domToText(this.xml)) {
+      this.xml = xml;
+    }
   }
 }

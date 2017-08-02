@@ -102,6 +102,7 @@ class PopupController {
    */
   exit() {
     if (this.view) {
+      $('#modalShadow').hide();
       this.view.hide();
       this.view = null;
     }

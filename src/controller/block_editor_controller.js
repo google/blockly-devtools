@@ -109,7 +109,6 @@ class BlockEditorController {
         FactoryUtils.buildBlockEditorStarterXml(
           inputType, blockTypeName, opt_blockStarterText));
     newBlock.setXml(starterXml);
-
     // Shows onto view.
     this.view.show(newBlock);
     this.refreshPreviews();
@@ -120,6 +119,7 @@ class BlockEditorController {
    */
   refreshPreviews() {
     const format = $('#format').val();
+    // Blockly.Xml.domToWorkspace(this.view.blockDefinition.getXml(), this.view.editorWorkspace);
     this.updateBlockDefinitionView_(format);
     this.updatePreview_();
     this.updateGenerator_();
@@ -149,7 +149,9 @@ class BlockEditorController {
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     this.projectController.rename(
         currentBlock, rootBlock.getFieldValue('NAME'));
-    currentBlock.setXml(Blockly.Xml.blockToDom(rootBlock));
+    // currentBlock.setXml(Blockly.Xml.blockToDom(rootBlock));
+    const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
+    currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
   }
 
   /**
@@ -208,7 +210,6 @@ class BlockEditorController {
       // Evaluates block definition (temporarily) for preview.
       this.evaluateBlock_(format, code);
 
-      console.log(this.view.blockDefinition);
       const blockType = this.view.blockDefinition.type();
       // Render preview block in preview workspace.
       this.renderPreviewBlock_(blockType);

@@ -36,13 +36,37 @@ goog.provide('FactoryUtils');
 
 
 /**
- * Get block definition code for the current block.
+ * Get block definition code for the current block, given editor workspace.
  * @param {string} format 'JSON' or 'JavaScript'.
  * @param {!Blockly.Workspace} workspace Where the root block lives.
  * @return {string} Block definition.
  */
 FactoryUtils.getBlockDefinition = function(format, workspace) {
-  const rootBlock = FactoryUtils.getRootBlock(workspace);
+  var rootBlock = FactoryUtils.getRootBlock(workspace);
+  return FactoryUtils.getBlockDefFromRoot_(format, rootBlock);
+};
+
+/**
+ * Get block definition code for the current block, given XML.
+ * @param {string} format 'JSON' or 'JavaScript'.
+ * @param {!Element} rootXml XML of root block which contains information about
+ *     block.
+ * @param {!Blockly.Workspace} workspace Hidden workspace used to generate the
+ *     root block.
+ * @return {string} Block definition.
+ */
+FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
+  var rootBlock = Blockly.Xml.domToBlock(rootXml, workspace);
+  return FactoryUtils.getBlockDefFromRoot_(format, rootBlock);
+};
+
+/**
+ * Get block definition code for the current block, given root block.
+ * @param {string} format 'JSON' or 'JavaScript'.
+ * @param {!Blockly.Block} rootBlock The root block displayed on editor workspace.
+ * @return {string} Block definition.
+ */
+FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock) {
   const blockType = FactoryUtils.cleanBlockType(rootBlock.getFieldValue('NAME'));
   switch (format) {
     case 'JSON':
@@ -1229,7 +1253,7 @@ FactoryUtils.buildBlockEditorStarterXml = function(
   blockTypeName = blockTypeName || 'block_type';
   var textXmlStarter = '';
 
-  if (optBlockStarterText.trim()) {
+  if (optBlockStarterText && optBlockStarterText.trim()) {
     // Adds optional text to custom block.
     textXmlStarter = '<value name="FIELDS">' +
     '<block type="field_static">' +
