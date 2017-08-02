@@ -47,6 +47,7 @@ goog.require('goog.ui.ColorPicker');
 
 var Emitter = require('component-emitter');
 var fs = require('graceful-fs');
+var path = require('path');
 
 /**
  * Class containing static getters for the prefixes of all node types. Given
@@ -251,10 +252,10 @@ class AppController {
    * Creates the properly nested directory in which to save the project.
    */
   initProjectDirectory() {
-    const projectDir = this.storageLocation + '/' + this.project.name;
-    const libraryDir = projectDir + '/' + PREFIXES.LIBRARY;
-    const toolboxDir = projectDir + '/' + PREFIXES.TOOLBOX;
-    const workspaceDir = projectDir + '/' + PREFIXES.GENERAL_WORKSPACE;
+    const projectDir = this.storageLocation + path.sep + this.project.name;
+    const libraryDir = projectDir + path.sep + PREFIXES.LIBRARY;
+    const toolboxDir = projectDir + path.sep + PREFIXES.TOOLBOX;
+    const workspaceDir = projectDir + path.sep + PREFIXES.GENERAL_WORKSPACE;
     const dirs = [projectDir, libraryDir, toolboxDir, workspaceDir];
     for (let dir in dirs) {
       if (!fs.existsSync(dirs[dir])) {
@@ -280,8 +281,8 @@ class AppController {
       this.project.buildMetadata(data);
       let dataString = this.project.getDataString(data);
       fs.writeFileSync(
-          this.storageLocation + '/' + this.project.name + '/' +  'metadata',
-            dataString);
+          this.storageLocation + path.sep + this.project.name + path.sep +
+            'metadata', dataString);
     }
   }
 
