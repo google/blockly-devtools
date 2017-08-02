@@ -63,7 +63,7 @@ class Toolbox extends Resource {
     /**
      * Stores ListElement IFF there is only one category. Displayed as a flyout.
      * Null if there are multiple categories.
-     * @type {!ListElement}
+     * @type {?ListElement}
      */
     this.flyout = new ListElement(ListElement.TYPE_FLYOUT);
 
@@ -104,6 +104,9 @@ class Toolbox extends Resource {
    * @param {!Element} xml XML of toolbox.
    */
   setXml(xml) {
+    if (!(xml instanceof Element)) {
+      xml = Blockly.Xml.textToDom(xml);
+    }
     this.xml = xml;
   }
 
@@ -296,14 +299,19 @@ class Toolbox extends Resource {
    * @param {string} tag The custom tag to add to the category.
    */
   addCustomTag(category, tag) {
-    /*
-     * TODO: Move in from wfactory_model.js
-     *
-     * References:
-     * - this.hasVariablesCategory
-     * - this.hasProcedureCategory
-     */
-    throw 'Unimplemented: addCustomTag()';
+    // From wfactory_model.js:addCustomTag(category, tag)
+    // Only update list elements that are categories.
+    if (category.type != ListElement.TYPE_CATEGORY) {
+      return;
+    }
+    // Only update the tag to be 'VARIABLE' or 'PROCEDURE'.
+    if (tag == 'VARIABLE') {
+      this.hasVariableCategory = true;
+      category.custom = 'VARIABLE';
+    } else if (tag == 'PROCEDURE') {
+      this.hasProcedureCategory = true;
+      category.custom = 'PROCEDURE';
+    }
   }
 
   /**
@@ -431,6 +439,6 @@ class Toolbox extends Resource {
     this.categoryList = [];
     this.flyout = new ListElement(ListElement.TYPE_FLYOUT);
     this.selected = this.flyout;
-    this.xml = '<xml></xml>';
+    this.xml = Blockly.Xml.textToDom('<xml></xml>');
   }
 }

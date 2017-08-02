@@ -270,13 +270,17 @@ class NavigationTree {
    * @param {string} id The id of the selected node.
    */
   changeView(id) {
-    const prefix = id.split('_')[0];
+    const nodeInfo = id.split('_');
+    const prefix = nodeInfo[0];
+    const name = nodeInfo[1];
+
     if (prefix === PREFIXES.LIBRARY) {
       //Here's where tab switching happens
       console.log('Node type: BlockLibray. No response has been coded.');
     } else if (prefix === PREFIXES.TOOLBOX) {
-      //Here's where tab switching happens
-      console.log('Node type: Toolbox. No response has been coded.');
+      console.log('Click registered!');
+      this.appController.switchEnvironment(PREFIXES.VARIABLE_TOOLBOX, 
+          this.project.getToolbox(name));
     } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
       prefix === PREFIXES.WORKSPACE_CONFIG) {
         //Here's where tab switching happens

@@ -360,9 +360,19 @@ class AppController {
    * Top-level function for toolbox creation. Updates views, editors, and model.
    */
   createToolbox() {
-    // TODO: prompt for name
-    const toolbox = this.projectController.createToolbox(
-        'test_toolbox');
+    let errorText = '';
+    let name, isDuplicate, isEmpty;
+    do {
+      name = window.prompt(errorText + ' Enter new toolbox name.', 'MyToolbox');
+      isDuplicate = this.project.getToolbox(name) ? true : false;
+      isEmpty = name.trim() ? false : true; 
+      if (isDuplicate) {
+        errorText = 'This toolbox already exists.';
+      } else if (isEmpty) {
+        errorText = 'Please type a valid toolbox name.';
+      }
+    } while (isDuplicate || isEmpty);
+    const toolbox = this.projectController.createToolbox(name);
     this.switchEnvironment(PREFIXES.VARIABLE_TOOLBOX, toolbox);
   }
 
@@ -404,14 +414,14 @@ class AppController {
     } else {
       resourceReference = element;
     }
-    const controller = element + 'EditorController';
+    const controller = element + 'Controller';
     const view = element + 'EditorView';
-    this.editorController.switchEditor(
-          this.editorController[controller]);
     if (resource) {
       this.view[view][resourceReference] = resource;
     }
     this.view.switchView(this.view[view], resource);
+    this.editorController.switchEditor(
+          this.editorController[controller]);
     FactoryUtils.closeModal(this.modalId_);
     this.modalId_ = null;
     this.addFlyoutOpen = false;
