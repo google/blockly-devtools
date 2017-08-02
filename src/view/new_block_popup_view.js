@@ -125,11 +125,4 @@ Dummy input:<br>
     super.show();
     this.initListeners_();
   }
-
-  /**
-   * Hides popup, resets fields.
-   */
-  hide() {
-    super.hide();
-  }
 }

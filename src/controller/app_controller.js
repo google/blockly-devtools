@@ -36,6 +36,7 @@ goog.require('NewBlockPopupController');
 goog.require('NewLibraryPopupController');
 goog.require('NewProjectPopupController');
 goog.require('PopupController');
+goog.require('SaveProjectPopupController');
 goog.require('Project');
 goog.require('ProjectController');
 
@@ -48,6 +49,8 @@ goog.require('goog.ui.ColorPicker');
 'use strict';
 
 var Emitter = require('component-emitter');
+var fs = require('graceful-fs');
+var path = require('path');
 
 /**
  * Class containing static getters for the prefixes of all node types. Given
@@ -66,6 +69,9 @@ class PREFIXES {
   }
   static get TOOLBOX() {
     return 'Toolbox';
+  }
+  static get GENERAL_WORKSPACE() {
+    return 'Workspace';
   }
   static get WORKSPACE_CONTENTS() {
     return 'WorkspaceContents';
@@ -157,6 +163,11 @@ class AppController {
      * @type {?PopupController}
      */
     this.popupController = null;
+
+    /**
+     * Location where the project directory is saved.
+     */
+    this.storageLocation = localStorage.getItem('devToolsProjectLocation');
 
     // Creates project.
     this.initProject('MyProject');
@@ -258,12 +269,40 @@ class AppController {
   }
 
   /**
+   * Creates the properly nested directory in which to save the project.
+   */
+  initProjectDirectory() {
+    const projectDir = this.storageLocation + path.sep + this.project.name;
+    const libraryDir = projectDir + path.sep + PREFIXES.LIBRARY;
+    const toolboxDir = projectDir + path.sep + PREFIXES.TOOLBOX;
+    const workspaceDir = projectDir + path.sep + PREFIXES.GENERAL_WORKSPACE;
+    const dirs = [projectDir, libraryDir, toolboxDir, workspaceDir];
+    for (let dir in dirs) {
+      if (!fs.existsSync(dirs[dir])) {
+        fs.mkdir(dirs[dir]);
+      }
+    }
+  }
+
+  /**
    * Top-level function which is first called in order to save a project to
    * developer's file system.
    */
   saveProject() {
-    // TODO: Implement.
-    console.warn('Unimplemented: saveProject()');
+    // Check for viable save location.
+    if (!this.storageLocation) {
+      this.popupController = new SaveProjectPopupController(this);
+      this.popupController.show();
+    } else {
+      // Create directory in which to save the project if none exists.
+      // NOTE: This will be moved/functionalized
+      this.initProjectDirectory();
+      let data = Object.create(null);
+      this.project.buildMetadata(data);
+      let dataString = JSON.stringify(data, null, '\t');
+      fs.writeFileSync(
+          this.storageLocation + path.sep + 'metadata', dataString);
+    }
   }
 
   /**
@@ -310,7 +349,7 @@ class AppController {
       }
     } else if (popupMode === PopupController.PREVIEW) {
       // TODO: Preview popup view
-    } else if (popupMode === PopupController.NEW_CONFIG) {
+    } else if (popupMode == PopupController.NEW_CONFIG) {
       // TODO: New config popup view
     } else if (popupMode === PopupController.NEW_PROJECT) {
       this.popupController = new NewProjectPopupController(this);
@@ -369,8 +408,7 @@ class AppController {
   createWorkspaceContents() {
     // TODO: prompt for name
     const workspaceContents =
-      this.projectController.createWorkspaceContents(
-          'test_contents');
+      this.projectController.createWorkspaceContents('test_contents');
     this.switchEnvironment(PREFIXES.VARIABLE_WORKSPACECONTENTS, workspaceContents);
   }
 
