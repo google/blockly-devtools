@@ -72,8 +72,6 @@ class BlockEditorController {
      */
     this.hiddenWorkspace = hiddenWorkspace;
 
-    // this.refreshPreviews();
-
     // Initialize event listeners/handlers specific to block editor.
     this.view.init(this);
   }
@@ -119,7 +117,6 @@ class BlockEditorController {
    */
   refreshPreviews() {
     const format = $('#format').val();
-    // Blockly.Xml.domToWorkspace(this.view.blockDefinition.getXml(), this.view.editorWorkspace);
     this.updateBlockDefinitionView_(format);
     this.updatePreview_();
     this.updateGenerator_();
@@ -149,7 +146,6 @@ class BlockEditorController {
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     this.projectController.rename(
         currentBlock, rootBlock.getFieldValue('NAME'));
-    // currentBlock.setXml(Blockly.Xml.blockToDom(rootBlock));
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
   }
