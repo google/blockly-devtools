@@ -93,7 +93,7 @@ class BlockEditorController {
     return 'JavaScript';
   }
   static get FORMAT_GENERAL() {
-    return 'General';
+    return 'Manual';
   }
 
   /**
@@ -129,9 +129,26 @@ class BlockEditorController {
   /**
    * Change the language code format.
    */
-  formatChange() {
-    // TODO: Move in from factory.js
-    throw 'Unimplemented: formatChange()';
+  changeFormat() {
+    // From factory.js:formatChange()
+    const mask = document.getElementById('blocklyMask');
+    const languagePre = document.getElementById('languagePre');
+    const languageTA = document.getElementById('languageTA');
+    if (document.getElementById('format').value == 'Manual') {
+      Blockly.hideChaff();
+      mask.style.display = 'block';
+      languagePre.style.display = 'none';
+      languageTA.style.display = 'block';
+      var code = languagePre.textContent.trim();
+      languageTA.value = code;
+      languageTA.focus();
+      this.updatePreview_();
+    } else {
+      mask.style.display = 'none';
+      languageTA.style.display = 'none';
+      languagePre.style.display = 'block';
+      this.updateLanguage();
+    }
   }
 
   /**
@@ -139,7 +156,19 @@ class BlockEditorController {
    */
   updateLanguage() {
     // TODO: Move in from factory.js
-    throw 'Unimplemented: updateLanguage()';
+    var rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    if (!rootBlock) {
+      return;
+    }
+    var blockType = rootBlock.getFieldValue('NAME').trim().toLowerCase();
+    if (!blockType) {
+      blockType = 'unnamed';
+    }
+    var format = document.getElementById('format').value;
+    var code = FactoryUtils.getBlockDefinition(format,
+        this.view.editorWorkspace);
+    FactoryUtils.injectCode(code, 'languagePre');
+    this.updatePreview_();
   }
 
   /**
@@ -171,10 +200,17 @@ class BlockEditorController {
    * @private
    */
   updateBlockDefinitionView_(format) {
-    const currentBlock = this.view.blockDefinition;
-    const defCode = FactoryUtils.getBlockDefinition(
-        format, this.view.editorWorkspace);
-    this.view.updateBlockDefinitionView(defCode);
+    const manual = format == 'Manual' ? true : false;
+
+    if (manual) {
+      const defCode = $('#languagePre').val();
+      this.view.updateBlockDefinitionView(defCode, /* opt_manual */ true);
+    } else {
+      const currentBlock = this.view.blockDefinition;
+      const defCode = FactoryUtils.getBlockDefinition(
+          format, this.view.editorWorkspace);
+      this.view.updateBlockDefinitionView(defCode);
+    }
   }
 
   /**
@@ -230,8 +266,11 @@ class BlockEditorController {
     const blockDef = [];
 
     // Fetch the code and determine its format (JSON or JavaScript).
-    const format = $('#format').val();
+    let format = $('#format').val();
+    console.log('definition format: ' + format);
+    console.log('format general: ' + BlockEditorController.FORMAT_GENERAL);
     if (format == BlockEditorController.FORMAT_GENERAL) {
+      console.log('General format!');
       var code = $('#languageTA').val();
       // If the code is JSON, it will parse, otherwise treat as JS.
       try {

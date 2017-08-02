@@ -96,8 +96,10 @@ p {
 pre,
 #languageTA {
   border: #ddd 1px solid;
+  height: 100%;
   margin-top: 0;
   overflow: scroll;
+  width:100%;
 }
 
 #languageTA {

@@ -41,6 +41,7 @@ class BlockEditorView {
    *      shown in view.
    */
   constructor(blockDefinition) {
+    console.log('hi');
     /**
      * BlockDefinition currently being edited within the view.
      * @type {!BlockDefinition}
@@ -148,6 +149,22 @@ class BlockEditorView {
       // Save block's changes into BlockDefinition model object.
       controller.updateBlockDefinition();
     });
+
+    // LTR <-> RTL
+    $('#direction').change(() => {
+      this.updateDirection($('#direction').val());
+      controller.updatePreview_();
+    });
+
+    // JSON <-> JS for Block Definition
+    $('#format').change(() => {
+      // controller.updateBlockDefinitionView_($('#format').val());
+      controller.changeFormat();
+    });
+
+    $('#languageTA').on('input', () => {
+      controller.updatePreview_();
+    });
   }
 
   /**
@@ -189,9 +206,20 @@ class BlockEditorView {
    * @param {string} blockDefCode String representation of JSON or JavaScript
    *     block definition. (Not to be confused with the BlockDefinition object
    *     used only within DevTools.)
+   * @param {boolean=} opt_manual Whether the block definition view should be
+   *     an editable textarea for manual edit.
    */
-  updateBlockDefinitionView(blockDefCode) {
-    FactoryUtils.injectCode(blockDefCode, 'languagePre');
+  updateBlockDefinitionView(blockDefCode, opt_manual) {
+    if (opt_manual) {
+      // If manual edit.
+      $('#languagePre').hide();
+      $('#languageTA').show();
+      $('#languageTA').val(blockDefCode);
+    } else {
+      $('#languagePre').show();
+      $('#languageTA').hide();
+      FactoryUtils.injectCode(blockDefCode, 'languagePre');
+    }
   }
 
   /**
@@ -258,10 +286,13 @@ class BlockEditorView {
   updateDirection(rtl) {
     const newDir = (rtl == 'rtl');
     if (this.rtl !== newDir) {
+      console.log('Newdir! ' + rtl);
       if (this.previewWorkspace) {
+        console.log('disposed!');
         this.previewWorkspace.dispose();
       }
       this.rtl = newDir;
+      console.log('this.rtl: ' + this.rtl);
       this.previewWorkspace = Blockly.inject('preview',
         {
           rtl: this.rtl,
