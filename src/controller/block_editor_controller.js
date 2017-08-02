@@ -92,7 +92,7 @@ class BlockEditorController {
   static get FORMAT_JAVASCRIPT() {
     return 'JavaScript';
   }
-  static get FORMAT_GENERAL() {
+  static get FORMAT_MANUAL() {
     return 'Manual';
   }
 
@@ -200,7 +200,7 @@ class BlockEditorController {
    * @private
    */
   updateBlockDefinitionView_(format) {
-    const manual = format == 'Manual' ? true : false;
+    const manual = format == BlockEditorController.FORMAT_MANUAL ? true : false;
 
     if (manual) {
       const defCode = $('#languagePre').val();
@@ -267,7 +267,7 @@ class BlockEditorController {
 
     // Fetch the code and determine its format (JSON or JavaScript).
     let format = $('#format').val();
-    if (format == BlockEditorController.FORMAT_GENERAL) {
+    if (format == BlockEditorController.FORMAT_MANUAL) {
       var code = $('#languageTA').val();
       // If the code is JSON, it will parse, otherwise treat as JS.
       try {
