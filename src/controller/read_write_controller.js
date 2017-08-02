@@ -75,7 +75,7 @@ class ReadWriteController {
      * Whether or not the user has saved before.
      * @type {string}
      */
-    this.hasSaved = null;//localStorage.getItem('hasSavedProjectBefore');
+    this.hasSaved = localStorage.getItem('hasSavedProjectBefore');
 
     delete DIRECTORIES.length;
 
@@ -88,30 +88,13 @@ class ReadWriteController {
 
   /**
    * Creates the properly nested directory in which to save the project.
+   * @param {!string} directory The resource directory to check (must be one of
+   * the get methods in DIRECTORIES)
    */
-  initProjectDirectory() {
-    for (let directory in DIRECTORIES) {
-      if (directory) {
-        console.log('THIS IS PASSING: '+ directory);
-      //  if (!fs.existsSync(dirs[dir])) {
-      //    fs.mkdir(dirs[dir]);
-      //  }
-      }
+  initProjectDirectory(directory) {
+    if (!fs.existsSync(directory)) {
+      fs.mkdir(dirs[dir]);
     }
-  }
-
-  /**
-   * Stores previous save locations in local storage.
-   */
-  storeLocations() {
-  //  const dirs = this.getDirs();
- //   for (let dir in dirs) {
- //     if (dirs[dir]) {
-  //      localStorage.setItem()
- //     } else {
- //       console.log('THIS IS NOT PASSING: '+ dirs[dir]);
- //     }
- //   }
   }
 
   /**
@@ -119,7 +102,7 @@ class ReadWriteController {
    */
   saveProject() {
     // Check for viable save location.
-    if (!this.hasSaved) {
+    if (!this.hasSaved || !DIRECTORIES.PROJECT) {
       this.popupController = new SaveProjectPopupController(this.appController,
           this);
       this.popupController.show();
@@ -132,60 +115,35 @@ class ReadWriteController {
    * Saves a block to the developer's file system.
    */
   saveBlock() {
-    if (this.canSave())
-    this.writeDataFile(this.appController.project, DIRECTORIES.PROJECT);
+    //TODO: fill in
   }
 
   /**
    * Saves a library to the developer's file system.
    */
   saveLibrary() {
-    if (!this.hasSaved) {
-      this.popupController = new SaveProjectPopupController(this.appController,
-          this);
-      this.popupController.show();
-    } else {
-      this.writeDataFile(this.appController.project, DIRECTORIES.PROJECT);
-    }
+    //TODO: fill in
   }
 
   /**
    * Saves a toolbox to the developer's file system.
    */
   saveToolbox() {
-    if (!this.hasSaved) {
-      this.popupController = new SaveProjectPopupController(this.appController,
-          this);
-      this.popupController.show();
-    } else {
-      this.writeDataFile(this.appController.project, DIRECTORIES.PROJECT);
-    }
+    //TODO: fill in
   }
 
   /**
    * Saves workspace contents to the developer's file system.
    */
   saveWorkspaceContents() {
-    if (!this.hasSaved) {
-      this.popupController = new SaveProjectPopupController(this.appController,
-          this);
-      this.popupController.show();
-    } else {
-      this.writeDataFile(this.appController.project, DIRECTORIES.PROJECT);
-    }
+    //TODO: fill in
   }
 
   /**
    * Saves workspace configuration to the developer's file system.
    */
   saveWorkspaceConfiguration() {
-    if (!this.hasSaved) {
-      this.popupController = new SaveProjectPopupController(this.appController,
-          this);
-      this.popupController.show();
-    } else {
-      this.writeDataFile(this.appController.project, DIRECTORIES.PROJECT);
-    }
+    //TODO: fill in
   }
 
   /**
@@ -193,11 +151,11 @@ class ReadWriteController {
    * @param {!Resource} resource The resource to get the data from.
    */
   writeDataFile(resource, directory) {
-    this.initProjectDirectory();
+    this.initProjectDirectory(directory);
     let data = Object.create(null);
     resource.buildMetadata(data);
     let dataString = JSON.stringify(data, null, '\t');
     fs.writeFileSync(directory + path.sep + 'metadata', dataString);
-    this.storeLocations();
+    localStorage.setItem('hasSavedProjectBefore', 'yes');
   }
 }
