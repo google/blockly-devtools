@@ -34,7 +34,7 @@ class BlockDefinition extends Resource {
    * @param {string} type The name of the block.
    */
   constructor(type) {
-    super(type);
+    super(type, PREFIXES.BLOCK);
 
     /**
      * XML Element of blocks displayed on Block Editor workspace.
@@ -90,5 +90,17 @@ class BlockDefinition extends Resource {
       xml = Blockly.Xml.textToDom(xml);
     }
     this.xml = xml;
+  }
+
+  /**
+   * Modifies the JSON object that comprises the project's metadata.
+   * @param {!Object} obj Object to extend with necessary data.
+   * @return {!Object} The project metadata.
+   */
+  buildMetadata(obj) {
+    super.buildMetadata(obj);
+    delete obj.file;
+    obj.resources = this.getFullResourceList();
+    obj.platform = 'web';
   }
 }

@@ -275,6 +275,20 @@ class Project extends Resource {
   }
 
   /**
+   * Gets a flat list of objects containing the data for all resources in the
+   * project.
+   * @return {Array.<Object>} Flat list of data for all resources in the project.
+   */
+  getFullResourceList() {
+    let resourceList = [];
+    resourceList.concat(this.librarySet.getBuildMetadata());
+    resourceList.concat(this.toolboxSet.getBuildMetadata());
+    resourceList.concat(this.workspaceContentsSet.getBuildMetadata());
+    resourceList.concat(this.workspaceConfigSet.getBuildMetadata());
+    return resourceList;
+  }
+
+  /**
    * Modifies the JSON object that comprises the project's metadata.
    * @param {!Object} obj Object to extend with necessary data.
    * @return {!Object} The project metadata.
@@ -282,7 +296,7 @@ class Project extends Resource {
   buildMetadata(obj) {
     super.buildMetadata(obj);
     delete obj.file;
-    obj.resources = [];
+    obj.resources = this.getFullResourceList();
     obj.platform = 'web';
   }
 }

@@ -36,7 +36,7 @@ class WorkspaceConfiguration extends Resource {
    * @constructor
    */
   constructor(workspaceConfigName) {
-     super(workspaceConfigName);
+     super(workspaceConfigName, PREFIXES.WORKSPACE_CONFIG);
 
      /**
       * Options object to be configured for Blockly inject call.

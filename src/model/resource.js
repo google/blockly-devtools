@@ -99,9 +99,18 @@ class Resource {
   buildMetadata(obj) {
     obj.name = this.name;
     obj.resourceType = this.resourceType;
-    obj.web = {
-      filepath: '',
-      export: 'true'
-    };
+    /*
+     * The ReadWriteController will assign a filepath to the object given to
+     * buildMetadata. If no filepath has been assigned, or the web attribute is
+     * missing, the buildMetadata will create these fields.
+     */
+    if (!obj.web) {
+      obj.web = {
+        filepath: ''
+      };
+    } else if (!obj.web.filepath) {
+        obj.web.filebath = '';
+      }
+    obj.web.export = true;
   }
 }
