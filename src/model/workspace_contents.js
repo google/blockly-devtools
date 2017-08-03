@@ -36,7 +36,7 @@ class WorkspaceContents extends Resource {
    * @constructor
    */
   constructor(workspaceContentsName) {
-    super(workspaceContentsName);
+    super(workspaceContentsName, PREFIXES.WORKSPACE_CONTENTS);
 
     /**
      * XML DOM element of this workspace contents.
