@@ -40,14 +40,15 @@ class WorkspaceConfigurationSet extends ResourceSet {
   }
 
   /**
-   * Produces the tree-spcific JSON that represents the workspace configuration set.
+   * Produces the navigation tree-spcific JSON that represents the workspace
+   * configuration set.
    * @return {!Object} The JSON for the workspace configuration set.
    */
-  getTreeJson() {
+  getNavTreeJson() {
     const workspaceConfigSetJson = {
       'id': PREFIXES.WORKSPACE_CONFIG,
       'text': 'Workspace Configurations',
-      'children': super.getTreeJson()
+      'children': super.getNavTreeJson()
     };
     return workspaceConfigSetJson;
   }

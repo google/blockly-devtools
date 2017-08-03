@@ -72,11 +72,11 @@ class Resource {
   }
 
   /**
-   * Gets the tree-spcific JSON object which represents the resource.
+   * Gets the navigation tree-spcific JSON object which represents the resource.
    *
    * @return {!Object} The tree-spcific JSON representation of the resource.
    */
-  getTreeJson() {
+  getNavTreeJson() {
     const resourceJson = {
       'text': this.name,
     };

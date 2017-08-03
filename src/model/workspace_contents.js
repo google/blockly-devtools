@@ -77,8 +77,8 @@ class WorkspaceContents extends Resource {
    * @return {!Object} The tree-spcific JSON representation of the workspace
    * contents.
    */
-  getTreeJson() {
-    const workspaceContentsJson = $.extend(true, super.getJson(),
+  getNavTreeJson() {
+    const workspaceContentsJson = $.extend(true, super.getNavJson(),
       {'id': PREFIXES.WORKSPACE_CONTENTS});
     return workspaceContentsJson;
   }

@@ -263,13 +263,13 @@ class Project extends Resource {
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the project.
    */
-  getTreeJson() {
+  getNavTreeJson() {
     const projectJson = $.extend(true, super.getTreeJson(),
       { 'id': PREFIXES.PROJECT, 'text': this.name,
-        'children': [ this.librarySet.getTreeJson(),
-          this.toolboxSet.getTreeJson(),
-          this.workspaceContentsSet.getTreeJson(),
-          this.workspaceConfigSet.getTreeJson()]}
+        'children': [ this.librarySet.getNavTreeJson(),
+          this.toolboxSet.getNavTreeJson(),
+          this.workspaceContentsSet.getNavTreeJson(),
+          this.workspaceConfigSet.getNavTreeJson()]}
     );
     return projectJson;
   }
