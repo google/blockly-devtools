@@ -145,7 +145,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    return !this.blocks[blockType];
+    return this.blocks[blockType] ? true : false;
   }
 
   /**

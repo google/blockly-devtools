@@ -268,15 +268,21 @@ class NavigationTree {
    * Gives appropriate response for selected node. Switches the tab if
    *     necessary, opens the block if appropriate.
    * @param {string} id The id of the selected node.
+   * @throws When name of resource is null or empty on click.
    */
   changeView(id) {
     const nodeInfo = id.split('_');
     const prefix = nodeInfo[0];
     const name = nodeInfo[1];
 
+    if (!name) {
+      throw 'Name of resource associated with node element is null or empty.';
+    }
+
     if (prefix === PREFIXES.LIBRARY) {
-      // Here's where tab switching happens
-      console.warn('Node type: BlockLibrary. No response has been coded.');
+      const library = this.appController.project.getBlockLibrary(name);
+      this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
+          library.getBlockDefinition(Object.keys(library.blocks)[0]));
     } else if (prefix === PREFIXES.TOOLBOX) {
       // Here's where tab switching happens
       console.warn('Node type: Toolbox. No response has been coded.');
@@ -285,11 +291,9 @@ class NavigationTree {
       // Here's where tab switching happens
       console.warn('Node type: Workspace Contents or Configuration. No response has been coded.');
     } else if (prefix === PREFIXES.BLOCK) {
-      // Open the block.
-      // this.appController.editorController.blockEditorController.view.openBlock(id);
       const library = this.appController.projectController.getLibrary(name);
       this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
-          library.getBlock(name));
+          library.getBlockDefinition(name));
     }
   }
 
