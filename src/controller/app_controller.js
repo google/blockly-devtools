@@ -259,7 +259,7 @@ class AppController {
    */
   initProject(projectName) {
     this.project = new Project(projectName);
-    this.tree = new NavigationTree(this, this.project);
+    this.tree = new NavigationTree(this);
     this.projectController = new ProjectController(this.project, this.tree);
     this.editorController = new EditorController(this.projectController,
         this.hiddenWorkspace);
@@ -392,10 +392,9 @@ class AppController {
     let errorText = '';
     let name, isDuplicate, isEmpty;
     do {
-      console.log('Prompting!');
       name = window.prompt(errorText + 'Enter new toolbox name.', 'MyToolbox');
       isDuplicate = this.project.getToolbox(name) ? true : false;
-      isEmpty = name && name.trim() ? false : true; 
+      isEmpty = name && name.trim() ? false : true;
       if (isDuplicate) {
         errorText = 'This toolbox already exists.\n';
       } else if (isEmpty) {
@@ -403,8 +402,6 @@ class AppController {
       }
     } while (isDuplicate);
     const toolbox = this.projectController.createToolbox(name);
-    console.log('created toolbox, ' + name);
-    console.log(this.projectController.project);
     this.switchEnvironment(AppController.TOOLBOX_EDITOR, toolbox);
   }
 
@@ -446,6 +443,7 @@ class AppController {
     } else if (editor == AppController.TOOLBOX_EDITOR) {
       view = PREFIXES.VARIABLE_TOOLBOX + view;
       controller = PREFIXES.VARIABLE_TOOLBOX + controller;
+      resource = this.project.getToolbox(resource.name);
     } else if (editor == AppController.WORKSPACE_EDITOR) {
       view = 'workspace' + view;
       controller = 'workspace' + controller;
