@@ -301,6 +301,23 @@ class ProjectController {
   }
 
   /**
+   * Renames block definition to a new name. Returns block, or null if name
+   * already exists.
+   * @param {!BlockLibrary} library Block Library where block is contained.
+   * @param {string} oldName Name of block to change.
+   * @param {string} newName New name of block.
+   */
+  renameBlockDefinition(library, oldName, newName) {
+    const block = library.getBlockDefinition[oldName];
+    if (project.hasBlockDefinition(newName)) {
+      return null;
+    } else {
+      block.setName(newName);
+      return block;
+    }
+  }
+
+  /**
    * Exports XML to file after potentially prompting user for file name.
    *
    * @param {string} exportMode The type of file to export
