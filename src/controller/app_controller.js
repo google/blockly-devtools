@@ -259,7 +259,7 @@ class AppController {
    */
   initProject(projectName) {
     this.project = new Project(projectName);
-    this.tree = new NavigationTree(this, this.project);
+    this.tree = new NavigationTree(this);
     this.projectController = new ProjectController(this.project, this.tree);
     this.editorController = new EditorController(this.projectController,
         this.hiddenWorkspace);
@@ -365,7 +365,7 @@ class AppController {
    * @param {Event} event The beforeunload event.
    */
   confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js'
+    // TODO: Move in from app_controller.js
     console.warn('Unimplemented: confirmLeavePage()');
   }
 
@@ -374,26 +374,35 @@ class AppController {
    */
   createBlockDefinition() {
     this.createPopup(PopupController.NEW_BLOCK);
-    this.view.closeFlyout();
+    this.view.closeModal_();
   }
 
   /**
    * Top-level function for library creation. Updates views, editors, and model.
    */
   createLibrary() {
-    // TODO: prompt for name, define behavior
     this.createPopup(PopupController.NEW_LIBRARY);
-    this.view.closeFlyout();
+    this.view.closeModal_();
   }
 
   /**
    * Top-level function for toolbox creation. Updates views, editors, and model.
    */
   createToolbox() {
-    // TODO: prompt for name
-    const toolbox = this.projectController.createToolbox(
-        'test_toolbox');
-    this.switchEnvironment(PREFIXES.VARIABLE_TOOLBOX, toolbox);
+    let errorText = '';
+    let name, isDuplicate, isEmpty;
+    do {
+      name = window.prompt(errorText + 'Enter new toolbox name.', 'MyToolbox');
+      isDuplicate = this.project.getToolbox(name);
+      isEmpty = name && name.trim() ? false : true;
+      if (isDuplicate) {
+        errorText = 'This toolbox already exists.\n';
+      } else if (isEmpty) {
+        return;
+      }
+    } while (isDuplicate);
+    const toolbox = this.projectController.createToolbox(name);
+    this.switchEnvironment(AppController.TOOLBOX_EDITOR, toolbox);
   }
 
   /**
@@ -430,7 +439,7 @@ class AppController {
           ' an editor (' + editor + ').';
     }
     var view = 'EditorView';
-    var controller = 'EditorController';
+    var controller = 'Controller';
 
     if (editor == AppController.BLOCK_EDITOR) {
       view = PREFIXES.VARIABLE_BLOCK + view;
@@ -438,6 +447,7 @@ class AppController {
     } else if (editor == AppController.TOOLBOX_EDITOR) {
       view = PREFIXES.VARIABLE_TOOLBOX + view;
       controller = PREFIXES.VARIABLE_TOOLBOX + controller;
+      resource = this.project.getToolbox(resource.name);
     } else if (editor == AppController.WORKSPACE_EDITOR) {
       view = 'workspace' + view;
       controller = 'workspace' + controller;
@@ -450,6 +460,6 @@ class AppController {
     this.editorController.switchEditor(this.editorController[controller]);
 
     // Close flyout if open.
-    this.view.closeFlyout();
+    this.view.closeModal_();
   }
 }

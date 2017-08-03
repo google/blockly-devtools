@@ -465,23 +465,24 @@ class AppView {
     this.modalId_ = null;
     this.addFlyoutOpen = false;
   }
+
   /**
    * Assigns button click handlers for add button flyout.
    */
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
-      this.appController.createBlockDefinition();
       this.closeModal_();
+      this.appController.createBlockDefinition();
     });
 
     $('#addLibrary').click(() => {
-      this.appController.createLibrary();
       this.closeModal_();
+      this.appController.createLibrary();
     });
 
-    $('#addToolbox').click(() => {
-      this.appController.createToolbox();
+    $('#addToolbox').unbind('click').click(() => {
       this.closeModal_();
+      this.appController.createToolbox();
     });
 
     $('#addWorkspaceContents').click(() => {
@@ -532,14 +533,5 @@ class AppView {
   onresize(event) {
     // Move in from app_controller.js
     throw 'Unimplemented: onresize()';
-  }
-
-  /**
-   * Closes the new element flyout.
-   */
-  closeFlyout() {
-    FactoryUtils.closeModal(this.modalId_);
-    this.modalId_ = null;
-    this.addFlyoutOpen = false;
   }
 }
