@@ -449,8 +449,6 @@ class AppController {
       controller = 'workspace' + controller;
     }
 
-    console.log('within AC, resource.');
-    console.log(resource);
     // Switch view.
     this.view.switchView(this.view[view], resource);
 
