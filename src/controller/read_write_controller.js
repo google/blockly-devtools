@@ -26,43 +26,6 @@ goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 
 /**
- * Class containing static getters for the keys used to locally store directory
- * locatons.
- */
-class DIRECTORY_LOCAL_STORAGE_KEYS {
-  static get PROJECT() {
-    return PREFIXES.PROJECT;
-  }
-  static get LIBRARY() {
-    return PREFIXES.LIBRARY;
-  }
-  static get TOOLBOX() {
-    return PREFIXES.TOOLBOX;
-  }
-  static get GENERAL_WORKSPACE() {
-    return PREFIXES.GENERAL_WORKSPACE;
-  }
-}
-
-/**
- * Class containing static getters for directory locations of each resource.
- */
-class DIRECTORIES {
-  static get PROJECT() {
-    return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_KEYS.PROJECT);
-  }
-  static get LIBRARY() {
-    return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_KEYS.LIBRARY);
-  }
-  static get TOOLBOX() {
-    return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_KEYS.TOOLBOX);
-  }
-  static get GENERAL_WORKSPACE() {
-    return localStorage.getItem(DIRECTORY_LOCAL_STORAGE_KEYS.GENERAL_WORKSPACE);
-  }
-}
-
-/**
  * @fileoverview ReadWriteController manages reading and writing all files
  * pertinent to the project.
  *
@@ -87,14 +50,10 @@ class ReadWriteController {
      */
     this.hasSaved = localStorage.getItem('hasSavedProjectBefore');
 
-    /*
-     * Remove unused attributes of the DIRECTORIES and
-     * DIRECTORY_LOCAL_STORAGE_KEYS classes.
-     */
-    delete DIRECTORIES.length;
-    delete DIRECTORIES.name;
-    delete DIRECTORY_LOCAL_STORAGE_KEYS.length;
-    delete DIRECTORY_LOCAL_STORAGE_KEYS.name;
+
+    this.directoryMap = new Map();
+
+    this.initDirectoryMap();
   }
 
   /**
@@ -103,22 +62,40 @@ class ReadWriteController {
    * the get methods in DIRECTORIES)
    */
   initProjectDirectory(directory) {
-    if (!fs.existsSync(directory)) {
-      fs.mkdir(dirs[dir]);
+    for (let directoryKey of this.directoryMap.keys()) {
+      if (!fs.existsSync(directory)) {
+        fs.mkdir(directoryKey);
+      }
     }
+  }
+
+  /**
+   *Initializes the directory map.
+   * @return {Map} Map of resource type to locally stored directory locattion.
+   */
+  initDirectoryMap() {
+    this.directoryMap.set(PREFIXES.PROJECT,
+        localStorage.getItem(PREFIXES.PROJECT));
+    this.directoryMap.set(PREFIXES.LIBRARY,
+        localStorage.getItem(PREFIXES.LIBRARY));
+    this.directoryMap.set(PREFIXES.TOOLBOX,
+        localStorage.getItem(PREFIXES.TOOLBOX));
+    this.directoryMap.set(PREFIXES.GENERAL_WORKSPACE,
+        localStorage.getItem(PREFIXES.GENERAL_WORKSPACE));
   }
 
   /**
    * Saves entire project to the developer's file system.
    */
   saveProject() {
-    if (!this.hasSaved) {
+   // if (!this.hasSaved) {
       this.popupController = new SaveProjectPopupController(this.appController,
           this);
       this.popupController.show();
-    } else {
-      this.writeDataFile(this.appController.project, DIRECTORIES.PROJECT);
-    }
+    //} else {
+    //  this.writeDataFile(this.appController.project,
+   //       this.directoryMap.get(PREFIXES.PROJECT));
+   // }
   }
 
   /**
@@ -160,12 +137,12 @@ class ReadWriteController {
    * Write a new data file.
    * @param {!Resource} resource The resource to get the data from.
    */
-  writeDataFile(resource, directory) {
-    this.initProjectDirectory(directory);
+  writeDataFile(resource) {
     let data = Object.create(null);
     resource.buildMetadata(data);
     let dataString = JSON.stringify(data, null, '\t');
-    fs.writeFileSync(directory + path.sep + 'metadata', dataString);
+    const location = this.directoryMap.get(resource.resourceType);
+    fs.writeFileSync(location + path.sep + 'metadata', dataString);
     localStorage.setItem('hasSavedProjectBefore', 'yes');
   }
 }

@@ -61,35 +61,29 @@ class SaveProjectPopupController extends PopupController {
 
     this.view.on('submit', () => {
       // Save location for each directory, or, if none chosen, set a default.
-      for (let directory of Object.getOwnPropertyNames(DIRECTORIES)) {
-        /*
-         * Set locations for all properties of the DIRECTORIES class except for
-         * prototype, which only remains because it cannot be deleted.
-         */
-        if (directory != 'prototype') {
+      for (let directoryKey of this.readWriteController.directoryMap.keys()) {
           /*
            * The user has chosen a location, indicated by the existence of the
            * appropriate view variable (the name of this variable is the lower
-           * case version of the matching DIRECTORIES attribute, which conveniently
-           * shares a name with the matching DIRECTORY_LOCAL_STORAGE_TAG attribute).
+           * case version of the matching directory map key.
            */
-          if (this.view[directory.toLowerCase()]) {
-            localStorage.setItem(DIRECTORY_LOCAL_STORAGE_TAGS[directory],
-              this.view[directory.toLowerCase()]);
+          if (this.view[directoryKey.toLowerCase()]) {
+            localStorage.setItem(directoryKey,
+                this.view[directoryKey.toLowerCase()]);
           } else {
           /*
            * No location has been chosen, leading to the creation of a default
            * directory of the same name as the local storage tag under the
            * directory specified for the project.
            */
-            localStorage.setItem(DIRECTORY_LOCAL_STORAGE_TAGS[directory],
-              DIRECTORIES.PROJECT + DIRECTORY_LOCAL_STORAGE_TAGS[directory]);
+            localStorage.setItem(directoryKey,
+                this.readWriteController.directoryMap.get(PREFIXES.PROJECT) +
+                  directoryKey);
           }
-        }
       }
       // Save the project.
       this.readWriteController.writeDataFile(this.appController.project,
-          DIRECTORIES.PROJECT);
+          PREFIXES.PROJECT);
       this.exit();
     });
   }
