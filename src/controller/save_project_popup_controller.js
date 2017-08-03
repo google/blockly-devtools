@@ -34,16 +34,31 @@ goog.require('PopupController');
 class SaveProjectPopupController extends PopupController {
   /**
    * @constructor
-   * @param {AppController} appController AppController for the session.
+   * @param {!AppController} appController AppController for the session.
+   * @param {ReadWriteController} readWriteController ReadWriteController for
+   * the session, used to write files.
+   * @param {Array.<Object>} toWrite Array of project elements to be written.
    */
-  constructor(appController) {
+  constructor(appController, readWriteController, toWrite) {
     super(appController);
+
+    /**
+     * The ReadWriteController for the session, used to write files.
+     * @type {!ReadWriteController}
+     */
+    this.readWriteController = readWriteController;
+
+    /**
+     * Array of project elements to be written.
+     * @type {Array.<Object>}
+     */
+    this.toWrite = toWrite;
 
     /**
      * The popup view that this popup controller manages.
      * @type {!SaveProjectPopupView}
      */
-    this.view = new SaveProjectPopupView(this);
+    this.view = new SaveProjectPopupView(this, this.makeProjectPopupContents());
 
     // Listeners in the popup
     Emitter(this.view);
@@ -51,18 +66,27 @@ class SaveProjectPopupController extends PopupController {
       this.exit();
     });
 
-    const blockEditorController = this.blockEditorController;
     this.view.on('submit', () => {
-      this.appController.storageLocation = this.view.storageLocation;
-      localStorage.setItem('devToolsProjectLocation', this.appController.storageLocation);
-      // NOTE: This will be moved/functionalized
-      this.appController.initProjectDirectory();
-      let data = Object.create(null);
-      this.appController.project.buildMetaData(data);
-      let dataString = this.appController.project.getDataString(data);
-      fs.writeFileSync(
-          this.appController.storageLocation + '/' + this.appController.project.name +
-            '/' +  this.appController.project.name, dataString);
+      // Save location for each directory, or, if none chosen, set a default.
+      for (let directoryKey of this.readWriteController.directoryMap.keys()) {
+          // The user has chosen a location, indicated by the existence of the
+          // appropriate view variable (the name of this variable is the lower
+          // case version of the matching directory map key.
+          if (this.view[directoryKey.toLowerCase()]) {
+            localStorage.setItem(directoryKey,
+                this.view[directoryKey.toLowerCase()]);
+          } else {
+            // No location has been chosen, leading to the creation of a default
+            // directory of the same name as the local storage tag under the
+            // directory specified for the project.
+            localStorage.setItem(directoryKey,
+                this.readWriteController.directoryMap.get(PREFIXES.PROJECT) +
+                  directoryKey);
+          }
+      }
+      // Save the project.
+      this.readWriteController.writeDataFile(this.appController.project,
+          PREFIXES.PROJECT);
       this.exit();
     });
   }
@@ -72,5 +96,29 @@ class SaveProjectPopupController extends PopupController {
    */
   show() {
     this.view.show();
+  }
+
+  /**
+   * Creates the html contents for the project saving popup, based upon the
+   * resources currently in the project.
+   * @return {string} The html contents for the project saving popup.
+   */
+  makeProjectPopupContents() {
+    let htmlContents = `
+<header>Choose Project File Locations</header>
+  <form>
+    Project<span class="red">*</span>
+      <input type="file" nwdirectory id="projectDirectory"></input><br><br>
+`;
+    let object = Object.create(null);
+    this.appController.project.buildMetadata(object);
+    for (let resource of object.resources) {
+      htmlContents = htmlContents + resource.resourceType +
+        '<input type="file" nwdirectory id=' + '\"' + resource.resourceType +
+          'Directory"></input><br><br>';
+    }
+    htmlContents = htmlContents +
+      '<input type="button" value="Submit" id="submit"></form>';
+    return htmlContents;
   }
 }
