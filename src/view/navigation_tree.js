@@ -166,16 +166,16 @@ class NavigationTree {
    * @param {string} parentName The name of the parent of the new node.
    */
   addComponentNode(prefix, componentName, parentName) {
+    const tree = this.getTree();
     const id = prefix + '_' + componentName;
     const data = {
         'id': id,
         'text': componentName
       };
-    this.getTree().create_node(parentName, data, 'last', null);
-    const node = this.getTree().get_node(id);
-    this.getTree().open_node(prefix);
-    this.getTree().deselect_all();
-    this.getTree().select_node(id);
+    tree.create_node(parentName, data, 'last', null);
+    tree.open_node(prefix);
+    tree.deselect_all();
+    tree.select_node(id);
   }
 
   /**
@@ -294,8 +294,11 @@ class NavigationTree {
 
     if (prefix === PREFIXES.LIBRARY) {
       const library = this.appController.project.getBlockLibrary(name);
-      this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
-          library.getBlockDefinition(Object.keys(library.blocks)[0]));
+      const blockDef = library.getBlockDefinition(Object.keys(library.blocks)[0]);
+      if (blockDef) {
+        this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
+            library.getBlockDefinition(Object.keys(library.blocks)[0]));
+      }
     } else if (prefix === PREFIXES.TOOLBOX) {
       this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
           this.appController.project.getToolbox(name));
