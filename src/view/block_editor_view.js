@@ -149,6 +149,27 @@ class BlockEditorView {
       // Disable orphans.
       Blockly.Events.disableOrphans(event);
     });
+
+    // LTR <-> RTL
+    $('#direction').change(() => {
+      this.updateDirection($('#direction').val());
+      controller.updatePreview_();
+    });
+
+    // JSON <-> JS for Block Definition
+    $('#format').change(() => {
+      controller.changeFormat();
+    });
+
+    // Update preview as user manually defines block.
+    $('#languageTA').on('input', () => {
+      controller.updatePreview_();
+    });
+
+    // Update code generator
+    $('#language').change(() => {
+      controller.updateGenerator_();
+    });
   }
 
   /**
@@ -190,9 +211,20 @@ class BlockEditorView {
    * @param {string} blockDefCode String representation of JSON or JavaScript
    *     block definition. (Not to be confused with the BlockDefinition object
    *     used only within DevTools.)
+   * @param {boolean=} opt_manual Whether the block definition view should be
+   *     an editable textarea for manual edit.
    */
-  updateBlockDefinitionView(blockDefCode) {
-    FactoryUtils.injectCode(blockDefCode, 'languagePre');
+  updateBlockDefinitionView(blockDefCode, opt_manual) {
+    if (opt_manual) {
+      // If manual edit.
+      $('#languagePre').hide();
+      $('#languageTA').show();
+      $('#languageTA').val(blockDefCode);
+    } else {
+      $('#languagePre').show();
+      $('#languageTA').hide();
+      FactoryUtils.injectCode(blockDefCode, 'languagePre');
+    }
   }
 
   /**
