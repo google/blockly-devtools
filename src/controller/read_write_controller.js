@@ -46,34 +46,35 @@ class ReadWriteController {
 
     /**
      * Whether or not the user has saved before.
-     * @type {?string}
+     * @type {boolean}
      */
     this.hasSaved = localStorage.getItem('hasSavedProjectBefore');
 
-
+  /**
+   * Map of resource type to locally stored directory location.
+   * @type {Map}
+   */
     this.directoryMap = new Map();
-
-    this.initDirectoryMap();
+    // Initialize the directory map.
+    this.initDirectoryMap_();
   }
 
   /**
    * Creates the properly nested directory in which to save the project.
-   * @param {!string} directory The resource directory to check (must be one of
-   * the get methods in DIRECTORIES)
+   * @param {!string} directory The resource directory to check.
    */
   initProjectDirectory(directory) {
-    for (let directoryKey of this.directoryMap.keys()) {
-      if (!fs.existsSync(directory)) {
-        fs.mkdir(directoryKey);
-      }
+    if (!fs.existsSync(directory)) {
+      fs.mkdir(directory);
     }
   }
 
   /**
-   *Initializes the directory map.
-   * @return {Map} Map of resource type to locally stored directory locattion.
+   * Initializes the directory map.
+   * @return {Map} Map of resource type to locally stored directory location.
+   * @private
    */
-  initDirectoryMap() {
+  initDirectoryMap_() {
     this.directoryMap.set(PREFIXES.PROJECT,
         localStorage.getItem(PREFIXES.PROJECT));
     this.directoryMap.set(PREFIXES.LIBRARY,
@@ -88,14 +89,14 @@ class ReadWriteController {
    * Saves entire project to the developer's file system.
    */
   saveProject() {
-   // if (!this.hasSaved) {
+    if (!this.hasSaved) {
       this.popupController = new SaveProjectPopupController(this.appController,
           this);
       this.popupController.show();
-    //} else {
-    //  this.writeDataFile(this.appController.project,
-   //       this.directoryMap.get(PREFIXES.PROJECT));
-   // }
+    } else {
+      this.writeDataFile(this.appController.project,
+          this.directoryMap.get(PREFIXES.PROJECT));
+    }
   }
 
   /**
@@ -143,6 +144,6 @@ class ReadWriteController {
     let dataString = JSON.stringify(data, null, '\t');
     const location = this.directoryMap.get(resource.resourceType);
     fs.writeFileSync(location + path.sep + 'metadata', dataString);
-    localStorage.setItem('hasSavedProjectBefore', 'yes');
+    localStorage.setItem('hasSavedProjectBefore', true);
   }
 }
