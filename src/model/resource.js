@@ -52,7 +52,7 @@ class Resource {
    * Reads the resource from local storage.
    */
   loadFromLocalStorage() {
-    throw 'abstract method: loadFromLocalStorage';
+    localStorage.getItem(this.resourceType + '_' + this.name);
   }
 
   /**
