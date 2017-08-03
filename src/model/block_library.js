@@ -43,7 +43,7 @@ class BlockLibrary extends Resource {
      *
      * References: N/A
      */
-    super(libraryName);
+    super(libraryName, PREFIXES.LIBRARY);
 
     /**
      * A map of all blocks in the library to their definitions.
@@ -153,8 +153,9 @@ class BlockLibrary extends Resource {
    * @return {!Object} The data needed to export the library.
    */
   getExportData() {
-    //TODO: implement
-    throw 'unimplemented: getExportData';
+    let data = Object.create(null);
+    super.buildMetadata(data);
+    return data;
   }
 
   /**

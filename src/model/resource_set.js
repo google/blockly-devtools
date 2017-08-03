@@ -138,4 +138,16 @@ goog.require('Resource');
     }
     return false;
   }
+
+  /**
+   * Returns flat list of all data for the resources in the set.
+   * @return {Array.<Object>} Flat list of data for all resources in the set.
+   */
+  getMetadata() {
+    const metadata = [];
+    for (let resourceName of Object.keys(this.resources)) {
+      metadata.concat(this.get(resourceName).buildMetadata());
+    }
+    return metadata;
+  }
 }

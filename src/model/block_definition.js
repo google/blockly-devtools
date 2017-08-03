@@ -34,7 +34,7 @@ class BlockDefinition extends Resource {
    * @param {string} type The name of the block.
    */
   constructor(type) {
-    super(type);
+    super(type, PREFIXES.BLOCK);
 
     /**
      * XML Element of blocks displayed on Block Editor workspace.

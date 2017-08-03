@@ -45,7 +45,7 @@ class Toolbox extends Resource {
    * @constructor
    */
   constructor(toolboxName) {
-    super(toolboxName);
+    super(toolboxName, PREFIXES.TOOLBOX);
 
     /**
      * List of categories in current toolbox. Empty if there is a single flyout.

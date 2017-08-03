@@ -51,7 +51,10 @@ class NavigationTree {
    * @return {!Object} The JSON necessary to load the tree.
    */
   makeTreeJson() {
-    const data = this.appController.project.getNavTreeJson();
+    const data = this.appController.project.getJson();
+    data['state'] = {
+        'opened': true
+      };
     const tree = {
       'core': {
         'check_callback': true,
@@ -81,6 +84,14 @@ class NavigationTree {
       }
     };
     return tree;
+  }
+
+  /**
+   * Returns JSTree object. Used for calling JSTree operations on navtree.
+   * @return {!JsTree}
+   */
+  getTree() {
+    return $('#navigationTree').jstree();
   }
 
   /**
@@ -155,8 +166,16 @@ class NavigationTree {
    * @param {string} parentName The name of the parent of the new node.
    */
   addComponentNode(prefix, componentName, parentName) {
-    $('#navigationTree').jstree().create_node(parentName,
-        {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
+    const tree = this.getTree();
+    const id = prefix + '_' + componentName;
+    const data = {
+        'id': id,
+        'text': componentName
+      };
+    tree.create_node(parentName, data, 'last', null);
+    tree.open_node(prefix);
+    tree.deselect_all();
+    tree.select_node(id);
   }
 
   /**
@@ -275,8 +294,11 @@ class NavigationTree {
 
     if (prefix === PREFIXES.LIBRARY) {
       const library = this.appController.project.getBlockLibrary(name);
-      this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
-          library.getBlockDefinition(Object.keys(library.blocks)[0]));
+      const blockDef = library.getBlockDefinition(Object.keys(library.blocks)[0]);
+      if (blockDef) {
+        this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
+            library.getBlockDefinition(Object.keys(library.blocks)[0]));
+      }
     } else if (prefix === PREFIXES.TOOLBOX) {
       this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
           this.appController.project.getToolbox(name));
