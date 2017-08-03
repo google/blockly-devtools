@@ -73,7 +73,7 @@ class SaveProjectPopupView extends PopupView {
       this.library = $('#libraryDirectory').val();
       this.toolbox = $('#toolboxDirectory').val();
       this.general_workspace = $('#workspaceDirectory').val();
-    	this.hide();
+      this.hide();
       this.emit('submit');
     });
   }
