@@ -109,7 +109,7 @@ class Resource {
         filepath: ''
       };
     } else if (!obj.web.filepath) {
-        obj.web.filebath = '';
+        obj.web.filepath = '';
       }
     obj.web.export = true;
   }
