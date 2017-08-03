@@ -48,7 +48,7 @@ class NavigationTree {
      * The Project the tree represents.
      * @type {!Project}
      */
-    this.project = project;
+    this.project = appController.project;
 
     this.makeTree();
   }
@@ -59,6 +59,9 @@ class NavigationTree {
    */
   makeTreeJson() {
     const data = this.project.getJson();
+    data['state'] = {
+        'opened': true
+      };
     const tree = {
       'core': {
         'check_callback': true,
@@ -162,8 +165,15 @@ class NavigationTree {
    * @param {string} parentName The name of the parent of the new node.
    */
   addComponentNode(prefix, componentName, parentName) {
-    $('#navigationTree').jstree().create_node(parentName,
-        {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
+    const data = {
+        'id': prefix + '_' + componentName,
+        'text': componentName,
+        'state': {
+            'selected': true,
+            'opened': true
+          }
+      };
+    $('#navigationTree').jstree().create_node(parentName, data, 'last', null);
   }
 
   /**
@@ -270,13 +280,16 @@ class NavigationTree {
    * @param {string} id The id of the selected node.
    */
   changeView(id) {
-    const prefix = id.split('_')[0];
+    const nodeInfo = id.split('_');
+    const prefix = nodeInfo[0];
+    const name = nodeInfo[1];
+
     if (prefix === PREFIXES.LIBRARY) {
       // Here's where tab switching happens
       console.warn('Node type: BlockLibrary. No response has been coded.');
     } else if (prefix === PREFIXES.TOOLBOX) {
-      // Here's where tab switching happens
-      console.warn('Node type: Toolbox. No response has been coded.');
+      this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
+          this.appController.project.getToolbox(name));
     } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
       prefix === PREFIXES.WORKSPACE_CONFIG) {
       // Here's where tab switching happens
