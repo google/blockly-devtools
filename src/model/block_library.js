@@ -43,7 +43,7 @@ class BlockLibrary extends Resource {
      *
      * References: N/A
      */
-    super(libraryName);
+    super(libraryName, PREFIXES.LIBRARY);
 
     /**
      * A map of all blocks in the library to their definitions.
@@ -77,6 +77,15 @@ class BlockLibrary extends Resource {
    */
   getBlockTypes() {
     return Object.keys(this.blocks);
+  }
+
+  /**
+   * Returns the BlockDefinition object within the library.
+   * @param {string} blockType Name of block.
+   * @return {BlockDefinition} BlockDefinition object within library.
+   */
+  getBlockDefinition(blockType) {
+    return this.blocks[blockType];
   }
 
   /**
@@ -146,7 +155,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    return !this.blocks[blockType];
+    return this.blocks[blockType] ? true : false;
   }
 
   /**
@@ -154,8 +163,9 @@ class BlockLibrary extends Resource {
    * @return {!Object} The data needed to export the library.
    */
   getExportData() {
-    //TODO: implement
-    throw 'unimplemented: getExportData';
+    let data = Object.create(null);
+    super.buildMetadata(data);
+    return data;
   }
 
   /**

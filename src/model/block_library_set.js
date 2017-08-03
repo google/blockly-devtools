@@ -97,9 +97,13 @@ class BlockLibrarySet extends ResourceSet {
    * Returns the library that contains the named block.
    * @param {string} blockType The name of the block to be found.
    * @return {?BlockLibrary} The block library that has the block or null.
-   * TODO #154: debug block popup, fix this method.
    */
   getLibrary(blockType) {
+    for (let libName in this.resources) {
+      if (this.resources[libName].has(blockType)) {
+        return this.resources[libName];
+      }
+    }
     return null;
   }
 

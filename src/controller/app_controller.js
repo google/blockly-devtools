@@ -165,9 +165,9 @@ class AppController {
     this.popupController = null;
 
     /**
-     * Location where the project directory is saved.
+     * ReadWriteController, which controls reading/writing project data.
      */
-    this.storageLocation = localStorage.getItem('devToolsProjectLocation');
+    this.readWriteController = new ReadWriteController(this);
 
     // Creates project.
     this.initProject('MyProject');
@@ -267,40 +267,11 @@ class AppController {
   }
 
   /**
-   * Creates the properly nested directory in which to save the project.
-   */
-  initProjectDirectory() {
-    const projectDir = this.storageLocation + path.sep + this.project.name;
-    const libraryDir = projectDir + path.sep + PREFIXES.LIBRARY;
-    const toolboxDir = projectDir + path.sep + PREFIXES.TOOLBOX;
-    const workspaceDir = projectDir + path.sep + PREFIXES.GENERAL_WORKSPACE;
-    const dirs = [projectDir, libraryDir, toolboxDir, workspaceDir];
-    for (let dir in dirs) {
-      if (!fs.existsSync(dirs[dir])) {
-        fs.mkdir(dirs[dir]);
-      }
-    }
-  }
-
-  /**
    * Top-level function which is first called in order to save a project to
    * developer's file system.
    */
   saveProject() {
-    // Check for viable save location.
-    if (!this.storageLocation) {
-      this.popupController = new SaveProjectPopupController(this);
-      this.popupController.show();
-    } else {
-      // Create directory in which to save the project if none exists.
-      // NOTE: This will be moved/functionalized
-      this.initProjectDirectory();
-      let data = Object.create(null);
-      this.project.buildMetadata(data);
-      let dataString = JSON.stringify(data, null, '\t');
-      fs.writeFileSync(
-          this.storageLocation + path.sep + 'metadata', dataString);
-    }
+    this.readWriteController.saveProject();
   }
 
   /**
@@ -432,8 +403,14 @@ class AppController {
    * Switches view and editor, closes any open modal elements.
    * @param {string} editor The editor to switch to.
    * @param {!Resource} resource The resource to display upon switching the view.
+   * @throws When the given resource is null or undefined, there is no resource
+   *     to display.
    */
   switchEnvironment(editor, resource) {
+    if (!resource) {
+      throw 'switchEnvironment() trying to load a ' + resource + ' object into' +
+          ' an editor (' + editor + ').';
+    }
     var view = 'EditorView';
     var controller = 'Controller';
 

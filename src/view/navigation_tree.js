@@ -52,6 +52,9 @@ class NavigationTree {
    */
   makeTreeJson() {
     const data = this.appController.project.getJson();
+    data['state'] = {
+        'opened': true
+      };
     const tree = {
       'core': {
         'check_callback': true,
@@ -81,6 +84,14 @@ class NavigationTree {
       }
     };
     return tree;
+  }
+
+  /**
+   * Returns JSTree object. Used for calling JSTree operations on navtree.
+   * @return {!JsTree}
+   */
+  getTree() {
+    return $('#navigationTree').jstree();
   }
 
   /**
@@ -155,8 +166,16 @@ class NavigationTree {
    * @param {string} parentName The name of the parent of the new node.
    */
   addComponentNode(prefix, componentName, parentName) {
-    $('#navigationTree').jstree().create_node(parentName,
-        {'id': prefix + '_' + componentName, 'text': componentName }, 'last', null);
+    const tree = this.getTree();
+    const id = prefix + '_' + componentName;
+    const data = {
+        'id': id,
+        'text': componentName
+      };
+    tree.create_node(parentName, data, 'last', null);
+    tree.open_node(prefix);
+    tree.deselect_all();
+    tree.select_node(id);
   }
 
   /**
@@ -271,15 +290,25 @@ class NavigationTree {
    * Gives appropriate response for selected node. Switches the tab if
    *     necessary, opens the block if appropriate.
    * @param {string} id The id of the selected node.
+   * @throws When name of resource extracted from the clicked tree node is
+   *     empty or null.
    */
   changeView(id) {
     const nodeInfo = id.split('_');
     const prefix = nodeInfo[0];
     const name = nodeInfo[1];
 
+    if (!name) {
+      throw 'Name of resource associated with node element is null or empty.';
+    }
+
     if (prefix === PREFIXES.LIBRARY) {
-      // Here's where tab switching happens
-      console.warn('Node type: BlockLibrary. No response has been coded.');
+      const library = this.appController.project.getBlockLibrary(name);
+      const blockDef = library.getBlockDefinition(Object.keys(library.blocks)[0]);
+      if (blockDef) {
+        this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
+            library.getBlockDefinition(Object.keys(library.blocks)[0]));
+      }
     } else if (prefix === PREFIXES.TOOLBOX) {
       this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
           this.appController.project.getToolbox(name));
@@ -288,8 +317,9 @@ class NavigationTree {
       // Here's where tab switching happens
       console.warn('Node type: Workspace Contents or Configuration. No response has been coded.');
     } else if (prefix === PREFIXES.BLOCK) {
-      // Open the block.
-      this.appController.editorController.blockEditorController.view.openBlock(id);
+      const library = this.appController.projectController.getLibrary(name);
+      this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
+          library.getBlockDefinition(name));
     }
   }
 
