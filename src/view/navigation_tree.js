@@ -43,12 +43,6 @@ class NavigationTree {
      */
     this.appController = appController;
 
-    /**
-     * Keeps track of ID of currently selected tree node. Null if none selected.
-     * @type {string}
-     */
-    this.selected = null;
-
     this.makeTree();
   }
 
@@ -93,7 +87,8 @@ class NavigationTree {
   }
 
   /**
-   *
+   * Returns jstree object.
+   * @return {!JsTree}
    */
   getTree() {
     return $('#navigationTree').jstree();
