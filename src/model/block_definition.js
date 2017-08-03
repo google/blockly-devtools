@@ -60,10 +60,10 @@ class BlockDefinition extends Resource {
   }
 
   /**
-   * Returns a block's JSON representation.
-   * @return {!Object} JSON representation of the block.
+   * Returns a block's tree-spcific JSON representation.
+   * @return {!Object} The tree-spcific JSON representation of the block.
    */
-  getJson() {
+  getTreeJson() {
     return {
       'id': this.type(),
       'text': this.type()

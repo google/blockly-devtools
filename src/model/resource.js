@@ -72,11 +72,11 @@ class Resource {
   }
 
   /**
-   * Gets the JSON object which represents the resource.
+   * Gets the tree-spcific JSON object which represents the resource.
    *
-   * @return {!Object} The JSON representation of the resource.
+   * @return {!Object} The tree-spcific JSON representation of the resource.
    */
-  getJson() {
+  getTreeJson() {
     const resourceJson = {
       'text': this.name,
     };

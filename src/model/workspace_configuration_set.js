@@ -43,11 +43,11 @@ class WorkspaceConfigurationSet extends ResourceSet {
    * Produces the JSON that represents the workspace configuration set.
    * @return {!Object} The JSON for the workspace configuration set.
    */
-  getJson() {
+  getTreeJson() {
     const workspaceConfigSetJson = {
       'id': PREFIXES.WORKSPACE_CONFIG,
       'text': 'Workspace Configurations',
-      'children': super.getJson()
+      'children': super.getTreeJson()
     };
     return workspaceConfigSetJson;
   }

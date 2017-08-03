@@ -98,11 +98,11 @@ class BlockLibrarySet extends ResourceSet {
    * Produces the JSON needed to organize libraries in the tree.
    * @return {!Object} The JSON for the tree's library section.
    */
-  getJson() {
+  getTreeJson() {
     const librarySetJson = {
       'id': PREFIXES.LIBRARY,
       'text': 'Libraries',
-      'children': super.getJson()
+      'children': super.getTreeJson()
     };
     return librarySetJson;
   }

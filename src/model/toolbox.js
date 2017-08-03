@@ -429,7 +429,9 @@ class Toolbox extends Resource {
    * @return {!Object} The tree-specific JSON representation of the toolbox.
    */
   getTreeJson() {
-    throw "unimplemented: getTreeJson";
+    const treeJson = $.extend(true, super.getTreeJson(),
+      {'id': PREFIXES.TOOLBOX});
+    return treeJson;
   }
 
   /**
