@@ -87,7 +87,7 @@ class NavigationTree {
   }
 
   /**
-   * Returns jstree object.
+   * Returns JSTree object. Used for calling JSTree operations on navtree.
    * @return {!JsTree}
    */
   getTree() {
