@@ -432,8 +432,14 @@ class AppController {
    * Switches view and editor, closes any open modal elements.
    * @param {string} editor The editor to switch to.
    * @param {!Resource} resource The resource to display upon switching the view.
+   * @throws When the given resource is null or undefined, there is no resource
+   *     to display.
    */
   switchEnvironment(editor, resource) {
+    if (!resource) {
+      throw 'switchEnvironment() trying to load a ' + resource + 'object into' +
+          ' an editor (' + editor + ').';
+    }
     var view = 'EditorView';
     var controller = 'Controller';
 
