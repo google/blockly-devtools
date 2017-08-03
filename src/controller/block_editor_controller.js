@@ -127,6 +127,7 @@ class BlockEditorController {
    */
   changeFormat() {
     // From factory.js:formatChange()
+    // TODO(#168): Move to view class and fix references.
     const mask = $('#blocklyMask');
     const languagePre = $('#languagePre');
     const languageTA = $('#languageTA');
@@ -319,6 +320,7 @@ class BlockEditorController {
    * @private
    */
   renderPreviewBlock_(blockType) {
+    // TODO(#168): Move to view class and fix references.
     // Create the preview block.
     const previewBlock = this.view.previewWorkspace.newBlock(blockType);
     previewBlock.initSvg();
