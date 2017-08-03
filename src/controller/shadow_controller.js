@@ -167,6 +167,21 @@ class ShadowController {
   }
 
   /**
+   * Check the status of all blocks in the current editor workspace.
+   */
+  checkShadowStatusOfWorkspace() {
+    const selected = this.view.selectedBlock;
+    const allBlocks = this.view.editorWorkspace.getAllBlocks();
+
+    for (let block of allBlocks) {
+      this.view.selectedBlock = block;
+      this.checkShadowStatus();
+    }
+
+    this.view.selectedBlock = selected;
+  }
+
+  /**
    * Convert actual shadow blocks added from the toolbox to user-generated shadow
    * blocks.
    * @param {boolean} blockId ID of the selected block.
