@@ -86,6 +86,13 @@ class NavigationTree {
   }
 
   /**
+   *
+   */
+  getTree() {
+    return $('#navigationTree').jstree();
+  }
+
+  /**
    * Populates the tree and adds its listener.
    */
   makeTree() {
@@ -157,15 +164,16 @@ class NavigationTree {
    * @param {string} parentName The name of the parent of the new node.
    */
   addComponentNode(prefix, componentName, parentName) {
+    console.log('component node!');
+    const id = prefix + '_' + componentName;
     const data = {
-        'id': prefix + '_' + componentName,
-        'text': componentName,
-        'state': {
-            'selected': true,
-            'opened': true
-          }
+        'id': id,
+        'text': componentName
       };
-    $('#navigationTree').jstree().create_node(parentName, data, 'last', null);
+    this.getTree().create_node(parentName, data, 'last', null);
+    const node = this.getTree().get_node(id);
+    console.log(node);
+    this.getTree().open_node(node);
   }
 
   /**
