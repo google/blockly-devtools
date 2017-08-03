@@ -371,7 +371,7 @@ class ToolboxController extends ShadowController {
      *                  wfactory_controller.js:clearAll()
      */
     if (!opt_noWarning && !window.confirm('Are you sure you would like to clear ' +
-          'your toolbox editor workspace?')) {
+          'your toolbox, ' + this.view.toolbox.name + '?')) {
       return;
     }
 
