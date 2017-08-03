@@ -34,8 +34,10 @@ class SaveProjectPopupView extends PopupView {
    * @constructor
    * @param {!NewBlockPopupController} controller NewBlockPopupController currently
    *     managing this view.
+   * @param {string} htmlContents The html contents of the popup, based on the
+   *     current project.
    */
-  constructor(controller) {
+  constructor(controller, htmlContents) {
     super(controller);
 
     /**
@@ -43,13 +45,7 @@ class SaveProjectPopupView extends PopupView {
      * window itself.
      * @type {string}
      */
-    this.htmlContents = `
-<header>Choose a Project Location</header>
-	<form>
-  	<input type="file" nwdirectory id="directory"></input>
-  	<input type="button" value="Submit" id="submit">
-  	</form>
-`;
+    this.htmlContents = htmlContents;
 
     // Stores HTML to display new block popup.
     super.injectPopupContents(this.htmlContents);
@@ -73,8 +69,11 @@ class SaveProjectPopupView extends PopupView {
       this.emit('exit');
     });
     $('#submit').click(() => {
-      this.storageLocation = $('#directory').val();
-    	this.hide();
+      this.project = $('#projectDirectory').val();
+      this.library = $('#libraryDirectory').val();
+      this.toolbox = $('#toolboxDirectory').val();
+      this.general_workspace = $('#workspaceDirectory').val();
+      this.hide();
       this.emit('submit');
     });
   }

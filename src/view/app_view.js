@@ -108,9 +108,7 @@ class AppView {
             ]]
         ]],
         ['Create Application for Web', () => { this.createWeb(); }]
-      ]],
-      ['Edit', []],
-      ['Help', []]
+      ]]
     ];
 
     /**
@@ -122,7 +120,11 @@ class AppView {
 
     // Initializes menubar.
     this.mainMenu = new nw.Menu({type: 'menubar'});
-    this.initMenuTree(this.mainMenu, menuTree);
+    if (process.platform === "darwin") {
+      this.initMacMenubar(this.mainMenu, menuTree);
+    } else {
+      this.initMenuTree(this.mainMenu, menuTree);
+    }
     /**
      * The Menubar of the main window of the application.
      * @type {!HtmlElement}
@@ -278,37 +280,63 @@ class AppView {
   }
 
   /**
-   * Initializes menu tree based off of a given menu tree
+   * Creates and initializes a menu or menubar (Windows & Linux only),
+   * based off of the given menu metadata in tree.
    *
    * @param {!nw.Menu} menu Menu to add nodes to.
    * @param {Array} tree An array of name/value pairs for each child
-                         (each represented as a length 2 array).
+   *                     (each represented as a length 2 array).
    */
   initMenuTree(menu, tree) {
-    // If menu is null, it means that we are at the end of the tree.
-    if (menu == null) {
-      return tree;
-    }
-
     tree.forEach((pair) => {
       if (pair.length != 2) {
         throw `Invalid name/value pair in menu tree: ${pair}`;
       }
-      let name = pair[0];
+      let label = pair[0];
       if (typeof pair[1] !== 'function') {
         // If next node is not leaf, must create subMenu.
         let subMenu = new nw.Menu();
-        this.menuItems[name] = this.addMenuItem(
-            menu, name, subMenu, this.initMenuTree(subMenu, pair[1]));
+        this.initMenuTree(subMenu, /* children */ pair[1]);
+        this.menuItems[label] = this.addMenuItem(menu, label, subMenu, null);
       } else {
         // When the child node is a function, no subMenu is necessary.
         // Replace node with MenuItem.
-        this.menuItems[name] = this.addMenuItem(
-            menu, name, null, this.initMenuTree(null, pair[1]));
+        this.menuItems[label] = this.addMenuItem(
+            menu, label, /* submenu */ null, /* callback */ pair[1]);
       }
-
     });
-    return null;
+  }
+
+  /**
+   * Initializes MenuBar for running on OS X.
+   *
+   * @param {!nw.Menu} menubar The Menu representing the Mac menubar.
+   * @param {Array} tree An array of name/value pairs for each child
+   *                     (each represented as a length 2 array).
+   */
+  initMacMenubar(menubar, tree) {
+    this.mainMenu.createMacBuiltin('Blockly DevTools');
+
+    var insertionIndex = 1;
+    tree.forEach((pair) => {
+      if (pair.length != 2) {
+        throw `Invalid name/value pair in menu tree: ${pair}`;
+      }
+      let label = pair[0];
+      let submenuTree = pair[1];
+
+      let subMenu = new nw.Menu();
+      // TODO: Determine if a menu/menuitem with the label already exists.
+      this.initMenuTree(subMenu, submenuTree);
+
+      this.menuItems[label] = new nw.MenuItem({
+        label: label,
+        enabled: true,
+        submenu: subMenu
+      });
+      menubar.insert(this.menuItems[label], insertionIndex++);
+    });
+
   }
 
   /**
@@ -437,23 +465,24 @@ class AppView {
     this.modalId_ = null;
     this.addFlyoutOpen = false;
   }
+
   /**
    * Assigns button click handlers for add button flyout.
    */
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
-      this.appController.createBlockDefinition();
       this.closeModal_();
+      this.appController.createBlockDefinition();
     });
 
     $('#addLibrary').click(() => {
-      this.appController.createLibrary();
       this.closeModal_();
+      this.appController.createLibrary();
     });
 
-    $('#addToolbox').click(() => {
-      this.appController.createToolbox();
+    $('#addToolbox').unbind('click').click(() => {
       this.closeModal_();
+      this.appController.createToolbox();
     });
 
     $('#addWorkspaceContents').click(() => {
@@ -504,14 +533,5 @@ class AppView {
   onresize(event) {
     // Move in from app_controller.js
     throw 'Unimplemented: onresize()';
-  }
-
-  /**
-   * Closes the new element flyout.
-   */
-  closeFlyout() {
-    FactoryUtils.closeModal(this.modalId_);
-    this.modalId_ = null;
-    this.addFlyoutOpen = false;
   }
 }

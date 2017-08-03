@@ -70,6 +70,15 @@ class BlockLibrary extends Resource {
   }
 
   /**
+   * Returns the BlockDefinition object within the library.
+   * @param {string} blockType Name of block.
+   * @return {BlockDefinition} BlockDefinition object within library.
+   */
+  getBlockDefinition(blockType) {
+    return this.blocks[blockType];
+  }
+
+  /**
    * Returns the XML of given block type stored in the block library.
    * @param {string} blockType Type of block.
    * @return {Element} The XML that represents the block type or null.
@@ -136,7 +145,7 @@ class BlockLibrary extends Resource {
    * @return {boolean} Whether or not blockType is stored in block library.
    */
   has(blockType) {
-    return !this.blocks[blockType];
+    return this.blocks[blockType] ? true : false;
   }
 
   /**

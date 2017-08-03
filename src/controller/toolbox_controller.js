@@ -94,6 +94,18 @@ class ToolboxController extends ShadowController {
       this.transferFlyoutBlocksToCategory();
     }
 
+    this.clearAndLoadNewCategory(name);
+    // Updates XML of toolbox model.
+    this.view.toolbox.setXml(this.generateToolboxXml());
+    // Update preview.
+    this.updatePreview();
+  }
+
+  /**
+   * Clears workspace and creates new category with given name.
+   * @param {string} name Name of new category.
+   */
+  clearAndLoadNewCategory(name) {
     this.view.editorWorkspace.clear();
     // Deselect the currently active tab.
     this.view.selectTab(this.view.toolbox.getSelectedId(), false);
@@ -101,10 +113,6 @@ class ToolboxController extends ShadowController {
     this.view.toolbox.setSelected(this.createCategory(name));
     // Switch to category.
     this.switchElement(this.view.toolbox.getCategoryId(name));
-    // Updates XML of toolbox model.
-    this.view.toolbox.setXml(this.generateToolboxXml());
-    // Update preview.
-    this.updatePreview();
   }
 
   /**
@@ -136,7 +144,7 @@ class ToolboxController extends ShadowController {
     this.view.toolbox.setSelected(id);
     this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
     this.view.selectTab(id, true);
-    this.view.toolbox.setXml(this.generateToolboxXml()); // bm
+    this.view.toolbox.setXml(this.generateToolboxXml());
 
     this.updatePreview();
   }
@@ -354,14 +362,16 @@ class ToolboxController extends ShadowController {
   /**
    * Removes all categories and separators in the view. Clears categoryTabs to
    * reflect this.
+   * @param {boolean=} opt_noWarning Whether the user should not be notified of
+   *     clearing the workspace.
    */
-  clear() {
+  clear(opt_noWarning) {
     /*
      * REFACTORED: from wfactory_view.js:clearToolboxTabs()
      *                  wfactory_controller.js:clearAll()
      */
-    if (!window.confirm('Are you sure you would like to clear your toolbox ' +
-          'editor workspace?')) {
+    if (!opt_noWarning && !window.confirm('Are you sure you would like to clear ' +
+          'your toolbox, ' + this.view.toolbox.name + '?')) {
       return;
     }
 
@@ -501,6 +511,10 @@ class ToolboxController extends ShadowController {
    * @param {!Event} e Change event in workspace.
    */
   onChange(e) {
+    if (!this.view.toolbox.getSelected()) {
+      // If no category is selected, do not react to change events.
+      return;
+    }
     const isCreateEvent = e.type == Blockly.Events.CREATE;
     const isMoveEvent = e.type == Blockly.Events.MOVE;
     const isDeleteEvent = e.type == Blockly.Events.DELETE;
@@ -561,7 +575,9 @@ class ToolboxController extends ShadowController {
     // Let the user create a Variables or Functions category if they use
     // blocks from either category.
     const newBlock = this.view.editorWorkspace.getBlockById(blockId);
-    this.warnForMissingCategory_(newBlock.getDescendants());
+    if (newBlock) {
+      this.warnForMissingCategory_(newBlock.getDescendants());
+    }
   }
 
   /**
@@ -614,6 +630,46 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   saveStateFromWorkspace() {
     this.view.toolbox.getSelected().saveFromWorkspace(this.view.editorWorkspace);
     this.view.toolbox.setXml(this.generateToolboxXml());
+  }
+
+  /**
+   * Given a toolbox, loads it into the editor workspace.
+   * @param {!Toolbox} toolbox Toolbox object to load into editor.
+   */
+  loadToolbox(toolbox) {
+    // Load toolbox name.
+    const name = toolbox.name;
+    const tree = toolbox.getExportData();
+    // Check if flyout.
+    if (toolbox.flyout) {
+      Blockly.Xml.domToWorkspace(tree, this.view.editorWorkspace);
+      this.view.editorWorkspace.cleanUp();
+      this.convertShadowBlocks();
+      this.view.addEmptyToolboxMessage();
+    } else {
+      // Sets selected category to be null to disable reactions to change events.
+      toolbox.selected = null;
+
+      for (let elem of toolbox.categoryList) {
+        if (elem.type = ListElement.TYPE_CATEGORY) {
+          // Add tab to view.
+          const tab = this.view.addCategoryTab(elem.name, elem.id);
+          // Deselects tab that was just selected within addCategoryTab().
+          this.view.selectTab(elem.id, false);
+          // Adds click listener.
+          this.addClickToSwitch(tab, elem.id);
+        } else {
+          this.view.addSeparatorTab(elem.id);
+        }
+      }
+      toolbox.setSelected(toolbox.categoryList[0]);
+      this.switchElement(toolbox.categoryList[0].id);
+    }
+
+    // Updates buttons
+    this.view.updateState(toolbox.getIndexById(toolbox.getSelectedId()),
+        toolbox.getSelected());
+    this.updatePreview();
   }
 
   /**

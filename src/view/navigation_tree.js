@@ -33,22 +33,15 @@ class NavigationTree {
    * NavigationTree Class
    * @param {!AppController} appController The AppController for the session the
    *     tree is part of, and therefore must use in the listener.
-   * @param {!Project} project The project the tree represents.
    * @constructor
    */
-  constructor(appController, project) {
+  constructor(appController) {
 
     /**
      * The AppController for the tree to listen to.
      * @type {!AppController}
      */
     this.appController = appController;
-
-    /**
-     * The Project the tree represents.
-     * @type {!Project}
-     */
-    this.project = project;
 
     this.makeTree();
   }
@@ -58,7 +51,7 @@ class NavigationTree {
    * @return {!Object} The JSON necessary to load the tree.
    */
   makeTreeJson() {
-    const data = this.project.getJson();
+    const data = this.appController.project.getJson();
     const tree = {
       'core': {
         'check_callback': true,
@@ -268,22 +261,33 @@ class NavigationTree {
    * Gives appropriate response for selected node. Switches the tab if
    *     necessary, opens the block if appropriate.
    * @param {string} id The id of the selected node.
+   * @throws When name of resource extracted from the clicked tree node is
+   *     empty or null.
    */
   changeView(id) {
-    const prefix = id.split('_')[0];
+    const nodeInfo = id.split('_');
+    const prefix = nodeInfo[0];
+    const name = nodeInfo[1];
+
+    if (!name) {
+      throw 'Name of resource associated with node element is null or empty.';
+    }
+
     if (prefix === PREFIXES.LIBRARY) {
-      // Here's where tab switching happens
-      console.warn('Node type: BlockLibrary. No response has been coded.');
+      const library = this.appController.project.getBlockLibrary(name);
+      this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
+          library.getBlockDefinition(Object.keys(library.blocks)[0]));
     } else if (prefix === PREFIXES.TOOLBOX) {
-      // Here's where tab switching happens
-      console.warn('Node type: Toolbox. No response has been coded.');
+      this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
+          this.appController.project.getToolbox(name));
     } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
       prefix === PREFIXES.WORKSPACE_CONFIG) {
       // Here's where tab switching happens
       console.warn('Node type: Workspace Contents or Configuration. No response has been coded.');
     } else if (prefix === PREFIXES.BLOCK) {
-      // Open the block.
-      this.appController.editorController.blockEditorController.view.openBlock(id);
+      const library = this.appController.projectController.getLibrary(name);
+      this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
+          library.getBlockDefinition(name));
     }
   }
 

@@ -1345,12 +1345,21 @@ FactoryUtils.ifCheckedEnable = function(enabled, idArray) {
  */
 FactoryUtils.warnForUndefinedBlocks = function(blocks, project) {
   blocks.forEach((block) => {
-    if (!project.hasBlockDefinition(block.type) ||
-        !StandardCategories.categoryMap[block.type]) {
+    if (!project.hasBlockDefinition(block.type) &&
+        !FactoryUtils.isStandardBlock(block.type)) {
       block.setWarningText(block.type + ' is not defined (it is not a standard '
           + 'block, \nin your block library, or an imported block).');
     }
   });
+};
+
+/**
+ * Determines if a block type is defined as a standard block.
+ * @param {string} blockType Block type to check.
+ * @return {boolean} True if blockType is defined, false otherwise.
+ */
+FactoryUtils.isStandardBlock = function(blockType) {
+  return StandardCategories.coreBlockTypes.indexOf(blockType) != -1;
 };
 
 /**
