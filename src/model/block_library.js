@@ -144,7 +144,8 @@ class BlockLibrary extends Resource {
    * @return {!Object} The data needed to export the library.
    */
   getExportData() {
-    let data
+    let data = Object.create(null);
+    super.buildMetadata();
   }
 
   /**

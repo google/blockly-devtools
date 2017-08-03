@@ -415,15 +415,6 @@ class Toolbox extends Resource {
   }
 
   /**
-   * Gets the JSON object necessary to represent the toolbox in the navigation
-   *     tree.
-   * @return {!Object} The tree-specific JSON representation of the toolbox.
-   */
-  getTreeJson() {
-    throw "unimplemented: getTreeJson";
-  }
-
-  /**
    * Clears the toolbox and creates single empty flyout category.
    */
   clear() {
