@@ -85,8 +85,8 @@ class BlockEditorController {
   static get FORMAT_JAVASCRIPT() {
     return 'JavaScript';
   }
-  static get FORMAT_GENERAL() {
-    return 'General';
+  static get FORMAT_MANUAL() {
+    return 'Manual';
   }
 
   /**
@@ -125,9 +125,27 @@ class BlockEditorController {
   /**
    * Change the language code format.
    */
-  formatChange() {
-    // TODO: Move in from factory.js
-    throw 'Unimplemented: formatChange()';
+  changeFormat() {
+    // From factory.js:formatChange()
+    // TODO(#168): Move to view class and fix references.
+    const mask = $('#blocklyMask');
+    const languagePre = $('#languagePre');
+    const languageTA = $('#languageTA');
+    if ($('#format').val() == BlockEditorController.FORMAT_MANUAL) {
+      Blockly.hideChaff();
+      mask.show();
+      languagePre.hide();
+      languageTA.show();
+      const code = languagePre.text().trim();
+      languageTA.val(code);
+      languageTA.focus();
+      this.updatePreview_();
+    } else {
+      mask.hide();
+      languageTA.hide();
+      languagePre.show();
+      this.updateLanguage();
+    }
   }
 
   /**
@@ -135,7 +153,19 @@ class BlockEditorController {
    */
   updateLanguage() {
     // TODO: Move in from factory.js
-    throw 'Unimplemented: updateLanguage()';
+    var rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    if (!rootBlock) {
+      return;
+    }
+    var blockType = rootBlock.getFieldValue('NAME').trim().toLowerCase();
+    if (!blockType) {
+      blockType = 'unnamed';
+    }
+    var format = document.getElementById('format').value;
+    var code = FactoryUtils.getBlockDefinition(format,
+        this.view.editorWorkspace);
+    FactoryUtils.injectCode(code, 'languagePre');
+    this.updatePreview_();
   }
 
   /**
@@ -168,10 +198,15 @@ class BlockEditorController {
    * @private
    */
   updateBlockDefinitionView_(format) {
-    const currentBlock = this.view.blockDefinition;
-    const defCode = FactoryUtils.getBlockDefinition(
-        format, this.view.editorWorkspace);
-    this.view.updateBlockDefinitionView(defCode);
+    if (format == BlockEditorController.FORMAT_MANUAL) {
+      const defCode = $('#languagePre').val();
+      this.view.updateBlockDefinitionView(defCode, /* opt_manual */ true);
+    } else {
+      const currentBlock = this.view.blockDefinition;
+      const defCode = FactoryUtils.getBlockDefinition(
+          format, this.view.editorWorkspace);
+      this.view.updateBlockDefinitionView(defCode);
+    }
   }
 
   /**
@@ -227,8 +262,8 @@ class BlockEditorController {
     const blockDef = [];
 
     // Fetch the code and determine its format (JSON or JavaScript).
-    const format = $('#format').val();
-    if (format == BlockEditorController.FORMAT_GENERAL) {
+    let format = $('#format').val();
+    if (format == BlockEditorController.FORMAT_MANUAL) {
       var code = $('#languageTA').val();
       // If the code is JSON, it will parse, otherwise treat as JS.
       try {
@@ -285,6 +320,7 @@ class BlockEditorController {
    * @private
    */
   renderPreviewBlock_(blockType) {
+    // TODO(#168): Move to view class and fix references.
     // Create the preview block.
     const previewBlock = this.view.previewWorkspace.newBlock(blockType);
     previewBlock.initSvg();
