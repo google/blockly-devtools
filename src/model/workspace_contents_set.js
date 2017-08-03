@@ -48,7 +48,7 @@ class WorkspaceContentsSet extends ResourceSet {
   }
 
   /**
-   * Produces the JSON that represents the workspace contents set.
+   * Produces the tree-spcific JSON that represents the workspace contents set.
    * @return {!Object} The JSON for workspace contents set.
    */
   getTreeJson() {

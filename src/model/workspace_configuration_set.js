@@ -40,7 +40,7 @@ class WorkspaceConfigurationSet extends ResourceSet {
   }
 
   /**
-   * Produces the JSON that represents the workspace configuration set.
+   * Produces the tree-spcific JSON that represents the workspace configuration set.
    * @return {!Object} The JSON for the workspace configuration set.
    */
   getTreeJson() {
