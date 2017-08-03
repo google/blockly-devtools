@@ -163,7 +163,7 @@ class BlockLibrary extends Resource {
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the library.
    */
-  getJson() {
+  getNavTreeJson() {
     const libraryJson = $.extend(true, super.getJson(),
       {'id': PREFIXES.LIBRARY, 'children': this.getBlockArrayJson()});
     return libraryJson;
