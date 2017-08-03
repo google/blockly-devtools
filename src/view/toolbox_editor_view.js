@@ -170,8 +170,15 @@ class ToolboxEditorView {
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
 
-    // TODO: Make editor show the @param toolbox (when user clicks on a
-    //       specific toolbox in the navtree).
+    if (!toolbox) {
+      return;
+    }
+
+    this.clearElements();
+    this.toolbox = toolbox;
+    this.tabMap = Object.create(null);
+    this.refreshToolboxInfo();
+    this.editorWorkspace.clear();
   }
 
   /**
@@ -185,7 +192,6 @@ class ToolboxEditorView {
     this.editorWorkspace.addChangeListener((event) => {
       controller.onChange(event);
     });
-    this.initEventListeners_(controller);
     this.initClickHandlers_(controller);
     this.initColorPicker_(controller);
   }
@@ -335,16 +341,6 @@ class ToolboxEditorView {
   }
 
   /**
-   * Add event listeners for Toolbox editor.
-   * @param {!ToolboxController} controller ToolboxController used as reference
-   *     in event listeners.
-   * @private
-   */
-  initEventListeners_(controller) {
-    // From wfactory_init.js:addWorkspaceFactoryEventListeners_()
-  }
-
-  /**
    * Refreshes any information in the view (such as the name of the currently
    * edited toolbox) to match any changes in the Toolbox model object.
    */
@@ -368,7 +364,7 @@ class ToolboxEditorView {
    *     otherwise.
    */
   displayRemoveShadow(show) {
-    // TODO: Move in from wfactory_model.js:displayRemoveShadow_(show)
+    // From wfactory_model.js:displayRemoveShadow_(show)
     this.removeShadowButton.style.display = show ? 'inline-block' : 'none';
   }
 
