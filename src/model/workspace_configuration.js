@@ -65,8 +65,10 @@ class WorkspaceConfiguration extends Resource {
    * @return {!Object} The data needed to export the workspace configuration.
    */
   getExportData() {
-    //TODO: implement
-    throw "unimplemented: getExportData";
+    let data = Object.create(null);
+    super.buildMetadata(data);
+    data.options = this.options;
+    return data;
   }
 
   /**
