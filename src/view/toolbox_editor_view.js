@@ -176,9 +176,13 @@ class ToolboxEditorView {
       return;
     }
 
-    this.editorWorkspace.clear();
+    this.clearElements();
     this.toolbox = toolbox;
+    console.log('Toolbox as of show(). Not yet reached controller.');
+    console.log(this.toolbox);
+    this.tabMap = Object.create(null);
     this.refreshToolboxInfo();
+    this.editorWorkspace.clear();
   }
 
   /**

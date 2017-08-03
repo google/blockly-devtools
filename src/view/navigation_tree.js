@@ -278,7 +278,7 @@ class NavigationTree {
       // Here's where tab switching happens
       console.warn('Node type: BlockLibrary. No response has been coded.');
     } else if (prefix === PREFIXES.TOOLBOX) {
-      console.log('Click registered!');
+      console.log('Click registered!'); debugger;
       this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR, 
           this.project.getToolbox(name));
     } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||

@@ -407,8 +407,6 @@ class ToolboxController extends ShadowController {
   updatePreview() {
     // REFACTORED: Moved in from wfactory_controller.js:updatePreview()
     Blockly.Events.disable();
-    console.log('switching editor, updating preview.');
-    console.log(this.view.toolbox);
     const toolboxXml = this.view.toolbox.getExportData();
     const tree = Blockly.Options.parseToolboxTree(toolboxXml);
 
@@ -573,7 +571,9 @@ class ToolboxController extends ShadowController {
     // Let the user create a Variables or Functions category if they use
     // blocks from either category.
     const newBlock = this.view.editorWorkspace.getBlockById(blockId);
-    this.warnForMissingCategory_(newBlock.getDescendants());
+    if (newBlock) {
+      this.warnForMissingCategory_(newBlock.getDescendants());
+    }
   }
 
   /**
@@ -635,6 +635,8 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   loadToolbox(toolbox) {
     // Clears workspace without notifying user.
     this.view.editorWorkspace.clear();
+    console.log('loadToolbox() called!');
+    console.log(toolbox);
 
     // Load toolbox name.
     const name = toolbox.name;
@@ -647,43 +649,62 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
       this.convertShadowBlocks();
       this.view.addEmptyToolboxMessage();
     } else {
-      console.log('Displaying categories!');
-      for (var i = 0, item; item = tree.children[i]; i++) {
-        if (item.tagName == 'category') {
-          console.log('Loading category: ' + item.name);
-          // If the element is a category, create a new category and switch to it.
-          this.createCategory(item.getAttribute('name'), false);
-          var category = toolbox.getElementByIndex(i);
-          this.switchElement(category.id);
-
-          // Load all blocks in that category to the workspace to be evenly
-          // spaced and saved to that category.
-          for (var j = 0, blockXml; blockXml = item.children[j]; j++) {
-            Blockly.Xml.domToBlock(blockXml, this.view.editorWorkspace);
-          }
-
-          // Evenly space the blocks.
+      console.log('Displaying categories! Toolbox XML below.');
+      console.log(tree);
+      for (let elem of toolbox.categoryList) {
+        if (elem.type = ListElement.TYPE_CATEGORY) {
+          this.view.editorWorkspace.clear();
+          // Load blocks in a category to workspace.
+          console.log('Displaying category: ' + elem.name);
+          console.log(elem.xml);
+          Blockly.Xml.domToWorkspace(elem.xml, this.view.editorWorkspace);
+          // Align blocks.
           this.view.editorWorkspace.cleanUp();
-
-          // Convert actual shadow blocks to user-generated shadow blocks.
-          this.convertShadowBlocks();
-
-          // Set category color.
-          if (item.getAttribute('colour')) {
-            category.changeColor(item.getAttribute('colour'));
-            this.view.setBorderColor(category.id, category.color);
-          }
-          // Set any custom tags.
-          if (item.getAttribute('custom')) {
-            toolbox.addCustomTag(category, item.getAttribute('custom'));
-          }
+          // Add tab to view.
+          const tab = this.view.addCategoryTab(elem.name, elem.id);
+          this.addClickToSwitch(tab, elem.id);
+          this.switchElement(elem.id);
         } else {
-          // If the element is a separator, add the separator and switch to it.
-          this.addCategorySeparator();
-          this.switchElement(toolbox.getElementByIndex(i).id);
+          // Separator.
+          this.view.addSeparatorTab(elem.id);
         }
       }
     }
+      // for (var i = 0, item; item = tree.children[i]; i++) {
+      //   if (item.tagName.toLowerCase() == 'category') {
+      //     console.log('Loading category: ' + item.name);
+      //     // If the element is a category, create a new category and switch to it.
+      //     // this.createCategory(item.getAttribute('name'), false);
+      //     var category = toolbox.getElementByIndex(i);
+      //     this.switchElement(category.id);
+
+      //     // Load all blocks in that category to the workspace to be evenly
+      //     // spaced and saved to that category.
+      //     for (var j = 0, blockXml; blockXml = item.children[j]; j++) {
+      //       Blockly.Xml.domToBlock(blockXml, this.view.editorWorkspace);
+      //     }
+
+      //     // Evenly space the blocks.
+      //     this.view.editorWorkspace.cleanUp();
+
+      //     // Convert actual shadow blocks to user-generated shadow blocks.
+      //     this.convertShadowBlocks();
+
+      //     // Set category color.
+      //     if (item.getAttribute('colour')) {
+      //       category.changeColor(item.getAttribute('colour'));
+      //       this.view.setBorderColor(category.id, category.color);
+      //     }
+      //     // Set any custom tags.
+      //     if (item.getAttribute('custom')) {
+      //       toolbox.addCustomTag(category, item.getAttribute('custom'));
+      //     }
+      //   } else {
+      //     // If the element is a separator, add the separator and switch to it.
+      //     this.addCategorySeparator();
+      //     this.switchElement(toolbox.getElementByIndex(i).id);
+      //   }
+      // }
     
     this.view.updateState(toolbox.getIndexById(toolbox.getSelectedId()), 
         toolbox.getSelected());

@@ -365,7 +365,7 @@ class AppController {
    * @param {Event} event The beforeunload event.
    */
   confirmLeavePage(event) {
-    // TODO: Move in from app_controller.js'
+    // TODO: Move in from app_controller.js
     console.warn('Unimplemented: confirmLeavePage()');
   }
 
@@ -381,7 +381,6 @@ class AppController {
    * Top-level function for library creation. Updates views, editors, and model.
    */
   createLibrary() {
-    // TODO: prompt for name, define behavior
     this.createPopup(PopupController.NEW_LIBRARY);
     this.view.closeModal_();
   }
@@ -404,6 +403,8 @@ class AppController {
       }
     } while (isDuplicate);
     const toolbox = this.projectController.createToolbox(name);
+    console.log('created toolbox, ' + name);
+    console.log(this.projectController.project);
     this.switchEnvironment(AppController.TOOLBOX_EDITOR, toolbox);
   }
 
@@ -437,7 +438,7 @@ class AppController {
    */
   switchEnvironment(editor, resource) {
     var view = 'EditorView';
-    var controller = 'EditorController';
+    var controller = 'Controller';
 
     if (editor == AppController.BLOCK_EDITOR) {
       view = PREFIXES.VARIABLE_BLOCK + view;
@@ -450,6 +451,8 @@ class AppController {
       controller = 'workspace' + controller;
     }
 
+    console.log('within AC, resource.');
+    console.log(resource);
     // Switch view.
     this.view.switchView(this.view[view], resource);
 

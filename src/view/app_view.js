@@ -443,18 +443,18 @@ class AppView {
    */
   assignAddFlyoutClickHandlers() {
     $('#addBlock').click(() => {
-      this.appController.createBlockDefinition();
       this.closeModal_();
+      this.appController.createBlockDefinition();
     });
 
     $('#addLibrary').click(() => {
-      this.appController.createLibrary();
       this.closeModal_();
+      this.appController.createLibrary();
     });
 
     $('#addToolbox').unbind('click').click(() => {
-      this.appController.createToolbox();
       this.closeModal_();
+      this.appController.createToolbox();
     });
 
     $('#addWorkspaceContents').click(() => {
