@@ -140,12 +140,25 @@ class BlockLibrary extends Resource {
   }
 
   /**
+   * Returns a flat list of all block data.
+   */
+  getAllBlockData() {
+    let blockData = [];
+    for (let blockType of this.blocks) {
+      blockData.push(this.blocks[blockType].getExportData());
+    }
+    return blockData;
+  }
+
+  /**
    * Gets the data necessary to export the library.
    * @return {!Object} The data needed to export the library.
    */
   getExportData() {
     let data = Object.create(null);
-    super.buildMetadata();
+    super.buildMetadata(data);
+    data.blocks = getAllBlockData();
+    return data;
   }
 
   /**

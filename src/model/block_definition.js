@@ -93,14 +93,14 @@ class BlockDefinition extends Resource {
   }
 
   /**
-   * Modifies the JSON object that comprises the project's metadata.
-   * @param {!Object} obj Object to extend with necessary data.
-   * @return {!Object} The project metadata.
+   * Gets the data necessary to export the block.
+   * @return {!Object} The data needed to export the block.
    */
-  buildMetadata(obj) {
-    super.buildMetadata(obj);
-    delete obj.file;
-    obj.resources = this.getFullResourceList();
-    obj.platform = 'web';
+  getExportData() {
+    let data = Object.create(null);
+    super.buildMetadata(data);
+    data.xml = this.getXml();
+    data.JSON = this.getJson();
+    return data;
   }
 }

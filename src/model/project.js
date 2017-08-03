@@ -251,14 +251,6 @@ class Project extends Resource {
   }
 
   /**
-   * Gets the data necessary to export the project.
-   * @return {!Object} The data needed to export the project.
-   */
-  getExportData() {
-    throw 'unimplemented: getExportData';
-  }
-
-  /**
    * Gets the JSON object necessary to represent the project in the navigation
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the project.
@@ -281,10 +273,10 @@ class Project extends Resource {
    */
   getFullResourceList() {
     let resourceList = [];
-    resourceList.concat(this.librarySet.getBuildMetadata());
-    resourceList.concat(this.toolboxSet.getBuildMetadata());
-    resourceList.concat(this.workspaceContentsSet.getBuildMetadata());
-    resourceList.concat(this.workspaceConfigSet.getBuildMetadata());
+    resourceList.concat(this.librarySet.getMetadata());
+    resourceList.concat(this.toolboxSet.getMetadata());
+    resourceList.concat(this.workspaceContentsSet.getMetadata());
+    resourceList.concat(this.workspaceConfigSet.getMetadata());
     return resourceList;
   }
 
