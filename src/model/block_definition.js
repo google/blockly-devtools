@@ -91,16 +91,4 @@ class BlockDefinition extends Resource {
     }
     this.xml = xml;
   }
-
-  /**
-   * Gets the data necessary to export the block.
-   * @return {!Object} The data needed to export the block.
-   */
-  getExportData() {
-    let data = Object.create(null);
-    super.buildMetadata(data);
-    data.xml = this.getXml();
-    data.JSON = this.getJson();
-    return data;
-  }
 }
