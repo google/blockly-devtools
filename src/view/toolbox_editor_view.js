@@ -170,8 +170,6 @@ class ToolboxEditorView {
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
 
-    // TODO: Make editor show the @param toolbox (when user clicks on a
-    //       specific toolbox in the navtree).
     if (!toolbox) {
       return;
     }

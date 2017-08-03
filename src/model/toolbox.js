@@ -295,6 +295,7 @@ class Toolbox extends Resource {
   /**
    * Adds a custom tag to a category, updating state variables accordingly.
    * Only accepts 'VARIABLE' and 'PROCEDURE' tags.
+   * TODO(#175): Accept any type of custom tag input.
    * @param {!ListElement} category The category to add the tag to.
    * @param {string} tag The custom tag to add to the category.
    */
