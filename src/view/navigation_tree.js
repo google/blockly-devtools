@@ -261,7 +261,8 @@ class NavigationTree {
    * Gives appropriate response for selected node. Switches the tab if
    *     necessary, opens the block if appropriate.
    * @param {string} id The id of the selected node.
-   * @throws When name of resource is null or empty on click.
+   * @throws When name of resource extracted from the clicked tree node is
+   *     empty or null.
    */
   changeView(id) {
     const nodeInfo = id.split('_');
