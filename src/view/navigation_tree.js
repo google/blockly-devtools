@@ -33,22 +33,15 @@ class NavigationTree {
    * NavigationTree Class
    * @param {!AppController} appController The AppController for the session the
    *     tree is part of, and therefore must use in the listener.
-   * @param {!Project} project The project the tree represents.
    * @constructor
    */
-  constructor(appController, project) {
+  constructor(appController) {
 
     /**
      * The AppController for the tree to listen to.
      * @type {!AppController}
      */
     this.appController = appController;
-
-    /**
-     * The Project the tree represents.
-     * @type {!Project}
-     */
-    this.project = project;
 
     this.makeTree();
   }
@@ -58,7 +51,7 @@ class NavigationTree {
    * @return {!Object} The JSON necessary to load the tree.
    */
   makeTreeJson() {
-    const data = this.project.getJson();
+    const data = this.appController.project.getJson();
     const tree = {
       'core': {
         'check_callback': true,
@@ -270,13 +263,16 @@ class NavigationTree {
    * @param {string} id The id of the selected node.
    */
   changeView(id) {
-    const prefix = id.split('_')[0];
+    const nodeInfo = id.split('_');
+    const prefix = nodeInfo[0];
+    const name = nodeInfo[1];
+
     if (prefix === PREFIXES.LIBRARY) {
       // Here's where tab switching happens
       console.warn('Node type: BlockLibrary. No response has been coded.');
     } else if (prefix === PREFIXES.TOOLBOX) {
-      // Here's where tab switching happens
-      console.warn('Node type: Toolbox. No response has been coded.');
+      this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
+          this.appController.project.getToolbox(name));
     } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
       prefix === PREFIXES.WORKSPACE_CONFIG) {
       // Here's where tab switching happens
