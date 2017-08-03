@@ -34,8 +34,10 @@ class SaveProjectPopupView extends PopupView {
    * @constructor
    * @param {!NewBlockPopupController} controller NewBlockPopupController currently
    *     managing this view.
+   * @param {string} htmlContents The html contents of the popup, based on the
+   *     current project.
    */
-  constructor(controller) {
+  constructor(controller, htmlContents) {
     super(controller);
 
     /**
@@ -43,20 +45,7 @@ class SaveProjectPopupView extends PopupView {
      * window itself.
      * @type {string}
      */
-    this.htmlContents = `
-<header>Choose Project File Locations</header>
-	<form>
-    Project<span class="red">*</span>
-      <input type="file" nwdirectory id="projectDirectory"></input><br><br>
-    Library
-      <input type="file" nwdirectory id="libraryDirectory"></input><br><br>
-    Toolbox
-      <input type="file" nwdirectory id="toolboxDirectory"></input><br><br>
-    Workspace
-      <input type="file" nwdirectory id="workspaceDirectory"></input><br><br>
-  	<input type="button" value="Submit" id="submit">
-  	</form>
-`;
+    this.htmlContents = htmlContents;
 
     // Stores HTML to display new block popup.
     super.injectPopupContents(this.htmlContents);

@@ -50,10 +50,10 @@ class ReadWriteController {
      */
     this.hasSaved = localStorage.getItem('hasSavedProjectBefore');
 
-  /**
-   * Map of resource type to locally stored directory location.
-   * @type {Map}
-   */
+    /**
+     * Map of resource type to locally stored directory location.
+     * @type {Map}
+     */
     this.directoryMap = new Map();
     // Initialize the directory map.
     this.initDirectoryMap_();
@@ -104,6 +104,7 @@ class ReadWriteController {
    */
   saveBlock() {
     //TODO: fill in
+    console.warn('unimplimented: saveBlock');
   }
 
   /**
@@ -111,6 +112,7 @@ class ReadWriteController {
    */
   saveLibrary() {
     //TODO: fill in
+    console.warn('unimplimented: saveLibrary');
   }
 
   /**
@@ -118,6 +120,7 @@ class ReadWriteController {
    */
   saveToolbox() {
     //TODO: fill in
+    console.warn('unimplimented: saveToolbox');
   }
 
   /**
@@ -125,6 +128,7 @@ class ReadWriteController {
    */
   saveWorkspaceContents() {
     //TODO: fill in
+    console.warn('unimplimented: saveWorkspaceContents');
   }
 
   /**
@@ -132,6 +136,7 @@ class ReadWriteController {
    */
   saveWorkspaceConfiguration() {
     //TODO: fill in
+    console.warn('unimplimented: saveWorkspaceConfiguration');
   }
 
   /**
