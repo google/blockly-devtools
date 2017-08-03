@@ -95,7 +95,7 @@ goog.require('Resource');
   }
 
   /**
-   * Returns the navigation tree-spcific JSON representation of the resource set.
+   * Returns the navigation tree-specific JSON representation of the resource set.
    * @return {!Object} The JSON representing the set.
    */
   getNavTreeJson() {

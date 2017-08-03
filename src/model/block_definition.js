@@ -60,8 +60,8 @@ class BlockDefinition extends Resource {
   }
 
   /**
-   * Returns a block's navigation tree-spcific JSON representation.
-   * @return {!Object} The navigation tree-spcific JSON for the block.
+   * Returns a block's navigation tree-specific JSON representation.
+   * @return {!Object} The navigation tree-specific JSON for the block.
    */
   getNavTreeJson() {
     return {

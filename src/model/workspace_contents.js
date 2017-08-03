@@ -74,7 +74,7 @@ class WorkspaceContents extends Resource {
   /**
    * Gets the JSON object necessary to represent the workspace contents in the
    * navigation tree.
-   * @return {!Object} The tree-spcific JSON representation of the workspace
+   * @return {!Object} The tree-specific JSON representation of the workspace
    * contents.
    */
   getNavTreeJson() {
