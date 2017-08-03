@@ -408,7 +408,7 @@ class AppController {
    */
   switchEnvironment(editor, resource) {
     if (!resource) {
-      throw 'switchEnvironment() trying to load a ' + resource + 'object into' +
+      throw 'switchEnvironment() trying to load a ' + resource + ' object into' +
           ' an editor (' + editor + ').';
     }
     var view = 'EditorView';
