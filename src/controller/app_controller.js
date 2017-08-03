@@ -425,6 +425,10 @@ class AppController {
    * @param {!Resource} resource The resource to display upon switching the view.
    */
   switchEnvironment(editor, resource) {
+    if (!resource) {
+      throw 'switchEnvironment() trying to load a ' + resource + 'object into' +
+          ' an editor (' + editor + ').';
+    }
     var view = 'EditorView';
     var controller = 'EditorController';
 

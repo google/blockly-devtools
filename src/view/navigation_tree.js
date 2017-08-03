@@ -270,7 +270,10 @@ class NavigationTree {
    * @param {string} id The id of the selected node.
    */
   changeView(id) {
-    const prefix = id.split('_')[0];
+    const nodeInfo = id.split('_');
+    const prefix = nodeInfo[0];
+    const name = nodeInfo[1];
+
     if (prefix === PREFIXES.LIBRARY) {
       // Here's where tab switching happens
       console.warn('Node type: BlockLibrary. No response has been coded.');
@@ -283,7 +286,10 @@ class NavigationTree {
       console.warn('Node type: Workspace Contents or Configuration. No response has been coded.');
     } else if (prefix === PREFIXES.BLOCK) {
       // Open the block.
-      this.appController.editorController.blockEditorController.view.openBlock(id);
+      // this.appController.editorController.blockEditorController.view.openBlock(id);
+      const library = this.appController.projectController.getLibrary(name);
+      this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
+          library.getBlock(name));
     }
   }
 
