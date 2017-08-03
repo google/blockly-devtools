@@ -171,7 +171,6 @@ class NavigationTree {
    * @param {string} parentName The name of the parent of the new node.
    */
   addComponentNode(prefix, componentName, parentName) {
-    console.log('component node!');
     const id = prefix + '_' + componentName;
     const data = {
         'id': id,
