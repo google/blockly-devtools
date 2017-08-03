@@ -102,7 +102,7 @@ class BlockLibrarySet extends ResourceSet {
     const librarySetJson = {
       'id': PREFIXES.LIBRARY,
       'text': 'Libraries',
-      'children': super.getTreeJson()
+      'children': super.getNavTreeJson()
     };
     return librarySetJson;
   }
