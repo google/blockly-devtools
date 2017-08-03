@@ -303,13 +303,11 @@ class ProjectController {
   /**
    * Renames block definition to a new name. Returns block, or null if name
    * already exists.
-   * @param {!BlockLibrary} library Block Library where block is contained.
-   * @param {string} oldName Name of block to change.
+   * @param {!BlockDefinition} block BlockDefinition object to change.
    * @param {string} newName New name of block.
    */
-  renameBlockDefinition(library, oldName, newName) {
-    const block = library.getBlockDefinition[oldName];
-    if (project.hasBlockDefinition(newName)) {
+  renameBlockDefinition(block, newName) {
+    if (this.project.hasBlockDefinition(newName)) {
       return null;
     } else {
       block.setName(newName);

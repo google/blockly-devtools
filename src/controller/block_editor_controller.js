@@ -174,8 +174,12 @@ class BlockEditorController {
   updateBlockDefinition() {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-    this.projectController.rename(
+    console.log('Before rename:');
+    console.log(this.view.blockDefinition);
+    this.projectController.renameBlockDefinition(
         currentBlock, rootBlock.getFieldValue('NAME'));
+    console.log('After rename:');
+    console.log(this.view.blockDefinition);
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
   }

@@ -53,6 +53,19 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
+   * Gets all BlockDefinition objects defined in the current project.
+   * @return {!Object<string, !BlockDefinition>} Object that maps block names
+   *     to the corresponding BlockDefinition object.
+   */
+  getAllBlocks() {
+    let allBlocks = Object.create(null);
+    for (let blockLib in this.resources) {
+      Object.assign(allBlocks, this.resources[blockLib].blocks);
+    }
+    return allBlocks;
+  }
+
+  /**
    * Returns a map of all block types in the library set to their definitions.
    * @return {!Object<string, BlockDefinition>} Map of all block types to their
    *     definitions.

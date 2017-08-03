@@ -215,6 +215,16 @@ class NavigationTree {
   }
 
   /**
+   * Renames node in tree.
+   * @param {string} id ID of node to rename.
+   * @param {string} newName New text to display in the given node.
+   */
+  renameNode(id, newName) {
+    const node = $('#navigationTree').jstree().get_node(id);
+    $('#navigationTree').jstree().rename_node(node, newName);
+  }
+
+  /**
    * Deletes a component of the project (BlockLibrary, Toolbox, WorkspaceContents,
    *     or WorkspaceConfiguration) from the navigation tree.
    * @param {string} prefix The prefix of the node to delete.

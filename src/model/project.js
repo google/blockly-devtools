@@ -213,9 +213,18 @@ class Project extends Resource {
   }
 
   /**
+   * Gets a named BlockDefinition object within the project.
+   * @param {string} blockName Name of the block definition to be found.
+   * @return {?Toolbox} The found BlockDefinition or null.
+   */
+  getBlockDefinition(blockName) {
+    return this.librarySet.getAllBlocks()[blockName];
+  }
+
+  /**
    * Gets a named toolbox contained within the project.
    * @param {string} toolboxName The name of the toolbox to be found.
-   * @return {!Toolbox} The found toolbox or null.
+   * @return {?Toolbox} The found toolbox or null.
    */
   getToolbox(toolboxName) {
     return this.toolboxSet.get(toolboxName);
@@ -224,7 +233,7 @@ class Project extends Resource {
   /**
    * Gets a named library contained within the project.
    * @param {string} libraryName The name of the library to be found.
-   * @return {!BlockLibrary} The found library or null.
+   * @return {?BlockLibrary} The found library or null.
    */
   getBlockLibrary(libraryName) {
     return this.librarySet.get(libraryName);
@@ -234,7 +243,7 @@ class Project extends Resource {
    * Gets a named workspace contents object contained within the project.
    * @param {string} workspaceContentsName The name of the workspace contents
    *     to be found.
-   * @return {!WorkspaceContents} The found workspace contents or null.
+   * @return {?WorkspaceContents} The found workspace contents or null.
    */
   getWorkspaceContents(workspaceContentsName) {
     return this.workspaceContentsSet.get(workspaceContentsName);
@@ -244,7 +253,7 @@ class Project extends Resource {
    * Gets a named workspace configuration object contained within the project.
    * @param {string} workspaceConfigsName Name of the workspace configuration
    *     to be found.
-   * @return {!WorkspaceConfiguration} The found workspace configuration or null.
+   * @return {?WorkspaceConfiguration} The found workspace configuration or null.
    */
   getWorkspaceConfiguration(workspaceConfigName) {
     return this.workspaceConfigSet.get(workspaceConfigName);
