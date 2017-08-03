@@ -33,23 +33,15 @@ class NavigationTree {
    * NavigationTree Class
    * @param {!AppController} appController The AppController for the session the
    *     tree is part of, and therefore must use in the listener.
-   * @param {!Project} project The project the tree represents.
    * @constructor
    */
-  constructor(appController, project) {
+  constructor(appController) {
 
     /**
      * The AppController for the tree to listen to.
      * @type {!AppController}
      */
     this.appController = appController;
-
-    /**
-     * The Project the tree represents.
-     * @type {!Project}
-     */
-    this.project = appController.project;
-
     this.makeTree();
   }
 
