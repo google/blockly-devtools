@@ -393,7 +393,7 @@ class AppController {
     let name, isDuplicate, isEmpty;
     do {
       name = window.prompt(errorText + 'Enter new toolbox name.', 'MyToolbox');
-      isDuplicate = this.project.getToolbox(name) ? true : false;
+      isDuplicate = this.project.getToolbox(name);
       isEmpty = name && name.trim() ? false : true;
       if (isDuplicate) {
         errorText = 'This toolbox already exists.\n';
