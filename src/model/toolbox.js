@@ -45,7 +45,7 @@ class Toolbox extends Resource {
    * @constructor
    */
   constructor(toolboxName) {
-    super(toolboxName);
+    super(toolboxName, PREFIXES.TOOLBOX);
 
     /**
      * List of categories in current toolbox. Empty if there is a single flyout.
@@ -421,15 +421,6 @@ class Toolbox extends Resource {
   hasProcedures() {
     // Moved in from wfactory_model.js
     return this.hasProcedureCategory;
-  }
-
-  /**
-   * Gets the JSON object necessary to represent the toolbox in the navigation
-   *     tree.
-   * @return {!Object} The tree-specific JSON representation of the toolbox.
-   */
-  getTreeJson() {
-    throw "unimplemented: getTreeJson";
   }
 
   /**
