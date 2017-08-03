@@ -56,7 +56,16 @@ class BlockDefinition extends Resource {
    * @param {string} type New type name of block.
    */
   setType(type) {
-    this.name = type;
+    // TODO: Remove references to setType() and replace with inherited setName().
+    this.setName(type);
+  }
+
+  /**
+   *
+   */
+  setName(type) {
+
+    super.setName(type);
   }
 
   /**

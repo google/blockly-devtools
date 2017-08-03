@@ -42,6 +42,13 @@ class NavigationTree {
      * @type {!AppController}
      */
     this.appController = appController;
+
+    /**
+     * Keeps track of ID of currently selected tree node. Null if none selected.
+     * @type {string}
+     */
+    this.selected = null;
+
     this.makeTree();
   }
 
@@ -172,8 +179,9 @@ class NavigationTree {
       };
     this.getTree().create_node(parentName, data, 'last', null);
     const node = this.getTree().get_node(id);
-    console.log(node);
-    this.getTree().open_node(node);
+    this.getTree().open_node(prefix);
+    this.getTree().deselect_all();
+    this.getTree().select_node(id);
   }
 
   /**
