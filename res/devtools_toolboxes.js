@@ -52,7 +52,7 @@ DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
  *     custom Toolboxes and WorkspaceContents.
  */
 DevToolsToolboxes.toolboxEditor = function(blockLibraryList) {
-  const blockLibraryXmls = '';
+  let blockLibraryXmls = '';
   // If null, no additional library category is created.
   if (blockLibraryList) {
     blockLibraryList.forEach((blockLibPair) => {

@@ -1194,8 +1194,8 @@ FactoryUtils.bindClick = function(element, func) {
 /*
  * Updates the block library category in the Toolbox and Workspace Editor
  * toolboxes.
- * @param project Project that is currently being edited in DevTools.
- * @return XML String of toolbox in editor workspace.
+ * @param {!Project} project Project that is currently being edited in DevTools.
+ * @return {string} XML String of toolbox in editor workspace.
  */
 FactoryUtils.updateBlockLibCategory = function(project, workspace) {
   // REFACTORED: Moved in from wfactory_controller.js
