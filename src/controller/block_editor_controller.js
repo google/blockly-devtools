@@ -178,6 +178,8 @@ class BlockEditorController {
         currentBlock, rootBlock.getFieldValue('NAME'));
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
+    currentBlock.json = FactoryUtils.getBlockDefinition(
+          'JSON', this.view.editorWorkspace);
   }
 
   /**
