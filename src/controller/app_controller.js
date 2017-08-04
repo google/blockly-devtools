@@ -382,9 +382,21 @@ class AppController {
    */
   createWorkspaceContents() {
     // TODO: prompt for name
+    let errorText = '';
+    let name, isDuplicate, isEmpty;
+    do {
+      name = window.prompt(errorText + 'Enter new workspace contents name.',
+          'MyWorkspaceContents');
+      isDuplicate = this.project.getWorkspaceContents(name);
+      isEmpty = name && name.trim() ? false : true;
+      if (isDuplicate) {
+        errorText = 'This toolbox already exists.\n';
+      } else if (isEmpty) {
+        return;
+      }
+    } while (isDuplicate);
     const workspaceContents =
-      this.projectController.createWorkspaceContents('test_contents');
-    this.switchEnvironment(PREFIXES.VARIABLE_WORKSPACECONTENTS, workspaceContents);
+      this.projectController.createWorkspaceContents(name);
   }
 
   /**
