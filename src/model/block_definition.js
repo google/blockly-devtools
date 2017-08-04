@@ -59,7 +59,8 @@ class BlockDefinition extends Resource {
   }
 
   /**
-   * Defines block by adding it to the Blockly.Blocks map.
+   * Defines block by adding it to the Blockly.Blocks map. Function is overwritten
+   * if the block has already been defined.
    */
   define() {
     if (this.isDefined_) {
