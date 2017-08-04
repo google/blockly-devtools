@@ -31,7 +31,7 @@ class BlockDefinition extends Resource {
   /**
    * BlockDefinition Class.
    * @constructor
-   * @param {!string} type The name of the block.
+   * @param {string} type The name of the block.
    * @param {?Object} opt_json optional JSON representation of the block.
    */
   constructor(type, opt_json) {

@@ -110,7 +110,6 @@ class BlockEditorController {
     // Shows onto view.
     this.view.show(newBlock);
     this.refreshPreviews();
-
   }
 
   /**
@@ -208,7 +207,7 @@ class BlockEditorController {
       const currentBlock = this.view.blockDefinition;
       const defCode = FactoryUtils.getBlockDefinition(
           format, this.view.editorWorkspace);
-    this.view.updateBlockDefinitionView(defCode);
+      this.view.updateBlockDefinitionView(defCode);
     }
   }
 
