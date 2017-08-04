@@ -305,11 +305,19 @@ class ProjectController {
    * already exists.
    * @param {!BlockDefinition} block BlockDefinition object to change.
    * @param {string} newName New name of block.
+   * @param {boolean=} opt_suppress Whether to suppress changes in the tree (to
+   *     avoid overloading JSTree with commands for every workspace change).
    */
-  renameBlockDefinition(block, newName) {
+  renameBlockDefinition(block, newName, opt_suppress) {
     if (this.project.hasBlockDefinition(newName)) {
       return null;
     } else {
+      if (!opt_suppress) {
+        console.log('renaming node');
+        const id = this.tree.getTree().get_selected()[0];
+        console.log(id);
+        this.tree.renameNode(id, newName);
+      }
       block.setName(newName);
       return block;
     }

@@ -174,14 +174,30 @@ class BlockEditorController {
   updateBlockDefinition() {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-    console.log('Before rename:');
-    console.log(this.view.blockDefinition);
-    this.projectController.renameBlockDefinition(
-        currentBlock, rootBlock.getFieldValue('NAME'));
-    console.log('After rename:');
-    console.log(this.view.blockDefinition);
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
+  }
+
+  /**
+   * Renames BlockDefinition object currently being edited. Updates navtree
+   * with new name.
+   * @param {boolean} suppressTreeChange Whether to suppress reflecting name
+   *     change in the navtree.
+   */
+  updateBlockName(suppressTreeChange) {
+    const currentBlock = this.view.blockDefinition;
+    const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    const newName = rootBlock.getFieldValue('NAME');
+    // TODO: Add warning to top block if the name already exists.
+    if (!suppressTreeChange &&
+        this.projectController.getProject().hasBlockDefinition(newName)) {
+      rootBlock.setWarningText('There is already a block under this name.\n' +
+          'Please rename this block.');
+    } else {
+      rootBlock.setWarningText(null);
+    }
+    this.projectController.renameBlockDefinition(currentBlock,
+        newName, suppressTreeChange);
   }
 
   /**
