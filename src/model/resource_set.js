@@ -146,7 +146,9 @@ goog.require('Resource');
   getMetadata() {
     let metadata = [];
     for (let resourceName of Object.keys(this.resources)) {
-      metadata.push(this.get(resourceName).getDataForProjectMetadata());
+      let obj = Object.create(null);
+      this.get(resourceName).buildMetadata(obj)
+      metadata.push(obj);
     }
     return metadata;
   }

@@ -112,14 +112,4 @@ class Resource {
       }
     obj.web.export = true;
   }
-
-  /**
-   * Returns an object configured with the resource's metadata.
-   * @return {!Object} The resource metadata.
-   */
-  getDataForProjectMetadata() {
-    let obj = Object.create(null);
-    this.buildMetadata(obj)
-    return obj;
-  }
 }
