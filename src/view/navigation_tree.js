@@ -306,8 +306,8 @@ class NavigationTree {
       const library = this.appController.project.getBlockLibrary(name);
       const blockDef = library.getBlockDefinition(Object.keys(library.blocks)[0]);
       if (blockDef) {
-        this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
-            library.getBlockDefinition(Object.keys(library.blocks)[0]));
+        this.getTree().deselect_all();
+        this.getTree().select_node(PREFIXES.BLOCK + '_' + blockDef.type());
       }
     } else if (prefix === PREFIXES.TOOLBOX) {
       this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
