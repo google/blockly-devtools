@@ -47,7 +47,7 @@ class BlockDefinition extends Resource {
      * The JSON representation of the block.
      * @type {!Object}
      */
-    this.json = opt_json || createStarterJson();
+    this.json = opt_json || this.createStarterJson();
   }
 
   /**
@@ -74,7 +74,9 @@ class BlockDefinition extends Resource {
    * @param {string} type New type name of block.
    */
   setType(type) {
-    this.name = type;
+    // TODO(#180): Remove references to setType() to be setName() to follow object
+    // inheritance.
+    this.setName(type);
   }
 
   /**

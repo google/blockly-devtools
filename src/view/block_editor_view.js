@@ -144,6 +144,8 @@ class BlockEditorView {
     this.editorWorkspace.addChangeListener((event) => {
       // Save block's changes into BlockDefinition model object.
       controller.updateBlockDefinition();
+      const changeTree = event.type == Blockly.Events.UI;
+      controller.updateBlockName(!changeTree);
       // Update the block editor view.
       controller.refreshPreviews();
       // Disable orphans.
