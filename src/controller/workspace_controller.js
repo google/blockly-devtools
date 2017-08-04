@@ -54,7 +54,7 @@ class WorkspaceController extends ShadowController {
      * WorkspaceEditorView associated with this instance of WorkspaceController.
      * @type {!WorkspaceEditorView}
      */
-    this.view = new WorkspaceEditorView(wsContents, wsConfig);
+    this.view = new WorkspaceEditorView(null, null);
 
     /**
      * True if key events are enabled. False otherwise. Used to enable/disable

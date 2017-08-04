@@ -62,7 +62,6 @@ class WorkspaceEditorView {
 
     // Inserts HTML into toolbox editor container. Keeps hidden.
     this.container.html(WorkspaceEditorView.html);
-    this.refreshWorkspaceInfo();
     this.container.hide();
 
     /**
@@ -175,7 +174,6 @@ class WorkspaceEditorView {
     this.initConfigListeners_(controller);
     this.initClickHandlers_(controller);
     this.resetConfigs();
-    controller.generateNewOptions();
   }
 
   /**
