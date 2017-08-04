@@ -54,14 +54,15 @@ DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
  *     custom Toolboxes and WorkspaceContents.
  */
 DevToolsToolboxes.toolboxEditor = function(blockLibraryList) {
-  let blockLibraryXmls = '';
-  // If null, no additional library category is created.
-  if (blockLibraryList) {
-    blockLibraryList.forEach((blockLibPair) => {
-      blockLibraryXmls += DevToolsToolboxes.createCategoryElement_(
-          blockLibPair[0], blockLibPair[1]);
-    });
-  }
+  // let blockLibraryXmls = '';
+  // // If null, no additional library category is created.
+  // if (blockLibraryList) {
+  //   blockLibraryList.forEach((blockLibPair) => {
+  //     blockLibraryXmls += DevToolsToolboxes.createCategoryElement_(
+  //         blockLibPair[0], blockLibPair[1]);
+  //   });
+  // }
+  let blockLibraryXmls = blockLibraryList;
 
   return `
 <xml id="workspacefactory_toolbox" class="toolbox">
