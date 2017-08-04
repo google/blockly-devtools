@@ -34,11 +34,18 @@ class SaveProjectPopupView extends PopupView {
    * @constructor
    * @param {!NewBlockPopupController} controller NewBlockPopupController currently
    *     managing this view.
+   * @param {Array.<string>} List of html division tags.
    * @param {string} htmlContents The html contents of the popup, based on the
    *     current project.
    */
-  constructor(controller, htmlContents) {
+  constructor(controller, divList, htmlContents) {
     super(controller);
+
+    /**
+     * List of division tags, for variable assignment.
+     * @type {Array.<string>}
+     */
+    this.divList = divList;
 
     /**
      * HTML contents of what is inside popup window. Does not include the popup
@@ -69,12 +76,18 @@ class SaveProjectPopupView extends PopupView {
       this.emit('exit');
     });
     $('#submit').click(() => {
-      this.project = $('#projectDirectory').val();
-      this.library = $('#libraryDirectory').val();
-      this.toolbox = $('#toolboxDirectory').val();
-      this.general_workspace = $('#workspaceDirectory').val();
+      this.assignVariables();
       this.hide();
       this.emit('submit');
     });
+  }
+
+  /**
+   * Assings the values of all html divisions to variables of the same name.
+   */
+  assignVariables() {
+    for (let division of this.divList) {
+      this[division] = $("\'#" + division + "\'").val();
+    }
   }
 }

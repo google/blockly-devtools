@@ -55,10 +55,18 @@ class SaveProjectPopupController extends PopupController {
     this.toWrite = toWrite;
 
     /**
+     * List of html divisions in the view, used to assign variables to the view
+     * and update the ReadWriteController's directory map with the appropriate
+     * keys.
+     * @type {}
+     */
+    const viewContents = this.makeProjectPopupContents();
+
+    /**
      * The popup view that this popup controller manages.
      * @type {!SaveProjectPopupView}
      */
-    this.view = new SaveProjectPopupView(this, this.makeProjectPopupContents());
+    this.view = new SaveProjectPopupView(this, this.viewDivs, viewContents);
 
     // Listeners in the popup
     Emitter(this.view);
@@ -113,8 +121,9 @@ class SaveProjectPopupController extends PopupController {
     let object = Object.create(null);
     this.appController.project.buildMetadata(object);
     for (let resource of object.resources) {
-      htmlContents = htmlContents + resource.resourceType +
-        '<input type="file" nwdirectory id=' + '\"' + resource.resourceType +
+      this.viewDivs.push(resource.name + 'Directory');
+      htmlContents = htmlContents + resource.name +
+        '<input type="file" nwdirectory id=' + '\"' + resource.name +
           'Directory"></input><br><br>';
     }
     htmlContents = htmlContents +
