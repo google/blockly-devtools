@@ -306,16 +306,19 @@ class NavigationTree {
       const library = this.appController.project.getBlockLibrary(name);
       const blockDef = library.getBlockDefinition(Object.keys(library.blocks)[0]);
       if (blockDef) {
-        this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
-            library.getBlockDefinition(Object.keys(library.blocks)[0]));
+        this.getTree().deselect_all();
+        this.getTree().select_node(PREFIXES.BLOCK + '_' + blockDef.type());
       }
     } else if (prefix === PREFIXES.TOOLBOX) {
       this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
           this.appController.project.getToolbox(name));
-    } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
-      prefix === PREFIXES.WORKSPACE_CONFIG) {
-      // Here's where tab switching happens
-      console.warn('Node type: Workspace Contents or Configuration. No response has been coded.');
+    } else if (prefix === PREFIXES.WORKSPACE_CONTENTS) {
+      this.appController.switchEnvironment(AppController.WORKSPACE_EDITOR,
+          this.appController.project.getWorkspaceContents(name));
+    } else if (prefix === PREFIXES.WORKSPACE_CONFIG) {
+        // Tab switching
+        console.warn('Switching WorkspaceConfiguration via NavTree has not ' +
+            'been implemented.');
     } else if (prefix === PREFIXES.BLOCK) {
       const library = this.appController.projectController.getLibrary(name);
       this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
