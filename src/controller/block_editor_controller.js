@@ -176,8 +176,8 @@ class BlockEditorController {
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
-    currentBlock.json = FactoryUtils.getBlockDefinition(
-          'JSON', this.view.editorWorkspace);
+    currentBlock.json = '[' + FactoryUtils.getBlockDefinition(
+          'JSON', this.view.editorWorkspace).join(',\n') + ']';
   }
 
   /**
