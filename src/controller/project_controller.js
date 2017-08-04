@@ -301,6 +301,22 @@ class ProjectController {
   }
 
   /**
+   * Renames block definition to a new name. Returns block, or null if name
+   * already exists.
+   * @param {!BlockDefinition} block BlockDefinition object to change.
+   * @param {string} newName New name of block.
+   * @param {boolean=} opt_suppress Whether to suppress changes in the tree (to
+   *     avoid overloading JSTree with commands for every workspace change).
+   */
+  renameBlockDefinition(block, newName, opt_suppress) {
+    if (!opt_suppress) {
+      const id = this.tree.getTree().get_selected()[0];
+      this.tree.renameNode(id, newName);
+    }
+    block.setName(newName);
+  }
+
+  /**
    * Exports XML to file after potentially prompting user for file name.
    *
    * @param {string} exportMode The type of file to export
