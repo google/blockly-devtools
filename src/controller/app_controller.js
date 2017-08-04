@@ -373,7 +373,6 @@ class AppController {
       }
     } while (isDuplicate);
     const toolbox = this.projectController.createToolbox(name);
-    this.switchEnvironment(AppController.TOOLBOX_EDITOR, toolbox);
   }
 
   /**
@@ -381,7 +380,6 @@ class AppController {
    * and model.
    */
   createWorkspaceContents() {
-    // TODO: prompt for name
     let errorText = '';
     let name, isDuplicate, isEmpty;
     do {
