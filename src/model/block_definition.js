@@ -101,7 +101,7 @@ class BlockDefinition extends Resource {
    * Returns a block's JSON representation.
    * @return {!Object} The JSON for the block.
    */
-  getJson() {
+  getBlockDefinitionJson() {
     return this.json;
   }
 
