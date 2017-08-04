@@ -282,10 +282,10 @@ class Project extends Resource {
    */
   getFullResourceList() {
     let resourceList = [];
-    resourceList.concat(this.librarySet.getMetadata());
-    resourceList.concat(this.toolboxSet.getMetadata());
-    resourceList.concat(this.workspaceContentsSet.getMetadata());
-    resourceList.concat(this.workspaceConfigSet.getMetadata());
+    resourceList = resourceList.concat(this.librarySet.getMetadata());
+    resourceList = resourceList.concat(this.toolboxSet.getMetadata());
+    resourceList = resourceList.concat(this.workspaceContentsSet.getMetadata());
+    resourceList = resourceList.concat(this.workspaceConfigSet.getMetadata());
     return resourceList;
   }
 
