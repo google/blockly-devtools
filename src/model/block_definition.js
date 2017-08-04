@@ -47,7 +47,18 @@ class BlockDefinition extends Resource {
      * The JSON representation of the block.
      * @type {!Object}
      */
-    this.json = opt_json || Object.create(null);
+    this.json = opt_json || createStarterJson();
+  }
+
+  /**
+   * Creates starter JSON for the block if no JSON has been provided.
+   * @return {!Object} JSON with a defined type and message0 field.
+   */
+  createStarterJson() {
+    var blockJson = Object.create(null);
+    blockJson.type = this.type();
+    blockJson.message0 = '';
+    return blockJson;
   }
 
   /**
