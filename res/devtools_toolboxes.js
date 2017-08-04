@@ -32,15 +32,13 @@ goog.provide('DevToolsToolboxes');
  * user-created block libraries as categories in toolbox and workspace editors.
  *
  * @param {string} libraryName Name of library.
- * @param {string} libraryXml XML string of the blocks in a given library.
+ * @param {!Element} libraryXml XML of the blocks in a given library.
  * @return {string} XML string of category which contains the blocks in the library.
  */
 DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
-  const categoryXml = `<category name="${libraryName}" colour="260">
-    ${libraryXml}
-  </category>
+  const categoryXml = `
+  ${Blockly.Xml.domToPrettyText(libraryXml)}
   `;
-  console.log(categoryXml);
   return categoryXml;
 };
 
@@ -49,20 +47,19 @@ DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
  *
  * @param {!Array.<Object>} blockLibraryList Array of associative two-element arrays
  *     in which the first element is the block library name and the second is
- *     its XML string. Inserted into blockLibrary category of toolbox XML.
+ *     its XML. Inserted into blockLibrary category of toolbox XML.
  * @return {string} String representation of XML for toolbox used in creating
  *     custom Toolboxes and WorkspaceContents.
  */
 DevToolsToolboxes.toolboxEditor = function(blockLibraryList) {
-  // let blockLibraryXmls = '';
-  // // If null, no additional library category is created.
-  // if (blockLibraryList) {
-  //   blockLibraryList.forEach((blockLibPair) => {
-  //     blockLibraryXmls += DevToolsToolboxes.createCategoryElement_(
-  //         blockLibPair[0], blockLibPair[1]);
-  //   });
-  // }
-  let blockLibraryXmls = blockLibraryList;
+  let blockLibraryXmls = '';
+  // If null, no additional library category is created.
+  if (blockLibraryList) {
+    blockLibraryList.forEach((blockLibPair) => {
+      blockLibraryXmls += DevToolsToolboxes.createCategoryElement_(
+          blockLibPair[0], blockLibPair[1]);
+    });
+  }
 
   return `
 <xml id="workspacefactory_toolbox" class="toolbox">

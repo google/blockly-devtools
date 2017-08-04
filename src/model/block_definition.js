@@ -48,6 +48,40 @@ class BlockDefinition extends Resource {
      * @type {!Object}
      */
     this.json = opt_json || this.createStarterJson();
+
+    /**
+     * Keeps track of whether a BlockDefinition has been defined previously
+     * to prevent defining a block multiple times.
+     * @type {boolean}
+     * @private
+     */
+    this.isDefined_ = false;
+  }
+
+  /**
+   * Defines block by adding it to the Blockly.Blocks map.
+   */
+  define() {
+    if (this.isDefined_) {
+      return;
+    }
+    const json = this.json;
+    Blockly.Blocks[this.name || 'unnamed'] = {
+      init: function() {
+        this.jsonInit(json);
+      }
+    };
+    this.isDefined_ = true;
+  }
+
+  /**
+   * Undefines block by removing it from Blockly.Blocks map.
+   */
+  undefine() {
+    if (Blockly.Blocks[this.name]) {
+      delete Blockly.Blocks[this.name];
+      this.isDefined_ = false;
+    }
   }
 
   /**

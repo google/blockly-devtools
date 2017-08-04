@@ -742,7 +742,7 @@ FactoryUtils.createAndDownloadFile = function(contents, filename, mimeType) {
 
 /**
  * Get Blockly Block by rendering pre-defined block in workspace.
- * @param {!Element} blockType Type of block that has already been defined.
+ * @param {string} blockType Type of block that has already been defined.
  * @param {!Blockly.Workspace} workspace Workspace on which to render
  *    the block.
  * @return {!Blockly.Block} The Blockly.Block of desired type.
@@ -1234,7 +1234,28 @@ FactoryUtils.generateCategoryXml = function(blocks, categoryName) {
     // Add block to category and category to XML.
     categoryElement.appendChild(blockXml);
   }
+  categoryElement.removeAttribute('xmlns');
+  categoryElement.setAttribute('colour', '260');
   return categoryElement;
+};
+
+/**
+ * Given an array of BlockDefintion objects, converts them into Blockly.Blocks
+ * to use in a Blockly workspace.
+ * @param {!Array.<!BlockDefinition>} blockDefinitions Array of BlockDefinition
+ *     objects to convert to Blockly blocks.
+ * @param {!Blockly.Workspace} workspace Hidden workspace used to generate Blockly
+ *     object.
+ * @return {!Array<!Blockly.Block>} Array of Blockly blocks that correspond to
+ *     the BlockDefinition objects.
+ */
+FactoryUtils.convertToBlocklyBlocks = function(blockDefinitions, workspace) {
+  const blocks = [];
+  for (let blockDef of blockDefinitions) {
+    blockDef.define();
+    blocks.push(FactoryUtils.getDefinedBlock(blockDef.type(), workspace));
+  }
+  return blocks;
 };
 
 /*

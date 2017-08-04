@@ -89,6 +89,18 @@ class BlockLibrary extends Resource {
   }
 
   /**
+   * Gets all BlockDefinition objects within the library.
+   * @return {!Array.<!BlockDefinition>} Array of all BlockDefinition objects.
+   */
+  getAllBlockDefinitions() {
+    const blocks = [];
+    for (let blockName in this.blocks) {
+      blocks.push(this.get(blockName));
+    }
+    return blocks;
+  }
+
+  /**
    * Returns the XML of given block type stored in the block library.
    * @param {string} blockType Type of block.
    * @return {Element} The XML that represents the block type or null.

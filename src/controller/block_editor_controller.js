@@ -101,6 +101,7 @@ class BlockEditorController {
     // Creates new BlockDefinition object.
     const newBlock = this.projectController.createBlockDefinition(
         blockTypeName, libraryName);
+    newBlock.define();
 
     // Sets XML in BlockDefinition model object.
     const starterXml = Blockly.Xml.textToDom(
@@ -110,6 +111,21 @@ class BlockEditorController {
     // Shows onto view.
     this.view.show(newBlock);
     this.refreshPreviews();
+  }
+
+  /**
+   * Handles response to editor workspace change events.
+   * @param {!Event} event Change event in editor workspace.
+   */
+  onChange(event) {
+    // Save block's changes into BlockDefinition model object.
+    this.updateBlockDefinition();
+    const changeTree = event.type == Blockly.Events.UI;
+    this.updateBlockName(!changeTree);
+    // Update the block editor view.
+    this.refreshPreviews();
+    // Disable orphans.
+    Blockly.Events.disableOrphans(event);
   }
 
   /**
@@ -174,10 +190,13 @@ class BlockEditorController {
   updateBlockDefinition() {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    // Sets XML field of BlockDefinition object.
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
-    currentBlock.json = FactoryUtils.getBlockDefinition(
+    // Sets JSON field of BlockDefinition object.
+    const jsonString = FactoryUtils.getBlockDefinition(
           'JSON', this.view.editorWorkspace);
+    currentBlock.json = JSON.parse(jsonString);
   }
 
   /**
@@ -261,7 +280,7 @@ class BlockEditorController {
     const backupBlocks = Blockly.Blocks;
     try {
       // Evaluates block definition (temporarily) for preview.
-      this.evaluateBlock_(format, code);
+      this.view.blockDefinition.define();
 
       const blockType = this.view.blockDefinition.type();
       // Render preview block in preview workspace.
@@ -270,6 +289,7 @@ class BlockEditorController {
       this.maybeWarnUser_(blockType);
     } finally {
       Blockly.Blocks = backupBlocks;
+      this.view.blockDefinition.undefine();
     }
   }
 

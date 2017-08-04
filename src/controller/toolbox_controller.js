@@ -501,15 +501,26 @@ class ToolboxController extends ShadowController {
    * Updates the editor toolbox to have categories for user-defined block libraries.
    */
   updateEditorToolbox() {
-    // const newToolboxXml = FactoryUtils.updateBlockLibCategory(
+    // const libraryXmlStrings = FactoryUtils.updateBlockLibCategory(
     //     this.projectController.getProject(), this.hiddenWorkspace);
-    let libraryXmlStrings = '';
-    const libraryMap = this.projectController.getProject().librarySet.resources;
-    for (let libName in libraryMap) {
-      libraryXmlStrings += Blockly.Xml.domToPrettyText(
-          libraryMap[libName].getLibraryXml()) + '\n';
+
+    // let libraryXmlStrings = '';
+    // const libraryMap = this.projectController.getProject().librarySet.resources;
+    // for (let libName in libraryMap) {
+    //   libraryXmlStrings += Blockly.Xml.domToPrettyText(
+    //       libraryMap[libName].getLibraryXml()) + '\n';
+    // }
+
+    const libraryXml = [];
+    const project = this.projectController.getProject();
+    const libMap = project.librarySet.resources;
+    for (let libName in libMap) {
+      const blocks = FactoryUtils.convertToBlocklyBlocks(
+          libMap[libName].getAllBlockDefinitions(), this.hiddenWorkspace);
+      const libXml = FactoryUtils.generateCategoryXml(blocks, libName);
+      libraryXml.push([libName, libXml]);
     }
-    this.view.updateEditorToolbox(libraryXmlStrings);
+    this.view.updateEditorToolbox(libraryXml);
   }
 
   /**
