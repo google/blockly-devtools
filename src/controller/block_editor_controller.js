@@ -110,6 +110,7 @@ class BlockEditorController {
     // Shows onto view.
     this.view.show(newBlock);
     this.refreshPreviews();
+
   }
 
   /**
@@ -178,6 +179,8 @@ class BlockEditorController {
         currentBlock, rootBlock.getFieldValue('NAME'));
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
+    currentBlock.json = FactoryUtils.getBlockDefinition(
+          'JSON', this.view.editorWorkspace);
   }
 
   /**
@@ -205,7 +208,7 @@ class BlockEditorController {
       const currentBlock = this.view.blockDefinition;
       const defCode = FactoryUtils.getBlockDefinition(
           format, this.view.editorWorkspace);
-      this.view.updateBlockDefinitionView(defCode);
+    this.view.updateBlockDefinitionView(defCode);
     }
   }
 
