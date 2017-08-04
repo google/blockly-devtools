@@ -309,16 +309,11 @@ class ProjectController {
    *     avoid overloading JSTree with commands for every workspace change).
    */
   renameBlockDefinition(block, newName, opt_suppress) {
-    if (this.project.hasBlockDefinition(newName)) {
-      return null;
-    } else {
-      if (!opt_suppress) {
-        const id = this.tree.getTree().get_selected()[0];
-        this.tree.renameNode(id, newName);
-      }
-      block.setName(newName);
-      return block;
+    if (!opt_suppress) {
+      const id = this.tree.getTree().get_selected()[0];
+      this.tree.renameNode(id, newName);
     }
+    block.setName(newName);
   }
 
   /**

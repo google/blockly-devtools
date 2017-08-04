@@ -73,7 +73,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all block types in the project.
    */
   getBlockTypes() {
-    return this.librarySet.getBlockTypes();
+    return this.librarySet.getAllBlockDefinitionsMap();
   }
 
   /**
@@ -218,7 +218,7 @@ class Project extends Resource {
    * @return {?Toolbox} The found BlockDefinition or null.
    */
   getBlockDefinition(blockName) {
-    return this.librarySet.getAllBlocks()[blockName];
+    return this.librarySet.getAllBlockDefinitionsMap()[blockName];
   }
 
   /**

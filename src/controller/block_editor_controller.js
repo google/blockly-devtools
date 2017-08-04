@@ -195,9 +195,9 @@ class BlockEditorController {
           'Please rename this block.');
     } else {
       rootBlock.setWarningText(null);
+      this.projectController.renameBlockDefinition(currentBlock,
+          newName, suppressTreeChange);
     }
-    this.projectController.renameBlockDefinition(currentBlock,
-        newName, suppressTreeChange);
   }
 
   /**

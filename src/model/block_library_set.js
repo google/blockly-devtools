@@ -40,38 +40,16 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
-   * Gets the blockTypes contained within the library set.
-   * @return {Array.<string>} The block types contained across all libraries in
-   *     the set.
-   */
-  getBlockTypes() {
-    let allBlockTypes = [];
-    for (let blockLib in this.resources) {
-      allBlockTypes = allBlockTypes.concat(this.resources[blockLib].getBlockTypes());
-    }
-    return allBlockTypes;
-  }
-
-  /**
-   * Gets all BlockDefinition objects defined in the current project.
-   * @return {!Object<string, !BlockDefinition>} Object that maps block names
-   *     to the corresponding BlockDefinition object.
-   */
-  getAllBlocks() {
-    let allBlocks = Object.create(null);
-    for (let blockLib in this.resources) {
-      Object.assign(allBlocks, this.resources[blockLib].blocks);
-    }
-    return allBlocks;
-  }
-
-  /**
    * Returns a map of all block types in the library set to their definitions.
    * @return {!Object<string, BlockDefinition>} Map of all block types to their
    *     definitions.
    */
   getAllBlockDefinitionsMap() {
-    console.warn('unimplemented: getAllBlockDefinitionsMap');
+    let allBlockTypes = [];
+    for (let blockLib in this.resources) {
+      allBlockTypes = allBlockTypes.concat(this.resources[blockLib].getBlockTypes());
+    }
+    return allBlockTypes;
   }
 
   /**
