@@ -150,8 +150,14 @@ class WorkspaceEditorView {
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
 
-    // TODO: Make editor show WorkspaceContents when
-    //       user clicks on that element in the navtree.
+    if (!wsContents) {
+      return;
+    }
+
+    this.editorWorkspace.clear();
+    this.workspaceContents = wsContents;
+    this.refreshWorkspaceInfo();
+    this.selectedBlock = null;
   }
 
   /**

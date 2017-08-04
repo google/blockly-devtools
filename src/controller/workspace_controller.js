@@ -197,6 +197,14 @@ class WorkspaceController extends ShadowController {
     this.view.updateEditorToolbox(newToolboxXml);
   }
 
+  loadWorkspace() {
+    const wsContents = this.view.workspaceContents;
+    Blockly.Xml.domToWorkspace(this.view.workspaceContents.getExportData(),
+        this.view.editorWorkspace);
+    this.view.editorWorkspace.cleanUp();
+    this.updatePreview();
+  }
+
   /**
    * Displays imported WorkspaceContents recently added to model onto editor view.
    *
