@@ -32,8 +32,9 @@ class BlockDefinition extends Resource {
    * BlockDefinition Class.
    * @constructor
    * @param {string} type The name of the block.
+   * @param {?Object} opt_json optional JSON representation of the block.
    */
-  constructor(type) {
+  constructor(type, opt_json) {
     super(type, PREFIXES.BLOCK);
 
     /**
@@ -41,6 +42,23 @@ class BlockDefinition extends Resource {
      * @type {!Element}
      */
     this.xml = Blockly.Xml.textToDom('<xml></xml>');
+
+    /**
+     * The JSON representation of the block.
+     * @type {!Object}
+     */
+    this.json = opt_json || this.createStarterJson();
+  }
+
+  /**
+   * Creates starter JSON for the block if no JSON has been provided.
+   * @return {!Object} JSON with a defined type and message0 field.
+   */
+  createStarterJson() {
+    var blockJson = Object.create(null);
+    blockJson.type = this.type();
+    blockJson.message0 = '';
+    return blockJson;
   }
 
   /**
@@ -79,6 +97,14 @@ class BlockDefinition extends Resource {
   // TODO(#87): Phase out once BlockDefinition <--> JSON
   getXml() {
     return this.xml;
+  }
+
+  /**
+   * Returns a block's JSON representation.
+   * @return {!Object} The JSON for the block.
+   */
+  getBlockDefinitionJson() {
+    return this.json;
   }
 
   /**
