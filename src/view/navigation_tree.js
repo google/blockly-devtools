@@ -234,6 +234,16 @@ class NavigationTree {
   }
 
   /**
+   * Renames node in tree.
+   * @param {string} id ID of node to rename.
+   * @param {string} newName New text to display in the given node.
+   */
+  renameNode(id, newName) {
+    const node = $('#navigationTree').jstree().get_node(id);
+    $('#navigationTree').jstree().rename_node(node, newName);
+  }
+
+  /**
    * Deletes a component of the project (BlockLibrary, Toolbox, WorkspaceContents,
    *     or WorkspaceConfiguration) from the navigation tree.
    * @param {string} prefix The prefix of the node to delete.
@@ -302,10 +312,13 @@ class NavigationTree {
     } else if (prefix === PREFIXES.TOOLBOX) {
       this.appController.switchEnvironment(AppController.TOOLBOX_EDITOR,
           this.appController.project.getToolbox(name));
-    } else if (prefix === PREFIXES.WORKSPACE_CONTENTS||
-      prefix === PREFIXES.WORKSPACE_CONFIG) {
-      // Here's where tab switching happens
-      console.warn('Node type: Workspace Contents or Configuration. No response has been coded.');
+    } else if (prefix === PREFIXES.WORKSPACE_CONTENTS) {
+      this.appController.switchEnvironment(AppController.WORKSPACE_EDITOR,
+          this.appController.project.getWorkspaceContents(name));
+    } else if (prefix === PREFIXES.WORKSPACE_CONFIG) {
+        // Tab switching
+        console.warn('Switching WorkspaceConfiguration via NavTree has not ' +
+            'been implemented.');
     } else if (prefix === PREFIXES.BLOCK) {
       const library = this.appController.projectController.getLibrary(name);
       this.appController.switchEnvironment(AppController.BLOCK_EDITOR,

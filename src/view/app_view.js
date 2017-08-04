@@ -485,9 +485,9 @@ class AppView {
       this.appController.createToolbox();
     });
 
-    $('#addWorkspaceContents').click(() => {
-      this.appController.createWorkspaceContents();
+    $('#addWorkspaceContents').unbind('click').click(() => {
       this.closeModal_();
+      this.appController.createWorkspaceContents();
     });
 
     $('#addWorkspaceConfig').click(() => {

@@ -43,7 +43,7 @@ goog.provide('FactoryUtils');
  */
 FactoryUtils.getBlockDefinition = function(format, workspace) {
   var rootBlock = FactoryUtils.getRootBlock(workspace);
-  return FactoryUtils.getBlockDefFromRoot_(format, rootBlock);
+  return FactoryUtils.getBlockDefFromRoot_(format, rootBlock, workspace);
 };
 
 /**
@@ -57,16 +57,17 @@ FactoryUtils.getBlockDefinition = function(format, workspace) {
  */
 FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
   var rootBlock = Blockly.Xml.domToBlock(rootXml, workspace);
-  return FactoryUtils.getBlockDefFromRoot_(format, rootBlock);
+  return FactoryUtils.getBlockDefFromRoot_(format, rootBlock, workspace);
 };
 
 /**
  * Get block definition code for the current block, given root block.
  * @param {string} format 'JSON' or 'JavaScript'.
  * @param {!Blockly.Block} rootBlock The root block displayed on editor workspace.
+ * @param {!Blockly.Workspace} workspace Where the root block is from.
  * @return {string} Block definition.
  */
-FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock) {
+FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock, workspace) {
   const blockType = FactoryUtils.cleanBlockType(rootBlock.getFieldValue('NAME'));
   switch (format) {
     case 'JSON':

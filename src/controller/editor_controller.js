@@ -97,7 +97,7 @@ class EditorController {
       this.currentEditor.loadToolbox(this.currentEditor.view.toolbox);
       this.currentEditor.updateEditorToolbox();
     } else if (editor instanceof WorkspaceController) {
-      // TODO: Add if necessary, delete if no other action is necessary.
+      this.currentEditor.loadWorkspace(this.currentEditor.view.workspaceContents);
     }
   }
 
