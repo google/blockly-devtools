@@ -370,7 +370,7 @@ class ToolboxEditorView {
 
   /**
    * Updates the toolbox used in the toolbox editor workspace.
-   * @param {!string} libString String representation of user-created block
+   * @param {string} libString String representation of user-created block
    *     libraries to append to categories in the editor.
    */
   updateEditorToolbox(libString) {
