@@ -84,21 +84,25 @@ class BlockLibrarySet extends ResourceSet {
    * Returns the library that contains the named block.
    * @param {string} blockType The name of the block to be found.
    * @return {?BlockLibrary} The block library that has the block or null.
-   * TODO #154: debug block popup, fix this method.
    */
   getLibrary(blockType) {
+    for (let libName in this.resources) {
+      if (this.resources[libName].has(blockType)) {
+        return this.resources[libName];
+      }
+    }
     return null;
   }
 
   /**
-   * Produces the JSON needed to organize libraries in the tree.
-   * @return {!Object} The JSON for the tree's library section.
+   * Produces the JSON needed to organize libraries in the navigation tree.
+   * @return {!Object} The JSON for the navigation tree's library section.
    */
-  getJson() {
+  getNavTreeJson() {
     const librarySetJson = {
       'id': PREFIXES.LIBRARY,
       'text': 'Libraries',
-      'children': super.getJson()
+      'children': super.getNavTreeJson()
     };
     return librarySetJson;
   }

@@ -85,6 +85,7 @@
   appendScript('src/controller/popup_controller.js');
   appendScript('src/controller/save_project_popup_controller.js');
   appendScript('src/controller/new_block_popup_controller.js');
+  appendScript('src/controller/read_write_controller.js');
   appendScript('src/controller/new_library_popup_controller.js');
   appendScript('src/controller/new_project_popup_controller.js');
   appendScript('src/controller/editor_controller.js');

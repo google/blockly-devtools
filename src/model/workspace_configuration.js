@@ -36,7 +36,7 @@ class WorkspaceConfiguration extends Resource {
    * @constructor
    */
   constructor(workspaceConfigName) {
-     super(workspaceConfigName);
+     super(workspaceConfigName, PREFIXES.WORKSPACE_CONFIG);
 
      /**
       * Options object to be configured for Blockly inject call.
@@ -65,17 +65,20 @@ class WorkspaceConfiguration extends Resource {
    * @return {!Object} The data needed to export the workspace configuration.
    */
   getExportData() {
-    //TODO: implement
-    throw "unimplemented: getExportData";
+    let data = Object.create(null);
+    super.buildMetadata(data);
+    data.options = this.options;
+    return data;
   }
 
   /**
    * Gets the JSON object necessary to represent the workspace configuration in
    *     the navigation tree.
-   * @return {!Object} The JSON representation of the workspace configuration.
+   * @return {!Object} The tree-spcific JSON representation of the workspace
+   * configuration.
    */
-  getJson() {
-    const workspaceConfigJson = $.extend(true, super.getJson(),
+  getNavTreeJson() {
+    const workspaceConfigJson = $.extend(true, super.getNavJson(),
       {'id': PREFIXES.WORKSPACE_CONFIG});
     return workspaceConfigJson;
   }
