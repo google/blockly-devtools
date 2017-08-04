@@ -72,7 +72,6 @@ class ReadWriteController {
    */
   saveProject() {
     if (!this.hasSaved) {
-      //console.log('HERE');
       this.popupController = new SaveProjectPopupController(this.appController,
           this);
       this.popupController.show();
@@ -83,48 +82,18 @@ class ReadWriteController {
   }
 
   /**
-   * Saves a block to the developer's file system.
+   * Saves a non-project resource to the file system.
    */
-  saveBlock() {
-    this.writeDataFile(
-        this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.BLOCK));
-  }
-
-  /**
-   * Saves a library to the developer's file system.
-   */
-  saveLibrary() {
-     this.writeDataFile(
-        this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.LIBRARY));
-  }
-
-  /**
-   * Saves a toolbox to the developer's file system.
-   */
-  saveToolbox() {
-    this.writeDataFile(
-        this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.TOOLBOX));
-  }
-
-  /**
-   * Saves workspace contents to the developer's file system.
-   */
-  saveWorkspaceContents() {
-    this.writeDataFile(
-        this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.GENERAL_WORKSPACE));
-  }
-
-  /**
-   * Saves workspace configuration to the developer's file system.
-   */
-  saveWorkspaceConfiguration() {
-    this.writeDataFile(
-        this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.GENERAL_WORKSPACE));
+  saveNonProjectResource(resource) {
+    const divName = resource.resourceType + '_' + resource.name;
+    if (!this.directoryMap.get(divName)) {
+      this.popupController = new SaveProjectPopupController(this.appController,
+          this);
+      this.popupController.show();
+    } else {
+      this.writeDataFile(this.appController.project,
+          this.directoryMap.get(PREFIXES.PROJECT));
+    }
   }
 
   /**
