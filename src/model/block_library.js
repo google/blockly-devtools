@@ -62,6 +62,16 @@ class BlockLibrary extends Resource {
   }
 
   /**
+   * Returns the BlockDefinition within this library of the given name.
+   * @param {string} blockName Name of block to be found.
+   * @return {?BlockDefinition} The BlockDefinition object or null, if it does
+   *     not exist within the project.
+   */
+  get(blockName) {
+    return this.blocks[blockName];
+  }
+
+  /**
    * Returns array of all block types stored in the block library.
    * @return {!Array.<string>} Array of block types stored in block library.
    */
@@ -90,7 +100,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Returns the JSON of all blocks stored in the block library.
-   * @return {Object} The JSON that represents all bocks in the library.
+   * @return {Object} The JSON that represents all blocks in the library.
    */
   getBlockArrayJson() {
     let blockArrayJson = [];
