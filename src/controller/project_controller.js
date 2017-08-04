@@ -313,9 +313,7 @@ class ProjectController {
       return null;
     } else {
       if (!opt_suppress) {
-        console.log('renaming node');
         const id = this.tree.getTree().get_selected()[0];
-        console.log(id);
         this.tree.renameNode(id, newName);
       }
       block.setName(newName);
