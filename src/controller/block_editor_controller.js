@@ -194,6 +194,8 @@ class BlockEditorController {
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
     // Sets JSON field of BlockDefinition object.
+    // TODO(#190): Store and generate block definition JSONs more efficiently to
+    // avoid repeatedly using JSON.parse().
     const jsonString = FactoryUtils.getBlockDefinition(
           'JSON', this.view.editorWorkspace);
     currentBlock.json = JSON.parse(jsonString);
