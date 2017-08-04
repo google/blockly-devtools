@@ -36,10 +36,12 @@ goog.provide('DevToolsToolboxes');
  * @return {string} XML string of category which contains the blocks in the library.
  */
 DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
-  return `<category name="${libraryName}" colour="260">
+  const categoryXml = `<category name="${libraryName}" colour="260">
     ${libraryXml}
   </category>
   `;
+  console.log(categoryXml);
+  return categoryXml;
 };
 
 /**

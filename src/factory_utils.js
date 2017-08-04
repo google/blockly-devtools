@@ -768,30 +768,6 @@ FactoryUtils.getBlockTypeFromJsDefinition = function(blockDef) {
 };
 
 /**
- * Generates a category containing blocks of the specified block types.
- * @param {!Array.<!Blockly.Block>} blocks Blocks to include in the category.
- * @param {string} categoryName Name to use for the generated category.
- * @return {!Element} Category XML containing the given block types.
- */
-FactoryUtils.generateCategoryXml = function(blocks, categoryName) {
-  // Create category DOM element.
-  var categoryElement = goog.dom.createDom('category');
-  categoryElement.setAttribute('name', categoryName);
-
-  // For each block, add block element to category.
-  for (var i = 0, block; block = blocks[i]; i++) {
-
-    // Get preview block XML.
-    var blockXml = Blockly.Xml.blockToDom(block);
-    blockXml.removeAttribute('id');
-
-    // Add block to category and category to XML.
-    categoryElement.appendChild(blockXml);
-  }
-  return categoryElement;
-};
-
-/**
  * Parses a string containing JavaScript block definition(s) to create an array
  * in which each element is a single block definition.
  * @param {string} blockDefsString JavaScript block definition(s).
@@ -1201,12 +1177,13 @@ FactoryUtils.updateBlockLibCategory = function(project, workspace) {
   // REFACTORED: Moved in from wfactory_controller.js
   const libraryXmls = [];
   // Alphabetized array of block library names.
-  const libraryNames = project.getLibraryNames();
+  const libraryNames = project.getBlockLibraryNames();
 
   libraryNames.forEach((libraryName) => {
-    const library = project.getLibrary(libraryName);
+    const library = project.getBlockLibrary(libraryName);
+    const libXml = FactoryUtils.getCategoryXml(library, workspace);
     libraryXmls.push([
-        libraryName, FactoryUtils.getCategoryXml(library, workspace)]);
+        libraryName, Blockly.Xml.domToPrettyText(libXml)]);
   });
 
   return DevToolsToolboxes.toolboxEditor(libraryXmls);
@@ -1232,8 +1209,31 @@ FactoryUtils.getCategoryXml = function(library, workspace) {
         blockType, workspace);
     blocks.push(block);
   }
+  return FactoryUtils.generateCategoryXml(blocks, library.name);
+};
 
-  return FactoryUtils.generateCategoryXml(blocks, 'Block Library');
+/**
+ * Generates a category containing blocks of the specified block types.
+ * @param {!Array.<!Blockly.Block>} blocks Blocks to include in the category.
+ * @param {string} categoryName Name to use for the generated category.
+ * @return {!Element} Category XML containing the given block types.
+ */
+FactoryUtils.generateCategoryXml = function(blocks, categoryName) {
+  // Create category DOM element.
+  var categoryElement = goog.dom.createDom('category');
+  categoryElement.setAttribute('name', categoryName);
+
+  // For each block, add block element to category.
+  for (var i = 0, block; block = blocks[i]; i++) {
+
+    // Get preview block XML.
+    var blockXml = Blockly.Xml.blockToDom(block);
+    blockXml.removeAttribute('id');
+
+    // Add block to category and category to XML.
+    categoryElement.appendChild(blockXml);
+  }
+  return categoryElement;
 };
 
 /*
