@@ -103,40 +103,50 @@ class ReadWriteController {
    * Saves a block to the developer's file system.
    */
   saveBlock() {
-    //TODO: fill in
-    console.warn('unimplimented: saveBlock');
+    this.writeDataFile(
+        this.appController.editorController.blockEditorController.block,
+        this.directoryMap.get(PREFIXES.PROJECT));
+    }
   }
 
   /**
    * Saves a library to the developer's file system.
    */
   saveLibrary() {
-    //TODO: fill in
-    console.warn('unimplimented: saveLibrary');
+     this.writeDataFile(
+        this.appController.editorController.blockEditorController.block,
+        this.directoryMap.get(PREFIXES.PROJECT));
+    }
   }
 
   /**
    * Saves a toolbox to the developer's file system.
    */
   saveToolbox() {
-    //TODO: fill in
-    console.warn('unimplimented: saveToolbox');
+    this.writeDataFile(
+        this.appController.editorController.blockEditorController.block,
+        this.directoryMap.get(PREFIXES.PROJECT));
+    }
   }
 
   /**
    * Saves workspace contents to the developer's file system.
    */
   saveWorkspaceContents() {
-    //TODO: fill in
-    console.warn('unimplimented: saveWorkspaceContents');
+    this.writeDataFile(
+        this.appController.editorController.blockEditorController.block,
+        this.directoryMap.get(PREFIXES.PROJECT));
+    }
   }
 
   /**
    * Saves workspace configuration to the developer's file system.
    */
   saveWorkspaceConfiguration() {
-    //TODO: fill in
-    console.warn('unimplimented: saveWorkspaceConfiguration');
+    this.writeDataFile(
+        this.appController.editorController.blockEditorController.block,
+        this.directoryMap.get(PREFIXES.PROJECT));
+    }
   }
 
   /**
