@@ -144,9 +144,9 @@ goog.require('Resource');
    * @return {Array.<Object>} Flat list of data for all resources in the set.
    */
   getMetadata() {
-    const metadata = [];
+    let metadata = [];
     for (let resourceName of Object.keys(this.resources)) {
-      metadata.concat(this.get(resourceName).buildMetadata());
+      metadata.push(this.get(resourceName).getDataForProjectMetadata());
     }
     return metadata;
   }

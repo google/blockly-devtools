@@ -281,12 +281,9 @@ class Project extends Resource {
    * @return {Array.<Object>} Flat list of data for all resources in the project.
    */
   getFullResourceList() {
-    let resourceList = [];
-    resourceList.concat(this.librarySet.getMetadata());
-    resourceList.concat(this.toolboxSet.getMetadata());
-    resourceList.concat(this.workspaceContentsSet.getMetadata());
-    resourceList.concat(this.workspaceConfigSet.getMetadata());
-    return resourceList;
+    return this.librarySet.getMetadata().concat(this.toolboxSet.getMetadata(),
+        this.workspaceContentsSet.getMetadata(),
+          this.workspaceConfigSet.getMetadata());
   }
 
   /**

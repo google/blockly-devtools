@@ -112,7 +112,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Returns map of each block type to its corresponding XML in the
-   *     block library.
+   * block library.
    * @param {!Array.<string>} blockTypes Types of blocks.
    * @return {!Object<string, Element>} Map of block type to corresponding XML.
    */
@@ -150,7 +150,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Returns boolean of whether or not a given blockType is stored in  the block
-   *     library.
+   * library.
    * @param {string} blockType Type of block.
    * @return {boolean} Whether or not blockType is stored in block library.
    */
@@ -162,7 +162,19 @@ class BlockLibrary extends Resource {
    * Gets the data necessary to export the library.
    * @return {!Object} The data needed to export the library.
    */
-  getExportData() {
+  getExportFileData() {
+    let data = Object.create(null);
+    super.buildMetadata(data);
+    return data;
+  }
+
+  /**
+   * Gets the data necessary to represent the library in the project's metadata
+   * file.
+   * @return {!Object} The data needed to represent the library in the project's
+   *    metadata file.
+   */
+  getProjectMetadataFileData() {
     let data = Object.create(null);
     super.buildMetadata(data);
     return data;
@@ -170,7 +182,7 @@ class BlockLibrary extends Resource {
 
   /**
    * Gets the JSON object necessary to represent the library in the navigation
-   *     tree.
+   * tree.
    * @return {!Object} The tree-specific JSON representation of the library.
    */
   getNavTreeJson() {

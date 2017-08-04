@@ -94,7 +94,6 @@ class Resource {
   /**
    * Modifies the JSON object that comprises the resource's metadata.
    * @param {!Object} obj Object to extend with necessary data.
-   * @return {!Object} The resource metadata.
    */
   buildMetadata(obj) {
     obj.name = this.name;
@@ -112,5 +111,15 @@ class Resource {
         obj.web.filepath = '';
       }
     obj.web.export = true;
+  }
+
+  /**
+   * Returns an object configured with the resource's metadata.
+   * @return {!Object} The resource metadata.
+   */
+  getDataForProjectMetadata() {
+    let obj = Object.create(null);
+    this.buildMetadata(obj)
+    return obj;
   }
 }

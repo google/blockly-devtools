@@ -53,16 +53,6 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
-   * Returns a map of all block types in a named library to their definitions.
-   * @param {string} libraryName The name of the library to get the map from.
-   * @return {!Object<string, BlockDefinition>} Map of the library's block types
-   *     to their definitions.
-   */
-  getBlockDefinitionMap(libraryName) {
-    console.warn('unimplemented: getBlockDefinitionMap');
-  }
-
-  /**
    * Returns whether or not a named block is in the library set.
    * @param {string} blockType The name of the block to be found.
    * @return {boolean} Whether or not it's in the set.

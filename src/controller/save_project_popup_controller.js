@@ -57,11 +57,12 @@ class SaveProjectPopupController extends PopupController {
     /**
      * List of html divisions in the view, used to assign variables to the view
      * and update the ReadWriteController's directory map with the appropriate
-     * keys.
-     * @type {}
+     * keys. Filled in by this.makeProjectPopupContents().
+     * @type {Array.<string>}
      */
-    const viewContents = this.makeProjectPopupContents();
+     this.viewDivs = [];
 
+    const viewContents = this.makeProjectPopupContents();
     /**
      * The popup view that this popup controller manages.
      * @type {!SaveProjectPopupView}
@@ -75,12 +76,12 @@ class SaveProjectPopupController extends PopupController {
     });
 
     this.view.on('submit', () => {
-      // Save location for each directory, or, if none chosen, set a default.
-      for (let directoryKey of this.readWriteController.directoryMap.keys()) {
+      // Save location for each division, or, if none chosen, set a default.
+      for (let div of this.readWriteController.directoryMap.keys()) {
           // The user has chosen a location, indicated by the existence of the
           // appropriate view variable (the name of this variable is the lower
           // case version of the matching directory map key.
-          if (this.view[directoryKey.toLowerCase()]) {
+          if (this.view[div]) {
             localStorage.setItem(directoryKey,
                 this.view[directoryKey.toLowerCase()]);
           } else {
@@ -121,10 +122,10 @@ class SaveProjectPopupController extends PopupController {
     let object = Object.create(null);
     this.appController.project.buildMetadata(object);
     for (let resource of object.resources) {
-      this.viewDivs.push(resource.name + 'Directory');
+      let divName = resource.type + '_' + resource.name;
+      this.viewDivs.push(divName);
       htmlContents = htmlContents + resource.name +
-        '<input type="file" nwdirectory id=' + '\"' + resource.name +
-          'Directory"></input><br><br>';
+        '<input type="file" nwdirectory id=' + '\"' + divName + '"></input><br><br>';
     }
     htmlContents = htmlContents +
       '<input type="button" value="Submit" id="submit"></form>';

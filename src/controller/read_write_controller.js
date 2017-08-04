@@ -55,8 +55,6 @@ class ReadWriteController {
      * @type {Map}
      */
     this.directoryMap = new Map();
-    // Initialize the directory map.
-    this.initDirectoryMap_();
   }
 
   /**
@@ -70,26 +68,11 @@ class ReadWriteController {
   }
 
   /**
-   * Initializes the directory map.
-   * @return {Map} Map of resource type to locally stored directory location.
-   * @private
-   */
-  initDirectoryMap_() {
-    this.directoryMap.set(PREFIXES.PROJECT,
-        localStorage.getItem(PREFIXES.PROJECT));
-    this.directoryMap.set(PREFIXES.LIBRARY,
-        localStorage.getItem(PREFIXES.LIBRARY));
-    this.directoryMap.set(PREFIXES.TOOLBOX,
-        localStorage.getItem(PREFIXES.TOOLBOX));
-    this.directoryMap.set(PREFIXES.GENERAL_WORKSPACE,
-        localStorage.getItem(PREFIXES.GENERAL_WORKSPACE));
-  }
-
-  /**
    * Saves entire project to the developer's file system.
    */
   saveProject() {
     if (!this.hasSaved) {
+      //console.log('HERE');
       this.popupController = new SaveProjectPopupController(this.appController,
           this);
       this.popupController.show();
@@ -106,7 +89,6 @@ class ReadWriteController {
     this.writeDataFile(
         this.appController.editorController.blockEditorController.block,
         this.directoryMap.get(PREFIXES.BLOCK));
-    }
   }
 
   /**
@@ -116,7 +98,6 @@ class ReadWriteController {
      this.writeDataFile(
         this.appController.editorController.blockEditorController.block,
         this.directoryMap.get(PREFIXES.LIBRARY));
-    }
   }
 
   /**
@@ -126,7 +107,6 @@ class ReadWriteController {
     this.writeDataFile(
         this.appController.editorController.blockEditorController.block,
         this.directoryMap.get(PREFIXES.TOOLBOX));
-    }
   }
 
   /**
@@ -135,8 +115,7 @@ class ReadWriteController {
   saveWorkspaceContents() {
     this.writeDataFile(
         this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.PROJECT));
-    }
+        this.directoryMap.get(PREFIXES.GENERAL_WORKSPACE));
   }
 
   /**
@@ -145,8 +124,7 @@ class ReadWriteController {
   saveWorkspaceConfiguration() {
     this.writeDataFile(
         this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.PROJECT));
-    }
+        this.directoryMap.get(PREFIXES.GENERAL_WORKSPACE));
   }
 
   /**
@@ -155,6 +133,8 @@ class ReadWriteController {
    */
   writeDataFile(resource) {
     let data = Object.create(null);
+    console.log(resource);
+    console.log(data);
     resource.buildMetadata(data);
     let dataString = JSON.stringify(data, null, '\t');
     const location = this.directoryMap.get(resource.resourceType);

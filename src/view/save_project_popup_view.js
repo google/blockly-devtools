@@ -76,7 +76,7 @@ class SaveProjectPopupView extends PopupView {
       this.emit('exit');
     });
     $('#submit').click(() => {
-      this.assignVariables();
+      this.assignVariables_();
       this.hide();
       this.emit('submit');
     });
@@ -84,8 +84,9 @@ class SaveProjectPopupView extends PopupView {
 
   /**
    * Assings the values of all html divisions to variables of the same name.
+   * @private
    */
-  assignVariables() {
+  assignVariables_() {
     for (let division of this.divList) {
       this[division] = $("\'#" + division + "\'").val();
     }
