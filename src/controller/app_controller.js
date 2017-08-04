@@ -367,7 +367,7 @@ class AppController {
       isDuplicate = this.project.getToolbox(name);
       isEmpty = name && name.trim() ? false : true;
       if (isDuplicate) {
-        errorText = 'This toolbox already exists.\n';
+        errorText = 'This workspace contents already exists.\n';
       } else if (isEmpty) {
         return;
       }
