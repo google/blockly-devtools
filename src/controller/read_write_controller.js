@@ -105,7 +105,7 @@ class ReadWriteController {
   saveBlock() {
     this.writeDataFile(
         this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.PROJECT));
+        this.directoryMap.get(PREFIXES.BLOCK));
     }
   }
 
@@ -115,7 +115,7 @@ class ReadWriteController {
   saveLibrary() {
      this.writeDataFile(
         this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.PROJECT));
+        this.directoryMap.get(PREFIXES.LIBRARY));
     }
   }
 
@@ -125,7 +125,7 @@ class ReadWriteController {
   saveToolbox() {
     this.writeDataFile(
         this.appController.editorController.blockEditorController.block,
-        this.directoryMap.get(PREFIXES.PROJECT));
+        this.directoryMap.get(PREFIXES.TOOLBOX));
     }
   }
 
