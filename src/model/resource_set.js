@@ -95,13 +95,13 @@ goog.require('Resource');
   }
 
   /**
-   * Returns the JSON representation of the resource set.
+   * Returns the navigation tree-specific JSON representation of the resource set.
    * @return {!Object} The JSON representing the set.
    */
-  getJson() {
+  getNavTreeJson() {
     let resourceSetJson = [];
     for (let resourceName of this.getNames()) {
-      var resourceJson = this.resources[resourceName].getJson();
+      var resourceJson = this.resources[resourceName].getNavTreeJson();
       resourceSetJson.push(resourceJson);
     }
     return resourceSetJson;
