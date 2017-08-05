@@ -48,7 +48,7 @@ class ReadWriteController {
      * Whether or not the user has saved before.
      * @type {boolean}
      */
-    this.hasSaved = localStorage.getItem('hasSavedProjectBefore');
+    this.hasSaved = null;//localStorage.getItem('hasSavedProjectBefore');
 
     /**
      * Map of resource type to locally stored directory location.
@@ -75,24 +75,84 @@ class ReadWriteController {
       this.popupController = new SaveProjectPopupController(this.appController,
           this);
       this.popupController.show();
+      localStorage.setItem('hasSavedProjectBefore', true);
     } else {
-      this.writeDataFile(this.appController.project,
-          this.directoryMap.get(PREFIXES.PROJECT));
+      this.writeAllFiles();
     }
   }
 
   /**
-   * Saves a non-project resource to the file system.
+   * Saves a block to the developer's file system.
    */
-  saveNonProjectResource(resource) {
-    const divName = resource.resourceType + '_' + resource.name;
-    if (!this.directoryMap.get(divName)) {
-      this.popupController = new SaveProjectPopupController(this.appController,
-          this);
-      this.popupController.show();
-    } else {
-      this.writeDataFile(this.appController.project,
-          this.directoryMap.get(PREFIXES.PROJECT));
+  saveBlock() {
+    //TODO: fill in
+    console.warn('unimplimented: saveBlock');
+  }
+
+  /**
+   * Saves a library to the developer's file system.
+   */
+  saveLibrary() {
+    //TODO: fill in
+    console.warn('unimplimented: saveLibrary');
+  }
+
+  /**
+   * Saves a toolbox to the developer's file system.
+   */
+  saveToolbox() {
+    //TODO: fill in
+    console.warn('unimplimented: saveToolbox');
+  }
+
+  /**
+   * Saves workspace contents to the developer's file system.
+   */
+  saveWorkspaceContents() {
+    //TODO: fill in
+    console.warn('unimplimented: saveWorkspaceContents');
+  }
+
+  /**
+   * Saves workspace configuration to the developer's file system.
+   */
+  saveWorkspaceConfiguration() {
+    //TODO: fill in
+    console.warn('unimplimented: saveWorkspaceConfiguration');
+  }
+
+  /**
+   * Returns an HTML division (based on the save project popup) name for a given
+   * resource. Used in directory map keys.
+   * @return {string} HTML division name
+   */
+  getDivName(resource) {
+    return resource.resourceType + '_' + resource.name;
+  }
+
+  /**
+   * Write all necessary data files.
+   */
+  writeAllFiles() {
+    for (let directory of this.directoryMap.keys()) {
+      let typeAndName = directory.split("_");
+      let type = typeAndName[0];
+      let name = typeAndName[1];
+      if (type = PREFIXES.LIBRARY) {
+        let library = this.appController.project.getBlockLibrary(name);
+        this.saveLibrary(library);
+      } else if (type = PREFIXES.TOOLBOX) {
+        let toolbox = this.appController.project.getToolbox(name);
+        this.saveLibrary(toolbox);
+      } else if (type = PREFIXES.WORKSPACE_CONTENTS) {
+        let workspaceContents =
+            this.appController.project.getWorkspaceContents(name);
+        this.saveLibrary(workspaceContents);
+      } else if (type = PREFIXES.WORKSPACE_CONFIG) {
+        let workspaceConfig =
+            this.appController.project.getworkspaceConfiguration(name);
+        this.saveLibrary(workspaceConfig);
+      }
     }
   }
 
@@ -102,12 +162,9 @@ class ReadWriteController {
    */
   writeDataFile(resource) {
     let data = Object.create(null);
-    console.log(resource);
-    console.log(data);
     resource.buildMetadata(data);
     let dataString = JSON.stringify(data, null, '\t');
-    const location = this.directoryMap.get(resource.resourceType);
+    const location = this.directoryMap.get(this.getDivName(resource));
     fs.writeFileSync(location + path.sep + 'metadata', dataString);
-    localStorage.setItem('hasSavedProjectBefore', true);
   }
 }

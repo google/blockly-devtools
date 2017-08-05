@@ -69,6 +69,7 @@ class SaveProjectPopupController extends PopupController {
      */
     this.view = new SaveProjectPopupView(this, this.viewDivs, viewContents);
 
+    console.log(this.viewDivs);
     // Listeners in the popup
     Emitter(this.view);
     this.view.on('exit', () => {
@@ -77,25 +78,27 @@ class SaveProjectPopupController extends PopupController {
 
     this.view.on('submit', () => {
       // Save location for each division, or, if none chosen, set a default.
-      for (let div of this.readWriteController.directoryMap.keys()) {
+      for (let div of this.viewDivs) {
           // The user has chosen a location, indicated by the existence of the
           // appropriate view variable (the name of this variable is the lower
           // case version of the matching directory map key.
           if (this.view[div]) {
-            localStorage.setItem(directoryKey,
-                this.view[directoryKey.toLowerCase()]);
+            localStorage.setItem(div,this.view[div]);
+            this.readWriteController.directoryMap.set(div, this.view[div]);
           } else {
             // No location has been chosen, leading to the creation of a default
             // directory of the same name as the local storage tag under the
             // directory specified for the project.
-            localStorage.setItem(directoryKey,
-                this.readWriteController.directoryMap.get(PREFIXES.PROJECT) +
-                  directoryKey);
+            localStorage.setItem(div,
+                this.readWriteController.getDivName(this.appController.project) +
+                  div);
+             this.readWriteController.directoryMap.set(div,
+                this.readWriteController.getDivName(this.appController.project) +
+                  div);
           }
       }
       // Save the project.
-      this.readWriteController.writeDataFile(this.appController.project,
-          PREFIXES.PROJECT);
+      this.readWriteController.writeDataFile(this.appController.project);
       this.exit();
     });
   }
@@ -113,22 +116,26 @@ class SaveProjectPopupController extends PopupController {
    * @return {string} The html contents for the project saving popup.
    */
   makeProjectPopupContents() {
+    let divName = this.readWriteController.getDivName(this.appController.project);
     let htmlContents = `
 <header>Choose Project File Locations</header>
   <form>
     Project<span class="red">*</span>
-      <input type="file" nwdirectory id="projectDirectory"></input><br><br>
+      <input type="file" nwdirectory id=
 `;
+    htmlContents = htmlContents + divName + '></input><br><br>';
+    this.viewDivs.push(divName);
     let object = Object.create(null);
     this.appController.project.buildMetadata(object);
     for (let resource of object.resources) {
-      let divName = resource.type + '_' + resource.name;
+      divName = this.readWriteController.getDivName(resource);
       this.viewDivs.push(divName);
       htmlContents = htmlContents + resource.name +
         '<input type="file" nwdirectory id=' + '\"' + divName + '"></input><br><br>';
     }
     htmlContents = htmlContents +
       '<input type="button" value="Submit" id="submit"></form>';
+      console.log(htmlContents);
     return htmlContents;
   }
 }
