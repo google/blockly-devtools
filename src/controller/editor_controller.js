@@ -96,7 +96,8 @@ class EditorController {
     } else if (editor instanceof ToolboxController) {
       this.currentEditor.loadToolbox(this.currentEditor.view.toolbox);
     } else if (editor instanceof WorkspaceController) {
-      this.currentEditor.loadWorkspace(this.currentEditor.view.workspaceContents);
+      this.currentEditor.loadContents(this.currentEditor.view.workspaceContents);
+      this.currentEditor.loadConfig(this.currentEditor.view.workspaceContents.config);
     }
   }
 

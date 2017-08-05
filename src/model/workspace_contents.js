@@ -49,6 +49,8 @@ class WorkspaceContents extends Resource {
      * @type {!Array.<string>}
      */
     this.shadowBlocks = [];
+
+    this.config = new WorkspaceConfiguration(this.name);
   }
 
   /**
@@ -78,7 +80,7 @@ class WorkspaceContents extends Resource {
    * contents.
    */
   getNavTreeJson() {
-    const workspaceContentsJson = $.extend(true, super.getNavJson(),
+    const workspaceContentsJson = $.extend(true, super.getNavTreeJson(),
       {'id': PREFIXES.WORKSPACE_CONTENTS});
     return workspaceContentsJson;
   }

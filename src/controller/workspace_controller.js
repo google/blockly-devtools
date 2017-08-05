@@ -197,12 +197,23 @@ class WorkspaceController extends ShadowController {
     this.view.updateEditorToolbox(newToolboxXml);
   }
 
-  loadWorkspace() {
-    const wsContents = this.view.workspaceContents;
+  /**
+   *
+   */
+  loadContents(wsContents) {
     Blockly.Xml.domToWorkspace(this.view.workspaceContents.getExportData(),
         this.view.editorWorkspace);
     this.view.editorWorkspace.cleanUp();
     this.updatePreview();
+  }
+
+  /**
+   *
+   */
+  loadConfig(wsConfig) {
+    const options = wsConfig ? wsConfig.options : Object.create(null);
+    console.log(options);
+    this.writeOptions_(options);
   }
 
   /**
@@ -284,7 +295,7 @@ class WorkspaceController extends ShadowController {
 
     // TODO (#141): Add popup for workspace config.
 
-    this.view.workspaceConfig.setOptions(this.readOptions_());
+    this.view.workspaceContents.config.setOptions(this.readOptions_());
     this.reinjectPreview();
   }
 
@@ -382,6 +393,83 @@ class WorkspaceController extends ShadowController {
     }
 
     return optionsObj;
+  }
+
+  /**
+   * Displays a given options object onto editor workspace.
+   * @param {!Object} optionsObj Blockly injection options object.
+   * @private
+   */
+  writeOptions_(optionsObj) {
+    // Readonly mode.
+    document.getElementById('option_readOnly_checkbox').checked =
+        optionsObj['readOnly'] || false;
+    FactoryUtils.ifCheckedEnable(true, ['readonly1', 'readonly2']);
+
+    // Set basic options.
+    document.getElementById('option_css_checkbox').checked =
+        optionsObj['css'] || false;
+    document.getElementById('option_maxBlocks_number').value =
+        optionsObj['maxBlocks'] || 10;
+    document.getElementById('option_media_text').value =
+        optionsObj['media'] || 'https://blockly-demo.appspot.com/static/media/';
+    document.getElementById('option_rtl_checkbox').checked =
+        optionsObj['RTL'] || false;
+    document.getElementById('option_sounds_checkbox').checked =
+        optionsObj['sounds'] || false;
+    document.getElementById('option_oneBasedIndex_checkbox').checked =
+        optionsObj['oneBasedIndex'] || false;
+    document.getElementById('option_horizontalLayout_checkbox').checked =
+        optionsObj['horizontalLayout'] || false;
+    document.getElementById('option_toolboxPosition_checkbox').checked =
+        optionsObj['toolboxPosition'] || false;
+
+    // Check infinite blocks and hide suboption.
+    const infinite = optionsObj['maxBlocks'] == Infinity || true;
+    document.getElementById('option_infiniteBlocks_checkbox').checked = infinite;
+    document.getElementById('maxBlockNumber_option').style.display =
+        infinite ? 'block' : 'none';
+
+    // Uncheck grid and zoom options and hide suboptions.
+    let grid = optionsObj['gridOptions'] || null;
+    document.getElementById('option_grid_checkbox').checked = grid;
+    document.getElementById('grid_options').style.display =
+        grid ? 'block' : 'none';
+    let zoom = optionsObj['zoomOptions'] || null;
+    document.getElementById('option_zoom_checkbox').checked =
+        zoom ? true : false;
+    document.getElementById('zoom_options').style.display =
+        zoom ? 'block' : 'none';
+
+    // Set grid options.
+    if (!grid) {
+      grid = Object.create(null);
+    }
+    document.getElementById('gridOption_spacing_number').value =
+        grid['spacing'] || 20;
+    document.getElementById('gridOption_length_number').value =
+        grid['length'] || 1;
+    document.getElementById('gridOption_colour_text').value =
+        grid['colour'] || '#888';
+    document.getElementById('gridOption_snap_checkbox').checked =
+        grid['snap'] || false;
+
+    if (!zoom) {
+      zoom = Object.create(null);
+    }
+    // Set zoom options.
+    document.getElementById('zoomOption_controls_checkbox').checked =
+        zoom['controls'] || true;
+    document.getElementById('zoomOption_wheel_checkbox').checked =
+        zoom['wheel'] || true;
+    document.getElementById('zoomOption_startScale_number').value =
+        zoom['startScale'] || 1.0;
+    document.getElementById('zoomOption_maxScale_number').value =
+        zoom['maxScale'] || 3;
+    document.getElementById('zoomOption_minScale_number').value =
+        zoom['minScale'] || 0.3;
+    document.getElementById('zoomOption_scaleSpeed_number').value =
+        zoom['scaleSpeed'] || 1.2;
   }
 
   /**
