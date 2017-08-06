@@ -221,6 +221,8 @@ class WorkspaceController extends ShadowController {
     const options = wsConfig ? wsConfig.options : Object.create(null);
     console.log(options);
     this.writeOptions_(options);
+    this.readOptions_();
+    this.reinjectPreview();
   }
 
   /**
