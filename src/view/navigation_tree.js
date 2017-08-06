@@ -55,6 +55,19 @@ class NavigationTree {
     data['state'] = {
         'opened': true
       };
+    // // Adding workspace contents.
+    // data.children[2].children.push({
+    //   id: PREFIXES.WORKSPACE_CONTENTS + '_' + 'MyContents',
+    //   text: 'MyContents',
+    //   children: []
+    // });
+    // // Adding workspace config.
+    // data.children[3].children.push({
+    //   id: PREFIXES.WORKSPACE_CONFIG + '_' + 'MyConfig',
+    //   text: 'MyConfig',
+    //   children: []
+    // });
+    // data.children[3]['state'] = { opened: true };
     const tree = {
       'core': {
         'check_callback': true,
@@ -316,9 +329,8 @@ class NavigationTree {
       this.appController.switchEnvironment(AppController.WORKSPACE_EDITOR,
           this.appController.project.getWorkspaceContents(name));
     } else if (prefix === PREFIXES.WORKSPACE_CONFIG) {
-        // Tab switching
-        console.warn('Switching WorkspaceConfiguration via NavTree has not ' +
-            'been implemented.');
+      this.appController.switchEnvironment(AppController.WORKSPACE_EDITOR,
+          this.appController.project.getWorkspaceConfiguration(name));
     } else if (prefix === PREFIXES.BLOCK) {
       const library = this.appController.projectController.getLibrary(name);
       this.appController.switchEnvironment(AppController.BLOCK_EDITOR,

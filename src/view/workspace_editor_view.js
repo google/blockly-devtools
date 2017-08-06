@@ -133,10 +133,10 @@ class WorkspaceEditorView {
 
   /**
    * Shows contents of this editor to application view. Used when switching editors.
-   * @param {!WorkspaceContents} wsContents WorkspaceContents to populate in
-   *     workspace editor view when shown.
+   * @param {!WorkspaceContents|WorkspaceConfiguration} wsElement Workspace
+   *     element to display in workspace editor view when shown.
    */
-  show(wsContents) {
+  show(wsElement) {
     // TODO: Add functionality for showing WorkspaceConfiguration object.
     // Select tab.
     const tab = $('#' + AppController.WORKSPACE_EDITOR);
@@ -150,14 +150,17 @@ class WorkspaceEditorView {
     Blockly.svgResize(this.editorWorkspace);
     Blockly.svgResize(this.previewWorkspace);
 
-    if (!wsContents) {
+    if (!wsElement) {
       return;
+    } else if (wsElement instanceof WorkspaceContents) {
+      this.editorWorkspace.clear();
+      this.workspaceContents = wsElement;
+      this.refreshWorkspaceInfo();
+      this.selectedBlock = null;
+    } else if (wsElement instanceof WorkspaceConfiguration) {
+      this.workspaceConfiguration = wsElement;
+      this.refreshWorkspaceInfo();
     }
-
-    this.editorWorkspace.clear();
-    this.workspaceContents = wsContents;
-    this.refreshWorkspaceInfo();
-    this.selectedBlock = null;
   }
 
   /**
@@ -171,6 +174,10 @@ class WorkspaceEditorView {
       Blockly.Events.disable();
       controller.onChange(event);
       Blockly.Events.enable();
+    });
+    $('form#workspace_options :input').change(() => {
+      console.log('Change detected!');
+      controller.generateNewOptions();
     });
     this.initConfigListeners_(controller);
     this.initClickHandlers_(controller);
@@ -412,6 +419,7 @@ class WorkspaceEditorView {
    */
   refreshWorkspaceInfo() {
     $('#currentWorkspace').text(this.workspaceContents.name);
+    $('#currentWSConfig').text(this.workspaceContents.config.name);
   }
 }
 
@@ -481,7 +489,8 @@ WorkspaceEditorView.html = `
       <button id="button_optionsHelp">Help</button>
       <button class="small" id="button_standardOptions">Reset to Default</button>
     </div>
-    <div id="workspace_options">
+    <form id="workspace_options">
+      <p><b>Current workspace configuration:</b> <span id="currentWSConfig"></span></p>
       <label><input type="checkbox" id="option_readOnly_checkbox">Read Only</label><br>
       <label><input type="checkbox" id="option_grid_checkbox">Use Grid</label><br>
       <div id="grid_options" style="display: none">
@@ -519,7 +528,7 @@ WorkspaceEditorView.html = `
         <label><input type="checkbox" id="option_sounds_checkbox">Sounds<br>
         <label><input type="checkbox" id="option_trashcan_checkbox">Trashcan</label><br>
       </div>
-    </div>
+    </form>
   </aside>
 
 </section>
