@@ -117,7 +117,7 @@ class ReadWriteController {
    * @param {!Toolbox} toolbox The toolbox to be saved.
    */
   saveToolbox(toolbox) {
-    let data = this.appController.toolboxController.generateToolboxJsFile(toolbox);
+    let data = this.appController.editorController.toolboxController.generateToolboxJsFile(toolbox);
     const location = this.directoryMap.get(this.getDivName(toolbox));
     const filename = this.getDivName(toolbox) + '_metadata';
     fs.writeFileSync(location + path.sep + filename, data);
@@ -129,7 +129,7 @@ class ReadWriteController {
    *     saved.
    */
   saveWorkspaceContents(workspaceContents) {
-    let data = workspaceContents.xml;
+    let data = Blockly.Xml.domToPrettyText(workspaceContents.xml);
     const location = this.directoryMap.get(this.getDivName(workspaceContents));
     const filename = this.getDivName(workspaceContents) + '_metadata';
     data = JSON.stringify(data, null, '\t');
@@ -142,13 +142,9 @@ class ReadWriteController {
    *     to be saved.
    */
   saveWorkspaceConfiguration(workspaceConfig) {
-    let data = Object.create(null);
-    data.resourceType = PREFIXES.WORKSPACE_CONFIG;
-    data.name = workspaceConfig.name;
-    data.options = workspaceConfig.options;
+    let data = this.appController.editorController.workspaceController.generateInjectFile(workspaceConfig);
     const location = this.directoryMap.get(this.getDivName(workspaceConfig));
     const filename = this.getDivName(workspaceConfig) + '_metadata';
-    data = JSON.stringify(data, null, '\t');
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
