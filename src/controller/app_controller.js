@@ -259,8 +259,6 @@ class AppController {
    */
   initProject(projectName) {
     this.project = new Project(projectName);
-    // this.project.addWorkspaceContents(new WorkspaceContents('MyContents'));
-    // this.project.addWorkspaceConfiguration(new WorkspaceConfiguration('MyConfig'));
     this.tree = new NavigationTree(this);
     this.projectController = new ProjectController(this.project, this.tree);
     this.editorController = new EditorController(this.projectController,
@@ -377,7 +375,7 @@ class AppController {
     let name = this.getResourceName_(PREFIXES.WORKSPACE_CONTENTS, 'Workspace');
     if (name) {
       const workspaceContents =
-        this.projectController.createWorkspaceContents(name);
+          this.projectController.createWorkspaceContents(name);
       this.switchEnvironment(AppController.WORKSPACE_EDITOR, workspaceContents);
     }
   }

@@ -192,6 +192,7 @@ class WorkspaceController extends ShadowController {
    * Updates the editor toolbox to have categories for user-defined block libraries.
    */
   updateEditorToolbox() {
+    // TODO(#198): Share function with toolbox controller.
     const libraryXml = [];
     const project = this.projectController.getProject();
     const libMap = project.librarySet.resources;
@@ -205,9 +206,14 @@ class WorkspaceController extends ShadowController {
   }
 
   /**
-   *
+   * Loads WorkspaceContents onto editor workspace.
+   * @param {!WorkspaceContents} wsContents WorkspaceContents to load.\
+   * @throws If wsContents param is undefined or null.
    */
   loadContents(wsContents) {
+    if (!wsContents) {
+      throw 'Cannot load an undefined or null WorkspaceContents onto editor workspace.';
+    }
     Blockly.Xml.domToWorkspace(this.view.workspaceContents.getExportData(),
         this.view.editorWorkspace);
     this.view.editorWorkspace.cleanUp();
@@ -215,7 +221,8 @@ class WorkspaceController extends ShadowController {
   }
 
   /**
-   *
+   * Loads WorkspaceConfiguration onto editor workspace.
+   * @param {!WorkspaceConfiguration} wsConfig WorkspaceConfiguration to load.
    */
   loadConfig(wsConfig) {
     const options = wsConfig ? wsConfig.options : Object.create(null);
@@ -438,7 +445,7 @@ class WorkspaceController extends ShadowController {
     // Grid
     let grid = optionsObj['grid'] || Object.create(null);
     let hasGrid = grid.spacing ? true : false;
-    document.getElementById('option_grid_checkbox').checked = 
+    document.getElementById('option_grid_checkbox').checked =
         hasGrid ? true : false;
     document.getElementById('grid_options').style.display =
         hasGrid ? 'block' : 'none';
