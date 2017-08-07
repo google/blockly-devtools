@@ -117,7 +117,7 @@ class ReadWriteController {
    * @param {!Toolbox} toolbox The toolbox to be saved.
    */
   saveToolbox(toolbox) {
-    let data = toolbox.xml;
+    let data = this.appController.toolboxController.generateToolboxJsFile(toolbox);
     const location = this.directoryMap.get(this.getDivName(toolbox));
     const filename = this.getDivName(toolbox) + '_metadata';
     fs.writeFileSync(location + path.sep + filename, data);
