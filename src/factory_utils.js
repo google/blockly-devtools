@@ -759,8 +759,10 @@ FactoryUtils.getDefinedBlock = function(blockType, workspace) {
  * @throws {Error} If there are no brackets in the block definition.
  */
 FactoryUtils.getBlockTypeFromJsDefinition = function(blockDef) {
-  var indexOfStartBracket = blockDef.indexOf('Blockly.Blocks[');
-  var indexOfEndBracket = blockDef.search(/\] *=/);
+  // TODO(#202): Search for block type using "Blockly.Blocks[" and "] =" with
+  // tests.
+  var indexOfStartBracket = blockDef.indexOf('[\'');
+  var indexOfEndBracket = blockDef.indexOf('\']');
   if (indexOfStartBracket != -1 && indexOfEndBracket != -1) {
     return blockDef.substring(indexOfStartBracket + 2, indexOfEndBracket);
   } else {
