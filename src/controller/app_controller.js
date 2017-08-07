@@ -368,19 +368,11 @@ class AppController {
    * Top-level function for toolbox creation. Updates views, editors, and model.
    */
   createToolbox() {
-    let errorText = '';
-    let name, isDuplicate, isEmpty;
-    do {
-      name = window.prompt(errorText + 'Enter new toolbox name.', 'MyToolbox');
-      isDuplicate = this.project.getToolbox(name);
-      isEmpty = name && name.trim() ? false : true;
-      if (isDuplicate) {
-        errorText = 'This workspace contents already exists.\n';
-      } else if (isEmpty) {
-        return;
-      }
-    } while (isDuplicate);
-    const toolbox = this.projectController.createToolbox(name);
+    let name = this.getResourceName_(PREFIXES.TOOLBOX);
+    if (name) {
+      const toolbox = this.projectController.createToolbox(name);
+      this.switchEnvironment(AppController.TOOLBOX_EDITOR, toolbox);
+    }
   }
 
   /**
@@ -388,21 +380,12 @@ class AppController {
    * and model.
    */
   createWorkspaceContents() {
-    let errorText = '';
-    let name, isDuplicate, isEmpty;
-    do {
-      name = window.prompt(errorText + 'Enter new workspace contents name.',
-          'MyWorkspaceContents');
-      isDuplicate = this.project.getWorkspaceContents(name);
-      isEmpty = name && name.trim() ? false : true;
-      if (isDuplicate) {
-        errorText = 'This toolbox already exists.\n';
-      } else if (isEmpty) {
-        return;
-      }
-    } while (isDuplicate);
-    const workspaceContents =
-      this.projectController.createWorkspaceContents(name);
+    let name = this.getResourceName_(PREFIXES.WORKSPACE_CONTENTS, 'Workspace');
+    if (name) {
+      const workspaceContents =
+          this.projectController.createWorkspaceContents(name);
+      this.switchEnvironment(AppController.WORKSPACE_EDITOR, workspaceContents);
+    }
   }
 
   /**
@@ -410,11 +393,66 @@ class AppController {
    * editors, and model.
    */
   createWorkspaceConfiguration() {
-    // TODO: prompt for name
-    const workspaceConfig =
-      this.projectController.createWorkspaceConfiguration(
-          'test_config');
-    this.switchEnvironment(PREFIXES.VARIABLE_WORKSPACECONFIGURATION, workspaceConfig);
+    let name = this.getResourceName_(PREFIXES.WORKSPACE_CONFIG);
+    if (name) {
+      const workspaceConfig = this.projectController.createWorkspaceConfiguration(name);
+      this.switchEnvironment(AppController.WORKSPACE_EDITOR, workspaceConfig);
+    }
+  }
+
+  /**
+   * Gets resource name by prompting user and handling errors if name is invalid.
+   * Prompts user again if a resource already exists under that name, and cancels
+   * out of prompt if user inputs whitespace. Returns null if user cancels out
+   * of naming the resource.
+   * @param {string} resourceType Type of resource that is being named.
+   * @param {string=} opt_resourceNameForUser Name of resource to display to the
+   *     user (if there is a difference between the name for developers and the
+   *     name known to users).
+   * @return {string} Name of resource given by user, or null if not named.
+   * @private
+   */
+  getResourceName_(resourceType, opt_resourceNameForUser) {
+    let errorText = '';
+    let name, isDuplicate, isEmpty;
+    opt_resourceNameForUser = opt_resourceNameForUser || resourceType;
+    do {
+      // Prompts and gets name of new resource.
+      name = this.promptForResource_(opt_resourceNameForUser, errorText);
+      // Checks if new resource name already exists.
+      if (resourceType == PREFIXES.TOOLBOX) {
+        isDuplicate = this.project.getToolbox(name);
+      } else if (resourceType == PREFIXES.WORKSPACE_CONTENTS) {
+        isDuplicate = this.project.getWorkspaceContents(name);
+      } else if (resourceType == PREFIXES.WORKSPACE_CONFIG) {
+        isDuplicate = this.project.getWorkspaceConfiguration(name);
+      } else {
+        throw 'Unknown resource type, ' + resourceType + '.';
+      }
+      // Checks if name is not just whitespace.
+      isEmpty = name && name.trim() ? false : true;
+      // Handles errors.
+      if (isDuplicate) {
+        errorText = 'This toolbox already exists.\n';
+      } else if (isEmpty) {
+        return null;
+      }
+    } while (isDuplicate);
+    return name;
+  }
+
+  /**
+   * Prompts user for new resource name.
+   * @param {string} resourceType Type of resource that is being named.
+   * @param {string=} opt_errorText Error text to add to prompt message to provide
+   *     user with context.
+   * @return {string} User's prompt input.
+   * @private
+   */
+  promptForResource_(resourceType, opt_errorText) {
+    opt_errorText = opt_errorText || '';
+    return window.prompt(opt_errorText + 'Enter your new ' + resourceType +
+        ' name.', 'My' + resourceType);
   }
 
   /**

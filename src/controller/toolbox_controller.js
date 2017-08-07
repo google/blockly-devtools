@@ -498,6 +498,7 @@ class ToolboxController extends ShadowController {
    * Updates the editor toolbox to have categories for user-defined block libraries.
    */
   updateEditorToolbox() {
+    // TODO(#198): Share function with workspace controller.
     const libraryXml = [];
     const project = this.projectController.getProject();
     const libMap = project.librarySet.resources;

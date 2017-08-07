@@ -95,7 +95,7 @@ class WorkspaceController extends ShadowController {
   reinjectPreview() {
     // From wfactory_controller.js:reinjectPreview(tree)
     this.view.previewWorkspace.dispose();
-    const injectOptions = this.view.workspaceConfig.options;
+    const injectOptions = this.view.workspaceContents.config.options;
     injectOptions['toolbox'] = '<xml></xml>';
 
     this.view.previewWorkspace = Blockly.inject('workspacePreview', injectOptions);
@@ -172,7 +172,7 @@ class WorkspaceController extends ShadowController {
     this.saveStateFromWorkspace();
     // Resets WS Configs
     this.view.resetConfigs();
-    this.generateNewOptions();
+    this.updateOptions();
 
     this.updatePreview();
   }
@@ -192,6 +192,7 @@ class WorkspaceController extends ShadowController {
    * Updates the editor toolbox to have categories for user-defined block libraries.
    */
   updateEditorToolbox() {
+    // TODO(#198): Share function with toolbox controller.
     const libraryXml = [];
     const project = this.projectController.getProject();
     const libMap = project.librarySet.resources;
@@ -204,12 +205,29 @@ class WorkspaceController extends ShadowController {
     this.view.updateEditorToolbox(libraryXml);
   }
 
-  loadWorkspace() {
-    const wsContents = this.view.workspaceContents;
+  /**
+   * Loads WorkspaceContents onto editor workspace.
+   * @param {!WorkspaceContents} wsContents WorkspaceContents to load.
+   * @throws If wsContents param is undefined or null.
+   */
+  loadContents(wsContents) {
+    if (!wsContents) {
+      throw 'Cannot load an undefined or null WorkspaceContents onto editor workspace.';
+    }
     Blockly.Xml.domToWorkspace(this.view.workspaceContents.getExportData(),
         this.view.editorWorkspace);
     this.view.editorWorkspace.cleanUp();
     this.updatePreview();
+  }
+
+  /**
+   * Loads WorkspaceConfiguration onto editor workspace.
+   * @param {!WorkspaceConfiguration} wsConfig WorkspaceConfiguration to load.
+   */
+  loadConfig(wsConfig) {
+    const options = wsConfig ? wsConfig.options : Object.create(null);
+    this.writeOptions_(options);
+    this.updateOptions();
   }
 
   /**
@@ -277,7 +295,7 @@ class WorkspaceController extends ShadowController {
   setStandardOptionsAndUpdate() {
     // From wfactory_controller.js:setStandardOptionsAndUpdate()
     this.view.resetConfigs();
-    this.generateNewOptions();
+    this.updateOptions();
   }
 
   /**
@@ -286,12 +304,10 @@ class WorkspaceController extends ShadowController {
    * Called every time a change has been made to an input field. Updates the model
    * and reinjects the preview workspace.
    */
-  generateNewOptions() {
+  updateOptions() {
     // From wfactory_controller.js:generateNewOptions()
-
     // TODO (#141): Add popup for workspace config.
-
-    this.view.workspaceConfig.setOptions(this.readOptions_());
+    this.view.workspaceContents.config.setOptions(this.readOptions_());
     this.reinjectPreview();
   }
 
@@ -389,6 +405,78 @@ class WorkspaceController extends ShadowController {
     }
 
     return optionsObj;
+  }
+
+  /**
+   * Displays a given options object onto WorkspaceConfiguration checkboxes in
+   * the Workspace editor.
+   * @param {!Object} optionsObj Blockly injection options object.
+   * @private
+   */
+  writeOptions_(optionsObj) {
+    // Readonly mode.
+    const readonly = optionsObj['readOnly'] ? true : false;
+    document.getElementById('option_readOnly_checkbox').checked = readonly;
+    FactoryUtils.ifCheckedEnable(!readonly, ['readonly1', 'readonly2']);
+
+    // Set basic options.
+    document.getElementById('option_css_checkbox').checked =
+        optionsObj['css'] || false;
+    document.getElementById('option_media_text').value =
+        optionsObj['media'] || 'https://blockly-demo.appspot.com/static/media/';
+    document.getElementById('option_rtl_checkbox').checked =
+        optionsObj['RTL'] || false;
+    document.getElementById('option_sounds_checkbox').checked =
+        optionsObj['sounds'] || false;
+    document.getElementById('option_oneBasedIndex_checkbox').checked =
+        optionsObj['oneBasedIndex'] || false;
+    document.getElementById('option_horizontalLayout_checkbox').checked =
+        optionsObj['horizontalLayout'] || false;
+    document.getElementById('option_toolboxPosition_checkbox').checked =
+        optionsObj['toolboxPosition'] == 'end' || false;
+
+    // Check infinite blocks and hide suboption.
+    const infinite = optionsObj['maxBlocks'] == Infinity || true;
+    document.getElementById('option_maxBlocks_number').value =
+        infinite ? '' : optionsObj['maxBlocks'];
+    document.getElementById('option_infiniteBlocks_checkbox').checked = infinite;
+    document.getElementById('maxBlockNumber_option').style.display =
+        infinite ? 'none' : 'block';
+
+    // Set grid options.
+    let grid = optionsObj['grid'] || Object.create(null);
+    let hasGrid = grid.spacing ? true : false;
+    document.getElementById('option_grid_checkbox').checked =
+        hasGrid ? true : false;
+    document.getElementById('grid_options').style.display =
+        hasGrid ? 'block' : 'none';
+    document.getElementById('gridOption_spacing_number').value =
+        grid['spacing'] || 20;
+    document.getElementById('gridOption_length_number').value =
+        grid['length'] || 1;
+    document.getElementById('gridOption_colour_text').value =
+        grid['colour'] || '#888';
+    document.getElementById('gridOption_snap_checkbox').checked =
+        grid['snap'] || false;
+
+    // Set zoom options.
+    let zoom = optionsObj['zoom'] || Object.create(null);
+    document.getElementById('option_zoom_checkbox').checked =
+        zoom ? true : false;
+    document.getElementById('zoom_options').style.display =
+        zoom ? 'block' : 'none';
+    document.getElementById('zoomOption_controls_checkbox').checked =
+        zoom['controls'] || true;
+    document.getElementById('zoomOption_wheel_checkbox').checked =
+        zoom['wheel'] || true;
+    document.getElementById('zoomOption_startScale_number').value =
+        zoom['startScale'] || 1.0;
+    document.getElementById('zoomOption_maxScale_number').value =
+        zoom['maxScale'] || 3;
+    document.getElementById('zoomOption_minScale_number').value =
+        zoom['minScale'] || 0.3;
+    document.getElementById('zoomOption_scaleSpeed_number').value =
+        zoom['scaleSpeed'] || 1.2;
   }
 
   /**

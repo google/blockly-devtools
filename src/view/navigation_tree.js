@@ -341,9 +341,8 @@ class NavigationTree {
       this.appController.switchEnvironment(AppController.WORKSPACE_EDITOR,
           this.appController.project.getWorkspaceContents(name));
     } else if (prefix === PREFIXES.WORKSPACE_CONFIG) {
-        // Tab switching
-        console.warn('Switching WorkspaceConfiguration via NavTree has not ' +
-            'been implemented.');
+      this.appController.switchEnvironment(AppController.WORKSPACE_EDITOR,
+          this.appController.project.getWorkspaceConfiguration(name));
     } else if (prefix === PREFIXES.BLOCK) {
       const library = this.appController.projectController.getLibrary(name);
       this.appController.switchEnvironment(AppController.BLOCK_EDITOR,
