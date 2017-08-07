@@ -76,9 +76,9 @@ class NewBlockPopupController extends PopupController {
   }
 
   /**
-   * Checks if user-inputted block type is valid. Checks for duplicate, whitespace,
-   * and also checks if it is the default block name, 'block_type'. Gives user
-   * proper warning if the block name is not valid.
+   * Checks if user-inputted block type is valid. Checks if block name given by
+   * user is empty, is a duplicate, or if it is the default block name,
+   * 'block_type'. Gives user proper warning if the block name is not valid.
    */
   checkValid() {
     const input = $('#block_name').val().trim();
