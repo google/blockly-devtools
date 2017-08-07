@@ -133,8 +133,10 @@ class WorkspaceEditorView {
 
   /**
    * Shows contents of this editor to application view. Used when switching editors.
-   * @param {!WorkspaceContents|WorkspaceConfiguration} wsElement Workspace
-   *     element to display in workspace editor view when shown.
+   * @param {!WorkspaceContents} wsElement Workspace element to display in
+   *     workspace editor view when shown.
+   * @throws If wsElement is WorkspaceConfiguration object, state that this is
+   *     not supported.
    */
   show(wsElement) {
     // TODO: Add functionality for showing WorkspaceConfiguration object.
@@ -158,8 +160,8 @@ class WorkspaceEditorView {
       this.refreshWorkspaceInfo();
       this.selectedBlock = null;
     } else if (wsElement instanceof WorkspaceConfiguration) {
-      this.workspaceConfiguration = wsElement;
-      this.refreshWorkspaceInfo();
+      throw 'Loading only WorkspaceConfiguration objects is not supported. Config ' +
+          'objects are now a field of WorkspaceContents objects.';
     }
   }
 
