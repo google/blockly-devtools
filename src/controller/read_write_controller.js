@@ -77,48 +77,55 @@ class ReadWriteController {
       this.popupController.show();
       localStorage.setItem('hasSavedProjectBefore', true);
     } else {
-      this.writeAllFiles();
+      this.writeProjectMetadataFile();
     }
   }
 
   /**
    * Saves a block to the developer's file system.
+   * @param
+   * @return
    */
-  saveBlock() {
-    //TODO: fill in
-    console.warn('unimplimented: saveBlock');
+  makeBlockData(block) {
+    let data = Object.create(null);
+    fs.writeFileSync(location + path.sep + 'metadata', dataString);
   }
 
   /**
    * Saves a library to the developer's file system.
+   * @param
    */
-  saveLibrary() {
-    //TODO: fill in
-    console.warn('unimplimented: saveLibrary');
+  saveLibrary(library) {
+    let data = Object.create(null);
+    library.
+    fs.writeFileSync(location + path.sep + 'metadata', dataString);
   }
 
   /**
    * Saves a toolbox to the developer's file system.
+   * @param
    */
-  saveToolbox() {
-    //TODO: fill in
-    console.warn('unimplimented: saveToolbox');
+  saveToolbox(getToolbox) {
+    let data = Object.create(null);
+    fs.writeFileSync(location + path.sep + 'metadata', dataString);
   }
 
   /**
    * Saves workspace contents to the developer's file system.
+   * @param
    */
-  saveWorkspaceContents() {
-    //TODO: fill in
-    console.warn('unimplimented: saveWorkspaceContents');
+  saveWorkspaceContents(workspaceContents) {
+    let data = Object.create(null);
+    fs.writeFileSync(location + path.sep + 'metadata', dataString);
   }
 
   /**
    * Saves workspace configuration to the developer's file system.
+   * @param
    */
-  saveWorkspaceConfiguration() {
-    //TODO: fill in
-    console.warn('unimplimented: saveWorkspaceConfiguration');
+  saveWorkspaceConfiguration(workspaceConfig) {
+    let data = Object.create(null);
+    fs.writeFileSync(location + path.sep + 'metadata', dataString);
   }
 
   /**
@@ -138,33 +145,34 @@ class ReadWriteController {
       let typeAndName = directory.split("_");
       let type = typeAndName[0];
       let name = typeAndName[1];
-      if (type = PREFIXES.LIBRARY) {
+      if (type == PREFIXES.LIBRARY) {
         let library = this.appController.project.getBlockLibrary(name);
         this.saveLibrary(library);
       } else if (type = PREFIXES.TOOLBOX) {
-        let toolbox = this.appController.project.getToolbox(name);
-        this.saveLibrary(toolbox);
-      } else if (type = PREFIXES.WORKSPACE_CONTENTS) {
+        let toolbox == this.appController.project.getToolbox(name);
+        this.saveToolbox(toolbox);
+      } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
         let workspaceContents =
             this.appController.project.getWorkspaceContents(name);
-        this.saveLibrary(workspaceContents);
-      } else if (type = PREFIXES.WORKSPACE_CONFIG) {
+        this.saveWorkspaceContents(workspaceContents);
+      } else if (type == PREFIXES.WORKSPACE_CONFIG) {
         let workspaceConfig =
             this.appController.project.getworkspaceConfiguration(name);
-        this.saveLibrary(workspaceConfig);
+        this.saveWorkspaceConfiguration(workspaceConfig);
       }
     }
   }
 
   /**
-   * Write a new data file.
-   * @param {!Resource} resource The resource to get the data from.
+   * Write the project's metadata file.
    */
-  writeDataFile(resource) {
+  writeProjectMetadataFile() {
+    this.writeAllFiles();
+    const project = this.appController.project;
     let data = Object.create(null);
-    resource.buildMetadata(data);
+    project.buildMetadata(data);
     let dataString = JSON.stringify(data, null, '\t');
-    const location = this.directoryMap.get(this.getDivName(resource));
+    const location = this.directoryMap.get(this.getDivName(project));
     fs.writeFileSync(location + path.sep + 'metadata', dataString);
   }
 }

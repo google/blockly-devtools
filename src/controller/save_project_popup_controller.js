@@ -98,7 +98,7 @@ class SaveProjectPopupController extends PopupController {
           }
       }
       // Save the project.
-      this.readWriteController.writeDataFile(this.appController.project);
+      this.readWriteController.writeProjectMetadataFile();
       this.exit();
     });
   }
