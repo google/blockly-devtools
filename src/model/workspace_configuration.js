@@ -78,7 +78,7 @@ class WorkspaceConfiguration extends Resource {
    * configuration.
    */
   getNavTreeJson() {
-    const workspaceConfigJson = $.extend(true, super.getNavJson(),
+    const workspaceConfigJson = $.extend(true, super.getNavTreeJson(),
       {'id': PREFIXES.WORKSPACE_CONFIG});
     return workspaceConfigJson;
   }
