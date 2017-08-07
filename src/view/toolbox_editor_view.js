@@ -369,10 +369,12 @@ class ToolboxEditorView {
 
   /**
    * Updates the toolbox used in the toolbox editor workspace.
-   * @param {!string} toolbox String representation of toolbox XML to display.
+   * @param {string} libString String representation of user-created block
+   *     libraries to append to categories in the editor.
    */
-  updateEditorToolbox(toolbox) {
-    this.editorWorkspace.updateToolbox(toolbox);
+  updateEditorToolbox(libString) {
+    const toolboxString = DevToolsToolboxes.toolboxEditor(libString);
+    this.editorWorkspace.updateToolbox(toolboxString);
   }
 
   /**

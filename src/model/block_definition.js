@@ -32,7 +32,8 @@ class BlockDefinition extends Resource {
    * BlockDefinition Class.
    * @constructor
    * @param {string} type The name of the block.
-   * @param {?Object} opt_json optional JSON representation of the block.
+   * @param {string=} opt_json optional String representation block definition
+   *     JSON.
    */
   constructor(type, opt_json) {
     super(type, PREFIXES.BLOCK);
@@ -45,9 +46,37 @@ class BlockDefinition extends Resource {
 
     /**
      * The JSON representation of the block.
-     * @type {!Object}
+     * @type {string}
      */
     this.json = opt_json || this.createStarterJson();
+  }
+
+  /**
+   * Defines block by adding it to the Blockly.Blocks map. Previous entry in
+   * Blockly.Blocks map is overwritten if the block has already been defined before.
+   * @throws If BlockDefinition object is unnamed.
+   */
+  define() {
+    if (!this.name) {
+      throw 'Block definition does not have a valid name. Cannot be added to ' +
+          'Blockly.Blocks map.';
+      return;
+    }
+    const json = JSON.parse(this.json);
+    Blockly.Blocks[this.name] = {
+      init: function() {
+        this.jsonInit(json);
+      }
+    };
+  }
+
+  /**
+   * Undefines block by removing it from Blockly.Blocks map.
+   */
+  undefine() {
+    if (Blockly.Blocks[this.name]) {
+      delete Blockly.Blocks[this.name];
+    }
   }
 
   /**
@@ -58,7 +87,7 @@ class BlockDefinition extends Resource {
     var blockJson = Object.create(null);
     blockJson.type = this.type();
     blockJson.message0 = '';
-    return blockJson;
+    return JSON.stringify(blockJson, null, '  ');
   }
 
   /**
@@ -101,7 +130,7 @@ class BlockDefinition extends Resource {
 
   /**
    * Returns a block's JSON representation.
-   * @return {!Object} The JSON for the block.
+   * @return {string} The JSON for the block.
    */
   getBlockDefinitionJson() {
     return this.json;

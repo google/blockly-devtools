@@ -344,16 +344,16 @@ class AppController {
    * Top-level function for block creation. Updates views, editors, and model.
    */
   createBlockDefinition() {
-    this.createPopup(PopupController.NEW_BLOCK);
     this.view.closeModal_();
+    this.createPopup(PopupController.NEW_BLOCK);
   }
 
   /**
    * Top-level function for library creation. Updates views, editors, and model.
    */
   createLibrary() {
-    this.createPopup(PopupController.NEW_LIBRARY);
     this.view.closeModal_();
+    this.createPopup(PopupController.NEW_LIBRARY);
   }
 
   /**

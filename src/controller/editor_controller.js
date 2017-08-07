@@ -96,9 +96,11 @@ class EditorController {
     } else if (editor instanceof ToolboxController) {
       this.currentEditor.loadToolbox(this.currentEditor.view.toolbox);
       this.currentEditor.setResource(this.currentEditor.view.toolbox);
+      this.currentEditor.updateEditorToolbox();
     } else if (editor instanceof WorkspaceController) {
       this.currentEditor.loadWorkspace(this.currentEditor.view.workspaceContents);
       this.currentEditor.setResource(this.currentEditor.view.workspaceContents);
+      this.currentEditor.updateEditorToolbox();
     }
   }
 
