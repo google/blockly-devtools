@@ -49,6 +49,10 @@ class WorkspaceContents extends Resource {
      * @type {!Array.<string>}
      */
     this.shadowBlocks = [];
+
+    // TODO(#201): Create wrapper class for contents and config object instead
+    // of having a config field within contents.
+    this.config = new WorkspaceConfiguration(this.name);
   }
 
   /**
@@ -78,7 +82,7 @@ class WorkspaceContents extends Resource {
    * contents.
    */
   getNavTreeJson() {
-    const workspaceContentsJson = $.extend(true, super.getNavJson(),
+    const workspaceContentsJson = $.extend(true, super.getNavTreeJson(),
       {'id': PREFIXES.WORKSPACE_CONTENTS});
     return workspaceContentsJson;
   }
