@@ -117,7 +117,7 @@ class BlockLibrary extends Resource {
   getBlockArrayJson() {
     let blockArrayJson = [];
     for (let blockType in this.getBlockTypes()) {
-      blockArrayJson.push(this.blocks[blockType].json);
+      blockArrayJson.push(JSON.parse(this.blocks[blockType].json));
     }
     return blockArrayJson;
   }

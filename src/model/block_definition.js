@@ -32,7 +32,8 @@ class BlockDefinition extends Resource {
    * BlockDefinition Class.
    * @constructor
    * @param {string} type The name of the block.
-   * @param {Object=} opt_json optional JSON representation of the block.
+   * @param {string=} opt_json optional String representation block definition
+   *     JSON.
    */
   constructor(type, opt_json) {
     super(type, PREFIXES.BLOCK);
@@ -45,7 +46,7 @@ class BlockDefinition extends Resource {
 
     /**
      * The JSON representation of the block.
-     * @type {!Object}
+     * @type {string}
      */
     this.json = opt_json || this.createStarterJson();
   }
@@ -61,7 +62,7 @@ class BlockDefinition extends Resource {
           'Blockly.Blocks map.';
       return;
     }
-    const json = this.json;
+    const json = JSON.parse(this.json);
     Blockly.Blocks[this.name] = {
       init: function() {
         this.jsonInit(json);
@@ -86,7 +87,7 @@ class BlockDefinition extends Resource {
     var blockJson = Object.create(null);
     blockJson.type = this.type();
     blockJson.message0 = '';
-    return blockJson;
+    return JSON.stringify(blockJson, null, '  ');
   }
 
   /**
@@ -129,7 +130,7 @@ class BlockDefinition extends Resource {
 
   /**
    * Returns a block's JSON representation.
-   * @return {!Object} The JSON for the block.
+   * @return {string} The JSON for the block.
    */
   getBlockDefinitionJson() {
     return this.json;

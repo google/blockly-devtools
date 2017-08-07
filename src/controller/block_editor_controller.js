@@ -196,9 +196,8 @@ class BlockEditorController {
     // Sets JSON field of BlockDefinition object.
     // TODO(#190): Store and generate block definition JSONs more efficiently to
     // avoid repeatedly using JSON.parse().
-    const jsonString = FactoryUtils.getBlockDefinition(
+    currentBlock.json = FactoryUtils.getBlockDefinition(
           'JSON', this.view.editorWorkspace);
-    currentBlock.json = JSON.parse(jsonString);
   }
 
   /**
