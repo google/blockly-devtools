@@ -408,7 +408,8 @@ class WorkspaceController extends ShadowController {
   }
 
   /**
-   * Displays a given options object onto editor workspace.
+   * Displays a given options object onto WorkspaceConfiguration checkboxes in
+   * the Workspace editor.
    * @param {!Object} optionsObj Blockly injection options object.
    * @private
    */
@@ -442,7 +443,7 @@ class WorkspaceController extends ShadowController {
     document.getElementById('maxBlockNumber_option').style.display =
         infinite ? 'none' : 'block';
 
-    // Grid
+    // Set grid options.
     let grid = optionsObj['grid'] || Object.create(null);
     let hasGrid = grid.spacing ? true : false;
     document.getElementById('option_grid_checkbox').checked =
@@ -458,16 +459,12 @@ class WorkspaceController extends ShadowController {
     document.getElementById('gridOption_snap_checkbox').checked =
         grid['snap'] || false;
 
-    // Zoom
-    let zoom = optionsObj['zoom'] || null;
+    // Set zoom options.
+    let zoom = optionsObj['zoom'] || Object.create(null);
     document.getElementById('option_zoom_checkbox').checked =
         zoom ? true : false;
     document.getElementById('zoom_options').style.display =
         zoom ? 'block' : 'none';
-    if (!zoom) {
-      zoom = Object.create(null);
-    }
-    // Set zoom options.
     document.getElementById('zoomOption_controls_checkbox').checked =
         zoom['controls'] || true;
     document.getElementById('zoomOption_wheel_checkbox').checked =
