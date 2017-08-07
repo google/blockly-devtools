@@ -88,12 +88,12 @@ class SaveProjectPopupController extends PopupController {
             // No location has been chosen, leading to the creation of a default
             // directory of the same name as the local storage tag under the
             // directory specified for the project.
-            localStorage.setItem(div,
-                this.readWriteController.getDivName(this.appController.project) +
-                  div);
-             this.readWriteController.directoryMap.set(div,
-                this.readWriteController.getDivName(this.appController.project) +
-                  div);
+            const projectDiv =
+                this.readWriteController.getDivName(this.appController.project);
+            const projectLocation =
+                this.readWriteController.directoryMap.get(projectDiv)
+            localStorage.setItem(div, projectLocation);
+             this.readWriteController.directoryMap.set(div, projectLocation);
           }
       }
       // Save the project.
@@ -117,24 +117,25 @@ class SaveProjectPopupController extends PopupController {
   makeProjectPopupContents() {
     let divName = this.readWriteController.getDivName(this.appController.project);
     let htmlContents = `
-<header>Choose Project File Locations</header>
-  <form>
-    Project<span class="red">*</span>
+<header align="center">Choose File Locations</header>
+    <h3>Project<span class="red">*</span></h3>
       <input type="file" nwdirectory id=
 `;
-    htmlContents = htmlContents + divName + '></input><br><br>' +
-      '<>';
+    htmlContents = htmlContents + divName + '></input>' +
+        '<span id="warning_text">Please pick a Project Directory</span><br><br>' +
+          '<h3>Project Resources </h3><span>(default location is in the same ' +
+            'directory as the project)</span><div id="projectResources">';
     this.viewDivs.push(divName);
     let object = Object.create(null);
     this.appController.project.buildMetadata(object);
     for (let resource of object.resources) {
       divName = this.readWriteController.getDivName(resource);
       this.viewDivs.push(divName);
-      htmlContents = htmlContents + resource.name +
-        '<input type="file" nwdirectory id=' + '\"' + divName + '"></input><br><br>';
+      htmlContents = htmlContents +  resource.name +
+          '<input type="file" nwdirectory id=' + '\"' + divName + '"></input><br><br>';
     }
-    htmlContents = htmlContents +
-      '<input type="button" value="Submit" id="submit"></form>';
+    htmlContents = htmlContents + '</div><br><br>' +
+        '<input type="button" value="Submit" id="submit">';
     return htmlContents;
   }
 }
