@@ -34,7 +34,7 @@ class SaveProjectPopupView extends PopupView {
    * @constructor
    * @param {!NewBlockPopupController} controller NewBlockPopupController currently
    *     managing this view.
-   * @param {Array.<string>} List of html division tags.
+   * @param {Array.<string>} divList List of html division tags.
    * @param {string} htmlContents The html contents of the popup, based on the
    *     current project.
    */

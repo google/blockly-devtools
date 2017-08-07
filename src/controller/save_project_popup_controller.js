@@ -57,7 +57,8 @@ class SaveProjectPopupController extends PopupController {
     /**
      * List of html divisions in the view, used to assign variables to the view
      * and update the ReadWriteController's directory map with the appropriate
-     * keys. Filled in by this.makeProjectPopupContents().
+     * keys.
+     * Filled in by this.makeProjectPopupContents().
      * @type {Array.<string>}
      */
      this.viewDivs = [];
@@ -85,9 +86,8 @@ class SaveProjectPopupController extends PopupController {
             localStorage.setItem(div,this.view[div]);
             this.readWriteController.directoryMap.set(div, this.view[div]);
           } else {
-            // No location has been chosen, leading to the creation of a default
-            // directory of the same name as the local storage tag under the
-            // directory specified for the project.
+            // No location has been chosen, so default to the same directory as
+            // the project.
             const projectDiv =
                 this.readWriteController.getDivName(this.appController.project);
             const projectLocation =
@@ -97,7 +97,7 @@ class SaveProjectPopupController extends PopupController {
           }
       }
       // Save the project.
-      this.readWriteController.writeProjectMetadataFile();
+      this.readWriteController.writeAllFiles();
       this.exit();
     });
   }

@@ -48,7 +48,7 @@ class ReadWriteController {
      * Whether or not the user has saved before.
      * @type {boolean}
      */
-    this.hasSaved = null;//localStorage.getItem('hasSavedProjectBefore');
+    this.hasSaved = false;
 
     /**
      * Map of resource type to locally stored directory location.
@@ -76,13 +76,14 @@ class ReadWriteController {
           this);
       this.popupController.show();
       localStorage.setItem('hasSavedProjectBefore', true);
+      localStorage.setItem('previousLocationMap', JSON.stringify(this.directoryMap));
     } else {
-      this.writeProjectMetadataFile();
+      this.writeAllFiles();
     }
   }
 
   /**
-   * Saves a block to the developer's file system.
+   * Creates and returns the data for saving a block definition.
    * @param {!BlockDefinition} block The block to create data for.
    * @return The data for the block.
    */
@@ -193,13 +194,13 @@ class ReadWriteController {
         this.saveWorkspaceConfiguration(workspaceConfig);
       }
     }
+    this.writeProjectMetadataFile();
   }
 
   /**
    * Write the project's metadata file.
    */
   writeProjectMetadataFile() {
-    this.writeAllFiles();
     const project = this.appController.project;
     let data = Object.create(null);
     project.buildMetadata(data);
