@@ -104,7 +104,7 @@ class NavigationTree {
   }
 
   /**
-   * Wrapper listener for jstree on ready event.
+   * Wrapper event handler for jstree on ready event.
    * @param {function} Function to execute when jstree is finished loading.
    */
   ready(onReady) {
@@ -125,6 +125,8 @@ class NavigationTree {
     projController.createToolbox('MyFirstToolbox');
     projController.createWorkspaceContents('MyFirstWorkspace');
     projController.createBlockLibrary('MyFirstBlockLibrary');
+    this.appController.editorController.blockEditorController.createNewBlock(
+        '', 'myFirstBlock', 'MyFirstBlockLibrary', 'My Block');
   }
 
   /**
