@@ -177,12 +177,12 @@ class WorkspaceEditorView {
     });
     $('form#workspace_options :input').change(() => {
       console.log('Change detected!');
-      controller.generateNewOptions();
+      controller.updateOptions();
     });
     this.initConfigListeners_(controller);
     this.initClickHandlers_(controller);
     this.resetConfigs();
-    controller.generateNewOptions();
+    controller.updateOptions();
   }
 
   /**
@@ -288,7 +288,7 @@ class WorkspaceEditorView {
     const options = div.getElementsByTagName('input');
     for (let option of options) {
       option.addEventListener('change', () => {
-        controller.generateNewOptions();
+        controller.updateOptions();
       });
     }
   }

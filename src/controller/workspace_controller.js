@@ -95,7 +95,7 @@ class WorkspaceController extends ShadowController {
   reinjectPreview() {
     // From wfactory_controller.js:reinjectPreview(tree)
     this.view.previewWorkspace.dispose();
-    const injectOptions = this.view.workspaceConfig.options;
+    const injectOptions = this.view.workspaceContents.config.options;
     injectOptions['toolbox'] = '<xml></xml>';
 
     this.view.previewWorkspace = Blockly.inject('workspacePreview', injectOptions);
@@ -172,7 +172,7 @@ class WorkspaceController extends ShadowController {
     this.saveStateFromWorkspace();
     // Resets WS Configs
     this.view.resetConfigs();
-    this.generateNewOptions();
+    this.updateOptions();
 
     this.updatePreview();
   }
@@ -219,10 +219,8 @@ class WorkspaceController extends ShadowController {
    */
   loadConfig(wsConfig) {
     const options = wsConfig ? wsConfig.options : Object.create(null);
-    console.log(options);
     this.writeOptions_(options);
-    this.readOptions_();
-    this.reinjectPreview();
+    this.updateOptions();
   }
 
   /**
@@ -290,7 +288,7 @@ class WorkspaceController extends ShadowController {
   setStandardOptionsAndUpdate() {
     // From wfactory_controller.js:setStandardOptionsAndUpdate()
     this.view.resetConfigs();
-    this.generateNewOptions();
+    this.updateOptions();
   }
 
   /**
@@ -299,11 +297,9 @@ class WorkspaceController extends ShadowController {
    * Called every time a change has been made to an input field. Updates the model
    * and reinjects the preview workspace.
    */
-  generateNewOptions() {
+  updateOptions() {
     // From wfactory_controller.js:generateNewOptions()
-
     // TODO (#141): Add popup for workspace config.
-
     this.view.workspaceContents.config.setOptions(this.readOptions_());
     this.reinjectPreview();
   }
@@ -401,6 +397,8 @@ class WorkspaceController extends ShadowController {
       optionsObj['zoom'] = zoom;
     }
 
+    console.log('Reading options obj:');
+    console.log(optionsObj);
     return optionsObj;
   }
 
@@ -410,6 +408,8 @@ class WorkspaceController extends ShadowController {
    * @private
    */
   writeOptions_(optionsObj) {
+    console.log('Writing options object:');
+    console.log(optionsObj);
     // Readonly mode.
     document.getElementById('option_readOnly_checkbox').checked =
         optionsObj['readOnly'] || false;
@@ -418,8 +418,6 @@ class WorkspaceController extends ShadowController {
     // Set basic options.
     document.getElementById('option_css_checkbox').checked =
         optionsObj['css'] || false;
-    document.getElementById('option_maxBlocks_number').value =
-        optionsObj['maxBlocks'] || 10;
     document.getElementById('option_media_text').value =
         optionsObj['media'] || 'https://blockly-demo.appspot.com/static/media/';
     document.getElementById('option_rtl_checkbox').checked =
@@ -431,29 +429,23 @@ class WorkspaceController extends ShadowController {
     document.getElementById('option_horizontalLayout_checkbox').checked =
         optionsObj['horizontalLayout'] || false;
     document.getElementById('option_toolboxPosition_checkbox').checked =
-        optionsObj['toolboxPosition'] || false;
+        optionsObj['toolboxPosition'] == 'end' || false;
 
     // Check infinite blocks and hide suboption.
     const infinite = optionsObj['maxBlocks'] == Infinity || true;
+    document.getElementById('option_maxBlocks_number').value =
+        infinite ? '' : optionsObj['maxBlocks'];
     document.getElementById('option_infiniteBlocks_checkbox').checked = infinite;
     document.getElementById('maxBlockNumber_option').style.display =
-        infinite ? 'block' : 'none';
+        infinite ? 'none' : 'block';
 
-    // Uncheck grid and zoom options and hide suboptions.
-    let grid = optionsObj['gridOptions'] || null;
-    document.getElementById('option_grid_checkbox').checked = grid;
+    // Grid
+    let grid = optionsObj['gridOptions'] || Object.create(null);
+    let hasGrid = grid.spacing ? true : false;
+    document.getElementById('option_grid_checkbox').checked = 
+        hasGrid ? true : false;
     document.getElementById('grid_options').style.display =
-        grid ? 'block' : 'none';
-    let zoom = optionsObj['zoomOptions'] || null;
-    document.getElementById('option_zoom_checkbox').checked =
-        zoom ? true : false;
-    document.getElementById('zoom_options').style.display =
-        zoom ? 'block' : 'none';
-
-    // Set grid options.
-    if (!grid) {
-      grid = Object.create(null);
-    }
+        hasGrid ? 'block' : 'none';
     document.getElementById('gridOption_spacing_number').value =
         grid['spacing'] || 20;
     document.getElementById('gridOption_length_number').value =
@@ -463,6 +455,12 @@ class WorkspaceController extends ShadowController {
     document.getElementById('gridOption_snap_checkbox').checked =
         grid['snap'] || false;
 
+    // Zoom
+    let zoom = optionsObj['zoomOptions'] || null;
+    document.getElementById('option_zoom_checkbox').checked =
+        zoom ? true : false;
+    document.getElementById('zoom_options').style.display =
+        zoom ? 'block' : 'none';
     if (!zoom) {
       zoom = Object.create(null);
     }
