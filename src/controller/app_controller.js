@@ -264,6 +264,14 @@ class AppController {
     this.editorController = new EditorController(this.projectController,
         this.hiddenWorkspace);
     this.view = new AppView(this);
+
+    // Registers event listener which populates tree with project resources
+    // when the tree is fully loaded. Event can only be registered after
+    // project controller is created because populateTree() references the
+    // project controller.
+    this.tree.ready(() => {
+      this.tree.populateTree();
+    });
   }
 
   /**
