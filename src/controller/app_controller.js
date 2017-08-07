@@ -374,7 +374,7 @@ class AppController {
    * and model.
    */
   createWorkspaceContents() {
-    let name = this.getResourceName_(PREFIXES.WORKSPACE_CONTENTS);
+    let name = this.getResourceName_(PREFIXES.WORKSPACE_CONTENTS, 'Workspace');
     if (name) {
       const workspaceContents =
         this.projectController.createWorkspaceContents(name);
@@ -400,15 +400,19 @@ class AppController {
    * out of prompt if user inputs whitespace. Returns null if user cancels out
    * of naming the resource.
    * @param {string} resourceType Type of resource that is being named.
+   * @param {string=} opt_resourceNameForUser Name of resource to display to the
+   *     user (if there is a difference between the name for developers and the
+   *     name known to users).
    * @return {string} Name of resource given by user, or null if not named.
    * @private
    */
-  getResourceName_(resourceType) {
+  getResourceName_(resourceType, opt_resourceNameForUser) {
     let errorText = '';
     let name, isDuplicate, isEmpty;
+    opt_resourceNameForUser = opt_resourceNameForUser || resourceType;
     do {
       // Prompts and gets name of new resource.
-      name = this.promptForResource_(resourceType, errorText);
+      name = this.promptForResource_(opt_resourceNameForUser, errorText);
       // Checks if new resource name already exists.
       if (resourceType == PREFIXES.TOOLBOX) {
         isDuplicate = this.project.getToolbox(name);
@@ -437,6 +441,7 @@ class AppController {
    * @param {string=} opt_errorText Error text to add to prompt message to provide
    *     user with context.
    * @return {string} User's prompt input.
+   * @private
    */
   promptForResource_(resourceType, opt_errorText) {
     opt_errorText = opt_errorText || '';

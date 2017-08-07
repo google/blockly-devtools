@@ -55,19 +55,6 @@ class NavigationTree {
     data['state'] = {
         'opened': true
       };
-    // // Adding workspace contents.
-    // data.children[2].children.push({
-    //   id: PREFIXES.WORKSPACE_CONTENTS + '_' + 'MyContents',
-    //   text: 'MyContents',
-    //   children: []
-    // });
-    // // Adding workspace config.
-    // data.children[3].children.push({
-    //   id: PREFIXES.WORKSPACE_CONFIG + '_' + 'MyConfig',
-    //   text: 'MyConfig',
-    //   children: []
-    // });
-    // data.children[3]['state'] = { opened: true };
     const tree = {
       'core': {
         'check_callback': true,

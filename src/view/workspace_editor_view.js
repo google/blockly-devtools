@@ -416,7 +416,6 @@ class WorkspaceEditorView {
    */
   refreshWorkspaceInfo() {
     $('#currentWorkspace').text(this.workspaceContents.name);
-    $('#currentWSConfig').text(this.workspaceContents.config.name);
   }
 }
 
@@ -487,7 +486,6 @@ WorkspaceEditorView.html = `
       <button class="small" id="button_standardOptions">Reset to Default</button>
     </div>
     <form id="workspace_options">
-      <p><b>Current workspace configuration:</b> <span id="currentWSConfig"></span></p>
       <label><input type="checkbox" id="option_readOnly_checkbox">Read Only</label><br>
       <label><input type="checkbox" id="option_grid_checkbox">Use Grid</label><br>
       <div id="grid_options" style="display: none">

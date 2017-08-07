@@ -173,11 +173,11 @@ button, .buttonStyle {
 }
 
 #addOptions {
-  background-color: #e8f1ff;
+  background-color: #ffffff;
   border: 1px solid #ddd;
-  bottom:55px;
+  bottom: 55px;
   display: none;
-  left:50px;
+  left: 50px;
   position: absolute;
   white-space: nowrap;
   z-index: 101;
@@ -185,10 +185,9 @@ button, .buttonStyle {
 
 #addOptions div {
   border-bottom: 1px solid #ddd;
-  cursor:default;
+  cursor: default;
   font-size: small;
-  line-height: 42px;
-  padding: 10px;
+  padding: 15px;
   text-align: center;
 }
 
