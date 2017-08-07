@@ -117,13 +117,9 @@ class ReadWriteController {
    * @param {!Toolbox} toolbox The toolbox to be saved.
    */
   saveToolbox(toolbox) {
-    let data = Object.create(null);
-    data.resourceType = PREFIXES.TOOLBOX;
-    data.name = toolbox.name;
-    data.xml = toolbox.xml;
+    let data = toolbox.xml;
     const location = this.directoryMap.get(this.getDivName(toolbox));
     const filename = this.getDivName(toolbox) + '_metadata';
-    data = JSON.stringify(data, null, '\t');
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -133,10 +129,7 @@ class ReadWriteController {
    *     saved.
    */
   saveWorkspaceContents(workspaceContents) {
-    let data = Object.create(null);
-    data.resourceType = PREFIXES.WORKSPACE_CONTENTS;
-    data.name = workspaceContents.name;
-    data.xml = workspaceContents.xml;
+    let data = workspaceContents.xml;
     const location = this.directoryMap.get(this.getDivName(workspaceContents));
     const filename = this.getDivName(workspaceContents) + '_metadata';
     data = JSON.stringify(data, null, '\t');
