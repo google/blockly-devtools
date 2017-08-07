@@ -75,8 +75,6 @@ class ReadWriteController {
       this.popupController = new SaveProjectPopupController(this.appController,
           this);
       this.popupController.show();
-      localStorage.setItem('hasSavedProjectBefore', true);
-      localStorage.setItem('previousLocationMap', JSON.stringify(this.directoryMap));
     } else {
       this.writeAllFiles();
     }
@@ -164,6 +162,7 @@ class ReadWriteController {
   /**
    * Returns an HTML division (based on the save project popup) name for a given
    * resource. Used in directory map keys.
+   * @param {!Resource} resource The resource to get the division name for.
    * @return {string} HTML division name for the resource.
    */
   getDivName(resource) {

@@ -61,7 +61,7 @@ class SaveProjectPopupController extends PopupController {
      * Filled in by this.makeProjectPopupContents().
      * @type {Array.<string>}
      */
-     this.viewDivs = [];
+    this.viewDivs = [];
 
     const viewContents = this.makeProjectPopupContents();
     /**
