@@ -104,34 +104,31 @@ Dummy input:<br>
    * Displays warning message for duplicate block type, only if there is a
    * duplicate.
    * @param {boolean} show Whether to show or hide the warning. True if show.
-   * @param {string=} opt_warningMessage Message to present to user if warning
-   *     is shown. Defaults to 'This block name is already taken' if no param is
-   *     given.
+   * @param {string} warningMessage Message to present to user if warning
+   *     is shown.
    */
-  showWarning(show, opt_warningMessage) {
-    opt_warningMessage = opt_warningMessage ||
-        'This block name is already taken in this project.';
+  showWarning(show, warningMessage) {
     if (show) {
       $('#block_name').css('border', '1px solid red');
-      $('#warning_text').html(opt_warningMessage);
-      this.disable();
+      $('#warning_text').html(warningMessage);
+      this.setEnable(true);
     } else {
       $('#block_name').css('border', '1px solid gray');
       $('#warning_text').html('');
-      this.disable(true);
+      this.setEnable(false);
     }
   }
 
   /**
-   * Disables or enables submit button.
-   * @param {boolean=} opt_ifEnable Whether to enable the submit button. Assumes
-   *     false if no param is given.
+   * Enables or disables submit button for creating a new block.
+   * @param {boolean} ifEnable Whether to enable the submit button. Disables if
+   *     false.
    */
-  disable(opt_ifEnable) {
-    if (!opt_ifEnable) {
-      $('#submit_block').attr('disabled', 'disabled');
-    } else {
+  setEnable(ifEnable) {
+    if (ifEnable) {
       $('#submit_block').removeAttr('disabled');
+    } else {
+      $('#submit_block').attr('disabled', 'disabled');
     }
   }
 

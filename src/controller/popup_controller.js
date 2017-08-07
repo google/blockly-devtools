@@ -51,7 +51,9 @@ class PopupController {
      */
     this.view = null;
 
-    $('#modalShadow').click(() => {
+    // TODO(#197): Unbind click event listener upon exiting popup to avoid
+    // registering a listener every time a popup opens.
+    $('#modalShadow').unbind('click').click(() => {
       this.exit();
     });
   }

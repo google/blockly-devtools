@@ -84,23 +84,19 @@ class NewBlockPopupController extends PopupController {
     const input = $('#block_name').val().trim();
     const isDuplicate = this.appController.project.hasBlockDefinition(input);
     const isEmpty = !input;
-    const hasWhitespace = / /g.test(input);
     const isDefault = input == 'block_type';
     if (isEmpty) {
       this.view.showWarning(false);
-      this.view.disable();
+      this.view.setEnable(false);
     } else if (isDuplicate) {
-      this.view.showWarning(isDuplicate);
-    } else if (hasWhitespace) {
-      this.view.showWarning(hasWhitespace, `Please enter a valid block type name.<br>
-          A block must not have whitespace in between characters. Use snake_case
-          or camelCase to differentiate between words in your block name.`);
+      this.view.showWarning(isDuplicate, `This block name is already taken in
+          this project.`);
     } else if (isDefault) {
       this.view.showWarning(isDefault, `Please enter something other than <i>block_type</i>.
           No block can be named the default block name.`);
     } else {
       this.view.showWarning(false);
-      this.view.disable(true);
+      this.view.setEnable(true);
     }
   }
 
