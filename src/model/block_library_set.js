@@ -68,6 +68,8 @@ class BlockLibrarySet extends ResourceSet {
    * @return {boolean} Whether or not it's in the set.
    */
   has(blockType) {
+    console.log('project has block : ');
+    console.log(this.getLibrary(blockType));
     return this.getLibrary(blockType) ? true : false;
   }
 

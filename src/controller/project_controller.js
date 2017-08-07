@@ -313,6 +313,7 @@ class ProjectController {
       const id = this.tree.getTree().get_selected()[0];
       this.tree.renameNode(id, newName);
     }
+    this.project.renameBlockDefinition(block.name, newName);
     block.setName(newName);
   }
 

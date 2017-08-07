@@ -213,9 +213,11 @@ class BlockEditorController {
     // TODO: Add warning to top block if the name already exists.
     if (!suppressTreeChange &&
         this.projectController.getProject().hasBlockDefinition(newName)) {
+      console.log('Already has ' + newName + ' in the project.');
       rootBlock.setWarningText('There is already a block under this name.\n' +
           'Please rename this block.');
     } else {
+      console.log('Renaming block ' + currentBlock.name + ' to ' + newName);
       rootBlock.setWarningText(null);
       this.projectController.renameBlockDefinition(currentBlock,
           newName, suppressTreeChange);
