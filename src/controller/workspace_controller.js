@@ -397,8 +397,6 @@ class WorkspaceController extends ShadowController {
       optionsObj['zoom'] = zoom;
     }
 
-    // console.log('Reading options obj:');
-    // console.log(optionsObj);
     return optionsObj;
   }
 
@@ -408,12 +406,10 @@ class WorkspaceController extends ShadowController {
    * @private
    */
   writeOptions_(optionsObj) {
-    // console.log('Writing options object:');
-    // console.log(optionsObj);
     // Readonly mode.
-    document.getElementById('option_readOnly_checkbox').checked =
-        optionsObj['readOnly'] || false;
-    FactoryUtils.ifCheckedEnable(true, ['readonly1', 'readonly2']);
+    const readonly = optionsObj['readOnly'] ? true : false;
+    document.getElementById('option_readOnly_checkbox').checked = readonly;
+    FactoryUtils.ifCheckedEnable(!readonly, ['readonly1', 'readonly2']);
 
     // Set basic options.
     document.getElementById('option_css_checkbox').checked =

@@ -248,9 +248,7 @@ class WorkspaceEditorView {
    * @private
    */
   initConfigListeners_(controller) {
-    /*
-     * TODO: Move in from wfactory_init.js:addWorkspaceFactoryOptionsListeners_()
-     */
+    // From wfactory_init.js:addWorkspaceFactoryOptionsListeners_()
     // Checking the grid checkbox displays grid options.
     document.getElementById('option_grid_checkbox').addEventListener('change',
         function(e) {
