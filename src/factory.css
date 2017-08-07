@@ -72,15 +72,19 @@ input {
   width: 100%;
 }
 
+h1#devTools {
+  margin: 20px;
+}
+
 #factoryHeader {
   display: table;
   height: 10%;
 }
 
 #blockly {
-  height:100%;
-  width:100%;
-  z-index:10;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
 }
 
 #blocklyMask {
