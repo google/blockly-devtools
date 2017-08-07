@@ -50,6 +50,10 @@ class PopupController {
      * @type {?Object}
      */
     this.view = null;
+
+    $('#modalShadow').click(() => {
+      this.exit();
+    });
   }
 
   /**
