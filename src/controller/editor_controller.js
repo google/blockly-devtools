@@ -99,6 +99,7 @@ class EditorController {
     } else if (editor instanceof WorkspaceController) {
       this.currentEditor.loadContents(this.currentEditor.view.workspaceContents);
       this.currentEditor.loadConfig(this.currentEditor.view.workspaceContents.config);
+      this.currentEditor.updateEditorToolbox();
     }
   }
 
