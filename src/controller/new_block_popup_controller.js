@@ -70,18 +70,34 @@ class NewBlockPopupController extends PopupController {
       this.exit();
     });
 
-    $('#block_name').change(() => {
-      this.checkDuplicate();
+    $('#block_name').on('input', () => {
+      this.checkValid();
     });
   }
 
   /**
-   * Checks for duplicate block type. If user is trying to create a block under a type name
-   * that already exists in the library, warn user.
+   * Checks if user-inputted block type is valid. Checks if block name given by
+   * user is empty, is a duplicate, or if it is the default block name,
+   * 'block_type'. Gives user proper warning if the block name is not valid.
    */
-  checkDuplicate() {
-    const hasDuplicate = this.appController.project.hasBlockDefinition($('#block_name').val());
-    this.view.showWarning(hasDuplicate);
+  checkValid() {
+    const input = $('#block_name').val().trim();
+    const isDuplicate = this.appController.project.hasBlockDefinition(input);
+    const isEmpty = !input;
+    const isDefault = input == 'block_type';
+    if (isEmpty) {
+      this.view.showWarning(false);
+      this.view.setEnable(false);
+    } else if (isDuplicate) {
+      this.view.showWarning(isDuplicate, `This block name is already taken in
+          this project.`);
+    } else if (isDefault) {
+      this.view.showWarning(isDefault, `Please enter something other than <i>block_type</i>.
+          No block can be named the default block name.`);
+    } else {
+      this.view.showWarning(false);
+      this.view.setEnable(true);
+    }
   }
 
   /**
