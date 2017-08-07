@@ -271,7 +271,6 @@ class AppController {
    * developer's file system.
    */
   saveProject() {
-    console.log('A');
     this.readWriteController.saveProject();
   }
 

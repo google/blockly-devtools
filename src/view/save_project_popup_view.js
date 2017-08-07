@@ -88,11 +88,8 @@ class SaveProjectPopupView extends PopupView {
    */
   assignVariables_() {
     for (let division of this.divList) {
-      console.log(division);
       const val = $('#' + division).val();
       this[division] = val;
-      console.log($('#' + division).val());
-      console.log(this[division]);
     }
   }
 }

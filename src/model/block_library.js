@@ -159,28 +159,6 @@ class BlockLibrary extends Resource {
   }
 
   /**
-   * Gets the data necessary to export the library.
-   * @return {!Object} The data needed to export the library.
-   */
-  getExportFileData() {
-    let data = Object.create(null);
-    super.buildMetadata(data);
-    return data;
-  }
-
-  /**
-   * Gets the data necessary to represent the library in the project's metadata
-   * file.
-   * @return {!Object} The data needed to represent the library in the project's
-   *    metadata file.
-   */
-  getProjectMetadataFileData() {
-    let data = Object.create(null);
-    super.buildMetadata(data);
-    return data;
-  }
-
-  /**
    * Gets the JSON object necessary to represent the library in the navigation
    * tree.
    * @return {!Object} The tree-specific JSON representation of the library.

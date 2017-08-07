@@ -83,55 +83,87 @@ class ReadWriteController {
 
   /**
    * Saves a block to the developer's file system.
-   * @param
-   * @return
+   * @param {!BlockDefinition} block The block to create data for.
+   * @return The data for the block.
    */
   makeBlockData(block) {
     let data = Object.create(null);
-    fs.writeFileSync(location + path.sep + 'metadata', dataString);
+    data.resourceType = PREFIXES.BLOCK;
+    data.blockType = block.type();
+    data.xml = block.xml;
+    data.json = block.json;
+    return data;
   }
 
   /**
    * Saves a library to the developer's file system.
-   * @param
+   * @param {!BlockLibrary} library the block library to be saved.
    */
   saveLibrary(library) {
     let data = Object.create(null);
-    library.
-    fs.writeFileSync(location + path.sep + 'metadata', dataString);
+    data.resourceType = PREFIXES.LIBRARY;
+    data.name = library.name;
+    data.blocks = [];
+    for (let blockType of library.getBlockTypes()) {
+      data.blocks.push(this.makeBlockData(library.getBlockDefinition(blockType)));
+    }
+    data = JSON.stringify(data, null, '\t');
+    const location = this.directoryMap.get(this.getDivName(library));
+    const filename = this.getDivName(library) + '_metadata';
+    fs.writeFileSync(location + path.sep + filename, data);
   }
 
   /**
    * Saves a toolbox to the developer's file system.
-   * @param
+   * @param {!Toolbox} toolbox The toolbox to be saved.
    */
-  saveToolbox(getToolbox) {
+  saveToolbox(toolbox) {
     let data = Object.create(null);
-    fs.writeFileSync(location + path.sep + 'metadata', dataString);
+    data.resourceType = PREFIXES.TOOLBOX;
+    data.name = toolbox.name;
+    data.xml = toolbox.xml;
+    const location = this.directoryMap.get(this.getDivName(toolbox));
+    const filename = this.getDivName(toolbox) + '_metadata';
+    data = JSON.stringify(data, null, '\t');
+    fs.writeFileSync(location + path.sep + filename, data);
   }
 
   /**
    * Saves workspace contents to the developer's file system.
-   * @param
+   * @param {!WorkspaceContents} workspaceContents The workspace contents to be
+   *     saved.
    */
   saveWorkspaceContents(workspaceContents) {
     let data = Object.create(null);
-    fs.writeFileSync(location + path.sep + 'metadata', dataString);
+    data.resourceType = PREFIXES.WORKSPACE_CONTENTS;
+    data.name = workspaceContents.name;
+    data.xml = workspaceContents.xml;
+    const location = this.directoryMap.get(this.getDivName(workspaceContents));
+    const filename = this.getDivName(workspaceContents) + '_metadata';
+    data = JSON.stringify(data, null, '\t');
+    fs.writeFileSync(location + path.sep + filename, data);
   }
 
   /**
    * Saves workspace configuration to the developer's file system.
-   * @param
+   * @param {!WorkspaceConfiguration} workspaceConfig The workspace configuration
+   *     to be saved.
    */
   saveWorkspaceConfiguration(workspaceConfig) {
     let data = Object.create(null);
-    fs.writeFileSync(location + path.sep + 'metadata', dataString);
+    data.resourceType = PREFIXES.WORKSPACE_CONFIG;
+    data.name = workspaceConfig.name;
+    data.options = workspaceConfig.options;
+    const location = this.directoryMap.get(this.getDivName(workspaceConfig));
+    const filename = this.getDivName(workspaceConfig) + '_metadata';
+    data = JSON.stringify(data, null, '\t');
+    fs.writeFileSync(location + path.sep + filename, data);
   }
 
   /**
    * Returns an HTML division (based on the save project popup) name for a given
    * resource. Used in directory map keys.
-   * @return {string} HTML division name
+   * @return {string} HTML division name for the resource.
    */
   getDivName(resource) {
     return resource.resourceType + '_' + resource.name;
@@ -148,8 +180,8 @@ class ReadWriteController {
       if (type == PREFIXES.LIBRARY) {
         let library = this.appController.project.getBlockLibrary(name);
         this.saveLibrary(library);
-      } else if (type = PREFIXES.TOOLBOX) {
-        let toolbox == this.appController.project.getToolbox(name);
+      } else if (type == PREFIXES.TOOLBOX) {
+        let toolbox = this.appController.project.getToolbox(name);
         this.saveToolbox(toolbox);
       } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
         let workspaceContents =
@@ -157,7 +189,7 @@ class ReadWriteController {
         this.saveWorkspaceContents(workspaceContents);
       } else if (type == PREFIXES.WORKSPACE_CONFIG) {
         let workspaceConfig =
-            this.appController.project.getworkspaceConfiguration(name);
+            this.appController.project.getWorkspaceConfiguration(name);
         this.saveWorkspaceConfiguration(workspaceConfig);
       }
     }

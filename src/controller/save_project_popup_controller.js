@@ -69,7 +69,6 @@ class SaveProjectPopupController extends PopupController {
      */
     this.view = new SaveProjectPopupView(this, this.viewDivs, viewContents);
 
-    console.log(this.viewDivs);
     // Listeners in the popup
     Emitter(this.view);
     this.view.on('exit', () => {
@@ -123,7 +122,8 @@ class SaveProjectPopupController extends PopupController {
     Project<span class="red">*</span>
       <input type="file" nwdirectory id=
 `;
-    htmlContents = htmlContents + divName + '></input><br><br>';
+    htmlContents = htmlContents + divName + '></input><br><br>' +
+      '<>';
     this.viewDivs.push(divName);
     let object = Object.create(null);
     this.appController.project.buildMetadata(object);
@@ -135,7 +135,6 @@ class SaveProjectPopupController extends PopupController {
     }
     htmlContents = htmlContents +
       '<input type="button" value="Submit" id="submit"></form>';
-      console.log(htmlContents);
     return htmlContents;
   }
 }
