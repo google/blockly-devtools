@@ -55,7 +55,7 @@ class WorkspaceContentsSet extends ResourceSet {
   getNavTreeJson() {
     const workspaceContentsSetJson = {
       'id': PREFIXES.WORKSPACE_CONTENTS,
-      'text': 'Workspace Contents',
+      'text': 'Workspaces',
       'children': super.getNavTreeJson()
     };
     return workspaceContentsSetJson;
