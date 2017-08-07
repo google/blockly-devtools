@@ -50,6 +50,8 @@ class WorkspaceContents extends Resource {
      */
     this.shadowBlocks = [];
 
+    // TODO(#201): Create wrapper class for contents and config object instead
+    // of having a config field within contents.
     this.config = new WorkspaceConfiguration(this.name);
   }
 

@@ -207,7 +207,7 @@ class WorkspaceController extends ShadowController {
 
   /**
    * Loads WorkspaceContents onto editor workspace.
-   * @param {!WorkspaceContents} wsContents WorkspaceContents to load.\
+   * @param {!WorkspaceContents} wsContents WorkspaceContents to load.
    * @throws If wsContents param is undefined or null.
    */
   loadContents(wsContents) {

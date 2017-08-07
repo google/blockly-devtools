@@ -72,10 +72,6 @@ input {
   width: 100%;
 }
 
-h1#devTools {
-  margin: 20px;
-}
-
 #factoryHeader {
   display: table;
   height: 10%;
@@ -152,10 +148,6 @@ button, .buttonStyle {
 
 #linkButton {
   display: none;
-}
-
-#helpButton {
-  float: right;
 }
 
 /* Add resource button */
