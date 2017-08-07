@@ -397,8 +397,8 @@ class WorkspaceController extends ShadowController {
       optionsObj['zoom'] = zoom;
     }
 
-    console.log('Reading options obj:');
-    console.log(optionsObj);
+    // console.log('Reading options obj:');
+    // console.log(optionsObj);
     return optionsObj;
   }
 
@@ -408,8 +408,8 @@ class WorkspaceController extends ShadowController {
    * @private
    */
   writeOptions_(optionsObj) {
-    console.log('Writing options object:');
-    console.log(optionsObj);
+    // console.log('Writing options object:');
+    // console.log(optionsObj);
     // Readonly mode.
     document.getElementById('option_readOnly_checkbox').checked =
         optionsObj['readOnly'] || false;
@@ -440,7 +440,7 @@ class WorkspaceController extends ShadowController {
         infinite ? 'none' : 'block';
 
     // Grid
-    let grid = optionsObj['gridOptions'] || Object.create(null);
+    let grid = optionsObj['grid'] || Object.create(null);
     let hasGrid = grid.spacing ? true : false;
     document.getElementById('option_grid_checkbox').checked = 
         hasGrid ? true : false;
@@ -456,7 +456,7 @@ class WorkspaceController extends ShadowController {
         grid['snap'] || false;
 
     // Zoom
-    let zoom = optionsObj['zoomOptions'] || null;
+    let zoom = optionsObj['zoom'] || null;
     document.getElementById('option_zoom_checkbox').checked =
         zoom ? true : false;
     document.getElementById('zoom_options').style.display =

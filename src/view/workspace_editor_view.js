@@ -176,7 +176,6 @@ class WorkspaceEditorView {
       Blockly.Events.enable();
     });
     $('form#workspace_options :input').change(() => {
-      console.log('Change detected!');
       controller.updateOptions();
     });
     this.initConfigListeners_(controller);
