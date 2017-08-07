@@ -122,7 +122,7 @@ class SaveProjectPopupController extends PopupController {
       <input type="file" nwdirectory id=
 `;
     htmlContents = htmlContents + divName + '></input>' +
-        '<span id="warning_text">Please pick a Project Directory</span><br><br>' +
+      '<span id="warning_text"></span><br><br>' +
           '<h3>Project Resources </h3><span>(default location is in the same ' +
             'directory as the project)</span><div id="projectResources">';
     this.viewDivs.push(divName);

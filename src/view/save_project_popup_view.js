@@ -76,9 +76,16 @@ class SaveProjectPopupView extends PopupView {
       this.emit('exit');
     });
     $('#submit').click(() => {
-      this.assignVariables_();
-      this.hide();
-      this.emit('submit');
+      const projectDiv = this.controller.readWriteController.getDivName(
+              this.controller.appController.project)
+      const projectVal = $( '#' + projectDiv).val();
+      if(projectVal) {
+        this.assignVariables_();
+        this.hide();
+        this.emit('submit');
+      } else {
+        this.showWarning(true);
+      }
     });
   }
 
@@ -90,6 +97,18 @@ class SaveProjectPopupView extends PopupView {
     for (let division of this.divList) {
       const val = $('#' + division).val();
       this[division] = val;
+    }
+  }
+
+  /**
+   * Displays warning message for missing project directory selection.
+   * @param {boolean} show Whether to show or hide the warning. True if show.
+   */
+  showWarning(show) {
+    if (show) {
+      $('#warning_text').html('Please select a project directory.');
+    } else {
+      $('#warning_text').html('');
     }
   }
 }

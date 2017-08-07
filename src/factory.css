@@ -611,12 +611,6 @@ td.taboff:hover {
 
 #warning_text {
   color:red;
-  display:none;
-}
-
-#no_library_warning {
-  color:red;
-  display:none;
 }
 
 .red {

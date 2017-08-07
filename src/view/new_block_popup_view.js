@@ -48,10 +48,9 @@ class NewBlockPopupView extends NewResourcePopupView {
 <form>
   Block name<span class="red">*</span><br>
     <input type="text" id="block_name" placeholder="block_type"></input>
-    <span id="warning_text">This block already exists!</span><br><br>
+    <span id="warning_text"></span><br><br>
   Library<span class="red">*</span><br>
-    <select id="dropdown_libraryList"></select>
-    <span id="no_library_warning">No library by that name exists.</span><br><br>
+    <select id="dropdown_libraryList"></select><br><br>
   Block type<span class="red">*</span><br>
     <input type="radio" name="input_type" value="input_statement" checked>statement input</input>
     <input type="radio" name="input_type" value="input_value">value input</input>
@@ -59,7 +58,7 @@ class NewBlockPopupView extends NewResourcePopupView {
     <br><br>
   Starter text<br>
     <input type="text" id="block_text" placeholder="Optional"><br><br>
-  <button type="submit" class="create" id="submit_block" style="float: right">Create Block</button>
+  <button type="submit" class="create" id="submit_block" style="float: right" disabled="disabled">Create Block</button>
 </form>
 <br>
 <!-- TODO(#28): Replace with uneditable Blockly workspace -->
@@ -97,16 +96,31 @@ class NewBlockPopupView extends NewResourcePopupView {
    * Displays warning message for duplicate block type, only if there is a
    * duplicate.
    * @param {boolean} show Whether to show or hide the warning. True if show.
+   * @param {string} warningMessage Message to present to user if warning
+   *     is shown.
    */
-  showWarning(show) {
+  showWarning(show, warningMessage) {
     if (show) {
       $('#block_name').css('border', '1px solid red');
-      $('#warning_text').css('display', 'inline');
-      $('#submit_block').attr('disabled','disabled');
+      $('#warning_text').html(warningMessage);
+      this.setEnable(true);
     } else {
       $('#block_name').css('border', '1px solid gray');
-      $('#warning_text').css('display', 'none');
+      $('#warning_text').html('');
+      this.setEnable(false);
+    }
+  }
+
+  /**
+   * Enables or disables submit button for creating a new block.
+   * @param {boolean} ifEnable Whether to enable the submit button. Disables if
+   *     false.
+   */
+  setEnable(ifEnable) {
+    if (ifEnable) {
       $('#submit_block').removeAttr('disabled');
+    } else {
+      $('#submit_block').attr('disabled', 'disabled');
     }
   }
 

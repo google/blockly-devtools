@@ -30,7 +30,6 @@ goog.require('PopupView');
  */
 
 class NewResourcePopupView extends PopupView {
-  // TODO: Add functions.
   constructor(controller) {
     super(controller);
   }
