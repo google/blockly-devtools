@@ -742,7 +742,7 @@ FactoryUtils.createAndDownloadFile = function(contents, filename, mimeType) {
 
 /**
  * Get Blockly Block by rendering pre-defined block in workspace.
- * @param {!Element} blockType Type of block that has already been defined.
+ * @param {string} blockType Type of block that has already been defined.
  * @param {!Blockly.Workspace} workspace Workspace on which to render
  *    the block.
  * @return {!Blockly.Block} The Blockly.Block of desired type.
@@ -766,30 +766,6 @@ FactoryUtils.getBlockTypeFromJsDefinition = function(blockDef) {
     throw new Error ('Could not parse block type out of JavaScript block ' +
         'definition. Brackets normally enclosing block type not found.');
   }
-};
-
-/**
- * Generates a category containing blocks of the specified block types.
- * @param {!Array.<!Blockly.Block>} blocks Blocks to include in the category.
- * @param {string} categoryName Name to use for the generated category.
- * @return {!Element} Category XML containing the given block types.
- */
-FactoryUtils.generateCategoryXml = function(blocks, categoryName) {
-  // Create category DOM element.
-  var categoryElement = goog.dom.createDom('category');
-  categoryElement.setAttribute('name', categoryName);
-
-  // For each block, add block element to category.
-  for (var i = 0, block; block = blocks[i]; i++) {
-
-    // Get preview block XML.
-    var blockXml = Blockly.Xml.blockToDom(block);
-    blockXml.removeAttribute('id');
-
-    // Add block to category and category to XML.
-    categoryElement.appendChild(blockXml);
-  }
-  return categoryElement;
 };
 
 /**
@@ -1192,49 +1168,50 @@ FactoryUtils.bindClick = function(element, func) {
   element.addEventListener('touchend', func, true);
 };
 
-/*
- * Updates the block library category in the Toolbox and Workspace Editor
- * toolboxes.
- * @param project Project that is currently being edited in DevTools.
- * @return XML String of toolbox in editor workspace.
+/**
+ * Generates a category containing blocks of the specified block types.
+ * @param {!Array.<!Blockly.Block>} blocks Blocks to include in the category.
+ * @param {string} categoryName Name to use for the generated category.
+ * @return {!Element} Category XML containing the given block types.
  */
-FactoryUtils.updateBlockLibCategory = function(project, workspace) {
-  // REFACTORED: Moved in from wfactory_controller.js
-  const libraryXmls = [];
-  // Alphabetized array of block library names.
-  const libraryNames = project.getLibraryNames();
+FactoryUtils.generateCategoryXml = function(blocks, categoryName) {
+  // Create category DOM element.
+  var categoryElement = goog.dom.createDom('category');
+  categoryElement.setAttribute('name', categoryName);
 
-  libraryNames.forEach((libraryName) => {
-    const library = project.getLibrary(libraryName);
-    libraryXmls.push([
-        libraryName, FactoryUtils.getCategoryXml(library, workspace)]);
-  });
+  // For each block, add block element to category.
+  for (var i = 0, block; block = blocks[i]; i++) {
 
-  return DevToolsToolboxes.toolboxEditor(libraryXmls);
+    // Get preview block XML.
+    var blockXml = Blockly.Xml.blockToDom(block);
+    blockXml.removeAttribute('id');
+
+    // Add block to category and category to XML.
+    categoryElement.appendChild(blockXml);
+  }
+  categoryElement.removeAttribute('xmlns');
+  // TODO(#192): Allow users to configure color for user-defined library categories.
+  categoryElement.setAttribute('colour', '260');
+  return categoryElement;
 };
 
 /**
- * Creates XML toolbox category of all blocks in this block library. Used in
- * toolbox and workspace editor.
- * @param {!BlockLibrary} library Library object to be created into an editor
- *     toolbox category.
- * @param {!Blockly.Workspace} workspace Blockly workspace used to generate and
- *     store Blockly.Block types.
- * @return {!Element} XML representation of the block library category.
+ * Given an array of BlockDefintion objects, converts them into Blockly.Blocks
+ * to use in a Blockly workspace.
+ * @param {!Array.<!BlockDefinition>} blockDefinitions Array of BlockDefinition
+ *     objects to convert to Blockly blocks.
+ * @param {!Blockly.Workspace} workspace Hidden workspace used to generate
+ *     Blockly.Block objects.
+ * @return {!Array<!Blockly.Block>} Array of Blockly blocks that correspond to
+ *     the BlockDefinition objects.
  */
-FactoryUtils.getCategoryXml = function(library, workspace) {
-  // Moved in from block_exporter_tools.js:generateCategoryFromBlockLib(blockLibStorage)
-  const allBlockTypes = library.getBlockTypes();
-  const blockXmlMap = library.getBlockXmlMap(allBlockTypes);
-
+FactoryUtils.convertToBlocklyBlocks = function(blockDefinitions, workspace) {
   const blocks = [];
-  for (const blockType in blockXmlMap) {
-    const block = FactoryUtils.getDefinedBlock(
-        blockType, workspace);
-    blocks.push(block);
+  for (let blockDef of blockDefinitions) {
+    blockDef.define();
+    blocks.push(FactoryUtils.getDefinedBlock(blockDef.type(), workspace));
   }
-
-  return FactoryUtils.generateCategoryXml(blocks, 'Block Library');
+  return blocks;
 };
 
 /*

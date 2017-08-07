@@ -294,7 +294,7 @@ class NavigationTree {
    *     empty or null.
    */
   changeView(id) {
-    const nodeInfo = id.split('_');
+    const nodeInfo = id.split(/_(.+)/);
     const prefix = nodeInfo[0];
     const name = nodeInfo[1];
 
