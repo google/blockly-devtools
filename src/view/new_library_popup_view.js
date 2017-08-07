@@ -54,7 +54,6 @@ class NewLibraryPopupView extends NewResourcePopupView {
   }
 }
 
-
 /**
  * HTML to go within popup.
  * @type {string}
