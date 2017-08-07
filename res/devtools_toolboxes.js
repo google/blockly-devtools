@@ -27,22 +27,6 @@
 goog.provide('DevToolsToolboxes');
 
 /**
- * Creates category XML with library name and category color of a given block
- * library. Helper function for DevToolsToolboxes.toolboxEditor(). Used to display
- * user-created block libraries as categories in toolbox and workspace editors.
- *
- * @param {string} libraryName Name of library.
- * @param {!Element} libraryXml XML of the blocks in a given library.
- * @return {string} XML string of category which contains the blocks in the library.
- */
-DevToolsToolboxes.createCategoryElement_ = function(libraryName, libraryXml) {
-  const categoryXml = `
-  ${Blockly.Xml.domToPrettyText(libraryXml)}
-  `;
-  return categoryXml;
-};
-
-/**
  * Generates XML string for toolbox editor. Used in ToolboxView and WorkspaceView.
  *
  * @param {!Array.<Object>} blockLibraryList Array of associative two-element arrays
@@ -56,8 +40,7 @@ DevToolsToolboxes.toolboxEditor = function(blockLibraryList) {
   // If null, no additional library category is created.
   if (blockLibraryList) {
     blockLibraryList.forEach((blockLibPair) => {
-      blockLibraryXmls += DevToolsToolboxes.createCategoryElement_(
-          blockLibPair[0], blockLibPair[1]);
+      blockLibraryXmls += Blockly.Xml.domToPrettyText(blockLibPair[1]);
     });
   }
 
