@@ -1190,6 +1190,7 @@ FactoryUtils.generateCategoryXml = function(blocks, categoryName) {
     categoryElement.appendChild(blockXml);
   }
   categoryElement.removeAttribute('xmlns');
+  // TODO(#192): Allow users to configure color for user-defined library categories.
   categoryElement.setAttribute('colour', '260');
   return categoryElement;
 };

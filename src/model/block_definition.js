@@ -32,7 +32,7 @@ class BlockDefinition extends Resource {
    * BlockDefinition Class.
    * @constructor
    * @param {string} type The name of the block.
-   * @param {?Object} opt_json optional JSON representation of the block.
+   * @param {Object=} opt_json optional JSON representation of the block.
    */
   constructor(type, opt_json) {
     super(type, PREFIXES.BLOCK);
@@ -53,8 +53,14 @@ class BlockDefinition extends Resource {
   /**
    * Defines block by adding it to the Blockly.Blocks map. Previous entry in
    * Blockly.Blocks map is overwritten if the block has already been defined before.
+   * @throws If BlockDefinition object is unnamed.
    */
   define() {
+    if (!this.name) {
+      throw 'Block definition does not have a valid name. Cannot be added to ' +
+          'Blockly.Blocks map.';
+      return;
+    }
     const json = this.json;
     Blockly.Blocks[this.name] = {
       init: function() {
