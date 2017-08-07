@@ -48,31 +48,19 @@ class BlockDefinition extends Resource {
      * @type {!Object}
      */
     this.json = opt_json || this.createStarterJson();
-
-    /**
-     * Keeps track of whether a BlockDefinition has been defined previously
-     * to prevent defining a block multiple times.
-     * @type {boolean}
-     * @private
-     */
-    this.isDefined_ = false;
   }
 
   /**
-   * Defines block by adding it to the Blockly.Blocks map. If the block has
-   * already been defined before, nothing is executed.
+   * Defines block by adding it to the Blockly.Blocks map. Previous entry in
+   * Blockly.Blocks map is overwritten if the block has already been defined before.
    */
   define() {
-    if (this.isDefined_) {
-      return;
-    }
     const json = this.json;
-    Blockly.Blocks[this.name || 'unnamed'] = {
+    Blockly.Blocks[this.name] = {
       init: function() {
         this.jsonInit(json);
       }
     };
-    this.isDefined_ = true;
   }
 
   /**
@@ -81,7 +69,6 @@ class BlockDefinition extends Resource {
   undefine() {
     if (Blockly.Blocks[this.name]) {
       delete Blockly.Blocks[this.name];
-      this.isDefined_ = false;
     }
   }
 
