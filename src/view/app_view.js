@@ -491,13 +491,13 @@ class AppView {
     });
 
     $('#addWorkspaceConfig').click(() => {
-      this.appController.createWorkspaceConfiguration();
       this.closeModal_();
+      this.appController.createWorkspaceConfiguration();
     });
 
     $('#createNewBlockButton').click(() => {
-      this.appController.createPopup(PopupController.NEW_BLOCK);
       this.closeModal_();
+      this.appController.createPopup(PopupController.NEW_BLOCK);
     });
   }
 

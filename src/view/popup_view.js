@@ -90,6 +90,6 @@ class PopupView {
   show() {
     $('.popup').show();
     console.log('showing!');
-    $('#modalShadow').css('display', 'block');
+    $('#modalShadow').show();
   }
 }
