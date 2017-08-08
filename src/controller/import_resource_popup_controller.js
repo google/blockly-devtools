@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('SaveProjectPopupView');
-
-goog.require('PopupView');
-
 /**
  * @fileoverview * ImportResourcePopupController manages app response to the UI
  * for importing resources from file.
