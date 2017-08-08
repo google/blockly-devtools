@@ -357,8 +357,7 @@ document.onload = function() {
    */
   processToolboxDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    // grab xml from now uncommented file
-    return '';
+    eval(refinedString);
   }
 
   /**
@@ -368,8 +367,7 @@ document.onload = function() {
    */
   processWorkspaceContentsDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    // grab xml from now uncommented file
-    return '';
+    eval(refinedString);
   }
 
   /**
@@ -378,9 +376,7 @@ document.onload = function() {
    * @return {string} The options string.
    */
   processWorkspaceConfigDataString(dataString) {
-    const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    // grab options from now uncommented file
-    return '';
+    eval(refinedString);
   }
 }
