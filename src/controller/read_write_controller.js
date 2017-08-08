@@ -25,7 +25,6 @@ goog.provide('ReadWriteController');
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 
-var BLOCKLY_OPTIONS = {};
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
  * pertinent to the project.
