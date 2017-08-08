@@ -124,7 +124,7 @@ class BlockEditorController {
       // Save block's changes into BlockDefinition model object.
       this.updateBlockDefinition();
       // Update the block editor view.
-      this.refreshPreviews(false);
+      this.refreshPreviews();
     }
     // Disable orphans.
     Blockly.Events.disableOrphans(event);
@@ -132,13 +132,11 @@ class BlockEditorController {
 
   /**
    * Refreshes previews in view and updates model.
-   * @param {boolean} suppressTreeChange Whether to suppress changes in the
-   *     navtree.
    */
-  refreshPreviews(suppressTreeChange) {
+  refreshPreviews() {
     const format = $('#format').val();
     this.updateBlockDefinitionView_(format);
-    this.updatePreview_(suppressTreeChange);
+    this.updatePreview_();
     this.updateGenerator_();
   }
 
@@ -269,11 +267,9 @@ class BlockEditorController {
 
   /**
    * Update the preview display.
-   * @param {boolean} suppressTreeChange Whether to suppress reflecting block
-   *     changes in the navtree.
    * @private
    */
-  updatePreview_(suppressTreeChange) {
+  updatePreview_() {
     // REFACTORED: Moved in from factory.js:updatePreview()
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
