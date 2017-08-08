@@ -34,7 +34,7 @@ class ImportResourcePopupView extends PopupView {
   /**
    * @constructor
    * @param {!ImportResourcePopupController} controller ImportResourcePopupController
-   * currently managing this view.
+   *    currently managing this view.
    * @param {string} htmlContents The html contents of the popup.
    */
   constructor(controller, htmlContents) {
