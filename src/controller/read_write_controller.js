@@ -303,12 +303,11 @@ document.onload = function() {
 
   /**
    * Construct a block based off of its metadata, and add it to the project.
-   * @param {string} toolboxName The name of the toolbox.
-   * @param {string} path The absolute filepath to the toolbox data.
+   * @param {string} blockType The type of block.
+   * @param {string} path The absolute filepath to the block data.
    */
-  constructBlock(toolboxName, path) {
-    const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+  constructBlock(blockType, path) {
+    throw 'unimplemented: constructBlock';
   }
 
   /**
