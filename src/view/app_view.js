@@ -86,7 +86,7 @@ class AppView {
         ['Open Project', () => { this.openProject(); }],
         ['Save All', () => { this.appController.saveProject(); }],
         ['Import', [
-          ['Project', () => {this.appController.readWriteController.constructProject('/usr/local/google/home/sagev/puzzling/metadata', 'web');}],
+          ['Project', () => {}],
           ['Blocks', () => { this.importBlocks(); }],
           ['Library', () => { this.importLibrary(); }],
           ['Toolbox', () => { this.importToolbox(); }],

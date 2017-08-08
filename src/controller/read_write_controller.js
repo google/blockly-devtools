@@ -248,7 +248,7 @@ document.onload = function() {
   }
 
   /**
-   * Initialize a Project based off of read values.
+   * Initialize a Project based off of its metadata.
    * @param {string} projectMetaPath An absolute path to the project's metadata.
    * @param {string} platform The platform being uploaded.
    * @return {?Project} The reconstructed project, or null if invalid filepath.
@@ -277,7 +277,6 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the library data.
    */
   constructLibrary(libraryName, path) {
-    path = path + "/BlockLibrary_MyFirstBlockLibrary.js";
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
     refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
@@ -298,7 +297,6 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the toolbox data.
    */
   constructToolbox(toolboxName, path) {
-    path = path + "/Toolbox_MyFirstToolbox.js";
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
@@ -309,7 +307,6 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the workspace contents data.
    */
   constructWorkspaceContents(contentsName, path) {
-    path = path + "/WorkspaceContents_MyFirstWorkspace.js";
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
@@ -320,7 +317,6 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the workspace config's data.
    */
   constructWorkspaceConfig(workspaceConfigName, path) {
-    path = path + "/WorkspaceConfiguration_WSConfig.js";
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
