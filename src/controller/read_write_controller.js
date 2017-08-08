@@ -25,6 +25,7 @@ goog.provide('ReadWriteController');
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 
+var BLOCKLY_OPTIONS = {};
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
  * pertinent to the project.
@@ -93,7 +94,8 @@ class ReadWriteController {
       blockData.push(item);
     }
     const location = this.directoryMap.get(this.getDivName(library));
-    const filename = this.getDivName(library) + '_metadata';
+    console.log(location);
+    const filename = this.getDivName(library) + '.js';
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
         blockData + ');';
     fs.writeFileSync(location + path.sep + filename, fileData);
@@ -106,7 +108,7 @@ class ReadWriteController {
   saveToolbox(toolbox) {
     let data = this.appController.editorController.toolboxController.generateToolboxJsFile(toolbox);
     const location = this.directoryMap.get(this.getDivName(toolbox));
-    const filename = this.getDivName(toolbox) + '_metadata';
+    const filename = this.getDivName(toolbox) + '.js';
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -127,7 +129,7 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
 /* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
 `;
     const location = this.directoryMap.get(this.getDivName(workspaceContents));
-    const filename = this.getDivName(workspaceContents) + '_metadata';
+    const filename = this.getDivName(workspaceContents) + '.js';
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -137,9 +139,27 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
    *     to be saved.
    */
   saveWorkspaceConfiguration(workspaceConfig) {
-    let data = this.appController.editorController.workspaceController.generateInjectFile(workspaceConfig);
+    var attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
+    if (!workspaceConfig.options['readOnly']) {
+      attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
+        'imported toolbox to display here */], \n' + attributes;
+    }
+
+    var data = `
+var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);
+
+/* BEGINNING BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+BLOCKLY_OPTIONS['${workspaceConfig.name}'] = attributes;
+/* END BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. */
+
+document.onload = function() {
+  /* Inject your workspace */
+  /* TODO: Add ID of div to inject Blockly into */
+  var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);
+};
+`;
     const location = this.directoryMap.get(this.getDivName(workspaceConfig));
-    const filename = this.getDivName(workspaceConfig) + '_metadata';
+    const filename = this.getDivName(workspaceConfig) + '.js';
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -154,9 +174,9 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
   }
 
   /**
-   * Write all necessary data files.
+   * Save all necessary data files.
    */
-  writeAllFiles() {
+  saveAllFiles() {
     for (let directory of this.directoryMap.keys()) {
       let typeAndName = directory.split("_");
       let type = typeAndName[0];
@@ -177,18 +197,52 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
         this.saveWorkspaceConfiguration(workspaceConfig);
       }
     }
-    this.writeProjectMetadataFile();
+    this.saveProjectMetadataFile();
   }
 
   /**
-   * Write the project's metadata file.
+   * Save the project's metadata file.
    */
-  writeProjectMetadataFile() {
+  saveProjectMetadataFile() {
     const project = this.appController.project;
     let data = Object.create(null);
     project.buildMetadata(data);
     let dataString = JSON.stringify(data, null, '\t');
     const location = this.directoryMap.get(this.getDivName(project));
     fs.writeFileSync(location + path.sep + 'metadata', dataString);
+  }
+
+  /**
+   * Creates a string representation of the options, for use in making the string
+   * used to inject the workspace.
+   * @param {!Object} obj Object representing the options selected in the current
+   *     configuration.
+   * @param {string} indent String representation of an indent.
+   * @return {string} String representation of the workspace configuration's
+   *     options.
+   * @recursive
+   * @private
+   */
+  stringifyOptions_(obj, indent) {
+    // REFACTORED from wfactory_generator.js:addAttributes_(obj, tabChar)
+    if (!obj) {
+      return '{}\n';
+    }
+    var str = '';
+    for (var key in obj) {
+      if (key == 'grid' || key == 'zoom') {
+        var temp = indent + key + ' : {\n' +
+            this.stringifyOptions_(obj[key], indent + '\t') +
+            indent + '}, \n';
+      } else if (typeof obj[key] == 'string') {
+        var temp = indent + key + ' : \'' + obj[key] + '\', \n';
+      } else {
+        var temp = indent + key + ' : ' + obj[key] + ', \n';
+      }
+      str += temp;
+    }
+    var lastCommaIndex = str.lastIndexOf(',');
+    str = str.slice(0, lastCommaIndex) + '\n';
+    return str;
   }
 }

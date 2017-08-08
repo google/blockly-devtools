@@ -46,6 +46,12 @@ class Resource {
      * @type {string}
      */
     this.resourceType = resourceType;
+
+    /**
+     * Filepath leading to the resource's saved data for web export.
+     * @type {string}
+     */
+    this.webFilepath = '';
   }
 
   /**
@@ -103,13 +109,9 @@ class Resource {
      * buildMetadata. If no filepath has been assigned, or the web attribute is
      * missing, the buildMetadata will create these fields.
      */
-    if (!obj.web) {
-      obj.web = {
-        filepath: ''
-      };
-    } else if (!obj.web.filepath) {
-        obj.web.filepath = '';
-      }
-    obj.web.export = true;
+    obj.web = {
+      export: true,
+      filepath: this.webFilepath
+    };
   }
 }

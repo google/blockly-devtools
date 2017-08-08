@@ -34,18 +34,18 @@ class SaveProjectPopupView extends PopupView {
    * @constructor
    * @param {!NewBlockPopupController} controller NewBlockPopupController currently
    *     managing this view.
-   * @param {Array.<string>} divList List of html division tags.
+   * @param {Array.<string>} divIdList List of html division ids.
    * @param {string} htmlContents The html contents of the popup, based on the
    *     current project.
    */
-  constructor(controller, divList, htmlContents) {
+  constructor(controller, divIdList, htmlContents) {
     super(controller);
 
     /**
-     * List of division tags, for variable assignment.
+     * List of division ids, for variable assignment.
      * @type {Array.<string>}
      */
-    this.divList = divList;
+    this.divIdList = divIdList;
 
     /**
      * HTML contents of what is inside popup window. Does not include the popup
@@ -77,7 +77,7 @@ class SaveProjectPopupView extends PopupView {
     });
     $('#submit').click(() => {
       const projectDiv = this.controller.readWriteController.getDivName(
-              this.controller.appController.project)
+              this.controller.appController.project);
       const projectVal = $( '#' + projectDiv).val();
       if(projectVal) {
         this.assignVariables_();
@@ -94,7 +94,7 @@ class SaveProjectPopupView extends PopupView {
    * @private
    */
   assignVariables_() {
-    for (let division of this.divList) {
+    for (let division of this.divIdList) {
       const val = $('#' + division).val();
       this[division] = val;
     }

@@ -55,20 +55,20 @@ class SaveProjectPopupController extends PopupController {
     this.toWrite = toWrite;
 
     /**
-     * List of html divisions in the view, used to assign variables to the view
+     * List of html division ids in the view, used to assign variables to the view
      * and update the ReadWriteController's directory map with the appropriate
      * keys.
      * Filled in by this.makeProjectPopupContents().
      * @type {Array.<string>}
      */
-    this.viewDivs = [];
+    this.viewDivIds = [];
 
     const viewContents = this.makeProjectPopupContents();
     /**
      * The popup view that this popup controller manages.
      * @type {!SaveProjectPopupView}
      */
-    this.view = new SaveProjectPopupView(this, this.viewDivs, viewContents);
+    this.view = new SaveProjectPopupView(this, this.viewDivIds, viewContents);
 
     // Listeners in the popup
     Emitter(this.view);
@@ -77,27 +77,36 @@ class SaveProjectPopupController extends PopupController {
     });
 
     this.view.on('submit', () => {
-      // Save location for each division, or, if none chosen, set a default.
-      for (let div of this.viewDivs) {
+      // Save location for each division id, or, if no location chosen, set
+      // a default.
+      for (let divId of this.viewDivIds) {
           // The user has chosen a location, indicated by the existence of the
           // appropriate view variable (the name of this variable is the lower
           // case version of the matching directory map key.
-          if (this.view[div]) {
-            localStorage.setItem(div,this.view[div]);
-            this.readWriteController.directoryMap.set(div, this.view[div]);
+          let typeAndName = divId.split("_");
+          let type = typeAndName[0];
+          let name = typeAndName[1];
+          if (this.view[divId]) {
+            console.log(type);
+            if (type != PREFIXES.PROJECT) {
+              this.getResource(type, name).webFilepath = this.view[divId];
+            }
+            console.log(this.view[divId]);
+            this.readWriteController.directoryMap.set(divId, this.view[divId]);
           } else {
             // No location has been chosen, so default to the same directory as
             // the project.
             const projectDiv =
                 this.readWriteController.getDivName(this.appController.project);
             const projectLocation =
-                this.readWriteController.directoryMap.get(projectDiv)
-            localStorage.setItem(div, projectLocation);
-             this.readWriteController.directoryMap.set(div, projectLocation);
+                this.readWriteController.directoryMap.get(projectDiv);
+            console.log(projectLocation);
+            this.readWriteController.directoryMap.set(divId, projectLocation);
+            this.getResource(type, name).webFilepath = projectLocation;
           }
       }
       // Save the project.
-      this.readWriteController.writeAllFiles();
+      this.readWriteController.saveAllFiles();
       this.exit();
     });
   }
@@ -125,17 +134,37 @@ class SaveProjectPopupController extends PopupController {
       '<span id="warning_text"></span><br><br>' +
           '<h3>Project Resources </h3><span>(default location is in the same ' +
             'directory as the project)</span><div id="projectResources">';
-    this.viewDivs.push(divName);
+    this.viewDivIds.push(divName);
     let object = Object.create(null);
     this.appController.project.buildMetadata(object);
     for (let resource of object.resources) {
       divName = this.readWriteController.getDivName(resource);
-      this.viewDivs.push(divName);
+      this.viewDivIds.push(divName);
       htmlContents = htmlContents +  resource.name +
           '<input type="file" nwdirectory id=' + '\"' + divName + '"></input><br><br>';
     }
     htmlContents = htmlContents + '</div><br><br>' +
         '<input type="button" value="Submit" id="submit">';
     return htmlContents;
+  }
+
+  /**
+   * Gets resource based off of type and name.
+   * @param {string} type The type of the resource.
+   * @param {string} name The name of the resource.
+   * @return {!Resource} The resource from the project.
+   */
+  getResource(type, name) {
+    if (type == PREFIXES.BLOCK) {
+      return this.appController.project.getBlockDefinition(name);
+    } else if (type == PREFIXES.LIBRARY) {
+      return this.appController.project.getBlockLibrary(name);
+    } else if (type == PREFIXES.TOOLBOX) {
+      return this.appController.project.getToolbox(name);
+    } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
+      return this.appController.project.getWorkspaceContents(name);
+    } else if (type == PREFIXES.WORKSPACE_CONFIG) {
+      return this.appController.project.getWorkspaceConfiguration(name);
+    }
   }
 }
