@@ -114,22 +114,6 @@ class NavigationTree {
   }
 
   /**
-   * Populates navtree with sample resources.
-   */
-  populateTree() {
-    // TODO(#200): Add resources to project before loading navtree.
-    const projController = this.appController.projectController;
-    if (projController.getProject().librarySet.resources['MyFirstBlockLibrary']) {
-      return;
-    }
-    projController.createToolbox('MyFirstToolbox');
-    projController.createWorkspaceContents('MyFirstWorkspace');
-    projController.createBlockLibrary('MyFirstBlockLibrary');
-    this.appController.editorController.blockEditorController.createNewBlock(
-        '', 'myFirstBlock', 'MyFirstBlockLibrary', 'My Block');
-  }
-
-  /**
    * Adds a block to the tree.
    * @param {string} blockType The name of the block to be added.
    * @param {string} libraryName The name of the library to add it under.

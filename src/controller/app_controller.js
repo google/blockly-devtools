@@ -270,8 +270,24 @@ class AppController {
     // project controller is created because populateTree() references the
     // project controller.
     this.tree.ready(() => {
-      this.tree.populateTree();
+      this.populateTree();
     });
+  }
+
+  /**
+   * Populates navtree with sample resources.
+   */
+  populateTree() {
+    // TODO(#200): Add resources to project before loading navtree.
+    const projController = this.projectController;
+    if (projController.getProject().librarySet.resources['MyFirstBlockLibrary']) {
+      return;
+    }
+    projController.createToolbox('MyFirstToolbox');
+    projController.createWorkspaceContents('MyFirstWorkspace');
+    projController.createBlockLibrary('MyFirstBlockLibrary');
+    this.editorController.blockEditorController.createNewBlock(
+        '', 'myFirstBlock', 'MyFirstBlockLibrary', 'My Block');
   }
 
   /**
