@@ -52,10 +52,11 @@ class ReadWriteController {
     this.hasSaved = false;
 
     /**
-     * Map of resource type to locally stored directory location.
-     * @type {Map}
+     * Array of resource html division ids.
+     * Populated by popup.
+     * @type {Array<string>}
      */
-    this.directoryMap = new Map();
+    this.resourceDivIds = [];
   }
 
   /**
@@ -93,7 +94,7 @@ class ReadWriteController {
       let item = '\n\n\t// BlockType: ' + block.type() + '\n' + block.json;
       blockData.push(item);
     }
-    const location = this.directoryMap.get(this.getDivName(library));
+    const location = library.webFilepath;
     console.log(location);
     const filename = this.getDivName(library) + '.js';
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
@@ -107,7 +108,7 @@ class ReadWriteController {
    */
   saveToolbox(toolbox) {
     let data = this.appController.editorController.toolboxController.generateToolboxJsFile(toolbox);
-    const location = this.directoryMap.get(this.getDivName(toolbox));
+    const location = toolbox.webFilepath;
     const filename = this.getDivName(toolbox) + '.js';
     fs.writeFileSync(location + path.sep + filename, data);
   }
@@ -128,7 +129,7 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
     ${FactoryUtils.concatenateXmlString(xml)};
 /* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
 `;
-    const location = this.directoryMap.get(this.getDivName(workspaceContents));
+    const location = workspaceContents.webFilepath;
     const filename = this.getDivName(workspaceContents) + '.js';
     fs.writeFileSync(location + path.sep + filename, data);
   }
@@ -158,7 +159,7 @@ document.onload = function() {
   var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);
 };
 `;
-    const location = this.directoryMap.get(this.getDivName(workspaceConfig));
+    const location = workspaceConfig.webFilepath;
     const filename = this.getDivName(workspaceConfig) + '.js';
     fs.writeFileSync(location + path.sep + filename, data);
   }
@@ -177,8 +178,8 @@ document.onload = function() {
    * Save all necessary data files.
    */
   saveAllFiles() {
-    for (let directory of this.directoryMap.keys()) {
-      let typeAndName = directory.split("_");
+    for (let divId of this.resourceDivIds) {
+      let typeAndName = divId.split("_");
       let type = typeAndName[0];
       let name = typeAndName[1];
       if (type == PREFIXES.LIBRARY) {
@@ -206,9 +207,9 @@ document.onload = function() {
   saveProjectMetadataFile() {
     const project = this.appController.project;
     let data = Object.create(null);
+    const location = this.appController.project.webFilepath;
     project.buildMetadata(data);
     let dataString = JSON.stringify(data, null, '\t');
-    const location = this.directoryMap.get(this.getDivName(project));
     fs.writeFileSync(location + path.sep + 'metadata', dataString);
   }
 

@@ -87,24 +87,16 @@ class SaveProjectPopupController extends PopupController {
           let type = typeAndName[0];
           let name = typeAndName[1];
           if (this.view[divId]) {
-            console.log(type);
-            if (type != PREFIXES.PROJECT) {
-              this.getResource(type, name).webFilepath = this.view[divId];
-            }
-            console.log(this.view[divId]);
-            this.readWriteController.directoryMap.set(divId, this.view[divId]);
+            this.getResource(type, name).webFilepath = this.view[divId];
           } else {
             // No location has been chosen, so default to the same directory as
             // the project.
-            const projectDiv =
-                this.readWriteController.getDivName(this.appController.project);
             const projectLocation =
-                this.readWriteController.directoryMap.get(projectDiv);
-            console.log(projectLocation);
-            this.readWriteController.directoryMap.set(divId, projectLocation);
+                this.appController.project.webFilepath;
             this.getResource(type, name).webFilepath = projectLocation;
           }
       }
+      this.readWriteController.resourceDivIds = this.viewDivIds;
       // Save the project.
       this.readWriteController.saveAllFiles();
       this.exit();
@@ -165,6 +157,8 @@ class SaveProjectPopupController extends PopupController {
       return this.appController.project.getWorkspaceContents(name);
     } else if (type == PREFIXES.WORKSPACE_CONFIG) {
       return this.appController.project.getWorkspaceConfiguration(name);
+    } else if (type == PREFIXES.PROJECT) {
+      return this.appController.project;
     }
   }
 }
