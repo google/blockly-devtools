@@ -214,18 +214,16 @@ class BlockEditorController {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     const newName = rootBlock.getFieldValue('NAME');
-    const changedName = currentBlock.name != newName &&
-        this.projectController.getProject().hasBlockDefinition(newName);
+    const changedName = currentBlock.name != newName;
+    const warning = this.getWarningText(newName);
     // TODO: Add warning to top block if the name already exists.
-    if (!suppressTreeChange && changedName) {
-      // TODO: Deselect the currently
+    if (!suppressTreeChange && changedName && warning) {
       Blockly.WidgetDiv.hide();
       this.view.editorWorkspace.cancelCurrentGesture();
       const oldName = this.projectController.tree.getSelectedName();
       rootBlock.setFieldValue(oldName, 'NAME');
-      window.alert('There is already a block under this name.');
+      window.alert(warning);
     } else {
-      rootBlock.setWarningText(null);
       this.projectController.renameBlockDefinition(currentBlock,
           newName, suppressTreeChange);
     }
@@ -297,8 +295,6 @@ class BlockEditorController {
       const blockType = this.view.blockDefinition.type();
       // Render preview block in preview workspace.
       this.renderPreviewBlock_(blockType);
-      // Rename block, or warn user if block type is invalid.
-      // this.renameOrWarn_(blockType, suppressTreeChange);
     } finally {
       Blockly.Blocks = backupBlocks;
       this.view.blockDefinition.undefine();
@@ -389,29 +385,22 @@ class BlockEditorController {
    * Warns user if their block type already exists in standard library or if
    * it is otherwise invalid.
    * @param {string} blockType Name of block type rendered in preview.
-   * @param {boolean} suppressTreeChange Whether to suppress reflecting block
-   *     changes in the navtree.
    * @private
    */
-  renameOrWarn_(blockType, suppressTreeChange) {
+  getWarningText(blockType) {
     // Warn user only if their block type is already exists in Blockly's
     // standard library.
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     if (StandardCategories.coreBlockTypes.indexOf(blockType) != -1) {
-      rootBlock.setWarningText('A core Blockly block already exists ' +
-          'under this name.');
+      return 'A core Blockly block already exists under this name.';
     } else if (blockType == 'block_type') {
       // Warn user to let them know they can't save a block under the default
       // name 'block_type'
-      rootBlock.setWarningText('You cannot save a block with the default ' +
-          'name, "block_type"');
+      return 'You cannot save a block with the default name, "block_type"';
     } else if (this.projectController.getProject().hasBlockDefinition(blockType)) {
-      // rootBlock.setWarningText('There is already a block under this name.\n' +
-      //     'Please rename this block.');
+      return 'There is already a block under this name.';
     } else {
-      // this.projectController.renameBlockDefinition(currentBlock,
-      //     newName, suppressTreeChange);
-      // rootBlock.setWarningText(null);
+      return '';
     }
   }
 
