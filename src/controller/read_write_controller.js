@@ -24,6 +24,8 @@ goog.provide('ReadWriteController');
 
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
+goog.require('ImportResourcePopupController');
+goog.require('Project');
 
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
@@ -95,6 +97,7 @@ class ReadWriteController {
     }
     const location = library.webFilepath;
     const filename = this.getDivName(library) + '.js';
+    library.webFilepath = library.webFilepath + path.sep + filename;
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
         blockData + ');  // END JSON EXTRACT (Do not delete this comment.)';
     fs.writeFileSync(location + path.sep + filename, fileData);
@@ -108,6 +111,7 @@ class ReadWriteController {
     let data = this.appController.editorController.toolboxController.generateToolboxJsFile(toolbox);
     const location = toolbox.webFilepath;
     const filename = this.getDivName(toolbox) + '.js';
+    toolbox.webFilepath = toolbox.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -129,6 +133,7 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
 `;
     const location = workspaceContents.webFilepath;
     const filename = this.getDivName(workspaceContents) + '.js';
+    workspaceContents.webFilepath = workspaceContents.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -159,6 +164,7 @@ document.onload = function() {
 `;
     const location = workspaceConfig.webFilepath;
     const filename = this.getDivName(workspaceConfig) + '.js';
+    workspaceConfig.webFilepath = workspaceConfig.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -257,6 +263,16 @@ document.onload = function() {
   }
 
   /**
+   * Imports a resource from file.
+   * @param {string} resourcetype The type of resource to import.
+   */
+  importResource(resourceType) {
+    this.popupController = new ImportResourcePopupController(this.appController,
+        this, resourceType);
+    this.popupController.show();
+  }
+
+  /**
    * Initialize a Project based off of its metadata.
    * @param {string} projectMetaPath An absolute path to the project's metadata.
    * @param {string} platform The platform being uploaded.
@@ -268,13 +284,13 @@ document.onload = function() {
     let project = new Project(data.name);
     for (let resource of data.resources) {
       if (resource.resourceType == PREFIXES.LIBRARY) {
-        this.constructLibrary(resource.name, resource[platform].filepath);
+        this.constructLibrary(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.TOOLBOX) {
-        this.constructToolbox(resource.name, resource[platform].filepath);
+        this.constructToolbox(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
-          this.constructWorkspaceContents(resource.name, resource[platform].filepath);
+          this.constructWorkspaceContents(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONFIG) {
-          this.constructWorkspaceConfig(resource.name, resource[platform].filepath);
+          this.constructWorkspaceConfig(resource[platform].filepath);
       }
     }
     return project;
@@ -282,40 +298,44 @@ document.onload = function() {
 
   /**
    * Construct a library based off of its metadata, and add it to the project.
-   * @param {string} libraryName The name of the library.
    * @param {string} path The absolute filepath to the library data.
    */
-  constructLibrary(libraryName, path) {
+  constructLibrary(path) {
     const dataString = fs.readFileSync(path, 'utf8');
     let data = JSON.parse(this.processLibraryDataString(dataString));
   }
 
   /**
+   * Construct a block based off of its metadata, and add it to the project.
+   * @param {string} path The absolute filepath to the block data.
+   */
+  constructBlock(path) {
+    throw 'unimplemented: constructBlock';
+  }
+
+  /**
    * Construct a toolbox based off of its metadata, and add it to the project.
-   * @param {string} toolboxName The name of the toolbox.
    * @param {string} path The absolute filepath to the toolbox data.
    */
-  constructToolbox(toolboxName, path) {
+  constructToolbox(path) {
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = this.processToolboxDataString(dataString);
   }
 
   /**
    * Construct workspace contents based off of metadata and add to project.
-   * @param {string} contentsName The name of the workspace contents.
    * @param {string} path The absolute filepath to the workspace contents data.
    */
-  constructWorkspaceContents(contentsName, path) {
+  constructWorkspaceContents(path) {
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = this.processWorkspaceContentsDataString(dataString);
   }
 
   /**
    * Construct a workspace configuration based off of metadata and add to project.
-   * @param {string} workspaceConfigName The name of the workspace configuration.
    * @param {string} path The absolute filepath to the workspace config's data.
    */
-  constructWorkspaceConfig(workspaceConfigName, path) {
+  constructWorkspaceConfig(path) {
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = this.processWorkspaceConfigDataString(dataString);
   }
