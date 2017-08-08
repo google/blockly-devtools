@@ -219,6 +219,8 @@ class BlockEditorController {
     // TODO: Add warning to top block if the name already exists.
     if (!suppressTreeChange && changedName) {
       // TODO: Deselect the currently
+      Blockly.WidgetDiv.hide();
+      this.view.editorWorkspace.cancelCurrentGesture();
       const oldName = this.projectController.tree.getSelectedName();
       rootBlock.setFieldValue(oldName, 'NAME');
       window.alert('There is already a block under this name.');
