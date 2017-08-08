@@ -111,11 +111,11 @@ Dummy input:<br>
     if (show) {
       $('#block_name').css('border', '1px solid red');
       $('#warning_text').html(warningMessage);
-      this.setEnable(true);
+      this.setEnabled(true);
     } else {
       $('#block_name').css('border', '1px solid gray');
       $('#warning_text').html('');
-      this.setEnable(false);
+      this.setEnabled(false);
     }
   }
 
@@ -124,7 +124,7 @@ Dummy input:<br>
    * @param {boolean} ifEnable Whether to enable the submit button. Disables if
    *     false.
    */
-  setEnable(ifEnable) {
+  setEnabled(ifEnable) {
     if (ifEnable) {
       $('#submit_block').removeAttr('disabled');
     } else {

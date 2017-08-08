@@ -216,7 +216,7 @@ class BlockEditorController {
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     const newName = rootBlock.getFieldValue('NAME');
     const changedName = currentBlock.name != newName;
-    const warning = this.getWarningText(newName);
+    const warning = this.getWarningText(newName); // Warning text or null
     if (!suppressTreeChange && changedName && warning) {
       // Warn user if name is invalid (is 'block_type' or a duplicate).
       Blockly.WidgetDiv.hide();
@@ -382,7 +382,8 @@ class BlockEditorController {
 
   /**
    * Warns user if their block type already exists in standard library or if
-   * it is otherwise invalid.
+   * it is otherwise invalid. Returns null if blockType is a valid type name
+   * and no warning is necessary.
    * @param {string} blockType Name of block type rendered in preview.
    * @private
    */
@@ -399,7 +400,7 @@ class BlockEditorController {
     } else if (this.projectController.getProject().hasBlockDefinition(blockType)) {
       return 'There is already a block under this name.';
     } else {
-      return '';
+      return null;
     }
   }
 

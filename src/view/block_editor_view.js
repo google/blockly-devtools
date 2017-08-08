@@ -241,7 +241,6 @@ class BlockEditorView {
     // REFACTORED: From block_library_view.js:updateButtons(blockType, isInLibrary, savedChanges)
     const rootBlock = FactoryUtils.getRootBlock(this.editorWorkspace);
     let blockType = rootBlock.getFieldValue('NAME').trim().toLowerCase();
-    blockType = FactoryUtils.cleanBlockType(blockType);
 
     if (!isInLibrary) {
       // Block type has not been saved to library yet. Disable the delete button
