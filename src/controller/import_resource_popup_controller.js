@@ -20,9 +20,10 @@
 
 'use strict';
 
-goog.provide('SaveProjectPopupView');
+goog.provide('ImportResourcePopupController');
 
-goog.require('PopupView');
+goog.require('ImportResourcePopupView');
+goog.require('PopupController');
 
 /**
  * @fileoverview * ImportResourcePopupController manages app response to the UI
@@ -54,12 +55,12 @@ class ImportResourcePopupController extends PopupController {
     this.resourceType = resourceType;
 
 
-    const viewContents = this.ImportPopupContents();
+    const viewContents = this.makeImportPopupContents();
     /**
      * The popup view that this popup controller manages.
      * @type {!SaveProjectPopupView}
      */
-    this.view = new SaveProjectPopupView(this, this.viewDivIds, viewContents);
+    this.view = new ImportResourcePopupView(this, viewContents);
 
     // Listeners in the popup
     Emitter(this.view);
@@ -68,10 +69,7 @@ class ImportResourcePopupController extends PopupController {
     });
 
     this.view.on('submit', () => {
-      // Save location for each division id, or, if no location chosen, set
-      // a default.
-      for (let divId of this.viewDivIds) {
-        this.constructResource()
+      this.constructResource(this.view.importLocation);
     });
   }
 
@@ -100,18 +98,18 @@ class ImportResourcePopupController extends PopupController {
    * Constructs the resource based off of type, assigns defualt name.
    * @param {string} type The type of the resource.
    */
-  constructResource(type) {
-    if (type == PREFIXES.BLOCK) {
+  constructResource(path) {
+    if (this.resourceType == PREFIXES.BLOCK) {
       return this.readWriteController.constructBlock(path, 'web');
-    } else if (type == PREFIXES.LIBRARY) {
+    } else if (this.resourceType == PREFIXES.LIBRARY) {
       return this.readWriteController.constructLibrary(path, 'web');
-    } else if (type == PREFIXES.TOOLBOX) {
+    } else if (this.resourceType == PREFIXES.TOOLBOX) {
       return this.readWriteController.constructToolbox(path, 'web');
-    } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
+    } else if (this.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
       return this.readWriteController.constructWorkspaceContents(path, 'web');
-    } else if (type == PREFIXES.WORKSPACE_CONFIG) {
+    } else if (this.resourceType == PREFIXES.WORKSPACE_CONFIG) {
       return this.readWriteController.constructWorkspaceConfig(path, 'web');
-    } else if (type == PREFIXES.PROJECT) {
+    } else if (this.resourceType == PREFIXES.PROJECT) {
       return this.readWriteController.constructProject(path, 'web');
     }
   }

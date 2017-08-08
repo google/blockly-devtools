@@ -24,6 +24,8 @@ goog.provide('ReadWriteController');
 
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
+goog.require('ImportResourcePopupController');
+goog.require('Project');
 
 var BLOCKLY_OPTIONS = {};
 /**
@@ -252,7 +254,7 @@ document.onload = function() {
    * @param {string} resourcetype The type of resource to import.
    */
   importResource(resourceType) {
-    this.importController = new ImportResourcePopupController(this.appController,
+    this.popupController = new ImportResourcePopupController(this.appController,
         this, resourceType);
     this.popupController.show();
   }
@@ -283,11 +285,9 @@ document.onload = function() {
 
   /**
    * Construct a library based off of its metadata, and add it to the project.
-   * @param {string} libraryName The name of the library.
-   * @param {string} path The absolute filepath to the library data.
+   * @param {string} dataString A string of the library data.
    */
-  constructLibrary(libraryName, path) {
-    const dataString = fs.readFileSync(path, 'utf8');
+  constructLibrary(dataString) {
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
     refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
     refinedString = refinedString.replace(');', '');
@@ -316,7 +316,6 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the toolbox data.
    */
   constructToolbox(toolboxName, path) {
-    const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
 
