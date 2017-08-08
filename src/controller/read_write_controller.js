@@ -254,19 +254,14 @@ document.onload = function() {
    * @return {?Project} The reconstructed project, or null if invalid filepath.
    */
   constructProject(projectMetaPath, platform) {
-    try {
-      const dataString = fs.readFileSync(projectMetaPath, 'utf8');
-    } except {
-      throw 'invalid project metadata filepath';
-      return null;
-    }
+    const dataString = fs.readFileSync(projectMetaPath, 'utf8');
     let data = JSON.parse(dataString);
     let project = new Project(data.name);
     for (let resource of data.resources) {
       if (resource.resourceType == PREFIXES.LIBRARY) {
         this.constructLibrary(resource.name, resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.TOOLBOX) {
-        this.constructToolbox(resource.name, resource[platform.filepath]);
+        this.constructToolbox(resource.name, resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
           this.constructWorkspaceContents(resource.name, resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONFIG) {
@@ -282,15 +277,19 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the library data.
    */
   constructLibrary(libraryName, path) {
-    try {
-      const dataString = fs.readFileSync(path, 'utf8');
-    } except {
-      return;
+    path = path + "/BlockLibrary_MyFirstBlockLibrary.js";
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
+    refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
+    refinedString = refinedString.replace(');', '');
+    refinedString = refinedString + ',';
+    let refinedArray = refinedString.split('},');
+    for (let blockString of refinedArray) {
+      if (blockString) {
+        blockString = blockString + '}';
+        // do stuff with json
+      }
     }
-    let library =
-        this.appController.projectController.createBlockLibrary(libraryName);
-    let data = dataString.split('// BEGIN JSON EXTRACT');
-
   }
 
   /**
@@ -299,7 +298,9 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the toolbox data.
    */
   constructToolbox(toolboxName, path) {
-
+    path = path + "/Toolbox_MyFirstToolbox.js";
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
 
   /**
@@ -308,7 +309,9 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the workspace contents data.
    */
   constructWorkspaceContents(contentsName, path) {
-
+    path = path + "/WorkspaceContents_MyFirstWorkspace.js";
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
 
   /**
@@ -317,6 +320,8 @@ document.onload = function() {
    * @param {string} path The absolute filepath to the workspace config's data.
    */
   constructWorkspaceConfig(workspaceConfigName, path) {
-
+    path = path + "/WorkspaceConfiguration_WSConfig.js";
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
 }
