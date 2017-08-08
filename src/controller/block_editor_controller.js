@@ -118,9 +118,12 @@ class BlockEditorController {
    * @param {!Event} event Change event in editor workspace.
    */
   onChange(event) {
-    const isUI = event.type == Blockly.Events.UI;
-    if (isUI || event.type == Blockly.Events.CREATE) {
-      this.updateBlockName(!isUI);
+    const isUiEvent = event.type == Blockly.Events.UI;
+    const isCreateEvent = event.type == Blockly.Events.CREATE;
+    // Update model only when user creates a new block or somehow interacts
+    // with blocks (i.e. create and UI events).
+    if (isUiEvent || isCreateEvent) {
+      this.updateBlockName(!isUiEvent);
       // Save block's changes into BlockDefinition model object.
       this.updateBlockDefinition();
       // Update the block editor view.
@@ -203,8 +206,8 @@ class BlockEditorController {
   }
 
   /**
-   * Renames BlockDefinition object currently being edited. Updates navtree
-   * with new name.
+   * Checks if new name is a valid name, then renames current BlockDefinition
+   * object if valid. Updates navtree with new name.
    * @param {boolean} suppressTreeChange Whether to suppress reflecting name
    *     change in the navtree.
    */
@@ -214,8 +217,8 @@ class BlockEditorController {
     const newName = rootBlock.getFieldValue('NAME');
     const changedName = currentBlock.name != newName;
     const warning = this.getWarningText(newName);
-    // TODO: Add warning to top block if the name already exists.
     if (!suppressTreeChange && changedName && warning) {
+      // Warn user if name is invalid (is 'block_type' or a duplicate).
       Blockly.WidgetDiv.hide();
       this.view.editorWorkspace.cancelCurrentGesture();
       const oldName = this.projectController.tree.getSelectedName();

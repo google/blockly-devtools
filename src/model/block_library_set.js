@@ -86,7 +86,8 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
-   * Renames block definition within the project.
+   * Renames block definition within the project. If the old name and the new
+   * name are the same, does nothing.
    * @param {string} oldName Name of BlockDefinition to change.
    * @param {string} newName New name of BlockDefinition.
    */

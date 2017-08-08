@@ -43,7 +43,7 @@ class NavigationTree {
      */
     this.appController = appController;
 
-    this.makeTree();
+    this.makeTree_();
   }
 
   /**
@@ -96,7 +96,9 @@ class NavigationTree {
 
   /**
    * Returns the name of the resource associated with the currently selected
-   * node in the navtree.
+   * node in the navtree. If the selected node is not associated with a
+   * resource object (e.g. a general "Block Libraries" division node), returns
+   * the ID and sends a warning into the console.
    * @return {string} Name of selected resource.
    */
   getSelectedName() {
@@ -111,10 +113,11 @@ class NavigationTree {
 
   /**
    * Populates the tree and adds its listener.
+   * @private
    */
-  makeTree() {
+  makeTree_() {
     const treeJson = this.makeTreeJson();
-    this.makeTreeListener();
+    this.makeTreeListener_();
     $('#navigationTree').jstree(treeJson);
   }
 
@@ -208,7 +211,7 @@ class NavigationTree {
    */
   clear() {
     $('#navigationTree').jstree('destroy');
-    this.makeTree();
+    this.makeTree_();
   }
 
   /**
@@ -259,7 +262,7 @@ class NavigationTree {
   }
 
   /**
-   * Renames node in tree.
+   * Renames node text and ID in tree to match the new resource name.
    * @param {string} id ID of node to rename.
    * @param {string} newName New text to display in the given node.
    */
@@ -283,9 +286,10 @@ class NavigationTree {
   /**
    * Creates menu for right click functionality.
    * @return {!Object} The right click menu for the nodes in the tree.
-   * //TODO: add right click functionality to tree
+   * @private
    */
-   createMenu() {
+   createMenu_() {
+    // TODO(#210): add right click functionality to tree
     const items = {
       renameElement : {
         label: 'Rename',
@@ -355,8 +359,9 @@ class NavigationTree {
 
   /**
    * Listens for block selected in tree.
+   * @private
    */
-  makeTreeListener() {
+  makeTreeListener_() {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
       // Collect id of first selected block.
       const node = $('#navigationTree').jstree('get_selected')[0];
