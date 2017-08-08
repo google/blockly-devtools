@@ -48,15 +48,14 @@ class ReadWriteController {
      * Whether or not the user has saved before.
      * @type {boolean}
      */
-    this.hasSaved = localStorage.getItem('hasSavedProjectBefore');
+    this.hasSaved = false;
 
     /**
-     * Map of resource type to locally stored directory location.
-     * @type {Map}
+     * Array of resource html division ids.
+     * Populated by popup.
+     * @type {Array<string>}
      */
-    this.directoryMap = new Map();
-    // Initialize the directory map.
-    this.initDirectoryMap_();
+    this.resourceDivIds = [];
   }
 
   /**
@@ -70,22 +69,6 @@ class ReadWriteController {
   }
 
   /**
-   * Initializes the directory map.
-   * @return {Map} Map of resource type to locally stored directory location.
-   * @private
-   */
-  initDirectoryMap_() {
-    this.directoryMap.set(PREFIXES.PROJECT,
-        localStorage.getItem(PREFIXES.PROJECT));
-    this.directoryMap.set(PREFIXES.LIBRARY,
-        localStorage.getItem(PREFIXES.LIBRARY));
-    this.directoryMap.set(PREFIXES.TOOLBOX,
-        localStorage.getItem(PREFIXES.TOOLBOX));
-    this.directoryMap.set(PREFIXES.GENERAL_WORKSPACE,
-        localStorage.getItem(PREFIXES.GENERAL_WORKSPACE));
-  }
-
-  /**
    * Saves entire project to the developer's file system.
    */
   saveProject() {
@@ -94,61 +77,172 @@ class ReadWriteController {
           this);
       this.popupController.show();
     } else {
-      this.writeDataFile(this.appController.project,
-          this.directoryMap.get(PREFIXES.PROJECT));
+      this.writeAllFiles();
     }
   }
 
   /**
-   * Saves a block to the developer's file system.
-   */
-  saveBlock() {
-    //TODO: fill in
-    console.warn('unimplimented: saveBlock');
-  }
-
-  /**
    * Saves a library to the developer's file system.
+   * @param {!BlockLibrary} library the block library to be saved.
    */
-  saveLibrary() {
-    //TODO: fill in
-    console.warn('unimplimented: saveLibrary');
+  saveLibrary(library) {
+    let blockData = [];
+    for (let blockType of library.getBlockTypes()) {
+      // Issue #190
+      let block = library.getBlockDefinition(blockType);
+      let item = '\n\n\t// BlockType: ' + block.type() + '\n' + block.json;
+      blockData.push(item);
+    }
+    const location = library.webFilepath;
+    const filename = this.getDivName(library) + '.js';
+    let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
+        blockData + ');  // END JSON EXTRACT (Do not delete this comment.)';
+    fs.writeFileSync(location + path.sep + filename, fileData);
   }
 
   /**
    * Saves a toolbox to the developer's file system.
+   * @param {!Toolbox} toolbox The toolbox to be saved.
    */
-  saveToolbox() {
-    //TODO: fill in
-    console.warn('unimplimented: saveToolbox');
+  saveToolbox(toolbox) {
+    let data = this.appController.editorController.toolboxController.generateToolboxJsFile(toolbox);
+    const location = toolbox.webFilepath;
+    const filename = this.getDivName(toolbox) + '.js';
+    fs.writeFileSync(location + path.sep + filename, data);
   }
 
   /**
    * Saves workspace contents to the developer's file system.
+   * @param {!WorkspaceContents} workspaceContents The workspace contents to be
+   *     saved.
    */
-  saveWorkspaceContents() {
-    //TODO: fill in
-    console.warn('unimplimented: saveWorkspaceContents');
+  saveWorkspaceContents(workspaceContents) {
+    let xml = Blockly.Xml.domToPrettyText(workspaceContents.xml);
+    var xmlStorageVariable = 'WORKSPACE_CONTENTS_XML';
+    let data = `
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+var ${xmlStorageVariable} = ${xmlStorageVariable} || null;
+
+${xmlStorageVariable}['${workspaceContents.name}'] =
+    ${FactoryUtils.concatenateXmlString(xml)};
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
+`;
+    const location = workspaceContents.webFilepath;
+    const filename = this.getDivName(workspaceContents) + '.js';
+    fs.writeFileSync(location + path.sep + filename, data);
   }
 
   /**
    * Saves workspace configuration to the developer's file system.
+   * @param {!WorkspaceConfiguration} workspaceConfig The workspace configuration
+   *     to be saved.
    */
-  saveWorkspaceConfiguration() {
-    //TODO: fill in
-    console.warn('unimplimented: saveWorkspaceConfiguration');
+  saveWorkspaceConfiguration(workspaceConfig) {
+    var attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
+    if (!workspaceConfig.options['readOnly']) {
+      attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
+        'imported toolbox to display here */], \n' + attributes;
+    }
+
+    var data = `
+/* BEGINNING BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);
+
+BLOCKLY_OPTIONS['${workspaceConfig.name}'] = ${attributes};
+/* END BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. */
+
+document.onload = function() {
+  /* Inject your workspace */
+  /* TODO: Add ID of div to inject Blockly into */
+  var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);
+};
+`;
+    const location = workspaceConfig.webFilepath;
+    const filename = this.getDivName(workspaceConfig) + '.js';
+    fs.writeFileSync(location + path.sep + filename, data);
   }
 
   /**
-   * Write a new data file.
-   * @param {!Resource} resource The resource to get the data from.
+   * Returns an HTML division (based on the save project popup) name for a given
+   * resource. Used in directory map keys.
+   * @param {!Resource} resource The resource to get the division name for.
+   * @return {string} HTML division name for the resource.
    */
-  writeDataFile(resource) {
+  getDivName(resource) {
+    return resource.resourceType + '_' + resource.name;
+  }
+
+  /**
+   * Save all necessary data files.
+   */
+  saveAllFiles() {
+    for (let divId of this.resourceDivIds) {
+      let typeAndName = divId.split("_");
+      let type = typeAndName[0];
+      let name = typeAndName[1];
+      if (type == PREFIXES.LIBRARY) {
+        let library = this.appController.project.getBlockLibrary(name);
+        this.saveLibrary(library);
+      } else if (type == PREFIXES.TOOLBOX) {
+        let toolbox = this.appController.project.getToolbox(name);
+        this.saveToolbox(toolbox);
+      } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
+        let workspaceContents =
+            this.appController.project.getWorkspaceContents(name);
+        this.saveWorkspaceContents(workspaceContents);
+      } else if (type == PREFIXES.WORKSPACE_CONFIG) {
+        let workspaceConfig =
+            this.appController.project.getWorkspaceConfiguration(name);
+        this.saveWorkspaceConfiguration(workspaceConfig);
+      }
+    }
+    this.saveProjectMetadataFile();
+  }
+
+  /**
+   * Save the project's metadata file.
+   */
+  // TODO #205:  Pass in list of platforms ids (strings) for this save/export pass.
+  saveProjectMetadataFile() {
+    const project = this.appController.project;
     let data = Object.create(null);
-    resource.buildMetadata(data);
+    const location = this.appController.project.webFilepath;
+    project.buildMetadata(data);
     let dataString = JSON.stringify(data, null, '\t');
-    const location = this.directoryMap.get(resource.resourceType);
     fs.writeFileSync(location + path.sep + 'metadata', dataString);
-    localStorage.setItem('hasSavedProjectBefore', true);
+  }
+
+  /**
+   * Creates a string representation of the options, for use in making the string
+   * used to inject the workspace.
+   * @param {!Object} obj Object representing the options selected in the current
+   *     configuration.
+   * @param {string} indent String representation of an indent.
+   * @return {string} String representation of the workspace configuration's
+   *     options.
+   * @recursive
+   * @private
+   */
+  stringifyOptions_(obj, indent) {
+    // REFACTORED from wfactory_generator.js:addAttributes_(obj, tabChar)
+    if (!obj) {
+      return '{}\n';
+    }
+    var str = '';
+    for (var key in obj) {
+      if (key == 'grid' || key == 'zoom') {
+        var temp = indent + key + ' : {\n' +
+            this.stringifyOptions_(obj[key], indent + '\t') +
+            indent + '}, \n';
+      } else if (typeof obj[key] == 'string') {
+        var temp = indent + key + ' : \'' + obj[key] + '\', \n';
+      } else {
+        var temp = indent + key + ' : ' + obj[key] + ', \n';
+      }
+      str += temp;
+    }
+    var lastCommaIndex = str.lastIndexOf(',');
+    str = str.slice(0, lastCommaIndex) + '\n';
+    return str;
   }
 }
