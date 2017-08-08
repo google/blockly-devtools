@@ -25,7 +25,6 @@ goog.provide('ReadWriteController');
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 
-var BLOCKLY_OPTIONS = {};
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
  * pertinent to the project.
@@ -202,8 +201,8 @@ document.onload = function() {
 
   /**
    * Save the project's metadata file.
-   * TODO #205:  Pass in list of platforms ids (strings) for this save/export pass.
    */
+  // TODO #205:  Pass in list of platforms ids (strings) for this save/export pass.
   saveProjectMetadataFile() {
     const project = this.appController.project;
     let data = Object.create(null);

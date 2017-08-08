@@ -38,8 +38,8 @@ class SaveProjectPopupController extends PopupController {
    * @param {ReadWriteController} readWriteController ReadWriteController for
    * the session, used to write files.
    * @param {Array<Object>} toWrite Array of project elements to be written.
-   * TODO #205: Pass in list of platforms ids (strings) for this save/export pass.
    */
+  // TODO #205: Pass in list of platforms ids (strings) for this save/export pass.
   constructor(appController, readWriteController, toWrite) {
     super(appController);
 
