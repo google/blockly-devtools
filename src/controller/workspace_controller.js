@@ -609,26 +609,28 @@ class WorkspaceController extends ShadowController {
    * sample Blockly app.
    * @param {!WorkspaceConfiguration} workspaceConfig The workspace configuration
    *     which will contains the options for the inject call.
+   * @param {string=} opt_div ID of div element to inject Blockly workspace.
    * @return {string} String representation of starter code for injecting.
    */
-  generateInjectFile(workspaceConfig) {
+  generateInjectFile(workspaceConfig, opt_div) {
     // REFACTORED from wfactory_generator.js
-    var attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
+    let attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
+    let div = opt_div ? `'${opt_div}'` : 'null';
     if (!workspaceConfig.options['readOnly']) {
       attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
         'imported toolbox to display here */], \n' + attributes;
     }
 
     // Initializing toolbox
-    var finalStr = `
+    let finalStr = `
 var BLOCKLY_OPTIONS = {
   ${attributes}
 };
 
 document.onload = function() {
   /* Inject your workspace */
-  /* TODO: Add ID of div to inject Blockly into */
-  var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);
+  /* TODO: Add or edit ID of div to inject Blockly into. */
+  var workspace = Blockly.inject(${div}, BLOCKLY_OPTIONS);
 };
 `;
     return finalStr;

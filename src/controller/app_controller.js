@@ -304,13 +304,13 @@ class AppController {
    * Top-level function which is first called in order to create a sample
    * Blockly application with user-defined workspace, toolbox, and blocks.
    */
-  createSampleApplication() {
+  saveSampleApplication() {
     // REFACTORED: Moved in from wfactory_controller.js:exportInjectFile()
 
     // Generate file contents for inject file.
     const injectFileContents = this.projectController.generateInjectString();
     // Get file name from user.
-    const fileName = prompt('File name for starter Blockly workspace code:',
+    const fileName = prompt('File name for sample Blockly workspace code:',
                             'workspace.js');
     if (!fileName) {
       return;

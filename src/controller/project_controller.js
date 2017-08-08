@@ -395,13 +395,58 @@ class ProjectController {
    * @return {string} String representation of starter code for inject file.
    */
   generateInjectString() {
-    /*
-     * TODO: Move in from wfactory_generator.js:generateInjectString(toolboxXml)
-     *
-     * References:
-     * - N/A
-     */
-    throw 'Unimplemented: generateInjectString()';
+    // From wfactory_generator.js:generateInjectString(toolboxXml)
+    let div = 'blocklyWorkspace';
+    let fileInfo = Object.create(null);
+    const toolboxName = Object.keys(this.project.toolboxSet.resources)[0];
+    const toolbox = this.project.getToolbox(toolboxName);
+    const toolboxScript = FactoryUtils.generateXmlAsJsFile(toolbox, 'TOOLBOX');
+    fileInfo['toolbox'] = toolboxScript;
+
+    const workspaceName = Object.keys(this.project.workspaceContentsSet.resources)[0];
+    const workspace = this.project.getWorkspaceContents(workspaceName);
+    const workspaceScript = FactoryUtils.generateXmlAsJsFile(workspace, 'WORKSPACE');
+    fileInfo['workspace'] = workspaceScript;
+
+    const injectScript = this.tree.appController.editorController.
+        workspaceController.generateInjectFile(
+          workspace.config, div);
+    fileInfo['injectScript'] = injectScript;
+  }
+
+  static generateInjectFileContents(object) {
+    const toolboxScript = object.toolbox || '';
+    const workspaceScript = object.workspace || '';
+    const blockDefScript = object.blocks || '';
+    const injectScript = object.inject || '';
+    let fileContents = `
+<html>
+<title>Starter Application</title>
+<!-- Blocks -->
+<script>
+${workspaceScript}
+</script>
+<!-- Toolboxes -->
+<script>
+${toolboxScript}
+</script>
+<!-- Workspace -->
+<script>
+${workspaceScript}
+</script>
+<!-- Inject -->
+<script>
+${injectScript}
+</script>
+<body>
+  <h1>My Blockly Application</h1>
+  <div id="blocklyWorkspace">
+    <!-- Your workspace will be auto-injected here. Make sure the ID of this div
+         matches the ID specified in your inject function. -->
+  </div>
+</body>
+</html>
+`;
   }
 
   /**
