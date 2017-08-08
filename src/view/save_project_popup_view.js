@@ -108,9 +108,9 @@ class SaveProjectPopupView extends PopupView {
    */
   showWarning(show) {
     if (show) {
-      $('#warning_text').css('display', 'block');
+      $('#warning_text').show();
     } else {
-      $('#warning_text').css('display', 'none');
+      $('#warning_text').hide();
     }
   }
 }
