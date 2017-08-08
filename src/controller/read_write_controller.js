@@ -97,7 +97,7 @@ class ReadWriteController {
     const location = library.webFilepath;
     const filename = this.getDivName(library) + '.js';
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
-        blockData + ');';
+        blockData + ');  // END JSON EXTRACT (Do not delete this comment.)';
     fs.writeFileSync(location + path.sep + filename, fileData);
   }
 
