@@ -137,7 +137,6 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
    * Saves workspace configuration to the developer's file system.
    * @param {!WorkspaceConfiguration} workspaceConfig The workspace configuration
    *     to be saved.
-<<<<<<< HEAD
    */
   saveWorkspaceConfiguration(workspaceConfig) {
     var attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
@@ -202,34 +201,6 @@ document.onload = function() {
   }
 
   /**
-   * Save the project's metadata file.
-   */
-  saveWorkspaceConfiguration(workspaceConfig) {
-    var attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
-    if (!workspaceConfig.options['readOnly']) {
-      attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
-        'imported toolbox to display here */], \n' + attributes;
-    }
-
-    var data = `
-/* BEGINNING BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
-var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);
-
-BLOCKLY_OPTIONS['${workspaceConfig.name}'] = ${attributes};
-/* END BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. */
-
-document.onload = function() {
-  /* Inject your workspace */
-  /* TODO: Add ID of div to inject Blockly into */
-  var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);
-};
-`;
-    const location = workspaceConfig.webFilepath;
-    const filename = this.getDivName(workspaceConfig) + '.js';
-    fs.writeFileSync(location + path.sep + filename, data);
-  }
-
-  /**
    * Returns an HTML division (based on the save project popup) name for a given
    * resource. Used in directory map keys.
    * @param {!Resource} resource The resource to get the division name for.
@@ -237,33 +208,6 @@ document.onload = function() {
    */
   getDivName(resource) {
     return resource.resourceType + '_' + resource.name;
-  }
-
-  /**
-   * Save all necessary data files.
-   */
-  saveAllFiles() {
-    for (let divId of this.resourceDivIds) {
-      let typeAndName = divId.split("_");
-      let type = typeAndName[0];
-      let name = typeAndName[1];
-      if (type == PREFIXES.LIBRARY) {
-        let library = this.appController.project.getBlockLibrary(name);
-        this.saveLibrary(library);
-      } else if (type == PREFIXES.TOOLBOX) {
-        let toolbox = this.appController.project.getToolbox(name);
-        this.saveToolbox(toolbox);
-      } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
-        let workspaceContents =
-            this.appController.project.getWorkspaceContents(name);
-        this.saveWorkspaceContents(workspaceContents);
-      } else if (type == PREFIXES.WORKSPACE_CONFIG) {
-        let workspaceConfig =
-            this.appController.project.getWorkspaceConfiguration(name);
-        this.saveWorkspaceConfiguration(workspaceConfig);
-      }
-    }
-    this.saveProjectMetadataFile();
   }
 
   /**
@@ -354,7 +298,7 @@ document.onload = function() {
    */
   constructToolbox(toolboxName, path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = processToolboxDataString(dataString);
+    let refinedString = this.processToolboxDataString(dataString);
   }
 
   /**
@@ -364,7 +308,7 @@ document.onload = function() {
    */
   constructWorkspaceContents(contentsName, path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = processWorkspaceContentsDataString(dataString);
+    let refinedString = this.processWorkspaceContentsDataString(dataString);
   }
 
   /**
@@ -374,7 +318,7 @@ document.onload = function() {
    */
   constructWorkspaceConfig(workspaceConfigName, path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = processWorkspaceConfigDataString(dataString);
+    let refinedString = this.processWorkspaceConfigDataString(dataString);
   }
 
   /**
