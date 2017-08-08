@@ -251,7 +251,7 @@ document.onload = function() {
    * Initialize a Project based off of its metadata.
    * @param {string} projectMetaPath An absolute path to the project's metadata.
    * @param {string} platform The platform being uploaded.
-   * @return {?Project} The reconstructed project, or null if invalid filepath.
+   * @return {!Project} The reconstructed project.
    */
   constructProject(projectMetaPath, platform) {
     const dataString = fs.readFileSync(projectMetaPath, 'utf8');
