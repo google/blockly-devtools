@@ -43,7 +43,7 @@ class ImportResourcePopupController extends PopupController {
     super(appController);
 
     /**
-     * The ReadWriteController for the session, used to write files.
+     * The ReadWriteController for the session, used to read files.
      * @type {!ReadWriteController}
      */
     this.readWriteController = readWriteController;
@@ -56,9 +56,10 @@ class ImportResourcePopupController extends PopupController {
 
 
     const viewContents = this.makeImportPopupContents();
+
     /**
      * The popup view that this popup controller manages.
-     * @type {!SaveProjectPopupView}
+     * @type {!ImportResourcePopupView}
      */
     this.view = new ImportResourcePopupView(this, viewContents);
 
