@@ -121,6 +121,7 @@ class BlockEditorController {
     // Save block's changes into BlockDefinition model object.
     this.updateBlockDefinition();
     const changeTree = event.type == Blockly.Events.UI;
+    console.log('High level suppress? ' + !changeTree);
     this.updateBlockName(!changeTree);
     // Update the block editor view.
     this.refreshPreviews();
@@ -211,13 +212,10 @@ class BlockEditorController {
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     const newName = rootBlock.getFieldValue('NAME');
     // TODO: Add warning to top block if the name already exists.
-    if (!suppressTreeChange &&
-        this.projectController.getProject().hasBlockDefinition(newName)) {
-      console.log('Already has ' + newName + ' in the project.');
+    if (this.projectController.getProject().hasBlockDefinition(newName)) {
       rootBlock.setWarningText('There is already a block under this name.\n' +
           'Please rename this block.');
     } else {
-      console.log('Renaming block ' + currentBlock.name + ' to ' + newName);
       rootBlock.setWarningText(null);
       this.projectController.renameBlockDefinition(currentBlock,
           newName, suppressTreeChange);
