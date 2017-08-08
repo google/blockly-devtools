@@ -83,7 +83,7 @@ class ImportResourcePopupView extends PopupView {
   }
 
   /**
-   * Displays warning message for missing project directory selection.
+   * Displays warning message for missing import location.
    * @param {boolean} show Whether to show or hide the warning. True if show.
    */
   showWarning(show) {
