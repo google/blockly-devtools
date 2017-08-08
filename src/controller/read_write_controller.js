@@ -267,7 +267,7 @@ document.onload = function() {
    * Initialize a Project based off of its metadata.
    * @param {string} projectMetaPath An absolute path to the project's metadata.
    * @param {string} platform The platform being uploaded.
-   * @return {?Project} The reconstructed project, or null if invalid filepath.
+   * @return {!Project} The reconstructed project.
    */
   constructProject(projectMetaPath, platform) {
     const dataString = fs.readFileSync(projectMetaPath, 'utf8');
@@ -293,17 +293,7 @@ document.onload = function() {
    */
   constructLibrary(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
-    refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
-    refinedString = refinedString.replace(');', '');
-    refinedString = refinedString + ',';
-    let refinedArray = refinedString.split('},');
-    for (let blockString of refinedArray) {
-      if (blockString) {
-        blockString = blockString + '}';
-        // do stuff with json
-      }
-    }
+    let data = JSON.parse(this.processLibraryDataString(dataString));
   }
 
   /**
@@ -320,7 +310,7 @@ document.onload = function() {
    */
   constructToolbox(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    let refinedString = processToolboxDataString(dataString);
   }
 
   /**
@@ -329,7 +319,7 @@ document.onload = function() {
    */
   constructWorkspaceContents(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    let refinedString = processWorkspaceContentsDataString(dataString);
   }
 
   /**
@@ -338,6 +328,59 @@ document.onload = function() {
    */
   constructWorkspaceConfig(path) {
     const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = processWorkspaceConfigDataString(dataString);
+  }
+
+  /**
+   * Processes a string of library metadata so that it can be parsed into JSON.
+   * @param {string} dataString The string of the library's metadata.
+   * @return {string} The refined string, ready to be parsed.
+   */
+  processLibraryDataString(dataString) {
+    let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
+    refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
+    refinedString = refinedString.replace(');', '');
+    refinedString = refinedString + ',';
+    let refinedArray = refinedString.split('},');
+    for (let blockString of refinedArray) {
+      if (blockString) {
+        blockString = blockString + '}';
+      }
+    }
+    return blockString;
+  }
+
+  /**
+   * Processes a string of toolbox metadata to properly extract xml.
+   * @param {string} dataString The string of the toolbox's metadata.
+   * @return {string} The xml string.
+   */
+  processToolboxDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    // grab xml from now uncommented file
+    return '';
+  }
+
+  /**
+   * Processes a string of workspace contents metadata to properly extract xml.
+   * @param {string} dataString The string of the workspace contents metadata.
+   * @return {string} The xml string.
+   */
+  processWorkspaceContentsDataString(dataString) {
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    // grab xml from now uncommented file
+    return '';
+  }
+
+  /**
+   * Processes a string of workspace configuration metadata to extract options.
+   * @param {string} dataString The string of the workspace configuration's metadata.
+   * @return {string} The options string.
+   */
+  processWorkspaceConfigDataString(dataString) {
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    // grab options from now uncommented file
+    return '';
   }
 }
