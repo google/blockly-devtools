@@ -118,24 +118,27 @@ class BlockEditorController {
    * @param {!Event} event Change event in editor workspace.
    */
   onChange(event) {
-    // Save block's changes into BlockDefinition model object.
-    this.updateBlockDefinition();
-    const changeTree = event.type == Blockly.Events.UI;
-    console.log('High level suppress? ' + !changeTree);
-    this.updateBlockName(!changeTree);
-    // Update the block editor view.
-    this.refreshPreviews();
+    const isUI = event.type == Blockly.Events.UI;
+    if (isUI || event.type == Blockly.Events.CREATE) {
+      this.updateBlockName(!isUI);
+      // Save block's changes into BlockDefinition model object.
+      this.updateBlockDefinition();
+      // Update the block editor view.
+      this.refreshPreviews(false);
+    }
     // Disable orphans.
     Blockly.Events.disableOrphans(event);
   }
 
   /**
    * Refreshes previews in view and updates model.
+   * @param {boolean} suppressTreeChange Whether to suppress changes in the
+   *     navtree.
    */
-  refreshPreviews() {
+  refreshPreviews(suppressTreeChange) {
     const format = $('#format').val();
     this.updateBlockDefinitionView_(format);
-    this.updatePreview_();
+    this.updatePreview_(suppressTreeChange);
     this.updateGenerator_();
   }
 
@@ -211,10 +214,14 @@ class BlockEditorController {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     const newName = rootBlock.getFieldValue('NAME');
+    const changedName = currentBlock.name != newName &&
+        this.projectController.getProject().hasBlockDefinition(newName);
     // TODO: Add warning to top block if the name already exists.
-    if (this.projectController.getProject().hasBlockDefinition(newName)) {
-      rootBlock.setWarningText('There is already a block under this name.\n' +
-          'Please rename this block.');
+    if (!suppressTreeChange && changedName) {
+      // TODO: Deselect the currently
+      const oldName = this.projectController.tree.getSelectedName();
+      rootBlock.setFieldValue(oldName, 'NAME');
+      window.alert('There is already a block under this name.');
     } else {
       rootBlock.setWarningText(null);
       this.projectController.renameBlockDefinition(currentBlock,
@@ -262,9 +269,11 @@ class BlockEditorController {
 
   /**
    * Update the preview display.
+   * @param {boolean} suppressTreeChange Whether to suppress reflecting block
+   *     changes in the navtree.
    * @private
    */
-  updatePreview_() {
+  updatePreview_(suppressTreeChange) {
     // REFACTORED: Moved in from factory.js:updatePreview()
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
@@ -286,8 +295,8 @@ class BlockEditorController {
       const blockType = this.view.blockDefinition.type();
       // Render preview block in preview workspace.
       this.renderPreviewBlock_(blockType);
-      // Warn user if block type is invalid.
-      this.maybeWarnUser_(blockType);
+      // Rename block, or warn user if block type is invalid.
+      // this.renameOrWarn_(blockType, suppressTreeChange);
     } finally {
       Blockly.Blocks = backupBlocks;
       this.view.blockDefinition.undefine();
@@ -378,9 +387,11 @@ class BlockEditorController {
    * Warns user if their block type already exists in standard library or if
    * it is otherwise invalid.
    * @param {string} blockType Name of block type rendered in preview.
+   * @param {boolean} suppressTreeChange Whether to suppress reflecting block
+   *     changes in the navtree.
    * @private
    */
-  maybeWarnUser_(blockType) {
+  renameOrWarn_(blockType, suppressTreeChange) {
     // Warn user only if their block type is already exists in Blockly's
     // standard library.
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
@@ -392,8 +403,13 @@ class BlockEditorController {
       // name 'block_type'
       rootBlock.setWarningText('You cannot save a block with the default ' +
           'name, "block_type"');
+    } else if (this.projectController.getProject().hasBlockDefinition(blockType)) {
+      // rootBlock.setWarningText('There is already a block under this name.\n' +
+      //     'Please rename this block.');
     } else {
-      rootBlock.setWarningText(null);
+      // this.projectController.renameBlockDefinition(currentBlock,
+      //     newName, suppressTreeChange);
+      // rootBlock.setWarningText(null);
     }
   }
 

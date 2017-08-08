@@ -95,6 +95,21 @@ class NavigationTree {
   }
 
   /**
+   * Returns the name of the resource associated with the currently selected
+   * node in the navtree.
+   * @return {string} Name of selected resource.
+   */
+  getSelectedName() {
+    const idList = this.getTree().get_selected()[0].split(/_(.+)/);
+    if (idList.length == 1) {
+      console.warn('The retrieved selected node is not a resource node.');
+      return idList[0];
+    } else {
+      return idList[1];
+    }
+  }
+
+  /**
    * Populates the tree and adds its listener.
    */
   makeTree() {
@@ -249,8 +264,10 @@ class NavigationTree {
    * @param {string} newName New text to display in the given node.
    */
   renameNode(id, newName) {
-    const node = $('#navigationTree').jstree().get_node(id);
-    $('#navigationTree').jstree().rename_node(node, newName);
+    const tree = this.getTree();
+    const node = tree.get_node(id);
+    tree.rename_node(node, newName);
+    tree.set_id(node, id.split('_')[0] + '_' + newName);
   }
 
   /**
@@ -343,7 +360,6 @@ class NavigationTree {
     $('#navigationTree').on('select_node.jstree', (e, data) => {
       // Collect id of first selected block.
       const node = $('#navigationTree').jstree('get_selected')[0];
-      //TODO #99: switch tab if necessary
       // Respond to selection.
       this.changeView(node);
     });
