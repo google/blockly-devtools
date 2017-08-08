@@ -293,7 +293,7 @@ document.onload = function() {
    */
   constructLibrary(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let data = JSON.parse(this.processLibraryDataString(dataString));
+    //let data = JSON.parse(this.processLibraryDataString(dataString));
   }
 
   /**
@@ -356,7 +356,7 @@ document.onload = function() {
    */
   processToolboxDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    eval(refinedString);
+    //eval(refinedString);
   }
 
   /**
@@ -366,7 +366,7 @@ document.onload = function() {
    */
   processWorkspaceContentsDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    eval(refinedString);
+    //eval(refinedString);
   }
 
   /**
@@ -376,6 +376,6 @@ document.onload = function() {
    */
   processWorkspaceConfigDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    eval(refinedString);
+    //eval(refinedString);
   }
 }
