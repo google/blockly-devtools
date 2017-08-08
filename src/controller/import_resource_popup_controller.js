@@ -36,7 +36,7 @@ class ImportResourcePopupController extends PopupController {
    * @constructor
    * @param {!AppController} appController AppController for the session.
    * @param {ReadWriteController} readWriteController ReadWriteController for
-   * the session, used to write files.
+   * the session, used to read files.
    * @param {string} resourceType The type of resource to import.
    */
   constructor(appController, readWriteController, resourceType) {

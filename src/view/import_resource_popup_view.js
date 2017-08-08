@@ -33,11 +33,9 @@ goog.require('PopupView');
 class ImportResourcePopupView extends PopupView {
   /**
    * @constructor
-   * @param {!NewBlockPopupController} controller NewBlockPopupController currently
-   *     managing this view.
-   * @param {Array.<string>} divIdList List of html division ids.
-   * @param {string} htmlContents The html contents of the popup, based on the
-   *     current project.
+   * @param {!ImportResourcePopupController} controller ImportResourcePopupController
+   * currently managing this view.
+   * @param {string} htmlContents The html contents of the popup.
    */
   constructor(controller, htmlContents) {
     super(controller);
