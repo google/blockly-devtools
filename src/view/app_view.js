@@ -86,7 +86,7 @@ class AppView {
         ['Open Project', () => { this.openProject(); }],
         ['Save All', () => { this.appController.saveProject(); }],
         ['Import', [
-          ['Project', () => {}],
+          ['Project', () => {this.importProject()}],
           ['Blocks', () => { this.importBlocks(); }],
           ['Library', () => { this.importLibrary(); }],
           ['Toolbox', () => { this.importToolbox(); }],
@@ -213,24 +213,31 @@ class AppView {
   }
 
   /**
+   * Action taken when importing a project.
+   */
+  importProject() {
+    this.appController.readWriteController.importResource(PREFIXES.PROJECT);
+  }
+
+  /**
    * Action taken when importing library.
    */
   importLibrary() {
-    // TODO: Fill in action.
+    this.appController.readWriteController.importResource(PREFIXES.PROJECT);
   }
 
   /**
    * Action taken when importing toolbox.
    */
   importToolbox() {
-    // TODO: Fill in action.
+    this.appController.readWriteController.importResource(PREFIXES.PROJECT);
   }
 
   /**
    * Action taken when importing workspace.
    */
   importWorkspace() {
-    // TODO: Fill in action.
+    this.appController.readWriteController.importResource(PREFIXES.PROJECT);
   }
 
   /**

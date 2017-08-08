@@ -31,5 +31,88 @@ goog.require('PopupView');
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
 class ImportResourcePopupController extends PopupController {
+  /**
+   * @constructor
+   * @param {!AppController} appController AppController for the session.
+   * @param {ReadWriteController} readWriteController ReadWriteController for
+   * the session, used to write files.
+   * @param {string} resourceType The type of resource to import.
+   */
+  constructor(appController, readWriteController, resourceType) {
+    super(appController);
 
+    /**
+     * The ReadWriteController for the session, used to write files.
+     * @type {!ReadWriteController}
+     */
+    this.readWriteController = readWriteController;
+
+    /**
+     * Type of resource to import.
+     * @type {Array<Object>}
+     */
+    this.resourceType = resourceType;
+
+
+    const viewContents = this.ImportPopupContents();
+    /**
+     * The popup view that this popup controller manages.
+     * @type {!SaveProjectPopupView}
+     */
+    this.view = new SaveProjectPopupView(this, this.viewDivIds, viewContents);
+
+    // Listeners in the popup
+    Emitter(this.view);
+    this.view.on('exit', () => {
+      this.exit();
+    });
+
+    this.view.on('submit', () => {
+      // Save location for each division id, or, if no location chosen, set
+      // a default.
+      for (let divId of this.viewDivIds) {
+        this.constructResource()
+    });
+  }
+
+  /**
+   * Generates view, which shows popup to user.
+   */
+  show() {
+    this.view.show();
+  }
+
+  /**
+   * Returns the html contents for the import popup.
+   * @return {string} The html contents for the import popup.
+   */
+  makeImportPopupContents() {
+    let htmlContents = `
+<header align="center">Choose A file to import</header>
+      <input type="file"  id="location"></input>
+      <span id="warning_text">Please select a file.</span><br><br>
+      <input type="button" value="Submit" id="submit">
+`;
+    return htmlContents;
+  }
+
+  /**
+   * Constructs the resource based off of type, assigns defualt name.
+   * @param {string} type The type of the resource.
+   */
+  constructResource(type) {
+    if (type == PREFIXES.BLOCK) {
+      return this.readWriteController.constructBlock(path, 'web');
+    } else if (type == PREFIXES.LIBRARY) {
+      return this.readWriteController.constructLibrary(path, 'web');
+    } else if (type == PREFIXES.TOOLBOX) {
+      return this.readWriteController.constructToolbox(path, 'web');
+    } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
+      return this.readWriteController.constructWorkspaceContents(path, 'web');
+    } else if (type == PREFIXES.WORKSPACE_CONFIG) {
+      return this.readWriteController.constructWorkspaceConfig(path, 'web');
+    } else if (type == PREFIXES.PROJECT) {
+      return this.readWriteController.constructProject(path, 'web');
+    }
+  }
 }

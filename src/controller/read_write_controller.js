@@ -248,6 +248,16 @@ document.onload = function() {
   }
 
   /**
+   * Imports a resource from file.
+   * @param {string} resourcetype The type of resource to import.
+   */
+  importResource(resourceType) {
+    this.importController = new ImportResourcePopupController(this.appController,
+        this, resourceType);
+    this.popupController.show();
+  }
+
+  /**
    * Initialize a Project based off of its metadata.
    * @param {string} projectMetaPath An absolute path to the project's metadata.
    * @param {string} platform The platform being uploaded.
@@ -289,6 +299,16 @@ document.onload = function() {
         // do stuff with json
       }
     }
+  }
+
+  /**
+   * Construct a block based off of its metadata, and add it to the project.
+   * @param {string} toolboxName The name of the toolbox.
+   * @param {string} path The absolute filepath to the toolbox data.
+   */
+  constructBlock(toolboxName, path) {
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
 
   /**
