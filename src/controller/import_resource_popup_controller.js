@@ -95,8 +95,8 @@ class ImportResourcePopupController extends PopupController {
   }
 
   /**
-   * Constructs the resource based off of type, assigns defualt name.
-   * @param {string} type The type of the resource.
+   * Constructs the resource based off of type.
+   * @param {string} path Absolute path to the resource data.
    */
   constructResource(path) {
     if (this.resourceType == PREFIXES.BLOCK) {
