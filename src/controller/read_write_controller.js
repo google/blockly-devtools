@@ -347,7 +347,6 @@ document.onload = function() {
         blockString = blockString + '}';
       }
     }
-    return blockString;
   }
 
   /**
