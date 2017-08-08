@@ -75,7 +75,6 @@ class ImportResourcePopupView extends PopupView {
     $('#submit').click(() => {
       const location = $('#location').val();
       if(location) {
-        console.log(location);
         this.importLocation = location;
         this.hide();
         this.emit('submit');

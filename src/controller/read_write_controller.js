@@ -98,6 +98,7 @@ class ReadWriteController {
     }
     const location = library.webFilepath;
     const filename = this.getDivName(library) + '.js';
+    library.webFilepath = library.webFilepath + path.sep + filename;
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
         blockData + ');  // END JSON EXTRACT (Do not delete this comment.)';
     fs.writeFileSync(location + path.sep + filename, fileData);
@@ -111,6 +112,7 @@ class ReadWriteController {
     let data = this.appController.editorController.toolboxController.generateToolboxJsFile(toolbox);
     const location = toolbox.webFilepath;
     const filename = this.getDivName(toolbox) + '.js';
+    toolbox.webFilepath = toolbox.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -132,6 +134,7 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
 `;
     const location = workspaceContents.webFilepath;
     const filename = this.getDivName(workspaceContents) + '.js';
+    workspaceContents.webFilepath = workspaceContents.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -162,6 +165,7 @@ document.onload = function() {
 `;
     const location = workspaceConfig.webFilepath;
     const filename = this.getDivName(workspaceConfig) + '.js';
+    workspaceConfig.webFilepath = workspaceConfig.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -271,13 +275,13 @@ document.onload = function() {
     let project = new Project(data.name);
     for (let resource of data.resources) {
       if (resource.resourceType == PREFIXES.LIBRARY) {
-        this.constructLibrary(resource.name, resource[platform].filepath);
+        this.constructLibrary(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.TOOLBOX) {
-        this.constructToolbox(resource.name, resource[platform].filepath);
+        this.constructToolbox(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
-          this.constructWorkspaceContents(resource.name, resource[platform].filepath);
+          this.constructWorkspaceContents(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONFIG) {
-          this.constructWorkspaceConfig(resource.name, resource[platform].filepath);
+          this.constructWorkspaceConfig(resource[platform].filepath);
       }
     }
     return project;
@@ -285,9 +289,10 @@ document.onload = function() {
 
   /**
    * Construct a library based off of its metadata, and add it to the project.
-   * @param {string} dataString A string of the library data.
+   * @param {string} path The absolute filepath to the library data.
    */
-  constructLibrary(dataString) {
+  constructLibrary(path) {
+    const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
     refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
     refinedString = refinedString.replace(');', '');
@@ -303,38 +308,35 @@ document.onload = function() {
 
   /**
    * Construct a block based off of its metadata, and add it to the project.
-   * @param {string} blockType The type of block.
    * @param {string} path The absolute filepath to the block data.
    */
-  constructBlock(blockType, path) {
+  constructBlock(path) {
     throw 'unimplemented: constructBlock';
   }
 
   /**
    * Construct a toolbox based off of its metadata, and add it to the project.
-   * @param {string} toolboxName The name of the toolbox.
    * @param {string} path The absolute filepath to the toolbox data.
    */
-  constructToolbox(toolboxName, path) {
+  constructToolbox(path) {
+    const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
 
   /**
    * Construct workspace contents based off of metadata and add to project.
-   * @param {string} contentsName The name of the workspace contents.
    * @param {string} path The absolute filepath to the workspace contents data.
    */
-  constructWorkspaceContents(contentsName, path) {
+  constructWorkspaceContents(path) {
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
 
   /**
    * Construct a workspace configuration based off of metadata and add to project.
-   * @param {string} workspaceConfigName The name of the workspace configuration.
    * @param {string} path The absolute filepath to the workspace config's data.
    */
-  constructWorkspaceConfig(workspaceConfigName, path) {
+  constructWorkspaceConfig(path) {
     const dataString = fs.readFileSync(path, 'utf8');
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
