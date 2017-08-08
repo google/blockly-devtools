@@ -37,7 +37,8 @@ class SaveProjectPopupController extends PopupController {
    * @param {!AppController} appController AppController for the session.
    * @param {ReadWriteController} readWriteController ReadWriteController for
    * the session, used to write files.
-   * @param {Array.<Object>} toWrite Array of project elements to be written.
+   * @param {Array<Object>} toWrite Array of project elements to be written.
+   * TODO #205: Pass in list of platforms ids (strings) for this save/export pass.
    */
   constructor(appController, readWriteController, toWrite) {
     super(appController);
@@ -50,7 +51,7 @@ class SaveProjectPopupController extends PopupController {
 
     /**
      * Array of project elements to be written.
-     * @type {Array.<Object>}
+     * @type {Array<Object>}
      */
     this.toWrite = toWrite;
 
@@ -59,7 +60,7 @@ class SaveProjectPopupController extends PopupController {
      * and update the ReadWriteController's directory map with the appropriate
      * keys.
      * Filled in by this.makeProjectPopupContents().
-     * @type {Array.<string>}
+     * @type {Array<string>}
      */
     this.viewDivIds = [];
 
@@ -123,7 +124,7 @@ class SaveProjectPopupController extends PopupController {
       <input type="file" nwdirectory id=
 `;
     htmlContents = htmlContents + divName + '></input>' +
-      '<span id="warning_text"></span><br><br>' +
+      '<span id="warning_text">Please select a project directory.</span><br><br>' +
           '<h3>Project Resources </h3><span>(default location is in the same ' +
             'directory as the project)</span><div id="projectResources">';
     this.viewDivIds.push(divName);

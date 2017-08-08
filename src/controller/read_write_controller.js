@@ -95,7 +95,6 @@ class ReadWriteController {
       blockData.push(item);
     }
     const location = library.webFilepath;
-    console.log(location);
     const filename = this.getDivName(library) + '.js';
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
         blockData + ');';
@@ -122,9 +121,9 @@ class ReadWriteController {
     let xml = Blockly.Xml.domToPrettyText(workspaceContents.xml);
     var xmlStorageVariable = 'WORKSPACE_CONTENTS_XML';
     let data = `
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 var ${xmlStorageVariable} = ${xmlStorageVariable} || null;
 
-/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 ${xmlStorageVariable}['${workspaceContents.name}'] =
     ${FactoryUtils.concatenateXmlString(xml)};
 /* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
@@ -147,9 +146,9 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
     }
 
     var data = `
+/* BEGINNING BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);
 
-/* BEGINNING BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 BLOCKLY_OPTIONS['${workspaceConfig.name}'] = attributes;
 /* END BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. */
 
@@ -203,6 +202,7 @@ document.onload = function() {
 
   /**
    * Save the project's metadata file.
+   * TODO #205:  Pass in list of platforms ids (strings) for this save/export pass.
    */
   saveProjectMetadataFile() {
     const project = this.appController.project;

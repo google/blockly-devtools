@@ -57,6 +57,8 @@ class SaveProjectPopupView extends PopupView {
     // Stores HTML to display new block popup.
     super.injectPopupContents(this.htmlContents);
 
+    this.showWarning(false);
+
     this.initListeners_();
 
     /**
@@ -106,9 +108,9 @@ class SaveProjectPopupView extends PopupView {
    */
   showWarning(show) {
     if (show) {
-      $('#warning_text').html('Please select a project directory.');
+      $('#warning_text').css('display', 'block');
     } else {
-      $('#warning_text').html('');
+      $('#warning_text').css('display', 'none');
     }
   }
 }
