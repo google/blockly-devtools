@@ -292,7 +292,7 @@ document.onload = function() {
    */
   constructLibrary(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let data = JSON.parse(this.processLibraryDataString(dataString));
+    //let data = JSON.parse(this.processLibraryDataString(dataString));
   }
 
   /**
@@ -346,7 +346,6 @@ document.onload = function() {
         blockString = blockString + '}';
       }
     }
-    return blockString;
   }
 
   /**
@@ -356,8 +355,7 @@ document.onload = function() {
    */
   processToolboxDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    // grab xml from now uncommented file
-    return '';
+    //eval(refinedString);
   }
 
   /**
@@ -367,8 +365,7 @@ document.onload = function() {
    */
   processWorkspaceContentsDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    // grab xml from now uncommented file
-    return '';
+    //eval(refinedString);
   }
 
   /**
@@ -378,7 +375,6 @@ document.onload = function() {
    */
   processWorkspaceConfigDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    // grab options from now uncommented file
-    return '';
+    //eval(refinedString);
   }
 }
