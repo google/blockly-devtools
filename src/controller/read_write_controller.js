@@ -81,35 +81,22 @@ class ReadWriteController {
   }
 
   /**
-   * Creates and returns the data for saving a block definition.
-   * @param {!BlockDefinition} block The block to create data for.
-   * @return The data for the block.
-   */
-  makeBlockData(block) {
-    let data = Object.create(null);
-    data.resourceType = PREFIXES.BLOCK;
-    data.blockType = block.type();
-    data.xml = block.xml;
-    data.json = block.json;
-    return data;
-  }
-
-  /**
    * Saves a library to the developer's file system.
    * @param {!BlockLibrary} library the block library to be saved.
    */
   saveLibrary(library) {
-    let data = Object.create(null);
-    data.resourceType = PREFIXES.LIBRARY;
-    data.name = library.name;
-    data.blocks = [];
+    let blockData = [];
     for (let blockType of library.getBlockTypes()) {
-      data.blocks.push(this.makeBlockData(library.getBlockDefinition(blockType)));
+      // Issue #190
+      let block = library.getBlockDefinition(blockType);
+      let item = '\n\n\t// BlockType: ' + block.type() + '\n' + block.json;
+      blockData.push(item);
     }
-    data = JSON.stringify(data, null, '\t');
     const location = this.directoryMap.get(this.getDivName(library));
     const filename = this.getDivName(library) + '_metadata';
-    fs.writeFileSync(location + path.sep + filename, data);
+    let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
+        blockData + ');';
+    fs.writeFileSync(location + path.sep + filename, fileData);
   }
 
   /**
@@ -129,10 +116,18 @@ class ReadWriteController {
    *     saved.
    */
   saveWorkspaceContents(workspaceContents) {
-    let data = Blockly.Xml.domToPrettyText(workspaceContents.xml);
+    let xml = Blockly.Xml.domToPrettyText(workspaceContents.xml);
+    var xmlStorageVariable = 'WORKSPACE_CONTENTS_XML';
+    let data = `
+var ${xmlStorageVariable} = ${xmlStorageVariable} || null;
+
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
+${xmlStorageVariable}['${workspaceContents.name}'] =
+    ${FactoryUtils.concatenateXmlString(xml)};
+/* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */
+`;
     const location = this.directoryMap.get(this.getDivName(workspaceContents));
     const filename = this.getDivName(workspaceContents) + '_metadata';
-    data = JSON.stringify(data, null, '\t');
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
