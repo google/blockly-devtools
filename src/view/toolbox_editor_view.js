@@ -128,7 +128,6 @@ class ToolboxEditorView {
     this.upButton.disabled = true;
     this.downButton.disabled = true;
     this.editButton.disabled = true;
-    this.refreshToolboxInfo();
 
     /**
      * ID of currently open modal (dropdowns, etc.) in the toolbox editor view.
@@ -416,7 +415,8 @@ class ToolboxEditorView {
    * Removes all categories and separators in the view.
    */
   clearElements() {
-    if (this.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
+    if (this.toolbox &&
+        this.toolbox.getSelected().type == ListElement.TYPE_FLYOUT) {
       return;
     }
     const oldCategoryTable = document.getElementById('categoryTable');

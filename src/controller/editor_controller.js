@@ -95,10 +95,12 @@ class EditorController {
       this.currentEditor.refreshPreviews();
     } else if (editor instanceof ToolboxController) {
       this.currentEditor.loadToolbox(this.currentEditor.view.toolbox);
+      this.currentEditor.setResource(this.currentEditor.view.toolbox);
       this.currentEditor.updateEditorToolbox();
     } else if (editor instanceof WorkspaceController) {
-      this.currentEditor.loadContents(this.currentEditor.view.workspaceContents);
-      this.currentEditor.loadConfig(this.currentEditor.view.workspaceContents.config);
+      this.currentEditor.loadContents(this.currentEditor.view.getWorkspaceContents());
+      this.currentEditor.loadConfig(this.currentEditor.view.getWorkspaceContents().config);
+      this.currentEditor.setResource(this.currentEditor.view.getWorkspaceContents());
       this.currentEditor.updateEditorToolbox();
     }
   }

@@ -264,6 +264,32 @@ class AppController {
     this.editorController = new EditorController(this.projectController,
         this.hiddenWorkspace);
     this.view = new AppView(this);
+
+    // Registers event listener which populates tree with project resources
+    // when the tree is fully loaded. Event can only be registered after
+    // project controller is created because populateTree() references the
+    // project controller.
+    this.tree.ready(() => {
+      // TODO(#200): Populate project model before simply refreshing tree.
+      this.populateTree();
+    });
+  }
+
+  /**
+   * Populates navtree with sample resources.
+   */
+  populateTree() {
+    // TODO(#200): Add resources to project before loading navtree, then refresh
+    // navtree after first loaded.
+    const projController = this.projectController;
+    if (projController.getProject().librarySet.resources['MyFirstBlockLibrary']) {
+      return;
+    }
+    projController.createToolbox('MyFirstToolbox');
+    projController.createWorkspaceContents('MyFirstWorkspace');
+    projController.createBlockLibrary('MyFirstBlockLibrary');
+    this.editorController.blockEditorController.createNewBlock(
+        '', 'myFirstBlock', 'MyFirstBlockLibrary', 'My Block');
   }
 
   /**
