@@ -1,0 +1,19 @@
+{
+	"name": "MyProject",
+	"resourceType": "Project",
+	"web": {
+		"filepath": "",
+		"export": true
+	},
+	"resources": [
+		{
+			"name": "MyFirstToolbox",
+			"resourceType": "Toolbox",
+			"web": {
+				"filepath": "",
+				"export": true
+			}
+		}
+	],
+	"platform": "web"
+}
