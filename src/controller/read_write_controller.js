@@ -206,16 +206,6 @@ document.onload = function() {
   }
 
   /**
-   * Returns an HTML division (based on the save project popup) name for a given
-   * resource. Used in directory map keys.
-   * @param {!Resource} resource The resource to get the division name for.
-   * @return {string} HTML division name for the resource.
-   */
-  getDivName(resource) {
-    return resource.resourceType + '_' + resource.name;
-  }
-
-  /**
    * Save the project's metadata file.
    */
   // TODO #205:  Pass in list of platforms ids (strings) for this save/export pass.
