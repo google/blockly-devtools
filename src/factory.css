@@ -615,7 +615,5 @@ td.taboff:hover {
 /* Save Project Popup */
 
 #projectResources {
-  border-style: solid;
-  border-width : 1px;
-  border-color: #e0e0e0;
+  border: solid 1px #e0e0e0
 }

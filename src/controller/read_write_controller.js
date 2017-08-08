@@ -97,7 +97,7 @@ class ReadWriteController {
     const location = library.webFilepath;
     const filename = this.getDivName(library) + '.js';
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
-        blockData + ');';
+        blockData + ');  // END JSON EXTRACT (Do not delete this comment.)';
     fs.writeFileSync(location + path.sep + filename, fileData);
   }
 
@@ -149,7 +149,7 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
 /* BEGINNING BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);
 
-BLOCKLY_OPTIONS['${workspaceConfig.name}'] = attributes;
+BLOCKLY_OPTIONS['${workspaceConfig.name}'] = ${attributes};
 /* END BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. */
 
 document.onload = function() {
