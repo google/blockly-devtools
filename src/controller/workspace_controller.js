@@ -157,7 +157,7 @@ class WorkspaceController extends ShadowController {
    * Saves blocks on editor workspace into the WorkspaceContents model.
    */
   saveStateFromWorkspace() {
-    this.view.getWorkspaceContents.setXml(this.generateContentsXml());
+    this.view.getWorkspaceContents().setXml(this.generateContentsXml());
   }
 
   /**
