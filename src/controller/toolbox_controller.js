@@ -50,7 +50,7 @@ class ToolboxController extends ShadowController {
      * ToolboxEditorView associated with this instance of ToolboxController.
      * @type {!ToolboxEditorView}
      */
-    this.view = new ToolboxEditorView(toolbox);
+    this.view = new ToolboxEditorView(null);
 
     /**
      * Keeps track of association between ListElement ID and the DOM element
@@ -68,9 +68,6 @@ class ToolboxController extends ShadowController {
 
     // Sets current resource for shadow block class.
     this.setResource(this.view.toolbox);
-
-    // Adds current toolbox to model.
-    this.projectController.addToolbox(this.view.toolbox);
 
     // Initialize event handlers and listeners for the view.
     this.view.init(this);

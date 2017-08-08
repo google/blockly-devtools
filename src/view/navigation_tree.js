@@ -104,6 +104,16 @@ class NavigationTree {
   }
 
   /**
+   * Wrapper event handler for jstree on ready event.
+   * @param {function} Function to execute when jstree is finished loading.
+   */
+  ready(onReady) {
+    $('#navigationTree').on('ready.jstree', () => {
+      onReady();
+    });
+  }
+
+  /**
    * Adds a block to the tree.
    * @param {string} blockType The name of the block to be added.
    * @param {string} libraryName The name of the library to add it under.
@@ -299,7 +309,8 @@ class NavigationTree {
     const name = nodeInfo[1];
 
     if (!name) {
-      throw 'Name of resource associated with node element is null or empty.';
+      throw 'Name of resource associated with node element is null or empty. ID' +
+          ' was ' + id + '.';
     }
 
     if (prefix === PREFIXES.LIBRARY) {
