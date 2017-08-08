@@ -270,6 +270,7 @@ class AppController {
     // project controller is created because populateTree() references the
     // project controller.
     this.tree.ready(() => {
+      // TODO(#200): Populate project model before simply refreshing tree.
       this.populateTree();
     });
   }
@@ -278,7 +279,8 @@ class AppController {
    * Populates navtree with sample resources.
    */
   populateTree() {
-    // TODO(#200): Add resources to project before loading navtree.
+    // TODO(#200): Add resources to project before loading navtree, then refresh
+    // navtree after first loaded.
     const projController = this.projectController;
     if (projController.getProject().librarySet.resources['MyFirstBlockLibrary']) {
       return;
