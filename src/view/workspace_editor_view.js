@@ -45,14 +45,15 @@ class WorkspaceEditorView {
     /**
      * WorkspaceContents associated with this instance of WorkspaceView.
      * @type {!WorkspaceContents}
+     * @private
      */
-    this.workspaceContents = workspaceContents;
+    this.workspaceContents_ = workspaceContents;
 
     /**
      * WorkspaceConfig associated with this instance of WorkspaceView.
      * @type {!WorkspaceConfig}
      */
-    this.workspaceConfig = workspaceConfig;
+    // this.workspaceConfig = workspaceConfig;
 
     /**
      * JQuery container of workspace editor view.
@@ -118,6 +119,20 @@ class WorkspaceEditorView {
   }
 
   /**
+   * Returns the current workspace contents being edited.
+   * @return {!WorkspaceContents} WorkspaceContents object shown in editor view.
+   * @throws {Error} If WorkspaceContents object is null.
+   */
+  getWorkspaceContents() {
+    if (!this.workspaceContents_) {
+      throw new Error(
+          'Trying to get WorkspaceContents object, but is null or undefined.');
+      return;
+    }
+    return this.workspaceContents_;
+  }
+
+  /**
    * Removes contents of this editor view from application view. Used when switching
    * editors.
    */
@@ -152,10 +167,11 @@ class WorkspaceEditorView {
     Blockly.svgResize(this.previewWorkspace);
 
     if (!wsElement) {
+      throw 'Workspace element is null or undefined.';
       return;
     } else if (wsElement instanceof WorkspaceContents) {
       this.editorWorkspace.clear();
-      this.workspaceContents = wsElement;
+      this.workspaceContents_ = wsElement;
       this.refreshWorkspaceInfo();
       this.selectedBlock = null;
     } else if (wsElement instanceof WorkspaceConfiguration) {
@@ -228,13 +244,13 @@ class WorkspaceEditorView {
     });
 
     $('#dropdown_exportWContentsXML').click(() => {
-      controller.export(this.workspaceContents, ProjectController.TYPE_XML);
+      controller.export(this.getWorkspaceContents(), ProjectController.TYPE_XML);
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
     });
 
     $('#dropdown_exportWContentsJS').click(() => {
-      controller.export(this.workspaceContents, ProjectController.TYPE_JS);
+      controller.export(this.getWorkspaceContents(), ProjectController.TYPE_JS);
       FactoryUtils.closeModal(this.openModal_);
       this.openModal_ = null;
     });
@@ -415,7 +431,9 @@ class WorkspaceEditorView {
    * model object.
    */
   refreshWorkspaceInfo() {
-    $('#currentWorkspace').text(this.workspaceContents.name);
+    if (!this.getWorkspaceContents()) {
+      $('#currentWorkspace').text(this.getWorkspaceContents().name);
+    }
   }
 }
 

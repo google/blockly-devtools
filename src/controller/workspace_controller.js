@@ -76,7 +76,7 @@ class WorkspaceController extends ShadowController {
    */
   generateContentsXml() {
     const xmlDom = goog.dom.createDom('xml');
-    xmlDom.setAttribute('id', this.view.workspaceContents.name);
+    xmlDom.setAttribute('id', this.view.getWorkspaceContents().name);
     xmlDom.setAttribute('style', 'display: none');
 
     const xml = Blockly.Xml.workspaceToDom(this.view.editorWorkspace);
@@ -95,12 +95,12 @@ class WorkspaceController extends ShadowController {
   reinjectPreview() {
     // From wfactory_controller.js:reinjectPreview(tree)
     this.view.previewWorkspace.dispose();
-    const injectOptions = this.view.workspaceContents.config.options;
+    const injectOptions = this.view.getWorkspaceContents().config.options;
     injectOptions['toolbox'] = '<xml></xml>';
 
     this.view.previewWorkspace = Blockly.inject('workspacePreview', injectOptions);
     Blockly.Xml.domToWorkspace(
-        this.view.workspaceContents.getExportData(), this.view.previewWorkspace);
+        this.view.getWorkspaceContents().getExportData(), this.view.previewWorkspace);
   }
 
   /**
@@ -157,7 +157,7 @@ class WorkspaceController extends ShadowController {
    * Saves blocks on editor workspace into the WorkspaceContents model.
    */
   saveStateFromWorkspace() {
-    this.view.workspaceContents.setXml(this.generateContentsXml());
+    this.view.getWorkspaceContents.setXml(this.generateContentsXml());
   }
 
   /**
@@ -184,7 +184,7 @@ class WorkspaceController extends ShadowController {
   updatePreview() {
     // From wfactory_controller.js:updatePreview()
     this.view.previewWorkspace.clear();
-    Blockly.Xml.domToWorkspace(this.view.workspaceContents.getExportData(),
+    Blockly.Xml.domToWorkspace(this.view.getWorkspaceContents().getExportData(),
         this.view.previewWorkspace);
   }
 
@@ -212,9 +212,11 @@ class WorkspaceController extends ShadowController {
    */
   loadContents(wsContents) {
     if (!wsContents) {
-      throw 'Cannot load an undefined or null WorkspaceContents onto editor workspace.';
+      console.warn(
+          'Cannot load an undefined or null WorkspaceContents onto workspace.');
+      return;
     }
-    Blockly.Xml.domToWorkspace(this.view.workspaceContents.getExportData(),
+    Blockly.Xml.domToWorkspace(this.view.getWorkspaceContents().getExportData(),
         this.view.editorWorkspace);
     this.view.editorWorkspace.cleanUp();
     this.updatePreview();
@@ -225,6 +227,11 @@ class WorkspaceController extends ShadowController {
    * @param {!WorkspaceConfiguration} wsConfig WorkspaceConfiguration to load.
    */
   loadConfig(wsConfig) {
+    if (!wsConfig) {
+      console.warn(
+          'Cannot load undefined or null WorkspaceConfiguration onto workspace.');
+      return;
+    }
     const options = wsConfig ? wsConfig.options : Object.create(null);
     this.writeOptions_(options);
     this.updateOptions();
@@ -307,7 +314,7 @@ class WorkspaceController extends ShadowController {
   updateOptions() {
     // From wfactory_controller.js:generateNewOptions()
     // TODO (#141): Add popup for workspace config.
-    this.view.workspaceContents.config.setOptions(this.readOptions_());
+    this.view.getWorkspaceContents().config.setOptions(this.readOptions_());
     this.reinjectPreview();
   }
 
@@ -547,7 +554,7 @@ class WorkspaceController extends ShadowController {
           Blockly.Xml.domToPrettyText(resource.getExportData()));
 
       if (opt_type == ProjectController.TYPE_JS) {
-        fileContents = FactoryUtils.generateXmlAsJsFile(this.view.workspaceContents,
+        fileContents = FactoryUtils.generateXmlAsJsFile(this.view.getWorkspaceContents(),
             PREFIXES.WORKSPACE_CONTENTS.toUpperCase());
       }
     } else if (resource instanceof WorkspaceConfiguration) {
