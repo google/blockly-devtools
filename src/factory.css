@@ -626,17 +626,3 @@ td.taboff:hover {
 #projectResources {
   border: solid 1px #e0e0e0
 }
-
-/*
-li.jstree-node[id^=Block_] i.jstree-icon {
-    background-image: url("../media/ic_block.png");
-}
-
-li.jstree-node[id^=Toolbox_] i.jstree-icon {
-    background-image: url("../media/ic_toolbox.png");
-}
-
-li.jstree-node[id^=WorkspaceContents_] i.jstree-icon {
-    background-image: url("../media/ic_workspace.png");
-}
-*/

@@ -82,7 +82,7 @@ class NavigationTree {
           }
         }
       },
-      // TODO: Make icon 24px and reference via CSS class.
+      // TODO: Make icons 24px and reference via CSS class.
       'types': {
         'Block' : {
           'icon' : '../media/ic_block.png'
