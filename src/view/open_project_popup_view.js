@@ -25,8 +25,8 @@ goog.provide('OpenProjectPopupView');
 goog.require('PopupView');
 
 /**
- * @fileoverview OpenProjectPopupView deals with the UI for importing resources
- * from data files.
+ * @fileoverview OpenProjectPopupView deals with the UI for opening previously
+ * saved projects.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
