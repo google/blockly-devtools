@@ -125,7 +125,7 @@ class ReadWriteController {
     var xmlStorageVariable = 'WORKSPACE_CONTENTS_XML';
     let data = `
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
-var ${xmlStorageVariable} = ${xmlStorageVariable} || null;
+var ${xmlStorageVariable} = ${xmlStorageVariable} || Object.create(null);
 
 ${xmlStorageVariable}['${workspaceContents.name}'] =
     ${FactoryUtils.concatenateXmlString(xml)};
@@ -354,6 +354,7 @@ document.onload = function() {
    */
   processToolboxDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    eval(refinedString);
   }
 
   /**
@@ -363,6 +364,7 @@ document.onload = function() {
    */
   processWorkspaceContentsDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    eval(refinedString);
   }
 
   /**
@@ -372,5 +374,6 @@ document.onload = function() {
    */
   processWorkspaceConfigDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    eval(refinedString);
   }
 }
