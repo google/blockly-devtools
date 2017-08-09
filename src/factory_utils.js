@@ -66,6 +66,7 @@ FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
  * @param {!Blockly.Block} rootBlock The root block displayed on editor workspace.
  * @param {!Blockly.Workspace} workspace Where the root block is from.
  * @return {string} Block definition.
+ * @private
  */
 FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock, workspace) {
   const blockType = rootBlock.getFieldValue('NAME');

@@ -239,7 +239,7 @@ class AppView {
    * Action taken when creating sample Blockly web application.
    */
   createWeb() {
-    // TODO: Fill in action.
+    this.appController.saveSampleApplication();
   }
 
   /**

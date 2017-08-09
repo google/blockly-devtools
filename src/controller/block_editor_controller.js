@@ -452,10 +452,6 @@ class BlockEditorController {
     /**
      * TODO: Move in from app_controller.js
      *          Also from app_controller.js:formatBlockLibraryForExport_(blockXmlMap)
-     *
-     * References:
-     * - formatBlockLibraryForExport_()
-     * - FactoryUtils.createAndDownloadFile()
      */
 
     // TODO(#87): Remove XML's from block library import/export. Download block
@@ -463,6 +459,31 @@ class BlockEditorController {
     //            importing.
 
     throw 'Unimplemented: exportBlockLibraryToFile()';
+  }
+
+  /**
+   * Returns JavaScript scripts necessary for loading block definitions of all
+   * user-defined blocks within the project.
+   * @return {string} JavaScript block definitions of blocks within the project.
+   */
+  getLibraryJsFile() {
+    let fileContents = '';
+    const allBlocks = this.projectController.getProject().
+        librarySet.getAllBlockDefinitionsMap();
+    for (let blockName in allBlocks) {
+      const block = allBlocks[blockName];
+      fileContents += '// Block definition: ' + blockName;
+      fileContents += `
+Blockly.Blocks['${blockName}'] = {
+  init: function() {
+    var blockJson = ${block.json};
+    this.jsonInit(blockJson);
+  }
+};
+`;
+      fileContents += '\n';
+    }
+    return fileContents;
   }
 
   /**
