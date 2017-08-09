@@ -87,16 +87,18 @@ class NewBlockPopupController extends PopupController {
     const isDefault = input == 'block_type';
     if (isEmpty) {
       this.view.showWarning(false);
-      this.view.setEnable(false);
+      this.view.setEnabled(false);
     } else if (isDuplicate) {
       this.view.showWarning(isDuplicate, `This block name is already taken in
           this project.`);
+      this.view.setEnabled(false);
     } else if (isDefault) {
       this.view.showWarning(isDefault, `Please enter something other than <i>block_type</i>.
           No block can be named the default block name.`);
+      this.view.setEnabled(false);
     } else {
       this.view.showWarning(false);
-      this.view.setEnable(true);
+      this.view.setEnabled(true);
     }
   }
 

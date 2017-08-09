@@ -53,6 +53,16 @@ class BlockLibrarySet extends ResourceSet {
   }
 
   /**
+   * Returns a map of all block types in a named library to their definitions.
+   * @param {string} libraryName The name of the library to get the map from.
+   * @return {!Object<string, BlockDefinition>} Map of the library's block types
+   *     to their definitions.
+   */
+  getBlockDefinitionMap(libraryName) {
+    return this.resources[libraryName].blocks;
+  }
+
+  /**
    * Returns whether or not a named block is in the library set.
    * @param {string} blockType The name of the block to be found.
    * @return {boolean} Whether or not it's in the set.
@@ -73,6 +83,22 @@ class BlockLibrarySet extends ResourceSet {
       }
     }
     return null;
+  }
+
+  /**
+   * Renames block definition within the project. If the old name and the new
+   * name are the same, does nothing.
+   * @param {string} oldName Name of BlockDefinition to change.
+   * @param {string} newName New name of BlockDefinition.
+   */
+  renameBlock(oldName, newName) {
+    if (oldName == newName) {
+      return;
+    }
+    const lib = this.getLibrary(oldName);
+    lib.blocks[newName] = lib.blocks[oldName];
+    delete lib.blocks[oldName];
+    lib.blocks[newName].setName(newName);
   }
 
   /**
