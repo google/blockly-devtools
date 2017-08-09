@@ -282,7 +282,7 @@ document.onload = function() {
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONFIG) {
           this.constructWorkspaceConfig(resource[platform].filepath);
       } else {
-        throw 'invalid resource type: ' + resource.resourceType;
+          throw 'invalid resource type: ' + resource.resourceType;
       }
     }
     return project;
