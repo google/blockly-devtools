@@ -280,138 +280,6 @@ button, .buttonStyle {
   width: 100%;
 }
 
-/* Exporter */
-
-#blockLibraryExporter {
-  clear: both;
-  display: none;
-  height: 90%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
-#exportSelector {
-  display: inline-block;
-  float: left;
-  height: 70%;
-  width: 30%;
-}
-
-#exportSettings {
-  float: left;
-  overflow: hidden;
-  padding-left: 16px;
-  width: 20%;
-}
-
-#selectedBlocksTextContainer {
-  max-height: 200px;
-  overflow-y: scroll;
-  padding-bottom: 2em;
-}
-
-::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 7px;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background-color: #ccc;
-  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-}
-
-.subsettings {
-  margin: 0px 25px;
-}
-
-#exporterHiddenWorkspace {
- display: none;
-}
-
-#exportPreview {
-  float: right;
-  height: 90%;
-  overflow: hidden;
-  width: 45%;
-}
-
-.exportPreviewTextArea {
-  display: block;
-  float: right;
-  height: 40%;
-  width: 100%;
-}
-
-#genStubs_textArea, #blockDefs_textArea {
-  display: block;
-  height: 80%;
-  margin-right: 20px;
-  max-height: 300px;
-  overflow: scroll;
-  position: static;
-}
-
-#blockDefs_label, #genStubs_label {
-  display: block;
-}
-
-#blockSelector {
-  background-color: #eee;
-  border: 1px solid lightgrey;
-  width: 80%;
-  height: 90%;
-  overflow-y: scroll;
-  position: relative;
-}
-
-/* Exporter Block Option */
-
-.blockOption {
-  background-color: #eee;
-  padding: 0px 20px;
-  width: 95%;
-}
-
-.blockOption_check_label {
-  position: relative;
-}
-
-.blockOption_check {
-  float: left;
-  display:inline;
-  padding: 4px;
-}
-
-.blockOption_label {
-  display:inline;
-  max-width: inherit;
-  word-wrap: break-word;
-}
-
-.blockOption_preview {
-  height: 100px;
-  padding-top: 10px;
-  width: 90%;
-}
-
-/* Block Library */
-
-#button_blockLib {
-  border-color: darkgrey;
-  font-size: large;
-}
-
-.button_alert {
-  background-color: #fcc;
-  border-color: #f99;
-}
-
-.button_warn {
-  background-color: #aea;
-  border-color: #5d5;
-}
-
 /* Tabs */
 
 .tab {
@@ -742,4 +610,10 @@ td.taboff:hover {
 
 .red {
   color:red;
+}
+
+/* Save Project Popup */
+
+#projectResources {
+  border: solid 1px #e0e0e0
 }

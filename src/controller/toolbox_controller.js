@@ -1040,9 +1040,9 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
 
     // XML ASSIGNMENT STRING (not to be executed)
     let jsFromXml = `
+/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 var ${xmlStorageVariable} = ${xmlStorageVariable} || null;
 
-/* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 ${xmlStorageVariable}['${toolbox.name}'] =
     ${FactoryUtils.concatenateXmlString(xml)};
 /* END ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. */

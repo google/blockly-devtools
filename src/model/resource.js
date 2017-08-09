@@ -46,13 +46,19 @@ class Resource {
      * @type {string}
      */
     this.resourceType = resourceType;
+
+    /**
+     * Filepath leading to the resource's saved data for web export.
+     * @type {string}
+     */
+    this.webFilepath = '';
   }
 
   /**
    * Reads the resource from local storage.
    */
   loadFromLocalStorage() {
-    throw 'abstract method: loadFromLocalStorage';
+    localStorage.getItem(this.resourceType + '_' + this.name);
   }
 
   /**
@@ -94,7 +100,6 @@ class Resource {
   /**
    * Modifies the JSON object that comprises the resource's metadata.
    * @param {!Object} obj Object to extend with necessary data.
-   * @return {!Object} The resource metadata.
    */
   buildMetadata(obj) {
     obj.name = this.name;
@@ -104,13 +109,9 @@ class Resource {
      * buildMetadata. If no filepath has been assigned, or the web attribute is
      * missing, the buildMetadata will create these fields.
      */
-    if (!obj.web) {
-      obj.web = {
-        filepath: ''
-      };
-    } else if (!obj.web.filepath) {
-        obj.web.filepath = '';
-      }
-    obj.web.export = true;
+    obj.web = {
+      export: true,
+      filepath: this.webFilepath
+    };
   }
 }

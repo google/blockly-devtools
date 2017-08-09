@@ -305,7 +305,7 @@ class Project extends Resource {
    */
   buildMetadata(obj) {
     super.buildMetadata(obj);
-    delete obj.file;
+    delete obj.web;
     obj.resources = this.getFullResourceList();
     obj.platform = 'web';
   }

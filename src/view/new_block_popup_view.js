@@ -61,15 +61,7 @@ class NewBlockPopupView extends NewResourcePopupView {
   <button type="submit" class="create" id="submit_block" style="float: right" disabled="disabled">Create Block</button>
 </form>
 <br>
-<!-- TODO(#28): Replace with uneditable Blockly workspace --
-<hr>
-<h3>Examples</h3>
-Statement input:<br>
-<img src="media/input_statement.png" width="30%" height="auto"/><br>
-Value input:<br>
-<img src="media/input_value.png" width="30%" height="auto"/><br>
-Dummy input:<br>
-<img src="media/input_dummy.png" width="30%" height="auto"/><br-->
+<!-- TODO(#28): Replace with uneditable Blockly workspace -->
 `;
 
     // Stores HTML to display new block popup.
