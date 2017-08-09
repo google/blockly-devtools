@@ -307,57 +307,24 @@ class BlockEditorView {
  */
 BlockEditorView.html = `
 <!-- Blockly Factory Tab -->
-<table>
-  <tr width="100%" height="10%">
-    <td width="50%" height="5%">
-      <table>
-        <tr id="blockLibrary">
-          <td id="blockLibraryControls">
-          <button id="createNewBlockButton" class="create" title="Create Block.">
-            Create Block
-          </button>
-          </td>
-        </tr>
-      </table>
-    </td>
-    <td height="5%">
-      <table id="blockFactoryPreview">
-        <tr>
-          <td id="previewContainer">
-            <h3>Preview:
-              <select id="direction">
-                <option value="ltr">LTR</option>
-                <option value="rtl">RTL</option>
-              </select>
-            </h3>
-          </td>
-          <td id="buttonContainer">
-            <button id="linkButton" title="Save and link to blocks.">
-              <img src="media/link.png" height="21" width="21">
-            </button>
-            <button id="clearBlockLibraryButton" title="Clear Block Library.">
-              <span>Clear Library</span>
-            </button>
-            <label for="files" class="buttonStyle">
-              <span class=>Import Block Library</span>
-            </label>
-            <input id="files" type="file" name="files"
-                accept="application/xml">
-            <button id="localSaveButton" title="Save block library XML to a local file.">
-              <span>Download Block Library</span>
-            </button>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr height="80%">
+<table id="blockEditor">
+  <tr height="100%">
     <td id="blocklyWorkspaceContainer">
       <div id="blockly"></div>
       <div id="blocklyMask"></div>
     </td>
     <td width="50%">
       <table id="blocklyPreviewContainer">
+        <tr>
+          <td height="5%">
+            <h3 class="preview-header">Preview:
+              <select id="direction">
+                <option value="ltr">LTR</option>
+                <option value="rtl">RTL</option>
+              </select>
+            </h3>
+          </td>
+        </tr>
         <tr>
           <td height="30%">
             <div id="preview"></div>
@@ -394,7 +361,7 @@ BlockEditorView.html = `
           </td>
         </tr>
         <tr>
-          <td height="30%">
+          <td height="25%">
             <pre id="generatorPre"></pre>
           </td>
         </tr>
