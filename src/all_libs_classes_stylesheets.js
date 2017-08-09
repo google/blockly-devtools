@@ -74,10 +74,7 @@
   appendScript('src/view/app_view.js');
   appendScript('src/view/save_project_popup_view.js');
   appendScript('src/view/open_project_popup_view.js');
-<<<<<<< HEAD
   appendScript('src/view/import_resource_popup_view.js');
-=======
->>>>>>> 487e58ea2f995a498ba1270e21134bf2cebccf7f
   appendScript('src/view/toolbox_editor_view.js');
   appendScript('src/view/workspace_editor_view.js');
   appendScript('node_modules/jstree/dist/jstree.min.js');
@@ -91,10 +88,7 @@
   appendScript('src/controller/save_project_popup_controller.js');
   appendScript('src/controller/new_block_popup_controller.js');
   appendScript('src/controller/open_project_popup_controller.js');
-<<<<<<< HEAD
   appendScript('src/controller/import_resource_popup_controller.js');
-=======
->>>>>>> 487e58ea2f995a498ba1270e21134bf2cebccf7f
   appendScript('src/controller/read_write_controller.js');
   appendScript('src/controller/new_library_popup_controller.js');
   appendScript('src/controller/new_project_popup_controller.js');
