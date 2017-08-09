@@ -292,7 +292,6 @@ document.onload = function() {
    */
   constructLibrary(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    //let data = JSON.parse(this.processLibraryDataString(dataString));
   }
 
   /**
