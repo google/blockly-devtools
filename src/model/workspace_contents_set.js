@@ -52,6 +52,7 @@ class WorkspaceContentsSet extends ResourceSet {
    * contents set.
    * @return {!Object} The JSON for workspace contents set.
    */
+  // TODO(#219): Move this code to NavigationTree
   getNavTreeJson() {
     const workspaceContentsSetJson = {
       'id': PREFIXES.WORKSPACE_CONTENTS,

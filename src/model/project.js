@@ -260,10 +260,21 @@ class Project extends Resource {
   }
 
   /**
+   * Renames BlockDefinition of a given name to a new name. Assumes that the new
+   * name is not already taken.
+   * @param {string} oldName Name of BlockDefinition to change.
+   * @param {string} newName New name of BlockDefinition object.
+   */
+  renameBlockDefinition(oldName, newName) {
+    this.librarySet.renameBlock(oldName, newName);
+  }
+
+  /**
    * Gets the JSON object necessary to represent the project in the navigation
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the project.
    */
+  // TODO(#219): Move this code to NavigationTree
   getNavTreeJson() {
     const projectJson = $.extend(true, super.getNavTreeJson(),
       { 'id': PREFIXES.PROJECT, 'text': this.name,

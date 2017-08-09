@@ -235,7 +235,6 @@ class AppView {
      // TODO #228: Fill in action.
      console.warn('unimplemented: importWorkspace');
   }
-
   /**
    * Action taken when creating sample Blockly web application.
    */

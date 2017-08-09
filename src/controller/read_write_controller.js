@@ -385,15 +385,14 @@ document.onload = function() {
     refinedString = refinedString + ',';
     let refinedArray = refinedString.split('},');
     for (let blockString of refinedArray) {
-      if (blockString) {
-        if( blockString)
-        blockString = blockString + '}';
-        console.log(blockString);
-        let blockJson = JSON.parse(blockString);
-        let blockToAdd = new BlockDefinition(blockJson.type, blockJson);
-        blockToAdd.xml = buddyXml[blockJson.type];
-        this.appController.project.librarySet.resources[libraryName].add(blockToAdd);
-        this.appController.tree.addBlockNode(blockJson.type, libraryName);
+        if ( blockString) {
+          blockString = blockString + '}';
+          console.log(blockString);
+          let blockJson = JSON.parse(blockString);
+          let blockToAdd = new BlockDefinition(blockJson.type, blockJson);
+          blockToAdd.xml = buddyXml[blockJson.type];
+          this.appController.project.librarySet.resources[libraryName].add(blockToAdd);
+          this.appController.tree.addBlockNode(blockJson.type, libraryName);
       }
     }
   }
@@ -422,7 +421,6 @@ document.onload = function() {
    * @return {string} The options string.
    */
   processWorkspaceConfigDataString(dataString) {
-    //let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    //eval(dataString);
+      //eval(dataString);
   }
 }

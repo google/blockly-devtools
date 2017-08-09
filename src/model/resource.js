@@ -82,6 +82,7 @@ class Resource {
    *
    * @return {!Object} The tree-specific JSON representation of the resource.
    */
+  // TODO(#219): Move this code to NavigationTree and remove this method.
   getNavTreeJson() {
     const resourceJson = {
       'text': this.name,

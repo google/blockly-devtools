@@ -68,7 +68,7 @@ FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
  * @return {string} Block definition.
  */
 FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock, workspace) {
-  const blockType = FactoryUtils.cleanBlockType(rootBlock.getFieldValue('NAME'));
+  const blockType = rootBlock.getFieldValue('NAME');
   switch (format) {
     case 'JSON':
       var code = FactoryUtils.formatJson_(blockType, rootBlock);
@@ -87,6 +87,8 @@ FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock, workspace) {
  * @return {string} Cleaned up block type.
  */
 FactoryUtils.cleanBlockType = function(blockType) {
+  // TODO(#211): Allow users to enable/disable "strict mode" to escape for spaces
+  // and numbers in block type names.
   if (!blockType) {
     return '';
   }

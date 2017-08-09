@@ -152,7 +152,7 @@ button, .buttonStyle {
 
 /* Add resource button */
 #addContainer {
-  bottom: 35px;
+  bottom: 10px;
   left: 10px;
   position: absolute;
   width: 200px;
@@ -200,17 +200,19 @@ button, .buttonStyle {
 
 #editorContainer {
   position: absolute;
-  right: 2px;
-  height: 85%;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
   width: 80%;
   overflow: hidden;
 }
 
 #navigationTree {
   position: absolute;
+  top: 0px;
   left: 0px;
+  bottom: 0px;
   width: 20%;
-  height: 45%;
 }
 
 #blockLibraryContainer {
@@ -249,6 +251,13 @@ button, .buttonStyle {
 #blockEditor {
   width: 100%;
   height: 100%;
+}
+
+#blockEditor table,
+#blockEditor th,
+#blockEditor tr,
+#blockEditor td {
+  padding: 0px;
 }
 
 #toolboxEditor, #workspaceEditor {
@@ -382,14 +391,14 @@ td.taboff:hover {
 }
 
 #createDiv {
-  height: 79%;
+  height: 100%;
   padding: 0.5%;
   width: 60%;
 }
 
 #previewDiv {
   border: 10px solid #eee;
-  height: 77%;
+  height: 100%;
   margin-right: 0.5%;
   padding-bottom: 10px;
   width: 35%;
