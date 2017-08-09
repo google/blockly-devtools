@@ -20,7 +20,7 @@
 
 'use strict';
 
-goog.provide('OpenProjectPopupController');
+goog.provide('ImportResourcePopupController');
 
 goog.require('ImportResourcePopupView');
 goog.require('PopupController');
@@ -31,7 +31,7 @@ goog.require('PopupController');
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-class OpenProjectPopupController extends PopupController {
+class ImportResourcePopupController extends PopupController {
   /**
    * @constructor
    * @param {!AppController} appController AppController for the session.
@@ -59,9 +59,9 @@ class OpenProjectPopupController extends PopupController {
 
     /**
      * The popup view that this popup controller manages.
-     * @type {!OpenProjectPopupView}
+     * @type {!ImportResourcePopupView}
      */
-    this.view = new OpenProjectPopupView(this, viewContents);
+    this.view = new ImportResourcePopupView(this, viewContents);
 
     // Listeners in the popup
     Emitter(this.view);

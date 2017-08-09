@@ -25,6 +25,7 @@ goog.provide('ReadWriteController');
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 goog.require('OpenProjectPopupController');
+goog.require('ImportResourcePopupController');
 goog.require('Project');
 goog.require('BlockDefinition');
 
@@ -275,6 +276,16 @@ document.onload = function() {
   openProject() {
     this.popupController = new OpenProjectPopupController(this.appController,
         this);
+    this.popupController.show();
+  }
+
+  /**
+   * Imports a resource and adds it to the project.
+   * @type {string} resourceType The type of resource to input.
+   */
+  importResource(resourceType) {
+    this.popupController = new ImportResourcePopupController(this.appController,
+        this, resourceType);
     this.popupController.show();
   }
 
