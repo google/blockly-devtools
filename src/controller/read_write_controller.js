@@ -26,6 +26,7 @@ goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 goog.require('ImportResourcePopupController');
 goog.require('Project');
+goog.require('BlockDefinition');
 
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
@@ -58,6 +59,15 @@ class ReadWriteController {
      * @type {Array<string>}
      */
     this.resourceDivIds = [];
+
+    /**
+     * Locations of the buddy xml for each library mapped to the library names.
+     * @type {Object<string,string>}
+     */
+    // TODO #
+    this.buddyXmlLocations =
+      this.buddyXmlLocations = JSON.parse(localStorage.getItem('buddyXml')) ||
+        Object.create(null);
   }
 
   /**
@@ -88,19 +98,25 @@ class ReadWriteController {
    * @param {!BlockLibrary} library the block library to be saved.
    */
   saveLibrary(library) {
+    let buddyXml = Object.create(null);
     let blockData = [];
     for (let blockType of library.getBlockTypes()) {
       // Issue #190
       let block = library.getBlockDefinition(blockType);
       let item = '\n\n\t// BlockType: ' + block.type() + '\n' + block.json;
       blockData.push(item);
+      buddyXml[block.type()] = block.xml;
     }
     const location = library.webFilepath;
+    this.buddyXmlLocations[library.name] = location + path.sep + 'blockXml';
     const filename = this.getDivName(library) + '.js';
     library.webFilepath = library.webFilepath + path.sep + filename;
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
         blockData + ');  // END JSON EXTRACT (Do not delete this comment.)';
     fs.writeFileSync(location + path.sep + filename, fileData);
+    let xmlFileString = "/* DO NOT EDIT OR MOVE FILE */\n" + JSON.stringify(buddyXml);
+    fs.writeFileSync(location + path.sep + 'blockXml', xmlFileString);
+    localStorage.setItem('buddyXml', JSON.stringify(this.buddyXmlLocations));
   }
 
   /**
@@ -153,7 +169,8 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
 /* BEGINNING BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);
 
-BLOCKLY_OPTIONS['${workspaceConfig.name}'] = ${attributes};
+BLOCKLY_OPTIONS['${workspaceConfig.name}'] =
+    '${attributes}';
 /* END BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. */
 
 document.onload = function() {
@@ -292,6 +309,19 @@ document.onload = function() {
    */
   constructLibrary(path) {
     const dataString = fs.readFileSync(path, 'utf8');
+    const pathElements = path.split('/');
+    let file = pathElements.slice(-1)[0];
+    file = file.replace('.js', '');
+    const libraryName = file.replace('BlockLibrary_', '');
+    console.log(this.buddyXmlLocations);
+    console.log(this.buddyXmlLocations[libraryName]);
+    let buddyXmlString =
+        fs.readFileSync(this.buddyXmlLocations[libraryName], 'utf8');
+    buddyXmlString = buddyXmlString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    console.log(buddyXmlString);
+    let buddyXml = JSON.parse(buddyXmlString);
+    console.log(buddyXml);
+    this.processLibraryDataString(libraryName, dataString, buddyXml);
   }
 
   /**
@@ -332,9 +362,10 @@ document.onload = function() {
   /**
    * Processes a string of library metadata so that it can be parsed into JSON.
    * @param {string} dataString The string of the library's metadata.
+   * @param {Object<string,Object>} buddyXml Object mapping block type to its xml.
    * @return {string} The refined string, ready to be parsed.
    */
-  processLibraryDataString(dataString) {
+  processLibraryDataString(libraryName, dataString, buddyXml) {
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
     refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
     refinedString = refinedString.replace(');', '');
@@ -342,7 +373,14 @@ document.onload = function() {
     let refinedArray = refinedString.split('},');
     for (let blockString of refinedArray) {
       if (blockString) {
+        if( blockString)
         blockString = blockString + '}';
+        console.log(blockString);
+        let blockJson = JSON.parse(blockString);
+        let blockToAdd = new BlockDefinition(blockJson.type, blockJson);
+        blockToAdd.xml = buddyXml[blockJson.type];
+        this.appController.project.librarySet.resources[libraryName].add(blockToAdd);
+        this.appController.tree.addBlockNode(blockJson.type, libraryName);
       }
     }
   }
@@ -353,8 +391,7 @@ document.onload = function() {
    * @return {string} The xml string.
    */
   processToolboxDataString(dataString) {
-    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    eval(refinedString);
+    eval(dataString);
   }
 
   /**
@@ -363,8 +400,7 @@ document.onload = function() {
    * @return {string} The xml string.
    */
   processWorkspaceContentsDataString(dataString) {
-    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    eval(refinedString);
+    eval(dataString);
   }
 
   /**
@@ -373,7 +409,7 @@ document.onload = function() {
    * @return {string} The options string.
    */
   processWorkspaceConfigDataString(dataString) {
-    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    eval(refinedString);
+    //let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    //eval(dataString);
   }
 }
