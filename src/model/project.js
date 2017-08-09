@@ -73,7 +73,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all block types in the project.
    */
   getBlockTypes() {
-    return this.librarySet.getAllBlockDefinitionsMap();
+    return this.librarySet.getAllBlockTypes();
   }
 
   /**

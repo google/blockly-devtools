@@ -41,7 +41,7 @@ class WorkspaceConfiguration extends Resource {
      /**
       * Options object to be configured for Blockly inject call.
       */
-     this.options = Object.create(null);
+    this.options = Object.create(null);
   }
 
   /**

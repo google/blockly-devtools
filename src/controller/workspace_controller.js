@@ -48,7 +48,7 @@ class WorkspaceController extends ShadowController {
 
     // Creates first workspace contents and config to add to project.
     const wsContents = this.projectController.createWorkspaceContents('WSContents');
-    const wsConfig = this.projectController.createWorkspaceConfiguration('WSConfig');
+    // const wsConfig = this.projectController.createWorkspaceConfiguration('WSConfig');
 
     /**
      * WorkspaceEditorView associated with this instance of WorkspaceController.
@@ -157,7 +157,7 @@ class WorkspaceController extends ShadowController {
    * Saves blocks on editor workspace into the WorkspaceContents model.
    */
   saveStateFromWorkspace() {
-    this.view.getWorkspaceContents.setXml(this.generateContentsXml());
+    this.view.getWorkspaceContents().setXml(this.generateContentsXml());
   }
 
   /**
@@ -610,15 +610,20 @@ class WorkspaceController extends ShadowController {
    * @param {!WorkspaceConfiguration} workspaceConfig The workspace configuration
    *     which will contains the options for the inject call.
    * @param {string=} opt_div ID of div element to inject Blockly workspace.
+   *     Inserts placeholder comment if no div is given.
+   * @param {string=} opt_toolboxName Name of toolbox to reference in workspace
+   *     options. Inserts placeholder comment if no toolbox name is given.
    * @return {string} String representation of starter code for injecting.
    */
-  generateInjectFile(workspaceConfig, opt_div) {
+  generateInjectFile(workspaceConfig, opt_div, opt_toolboxName) {
     // REFACTORED from wfactory_generator.js
     let attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
     let div = opt_div ? `'${opt_div}'` : 'null';
+    let toolboxName = opt_toolboxName ? `'${opt_toolboxName}'` : '/* TODO: Insert ' +
+        'name of toolbox to display here */';
     if (!workspaceConfig.options['readOnly']) {
-      attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[/* TODO: Insert name of ' +
-        'imported toolbox to display here */], \n' + attributes;
+      attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[' + toolboxName +
+        '], \n' + attributes;
     }
 
     // Initializing toolbox
@@ -627,7 +632,7 @@ var BLOCKLY_OPTIONS = {
   ${attributes}
 };
 
-document.onload = function() {
+window.onload = function() {
   /* Inject your workspace */
   /* TODO: Add or edit ID of div to inject Blockly into. */
   var workspace = Blockly.inject(${div}, BLOCKLY_OPTIONS);

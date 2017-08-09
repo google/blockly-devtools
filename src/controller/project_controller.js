@@ -410,8 +410,14 @@ class ProjectController {
 
     const injectScript = this.tree.appController.editorController.
         workspaceController.generateInjectFile(
-          workspace.config, div);
-    fileInfo['injectScript'] = injectScript;
+          workspace.config, div, toolboxName);
+    fileInfo['inject'] = injectScript;
+
+    const blockDefScript = this.tree.appController.editorController.
+        blockEditorController.getLibraryJsFile();
+    fileInfo['blocks'] = blockDefScript;
+
+    return ProjectController.generateInjectFileContents(fileInfo);
   }
 
   static generateInjectFileContents(object) {
@@ -421,32 +427,36 @@ class ProjectController {
     const injectScript = object.inject || '';
     let fileContents = `
 <html>
-<title>Starter Application</title>
-<!-- Blocks -->
-<script>
-${workspaceScript}
-</script>
-<!-- Toolboxes -->
-<script>
-${toolboxScript}
-</script>
-<!-- Workspace -->
-<script>
-${workspaceScript}
-</script>
-<!-- Inject -->
-<script>
-${injectScript}
-</script>
+<head>
+  <title>Starter Application</title>
+  <!-- Necessary Blockly Imports -->
+  <script src="blockly_compressed.js"></script>
+  <script src="blocks_compressed.js"></script>
+  <script src="javascript_compressed.js"></script>
+  <script src="en.js"></script>
+  <!-- Blocks -->
+  <script>
+  ${blockDefScript}</script>
+
+  <!-- Toolboxes -->
+  <script>${toolboxScript}</script>
+
+  <!-- Workspace -->
+  <script>${workspaceScript}</script>
+
+  <!-- Inject -->
+  <script>${injectScript}</script>
+</head>
 <body>
   <h1>My Blockly Application</h1>
-  <div id="blocklyWorkspace">
+  <div id="blocklyWorkspace" style="width:80%; min-width:200px; height:60%; min-height:300px;">
     <!-- Your workspace will be auto-injected here. Make sure the ID of this div
          matches the ID specified in your inject function. -->
   </div>
 </body>
 </html>
 `;
+    return fileContents;
   }
 
   /**
