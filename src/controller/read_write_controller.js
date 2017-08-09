@@ -24,6 +24,8 @@ goog.provide('ReadWriteController');
 
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
+goog.require('OpenProjectPopupController');
+goog.require('Project');
 
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
@@ -95,6 +97,7 @@ class ReadWriteController {
     }
     const location = library.webFilepath;
     const filename = this.getDivName(library) + '.js';
+    library.webFilepath = library.webFilepath + path.sep + filename;
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
         blockData + ');  // END JSON EXTRACT (Do not delete this comment.)';
     fs.writeFileSync(location + path.sep + filename, fileData);
@@ -108,6 +111,7 @@ class ReadWriteController {
     let data = this.appController.editorController.toolboxController.generateToolboxJsFile(toolbox);
     const location = toolbox.webFilepath;
     const filename = this.getDivName(toolbox) + '.js';
+    toolbox.webFilepath = toolbox.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -129,6 +133,7 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
 `;
     const location = workspaceContents.webFilepath;
     const filename = this.getDivName(workspaceContents) + '.js';
+    workspaceContents.webFilepath = workspaceContents.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -159,6 +164,7 @@ document.onload = function() {
 `;
     const location = workspaceConfig.webFilepath;
     const filename = this.getDivName(workspaceConfig) + '.js';
+    workspaceConfig.webFilepath = workspaceConfig.webFilepath + path.sep + filename;
     fs.writeFileSync(location + path.sep + filename, data);
   }
 
@@ -244,5 +250,129 @@ document.onload = function() {
     var lastCommaIndex = str.lastIndexOf(',');
     str = str.slice(0, lastCommaIndex) + '\n';
     return str;
+  }
+
+  /**
+   * Opens a previously saved project.
+   */
+  openProject() {
+    this.popupController = new OpenProjectPopupController(this.appController,
+        this);
+    this.popupController.show();
+  }
+
+  /**
+   * Initialize a Project based off of its metadata.
+   * @param {string} projectMetaPath An absolute path to the project's metadata.
+   * @param {string} platform The platform being uploaded.
+   * @return {!Project} The reconstructed project.
+   * @throws Error if resource type is invalid.
+   */
+  constructProject(projectMetaPath, platform) {
+    const dataString = fs.readFileSync(projectMetaPath, 'utf8');
+    let data = JSON.parse(dataString);
+    let project = new Project(data.name);
+    for (let resource of data.resources) {
+      if (resource.resourceType == PREFIXES.LIBRARY) {
+        this.constructLibrary(resource[platform].filepath);
+      } else if (resource.resourceType == PREFIXES.TOOLBOX) {
+        this.constructToolbox(resource[platform].filepath);
+      } else if (resource.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
+        this.constructWorkspaceContents(resource[platform].filepath);
+      } else if (resource.resourceType == PREFIXES.WORKSPACE_CONFIG) {
+        this.constructWorkspaceConfig(resource[platform].filepath);
+      } else {
+        throw 'invalid resource type: ' + resource.resourceType;
+      }
+    }
+    return project;
+  }
+
+  /**
+   * Construct a library based off of file data, and add it to the project.
+   * @param {string} path The absolute filepath to the library data.
+   */
+  constructLibrary(path) {
+    const dataString = fs.readFileSync(path, 'utf8');
+  }
+
+  /**
+   * Construct a block based off of file data, and add it to the project.
+   * @param {string} path The absolute filepath to the block data.
+   */
+  constructBlock(path) {
+    throw 'unimplemented: constructBlock';
+  }
+
+  /**
+   * Construct a toolbox based off of file data, and add it to the project.
+   * @param {string} path The absolute filepath to the toolbox data.
+   */
+  constructToolbox(path) {
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = this.processToolboxDataString(dataString);
+  }
+
+  /**
+   * Construct workspace contents based off of file data and add to project.
+   * @param {string} path The absolute filepath to the workspace contents data.
+   */
+  constructWorkspaceContents(path) {
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = this.processWorkspaceContentsDataString(dataString);
+  }
+
+  /**
+   * Construct a workspace configuration based off of file data and add to project.
+   * @param {string} path The absolute filepath to the workspace config's data.
+   */
+  constructWorkspaceConfig(path) {
+    const dataString = fs.readFileSync(path, 'utf8');
+    let refinedString = this.processWorkspaceConfigDataString(dataString);
+  }
+
+  /**
+   * Processes a string of library file data so that it can be parsed into JSON.
+   * @param {string} dataString The string of the library's metadata.
+   * @return {string} The refined string, ready to be parsed.
+   */
+  processLibraryDataString(dataString) {
+    let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
+    refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
+    refinedString = refinedString.replace(');', '');
+    refinedString = refinedString + ',';
+    let refinedArray = refinedString.split('},');
+    for (let blockString of refinedArray) {
+      if (blockString) {
+        blockString = blockString + '}';
+      }
+    }
+  }
+
+  /**
+   * Processes a string of toolbox file data to properly extract xml.
+   * @param {string} dataString The string of the toolbox's metadata.
+   * @return {string} The xml string.
+   */
+  processToolboxDataString(dataString) {
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+  }
+
+  /**
+   * Processes a string of workspace contents file data to properly extract xml.
+   * @param {string} dataString The string of the workspace contents metadata.
+   * @return {string} The xml string.
+   */
+  processWorkspaceContentsDataString(dataString) {
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+  }
+
+  /**
+   * Processes a string of workspace configuration file data to extract options.
+   * @param {string} dataString The string of the workspace configuration's metadata.
+   * @return {string} The options string.
+   */
+  processWorkspaceConfigDataString(dataString) {
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
   }
 }

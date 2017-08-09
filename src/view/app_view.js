@@ -180,7 +180,7 @@ class AppView {
    * Action taken when opening a project.
    */
   openProject() {
-    // TODO: Fill in action.
+    this.appController.readWriteController.openProject();
   }
 
   /**
@@ -208,30 +208,33 @@ class AppView {
    * Action taken when importing blocks.
    */
   importBlocks() {
-    // TODO: Fill in action.
+     // TODO #228: Fill in action.
+     console.warn('unimplemented: importBlocks');
   }
 
   /**
    * Action taken when importing library.
    */
   importLibrary() {
-    // TODO: Fill in action.
+     // TODO #228: Fill in action.
+     console.warn('unimplemented: importLibrary');
   }
 
   /**
    * Action taken when importing toolbox.
    */
   importToolbox() {
-    // TODO: Fill in action.
+    // TODO #228: Fill in action.
+    console.warn('unimplemented: importToolbox');
   }
 
   /**
    * Action taken when importing workspace.
    */
   importWorkspace() {
-    // TODO: Fill in action.
+     // TODO #228: Fill in action.
+     console.warn('unimplemented: importWorkspace');
   }
-
   /**
    * Action taken when creating sample Blockly web application.
    */
