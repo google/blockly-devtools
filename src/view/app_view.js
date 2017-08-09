@@ -209,6 +209,7 @@ class AppView {
    */
   importBlocks() {
      // TODO #228: Fill in action.
+     console.warn('unimplemented: importBlocks');
   }
 
   /**
@@ -216,6 +217,7 @@ class AppView {
    */
   importLibrary() {
      // TODO #228: Fill in action.
+     console.warn('unimplemented: importLibrary');
   }
 
   /**
@@ -223,6 +225,7 @@ class AppView {
    */
   importToolbox() {
     // TODO #228: Fill in action.
+    console.warn('unimplemented: importToolbox');
   }
 
   /**
@@ -230,6 +233,7 @@ class AppView {
    */
   importWorkspace() {
      // TODO #228: Fill in action.
+     console.warn('unimplemented: importWorkspace');
   }
 
   /**

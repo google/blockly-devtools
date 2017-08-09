@@ -20,77 +20,98 @@
 
 'use strict';
 
-goog.provide('ImportResourcePopupView');
+goog.provide('OpenProjectPopupController');
 
-goog.require('PopupView');
+goog.require('ImportResourcePopupView');
+goog.require('PopupController');
 
 /**
- * @fileoverview ImportResourcePopupView deals with the UI for importing resources
- * from data files.
+ * @fileoverview ImportResourcePopupController manages app response to the UI
+ * for importing resources from file.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-class ImportResourcePopupView extends PopupView {
+class OpenProjectPopupController extends PopupController {
   /**
    * @constructor
-   * @param {!OpenProjectPopupControllerr} controller OpenProjectPopupController
-   *    currently managing this view.
-   * @param {string} htmlContents The html contents of the popup.
+   * @param {!AppController} appController AppController for the session.
+   * @param {ReadWriteController} readWriteController ReadWriteController for
+   *    the session, used to read files.
+   * @param {string} resourceType The type of resource to import.
    */
-  constructor(controller, htmlContents) {
-    super(controller);
+  constructor(appController, readWriteController, resourceType) {
+    super(appController);
 
     /**
-     * HTML contents of what is inside popup window. Does not include the popup
-     * window itself.
-     * @type {string}
+     * The ReadWriteController for the session, used to read files.
+     * @type {!ReadWriteController}
      */
-    this.htmlContents = htmlContents;
-
-    // Stores HTML to display popup.
-    super.injectPopupContents(this.htmlContents);
-
-    this.showWarning(false);
-
-    this.initListeners_();
+    this.readWriteController = readWriteController;
 
     /**
-     * Path to resource data.
+     * Type of resource to import.
      * @type {string}
      */
-    this.importLocation;
-  }
+    this.resourceType = resourceType;
 
-  /**
-   * Sets up event listeners and handlers for components of this popup.
-   * @private
-   */
-  initListeners_() {
-    $('#exit').click(() => {
-      Emitter(this);
-      this.emit('exit');
+
+    const viewContents = this.makeImportPopupContents();
+
+    /**
+     * The popup view that this popup controller manages.
+     * @type {!OpenProjectPopupView}
+     */
+    this.view = new OpenProjectPopupView(this, viewContents);
+
+    // Listeners in the popup
+    Emitter(this.view);
+    this.view.on('exit', () => {
+      this.exit();
     });
-    $('#submit').click(() => {
-      const location = $('#location').val();
-      if(location) {
-        this.importLocation = location;
-        this.hide();
-        this.emit('submit');
-      } else {
-        this.showWarning(true);
-      }
+
+    this.view.on('submit', () => {
+      this.constructResource(this.view.importLocation);
     });
   }
 
   /**
-   * Displays warning message for missing import location.
-   * @param {boolean} show Whether to show or hide the warning. True if show.
+   * Generates view, which shows popup to user.
    */
-  showWarning(show) {
-    if (show) {
-      $('#warning_text').css('display', 'block');
-    } else {
-      $('#warning_text').css('display', 'none');
+  show() {
+    this.view.show();
+  }
+
+  /**
+   * Returns the html contents for the import popup.
+   * @return {string} The html contents for the import popup.
+   */
+  makeImportPopupContents() {
+    let htmlContents = `
+<header align="center">Choose A file to import</header>
+      <input type="file"  id="location"></input>
+      <span id="warning_text">Please select a file.</span><br><br>
+      <input type="button" value="Submit" id="submit">
+`;
+    return htmlContents;
+  }
+
+  /**
+   * Constructs the resource based off of type.
+   * @param {string} path Absolute path to the resource data.
+   */
+  constructResource(path) {
+    if (this.resourceType == PREFIXES.BLOCK) {
+      return this.readWriteController.constructBlock(path, 'web');
+    } else if (this.resourceType == PREFIXES.LIBRARY) {
+      return this.readWriteController.constructLibrary(path, 'web');
+    } else if (this.resourceType == PREFIXES.TOOLBOX) {
+      return this.readWriteController.constructToolbox(path, 'web');
+    } else if (this.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
+      return this.readWriteController.constructWorkspaceContents(path, 'web');
+    } else if (this.resourceType == PREFIXES.WORKSPACE_CONFIG) {
+      return this.readWriteController.constructWorkspaceConfig(path, 'web');
+    } else if (this.resourceType == PREFIXES.PROJECT) {
+      return this.readWriteController.constructProject(path, 'web');
     }
   }
 }

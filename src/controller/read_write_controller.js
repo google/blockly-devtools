@@ -293,13 +293,13 @@ document.onload = function() {
       if (resource.resourceType == PREFIXES.LIBRARY) {
         this.constructLibrary(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.TOOLBOX) {
-          this.constructToolbox(resource[platform].filepath);
+        this.constructToolbox(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
-          this.constructWorkspaceContents(resource[platform].filepath);
+        this.constructWorkspaceContents(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONFIG) {
-          this.constructWorkspaceConfig(resource[platform].filepath);
+        this.constructWorkspaceConfig(resource[platform].filepath);
       } else {
-          throw 'invalid resource type: ' + resource.resourceType;
+        throw 'invalid resource type: ' + resource.resourceType;
       }
     }
     return project;
