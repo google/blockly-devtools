@@ -462,7 +462,9 @@ class BlockEditorController {
   }
 
   /**
-   *
+   * Returns JavaScript scripts necessary for loading block definitions of all
+   * user-defined blocks within the project.
+   * @return {string} JavaScript block definitions of blocks within the project.
    */
   getLibraryJsFile() {
     let fileContents = '';

@@ -311,15 +311,13 @@ class AppController {
     const injectFileContents = this.projectController.generateInjectString();
     // Get file name from user.
     const fileName = prompt('File name for sample Blockly workspace code:',
-                            'workspace.html');
+                            'my_blockly_application.html');
     if (!fileName) {
       return;
     }
 
-    FactoryUtils.createAndDownloadFile(injectFileContents, fileName, 'application/xhtml+xml');
-
-    // TODO: Generate file contents for sample HTML page to create a "complete"
-    //       sample blockly app, with instructions in the comments.
+    FactoryUtils.createAndDownloadFile(injectFileContents,
+        fileName, 'application/xhtml+xml');
   }
 
   /**

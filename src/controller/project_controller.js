@@ -398,16 +398,22 @@ class ProjectController {
     // From wfactory_generator.js:generateInjectString(toolboxXml)
     let div = 'blocklyWorkspace';
     let fileInfo = Object.create(null);
+
+    // TODO: Allow user to configure which resources to export.
+
+    // Grabs first toolbox.
     const toolboxName = Object.keys(this.project.toolboxSet.resources)[0];
     const toolbox = this.project.getToolbox(toolboxName);
     const toolboxScript = FactoryUtils.generateXmlAsJsFile(toolbox, 'TOOLBOX');
     fileInfo['toolbox'] = toolboxScript;
 
+    // Grabs first WorkspaceContents.
     const workspaceName = Object.keys(this.project.workspaceContentsSet.resources)[0];
     const workspace = this.project.getWorkspaceContents(workspaceName);
     const workspaceScript = FactoryUtils.generateXmlAsJsFile(workspace, 'WORKSPACE');
     fileInfo['workspace'] = workspaceScript;
 
+    // Grabs first WorkspaceConfiguration (from WorkspaceContents).
     let customInjectInfo = Object.create(null);
     customInjectInfo.toolboxName = toolboxName;
     customInjectInfo.div = div;
@@ -417,6 +423,7 @@ class ProjectController {
           workspace.config, customInjectInfo);
     fileInfo['inject'] = injectScript;
 
+    // Grabs all BlockDefinitions.
     const blockDefScript = this.tree.appController.editorController.
         blockEditorController.getLibraryJsFile();
     fileInfo['blocks'] = blockDefScript;
@@ -424,20 +431,29 @@ class ProjectController {
     return this.generateInjectFileContents(fileInfo);
   }
 
-  generateInjectFileContents(object) {
-    const toolboxScript = object.toolbox || '';
-    const workspaceScript = object.workspace || '';
-    const blockDefScript = object.blocks || '';
-    const injectScript = object.inject || '';
+  /**
+   * Returns file contents necessary for creating a sample working Blockly
+   * application based off of resources in the user's current project.
+   * @param {!Object} injectInfo Object which contains the scripts necessary
+   *     to load components of the application (broken down into a toolbox field,
+   *     workspace field, blocks field, and inject field). Each is loaded into
+   *     a script tag, and is necessary to load that resource into the application.
+   */
+  generateInjectFileContents(injectInfo) {
+    // TODO: Retrieve compressed files from local filesystem, not appspot link.
+    const toolboxScript = injectInfo.toolbox || '';
+    const workspaceScript = injectInfo.workspace || '';
+    const blockDefScript = injectInfo.blocks || '';
+    const injectScript = injectInfo.inject || '';
     let fileContents = `
 <html>
 <head>
   <title>Sample Application: ${this.project.name}</title>
   <!-- Necessary Blockly Imports -->
-  <script src="blockly_compressed.js"></script>
-  <script src="blocks_compressed.js"></script>
-  <script src="javascript_compressed.js"></script>
-  <script src="en.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/blockly_compressed.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/blocks_compressed.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/javascript_compressed.js"></script>
+  <script src="https://blockly-demo.appspot.com/static/msg/js/en.js"></script>
   <!-- Blocks -->
   <script>
   ${blockDefScript}</script>

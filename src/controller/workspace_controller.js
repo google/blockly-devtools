@@ -46,10 +46,6 @@ class WorkspaceController extends ShadowController {
   constructor(projectController, hiddenWorkspace) {
     super(projectController, hiddenWorkspace);
 
-    // Creates first workspace contents and config to add to project.
-    // const wsContents = this.projectController.createWorkspaceContents('WSContents');
-    // const wsConfig = this.projectController.createWorkspaceConfiguration('WSConfig');
-
     /**
      * WorkspaceEditorView associated with this instance of WorkspaceController.
      * @type {!WorkspaceEditorView}
