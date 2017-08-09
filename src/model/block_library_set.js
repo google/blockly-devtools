@@ -105,6 +105,7 @@ class BlockLibrarySet extends ResourceSet {
    * Produces the JSON needed to organize libraries in the navigation tree.
    * @return {!Object} The JSON for the navigation tree's library section.
    */
+  // TODO(#219): Move this code to NavigationTree
   getNavTreeJson() {
     const librarySetJson = {
       'id': PREFIXES.LIBRARY,

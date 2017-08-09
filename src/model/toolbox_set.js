@@ -70,6 +70,7 @@ class ToolboxSet extends ResourceSet {
    * Produces the JSON needed to organize toolboxes in the navigation tree.
    * @return {!Object} The navigation tree JSON for the toolbox set.
    */
+  // TODO(#219): Move this code to NavigationTree
   getNavTreeJson() {
     const toolboxSetJson = {
       'id': PREFIXES.TOOLBOX,
