@@ -21,6 +21,9 @@
 'use strict';
 
 goog.provide('NavigationTree');
+
+// TODO: Move PREFIXES out of app_controller to fix dependencies.
+// goog.require('PREFIXES');
 goog.require('Project');
 
 /**
@@ -82,23 +85,24 @@ class NavigationTree {
           }
         }
       },
-      // TODO: Make icons 24px and reference via CSS class.
-      'types': {
-        'Block' : {
+      'plugins' : ['types'],
+      'types': Object.create(null)  // See below.
+     };
+
+    // TODO: Make icons 24px and reference via CSS class.
+    tree.types[PREFIXES.BLOCK] = {
           // TODO(#221): Map block icon by block hue.
           'icon' : '../media/ic_block.png'
-        },
-        'Toolbox' : {
+        };
+    tree.types[PREFIXES.TOOLBOX] = {
           'icon' : '../media/ic_toolbox.png'
-        },
-        'WorkspaceContents' : {
+        };
+    tree.types[PREFIXES.WORKSPACE_CONTENTS] = {
           'icon' : '../media/ic_workspace.png'
-        }
-      },
-      'plugins' : [
-        'types'
-      ]
-    };
+        };
+    tree.types[PREFIXES.WORKSPACE_CONFIG] = {
+          'icon' : '../media/ic_config.png'
+        };
     return tree;
   }
 
