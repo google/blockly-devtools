@@ -47,7 +47,7 @@ class WorkspaceController extends ShadowController {
     super(projectController, hiddenWorkspace);
 
     // Creates first workspace contents and config to add to project.
-    const wsContents = this.projectController.createWorkspaceContents('WSContents');
+    // const wsContents = this.projectController.createWorkspaceContents('WSContents');
     // const wsConfig = this.projectController.createWorkspaceConfiguration('WSConfig');
 
     /**
@@ -428,7 +428,7 @@ class WorkspaceController extends ShadowController {
 
     // Set basic options.
     document.getElementById('option_css_checkbox').checked =
-        optionsObj['css'] || false;
+        optionsObj['css'] || true;
     document.getElementById('option_media_text').value =
         optionsObj['media'] || 'https://blockly-demo.appspot.com/static/media/';
     document.getElementById('option_rtl_checkbox').checked =
@@ -436,7 +436,7 @@ class WorkspaceController extends ShadowController {
     document.getElementById('option_sounds_checkbox').checked =
         optionsObj['sounds'] || false;
     document.getElementById('option_oneBasedIndex_checkbox').checked =
-        optionsObj['oneBasedIndex'] || false;
+        optionsObj['oneBasedIndex'] || true;
     document.getElementById('option_horizontalLayout_checkbox').checked =
         optionsObj['horizontalLayout'] || false;
     document.getElementById('option_toolboxPosition_checkbox').checked =
@@ -609,18 +609,27 @@ class WorkspaceController extends ShadowController {
    * sample Blockly app.
    * @param {!WorkspaceConfiguration} workspaceConfig The workspace configuration
    *     which will contains the options for the inject call.
-   * @param {string=} opt_div ID of div element to inject Blockly workspace.
-   *     Inserts placeholder comment if no div is given.
-   * @param {string=} opt_toolboxName Name of toolbox to reference in workspace
-   *     options. Inserts placeholder comment if no toolbox name is given.
+   * @param {Object=} opt_custom Object which contains custom names for a given
+   *     Blockly application. May contain a field such as toolboxName, for the
+   *     name of the toolbox to render.
    * @return {string} String representation of starter code for injecting.
    */
-  generateInjectFile(workspaceConfig, opt_div, opt_toolboxName) {
+  generateInjectFile(workspaceConfig, opt_custom) {
     // REFACTORED from wfactory_generator.js
+    let div = 'null';
+    let toolboxName =  '/* TODO: Insert name of toolbox to display here */'
+    if (opt_custom) {
+      div = opt_custom['div'] ? `"${opt_custom['div']}"` : div;
+      toolboxName = opt_custom['toolboxName'] ? `"${opt_custom['toolboxName']}"` : toolboxName;
+    }
+    let workspaceScript = '\n';
+    if (opt_custom['workspaceName']) {
+      workspaceScript = `var workspaceContents = Blockly.Xml.textToDom(BLOCKLY_WORKSPACE_XML["${opt_custom['workspaceName']}"]);
+  Blockly.Xml.domToWorkspace(workspaceContents, workspace);`;
+    }
+
+    delete workspaceConfig.options['toolbox'];
     let attributes = this.stringifyOptions_(workspaceConfig.options, '\t');
-    let div = opt_div ? `'${opt_div}'` : 'null';
-    let toolboxName = opt_toolboxName ? `'${opt_toolboxName}'` : '/* TODO: Insert ' +
-        'name of toolbox to display here */';
     if (!workspaceConfig.options['readOnly']) {
       attributes = 'toolbox : BLOCKLY_TOOLBOX_XML[' + toolboxName +
         '], \n' + attributes;
@@ -636,6 +645,7 @@ window.onload = function() {
   /* Inject your workspace */
   /* TODO: Add or edit ID of div to inject Blockly into. */
   var workspace = Blockly.inject(${div}, BLOCKLY_OPTIONS);
+  ${workspaceScript}
 };
 `;
     return finalStr;

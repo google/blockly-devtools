@@ -408,19 +408,23 @@ class ProjectController {
     const workspaceScript = FactoryUtils.generateXmlAsJsFile(workspace, 'WORKSPACE');
     fileInfo['workspace'] = workspaceScript;
 
+    let customInjectInfo = Object.create(null);
+    customInjectInfo.toolboxName = toolboxName;
+    customInjectInfo.div = div;
+    customInjectInfo.workspaceName = workspaceName;
     const injectScript = this.tree.appController.editorController.
         workspaceController.generateInjectFile(
-          workspace.config, div, toolboxName);
+          workspace.config, customInjectInfo);
     fileInfo['inject'] = injectScript;
 
     const blockDefScript = this.tree.appController.editorController.
         blockEditorController.getLibraryJsFile();
     fileInfo['blocks'] = blockDefScript;
 
-    return ProjectController.generateInjectFileContents(fileInfo);
+    return this.generateInjectFileContents(fileInfo);
   }
 
-  static generateInjectFileContents(object) {
+  generateInjectFileContents(object) {
     const toolboxScript = object.toolbox || '';
     const workspaceScript = object.workspace || '';
     const blockDefScript = object.blocks || '';
@@ -428,7 +432,7 @@ class ProjectController {
     let fileContents = `
 <html>
 <head>
-  <title>Starter Application</title>
+  <title>Sample Application: ${this.project.name}</title>
   <!-- Necessary Blockly Imports -->
   <script src="blockly_compressed.js"></script>
   <script src="blocks_compressed.js"></script>
@@ -448,7 +452,7 @@ class ProjectController {
   <script>${injectScript}</script>
 </head>
 <body>
-  <h1>My Blockly Application</h1>
+  <h1>My Blockly Application: ${this.project.name}</h1>
   <div id="blocklyWorkspace" style="width:80%; min-width:200px; height:60%; min-height:300px;">
     <!-- Your workspace will be auto-injected here. Make sure the ID of this div
          matches the ID specified in your inject function. -->

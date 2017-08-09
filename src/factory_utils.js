@@ -56,9 +56,7 @@ FactoryUtils.getBlockDefinition = function(format, workspace) {
  * @return {string} Block definition.
  */
 FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
-  console.log(rootXml);
   var rootBlock = Blockly.Xml.domToBlock(rootXml, workspace);
-  console.log(rootBlock);
   return FactoryUtils.getBlockDefFromRoot_(format, rootBlock, workspace);
 };
 
@@ -72,7 +70,6 @@ FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
  */
 FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock, workspace) {
   const blockType = FactoryUtils.cleanBlockType(rootBlock.getFieldValue('NAME'));
-  console.log('blockType: ' + blockType);
   switch (format) {
     case 'JSON':
       var code = FactoryUtils.formatJson_(blockType, rootBlock);
