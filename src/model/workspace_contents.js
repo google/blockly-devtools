@@ -25,7 +25,7 @@ goog.provide('WorkspaceContents');
 goog.require('Resource');
 
 /**
- * @class Workspacecontents contains a set of positioned blocks specified by the
+ * @class WorkspaceContents contains a set of positioned blocks specified by the
  * developer to load onto a Blockly workspace upon initialization.
  * @authors  Emma Dauterman (evd2014), sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
@@ -73,18 +73,6 @@ class WorkspaceContents extends Resource {
   getExportData() {
     this.xml.setAttribute('id', this.name);
     return this.xml;
-  }
-
-  /**
-   * Gets the JSON object necessary to represent the workspace contents in the
-   * navigation tree.
-   * @return {!Object} The tree-specific JSON representation of the workspace
-   * contents.
-   */
-  getNavTreeJson() {
-    const workspaceContentsJson = $.extend(true, super.getNavTreeJson(),
-      {'id': PREFIXES.WORKSPACE_CONTENTS});
-    return workspaceContentsJson;
   }
 
   /**
