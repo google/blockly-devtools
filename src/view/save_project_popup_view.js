@@ -34,11 +34,18 @@ class SaveProjectPopupView extends PopupView {
    * @constructor
    * @param {!NewBlockPopupController} controller NewBlockPopupController currently
    *     managing this view.
+   * @param {Array.<string>} divIdList List of html division ids.
    * @param {string} htmlContents The html contents of the popup, based on the
    *     current project.
    */
-  constructor(controller, htmlContents) {
+  constructor(controller, divIdList, htmlContents) {
     super(controller);
+
+    /**
+     * List of division ids, for variable assignment.
+     * @type {Array.<string>}
+     */
+    this.divIdList = divIdList;
 
     /**
      * HTML contents of what is inside popup window. Does not include the popup
@@ -49,6 +56,8 @@ class SaveProjectPopupView extends PopupView {
 
     // Stores HTML to display new block popup.
     super.injectPopupContents(this.htmlContents);
+
+    this.showWarning(false);
 
     this.initListeners_();
 
@@ -69,12 +78,39 @@ class SaveProjectPopupView extends PopupView {
       this.emit('exit');
     });
     $('#submit').click(() => {
-      this.project = $('#projectDirectory').val();
-      this.library = $('#libraryDirectory').val();
-      this.toolbox = $('#toolboxDirectory').val();
-      this.general_workspace = $('#workspaceDirectory').val();
-      this.hide();
-      this.emit('submit');
+      const projectDiv = this.controller.readWriteController.getDivName(
+              this.controller.appController.project);
+      const projectVal = $( '#' + projectDiv).val();
+      if(projectVal) {
+        this.assignVariables_();
+        this.hide();
+        this.emit('submit');
+      } else {
+        this.showWarning(true);
+      }
     });
+  }
+
+  /**
+   * Assings the values of all html divisions to variables of the same name.
+   * @private
+   */
+  assignVariables_() {
+    for (let division of this.divIdList) {
+      const val = $('#' + division).val();
+      this[division] = val;
+    }
+  }
+
+  /**
+   * Displays warning message for missing project directory selection.
+   * @param {boolean} show Whether to show or hide the warning. True if show.
+   */
+  showWarning(show) {
+    if (show) {
+      $('#warning_text').show();
+    } else {
+      $('#warning_text').hide();
+    }
   }
 }

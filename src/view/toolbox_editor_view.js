@@ -114,7 +114,7 @@ class ToolboxEditorView {
     this.removeShadowButton = $('#button_removeShadow').get(0);
     this.editNameButton = $('#dropdown_name').get(0);
     this.editColorButton = $('#dropdown_color').get(0);
-    this.clearButton = $('#button_clearToolbox').get(0);
+    // TODO(#217): Re-add "Clear" action/button (formerly #button_clearToolbox)
 
     /**
      * Maps ID of a ListElement to the td DOM element. Used for navigating
@@ -242,10 +242,7 @@ class ToolboxEditorView {
       this.openModal_ = null;
     });
 
-    // Listener for clearing editor.
-    this.clearButton.addEventListener('click', () => {
-      controller.clear();
-    });
+    // TODO(#217): Connect replacement "Clear toolbox" UI to controller.clear().
 
     // Shows dropdown for adding elements.
     this.addButton.addEventListener('click', () => {
@@ -315,28 +312,25 @@ class ToolboxEditorView {
       controller.unsetSelectedAsShadowBlock();
     });
 
-    $('#button_importBlocks').click(() => {
-      this.openModal_ = 'dropdownDiv_importBlocks';
-      FactoryUtils.openModal(this.openModal_);
-    });
+    // TODO(#214): Map load functions to "Import" menu items.
+    // $('#button_load').click(() => {
+    //   this.openModal_ = 'dropdownDiv_load';
+    //   FactoryUtils.openModal(this.openModal_);
+    // });
 
-    $('#button_load').click(() => {
-      this.openModal_ = 'dropdownDiv_load';
-      FactoryUtils.openModal(this.openModal_);
-    });
-
-    $('#button_export').click(() => {
-      this.openModal_ = 'dropdownDiv_export';
-      FactoryUtils.openModal(this.openModal_);
-    });
-
-    $('#dropdown_exportToolboxXML').click(() => {
-      controller.export(this.toolbox, ProjectController.TYPE_XML);
-    });
-
-    $('#dropdown_exportToolboxJS').click(() => {
-      controller.export(this.toolbox, ProjectController.TYPE_JS);
-    });
+    // TODO(#215): Map export functions to "Save" menu items.
+    // $('#button_export').click(() => {
+    //   this.openModal_ = 'dropdownDiv_export';
+    //   FactoryUtils.openModal(this.openModal_);
+    // });
+    //
+    // $('#dropdown_exportToolboxXML').click(() => {
+    //   controller.export(this.toolbox, ProjectController.TYPE_XML);
+    // });
+    //
+    // $('#dropdown_exportToolboxJS').click(() => {
+    //   controller.export(this.toolbox, ProjectController.TYPE_JS);
+    // });
   }
 
   /**
@@ -703,47 +697,6 @@ class ToolboxEditorView {
  */
 ToolboxEditorView.html = `
 <!-- Workspace Factory tab -->
-<div id="factoryHeader">
-  <p>
-    <div class="dropdown">
-      <button id="button_importBlocks">Import Custom Blocks</button>
-      <div id="dropdownDiv_importBlocks" class="dropdown-content">
-        <input type="file" id="input_importBlocksJson" accept=".js, .json, .txt" class="inputfile"</input>
-        <label for="input_importBlocksJson">From JSON</label>
-        <input type="file" id="input_importBlocksJs" accept=".js, .txt" class="inputfile"</input>
-        <label for="input_importBlocksJs">From Javascript</label>
-      </div>
-    </div>
-
-    <div class="dropdown">
-      <button id="button_load">Load to Edit</button>
-      <div id="dropdownDiv_load" class="dropdown-content">
-        <input type="file" id="input_loadToolboxXML" accept=".xml" class="inputfile"></input>
-        <label for="input_loadToolboxXML">Toolbox as XML</label>
-        <input type="file" id="input_loadToolboxJS" accept=".js" class="inputfile"></input>
-        <label for="input_loadToolboxJS">Toolbox as JS</label>
-        <input type="file" id="input_loadPreloadXML" accept=".xml" class="inputfile"</input>
-        <label for="input_loadPreloadXML">Workspace Blocks as XML</label>
-        <input type="file" id="input_loadPreloadJS" accept=".js" class="inputfile"</input>
-        <label for="input_loadPreloadJS">Workspace Blocks as JS</label>
-      </div>
-    </div>
-
-    <div class="dropdown">
-      <button id="button_export">Export</button>
-      <div id="dropdownDiv_export" class="dropdown-content">
-        <a id="dropdown_exportToolboxXML">Toolbox as XML</a>
-        <a id="dropdown_exportToolboxJS">Toolbox as JS</a>
-        <a id="dropdown_exportAll">All</a>
-      </div>
-    </div>
-
-    <button id="button_clearToolbox">Clear</button>
-
-    <span id="saved_message"></span>
-  </p>
-</div>
-
 <section id="createDiv">
   <div id="createHeader">
     <h3>Edit Toolboxes</h3>

@@ -260,6 +260,16 @@ class Project extends Resource {
   }
 
   /**
+   * Renames BlockDefinition of a given name to a new name. Assumes that the new
+   * name is not already taken.
+   * @param {string} oldName Name of BlockDefinition to change.
+   * @param {string} newName New name of BlockDefinition object.
+   */
+  renameBlockDefinition(oldName, newName) {
+    this.librarySet.renameBlock(oldName, newName);
+  }
+
+  /**
    * Gets the JSON object necessary to represent the project in the navigation
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the project.
@@ -295,7 +305,7 @@ class Project extends Resource {
    */
   buildMetadata(obj) {
     super.buildMetadata(obj);
-    delete obj.file;
+    delete obj.web;
     obj.resources = this.getFullResourceList();
     obj.platform = 'web';
   }

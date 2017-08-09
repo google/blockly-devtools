@@ -71,7 +71,7 @@ class BlockLibrarySet extends ResourceSet {
    *     to their definitions.
    */
   getBlockDefinitionMap(libraryName) {
-    console.warn('unimplemented: getBlockDefinitionMap');
+    return this.resources[libraryName].blocks;
   }
 
   /**
@@ -95,6 +95,22 @@ class BlockLibrarySet extends ResourceSet {
       }
     }
     return null;
+  }
+
+  /**
+   * Renames block definition within the project. If the old name and the new
+   * name are the same, does nothing.
+   * @param {string} oldName Name of BlockDefinition to change.
+   * @param {string} newName New name of BlockDefinition.
+   */
+  renameBlock(oldName, newName) {
+    if (oldName == newName) {
+      return;
+    }
+    const lib = this.getLibrary(oldName);
+    lib.blocks[newName] = lib.blocks[oldName];
+    delete lib.blocks[oldName];
+    lib.blocks[newName].setName(newName);
   }
 
   /**

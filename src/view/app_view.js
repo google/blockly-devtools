@@ -84,12 +84,7 @@ class AppView {
           ['New Toolbox', () => { this.showNewToolbox(); }]
         ]],
         ['Open Project', () => { this.openProject(); }],
-        ['Save', [
-          ['Save All', () => { this.appController.saveProject(); }],
-          ['Save as Web Only', () => { this.saveForWeb(); }],
-          ['Save as iOS Only', () => { this.saveForIos(); }],
-          ['Save as Android Only', () => { this.saveForAndroid(); }]
-        ]],
+        ['Save All', () => { this.appController.saveProject(); }],
         ['Import', [
           ['Blocks', () => { this.importBlocks(); }],
           ['Library', () => { this.importLibrary(); }],

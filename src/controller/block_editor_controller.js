@@ -118,12 +118,17 @@ class BlockEditorController {
    * @param {!Event} event Change event in editor workspace.
    */
   onChange(event) {
-    // Save block's changes into BlockDefinition model object.
-    this.updateBlockDefinition();
-    const changeTree = event.type == Blockly.Events.UI;
-    this.updateBlockName(!changeTree);
-    // Update the block editor view.
-    this.refreshPreviews();
+    const isUiEvent = event.type == Blockly.Events.UI;
+    const isCreateEvent = event.type == Blockly.Events.CREATE;
+    // Update model only when user creates a new block or somehow interacts
+    // with blocks (i.e. create and UI events).
+    if (isUiEvent || isCreateEvent) {
+      this.updateBlockName(!isUiEvent);
+      // Save block's changes into BlockDefinition model object.
+      this.updateBlockDefinition();
+      // Update the block editor view.
+      this.refreshPreviews();
+    }
     // Disable orphans.
     Blockly.Events.disableOrphans(event);
   }
@@ -201,8 +206,8 @@ class BlockEditorController {
   }
 
   /**
-   * Renames BlockDefinition object currently being edited. Updates navtree
-   * with new name.
+   * Checks if new name is a valid name, then renames current BlockDefinition
+   * object if valid. Updates navtree with new name.
    * @param {boolean} suppressTreeChange Whether to suppress reflecting name
    *     change in the navtree.
    */
@@ -210,13 +215,16 @@ class BlockEditorController {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     const newName = rootBlock.getFieldValue('NAME');
-    // TODO: Add warning to top block if the name already exists.
-    if (!suppressTreeChange &&
-        this.projectController.getProject().hasBlockDefinition(newName)) {
-      rootBlock.setWarningText('There is already a block under this name.\n' +
-          'Please rename this block.');
+    const changedName = currentBlock.name != newName;
+    const warning = this.getWarningText(newName); // Warning text or null
+    if (!suppressTreeChange && changedName && warning) {
+      // Warn user if name is invalid (is 'block_type' or a duplicate).
+      Blockly.WidgetDiv.hide();
+      this.view.editorWorkspace.cancelCurrentGesture();
+      const oldName = this.projectController.tree.getSelectedName();
+      rootBlock.setFieldValue(oldName, 'NAME');
+      window.alert(warning);
     } else {
-      rootBlock.setWarningText(null);
       this.projectController.renameBlockDefinition(currentBlock,
           newName, suppressTreeChange);
     }
@@ -286,8 +294,6 @@ class BlockEditorController {
       const blockType = this.view.blockDefinition.type();
       // Render preview block in preview workspace.
       this.renderPreviewBlock_(blockType);
-      // Warn user if block type is invalid.
-      this.maybeWarnUser_(blockType);
     } finally {
       Blockly.Blocks = backupBlocks;
       this.view.blockDefinition.undefine();
@@ -376,24 +382,25 @@ class BlockEditorController {
 
   /**
    * Warns user if their block type already exists in standard library or if
-   * it is otherwise invalid.
+   * it is otherwise invalid. Returns null if blockType is a valid type name
+   * and no warning is necessary.
    * @param {string} blockType Name of block type rendered in preview.
    * @private
    */
-  maybeWarnUser_(blockType) {
+  getWarningText(blockType) {
     // Warn user only if their block type is already exists in Blockly's
     // standard library.
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     if (StandardCategories.coreBlockTypes.indexOf(blockType) != -1) {
-      rootBlock.setWarningText('A core Blockly block already exists ' +
-          'under this name.');
+      return 'A core Blockly block already exists under this name.';
     } else if (blockType == 'block_type') {
       // Warn user to let them know they can't save a block under the default
       // name 'block_type'
-      rootBlock.setWarningText('You cannot save a block with the default ' +
-          'name, "block_type"');
+      return 'You cannot save a block with the default name, "block_type"';
+    } else if (this.projectController.getProject().hasBlockDefinition(blockType)) {
+      return 'There is already a block under this name.';
     } else {
-      rootBlock.setWarningText(null);
+      return null;
     }
   }
 
