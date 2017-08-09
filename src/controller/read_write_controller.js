@@ -354,7 +354,6 @@ document.onload = function() {
    */
   processToolboxDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    //eval(refinedString);
   }
 
   /**
@@ -364,7 +363,6 @@ document.onload = function() {
    */
   processWorkspaceContentsDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    //eval(refinedString);
   }
 
   /**
@@ -374,6 +372,5 @@ document.onload = function() {
    */
   processWorkspaceConfigDataString(dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    //eval(refinedString);
   }
 }
