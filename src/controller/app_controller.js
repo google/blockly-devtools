@@ -28,6 +28,7 @@
  */
 
 goog.provide('AppController');
+goog.provide('PREFIXES');
 
 goog.require('AppView');
 goog.require('EditorController');

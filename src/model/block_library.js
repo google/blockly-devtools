@@ -169,15 +169,4 @@ class BlockLibrary extends Resource {
   has(blockType) {
     return this.blocks[blockType] ? true : false;
   }
-
-  /**
-   * Gets the JSON object necessary to represent the library in the navigation
-   * tree.
-   * @return {!Object} The tree-specific JSON representation of the library.
-   */
-  getNavTreeJson() {
-    const libraryJson = $.extend(true, super.getNavTreeJson(),
-      {'id': PREFIXES.LIBRARY, 'children': this.getBlockArrayJson()});
-    return libraryJson;
-  }
 }

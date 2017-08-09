@@ -274,6 +274,7 @@ class Project extends Resource {
    *     tree.
    * @return {!Object} The tree-specific JSON representation of the project.
    */
+  // TODO(#219): Move this code to NavigationTree
   getNavTreeJson() {
     const projectJson = $.extend(true, super.getNavTreeJson(),
       { 'id': PREFIXES.PROJECT, 'text': this.name,

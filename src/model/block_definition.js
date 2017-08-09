@@ -109,17 +109,6 @@ class BlockDefinition extends Resource {
   }
 
   /**
-   * Returns a block's navigation tree-specific JSON representation.
-   * @return {!Object} The navigation tree-specific JSON for the block.
-   */
-  getNavTreeJson() {
-    return {
-      'id': this.type(),
-      'text': this.type()
-    };
-  }
-
-  /**
    * Returns a block's XML representation.
    * @return {!Element} XML representation of the block.
    */
