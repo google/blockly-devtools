@@ -81,7 +81,22 @@ class NavigationTree {
             }
           }
         }
-      }
+      },
+      // TODO: Make icon 24px and reference via CSS class.
+      'types': {
+        'Block' : {
+          'icon' : '../media/ic_block.png'
+        },
+        'Toolbox' : {
+          'icon' : '../media/ic_toolbox.png'
+        },
+        'WorkspaceContents' : {
+          'icon' : '../media/ic_workspace.png'
+        }
+      },
+      'plugins' : [
+        'types'
+      ]
     };
     return tree;
   }
@@ -198,6 +213,7 @@ class NavigationTree {
     const id = prefix + '_' + componentName;
     const data = {
         'id': id,
+        'type': prefix,
         'text': componentName
       };
     tree.create_node(parentName, data, 'last', null);

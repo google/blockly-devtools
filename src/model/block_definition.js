@@ -115,6 +115,7 @@ class BlockDefinition extends Resource {
   getNavTreeJson() {
     return {
       'id': this.type(),
+      'type': 'block',
       'text': this.type()
     };
   }
