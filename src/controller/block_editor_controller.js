@@ -470,7 +470,6 @@ class BlockEditorController {
     let fileContents = '';
     const allBlocks = this.projectController.getProject().
         librarySet.getAllBlockDefinitionsMap();
-    console.log(allBlocks);
     for (let blockName in allBlocks) {
       const block = allBlocks[blockName];
       fileContents += '// Block definition: ' + blockName;

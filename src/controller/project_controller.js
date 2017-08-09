@@ -440,11 +440,11 @@ class ProjectController {
    *     a script tag, and is necessary to load that resource into the application.
    */
   generateInjectFileContents(injectInfo) {
-    // TODO: Retrieve compressed files from local filesystem, not appspot link.
     const toolboxScript = injectInfo.toolbox || '';
     const workspaceScript = injectInfo.workspace || '';
     const blockDefScript = injectInfo.blocks || '';
     const injectScript = injectInfo.inject || '';
+    // TODO: Replace blockly imports with web files.
     let fileContents = `
 <html>
 <head>

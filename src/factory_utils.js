@@ -383,9 +383,7 @@ FactoryUtils.formatJavaScript_ = function(blockType, rootBlock, workspace) {
   code.push(' this.setHelpUrl(' + JSON.stringify(helpUrl) + ');');
   code.push('  }');
   code.push('};');
-  const definition = code.join('\n');
-  console.log(definition);
-  return definition;
+  return code.join('\n');
 };
 
 /**
