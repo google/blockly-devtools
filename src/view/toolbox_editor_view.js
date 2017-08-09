@@ -114,7 +114,7 @@ class ToolboxEditorView {
     this.removeShadowButton = $('#button_removeShadow').get(0);
     this.editNameButton = $('#dropdown_name').get(0);
     this.editColorButton = $('#dropdown_color').get(0);
-    //this.clearButton = $('#button_clearToolbox').get(0); // TODO: Add to menus
+    // TODO(#217): Re-add "Clear" action/button (formerly #button_clearToolbox)
 
     /**
      * Maps ID of a ListElement to the td DOM element. Used for navigating
@@ -242,11 +242,7 @@ class ToolboxEditorView {
       this.openModal_ = null;
     });
 
-    // Listener for clearing editor.
-    // TODO: Define a new UI for this
-    //this.clearButton.addEventListener('click', () => {
-    //  controller.clear();
-    //});
+    // TODO(#217): Connect replacement "Clear toolbox" UI to controller.clear().
 
     // Shows dropdown for adding elements.
     this.addButton.addEventListener('click', () => {
