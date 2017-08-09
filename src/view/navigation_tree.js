@@ -85,6 +85,7 @@ class NavigationTree {
       // TODO: Make icons 24px and reference via CSS class.
       'types': {
         'Block' : {
+          // TODO(#221): Map block icon by block hue.
           'icon' : '../media/ic_block.png'
         },
         'Toolbox' : {
