@@ -219,40 +219,19 @@ class WorkspaceEditorView {
     $('#button_optionsHelp').click(() => {
       open('https://developers.google.com/blockly/guides/get-started/web#configuration');
     });
-    $('#button_clearWorkspace').click(() => {
-      this.editorWorkspace.clear();
-      if (confirm('Are you sure you would like to clear your workspace contents' +
-          ' and configurations?')) {
-        controller.clear();
-      }
-    });
+
+    // TODO(#222): Re-add "Clear" button, calling the following:
+    //   this.editorWorkspace.clear();
+    //   if (confirm('Are you sure you would like to clear your workspace' +
+    //       ' contents and configurations?')) {
+    //     controller.clear();
+    //   }
+
     this.addShadowButton.addEventListener('click', () => {
       controller.setSelectedAsShadowBlock();
     });
     this.removeShadowButton.addEventListener('click', () => {
       controller.unsetSelectedAsShadowBlock();
-    });
-
-    $('#button_exportWS').click(() => {
-      this.openModal_ = 'dropdownDiv_exportWS';
-      FactoryUtils.openModal(this.openModal_);
-    });
-    $('#dropdown_exportWSOptions').click(() => {
-      controller.export(this.workspaceConfig);
-      FactoryUtils.closeModal(this.openModal_);
-      this.openModal_ = null;
-    });
-
-    $('#dropdown_exportWContentsXML').click(() => {
-      controller.export(this.getWorkspaceContents(), ProjectController.TYPE_XML);
-      FactoryUtils.closeModal(this.openModal_);
-      this.openModal_ = null;
-    });
-
-    $('#dropdown_exportWContentsJS').click(() => {
-      controller.export(this.getWorkspaceContents(), ProjectController.TYPE_JS);
-      FactoryUtils.closeModal(this.openModal_);
-      this.openModal_ = null;
     });
   }
 
@@ -443,58 +422,18 @@ class WorkspaceEditorView {
  */
 WorkspaceEditorView.html = `
 <!-- Workspace Factory tab -->
-<div id="factoryHeader">
-  <p>
-    <div class="dropdown">
-      <button id="button_importBlocks">Import Custom Blocks</button>
-      <div id="dropdownDiv_importBlocks" class="dropdown-content">
-        <input type="file" id="input_importBlocksJson" accept=".js, .json, .txt" class="inputfile"</input>
-        <label for="input_importBlocksJson">From JSON</label>
-        <input type="file" id="input_importBlocksJs" accept=".js, .txt" class="inputfile"</input>
-        <label for="input_importBlocksJs">From Javascript</label>
-      </div>
-    </div>
-
-    <div class="dropdown">
-      <button id="button_load">Load to Edit</button>
-      <div id="dropdownDiv_load" class="dropdown-content">
-        <input type="file" id="input_loadToolboxXML" accept=".xml" class="inputfile"></input>
-        <label for="input_loadToolboxXML">Toolbox as XML</label>
-        <input type="file" id="input_loadToolboxJS" accept=".js" class="inputfile"></input>
-        <label for="input_loadToolboxJS">Toolbox as JS</label>
-        <input type="file" id="input_loadPreloadXML" accept=".xml" class="inputfile"</input>
-        <label for="input_loadPreloadXML">Workspace Blocks as XML</label>
-        <input type="file" id="input_loadPreloadJS" accept=".js" class="inputfile"</input>
-        <label for="input_loadPreloadJS">Workspace Blocks as JS</label>
-      </div>
-    </div>
-
-    <div class="dropdown">
-      <button id="button_exportWS">Export</button>
-      <div id="dropdownDiv_exportWS" class="dropdown-content">
-        <a id="dropdown_exportWSOptions">Starter Code</a>
-        <a id="dropdown_exportWContentsXML">Workspace Blocks as XML</a>
-        <a id="dropdown_exportWContentsJS">Workspace Blocks as JS</a>
-        <a id="dropdown_exportAll">All</a>
-      </div>
-    </div>
-
-    <button id="button_clearWorkspace">Clear</button>
-    <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
-    <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
-
-    <span id="saved_message"></span>
-  </p>
-</div>
-
 <section id="createDiv">
   <div id="createHeader">
     <h3>Edit Workspace elements</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
-    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
   </div>
   <section id="workspace_section">
-    <div id="wsContentsDiv"></div>
+    <div style="float: right">
+      <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
+      <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
+    </div>
+    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
+    <div id="wsContentsDiv" style="clear: both"></div>
   </section>
 
   <aside id="preload_div">
