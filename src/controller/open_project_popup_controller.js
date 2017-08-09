@@ -20,26 +20,25 @@
 
 'use strict';
 
-goog.provide('ImportResourcePopupController');
+goog.provide('OpenProjectPopupController');
 
-goog.require('ImportResourcePopupView');
+goog.require('OpenProjectPopupView');
 goog.require('PopupController');
 
 /**
- * @fileoverview ImportResourcePopupController manages app response to the UI
- * for importing resources from file.
+ * @fileoverview OpenProjectPopupController manages app response to the UI
+ * for opening a project.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-class ImportResourcePopupController extends PopupController {
+class OpenProjectPopupController extends PopupController {
   /**
    * @constructor
    * @param {!AppController} appController AppController for the session.
    * @param {ReadWriteController} readWriteController ReadWriteController for
    *    the session, used to read files.
-   * @param {string} resourceType The type of resource to import.
    */
-  constructor(appController, readWriteController, resourceType) {
+  constructor(appController, readWriteController) {
     super(appController);
 
     /**
@@ -48,20 +47,14 @@ class ImportResourcePopupController extends PopupController {
      */
     this.readWriteController = readWriteController;
 
-    /**
-     * Type of resource to import.
-     * @type {Array<Object>}
-     */
-    this.resourceType = resourceType;
-
 
     const viewContents = this.makeImportPopupContents();
 
     /**
      * The popup view that this popup controller manages.
-     * @type {!ImportResourcePopupView}
+     * @type {!OpenProjectPopupView}
      */
-    this.view = new ImportResourcePopupView(this, viewContents);
+    this.view = new OpenProjectPopupView(this, viewContents);
 
     // Listeners in the popup
     Emitter(this.view);
@@ -70,7 +63,7 @@ class ImportResourcePopupController extends PopupController {
     });
 
     this.view.on('submit', () => {
-      this.constructResource(this.view.importLocation);
+      this.readWriteController.constructProject(this.view.importLocation, 'web');
     });
   }
 
@@ -87,31 +80,11 @@ class ImportResourcePopupController extends PopupController {
    */
   makeImportPopupContents() {
     let htmlContents = `
-<header align="center">Choose A file to import</header>
+<header align="center">Choose a Project File to Open</header>
       <input type="file"  id="location"></input>
       <span id="warning_text">Please select a file.</span><br><br>
       <input type="button" value="Submit" id="submit">
 `;
     return htmlContents;
-  }
-
-  /**
-   * Constructs the resource based off of type.
-   * @param {string} path Absolute path to the resource data.
-   */
-  constructResource(path) {
-    if (this.resourceType == PREFIXES.BLOCK) {
-      return this.readWriteController.constructBlock(path, 'web');
-    } else if (this.resourceType == PREFIXES.LIBRARY) {
-      return this.readWriteController.constructLibrary(path, 'web');
-    } else if (this.resourceType == PREFIXES.TOOLBOX) {
-      return this.readWriteController.constructToolbox(path, 'web');
-    } else if (this.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
-      return this.readWriteController.constructWorkspaceContents(path, 'web');
-    } else if (this.resourceType == PREFIXES.WORKSPACE_CONFIG) {
-      return this.readWriteController.constructWorkspaceConfig(path, 'web');
-    } else if (this.resourceType == PREFIXES.PROJECT) {
-      return this.readWriteController.constructProject(path, 'web');
-    }
   }
 }

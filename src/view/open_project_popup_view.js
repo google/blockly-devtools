@@ -20,20 +20,20 @@
 
 'use strict';
 
-goog.provide('ImportResourcePopupView');
+goog.provide('OpenProjectPopupView');
 
 goog.require('PopupView');
 
 /**
- * @fileoverview ImportFilePopupView deals with the UI for importing resources
+ * @fileoverview OpenProjectPopupView deals with the UI for importing resources
  * from data files.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-class ImportResourcePopupView extends PopupView {
+class OpenProjectPopupView extends PopupView {
   /**
    * @constructor
-   * @param {!ImportResourcePopupController} controller ImportResourcePopupController
+   * @param {!OpenProjectPopupControllerr} controller OpenProjectPopupController
    *    currently managing this view.
    * @param {string} htmlContents The html contents of the popup.
    */

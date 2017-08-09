@@ -24,7 +24,7 @@ goog.provide('ReadWriteController');
 
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
-goog.require('ImportResourcePopupController');
+goog.require('OpenProjectPopupController');
 goog.require('Project');
 goog.require('BlockDefinition');
 
@@ -270,12 +270,11 @@ document.onload = function() {
   }
 
   /**
-   * Imports a resource from file.
-   * @param {string} resourcetype The type of resource to import.
+   * Opens a previously saved project.
    */
-  importResource(resourceType) {
-    this.popupController = new ImportResourcePopupController(this.appController,
-        this, resourceType);
+  openProject() {
+    this.popupController = new OpenProjectPopupController(this.appController,
+        this);
     this.popupController.show();
   }
 
@@ -284,6 +283,7 @@ document.onload = function() {
    * @param {string} projectMetaPath An absolute path to the project's metadata.
    * @param {string} platform The platform being uploaded.
    * @return {!Project} The reconstructed project.
+   * @throws Error if resource type is invalid.
    */
   constructProject(projectMetaPath, platform) {
     const dataString = fs.readFileSync(projectMetaPath, 'utf8');
@@ -293,18 +293,20 @@ document.onload = function() {
       if (resource.resourceType == PREFIXES.LIBRARY) {
         this.constructLibrary(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.TOOLBOX) {
-        this.constructToolbox(resource[platform].filepath);
+          this.constructToolbox(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONTENTS) {
           this.constructWorkspaceContents(resource[platform].filepath);
       } else if (resource.resourceType == PREFIXES.WORKSPACE_CONFIG) {
           this.constructWorkspaceConfig(resource[platform].filepath);
+      } else {
+          throw 'invalid resource type: ' + resource.resourceType;
       }
     }
     return project;
   }
 
   /**
-   * Construct a library based off of its metadata, and add it to the project.
+   * Construct a library based off of file data, and add it to the project.
    * @param {string} path The absolute filepath to the library data.
    */
   constructLibrary(path) {
@@ -325,7 +327,7 @@ document.onload = function() {
   }
 
   /**
-   * Construct a block based off of its metadata, and add it to the project.
+   * Construct a block based off of file data, and add it to the project.
    * @param {string} path The absolute filepath to the block data.
    */
   constructBlock(path) {
@@ -333,7 +335,7 @@ document.onload = function() {
   }
 
   /**
-   * Construct a toolbox based off of its metadata, and add it to the project.
+   * Construct a toolbox based off of file data, and add it to the project.
    * @param {string} path The absolute filepath to the toolbox data.
    */
   constructToolbox(path) {
@@ -342,7 +344,7 @@ document.onload = function() {
   }
 
   /**
-   * Construct workspace contents based off of metadata and add to project.
+   * Construct workspace contents based off of file data and add to project.
    * @param {string} path The absolute filepath to the workspace contents data.
    */
   constructWorkspaceContents(path) {
@@ -351,7 +353,7 @@ document.onload = function() {
   }
 
   /**
-   * Construct a workspace configuration based off of metadata and add to project.
+   * Construct a workspace configuration based off of file data and add to project.
    * @param {string} path The absolute filepath to the workspace config's data.
    */
   constructWorkspaceConfig(path) {
@@ -360,7 +362,7 @@ document.onload = function() {
   }
 
   /**
-   * Processes a string of library metadata so that it can be parsed into JSON.
+   * Processes a string of library file data so that it can be parsed into JSON.
    * @param {string} dataString The string of the library's metadata.
    * @param {Object<string,Object>} buddyXml Object mapping block type to its xml.
    * @return {string} The refined string, ready to be parsed.
@@ -386,7 +388,7 @@ document.onload = function() {
   }
 
   /**
-   * Processes a string of toolbox metadata to properly extract xml.
+   * Processes a string of toolbox file data to properly extract xml.
    * @param {string} dataString The string of the toolbox's metadata.
    * @return {string} The xml string.
    */
@@ -395,7 +397,7 @@ document.onload = function() {
   }
 
   /**
-   * Processes a string of workspace contents metadata to properly extract xml.
+   * Processes a string of workspace contents file data to properly extract xml.
    * @param {string} dataString The string of the workspace contents metadata.
    * @return {string} The xml string.
    */
@@ -404,7 +406,7 @@ document.onload = function() {
   }
 
   /**
-   * Processes a string of workspace configuration metadata to extract options.
+   * Processes a string of workspace configuration file data to extract options.
    * @param {string} dataString The string of the workspace configuration's metadata.
    * @return {string} The options string.
    */
