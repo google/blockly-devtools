@@ -43,9 +43,6 @@ class ToolboxController extends ShadowController {
   constructor(projectController, hiddenWorkspace) {
     super(projectController, hiddenWorkspace);
 
-    // Creates first toolbox to add to project.
-    const toolbox = this.projectController.createToolbox('MyFirstToolbox');
-
     /**
      * ToolboxEditorView associated with this instance of ToolboxController.
      * @type {!ToolboxEditorView}
