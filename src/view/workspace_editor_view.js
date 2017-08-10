@@ -180,13 +180,13 @@ class WorkspaceEditorView {
       return;
     } else if (wsElement instanceof WorkspaceContents) {
       this.workspaceContents_ = wsElement;
-      this.refreshWorkspaceInfo();
       this.selectedBlock = null;
-      this.current = wsElement;
     } else if (wsElement instanceof WorkspaceConfiguration) {
-      this.current = wsElement;
       this.workspaceConfig = wsElement;
     }
+
+    this.current = wsElement;
+    this.refreshWorkspaceInfo();
   }
 
   /**
@@ -419,8 +419,12 @@ class WorkspaceEditorView {
    * model object.
    */
   refreshWorkspaceInfo() {
-    if (!this.getWorkspaceContents()) {
-      $('#currentWorkspace').text(this.getWorkspaceContents().name);
+    if (this.current instanceof WorkspaceContents) {
+      $('#workspace_component').text('contents');
+      $('#current_workspace').text(this.current.name);
+    } else if (this.current instanceof WorkspaceConfiguration) {
+      $('#workspace_component').text('configuration');
+      $('#current_workspace').text(this.current.name);
     }
   }
 }
@@ -436,8 +440,8 @@ WorkspaceEditorView.html = `
     <h3>Edit Workspace elements</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
   </div>
-    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
   <section id="workspace_section">
+    <p><b>Current workspace <span id="workspace_component"></span>:</b> <span id="current_workspace"></span></p>
     <aside>
       <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
       <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>

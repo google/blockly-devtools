@@ -1405,13 +1405,9 @@ FactoryUtils.cleanResourceName = function(resourceName) {
  * @param {boolean} disable Whether to disable the component. If false, enables.
  * @param {string} sectionId ID of the section which contains the component to
  *     enable or disable.
- * @param {string=} opt_injectId Param used when disabling a Blockly workspace.
- *     ID of the div into which the Blockly workspace was injected.
  */
-FactoryUtils.disableEdits = function(disable, sectionId, opt_injectId) {
+FactoryUtils.disableEdits = function(disable, sectionId) {
   const section = document.getElementById(sectionId);
-  opt_injectId = opt_injectId || sectionId;
-  const injectDiv = document.getElementById(opt_injectId);
 
   section.className = disable ? 'disabled' : '';
   section.style.pointerEvents = disable ? 'none' : 'auto';

@@ -218,11 +218,9 @@ class WorkspaceController extends ShadowController {
     this.view.editorWorkspace.cleanUp();
     this.updatePreview();
     if (this.view.current instanceof WorkspaceConfiguration) {
-      FactoryUtils.disableEdits(true,
-          'workspace_section', 'wsContentsDiv');
+      FactoryUtils.disableEdits(true, 'wsContentsDiv');
     } else {
-      FactoryUtils.disableEdits(false,
-          'workspace_section', 'wsContentsDiv');
+      FactoryUtils.disableEdits(false, 'wsContentsDiv');
     }
   }
 

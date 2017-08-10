@@ -38,6 +38,9 @@ class WorkspaceContents extends Resource {
   constructor(workspaceContentsName) {
     super(workspaceContentsName, PREFIXES.WORKSPACE_CONTENTS);
 
+    // TODO(#201): Create wrapper class for contents and config object instead
+    // of having a config field within contents.
+
     /**
      * XML DOM element of this workspace contents.
      * @type {!Element}
@@ -49,10 +52,6 @@ class WorkspaceContents extends Resource {
      * @type {!Array.<string>}
      */
     this.shadowBlocks = [];
-
-    // TODO(#201): Create wrapper class for contents and config object instead
-    // of having a config field within contents.
-    this.config = new WorkspaceConfiguration(this.name);
   }
 
   /**
