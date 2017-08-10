@@ -288,6 +288,7 @@ class AppController {
     }
     projController.createToolbox('MyFirstToolbox');
     projController.createWorkspaceContents('MyFirstWorkspace');
+    projController.createWorkspaceConfiguration('MyFirstConfig');
     projController.createBlockLibrary('MyFirstBlockLibrary');
     this.editorController.blockEditorController.createNewBlock(
         '', 'myFirstBlock', 'MyFirstBlockLibrary', 'My Block');
@@ -395,7 +396,8 @@ class AppController {
    * and model.
    */
   createWorkspaceContents() {
-    let name = this.getResourceName_(PREFIXES.WORKSPACE_CONTENTS, 'Workspace');
+    let name = this.getResourceName_(
+        PREFIXES.WORKSPACE_CONTENTS, 'WorkspaceContents');
     if (name) {
       const workspaceContents =
           this.projectController.createWorkspaceContents(name);
@@ -408,7 +410,8 @@ class AppController {
    * editors, and model.
    */
   createWorkspaceConfiguration() {
-    let name = this.getResourceName_(PREFIXES.WORKSPACE_CONFIG);
+    let name = this.getResourceName_(
+        PREFIXES.WORKSPACE_CONFIG, 'WorkspaceConfig');
     if (name) {
       const workspaceConfig = this.projectController.createWorkspaceConfiguration(name);
       this.switchEnvironment(AppController.WORKSPACE_EDITOR, workspaceConfig);

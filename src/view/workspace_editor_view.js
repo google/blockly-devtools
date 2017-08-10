@@ -51,9 +51,18 @@ class WorkspaceEditorView {
 
     /**
      * WorkspaceConfig associated with this instance of WorkspaceView.
-     * @type {!WorkspaceConfig}
+     * @type {!WorkspaceConfiguration}
      */
-    // this.workspaceConfig = workspaceConfig;
+    this.workspaceConfig = workspaceConfig;
+
+    /**
+     * Resource object which is currently being edited in the Workspace view.
+     * Used to differentiate between whether a user has loaded the workspace
+     * view by clicking on a contents or configuration object. (If one, the
+     * other should not be editable).
+     * @type {!WorkspaceContents|!WorkspaceConfiguration}
+     */
+    this.current = null;
 
     /**
      * JQuery container of workspace editor view.
@@ -170,14 +179,14 @@ class WorkspaceEditorView {
       throw 'Workspace element is null or undefined.';
       return;
     } else if (wsElement instanceof WorkspaceContents) {
-      this.editorWorkspace.clear();
       this.workspaceContents_ = wsElement;
-      this.refreshWorkspaceInfo();
       this.selectedBlock = null;
     } else if (wsElement instanceof WorkspaceConfiguration) {
-      throw 'Loading only WorkspaceConfiguration objects is not supported. Config ' +
-          'objects are now a field of WorkspaceContents objects.';
+      this.workspaceConfig = wsElement;
     }
+
+    this.current = wsElement;
+    this.refreshWorkspaceInfo();
   }
 
   /**
@@ -410,8 +419,13 @@ class WorkspaceEditorView {
    * model object.
    */
   refreshWorkspaceInfo() {
-    if (!this.getWorkspaceContents()) {
-      $('#currentWorkspace').text(this.getWorkspaceContents().name);
+    // TODO(#226): Split contents/config into two separate views.
+    if (this.current instanceof WorkspaceContents) {
+      $('#workspace_component').text('contents');
+      $('#current_workspace').text(this.current.name);
+    } else if (this.current instanceof WorkspaceConfiguration) {
+      $('#workspace_component').text('configuration');
+      $('#current_workspace').text(this.current.name);
     }
   }
 }
@@ -428,11 +442,11 @@ WorkspaceEditorView.html = `
     <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
   </div>
   <section id="workspace_section">
-    <div style="float: right">
+    <p><b>Current workspace <span id="workspace_component"></span>:</b> <span id="current_workspace"></span></p>
+    <aside>
       <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
       <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
-    </div>
-    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
+    </aside>
     <div id="wsContentsDiv" style="clear: both"></div>
   </section>
 

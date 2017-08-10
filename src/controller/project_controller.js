@@ -413,14 +413,15 @@ class ProjectController {
     const workspaceScript = FactoryUtils.generateXmlAsJsFile(workspace, 'WORKSPACE');
     fileInfo['workspace'] = workspaceScript;
 
-    // Grabs first WorkspaceConfiguration (from WorkspaceContents).
+    // Grabs first WorkspaceConfiguration.
+    const configName = Object.keys(this.project.workspaceConfigSet.resources)[0];
+    const config = this.project.getWorkspaceConfiguration(configName);
     let customInjectInfo = Object.create(null);
     customInjectInfo.toolboxName = toolboxName;
     customInjectInfo.div = div;
     customInjectInfo.workspaceName = workspaceName;
     const injectScript = this.tree.appController.editorController.
-        workspaceController.generateInjectFile(
-          workspace.config, customInjectInfo);
+        workspaceController.generateInjectFile(config, customInjectInfo);
     fileInfo['inject'] = injectScript;
 
     // Grabs all BlockDefinitions.
