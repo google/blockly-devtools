@@ -105,38 +105,12 @@ class AppView {
         ['Create Application for Web', () => { this.createWeb(); }]
       ]],
       ['Edit', [
-        ['Block', [
-          ['Delete block', () => {
-              this.appController.editorController.delete(PREFIXES.BLOCK);
-            }],
-          ['Rename block', () => {
-              this.appController.editorController.rename(PREFIXES.BLOCK);
-            }]
-        ]],
-        ['Toolbox', [
-          ['Delete toolbox', () => {
-              this.appController.editorController.delete(PREFIXES.TOOLBOX);
-            }],
-          ['Rename toolbox', () => {
-              this.appController.editorController.rename(PREFIXES.TOOLBOX);
-            }]
-        ]],
-        ['WorkspaceContents', [
-          ['Delete workspace contents', () => {
-              this.appController.editorController.delete(PREFIXES.WORKSPACE_CONTENTS);
-            }],
-          ['Rename workspace contents', () => {
-              this.appController.editorController.rename(PREFIXES.WORKSPACE_CONTENTS);
-            }]
-        ]],
-        ['WorkspaceConfiguration', [
-          ['Delete workspace configuration', () => {
-              this.appController.editorController.delete(PREFIXES.WORKSPACE_CONFIG);
-            }],
-          ['Rename workspace configuration', () => {
-              this.appController.editorController.rename(PREFIXES.WORKSPACE_CONFIG);
-            }]
-        ]]
+        ['Delete', () => {
+            this.appController.editorController.delete();
+          }],
+        ['Rename', () => {
+            this.appController.editorController.rename();
+          }]
       ]]
     ];
 
@@ -148,7 +122,7 @@ class AppView {
     this.menuItems = {};
 
     /**
-     * Main NW menu of application.
+     * Main NWJS menu of application.
      * @type {!nw.Menu}
      */
     this.mainMenu = new nw.Menu({type: 'menubar'});

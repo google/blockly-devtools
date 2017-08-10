@@ -487,7 +487,6 @@ class AppController {
     var controller = 'Controller';
 
     if (editor == AppController.BLOCK_EDITOR) {
-      console.log('no way');
       view = PREFIXES.VARIABLE_BLOCK + view;
       controller = PREFIXES.VARIABLE_BLOCK + 'Editor' + controller;
     } else if (editor == AppController.TOOLBOX_EDITOR) {
@@ -506,32 +505,7 @@ class AppController {
     const type =
         this.editorController.switchEditor(this.editorController[controller]);
 
-    // Enable editing the current resource via menubar.
-    this.enableMenuEdit(type);
-
     // Close flyout if open.
     this.view.closeModal_();
-  }
-
-  /**
-   * Given a resource type, enables only that type to be edited via the menubar,
-   * and disables all other resource types.
-   * @param {string} type String constant from PREFIXES class that indicates
-   *     which resource should be editable via menubar.
-   */
-  enableMenuEdit(type) {
-    if (!type) {
-      return;
-    }
-
-    let editables = [PREFIXES.BLOCK, PREFIXES.TOOLBOX,
-        PREFIXES.WORKSPACE_CONTENTS, PREFIXES.WORKSPACE_CONFIG];
-    for (let res of editables) {
-      if (type != res) {
-        this.view.menuItems[res].enabled = false;
-      } else {
-        this.view.menuItems[res].enabled = true;
-      }
-    }
   }
 }

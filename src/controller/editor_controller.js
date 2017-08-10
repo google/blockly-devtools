@@ -182,17 +182,16 @@ class EditorController {
 
   /**
    * Deletes a resource from project.
-   * @param {string} type Type of resource to delete.
    */
-  delete(type) {
-    // TODO: Implement
-    if (type == PREFIXES.BLOCK) {
+  delete() {
+    const editor = this.currentEditor;
+    if (editor instanceof BlockEditorController) {
       const currentBlockName = this.blockEditorController.view.blockDefinition.name;
       this.projectController.removeBlock(currentBlockName);
-    } else if (type == PREFIXES.TOOLBOX) {
+    } else if (editor instanceof ToolboxController) {
       const currentToolboxName = this.toolboxController.view.toolbox.name;
       this.projectController.removeToolbox(currentToolboxName);
-    } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
+    } else if (editor instanceof WorkspaceController) {
       const currentContentsName = this.workspaceController.view.getWorkspaceContents().name;
       this.projectController.removeWorkspaceContents(currentContentsName);
     }
@@ -204,9 +203,8 @@ class EditorController {
    * resource.
    * @param {string} type Type of resource to rename.
    */
-  rename(type) {
-    const newName = window.prompt('What would you like to rename the current ' +
-        type + '?');
-    // TODO: Implement
+  rename() {
+    const newName = window.prompt('What would you like to rename the current object?');
+    // TODO: Implement renaming resources.
   }
 }
