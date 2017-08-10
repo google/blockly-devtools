@@ -51,9 +51,18 @@ class WorkspaceEditorView {
 
     /**
      * WorkspaceConfig associated with this instance of WorkspaceView.
-     * @type {!WorkspaceConfig}
+     * @type {!WorkspaceConfiguration}
      */
-    // this.workspaceConfig = workspaceConfig;
+    this.workspaceConfig = workspaceConfig;
+
+    /**
+     * Resource object which is currently being edited in the Workspace view.
+     * Used to differentiate between whether a user has loaded the workspace
+     * view by clicking on a contents or configuration object. (If one, the
+     * other should not be editable).
+     * @type {!WorkspaceContents|!WorkspaceConfiguration}
+     */
+    this.current = null;
 
     /**
      * JQuery container of workspace editor view.
@@ -174,10 +183,12 @@ class WorkspaceEditorView {
       this.workspaceContents_ = wsElement;
       this.refreshWorkspaceInfo();
       this.selectedBlock = null;
+      this.current = wsElement;
     } else if (wsElement instanceof WorkspaceConfiguration) {
-      throw 'Loading only WorkspaceConfiguration objects is not supported. Config ' +
-          'objects are now a field of WorkspaceContents objects.';
+      this.current = wsElement;
+      this.workspaceConfig = wsElement;
     }
+    console.log(this.current);
   }
 
   /**
@@ -427,12 +438,12 @@ WorkspaceEditorView.html = `
     <h3>Edit Workspace elements</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
   </div>
+    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
   <section id="workspace_section">
-    <div style="float: right">
+    <aside>
       <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
       <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
-    </div>
-    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
+    </aside>
     <div id="wsContentsDiv" style="clear: both"></div>
   </section>
 

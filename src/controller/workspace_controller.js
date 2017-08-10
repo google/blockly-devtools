@@ -216,6 +216,14 @@ class WorkspaceController extends ShadowController {
         this.view.editorWorkspace);
     this.view.editorWorkspace.cleanUp();
     this.updatePreview();
+    if (this.view.current instanceof WorkspaceConfiguration) {
+      console.log('Disabling workspace');
+      FactoryUtils.disableEdits(true,
+          'workspace_section', 'wsContentsDiv');
+    } else {
+      FactoryUtils.disableEdits(false,
+          'workspace_section', 'wsContentsDiv');
+    }
   }
 
   /**
@@ -231,6 +239,11 @@ class WorkspaceController extends ShadowController {
     const options = wsConfig ? wsConfig.options : Object.create(null);
     this.writeOptions_(options);
     this.updateOptions();
+    if (this.view.current instanceof WorkspaceContents) {
+      FactoryUtils.disableEdits(true, 'preload_div');
+    } else {
+      FactoryUtils.disableEdits(false, 'preload_div');
+    }
   }
 
   /**

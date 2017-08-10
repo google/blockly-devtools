@@ -280,7 +280,8 @@ class Project extends Resource {
       { 'id': PREFIXES.PROJECT, 'text': this.name,
         'children': [ this.librarySet.getNavTreeJson(),
           this.toolboxSet.getNavTreeJson(),
-          this.workspaceContentsSet.getNavTreeJson()]}
+          this.workspaceContentsSet.getNavTreeJson(),
+          this.workspaceConfigSet.getNavTreeJson()]}
     );
     return projectJson;
   }

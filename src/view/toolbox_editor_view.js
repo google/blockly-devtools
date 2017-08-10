@@ -432,7 +432,6 @@ class ToolboxEditorView {
    * @param {ListElement} selected The selected ListElement.
    */
   updateState(selectedIndex, selected) {
-    // From
     // Disable/enable editing buttons as necessary.
     this.editButton.disabled = selectedIndex < 0 ||
         selected.type != ListElement.TYPE_CATEGORY;
@@ -442,26 +441,8 @@ class ToolboxEditorView {
     this.downButton.disabled = selectedIndex >=
         table.rows.length - 1 || selectedIndex < 0;
     // Disable/enable the workspace as necessary.
-    this.disableWorkspace(this.shouldDisableWorkspace(selected));
-  }
-
-  /**
-   * Disables or enables the workspace by putting a div over or under the
-   * toolbox workspace, depending on the value of disable. Used when switching
-   * to/from separators where the user shouldn't be able to drag blocks into
-   * the workspace.
-   * @param {boolean} disable True if the workspace should be disabled, false
-   *     if it should be enabled.
-   */
-  disableWorkspace(disable) {
-    // From wfactory_view.js:disableWorkspace(disable)
-    if (disable) {
-      document.getElementById('toolbox_section').className = 'disabled';
-      document.getElementById('toolboxDiv').style.pointerEvents = 'none';
-    } else {
-      document.getElementById('toolbox_section').className = '';
-      document.getElementById('toolboxDiv').style.pointerEvents = 'auto';
-    }
+    FactoryUtils.disableEdits(this.shouldDisableWorkspace(selected),
+        'toolbox_section', 'toolboxDiv');
   }
 
   /**

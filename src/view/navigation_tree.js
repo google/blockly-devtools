@@ -137,6 +137,7 @@ class NavigationTree {
    */
   makeTree_() {
     const treeJson = this.makeTreeJson();
+    console.log(treeJson);
     this.makeTreeListener_();
     $('#navigationTree').jstree(treeJson);
   }
