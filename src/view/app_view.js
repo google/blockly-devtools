@@ -152,11 +152,14 @@ class AppView {
      * @type {!nw.Menu}
      */
     this.mainMenu = new nw.Menu({type: 'menubar'});
+
+    // Initializes menu tree based on platform.
     if (process.platform === 'darwin') {
       this.initMacMenubar(this.mainMenu, menuTree);
     } else {
       this.initMenuTree(this.mainMenu, menuTree);
     }
+
     /**
      * The Menubar of the main window of the application.
      * @type {!HtmlElement}
@@ -292,8 +295,6 @@ class AppView {
   exportCurrentWorkspaceConfiguration() {
     console.warn('unimplemented: AppView.exportCurrentWorkspaceConfiguration()');
   }
-
-
 
   /**
    * Creates and initializes a menu or menubar (Windows & Linux only),

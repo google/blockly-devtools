@@ -107,7 +107,7 @@ class BlockEditorController {
           inputType, blockTypeName, opt_blockStarterText));
     newBlock.setXml(starterXml);
 
-    // Adds
+    // Adds block definition to project.
     this.projectController.addBlockDefinition(newBlock, libraryName);
     newBlock.define();
 

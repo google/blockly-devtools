@@ -97,7 +97,6 @@ class EditorController {
     if (editor instanceof BlockEditorController) {
       this.currentEditor.refreshPreviews();
       type = PREFIXES.BLOCK;
-      console.log(type);
     } else if (editor instanceof ToolboxController) {
       this.currentEditor.loadToolbox(this.currentEditor.view.toolbox);
       this.currentEditor.setResource(this.currentEditor.view.toolbox);
@@ -189,7 +188,6 @@ class EditorController {
     // TODO: Implement
     if (type == PREFIXES.BLOCK) {
       const currentBlockName = this.blockEditorController.view.blockDefinition.name;
-      console.log('Removing block, ' + currentBlockName);
       this.projectController.removeBlock(currentBlockName);
     } else if (type == PREFIXES.TOOLBOX) {
       const currentToolboxName = this.toolboxController.view.toolbox.name;
