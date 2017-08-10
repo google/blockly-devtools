@@ -87,7 +87,7 @@ class ImportResourcePopupController extends PopupController {
    */
   makeImportPopupContents() {
     let htmlContents = `
-<header align="center">Choose a file to import From</header>
+<header align="center">Choose a file to import</header>
       <input type="file"  id="location"></input>
       <span id="warning_text">Please select a file.</span><br><br>
       <input type="button" value="Submit" id="submit">

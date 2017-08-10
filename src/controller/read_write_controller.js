@@ -106,9 +106,10 @@ class ReadWriteController {
       let block = library.getBlockDefinition(blockType);
       let item = '\n\n\t// BlockType: ' + block.type() + '\n' + block.json;
       blockData.push(item);
-      buddyXml[block.type()] = block.xml;
+      buddyXml[block.type()] = Blockly.Xml.domToText(block.xml);
     }
     const location = library.webFilepath;
+    // TODO #
     this.buddyXmlLocations[library.name] = location + path.sep + 'blockXml';
     const filename = this.getDivName(library) + '.js';
     library.webFilepath = library.webFilepath + path.sep + filename;
@@ -326,12 +327,9 @@ document.onload = function() {
     let file = pathElements.slice(-1)[0];
     file = file.replace('.js', '');
     const libraryName = file.replace('BlockLibrary_', '');
-    console.log(this.buddyXmlLocations);
-    console.log(this.buddyXmlLocations[libraryName]);
     let buddyXmlString =
         fs.readFileSync(this.buddyXmlLocations[libraryName], 'utf8');
     buddyXmlString = buddyXmlString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    console.log(buddyXmlString);
     let buddyXml = JSON.parse(buddyXmlString);
     console.log(buddyXml);
     this.processLibraryDataString(libraryName, dataString, buddyXml);
@@ -351,7 +349,11 @@ document.onload = function() {
    */
   constructToolbox(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = this.processToolboxDataString(dataString);
+    const pathElements = path.split('/');
+    let file = pathElements.slice(-1)[0];
+    file = file.replace('.js', '');
+    const toolboxName = file.replace('Toolbox_', '');
+    this.processToolboxDataString(toolboxName, dataString);
   }
 
   /**
@@ -360,7 +362,11 @@ document.onload = function() {
    */
   constructWorkspaceContents(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = this.processWorkspaceContentsDataString(dataString);
+    const pathElements = path.split('/');
+    let file = pathElements.slice(-1)[0];
+    file = file.replace('.js', '');
+    const contentsName = file.replace('WorkspaceContents_', '');
+    this.processWorkspaceContentsDataString(contentsName, dataString);
   }
 
   /**
@@ -369,50 +375,76 @@ document.onload = function() {
    */
   constructWorkspaceConfig(path) {
     const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = this.processWorkspaceConfigDataString(dataString);
+    const pathElements = path.split('/');
+    let file = pathElements.slice(-1)[0];
+    file = file.replace('.js', '');
+    const libraryName = file.replace('WorkspaceConfiguration_', '');
+    this.processWorkspaceConfigDataString(dataString);
   }
 
   /**
    * Processes a string of library file data so that it can be parsed into JSON.
+   * @param {string} libraryName The name of the library.
    * @param {string} dataString The string of the library's metadata.
    * @param {Object<string,Object>} buddyXml Object mapping block type to its xml.
-   * @return {string} The refined string, ready to be parsed.
    */
   processLibraryDataString(libraryName, dataString, buddyXml) {
+    console.log('RAW DATA: ' + dataString);
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
-    refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
-    refinedString = refinedString.replace(');', '');
-    refinedString = refinedString + ',';
-    let refinedArray = refinedString.split('},');
+    console.loge('PRE TRIM: ' +refinedString);
+    refinedString = refinedString.trim();
+    console.loge('POST TRIM: ' +refinedString);
+    refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', 'var BLOCK_JSON = ');
+    console.log('AFTER Blockly.(...) REPLACE: ' + refinedString);
+    refinedString = refinedString.replace(');', ';');
+    console.log('AFTER ); REPLACE: ' + refinedString);
+    //console.log('AFTER , ADD: ' + refinedString);
+    let library = new BlockLibrary(libraryName);
+    console.log(refinedString);
+    let nifty_keen_object = eval(refinedString);
+    console.log(nifty_keen_object);
+    /*
+    console.log(refinedArray);
+    this.appController.projectController.addBlockLibrary(library);
     for (let blockString of refinedArray) {
         if ( blockString) {
           blockString = blockString + '}';
+          blockString = blockString.replace(',}', '');
           console.log(blockString);
           let blockJson = JSON.parse(blockString);
           let blockToAdd = new BlockDefinition(blockJson.type, blockJson);
-          blockToAdd.xml = buddyXml[blockJson.type];
-          this.appController.project.librarySet.resources[libraryName].add(blockToAdd);
-          this.appController.tree.addBlockNode(blockJson.type, libraryName);
+          blockToAdd.xml = Blockly.Xml.textToDom(buddyXml[blockJson.type]);
+          this.appController.editorController.blockEditorController.view.editorWorkspace.clear();
+          Blockly.Xml.domToWorkspace(
+              blockToAdd.xml,
+                this.appController.editorController.blockEditorController.view.editorWorkspace);
+          this.appController.editorController.blockEditorController.updateBlockDefinition();
+          this.appController.editorController.blockEditorController.refreshPreviews();
+          this.appController.projectController.addBlockDefinition(blockToAdd, libraryName);
       }
-    }
+    }*/
   }
 
   /**
    * Processes a string of toolbox file data to properly extract xml.
+   * @param {string} toolboxName The name of the toolbox.
    * @param {string} dataString The string of the toolbox's metadata.
-   * @return {string} The xml string.
    */
-  processToolboxDataString(dataString) {
-    eval(dataString);
+  processToolboxDataString(toolboxName, dataString) {
+    let toolbox = new Toolbox(toolboxName);
+    toolbox.xml = Blockly.Xml.textToDom(eval(dataString));
+    this.appController.projectController.addToolbox(toolbox);
   }
 
   /**
    * Processes a string of workspace contents file data to properly extract xml.
+   * @param {string} contentsName The name of the workspace contents.
    * @param {string} dataString The string of the workspace contents metadata.
-   * @return {string} The xml string.
    */
-  processWorkspaceContentsDataString(dataString) {
-    eval(dataString);
+  processWorkspaceContentsDataString(contentsName, dataString) {
+    let workspaceContents = new WorkspaceContents(contentsName);
+    workspaceContents.xml = Blockly.Xml.textToDom(eval(dataString));
+    this.appController.projectController.addWorkspaceContents(workspaceContents);
   }
 
   /**

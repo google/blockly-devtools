@@ -216,24 +216,21 @@ class AppView {
    * Action taken when importing library.
    */
   importLibrary() {
-     // TODO #228: Fill in action.
-     console.warn('unimplemented: importLibrary');
+     this.appController.readWriteController.importResource(PREFIXES.LIBRARY);
   }
 
   /**
    * Action taken when importing toolbox.
    */
   importToolbox() {
-    // TODO #228: Fill in action.
-    console.warn('unimplemented: importToolbox');
+   this.appController.readWriteController.importResource(PREFIXES.TOOLBOX);
   }
 
   /**
    * Action taken when importing workspace.
    */
   importWorkspace() {
-     // TODO #228: Fill in action.
-     console.warn('unimplemented: importWorkspace');
+     this.appController.readWriteController.importResource(PREFIXES.WORKSPACE_CONTENTS);
   }
   /**
    * Action taken when creating sample Blockly web application.

@@ -204,7 +204,7 @@ class Project extends Resource {
 
   /**
    * Returns boolean of whether or not a given blockType is defined in a block
-   *     library in this Project.
+   * library in this Project.
    * @param {string} blockType Type of block.
    * @return {boolean} Whether or not blockType is stored in block library.
    */
@@ -271,7 +271,7 @@ class Project extends Resource {
 
   /**
    * Gets the JSON object necessary to represent the project in the navigation
-   *     tree.
+   * tree.
    * @return {!Object} The tree-specific JSON representation of the project.
    */
   // TODO(#219): Move this code to NavigationTree
