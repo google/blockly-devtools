@@ -103,6 +103,14 @@ class AppView {
             ]]
         ]],
         ['Create Application for Web', () => { this.createWeb(); }]
+      ]],
+      ['Edit', [
+        ['Delete', () => {
+            this.appController.editorController.delete();
+          }],
+        ['Rename', () => {
+            this.appController.editorController.rename();
+          }]
       ]]
     ];
 
@@ -113,13 +121,19 @@ class AppView {
      */
     this.menuItems = {};
 
-    // Initializes menubar.
+    /**
+     * Main NWJS menu of application.
+     * @type {!nw.Menu}
+     */
     this.mainMenu = new nw.Menu({type: 'menubar'});
-    if (process.platform === "darwin") {
+
+    // Initializes menu tree based on platform.
+    if (process.platform === 'darwin') {
       this.initMacMenubar(this.mainMenu, menuTree);
     } else {
       this.initMenuTree(this.mainMenu, menuTree);
     }
+
     /**
      * The Menubar of the main window of the application.
      * @type {!HtmlElement}
@@ -181,27 +195,6 @@ class AppView {
    */
   openProject() {
     this.appController.readWriteController.openProject();
-  }
-
-  /**
-   * Action taken when saving a project for Web only.
-   */
-  saveForWeb() {
-    // TODO: Fill in action.
-  }
-
-  /**
-   * Action taken when saving a project for iOS only.
-   */
-  saveForIos() {
-    // TODO: Fill in action.
-  }
-
-  /**
-   * Action taken when saving a project for Android only.
-   */
-  saveForAndroid() {
-    // TODO: Fill in action.
   }
 
   /**
