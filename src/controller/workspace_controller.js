@@ -91,7 +91,7 @@ class WorkspaceController extends ShadowController {
   reinjectPreview() {
     // From wfactory_controller.js:reinjectPreview(tree)
     this.view.previewWorkspace.dispose();
-    const injectOptions = this.view.getWorkspaceContents().config.options;
+    const injectOptions = this.view.workspaceConfig.options;
     injectOptions['toolbox'] = '<xml></xml>';
 
     this.view.previewWorkspace = Blockly.inject('workspacePreview', injectOptions);
@@ -212,12 +212,12 @@ class WorkspaceController extends ShadowController {
           'Cannot load an undefined or null WorkspaceContents onto workspace.');
       return;
     }
+    this.view.editorWorkspace.clear();
     Blockly.Xml.domToWorkspace(this.view.getWorkspaceContents().getExportData(),
         this.view.editorWorkspace);
     this.view.editorWorkspace.cleanUp();
     this.updatePreview();
     if (this.view.current instanceof WorkspaceConfiguration) {
-      console.log('Disabling workspace');
       FactoryUtils.disableEdits(true,
           'workspace_section', 'wsContentsDiv');
     } else {
@@ -323,7 +323,7 @@ class WorkspaceController extends ShadowController {
   updateOptions() {
     // From wfactory_controller.js:generateNewOptions()
     // TODO (#141): Add popup for workspace config.
-    this.view.getWorkspaceContents().config.setOptions(this.readOptions_());
+    this.view.workspaceConfig.setOptions(this.readOptions_());
     this.reinjectPreview();
   }
 
@@ -477,10 +477,11 @@ class WorkspaceController extends ShadowController {
 
     // Set zoom options.
     let zoom = optionsObj['zoom'] || Object.create(null);
+    let hasZoom = zoom.startScale ? true : false;
     document.getElementById('option_zoom_checkbox').checked =
-        zoom ? true : false;
+        hasZoom ? true : false;
     document.getElementById('zoom_options').style.display =
-        zoom ? 'block' : 'none';
+        hasZoom ? 'block' : 'none';
     document.getElementById('zoomOption_controls_checkbox').checked =
         zoom['controls'] || true;
     document.getElementById('zoomOption_wheel_checkbox').checked =

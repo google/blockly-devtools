@@ -179,7 +179,6 @@ class WorkspaceEditorView {
       throw 'Workspace element is null or undefined.';
       return;
     } else if (wsElement instanceof WorkspaceContents) {
-      this.editorWorkspace.clear();
       this.workspaceContents_ = wsElement;
       this.refreshWorkspaceInfo();
       this.selectedBlock = null;
@@ -188,7 +187,6 @@ class WorkspaceEditorView {
       this.current = wsElement;
       this.workspaceConfig = wsElement;
     }
-    console.log(this.current);
   }
 
   /**
