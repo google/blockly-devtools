@@ -484,13 +484,23 @@ class AppController {
     if (!resource) {
       throw 'switchEnvironment() trying to load a ' + resource + ' object into' +
           ' an editor (' + editor + ').';
+      return;
     }
+    console.log('switching environment');
+    console.log(this.editorController.currentEditor);
+
+    if (this.editorController.currentEditor && Blockly.selected) {
+      Blockly.WidgetDiv.hide();
+      Blockly.selected.unselect();
+      this.editorController.currentEditor.onChange(Blockly.Events.UI);
+    }
+
     var view = 'EditorView';
     var controller = 'Controller';
 
     if (editor == AppController.BLOCK_EDITOR) {
       view = PREFIXES.VARIABLE_BLOCK + view;
-      controller = PREFIXES.VARIABLE_BLOCK + controller;
+      controller = PREFIXES.VARIABLE_BLOCK + 'Editor' + controller;
     } else if (editor == AppController.TOOLBOX_EDITOR) {
       view = PREFIXES.VARIABLE_TOOLBOX + view;
       controller = PREFIXES.VARIABLE_TOOLBOX + controller;

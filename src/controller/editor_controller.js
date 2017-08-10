@@ -78,9 +78,6 @@ class EditorController {
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
     this.currentEditor = null;
-
-    // Show the block editor on page load.
-    this.switchEditor(AppController.BLOCK_EDITOR);
   }
 
   /**
