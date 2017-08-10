@@ -181,7 +181,8 @@ class EditorController {
   }
 
   /**
-   * Deletes a resource from project.
+   * Deletes the currently selected resource (block, toolbox, etc.) from the
+   * project.
    */
   delete() {
     const editor = this.currentEditor;
