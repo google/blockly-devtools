@@ -195,7 +195,7 @@ class EditorController {
       const currentToolboxName = this.toolboxController.view.toolbox.name;
       this.projectController.removeToolbox(currentToolboxName);
     } else if (type == PREFIXES.WORKSPACE_CONTENTS) {
-      const currentContentsName = this.workspaceController.view.workspaceContents.name;
+      const currentContentsName = this.workspaceController.view.getWorkspaceContents().name;
       this.projectController.removeWorkspaceContents(currentContentsName);
     }
   }
