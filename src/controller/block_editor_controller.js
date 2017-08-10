@@ -196,6 +196,7 @@ class BlockEditorController {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     // Sets XML field of BlockDefinition object.
+    console.log('I AM ROOT: ' + rootBlock);
     const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
     currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
     // Sets JSON field of BlockDefinition object.

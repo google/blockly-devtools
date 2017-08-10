@@ -389,40 +389,26 @@ document.onload = function() {
    * @param {Object<string,Object>} buddyXml Object mapping block type to its xml.
    */
   processLibraryDataString(libraryName, dataString, buddyXml) {
-    console.log('RAW DATA: ' + dataString);
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
-    console.loge('PRE TRIM: ' +refinedString);
-    refinedString = refinedString.trim();
-    console.loge('POST TRIM: ' +refinedString);
-    refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', 'var BLOCK_JSON = ');
-    console.log('AFTER Blockly.(...) REPLACE: ' + refinedString);
-    refinedString = refinedString.replace(');', ';');
-    console.log('AFTER ); REPLACE: ' + refinedString);
-    //console.log('AFTER , ADD: ' + refinedString);
+    refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
+    refinedString = refinedString.replace(');', '];');
     let library = new BlockLibrary(libraryName);
-    console.log(refinedString);
-    let nifty_keen_object = eval(refinedString);
-    console.log(nifty_keen_object);
-    /*
-    console.log(refinedArray);
+    refinedString = refinedString.trim();
+    refinedString = 'var BLOCK_JSON = BLOCK_JSON || []; BLOCK_JSON = [' + refinedString;
+    let jsonArray = eval(refinedString);
+    console.log(JSON.stringify(jsonArray));
     this.appController.projectController.addBlockLibrary(library);
-    for (let blockString of refinedArray) {
-        if ( blockString) {
-          blockString = blockString + '}';
-          blockString = blockString.replace(',}', '');
-          console.log(blockString);
-          let blockJson = JSON.parse(blockString);
-          let blockToAdd = new BlockDefinition(blockJson.type, blockJson);
-          blockToAdd.xml = Blockly.Xml.textToDom(buddyXml[blockJson.type]);
-          this.appController.editorController.blockEditorController.view.editorWorkspace.clear();
-          Blockly.Xml.domToWorkspace(
-              blockToAdd.xml,
-                this.appController.editorController.blockEditorController.view.editorWorkspace);
-          this.appController.editorController.blockEditorController.updateBlockDefinition();
-          this.appController.editorController.blockEditorController.refreshPreviews();
-          this.appController.projectController.addBlockDefinition(blockToAdd, libraryName);
-      }
-    }*/
+    for (let blockJson of jsonArray) {
+      let blockToAdd = new BlockDefinition(blockJson.type, blockJson);
+      blockToAdd.xml = Blockly.Xml.textToDom(buddyXml[blockJson.type]);
+      this.appController.projectController.addBlockDefinition(blockToAdd, libraryName);
+      this.appController.editorController.blockEditorController.view.editorWorkspace.clear();
+      Blockly.Xml.domToWorkspace(
+          blockToAdd.xml,
+            this.appController.editorController.blockEditorController.view.editorWorkspace);
+      this.appController.editorController.blockEditorController.updateBlockDefinition();
+      this.appController.editorController.blockEditorController.refreshPreviews();
+    }
   }
 
   /**
