@@ -103,6 +103,40 @@ class AppView {
             ]]
         ]],
         ['Create Application for Web', () => { this.createWeb(); }]
+      ]],
+      ['Edit', [
+        ['Block', [
+          ['Delete block', () => {
+              this.appController.editorController.delete(PREFIXES.BLOCK);
+            }],
+          ['Rename block', () => {
+              this.appController.editorController.rename(PREFIXES.BLOCK);
+            }]
+        ]],
+        ['Toolbox', [
+          ['Delete toolbox', () => {
+              this.appController.editorController.delete(PREFIXES.TOOLBOX);
+            }],
+          ['Rename toolbox', () => {
+              this.appController.editorController.rename(PREFIXES.TOOLBOX);
+            }]
+        ]],
+        ['WorkspaceContents', [
+          ['Delete workspace contents', () => {
+              this.appController.editorController.delete(PREFIXES.WORKSPACE_CONTENTS);
+            }],
+          ['Rename workspace contents', () => {
+              this.appController.editorController.rename(PREFIXES.WORKSPACE_CONTENTS);
+            }]
+        ]],
+        ['WorkspaceConfiguration', [
+          ['Delete workspace configuration', () => {
+              this.appController.editorController.delete(PREFIXES.WORKSPACE_CONFIG);
+            }],
+          ['Rename workspace configuration', () => {
+              this.appController.editorController.rename(PREFIXES.WORKSPACE_CONFIG);
+            }]
+        ]]
       ]]
     ];
 
@@ -113,9 +147,12 @@ class AppView {
      */
     this.menuItems = {};
 
-    // Initializes menubar.
+    /**
+     * Main NW menu of application.
+     * @type {!nw.Menu}
+     */
     this.mainMenu = new nw.Menu({type: 'menubar'});
-    if (process.platform === "darwin") {
+    if (process.platform === 'darwin') {
       this.initMacMenubar(this.mainMenu, menuTree);
     } else {
       this.initMenuTree(this.mainMenu, menuTree);
@@ -181,27 +218,6 @@ class AppView {
    */
   openProject() {
     this.appController.readWriteController.openProject();
-  }
-
-  /**
-   * Action taken when saving a project for Web only.
-   */
-  saveForWeb() {
-    // TODO: Fill in action.
-  }
-
-  /**
-   * Action taken when saving a project for iOS only.
-   */
-  saveForIos() {
-    // TODO: Fill in action.
-  }
-
-  /**
-   * Action taken when saving a project for Android only.
-   */
-  saveForAndroid() {
-    // TODO: Fill in action.
   }
 
   /**
@@ -276,6 +292,8 @@ class AppView {
   exportCurrentWorkspaceConfiguration() {
     console.warn('unimplemented: AppView.exportCurrentWorkspaceConfiguration()');
   }
+
+
 
   /**
    * Creates and initializes a menu or menubar (Windows & Linux only),
