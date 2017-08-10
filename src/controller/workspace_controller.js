@@ -217,6 +217,8 @@ class WorkspaceController extends ShadowController {
         this.view.editorWorkspace);
     this.view.editorWorkspace.cleanUp();
     this.updatePreview();
+    // TODO(#226): Split contents/config view into two separate views and remove
+    // code below (disables part of editor).
     if (this.view.current instanceof WorkspaceConfiguration) {
       FactoryUtils.disableEdits(true, 'wsContentsDiv');
     } else {
@@ -237,6 +239,8 @@ class WorkspaceController extends ShadowController {
     const options = wsConfig ? wsConfig.options : Object.create(null);
     this.writeOptions_(options);
     this.updateOptions();
+    // TODO(#226): Split contents/config view into two separate views and remove
+    // code below (disables part of editor).
     if (this.view.current instanceof WorkspaceContents) {
       FactoryUtils.disableEdits(true, 'preload_div');
     } else {

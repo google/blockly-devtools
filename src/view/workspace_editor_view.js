@@ -419,6 +419,7 @@ class WorkspaceEditorView {
    * model object.
    */
   refreshWorkspaceInfo() {
+    // TODO(#226): Split contents/config into two separate views.
     if (this.current instanceof WorkspaceContents) {
       $('#workspace_component').text('contents');
       $('#current_workspace').text(this.current.name);
