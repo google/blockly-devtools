@@ -99,15 +99,18 @@ class BlockEditorController {
    */
   createNewBlock(inputType, blockTypeName, libraryName, opt_blockStarterText) {
     // Creates new BlockDefinition object.
-    const newBlock = this.projectController.createBlockDefinition(
-        blockTypeName, libraryName);
-    newBlock.define();
+    const newBlock = new BlockDefinition(blockTypeName);
 
     // Sets XML in BlockDefinition model object.
     const starterXml = Blockly.Xml.textToDom(
         FactoryUtils.buildBlockEditorStarterXml(
           inputType, blockTypeName, opt_blockStarterText));
     newBlock.setXml(starterXml);
+
+    // Adds block definition to project.
+    this.projectController.addBlockDefinition(newBlock, libraryName);
+    newBlock.define();
+
     // Shows onto view.
     this.view.show(newBlock);
     this.refreshPreviews();
