@@ -78,20 +78,4 @@ function test_addEscapeWithWords() {
   }
 }
 
-/**
- * WorkspaceFactoryGenerator.evaluateMarkedCode() test. Should fail if the code
- * within the fail variable is run.
- */
-function test_evaluateMarkedCode() {
-  let generator = new WorkspaceFactoryGenerator(null);
-  test_evaluateMarkedCode.passedTest = false;
-
-  let start = '/* BEGINNING BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */\n';
-  let pass = 'test_evaluateMarkedCode.passedTest = true;';
-  let end = '/* END BLOCKLY_TOOLBOX_XML ASSIGNMENT. DO NOT EDIT. */\n';
-  let fail = 'assertTrue(false);\n';
-
-  let runCode = fail + start + pass + end + fail;
-  generator.evaluateMarkedCode(runCode);
-  assertTrue(test_evaluateMarkedCode.passedTest);
-}
+// TODO(#186): Write tests for project and resource I/O.
