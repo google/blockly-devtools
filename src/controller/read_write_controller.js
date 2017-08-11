@@ -65,7 +65,7 @@ class ReadWriteController {
      * Locations of the buddy xml for each library mapped to the library names.
      * @type {Object<string,string>}
      */
-    // TODO #
+    // TODO # 260: Eliminate need for buddyXml file.
     this.buddyXmlLocations =
       this.buddyXmlLocations = JSON.parse(localStorage.getItem('buddyXml')) ||
         Object.create(null);
@@ -109,7 +109,7 @@ class ReadWriteController {
       buddyXml[block.type()] = Blockly.Xml.domToText(block.xml);
     }
     const location = library.webFilepath;
-    // TODO #
+    // TODO # 260: eliminate need for buddyXml file;
     this.buddyXmlLocations[library.name] = location + path.sep + 'blockXml';
     const filename = this.getDivName(library) + '.js';
     library.webFilepath = library.webFilepath + path.sep + filename;
@@ -353,7 +353,10 @@ document.onload = function() {
     let file = pathElements.slice(-1)[0];
     file = file.replace('.js', '');
     const toolboxName = file.replace('Toolbox_', '');
-    this.processToolboxDataString(toolboxName, dataString);
+    let xmlString = this.processToolboxDataString(toolboxName, dataString);
+    let toolbox = new Toolbox(toolboxName);
+    toolbox.xml = Blockly.Xml.textToDom(xmlString);
+    this.appController.projectController.addToolbox(toolbox);
   }
 
   /**
@@ -366,7 +369,11 @@ document.onload = function() {
     let file = pathElements.slice(-1)[0];
     file = file.replace('.js', '');
     const contentsName = file.replace('WorkspaceContents_', '');
-    this.processWorkspaceContentsDataString(contentsName, dataString);
+    let xmlString =
+        this.processWorkspaceContentsDataString(contentsName, dataString);
+    let workspaceContents = new WorkspaceContents(contentsName);
+    workspaceContents.xml = Blockly.Xml.textToDom(xmlString);
+    this.appController.projectController.addWorkspaceContents(workspaceContents);
   }
 
   /**
@@ -378,8 +385,9 @@ document.onload = function() {
     const pathElements = path.split('/');
     let file = pathElements.slice(-1)[0];
     file = file.replace('.js', '');
-    const libraryName = file.replace('WorkspaceConfiguration_', '');
-    this.processWorkspaceConfigDataString(dataString);
+    const configName = file.replace('WorkspaceConfiguration_', '');
+    this.processWorkspaceConfigDataString(configName, dataString);
+    // TODO #259: connect workspace configuration import properly.
   }
 
 
@@ -416,16 +424,19 @@ document.onload = function() {
    */
   processToolboxDataString(toolboxName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
-    console.log(refinedString);
     refinedString = refinedString.replace(
         'var BLOCKLY_TOOLBOX_XML = BLOCKLY_TOOLBOX_XML || Object.create(null);', '');
     refinedString = refinedString.replace('\'' + toolboxName + '\'] =', '');
     refinedString = refinedString.replace('BLOCKLY_TOOLBOX_XML[', '');
     refinedString = refinedString.replace('>\';', '>\'');
-    console.log(refinedString.trim());
-    let toolbox = new Toolbox(toolboxName);
-    toolbox.xml = Blockly.Xml.textToDom(refinedString.trim());
-    this.appController.projectController.addToolbox(toolbox);
+    refinedString = refinedString.trim();
+    let stringArray = refinedString.split('+');
+    let xmlString = '';
+    for (let string of stringArray) {
+      string = string.replace('\'', '');
+      xmlString = xmlString + string.trim();
+    }
+    return xmlString;
   }
 
   /**
@@ -434,9 +445,21 @@ document.onload = function() {
    * @param {string} dataString The string of the workspace contents metadata.
    */
   processWorkspaceContentsDataString(contentsName, dataString) {
-    let workspaceContents = new WorkspaceContents(contentsName);
-    workspaceContents.xml = Blockly.Xml.textToDom(eval(dataString));
-    this.appController.projectController.addWorkspaceContents(workspaceContents);
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    refinedString = refinedString.replace(
+        'var WORKSPACE_CONTENTS_XML = WORKSPACE_CONTENTS_XML || ' +
+          'Object.create(null);', '');
+    refinedString = refinedString.replace('\'' + contentsName + '\'] =', '');
+    refinedString = refinedString.replace('WORKSPACE_CONTENTS_XML[', '');
+    refinedString = refinedString.replace('>\';', '>\'');
+    refinedString = refinedString.trim();
+    let stringArray = refinedString.split('+');
+    let xmlString = '';
+    for (let string of stringArray) {
+      string = string.replace('\'', '');
+      xmlString = xmlString + string.trim();
+    }
+    return xmlString;
   }
 
   /**
@@ -444,7 +467,21 @@ document.onload = function() {
    * @param {string} dataString The string of the workspace configuration's metadata.
    * @return {string} The options string.
    */
-  processWorkspaceConfigDataString(dataString) {
-      //eval(dataString);
+   // TODO #259: fill out fields properly.
+  processWorkspaceConfigDataString(configName, dataString) {
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    refinedString = refinedString.replace(
+        'var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);', '');
+    refinedString = refinedString.replace('\'' + configName + '\'] =', '');
+    refinedString = refinedString.replace('BLOCKLY_OPTIONS[', '');
+    refinedString = refinedString.replace('\';', '\'');
+    refinedString = refinedString.trim();
+    refinedString = refinedString.replace('document.onload = function() {', '');
+    refinedString = refinedString.replace(
+        'var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);', '');
+    refinedString = refinedString.replace('};', '');
+    refinedString = refinedString.replace('BLOCKLY_TOOLBOX_XML[', '');
+    refinedString = refinedString.replace('],', ',');
+    return refinedString;
   }
 }
