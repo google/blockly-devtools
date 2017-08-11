@@ -22,13 +22,13 @@
 
 goog.provide('ReadWriteController');
 
-goog.require('SaveProjectPopupView');
-goog.require('SaveProjectPopupController');
-goog.require('OpenProjectPopupController');
-goog.require('ImportResourcePopupController');
-goog.require('Project');
 goog.require('BlockDefinition');
 goog.require('BlockLibrary');
+goog.require('ImportResourcePopupController');
+goog.require('OpenProjectPopupController');
+goog.require('Project');
+goog.require('SaveProjectPopupView');
+goog.require('SaveProjectPopupController');
 goog.require('Toolbox');
 goog.require('WorkspaceContents');
 
@@ -69,8 +69,7 @@ class ReadWriteController {
      * @type {Object<string,string>}
      */
     // TODO # 260: Eliminate need for buddyXml file.
-    this.buddyXmlLocations =
-      this.buddyXmlLocations = JSON.parse(localStorage.getItem('buddyXml')) ||
+    this.buddyXmlLocations = JSON.parse(localStorage.getItem('buddyXml')) ||
         Object.create(null);
   }
 
@@ -105,7 +104,6 @@ class ReadWriteController {
     let buddyXml = Object.create(null);
     let blockData = [];
     for (let blockType of library.getBlockTypes()) {
-      // Issue #190
       let block = library.getBlockDefinition(blockType);
       let item = '\n\n\t// BlockType: ' + block.type() + '\n' + block.json;
       blockData.push(item);
@@ -328,7 +326,7 @@ document.onload = function() {
     const dataString = fs.readFileSync(path, 'utf8');
     const pathElements = path.split('/');
     let file = pathElements.slice(-1)[0];
-    file = file.replace('.js', '');
+    file = file.replace(/.js$/, '');
     const libraryName = file.replace('BlockLibrary_', '');
     let buddyXmlString =
         fs.readFileSync(this.buddyXmlLocations[libraryName], 'utf8');
@@ -353,7 +351,7 @@ document.onload = function() {
     const dataString = fs.readFileSync(path, 'utf8');
     const pathElements = path.split('/');
     let file = pathElements.slice(-1)[0];
-    file = file.replace('.js', '');
+    file = file.replace(/.js$/, '');
     const toolboxName = file.replace('Toolbox_', '');
     let xmlString = this.processToolboxDataString(toolboxName, dataString);
     let toolbox = new Toolbox(toolboxName);
@@ -369,7 +367,7 @@ document.onload = function() {
     const dataString = fs.readFileSync(path, 'utf8');
     const pathElements = path.split('/');
     let file = pathElements.slice(-1)[0];
-    file = file.replace('.js', '');
+    file = file.replace(/.js$/, '');
     const contentsName = file.replace('WorkspaceContents_', '');
     let xmlString =
         this.processWorkspaceContentsDataString(contentsName, dataString);
@@ -386,7 +384,7 @@ document.onload = function() {
     const dataString = fs.readFileSync(path, 'utf8');
     const pathElements = path.split('/');
     let file = pathElements.slice(-1)[0];
-    file = file.replace('.js', '');
+    file = file.replace(/.js$/, '');
     const configName = file.replace('WorkspaceConfiguration_', '');
     this.processWorkspaceConfigDataString(configName, dataString);
     // TODO #259: connect workspace configuration import properly.
@@ -397,8 +395,9 @@ document.onload = function() {
    * Processes a string of library file data so that it can be parsed into JSON.
    * @param {string} libraryName The name of the library.
    * @param {string} dataString The string of the library's metadata.
-   * @param {Object<string,string>} buddyXml Object mapping block type to its xml.
+   * @param {Object<string, string>} buddyXml Object mapping block type to its xml.
    */
+  // TODO #262: Make more robust.
   processLibraryDataString(libraryName, dataString, buddyXml) {
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
     refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
@@ -424,6 +423,7 @@ document.onload = function() {
    * @param {string} toolboxName The name of the toolbox.
    * @param {string} dataString The string of the toolbox's metadata.
    */
+  // TODO #262: Make more robust.
   processToolboxDataString(toolboxName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
     refinedString = refinedString.replace(
@@ -446,6 +446,7 @@ document.onload = function() {
    * @param {string} contentsName The name of the workspace contents.
    * @param {string} dataString The string of the workspace contents metadata.
    */
+  // TODO #262: Make more robust.
   processWorkspaceContentsDataString(contentsName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
     refinedString = refinedString.replace(
@@ -469,7 +470,7 @@ document.onload = function() {
    * @param {string} dataString The string of the workspace configuration's metadata.
    * @return {string} The options string.
    */
-   // TODO #259: fill out fields properly.
+  // TODO #259: fill out fields properly.
   processWorkspaceConfigDataString(configName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
     refinedString = refinedString.replace(
