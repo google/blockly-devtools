@@ -399,9 +399,13 @@ document.onload = function() {
     let jsonArray = JSON.parse(refinedString);
     this.appController.projectController.addBlockLibrary(library);
     for (let blockJson of jsonArray) {
-
       let xml = Blockly.Xml.textToDom(buddyXml[blockJson.type]);
-      this.library.add()
+      let block = new BlockDefinition(blockJson.type, JSON.stringify(blockJson));
+      block.setXml(xml);
+      block.define();
+      this.appController.editorController.blockEditorController.view.show(block);
+      this.appController.editorController.blockEditorController.refreshPreviews();
+      this.appController.projectController.addBlockDefinition(block, libraryName);
     }
   }
 
@@ -411,8 +415,16 @@ document.onload = function() {
    * @param {string} dataString The string of the toolbox's metadata.
    */
   processToolboxDataString(toolboxName, dataString) {
+    let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    console.log(refinedString);
+    refinedString = refinedString.replace(
+        'var BLOCKLY_TOOLBOX_XML = BLOCKLY_TOOLBOX_XML || Object.create(null);', '');
+    refinedString = refinedString.replace('\'' + toolboxName + '\'] =', '');
+    refinedString = refinedString.replace('BLOCKLY_TOOLBOX_XML[', '');
+    refinedString = refinedString.replace('>\';', '>\'');
+    console.log(refinedString.trim());
     let toolbox = new Toolbox(toolboxName);
-    toolbox.xml = Blockly.Xml.textToDom(eval(dataString));
+    toolbox.xml = Blockly.Xml.textToDom(refinedString.trim());
     this.appController.projectController.addToolbox(toolbox);
   }
 
