@@ -20,7 +20,7 @@ limitations under the License.
 
 # Blockly Developer Tools
 
-This is the future home for Google's Blockly Developer Tools.
+This is the home of Google's Blockly Developer Tools.
 
 Find out more at the
 [develop page](https://developers.google.com/blockly/), on
@@ -42,10 +42,18 @@ In order to properly run and test Blockly's devtools, install
 [NW.js](https://nwjs.io/downloads/) on your computer.
 Instructions for installation can be found on the linked sites.
 
-### Running Devtools
+### Install Devtools
 
-After cloning this repository, find the relative path to `nwjs/nw` that you
-installed onto your computer. Run the following command from the repo's directory.
+In your devtools directory run
+
+```
+npm install
+```
+
+### Run Devtools
+
+Find the relative path to `nwjs/nw` that you installed onto your computer.
+Run the following command from the devtools repo's directory.
 
 ```
 nwjs/nw .
