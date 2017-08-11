@@ -54,7 +54,6 @@ class ImportResourcePopupController extends PopupController {
      */
     this.resourceType = resourceType;
 
-
     const viewContents = this.makeImportPopupContents();
 
     /**

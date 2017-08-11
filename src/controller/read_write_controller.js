@@ -392,7 +392,8 @@ document.onload = function() {
 
 
   /**
-   * Processes a string of library file data so that it can be parsed into JSON.
+   * Isolates block JSON in library definition string, adds library with blocks
+   * to project and updates view.
    * @param {string} libraryName The name of the library.
    * @param {string} dataString The string of the library's metadata.
    * @param {Object<string, string>} buddyXml Object mapping block type to its xml.
