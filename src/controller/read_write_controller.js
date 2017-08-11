@@ -382,6 +382,7 @@ document.onload = function() {
     this.processWorkspaceConfigDataString(dataString);
   }
 
+
   /**
    * Processes a string of library file data so that it can be parsed into JSON.
    * @param {string} libraryName The name of the library.
@@ -391,23 +392,16 @@ document.onload = function() {
   processLibraryDataString(libraryName, dataString, buddyXml) {
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
     refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
-    refinedString = refinedString.replace(');', '];');
+    refinedString = refinedString.replace(');', ']');
     let library = new BlockLibrary(libraryName);
     refinedString = refinedString.trim();
-    refinedString = 'var BLOCK_JSON = BLOCK_JSON || []; BLOCK_JSON = [' + refinedString;
-    let jsonArray = eval(refinedString);
-    console.log(JSON.stringify(jsonArray));
+    refinedString = '[' + refinedString;
+    let jsonArray = JSON.parse(refinedString);
     this.appController.projectController.addBlockLibrary(library);
     for (let blockJson of jsonArray) {
-      let blockToAdd = new BlockDefinition(blockJson.type, blockJson);
-      blockToAdd.xml = Blockly.Xml.textToDom(buddyXml[blockJson.type]);
-      this.appController.projectController.addBlockDefinition(blockToAdd, libraryName);
-      this.appController.editorController.blockEditorController.view.editorWorkspace.clear();
-      Blockly.Xml.domToWorkspace(
-          blockToAdd.xml,
-            this.appController.editorController.blockEditorController.view.editorWorkspace);
-      this.appController.editorController.blockEditorController.updateBlockDefinition();
-      this.appController.editorController.blockEditorController.refreshPreviews();
+
+      let xml = Blockly.Xml.textToDom(buddyXml[blockJson.type]);
+      this.library.add()
     }
   }
 
