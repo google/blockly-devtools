@@ -267,8 +267,9 @@ class AppController {
    * Creates new project with the proper user-given name, then initializes
    * controllers and components of application dependent on the project.
    * @param {string} projectName Name of project (user-given).
+   * @param {boolean=} isEmpty Whether the initialized project should be empty.
    */
-  initProject(projectName) {
+  initProject(projectName, opt_isEmpty) {
     this.project = new Project(projectName);
     this.tree = new NavigationTree(this);
     this.projectController = new ProjectController(this.project, this.tree);

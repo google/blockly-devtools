@@ -89,6 +89,7 @@ class NewProjectPopupView extends NewResourcePopupView {
 
       this.controller.appController.initProject(projName);
       this.controller.appController.createPopup(PopupController.NEW_LIBRARY);
+      this.controller.appController.clearAll();
     });
 
     $('#project_back').click((event) => {
