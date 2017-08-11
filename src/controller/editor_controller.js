@@ -78,9 +78,6 @@ class EditorController {
      * @type {(!ToolboxController|!WorkspaceController|!BlockEditorController)}
      */
     this.currentEditor = null;
-
-    // Show the block editor on page load.
-    this.switchEditor(AppController.BLOCK_EDITOR);
   }
 
   /**
@@ -111,11 +108,27 @@ class EditorController {
         type = PREFIXES.WORKSPACE_CONTENTS;
       } else if (this.currentEditor.view.current instanceof WorkspaceConfiguration) {
         type = PREFIXES.WORKSPACE_CONFIG;
-      } else {
-        type = PREFIXES.WORKSPACE_CONTENTS;
       }
     }
     return type;
+  }
+
+  /**
+   * Saves changes in previous editor before switching views to another.
+   */
+  saveChanges() {
+    if (!this.currentEditor) {
+      return;
+    }
+
+    if (this.currentEditor instanceof BlockEditorController) {
+      Blockly.WidgetDiv.hide();
+      if (Blockly.selected) {
+        Blockly.selected.unselect();
+      }
+      this.currentEditor.updateBlockName(false, false);
+      this.currentEditor.updateBlockDefinition();
+    }
   }
 
   /**

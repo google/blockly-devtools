@@ -130,6 +130,16 @@ class AppController {
     this.tree = null;
 
     /**
+     * Contains a history of navtree node IDs that the user has selected while
+     * using the application. Only stores resource node IDs. Nodes are stored in
+     * chronological order (older node selection is first). First element is
+     * oldest node ID in selection history, last element is the currently selected
+     * node ID.
+     * @type {!Array<string>}
+     */
+    this.selectionHistory = [];
+
+    /**
      * ProjectController object associated with application.
      * @type {ProjectController}
      */
@@ -486,6 +496,9 @@ class AppController {
       throw 'switchEnvironment() trying to load a ' + resource + ' object into' +
           ' an editor (' + editor + ').';
     }
+
+    this.editorController.saveChanges();
+
     var view = 'EditorView';
     var controller = 'Controller';
 
@@ -510,5 +523,30 @@ class AppController {
 
     // Close flyout if open.
     this.view.closeModal_();
+  }
+
+  /**
+   * Adds the given NavTree node ID to the array that records a user's node selection
+   * history. Assumes that the given node ID is a resource node (i.e. not an ID
+   * of a divider/folder node in the NavTree, such as the generic "Block Libraries"
+   * node).
+   * @param {string} nodeId ID of newly selected node to add to selection history.
+   */
+  addToSelectionHistory(nodeId) {
+    const maxLength = 2;
+    if (nodeId == this.selectionHistory[maxLength-1] ||
+        nodeId.split('_')[0] == PREFIXES.LIBRARY) {
+      return;
+    } else if (this.selectionHistory.length == maxLength) {
+      this.selectionHistory.push(nodeId);
+      this.selectionHistory.shift();
+    } else if (this.selectionHistory.length < maxLength) {
+      this.selectionHistory.push(nodeId);
+    } else {
+      console.warn('Adding to history, but there are ' + this.selectionHistory.length +
+          ' nodes saved into history.');
+      this.selectionHistory.push(nodeId);
+      this.selectionHistory.shift();
+    }
   }
 }

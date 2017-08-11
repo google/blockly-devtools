@@ -309,8 +309,8 @@ class ProjectController {
    *     avoid overloading JSTree with commands for every workspace change).
    */
   renameBlockDefinition(block, newName, opt_suppress) {
+    const id = 'Block_' + block.name;
     if (!opt_suppress) {
-      const id = this.tree.getTree().get_selected()[0];
       this.tree.renameNode(id, newName);
     }
     this.project.renameBlockDefinition(block.name, newName);

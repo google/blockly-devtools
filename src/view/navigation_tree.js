@@ -115,14 +115,32 @@ class NavigationTree {
   }
 
   /**
-   * Returns the name of the resource associated with the currently selected
-   * node in the navtree. If the selected node is not associated with a
-   * resource object (e.g. a general "Block Libraries" division node), returns
-   * the ID and sends a warning into the console.
+   * Returns the ID of the resource associated with the currently selected
+   * node in the navtree.
    * @return {string} Name of selected resource.
    */
-  getSelectedName() {
-    const idList = this.getTree().get_selected()[0].split(/_(.+)/);
+  getSelected() {
+    const len = this.appController.selectionHistory.length;
+    return this.appController.selectionHistory[len - 1];
+  }
+
+  /**
+   * Returns the ID of the previously selected node in the navtree.
+   * @return {string} ID of previously selected node.
+   */
+  getLastSelected() {
+    const len = this.appController.selectionHistory.length;
+    return this.appController.selectionHistory[len - 2];
+  }
+
+  /**
+   * Gets name of resource from a node ID. If the selected node is not associated
+   * with a resource object (e.g. a general "Block Libraries" division node),
+   * returns the ID and sends a warning into the console.
+   * @param {string} nodeId ID of node from which to extract resource name.
+   */
+  static getName(nodeId) {
+    const idList = nodeId.split(/_(.+)/);
     if (idList.length == 1) {
       console.warn('The retrieved selected node is not a resource node.');
       return idList[0];
@@ -236,7 +254,7 @@ class NavigationTree {
   }
 
   /**
-   * Removes a blcok from the tree.
+   * Removes a block from the tree.
    * @param {string} blockType The name of the block to be removed.
    */
   deleteBlockNode(blockType) {
@@ -353,7 +371,10 @@ class NavigationTree {
     if (!name) {
       throw 'Name of resource associated with node element is null or empty. ID' +
           ' was ' + id + '.';
+      return;
     }
+
+    this.appController.addToSelectionHistory(id);
 
     if (prefix === PREFIXES.LIBRARY) {
       const library = this.appController.project.getBlockLibrary(name);
