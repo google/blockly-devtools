@@ -145,10 +145,9 @@ class NavigationTree {
   }
 
   /**
-   * Gets name of resource from a node ID.
-   * If the selected node is not associated with a resource object (e.g. a general
-   * "Block Libraries" division node), returnsthe ID and sends a warning into the
-   * console.
+   * Gets name of resource from a node ID. If the selected node is not associated
+   * with a resource object (e.g. a general "Block Libraries" division node),
+   * returns the ID and sends a warning into the console.
    * @param {string} nodeId ID of node from which to extract resource name.
    */
   static getName(nodeId) {
@@ -266,7 +265,7 @@ class NavigationTree {
   }
 
   /**
-   * Removes a blcok from the tree.
+   * Removes a block from the tree.
    * @param {string} blockType The name of the block to be removed.
    */
   deleteBlockNode(blockType) {
@@ -386,7 +385,7 @@ class NavigationTree {
       return;
     }
 
-    this.addToHistory(id);
+    this.addToSelectionHistory(id);
 
     if (prefix === PREFIXES.LIBRARY) {
       const library = this.appController.project.getBlockLibrary(name);
@@ -424,7 +423,12 @@ class NavigationTree {
     });
   }
 
-  addToHistory(nodeId) {
+  /**
+   * Adds the given node ID to the array that records a user's node selection
+   * history.
+   * @param {string} nodeId ID of newly selected node to add to selection history.
+   */
+  addToSelectionHistory(nodeId) {
     const maxLength = 2;
     if (nodeId == this.selectionHistory[maxLength-1] ||
         nodeId.split('_')[0] == PREFIXES.LIBRARY) {
