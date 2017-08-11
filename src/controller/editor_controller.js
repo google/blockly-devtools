@@ -108,8 +108,6 @@ class EditorController {
         type = PREFIXES.WORKSPACE_CONTENTS;
       } else if (this.currentEditor.view.current instanceof WorkspaceConfiguration) {
         type = PREFIXES.WORKSPACE_CONFIG;
-      } else {
-        type = PREFIXES.WORKSPACE_CONTENTS;
       }
     }
     return type;
