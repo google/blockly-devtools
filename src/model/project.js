@@ -73,7 +73,7 @@ class Project extends Resource {
    * @return {!Array.<string>} Array of all block types in the project.
    */
   getBlockTypes() {
-    return this.librarySet.getAllBlockDefinitionsMap();
+    return this.librarySet.getAllBlockTypes();
   }
 
   /**
@@ -280,7 +280,8 @@ class Project extends Resource {
       { 'id': PREFIXES.PROJECT, 'text': this.name,
         'children': [ this.librarySet.getNavTreeJson(),
           this.toolboxSet.getNavTreeJson(),
-          this.workspaceContentsSet.getNavTreeJson()]}
+          this.workspaceContentsSet.getNavTreeJson(),
+          this.workspaceConfigSet.getNavTreeJson()]}
     );
     return projectJson;
   }

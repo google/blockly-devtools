@@ -9,10 +9,6 @@
     window.addEventListener('load', () => {
       DevTools = new AppController();
       window.addEventListener('beforeunload', DevTools.confirmLeavePage);
-      // Generate new project popup.
-      // Uncomment line below to enable project popup on load.
-      // DevTools.createPopup(PopupController.NEW_PROJECT);
-      DevTools.initProject('MyProject');
     });
   </script>
 </head>
@@ -40,7 +36,8 @@
       <div id="addBlock">Block</div>
       <div id="addLibrary">Library</div>
       <div id="addToolbox">Toolbox</div>
-      <div id="addWorkspaceContents">Workspace</div>
+      <div id="addWorkspaceContents">Workspace Contents</div>
+      <div id="addWorkspaceConfig">Workspace Configuration</div>
     </div>
 </div>
 </body>

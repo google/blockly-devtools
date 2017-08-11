@@ -51,9 +51,18 @@ class WorkspaceEditorView {
 
     /**
      * WorkspaceConfig associated with this instance of WorkspaceView.
-     * @type {!WorkspaceConfig}
+     * @type {!WorkspaceConfiguration}
      */
-    // this.workspaceConfig = workspaceConfig;
+    this.workspaceConfig = workspaceConfig;
+
+    /**
+     * Resource object which is currently being edited in the Workspace view.
+     * Used to differentiate between whether a user has loaded the workspace
+     * view by clicking on a contents or configuration object. (If one, the
+     * other should not be editable).
+     * @type {!WorkspaceContents|!WorkspaceConfiguration}
+     */
+    this.current = null;
 
     /**
      * JQuery container of workspace editor view.
@@ -170,14 +179,14 @@ class WorkspaceEditorView {
       throw 'Workspace element is null or undefined.';
       return;
     } else if (wsElement instanceof WorkspaceContents) {
-      this.editorWorkspace.clear();
       this.workspaceContents_ = wsElement;
-      this.refreshWorkspaceInfo();
       this.selectedBlock = null;
     } else if (wsElement instanceof WorkspaceConfiguration) {
-      throw 'Loading only WorkspaceConfiguration objects is not supported. Config ' +
-          'objects are now a field of WorkspaceContents objects.';
+      this.workspaceConfig = wsElement;
     }
+
+    this.current = wsElement;
+    this.refreshWorkspaceInfo();
   }
 
   /**
@@ -219,40 +228,19 @@ class WorkspaceEditorView {
     $('#button_optionsHelp').click(() => {
       open('https://developers.google.com/blockly/guides/get-started/web#configuration');
     });
-    $('#button_clearWorkspace').click(() => {
-      this.editorWorkspace.clear();
-      if (confirm('Are you sure you would like to clear your workspace contents' +
-          ' and configurations?')) {
-        controller.clear();
-      }
-    });
+
+    // TODO(#222): Re-add "Clear" button, calling the following:
+    //   this.editorWorkspace.clear();
+    //   if (confirm('Are you sure you would like to clear your workspace' +
+    //       ' contents and configurations?')) {
+    //     controller.clear();
+    //   }
+
     this.addShadowButton.addEventListener('click', () => {
       controller.setSelectedAsShadowBlock();
     });
     this.removeShadowButton.addEventListener('click', () => {
       controller.unsetSelectedAsShadowBlock();
-    });
-
-    $('#button_exportWS').click(() => {
-      this.openModal_ = 'dropdownDiv_exportWS';
-      FactoryUtils.openModal(this.openModal_);
-    });
-    $('#dropdown_exportWSOptions').click(() => {
-      controller.export(this.workspaceConfig);
-      FactoryUtils.closeModal(this.openModal_);
-      this.openModal_ = null;
-    });
-
-    $('#dropdown_exportWContentsXML').click(() => {
-      controller.export(this.getWorkspaceContents(), ProjectController.TYPE_XML);
-      FactoryUtils.closeModal(this.openModal_);
-      this.openModal_ = null;
-    });
-
-    $('#dropdown_exportWContentsJS').click(() => {
-      controller.export(this.getWorkspaceContents(), ProjectController.TYPE_JS);
-      FactoryUtils.closeModal(this.openModal_);
-      this.openModal_ = null;
     });
   }
 
@@ -431,8 +419,13 @@ class WorkspaceEditorView {
    * model object.
    */
   refreshWorkspaceInfo() {
-    if (!this.getWorkspaceContents()) {
-      $('#currentWorkspace').text(this.getWorkspaceContents().name);
+    // TODO(#226): Split contents/config into two separate views.
+    if (this.current instanceof WorkspaceContents) {
+      $('#workspace_component').text('contents');
+      $('#current_workspace').text(this.current.name);
+    } else if (this.current instanceof WorkspaceConfiguration) {
+      $('#workspace_component').text('configuration');
+      $('#current_workspace').text(this.current.name);
     }
   }
 }
@@ -443,58 +436,18 @@ class WorkspaceEditorView {
  */
 WorkspaceEditorView.html = `
 <!-- Workspace Factory tab -->
-<div id="factoryHeader">
-  <p>
-    <div class="dropdown">
-      <button id="button_importBlocks">Import Custom Blocks</button>
-      <div id="dropdownDiv_importBlocks" class="dropdown-content">
-        <input type="file" id="input_importBlocksJson" accept=".js, .json, .txt" class="inputfile"</input>
-        <label for="input_importBlocksJson">From JSON</label>
-        <input type="file" id="input_importBlocksJs" accept=".js, .txt" class="inputfile"</input>
-        <label for="input_importBlocksJs">From Javascript</label>
-      </div>
-    </div>
-
-    <div class="dropdown">
-      <button id="button_load">Load to Edit</button>
-      <div id="dropdownDiv_load" class="dropdown-content">
-        <input type="file" id="input_loadToolboxXML" accept=".xml" class="inputfile"></input>
-        <label for="input_loadToolboxXML">Toolbox as XML</label>
-        <input type="file" id="input_loadToolboxJS" accept=".js" class="inputfile"></input>
-        <label for="input_loadToolboxJS">Toolbox as JS</label>
-        <input type="file" id="input_loadPreloadXML" accept=".xml" class="inputfile"</input>
-        <label for="input_loadPreloadXML">Workspace Blocks as XML</label>
-        <input type="file" id="input_loadPreloadJS" accept=".js" class="inputfile"</input>
-        <label for="input_loadPreloadJS">Workspace Blocks as JS</label>
-      </div>
-    </div>
-
-    <div class="dropdown">
-      <button id="button_exportWS">Export</button>
-      <div id="dropdownDiv_exportWS" class="dropdown-content">
-        <a id="dropdown_exportWSOptions">Starter Code</a>
-        <a id="dropdown_exportWContentsXML">Workspace Blocks as XML</a>
-        <a id="dropdown_exportWContentsJS">Workspace Blocks as JS</a>
-        <a id="dropdown_exportAll">All</a>
-      </div>
-    </div>
-
-    <button id="button_clearWorkspace">Clear</button>
-    <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
-    <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
-
-    <span id="saved_message"></span>
-  </p>
-</div>
-
 <section id="createDiv">
   <div id="createHeader">
     <h3>Edit Workspace elements</h3>
     <p id="editHelpText">Drag blocks into the workspace to configure your custom workspace.</p>
-    <p><b>Current workspace:</b> <span id="currentWorkspace"></span></p>
   </div>
   <section id="workspace_section">
-    <div id="wsContentsDiv"></div>
+    <p><b>Current workspace <span id="workspace_component"></span>:</b> <span id="current_workspace"></span></p>
+    <aside>
+      <button id="button_addShadowWorkspace" style="display: none">Make Shadow</button>
+      <button id="button_removeShadowWorkspace" style="display: none">Remove Shadow</button>
+    </aside>
+    <div id="wsContentsDiv" style="clear: both"></div>
   </section>
 
   <aside id="preload_div">

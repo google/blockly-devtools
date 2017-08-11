@@ -66,6 +66,7 @@ FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
  * @param {!Blockly.Block} rootBlock The root block displayed on editor workspace.
  * @param {!Blockly.Workspace} workspace Where the root block is from.
  * @return {string} Block definition.
+ * @private
  */
 FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock, workspace) {
   const blockType = rootBlock.getFieldValue('NAME');
@@ -1395,4 +1396,19 @@ FactoryUtils.escapeForFileSystem = function(fileName, opt_platform) {
 FactoryUtils.cleanResourceName = function(resourceName) {
   // TODO(#166): Clean names of resources (given by users) to minimize errors.
   return resourceName;
+};
+
+/**
+ * Disables or enables some editable component of application. Can be a Blockly
+ * Workspace or checkbox form for WorkspaceConfiguration. Puts a div over or under
+ * the editor area, depending on the value of disable.
+ * @param {boolean} disable Whether to disable the component. If false, enables.
+ * @param {string} sectionId ID of the section which contains the component to
+ *     enable or disable.
+ */
+FactoryUtils.disableEdits = function(disable, sectionId) {
+  const section = document.getElementById(sectionId);
+
+  section.className = disable ? 'disabled' : '';
+  section.style.pointerEvents = disable ? 'none' : 'auto';
 };

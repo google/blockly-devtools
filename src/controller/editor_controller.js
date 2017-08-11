@@ -87,22 +87,35 @@ class EditorController {
    * Switches editors.
    * @param {!BlockEditorController|!ToolboxController|!WorkspaceController}
    *     editor Editor controller object that user switches to.
+   * @return {string} Prefix constant that represents the type of object which
+   *     is being edited.
    */
   switchEditor(editor) {
     this.currentEditor = editor;
+    let type = '';
 
     if (editor instanceof BlockEditorController) {
       this.currentEditor.refreshPreviews();
+      type = PREFIXES.BLOCK;
     } else if (editor instanceof ToolboxController) {
       this.currentEditor.loadToolbox(this.currentEditor.view.toolbox);
       this.currentEditor.setResource(this.currentEditor.view.toolbox);
       this.currentEditor.updateEditorToolbox();
+      type = PREFIXES.TOOLBOX;
     } else if (editor instanceof WorkspaceController) {
       this.currentEditor.loadContents(this.currentEditor.view.getWorkspaceContents());
-      this.currentEditor.loadConfig(this.currentEditor.view.getWorkspaceContents().config);
+      this.currentEditor.loadConfig(this.currentEditor.view.workspaceConfig);
       this.currentEditor.setResource(this.currentEditor.view.getWorkspaceContents());
       this.currentEditor.updateEditorToolbox();
+      if (this.currentEditor.view.current instanceof WorkspaceContents) {
+        type = PREFIXES.WORKSPACE_CONTENTS;
+      } else if (this.currentEditor.view.current instanceof WorkspaceConfiguration) {
+        type = PREFIXES.WORKSPACE_CONFIG;
+      } else {
+        type = PREFIXES.WORKSPACE_CONTENTS;
+      }
     }
+    return type;
   }
 
   /**
@@ -165,5 +178,34 @@ class EditorController {
     }
 
     return blockList;
+  }
+
+  /**
+   * Deletes the currently selected resource (block, toolbox, etc.) from the
+   * project.
+   */
+  delete() {
+    const editor = this.currentEditor;
+    if (editor instanceof BlockEditorController) {
+      const currentBlockName = this.blockEditorController.view.blockDefinition.name;
+      this.projectController.removeBlock(currentBlockName);
+    } else if (editor instanceof ToolboxController) {
+      const currentToolboxName = this.toolboxController.view.toolbox.name;
+      this.projectController.removeToolbox(currentToolboxName);
+    } else if (editor instanceof WorkspaceController) {
+      const currentContentsName = this.workspaceController.view.getWorkspaceContents().name;
+      this.projectController.removeWorkspaceContents(currentContentsName);
+    }
+  }
+
+  /**
+   * Renames a resource in the project. If the new name does not have any conflicts
+   * and is a valid name, calls respective editors and model classes to rename the
+   * resource.
+   * @param {string} type Type of resource to rename.
+   */
+  rename() {
+    const newName = window.prompt('What would you like to rename the current object?');
+    // TODO: Implement renaming resources.
   }
 }

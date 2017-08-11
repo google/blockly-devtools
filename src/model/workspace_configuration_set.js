@@ -38,4 +38,19 @@ class WorkspaceConfigurationSet extends ResourceSet {
   constructor(workspaceConfigurationSetName, projectName) {
     super(workspaceConfigurationSetName, projectName);
   }
+
+  /**
+   * Produces the navigation tree-spcific JSON that represents the workspace
+   * configuration set.
+   * @return {!Object} The JSON for workspace configuration set.
+   */
+  // TODO(#219): Move this code to NavigationTree
+  getNavTreeJson() {
+    const workspaceConfigSetJson = {
+      'id': PREFIXES.WORKSPACE_CONFIG,
+      'text': 'Workspace Configuration',
+      'children': super.getNavTreeJson()
+    };
+    return workspaceConfigSetJson;
+  }
 }

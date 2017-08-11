@@ -288,6 +288,7 @@ class AppController {
     }
     projController.createToolbox('MyFirstToolbox');
     projController.createWorkspaceContents('MyFirstWorkspace');
+    projController.createWorkspaceConfiguration('MyFirstConfig');
     projController.createBlockLibrary('MyFirstBlockLibrary');
     this.editorController.blockEditorController.createNewBlock(
         '', 'myFirstBlock', 'MyFirstBlockLibrary', 'My Block');
@@ -305,22 +306,18 @@ class AppController {
    * Top-level function which is first called in order to create a sample
    * Blockly application with user-defined workspace, toolbox, and blocks.
    */
-  createSampleApplication() {
+  saveSampleApplication() {
     // REFACTORED: Moved in from wfactory_controller.js:exportInjectFile()
 
     // Generate file contents for inject file.
     const injectFileContents = this.projectController.generateInjectString();
     // Get file name from user.
-    const fileName = prompt('File name for starter Blockly workspace code:',
-                            'workspace.js');
-    if (!fileName) {
-      return;
-    }
+    const fileName = 'my_blockly_application.html';
 
-    FactoryUtils.createAndDownloadFile(injectFileContents, fileName, 'text/javascript');
-
-    // TODO: Generate file contents for sample HTML page to create a "complete"
-    //       sample blockly app, with instructions in the comments.
+    // TODO: Replace with node style file writing in the project's web export
+    // directory.
+    FactoryUtils.createAndDownloadFile(injectFileContents,
+        fileName, 'application/xhtml+xml');
   }
 
   /**
@@ -399,7 +396,8 @@ class AppController {
    * and model.
    */
   createWorkspaceContents() {
-    let name = this.getResourceName_(PREFIXES.WORKSPACE_CONTENTS, 'Workspace');
+    let name = this.getResourceName_(
+        PREFIXES.WORKSPACE_CONTENTS, 'WorkspaceContents');
     if (name) {
       const workspaceContents =
           this.projectController.createWorkspaceContents(name);
@@ -412,7 +410,8 @@ class AppController {
    * editors, and model.
    */
   createWorkspaceConfiguration() {
-    let name = this.getResourceName_(PREFIXES.WORKSPACE_CONFIG);
+    let name = this.getResourceName_(
+        PREFIXES.WORKSPACE_CONFIG, 'WorkspaceConfig');
     if (name) {
       const workspaceConfig = this.projectController.createWorkspaceConfiguration(name);
       this.switchEnvironment(AppController.WORKSPACE_EDITOR, workspaceConfig);
@@ -476,7 +475,8 @@ class AppController {
 
   /**
    * Switches view and editor, closes any open modal elements.
-   * @param {string} editor The editor to switch to.
+   * @param {string} editor The editor to switch to. An editor constant in
+   *     AppController.
    * @param {!Resource} resource The resource to display upon switching the view.
    * @throws When the given resource is null or undefined, there is no resource
    *     to display.
@@ -491,7 +491,7 @@ class AppController {
 
     if (editor == AppController.BLOCK_EDITOR) {
       view = PREFIXES.VARIABLE_BLOCK + view;
-      controller = PREFIXES.VARIABLE_BLOCK + controller;
+      controller = PREFIXES.VARIABLE_BLOCK + 'Editor' + controller;
     } else if (editor == AppController.TOOLBOX_EDITOR) {
       view = PREFIXES.VARIABLE_TOOLBOX + view;
       controller = PREFIXES.VARIABLE_TOOLBOX + controller;
@@ -505,7 +505,8 @@ class AppController {
     this.view.switchView(this.view[view], resource);
 
     // Switch editor.
-    this.editorController.switchEditor(this.editorController[controller]);
+    const type =
+        this.editorController.switchEditor(this.editorController[controller]);
 
     // Close flyout if open.
     this.view.closeModal_();
