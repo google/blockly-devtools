@@ -120,8 +120,8 @@ class NavigationTree {
    * @return {string} Name of selected resource.
    */
   getSelected() {
-    const len = this.selectionHistory.length;
-    return this.selectionHistory[len - 1];
+    const len = this.appController.selectionHistory.length;
+    return this.appController.selectionHistory[len - 1];
   }
 
   /**
@@ -129,8 +129,8 @@ class NavigationTree {
    * @return {string} ID of previously selected node.
    */
   getLastSelected() {
-    const len = this.selectionHistory.length;
-    return this.selectionHistory[len - 2];
+    const len = this.appController.selectionHistory.length;
+    return this.appController.selectionHistory[len - 2];
   }
 
   /**
@@ -374,7 +374,7 @@ class NavigationTree {
       return;
     }
 
-    this.addToSelectionHistory(id);
+    this.appController.addToSelectionHistory(id);
 
     if (prefix === PREFIXES.LIBRARY) {
       const library = this.appController.project.getBlockLibrary(name);
