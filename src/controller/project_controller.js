@@ -254,7 +254,7 @@ class ProjectController {
    */
   removeToolbox(toolboxName) {
     this.project.removeToolbox(toolboxName);
-    this.tree.deleteToolboxtNode(toolboxName);
+    this.tree.deleteToolboxNode(toolboxName);
   }
 
   /**

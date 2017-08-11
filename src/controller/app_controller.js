@@ -475,7 +475,8 @@ class AppController {
 
   /**
    * Switches view and editor, closes any open modal elements.
-   * @param {string} editor The editor to switch to.
+   * @param {string} editor The editor to switch to. An editor constant in
+   *     AppController.
    * @param {!Resource} resource The resource to display upon switching the view.
    * @throws When the given resource is null or undefined, there is no resource
    *     to display.
@@ -508,7 +509,8 @@ class AppController {
     this.view.switchView(this.view[view], resource);
 
     // Switch editor.
-    this.editorController.switchEditor(this.editorController[controller]);
+    const type =
+        this.editorController.switchEditor(this.editorController[controller]);
 
     // Close flyout if open.
     this.view.closeModal_();
