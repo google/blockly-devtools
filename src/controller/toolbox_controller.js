@@ -1034,6 +1034,7 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
   generateToolboxJsFile(toolbox) {
     const xml = Blockly.Xml.domToPrettyText(toolbox.getExportData());
     const xmlStorageVariable = 'BLOCKLY_TOOLBOX_XML';
+
     return FactoryUtils.generateXmlAsJsFile(toolbox, 'TOOLBOX');
   }
 

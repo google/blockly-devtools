@@ -331,7 +331,6 @@ document.onload = function() {
         fs.readFileSync(this.buddyXmlLocations[libraryName], 'utf8');
     buddyXmlString = buddyXmlString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
     let buddyXml = JSON.parse(buddyXmlString);
-    console.log(buddyXml);
     this.processLibraryDataString(libraryName, dataString, buddyXml);
   }
 
@@ -395,7 +394,7 @@ document.onload = function() {
    * Processes a string of library file data so that it can be parsed into JSON.
    * @param {string} libraryName The name of the library.
    * @param {string} dataString The string of the library's metadata.
-   * @param {Object<string,Object>} buddyXml Object mapping block type to its xml.
+   * @param {Object<string,string>} buddyXml Object mapping block type to its xml.
    */
   processLibraryDataString(libraryName, dataString, buddyXml) {
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
