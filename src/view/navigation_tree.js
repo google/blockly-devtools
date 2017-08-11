@@ -439,6 +439,8 @@ class NavigationTree {
     } else {
       console.warn('Adding to history, but there are ' + this.selectionHistory.length +
           ' nodes saved into history.');
+      this.selectionHistory.push(nodeId);
+      this.selectionHistory.shift();
     }
   }
 }
