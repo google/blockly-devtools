@@ -2,25 +2,27 @@
 [Blockly Developer Tools]({{dev_tools_url}})
 is a native desktop application that automates parts of the Blockly configuration
 process, including creating custom blocks, building your toolbox,
-and configuring your web Blockly workspace.
+and configuring your Blockly workspace.
 
-The Blockly developer process using the tool consists of three parts:
+The Blockly developer process allows users to:
 
 * Create custom blocks using the block editor.
 * Organize custom blocks into groupings called "block libraries."
 * Build toolboxes using the toolbox editor.
 * Build workspace contents (blocks that are loaded onto a Blockly workspace on
   load)
-* Configure your workspace using Workspace Factory (currently a web-only
+* Configure a workspace using Workspace Factory (currently a web-only
   feature).
 
 
-## Block Factory Tab
-The Block Factory tab helps you create
-[block definitions](https://developers.google.com/blockly/guides/create-custom-blocks/define-blocks) and
-[code generators](https://developers.google.com/blockly/guides/create-custom-blocks/generating-code)
-for custom blocks. On this tab you can easily create, modify, and save
-custom blocks.
+## Features
+The developer tools application has four editors, one for each component necessary
+to building a Blockly application. The first editor is the block editor, where
+developers can create and define custom blocks. The second is the toolbox editor,
+where developers can create multiple groupings of blocks for a Blockly workspace.
+The workspace contents editor configures what blocks are first displayed on the
+Blockly workspace when loading the Blockly application. and the workspace
+configuration editor
 
 ### Defining a block
 This video walks through the steps of defining a block in detail. The UI is out
