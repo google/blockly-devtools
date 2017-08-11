@@ -46,17 +46,6 @@ class NavigationTree {
      */
     this.appController = appController;
 
-    /**
-     * Contains a history of node IDs that the user has selected while using
-     * the application. Only stores resource node IDs. Nodes are stored in
-     * chronological order (older node selection is first). First element is
-     * oldest node ID in selection history, last element is the currently selected
-     * node ID. Currently stores only two nodes (the current and the previously
-     * selected node).
-     * @type {!Array<string>}
-     */
-    this.selectionHistory = ['', ''];
-
     this.makeTree_();
   }
 
@@ -421,26 +410,5 @@ class NavigationTree {
       // Respond to selection.
       this.changeView(node);
     });
-  }
-
-  /**
-   * Adds the given node ID to the array that records a user's node selection
-   * history.
-   * @param {string} nodeId ID of newly selected node to add to selection history.
-   */
-  addToSelectionHistory(nodeId) {
-    const maxLength = 2;
-    if (nodeId == this.selectionHistory[maxLength-1] ||
-        nodeId.split('_')[0] == PREFIXES.LIBRARY) {
-      return;
-    } else if (this.selectionHistory.length == maxLength) {
-      this.selectionHistory.push(nodeId);
-      this.selectionHistory.shift();
-    } else {
-      console.warn('Adding to history, but there are ' + this.selectionHistory.length +
-          ' nodes saved into history.');
-      this.selectionHistory.push(nodeId);
-      this.selectionHistory.shift();
-    }
   }
 }
