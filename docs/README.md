@@ -1,25 +1,24 @@
-Project: /blockly/_project.yaml
-Book: /blockly/_book.yaml
-{% include "blockly/_includes/_globals.md" %}
-
 # Blockly Developer Tools
-[{{dev_tools_name}}![](/blockly/images/external.svg)]({{dev_tools_url}})
-is a web-based developer tool that automates parts of the Blockly configuration
+[Blockly Developer Tools]({{dev_tools_url}})
+is a native desktop application that automates parts of the Blockly configuration
 process, including creating custom blocks, building your toolbox,
 and configuring your web Blockly workspace.
 
 The Blockly developer process using the tool consists of three parts:
 
-* Create custom blocks using Block Factory and Block Exporter.
-* Build a toolbox and default workspace using Workspace Factory.
+* Create custom blocks using the block editor.
+* Organize custom blocks into groupings called "block libraries."
+* Build toolboxes using the toolbox editor.
+* Build workspace contents (blocks that are loaded onto a Blockly workspace on
+  load)
 * Configure your workspace using Workspace Factory (currently a web-only
   feature).
 
 
 ## Block Factory Tab
 The Block Factory tab helps you create
-[block definitions](/blockly/guides/create-custom-blocks/define-blocks) and
-[code generators](/blockly/guides/create-custom-blocks/generating-code)
+[block definitions](https://developers.google.com/blockly/guides/create-custom-blocks/define-blocks) and
+[code generators](https://developers.google.com/blockly/guides/create-custom-blocks/generating-code)
 for custom blocks. On this tab you can easily create, modify, and save
 custom blocks.
 
@@ -38,13 +37,13 @@ Blocks are referenced by their name, so each block you want to create must have
 a unique name. The UI enforces this and makes it clear when you are 'saving'
 a new block or 'updating' an existing block.
 
-![](/blockly/images/block_save_as.png) ![](/blockly/images/update_button.png)
+![](https://developers.google.com/blockly/images/block_save_as.png) ![](https://developers.google.com/blockly/images/update_button.png)
 
 You can switch between blocks you've previously saved or create a new empty
 block by clicking the Library button. Changing the name of an existing block is
 another way to quickly create multiple blocks with similar definitions.
 
-![](/blockly/images/blocklib_button.png)
+![](https://developers.google.com/blockly/images/blocklib_button.png)
 
 ### Exporting and importing a library
 Blocks are saved to the browser's local storage.  Clearing the browser's local
@@ -57,7 +56,7 @@ current one, so you might want to export first.
 The import and export features are also the recommended way to maintain and
 share different sets of custom blocks.
 
-![](/blockly/images/block_manage_buttons.png)
+![](https://developers.google.com/blockly/images/block_manage_buttons.png)
 
 
 ## Block Exporter tab
@@ -72,14 +71,14 @@ Library” option. If you built your toolbox or configured your workspace using
 the Workspace Factory tab, you can also select all the blocks you used by
 clicking “Select” → “All Used In Workspace Factory”.
 
-![](/blockly/images/block_exporter_select.png)
+![](https://developers.google.com/blockly/images/block_exporter_select.png)
 
 The export settings let you choose which generated language you want to target
 and whether you want the definitions, the generator stubs, or both for the
 selected blocks. Once you've selected these, click 'Export' to download your
 files.
 
-![](/blockly/images/block_exporter_tab.png)
+![](https://developers.google.com/blockly/images/block_exporter_tab.png)
 
 Note: If using a save dialog on Mac you can only download
 [one file at a time](https://github.com/google/blockly/issues/647)
@@ -89,7 +88,7 @@ The Workspace Factory makes it easy to configure a toolbox and the default
 set of blocks in a workspace. You can switch between editing the toolbox and the
 starting workspace with the "Toolbox" and "Workspace" buttons.
 
-![](/blockly/images/ws_fac_tb_ws_buttons.png)
+![](https://developers.google.com/blockly/images/ws_fac_tb_ws_buttons.png)
 
 ### Building a toolbox
 This tab helps build the XML for a Toolbox.  The material assumes
@@ -102,7 +101,7 @@ If you have a few blocks and want to display them without any categories, simply
 drag them into the workspace, and you will see your blocks appear in the toolbox
 in the preview.
 
-![](/blockly/images/workspace_fac_no_cat.png)
+![](https://developers.google.com/blockly/images/workspace_fac_no_cat.png)
 
 ### Toolbox with categories
 If you want display blocks in categories, click the “+” button and select the
@@ -111,7 +110,7 @@ that you can select and edit. Select “Standard Category” to add an individua
 standard Blockly category (Logic, Loops, etc.), or “Standard Toolbox” to add all
 standard Blockly categories. Use the arrow buttons to reorder categories.
 
-![](/blockly/images/category_menu.png)
+![](https://developers.google.com/blockly/images/category_menu.png)
 
 Note: The standard categories and toolbox include all the blocks in the
 [Playground](https://blockly-demo.appspot.com/static/tests/playground.html).
@@ -122,7 +121,7 @@ To change the selected category’s name or color use the “Edit Category”
 dropdown. Dragging a block into the workspace will add it to the selected
 category.
 
-![](/blockly/images/edit_category.png)
+![](https://developers.google.com/blockly/images/edit_category.png)
 
 ### Advanced blocks
 By default, you can add any of the standard blocks or any blocks in your library
@@ -149,15 +148,15 @@ tab and select “Workspace".
 
 #### Choose Workspace Options
 Set different values for
-[configuration options](/blockly/guides/get-started/web#configuration)
+[configuration options](https://developers.google.com/blockly/guides/get-started/web#configuration)
 and see the result in the preview area. Enabling
-[grid](/blockly/guides/configure/web/grid) or
-[zoom](/blockly/guides/configure/web/zoom) reveals more options to configure.
+[grid](https://developers.google.com/blockly/guides/configure/web/grid) or
+[zoom](https://developers.google.com/blockly/guides/configure/web/zoom) reveals more options to configure.
 Also, switching to using categories usually requires a more complex
 workspace; a trashcan and scrollbars are added automatically when you add your
 first category.
 
-![](/blockly/images/configure_workspace.png)
+![](https://developers.google.com/blockly/images/configure_workspace.png)
 
 #### Add Pre-loaded Blocks to the Workspace
 This is optional but may be necessary if you want to display a set of blocks in
@@ -170,12 +169,12 @@ Drag blocks into the editing space to see them in your workspace in the preview.
 You can create block groups, disable blocks, and make certain blocks shadow
 blocks when you select them.
 
-![](/blockly/images/load_workspace_blocks.png)
+![](https://developers.google.com/blockly/images/load_workspace_blocks.png)
 
 ### Exporting
 Workspace Factory gives you the following export options:
 
-![](/blockly/images/workspace_export_opt.png)
+![](https://developers.google.com/blockly/images/workspace_export_opt.png)
 
 * Starter Code: Produces starter html and javascript to inject your customized
   Blockly workspace.
