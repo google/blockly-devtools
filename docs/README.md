@@ -15,89 +15,76 @@ The Blockly developer process allows users to:
   feature).
 
 
-## Features
-The developer tools application has four editors, one for each component necessary
-to building a Blockly application. The first editor is the block editor, where
+## Creating Blockly resource components
+The developer tools application has four editors, one for each resource component
+required to build a Blockly application. The first editor is the block editor, where
 developers can create and define custom blocks. The second is the toolbox editor,
 where developers can create multiple groupings of blocks for a Blockly workspace.
 The workspace contents editor configures what blocks are first displayed on the
-Blockly workspace when loading the Blockly application. and the workspace
-configuration editor
+Blockly workspace when loading the Blockly application. Developers can use the
+workspace configuration editor to save workspace inject options used when exporting
+and creating a Blockly application.
 
-### Defining a block
-This video walks through the steps of defining a block in detail. The UI is out
-date, but the block features it highlights are still accurate.
-<div class="">
-  <iframe class="devsite-embedded-youtube-video" data-video-id="s2_xaEvcVI0"
-          data-autohide="1" data-showinfo="0" frameborder="0" allowfullscreen>
-  </iframe>
-</div>
+New resource components of your blockly application (such as block libraries, block
+definitions, toolboxes, workspace contents, and workspace configurations) can
+be added via the menubar at the top left (under File), as well as via the add
+button at the bottom left, under the navigation tree.
 
+### Creating a project
+When first loading the developer tools application, you will be presented with
+a prepopulated sample project, from which you can start creating your Blockly
+project.
 
-### Managing the library
+A project is a concept only used by developers who are using the Blockly API to
+create custom blocks and custom Blockly applications. End users will not be
+exposed to this concept explicitly. This is just to make the often iterative
+development process for Blockly developers easy and intuitive.
+
+Your Blockly project consists of the five resources in a Blockly application,
+as mentioned earlier (block libraries, block definitions, toolboxes, workspace
+contents, and workspace configurations). You can create one or more of the
+aforementioned resources, and choose from your multiple Blockly resources when
+creating your Blockly application.
+
+You can navigate through your project and your various resources by clicking
+through the navigation tree at the left side of the application. Clicking on
+folders will not open up new views, but clicking on Blockly resources will
+present you with the resource in its editor.
+
+### Creating block libraries
+Block libraries are not user-facing concepts. This means that an end user of your
+Blockly application will not know what block belongs in what library. Well-designed
+block libraries, however, should be easy to understand at a high level (e.g.,
+a good example of a block library might be "Movement Blocks," which contains all
+blocks related to movement for your Blockly application).
+
+A block library is essentially a grouping of block definitions. This makes it
+easier for you, the developer, to organize your blocks to refer to them later,
+save them, and move them around together (as the block definitions that belong
+in one library will be in the same file).
+
+The developer tools application, when opening an empty project, will auto-create
+a default block library, "MyFirstBlockLibrary." You can always add more block
+definitions by using the menubar of the app or by using the add button at the
+bottom left side of the window.
+
+### Defining a block within a block library
+Within each block library, you can create blocks which are defined by using the
+editor workspace on the left and seeing the output on the right. There is a
+preview workspace at the top to see what your block will look like in your final
+Blockly application, as well as textareas below the preview to see the corresponding
+generator stubs and block definitions.
+
 Blocks are referenced by their name, so each block you want to create must have
-a unique name. The UI enforces this and makes it clear when you are 'saving'
-a new block or 'updating' an existing block.
+a unique name. Even within a given project, block names must be unique.
 
-![](https://developers.google.com/blockly/images/block_save_as.png) ![](https://developers.google.com/blockly/images/update_button.png)
-
-You can switch between blocks you've previously saved or create a new empty
-block by clicking the Library button. Changing the name of an existing block is
-another way to quickly create multiple blocks with similar definitions.
-
-![](https://developers.google.com/blockly/images/blocklib_button.png)
-
-### Exporting and importing a library
-Blocks are saved to the browser's local storage.  Clearing the browser's local
-storage will delete your blocks.  To save your blocks indefinitely, you must
-download your library. Your Block Library is downloaded as an XML
-file that can be imported to set your Block Library to the state it was when
-you downloaded the file. Note that importing a Block Library replaces your
-current one, so you might want to export first.
-
-The import and export features are also the recommended way to maintain and
-share different sets of custom blocks.
-
-![](https://developers.google.com/blockly/images/block_manage_buttons.png)
-
-
-## Block Exporter tab
-Once you have designed your blocks you will need to export the block definitions
-and generator stubs to use them in an app. This is done on the
-Block Exporter tab.
-
-Every block stored in your Block Library will be shown in the Block Selector.
-Click on the block to to select or deselect it for export. If you want to select
-all the blocks in your library, use the “Select” → “All Stored In Block
-Library” option. If you built your toolbox or configured your workspace using
-the Workspace Factory tab, you can also select all the blocks you used by
-clicking “Select” → “All Used In Workspace Factory”.
-
-![](https://developers.google.com/blockly/images/block_exporter_select.png)
-
-The export settings let you choose which generated language you want to target
-and whether you want the definitions, the generator stubs, or both for the
-selected blocks. Once you've selected these, click 'Export' to download your
-files.
-
-![](https://developers.google.com/blockly/images/block_exporter_tab.png)
-
-Note: If using a save dialog on Mac you can only download
-[one file at a time](https://github.com/google/blockly/issues/647)
-
-## Workspace Factory tab
-The Workspace Factory makes it easy to configure a toolbox and the default
-set of blocks in a workspace. You can switch between editing the toolbox and the
-starting workspace with the "Toolbox" and "Workspace" buttons.
-
-![](https://developers.google.com/blockly/images/ws_fac_tb_ws_buttons.png)
-
-### Building a toolbox
-This tab helps build the XML for a Toolbox.  The material assumes
+### Creating a toolbox
+The toolbox editor helps build the XML for a Toolbox.  The material assumes
 familiarity with features of a [Toolbox](/blockly/guides/configure/web/toolbox).
 If you already have XML for a toolbox that you want to edit here, you can
 load it by clicking "Load to Edit".
-### Toolbox without categories
+
+#### Toolbox without categories
 
 If you have a few blocks and want to display them without any categories, simply
 drag them into the workspace, and you will see your blocks appear in the toolbox
@@ -105,7 +92,7 @@ in the preview.
 
 ![](https://developers.google.com/blockly/images/workspace_fac_no_cat.png)
 
-### Toolbox with categories
+#### Toolbox with categories
 If you want display blocks in categories, click the “+” button and select the
 dropdown item for new category. This will add a category to your category list
 that you can select and edit. Select “Standard Category” to add an individual
@@ -125,7 +112,7 @@ category.
 
 ![](https://developers.google.com/blockly/images/edit_category.png)
 
-### Advanced blocks
+#### Advanced blocks
 By default, you can add any of the standard blocks or any blocks in your library
 to the toolbox. If you have blocks defined in JSON that aren't in your library,
 you can import them using the "Import Custom Blocks" button.
@@ -143,44 +130,50 @@ If you include a variable or function block in their toolbox, include a
 utilize the block. Learn more about
 [“Variables” or “Functions" categories](/blockly/guides/configure/web/toolbox#categories).
 
+### Creating workspace contents
+Workspace contents are the blocks that are loaded onto a Blockly workspace when
+first loaded. This is set right after injecting the workspace.
 
-### Configuring a workspace (for web Blockly)
-To configure different parts of your workspace, go to the “Workspace Factory”
-tab and select “Workspace".
+To add blocks to your workspace contents, simply drag your desired blocks into
+the editor workspace. When used in your final Blockly application, the blocks
+in your editor workspace will be automatically loaded for your end-user. One
+use case of using workspace contents is for giving your end-user cues on what
+blocks to start with.
 
-#### Choose Workspace Options
-Set different values for
-[configuration options](https://developers.google.com/blockly/guides/get-started/web#configuration)
-and see the result in the preview area. Enabling
-[grid](https://developers.google.com/blockly/guides/configure/web/grid) or
-[zoom](https://developers.google.com/blockly/guides/configure/web/zoom) reveals more options to configure.
-Also, switching to using categories usually requires a more complex
-workspace; a trashcan and scrollbars are added automatically when you add your
-first category.
+### Creating workspace configurations
+Workspace configurations are presets for an individual Blockly workspace. This
+eventually goes into the `Blockly.Options` object which is created while injecting
+Blockly. The configurations editor is simply a checklist of options. You can
+make some workspaces readonly, others with a zoom function, and limit others
+with the number of blocks they can use.
 
-![](https://developers.google.com/blockly/images/configure_workspace.png)
+## Managing your project
 
-#### Add Pre-loaded Blocks to the Workspace
-This is optional but may be necessary if you want to display a set of blocks in
-the workspace:
+### Saving your project
+Once you are satisfied with your Blockly development, you can save your project
+via the menubar at the top of the application window (or, for Macs, at the top
+menubar). Click `File > Save All`, decide your project location, and save your
+project into a directory of your choice.
 
-* When the application loads.
-* When an event (advancing a level, clicking a help button, etc.) is triggered.
+You can manually edit the files within your project and load them again at a later
+time. Your manual changes will be reflected the next time you open up the project
+in developer tools. However, keep in mind not to touch any files that are not
+specifically Blockly resource files (such as metadata files, which are necessary
+for parsing your project structure to load again into the application).
 
-Drag blocks into the editing space to see them in your workspace in the preview.
-You can create block groups, disable blocks, and make certain blocks shadow
-blocks when you select them.
+### Opening your project
+When opening your application, first open the developer tools app and go to
+`File > Open Project` to bring up the popup. Using the file explorer, search
+through your local filesystem for the project you wish to open, and open your
+project through the metadata file.
 
-![](https://developers.google.com/blockly/images/load_workspace_blocks.png)
+Doing so should reload the app with your previously edited Blockly project.
 
-### Exporting
-Workspace Factory gives you the following export options:
+### Exporting parts of your project as a Blockly workspace
+When you are ready to create a Blockly workspace for your application, click on
+`File > Create Application for Web` via the menubar. Doing so will bring up a
+popup which allows you to choose one toolbox, one workspace contents, and one
+workspace configuration to group together into one Blockly workspace.
 
-![](https://developers.google.com/blockly/images/workspace_export_opt.png)
-
-* Starter Code: Produces starter html and javascript to inject your customized
-  Blockly workspace.
-* Toolbox produces XML to specify your toolbox.
-* Workspace Blocks produces XML which can be loaded into a workspace.
-
-
+You can find the auto-generated inject file in your saved project, and can also
+manually export one file to save to a different location.
