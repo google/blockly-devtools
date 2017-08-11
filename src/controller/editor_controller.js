@@ -103,6 +103,24 @@ class EditorController {
   }
 
   /**
+   * Saves changes in previous editor before switching views to another.
+   */
+  saveChanges() {
+    if (!this.currentEditor) {
+      return;
+    }
+
+    if (this.currentEditor instanceof BlockEditorController) {
+      Blockly.WidgetDiv.hide();
+      if (Blockly.selected) {
+        Blockly.selected.unselect();
+      }
+      this.currentEditor.updateBlockName(false, false);
+      this.currentEditor.updateBlockDefinition();
+    }
+  }
+
+  /**
    * Clears the editing area completely, deleting all categories and all
    * blocks in the model and view and all pre-loaded blocks. Tied to the
    * "Clear" button.

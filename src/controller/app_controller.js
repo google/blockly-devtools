@@ -486,14 +486,8 @@ class AppController {
           ' an editor (' + editor + ').';
       return;
     }
-    console.log('switching environment');
-    console.log(this.editorController.currentEditor);
 
-    if (this.editorController.currentEditor && Blockly.selected) {
-      Blockly.WidgetDiv.hide();
-      Blockly.selected.unselect();
-      this.editorController.currentEditor.onChange(Blockly.Events.UI);
-    }
+    this.editorController.saveChanges();
 
     var view = 'EditorView';
     var controller = 'Controller';

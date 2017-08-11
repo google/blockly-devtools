@@ -126,7 +126,7 @@ class BlockEditorController {
     // Update model only when user creates a new block or somehow interacts
     // with blocks (i.e. create and UI events).
     if (isUiEvent || isCreateEvent) {
-      this.updateBlockName(!isUiEvent);
+      this.updateBlockName(!isUiEvent, true);
       // Save block's changes into BlockDefinition model object.
       this.updateBlockDefinition();
       // Update the block editor view.
@@ -213,18 +213,32 @@ class BlockEditorController {
    * object if valid. Updates navtree with new name.
    * @param {boolean} suppressTreeChange Whether to suppress reflecting name
    *     change in the navtree.
+   * @param {boolean} isSelected Whether the currently selected node in the navtree
+   *     is the BlockDefinition that will be updated. Used to determine whether
+   *     to get the 'old name' of the block (pre-rename) from the currently selected
+   *     node or the previously selected node. This is because sometimes rename
+   *     can happen after a user switches views (and thus the selected node may
+   *     be a different resource object).
    */
-  updateBlockName(suppressTreeChange) {
+  updateBlockName(suppressTreeChange, isSelected) {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+
     const newName = rootBlock.getFieldValue('NAME');
+    let oldName = '';
+    if (isSelected) {
+      oldName = NavigationTree.getName(this.projectController.tree.getSelected());
+    } else {
+      oldName = NavigationTree.getName(this.projectController.tree.getLastSelected());
+    }
+
     const changedName = currentBlock.name != newName;
     const warning = this.getWarningText(newName); // Warning text or null
+
     if (!suppressTreeChange && changedName && warning) {
       // Warn user if name is invalid (is 'block_type' or a duplicate).
       Blockly.WidgetDiv.hide();
       this.view.editorWorkspace.cancelCurrentGesture();
-      const oldName = this.projectController.tree.getSelectedName();
       rootBlock.setFieldValue(oldName, 'NAME');
       window.alert(warning);
     } else {

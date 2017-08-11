@@ -46,6 +46,17 @@ class NavigationTree {
      */
     this.appController = appController;
 
+    /**
+     * Contains a history of node IDs that the user has selected while using
+     * the application. Only stores resource node IDs. Nodes are stored in
+     * chronological order (older node selection is first). First element is
+     * oldest node ID in selection history, last element is the currently selected
+     * node ID. Currently stores only two nodes (the current and the previously
+     * selected node).
+     * @type {!Array<string>}
+     */
+    this.selectionHistory = ['', ''];
+
     this.makeTree_();
   }
 
@@ -115,14 +126,33 @@ class NavigationTree {
   }
 
   /**
-   * Returns the name of the resource associated with the currently selected
-   * node in the navtree. If the selected node is not associated with a
-   * resource object (e.g. a general "Block Libraries" division node), returns
-   * the ID and sends a warning into the console.
+   * Returns the ID of the resource associated with the currently selected
+   * node in the navtree.
    * @return {string} Name of selected resource.
    */
-  getSelectedName() {
-    const idList = this.getTree().get_selected()[0].split(/_(.+)/);
+  getSelected() {
+    const len = this.selectionHistory.length;
+    return this.selectionHistory[len - 1];
+  }
+
+  /**
+   * Returns the ID of the previously selected node in the navtree.
+   * @return {string} ID of previously selected node.
+   */
+  getLastSelected() {
+    const len = this.selectionHistory.length;
+    return this.selectionHistory[len - 2];
+  }
+
+  /**
+   * Gets name of resource from a node ID.
+   * If the selected node is not associated with a resource object (e.g. a general
+   * "Block Libraries" division node), returnsthe ID and sends a warning into the
+   * console.
+   * @param {string} nodeId ID of node from which to extract resource name.
+   */
+  static getName(nodeId) {
+    const idList = nodeId.split(/_(.+)/);
     if (idList.length == 1) {
       console.warn('The retrieved selected node is not a resource node.');
       return idList[0];
@@ -353,7 +383,10 @@ class NavigationTree {
     if (!name) {
       throw 'Name of resource associated with node element is null or empty. ID' +
           ' was ' + id + '.';
+      return;
     }
+
+    this.addToHistory(id);
 
     if (prefix === PREFIXES.LIBRARY) {
       const library = this.appController.project.getBlockLibrary(name);
@@ -389,5 +422,19 @@ class NavigationTree {
       // Respond to selection.
       this.changeView(node);
     });
+  }
+
+  addToHistory(nodeId) {
+    const maxLength = 2;
+    if (nodeId == this.selectionHistory[maxLength-1] ||
+        nodeId.split('_')[0] == PREFIXES.LIBRARY) {
+      return;
+    } else if (this.selectionHistory.length == maxLength) {
+      this.selectionHistory.push(nodeId);
+      this.selectionHistory.shift();
+    } else {
+      console.warn('Adding to history, but there are ' + this.selectionHistory.length +
+          ' nodes saved into history.');
+    }
   }
 }
