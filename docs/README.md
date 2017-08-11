@@ -11,8 +11,7 @@ The Blockly developer process allows users to:
 * Build toolboxes using the toolbox editor.
 * Build workspace contents (blocks that are loaded onto a Blockly workspace on
   load)
-* Configure a workspace using Workspace Factory (currently a web-only
-  feature).
+* Configure workspace inject options (currently a web-only feature).
 
 
 ## Creating Blockly resource components
