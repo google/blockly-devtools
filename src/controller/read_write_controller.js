@@ -28,6 +28,9 @@ goog.require('OpenProjectPopupController');
 goog.require('ImportResourcePopupController');
 goog.require('Project');
 goog.require('BlockDefinition');
+goog.require('BlockLibrary');
+goog.require('Toolbox');
+goog.require('WorkspaceContents');
 
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
