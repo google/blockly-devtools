@@ -601,7 +601,7 @@ class ToolboxEditorView {
   setBorderColor(id, color) {
     // From wfactory_view.js:setBorderColor(id, color)
     const tab = this.tabMap[id];
-    if (!tab) {
+    if (!tab || !color) {
       return;
     }
     tab.style.borderLeftWidth = '8px';
