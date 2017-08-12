@@ -461,7 +461,7 @@ class AppController {
       isEmpty = name && name.trim() ? false : true;
       // Handles errors.
       if (isDuplicate) {
-        errorText = 'This toolbox already exists.\n';
+        errorText = 'This ' + resourceType + ' already exists.\n';
       } else if (isEmpty) {
         return null;
       }
