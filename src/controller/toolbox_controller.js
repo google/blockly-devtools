@@ -184,7 +184,7 @@ class ToolboxController extends ShadowController {
 
     // Find next logical element to switch to.
     let next = toolbox.getElementByIndex(selectedIndex);
-    if (!next && !toolbox.isEmpty()) {
+    if (!next && !toolbox.hasNoCategories()) {
       next = toolbox.getElementByIndex(selectedIndex - 1);
     }
     const nextId = next ? next.id : null;
