@@ -184,7 +184,7 @@ class ToolboxController extends ShadowController {
 
     // Find next logical element to switch to.
     let next = toolbox.getElementByIndex(selectedIndex);
-    if (!next && !toolbox.isEmpty()) {
+    if (!next && !toolbox.hasNoCategories()) {
       next = toolbox.getElementByIndex(selectedIndex - 1);
     }
     const nextId = next ? next.id : null;
@@ -656,6 +656,8 @@ Do you want to add a ${categoryName} category to your custom toolbox?`;
         if (elem.type = ListElement.TYPE_CATEGORY) {
           // Add tab to view.
           const tab = this.view.addCategoryTab(elem.name, elem.id);
+          // Add color to tab.
+          this.view.setBorderColor(elem.id, elem.color);
           // Deselects tab that was just selected within addCategoryTab().
           this.view.selectTab(elem.id, false);
           // Adds click listener.

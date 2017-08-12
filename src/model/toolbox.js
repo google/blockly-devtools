@@ -387,6 +387,18 @@ class Toolbox extends Resource {
   }
 
   /**
+   * Returns whether the toolbox does not have any categories.
+   * Will return false if there is one category in the toolbox that is not a
+   * flyout and will return true if there is one category in the toolbox that is
+   * a flyout.
+   * @return {boolean} Whether there are no categories in the toolbox.
+   */
+  hasNoCategories() {
+    return this.categoryList.length == 1 &&
+        this.categoryList[0].type == ListElement.TYPE_FLYOUT;
+  }
+
+  /**
    * Determines whether user-given category name already exists. Used when getting
    * a valid category name from the user.
    *
