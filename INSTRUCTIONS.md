@@ -90,7 +90,7 @@ easier for you, the developer, to organize your blocks to refer to them later,
 save them, and move them around together (as the block definitions that belong
 in one library will be in the same file).
 
-A well-designed block libraries, should be easy to understand at a high level.
+A well-designed block library, should be easy to understand at a high level.
 A good example of a block library might be "Movement Blocks," which contains
 all blocks related to movement for a character or robot.
 
