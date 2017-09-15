@@ -32,6 +32,9 @@ goog.require('SaveProjectPopupController');
 goog.require('Toolbox');
 goog.require('WorkspaceContents');
 
+// Module path required within app_controller.js
+
+
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
  * pertinent to the project.
@@ -320,11 +323,11 @@ document.onload = function() {
 
   /**
    * Construct a library based off of file data, and add it to the project.
-   * @param {string} path The absolute filepath to the library data.
+   * @param {string} libFilepath The absolute filepath to the library data.
    */
-  constructLibrary(path) {
-    const dataString = fs.readFileSync(path, 'utf8');
-    const pathElements = path.split('/');
+  constructLibrary(libFilepath) {
+    const dataString = fs.readFileSync(libFilepath, 'utf8');
+    const pathElements = libFilepath.split(path.sep);
     let file = pathElements.slice(-1)[0];
     file = file.replace(/.js$/, '');
     const libraryName = file.replace('BlockLibrary_', '');
@@ -337,9 +340,9 @@ document.onload = function() {
 
   /**
    * Construct a block based off of file data, and add it to the project.
-   * @param {string} path The absolute filepath to the block data.
+   * @param {string} blockFilepath The absolute filepath to the block data.
    */
-  constructBlock(path) {
+  constructBlock(blockFilepath) {
     throw 'unimplemented: constructBlock';
   }
 
@@ -347,9 +350,9 @@ document.onload = function() {
    * Construct a toolbox based off of file data, and add it to the project.
    * @param {string} path The absolute filepath to the toolbox data.
    */
-  constructToolbox(path) {
-    const dataString = fs.readFileSync(path, 'utf8');
-    const pathElements = path.split('/');
+  constructToolbox(toolboxFilepath) {
+    const dataString = fs.readFileSync(toolboxFilepath, 'utf8');
+    const pathElements = toolboxFilepath.split(path.sep);
     let file = pathElements.slice(-1)[0];
     file = file.replace(/.js$/, '');
     const toolboxName = file.replace('Toolbox_', '');
@@ -361,11 +364,11 @@ document.onload = function() {
 
   /**
    * Construct workspace contents based off of file data and add to project.
-   * @param {string} path The absolute filepath to the workspace contents data.
+   * @param {string} wsContentsFilepath The absolute filepath to the workspace contents data.
    */
-  constructWorkspaceContents(path) {
-    const dataString = fs.readFileSync(path, 'utf8');
-    const pathElements = path.split('/');
+  constructWorkspaceContents(wsContentsFilepath) {
+    const dataString = fs.readFileSync(wsContentsFilepath, 'utf8');
+    const pathElements = wsContentsFilepath.split(path.sep);
     let file = pathElements.slice(-1)[0];
     file = file.replace(/.js$/, '');
     const contentsName = file.replace('WorkspaceContents_', '');
@@ -378,11 +381,11 @@ document.onload = function() {
 
   /**
    * Construct a workspace configuration based off of file data and add to project.
-   * @param {string} path The absolute filepath to the workspace config's data.
+   * @param {string} wsConfigFilepath The absolute filepath to the workspace config's data.
    */
-  constructWorkspaceConfig(path) {
-    const dataString = fs.readFileSync(path, 'utf8');
-    const pathElements = path.split('/');
+  constructWorkspaceConfig(wsConfigFilepath) {
+    const dataString = fs.readFileSync(wsConfigFilepath, 'utf8');
+    const pathElements = wsConfigFilepath.split(path.sep);
     let file = pathElements.slice(-1)[0];
     file = file.replace(/.js$/, '');
     const configName = file.replace('WorkspaceConfiguration_', '');
