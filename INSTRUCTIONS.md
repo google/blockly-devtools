@@ -20,7 +20,7 @@ limitations under the License.
 
 # Blockly Developer Tools
 
-[Blockly Developer Tools]({{dev_tools_url}})
+[Blockly Developer Tools](https://github.com/google/blockly-devtools)
 is a desktop application that helps developers integrate and configure Blockly
 in their application. The Blockly Developer Tools allows users to:
 
