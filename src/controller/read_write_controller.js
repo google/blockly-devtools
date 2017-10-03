@@ -401,7 +401,8 @@ document.onload = function() {
    * @param {string} dataString The string of the library's metadata.
    * @param {Object<string, string>} buddyXml Object mapping block type to its xml.
    */
-  // TODO #262: Make more robust.
+  // TODO(#260): Eliminate buddyXml File for Library Import
+  // TODO(#262): Gracefully handle bad data.
   processLibraryDataString(libraryName, dataString, buddyXml) {
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
     refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
@@ -427,7 +428,7 @@ document.onload = function() {
    * @param {string} toolboxName The name of the toolbox.
    * @param {string} dataString The string of the toolbox's metadata.
    */
-  // TODO #262: Make more robust.
+  // TODO #262: Gracefully handle bad data.
   processToolboxDataString(toolboxName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
     refinedString = refinedString.replace(
@@ -450,7 +451,7 @@ document.onload = function() {
    * @param {string} contentsName The name of the workspace contents.
    * @param {string} dataString The string of the workspace contents metadata.
    */
-  // TODO #262: Make more robust.
+  // TODO #262: Gracefully handle bad data.
   processWorkspaceContentsDataString(contentsName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
     refinedString = refinedString.replace(
