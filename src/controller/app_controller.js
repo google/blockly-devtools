@@ -49,9 +49,9 @@ goog.require('goog.ui.ColorPicker');
 
 'use strict';
 
-var Emitter = require('component-emitter');
-var fs = require('graceful-fs');
-var path = require('path');
+const Emitter = require('component-emitter');
+const fs = require('graceful-fs');
+const path = require('path');
 
 /**
  * Class containing static getters for the prefixes of all node types. Given

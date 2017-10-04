@@ -22,10 +22,18 @@
 
 goog.provide('ReadWriteController');
 
-goog.require('SaveProjectPopupView');
-goog.require('SaveProjectPopupController');
+goog.require('BlockDefinition');
+goog.require('BlockLibrary');
+goog.require('ImportResourcePopupController');
 goog.require('OpenProjectPopupController');
 goog.require('Project');
+goog.require('SaveProjectPopupView');
+goog.require('SaveProjectPopupController');
+goog.require('Toolbox');
+goog.require('WorkspaceContents');
+
+// Module path required within app_controller.js
+
 
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
@@ -58,6 +66,14 @@ class ReadWriteController {
      * @type {Array<string>}
      */
     this.resourceDivIds = [];
+
+    /**
+     * Locations of the buddy xml for each library mapped to the library names.
+     * @type {Object<string,string>}
+     */
+    // TODO # 260: Eliminate need for buddyXml file.
+    this.buddyXmlLocations = JSON.parse(localStorage.getItem('buddyXml')) ||
+        Object.create(null);
   }
 
   /**
@@ -88,19 +104,25 @@ class ReadWriteController {
    * @param {!BlockLibrary} library the block library to be saved.
    */
   saveLibrary(library) {
+    let buddyXml = Object.create(null);
     let blockData = [];
     for (let blockType of library.getBlockTypes()) {
-      // Issue #190
       let block = library.getBlockDefinition(blockType);
       let item = '\n\n\t// BlockType: ' + block.type() + '\n' + block.json;
       blockData.push(item);
+      buddyXml[block.type()] = Blockly.Xml.domToText(block.xml);
     }
     const location = library.webFilepath;
+    // TODO # 260: eliminate need for buddyXml file;
+    this.buddyXmlLocations[library.name] = location + path.sep + 'blockXml';
     const filename = this.getDivName(library) + '.js';
     library.webFilepath = library.webFilepath + path.sep + filename;
     let fileData = 'Blockly.defineBlocksWithJsonArray( // BEGIN JSON EXTRACT \n' +
         blockData + ');  // END JSON EXTRACT (Do not delete this comment.)';
     fs.writeFileSync(location + path.sep + filename, fileData);
+    let xmlFileString = "/* DO NOT EDIT OR MOVE FILE */\n" + JSON.stringify(buddyXml);
+    fs.writeFileSync(location + path.sep + 'blockXml', xmlFileString);
+    localStorage.setItem('buddyXml', JSON.stringify(this.buddyXmlLocations));
   }
 
   /**
@@ -125,7 +147,7 @@ class ReadWriteController {
     var xmlStorageVariable = 'WORKSPACE_CONTENTS_XML';
     let data = `
 /* BEGINNING ${xmlStorageVariable} ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
-var ${xmlStorageVariable} = ${xmlStorageVariable} || null;
+var ${xmlStorageVariable} = ${xmlStorageVariable} || Object.create(null);
 
 ${xmlStorageVariable}['${workspaceContents.name}'] =
     ${FactoryUtils.concatenateXmlString(xml)};
@@ -153,7 +175,8 @@ ${xmlStorageVariable}['${workspaceContents.name}'] =
 /* BEGINNING BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. USE BLOCKLY DEVTOOLS. */
 var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);
 
-BLOCKLY_OPTIONS['${workspaceConfig.name}'] = ${attributes};
+BLOCKLY_OPTIONS['${workspaceConfig.name}'] =
+    '${attributes}';
 /* END BLOCKLY_OPTIONS ASSIGNMENT. DO NOT EDIT. */
 
 document.onload = function() {
@@ -262,6 +285,16 @@ document.onload = function() {
   }
 
   /**
+   * Imports a resource and adds it to the project.
+   * @type {string} resourceType The type of resource to input.
+   */
+  importResource(resourceType) {
+    this.popupController = new ImportResourcePopupController(this.appController,
+        this, resourceType);
+    this.popupController.show();
+  }
+
+  /**
    * Initialize a Project based off of its metadata.
    * @param {string} projectMetaPath An absolute path to the project's metadata.
    * @param {string} platform The platform being uploaded.
@@ -290,17 +323,26 @@ document.onload = function() {
 
   /**
    * Construct a library based off of file data, and add it to the project.
-   * @param {string} path The absolute filepath to the library data.
+   * @param {string} libFilepath The absolute filepath to the library data.
    */
-  constructLibrary(path) {
-    const dataString = fs.readFileSync(path, 'utf8');
+  constructLibrary(libFilepath) {
+    const dataString = fs.readFileSync(libFilepath, 'utf8');
+    const pathElements = libFilepath.split(path.sep);
+    let file = pathElements.slice(-1)[0];
+    file = file.replace(/.js$/, '');
+    const libraryName = file.replace('BlockLibrary_', '');
+    let buddyXmlString =
+        fs.readFileSync(this.buddyXmlLocations[libraryName], 'utf8');
+    buddyXmlString = buddyXmlString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    let buddyXml = JSON.parse(buddyXmlString);
+    this.processLibraryDataString(libraryName, dataString, buddyXml);
   }
 
   /**
    * Construct a block based off of file data, and add it to the project.
-   * @param {string} path The absolute filepath to the block data.
+   * @param {string} blockFilepath The absolute filepath to the block data.
    */
-  constructBlock(path) {
+  constructBlock(blockFilepath) {
     throw 'unimplemented: constructBlock';
   }
 
@@ -308,63 +350,124 @@ document.onload = function() {
    * Construct a toolbox based off of file data, and add it to the project.
    * @param {string} path The absolute filepath to the toolbox data.
    */
-  constructToolbox(path) {
-    const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = this.processToolboxDataString(dataString);
+  constructToolbox(toolboxFilepath) {
+    const dataString = fs.readFileSync(toolboxFilepath, 'utf8');
+    const pathElements = toolboxFilepath.split(path.sep);
+    let file = pathElements.slice(-1)[0];
+    file = file.replace(/.js$/, '');
+    const toolboxName = file.replace('Toolbox_', '');
+    let xmlString = this.processToolboxDataString(toolboxName, dataString);
+    let toolbox = new Toolbox(toolboxName);
+    toolbox.xml = Blockly.Xml.textToDom(xmlString);
+    this.appController.projectController.addToolbox(toolbox);
   }
 
   /**
    * Construct workspace contents based off of file data and add to project.
-   * @param {string} path The absolute filepath to the workspace contents data.
+   * @param {string} wsContentsFilepath The absolute filepath to the workspace contents data.
    */
-  constructWorkspaceContents(path) {
-    const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = this.processWorkspaceContentsDataString(dataString);
+  constructWorkspaceContents(wsContentsFilepath) {
+    const dataString = fs.readFileSync(wsContentsFilepath, 'utf8');
+    const pathElements = wsContentsFilepath.split(path.sep);
+    let file = pathElements.slice(-1)[0];
+    file = file.replace(/.js$/, '');
+    const contentsName = file.replace('WorkspaceContents_', '');
+    let xmlString =
+        this.processWorkspaceContentsDataString(contentsName, dataString);
+    let workspaceContents = new WorkspaceContents(contentsName);
+    workspaceContents.xml = Blockly.Xml.textToDom(xmlString);
+    this.appController.projectController.addWorkspaceContents(workspaceContents);
   }
 
   /**
    * Construct a workspace configuration based off of file data and add to project.
-   * @param {string} path The absolute filepath to the workspace config's data.
+   * @param {string} wsConfigFilepath The absolute filepath to the workspace config's data.
    */
-  constructWorkspaceConfig(path) {
-    const dataString = fs.readFileSync(path, 'utf8');
-    let refinedString = this.processWorkspaceConfigDataString(dataString);
+  constructWorkspaceConfig(wsConfigFilepath) {
+    const dataString = fs.readFileSync(wsConfigFilepath, 'utf8');
+    const pathElements = wsConfigFilepath.split(path.sep);
+    let file = pathElements.slice(-1)[0];
+    file = file.replace(/.js$/, '');
+    const configName = file.replace('WorkspaceConfiguration_', '');
+    this.processWorkspaceConfigDataString(configName, dataString);
+    // TODO #259: connect workspace configuration import properly.
   }
 
+
   /**
-   * Processes a string of library file data so that it can be parsed into JSON.
+   * Isolates block JSON in library definition string, adds library with blocks
+   * to project and updates view.
+   * @param {string} libraryName The name of the library.
    * @param {string} dataString The string of the library's metadata.
-   * @return {string} The refined string, ready to be parsed.
+   * @param {Object<string, string>} buddyXml Object mapping block type to its xml.
    */
-  processLibraryDataString(dataString) {
+  // TODO(#260): Eliminate buddyXml File for Library Import
+  // TODO(#262): Gracefully handle bad data.
+  processLibraryDataString(libraryName, dataString, buddyXml) {
     let refinedString = dataString.replace(/\/\/\ (.*)$/gm, '');
     refinedString = refinedString.replace('Blockly.defineBlocksWithJsonArray(', '');
-    refinedString = refinedString.replace(');', '');
-    refinedString = refinedString + ',';
-    let refinedArray = refinedString.split('},');
-    for (let blockString of refinedArray) {
-      if (blockString) {
-        blockString = blockString + '}';
-      }
+    refinedString = refinedString.replace(');', ']');
+    let library = new BlockLibrary(libraryName);
+    refinedString = refinedString.trim();
+    refinedString = '[' + refinedString;
+    let jsonArray = JSON.parse(refinedString);
+    this.appController.projectController.addBlockLibrary(library);
+    for (let blockJson of jsonArray) {
+      let xml = Blockly.Xml.textToDom(buddyXml[blockJson.type]);
+      let block = new BlockDefinition(blockJson.type, JSON.stringify(blockJson));
+      block.setXml(xml);
+      block.define();
+      this.appController.editorController.blockEditorController.view.show(block);
+      this.appController.editorController.blockEditorController.refreshPreviews();
+      this.appController.projectController.addBlockDefinition(block, libraryName);
     }
   }
 
   /**
    * Processes a string of toolbox file data to properly extract xml.
+   * @param {string} toolboxName The name of the toolbox.
    * @param {string} dataString The string of the toolbox's metadata.
-   * @return {string} The xml string.
    */
-  processToolboxDataString(dataString) {
+  // TODO #262: Gracefully handle bad data.
+  processToolboxDataString(toolboxName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    refinedString = refinedString.replace(
+        'var BLOCKLY_TOOLBOX_XML = BLOCKLY_TOOLBOX_XML || Object.create(null);', '');
+    refinedString = refinedString.replace('\'' + toolboxName + '\'] =', '');
+    refinedString = refinedString.replace('BLOCKLY_TOOLBOX_XML[', '');
+    refinedString = refinedString.replace('>\';', '>\'');
+    refinedString = refinedString.trim();
+    let stringArray = refinedString.split('+');
+    let xmlString = '';
+    for (let string of stringArray) {
+      string = string.replace('\'', '');
+      xmlString = xmlString + string.trim();
+    }
+    return xmlString;
   }
 
   /**
    * Processes a string of workspace contents file data to properly extract xml.
+   * @param {string} contentsName The name of the workspace contents.
    * @param {string} dataString The string of the workspace contents metadata.
-   * @return {string} The xml string.
    */
-  processWorkspaceContentsDataString(dataString) {
+  // TODO #262: Gracefully handle bad data.
+  processWorkspaceContentsDataString(contentsName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    refinedString = refinedString.replace(
+        'var WORKSPACE_CONTENTS_XML = WORKSPACE_CONTENTS_XML || ' +
+          'Object.create(null);', '');
+    refinedString = refinedString.replace('\'' + contentsName + '\'] =', '');
+    refinedString = refinedString.replace('WORKSPACE_CONTENTS_XML[', '');
+    refinedString = refinedString.replace('>\';', '>\'');
+    refinedString = refinedString.trim();
+    let stringArray = refinedString.split('+');
+    let xmlString = '';
+    for (let string of stringArray) {
+      string = string.replace('\'', '');
+      xmlString = xmlString + string.trim();
+    }
+    return xmlString;
   }
 
   /**
@@ -372,7 +475,21 @@ document.onload = function() {
    * @param {string} dataString The string of the workspace configuration's metadata.
    * @return {string} The options string.
    */
-  processWorkspaceConfigDataString(dataString) {
+  // TODO #259: fill out fields properly.
+  processWorkspaceConfigDataString(configName, dataString) {
     let refinedString = dataString.replace(/\/\*(.*)\*\/(.*)$/gm, '');
+    refinedString = refinedString.replace(
+        'var BLOCKLY_OPTIONS = BLOCKLY_OPTIONS || Object.create(null);', '');
+    refinedString = refinedString.replace('\'' + configName + '\'] =', '');
+    refinedString = refinedString.replace('BLOCKLY_OPTIONS[', '');
+    refinedString = refinedString.replace('\';', '\'');
+    refinedString = refinedString.trim();
+    refinedString = refinedString.replace('document.onload = function() {', '');
+    refinedString = refinedString.replace(
+        'var workspace = Blockly.inject(null, BLOCKLY_OPTIONS);', '');
+    refinedString = refinedString.replace('};', '');
+    refinedString = refinedString.replace('BLOCKLY_TOOLBOX_XML[', '');
+    refinedString = refinedString.replace('],', ',');
+    return refinedString;
   }
 }
