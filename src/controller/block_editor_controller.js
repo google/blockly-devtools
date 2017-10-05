@@ -159,7 +159,8 @@ class BlockEditorController {
       Blockly.hideChaff();
       mask.show();
       languagePre.hide();
-      languageTA.show();
+      // .show() will set this to inline-block, which won't size correctly.
+      languageTA.css('display', 'block');
       const code = languagePre.text().trim();
       languageTA.val(code);
       languageTA.focus();
@@ -173,7 +174,7 @@ class BlockEditorController {
   }
 
   /**
-   * Update the language code based on constructs made in Blockly.
+   * Update the block definition code based on constructs made in Blockly.
    */
   updateLanguage() {
     // TODO: Move in from factory.js
@@ -303,6 +304,8 @@ class BlockEditorController {
       return;
     }
 
+    // Backup Blockly.Blocks object so that main workspace and preview don't
+    // collide if user creates a 'factory_base' block, for instance.
     const backupBlocks = Blockly.Blocks;
     try {
       // Evaluates block definition (temporarily) for preview.
@@ -311,6 +314,9 @@ class BlockEditorController {
       const blockType = this.view.blockDefinition.type();
       // Render preview block in preview workspace.
       this.renderPreviewBlock_(blockType);
+    } catch(err) {
+      // TODO: Show error on the UI
+      console.log(err);
     } finally {
       Blockly.Blocks = backupBlocks;
       this.view.blockDefinition.undefine();

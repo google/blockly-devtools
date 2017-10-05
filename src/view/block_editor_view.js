@@ -45,6 +45,7 @@ class BlockEditorView {
      * BlockDefinition currently being edited within the view.
      * @type {!BlockDefinition}
      */
+    // TODO: Move to BlockEditorController
     this.blockDefinition = blockDefinition;
 
     /**
@@ -158,6 +159,9 @@ class BlockEditorView {
 
     // Update preview as user manually defines block.
     $('#languageTA').on('input', () => {
+      controller.updatePreview_();
+    });
+    $('#languageTA').on('keyup', () => {
       controller.updatePreview_();
     });
 

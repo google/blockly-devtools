@@ -79,17 +79,22 @@ input {
 
 #blockly {
   height: 100%;
+  position: relative;
   width: 100%;
   z-index: 10;
 }
 
 #blocklyMask {
   background-color: #000;
+  bottom: 0;
   cursor: not-allowed;
   display: none;
-  position: fixed;
+  left: 0;
   opacity: 0.2;
-  z-index: 9;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
 }
 
 #preview {
@@ -100,6 +105,7 @@ input {
 pre,
 #languageTA {
   border: #ddd 1px solid;
+  box-sizing: border-box;
   height: 100%;
   margin-top: 0;
   overflow: scroll;
@@ -109,6 +115,7 @@ pre,
 #languageTA {
   display: none;
   font: 10pt monospace;
+  resize: none;
 }
 
 .downloadButton {
@@ -243,6 +250,7 @@ button, .buttonStyle {
 }
 
 #blocklyWorkspaceContainer {
+  position: relative;
   width: 50%;
 }
 
