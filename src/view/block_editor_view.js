@@ -190,9 +190,9 @@ class BlockEditorView {
       controller.attemptUpdateFromManualCode();
     });
 
-    // JSON <-> JS for Block Definition
+    // JSON/JS/Manual editing of the block definition
     this.formatSelector_.change(() => {
-      controller.changeFormat();
+      controller.onChangeFormat();
     });
 
     // Update code generator
@@ -202,10 +202,16 @@ class BlockEditorView {
   }
 
   /**
-   * Whether the currently selected mode is a manual editing mode.
+   * Decodes the format value selected in the UI.
+   * @return {format: string, isInManualMode: boolean} The format ('JSON' or
+   *     'JavaScript') and the manual mode flag.
    */
-  isInManualMode() {
-    return $('#format').val() == BlockEditorController.FORMAT_MANUAL;
+  getSelectedEditFormat() {
+    let rawFormat = this.formatSelector_.val();
+    let isInManualMode = rawFormat.startsWith('Manual-');
+    let format =
+        isInManualMode ? rawFormat.substring('Manual-'.length) : rawFormat;
+    return {format, isInManualMode};
   }
 
   /**
@@ -214,11 +220,18 @@ class BlockEditorView {
    *     onto Block Editor workspace.
    */
   showStarterBlock(starterXml) {
-    // REFACTORED: Moved in from
-    // factory.js:showStarterBlock(inputType, blockTypeName, opt_blockStarterText)
     this.editorWorkspace.clear();
     const xml = Blockly.Xml.textToDom(starterXml);
     Blockly.Xml.domToWorkspace(xml, this.editorWorkspace);
+  }
+
+  // TODO: Generalize the following two as getBlockDefinitionCode()?
+
+  /**
+   * @return {string} The code in the manual block definition.
+   */
+  getManualBlockDefinition() {
+    return this.manualBlockDefTA_.val();
   }
 
   /**
@@ -250,15 +263,23 @@ class BlockEditorView {
    * @param {boolean=} opt_manual Whether the block definition view should be
    *     an editable textarea for manual edit.
    */
-  updateBlockDefinitionView(blockDefCode, opt_manual) {
+  updateBlockDefinitionCodeView(blockDefCode, opt_manual) {
     if (opt_manual) {
       // If manual edit.
+      Blockly.hideChaff();
       this.blockDefPre_.hide();
-      this.manualBlockDefTA_.show();
+      this.editorMask_.show();
+
+      // Don't use .show(). That set this to inline-block, which won't size
+      // correctly.
+      this.manualBlockDefTA_.css('display', 'block');
       this.manualBlockDefTA_.val(blockDefCode);
+      this.manualBlockDefTA_.focus();
     } else {
-      this.blockDefPre_.show();
+      this.editorMask_.hide();
       this.manualBlockDefTA_.hide();
+
+      this.blockDefPre_.show();
       FactoryUtils.injectCode(blockDefCode, 'blockDefPre');
     }
   }
@@ -373,10 +394,12 @@ BlockEditorView.html = `
         <tr>
           <td height="5%">
             <h3>Block Definition:
-              <select id="format">
+                <!-- TODO(#270): Separate concerns of format and editable.
+                  -              Add "Editable" state toggle button? -->              <select id="format">
                 <option value="JSON">JSON</option>
-                <option value="JavaScript">JavaScript</option>
-                <option value="Manual">Manual edit&hellip;</option>
+                <option value="JS">JavaScript</option>
+                <option value="Manual-JSON">Manual JSON&hellip;</option>
+                <option value="Manual-JS">Manual JavaScript&hellip;</option>
               </select>
             </h3>
           </td>

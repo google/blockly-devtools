@@ -28,6 +28,16 @@ goog.provide('BlockDefinition');
  */
 class BlockDefinition extends Resource {
   /**
+   * Static constants for block definition formats.
+   */
+  static get FORMAT_JSON() {
+    return 'JSON';
+  }
+  static get FORMAT_JAVASCRIPT() {
+    return 'JS';
+  }
+
+  /**
    * BlockDefinition Class.
    * @constructor
    * @param {string} blockTypeName The type name of the definition, used as a
@@ -68,6 +78,20 @@ class BlockDefinition extends Resource {
   }
 
   /**
+   * Retrieves the block's format and code as an array pair.
+   * @return {!Array.<string>} Two-element array. First element is format of
+   *                           code, and second is the block definition code.
+   * @private
+   */
+  getBlockFormatCode() {
+    if (this.json_) {
+      return [BlockDefinition.FORMAT_JSON, this.json_];
+    } else {
+      return [BlockDefinition.FORMAT_JAVASCRIPT, this.javascript_];
+    }
+  }
+
+  /**
    * Updates the block definition from a JSON string.
    * @param {string} format The format of the definition. Either 'JSON' or 'JS'.`
    * @param {string=} opt_defStr optional String representation block definition.
@@ -75,10 +99,9 @@ class BlockDefinition extends Resource {
    * @throws If format is not either 'JSON' or 'JS'.
    */
   update(format, opt_defStr, opt_xml) {
-    const formatCaps = format.toUpperCase();
-    if (formatCaps === 'JSON') {
+    if (format === BlockDefinition.FORMAT_JSON) {
       this.json_ = opt_defStr || this.createStarterJson_();
-    } else if (formatCaps === 'JS') {
+    } else if (format === BlockDefinition.FORMAT_JAVASCRIPT) {
       this.javascript_ = opt_defStr || this.createStarterJavaScript_();
     } else {
       throw new Error('Unrecognized BlockDefinition format specifier: ' + format);
@@ -166,13 +189,13 @@ class BlockDefinition extends Resource {
       // Log the full stack trace of the error.
       console.error(
         'Error while evaluating JavaScript formatted block definition', e);
-      undefine();  // Attempt to reset state.
+      this.undefine();  // Attempt to reset state.
       throw new Error('Failed to define block type from JavaScript.');
     }
 
-    if (!Blockly.Blocks[name]) {
+    if (!Blockly.Blocks[this.name]) {
       throw new Error('Evaluating JavaScript did not define a block type named "'
-          + name + '".');
+          + this.name + '".');
     }
   }
 
@@ -234,7 +257,7 @@ Blockly.Blocks['${this.type()}'] = {
    * @return {string} The JSON for the block.
    */
   getBlockDefinitionJson() {
-    return this.json;
+    return this.json_;
   }
 
   /**

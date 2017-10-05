@@ -71,12 +71,14 @@ FactoryUtils.getBlockDefFromXml = function(format, rootXml, workspace) {
 FactoryUtils.getBlockDefFromRoot_ = function(format, rootBlock, workspace) {
   const blockType = rootBlock.getFieldValue('NAME');
   switch (format) {
-    case 'JSON':
+    case BlockDefinition.FORMAT_JSON:
       var code = FactoryUtils.formatJson_(blockType, rootBlock);
       break;
-    case 'JavaScript':
+    case BlockDefinition.FORMAT_JAVASCRIPT:
       var code = FactoryUtils.formatJavaScript_(blockType, rootBlock, workspace);
       break;
+    default:
+      throw new Error('Unrecognized format: ' + format);
   }
   return code;
 };
