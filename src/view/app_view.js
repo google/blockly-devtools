@@ -492,7 +492,7 @@ class AppView {
   /**
    * Add event listeners for the block factory.
    */
-  // TODO: Move to BlockEditorView or Controller.
+  // TODO(#276): Move to BlockEditorView or Controller.
   addBlockFactoryEventListeners() {
     const controller =
         this.appController.editorController.blockEditorController;
