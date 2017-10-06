@@ -519,13 +519,4 @@ class AppView {
     $('#format').change(changeFormat);
     $('#language').change(updatePreview);
   }
-
-  /**
-   * Handle resizing of elements.
-   * @param {Event} event onresize event.
-   */
-  onresize(event) {
-    // Move in from app_controller.js
-    throw 'Unimplemented: onresize()';
-  }
 }
