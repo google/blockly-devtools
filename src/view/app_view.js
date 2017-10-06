@@ -492,26 +492,32 @@ class AppView {
   /**
    * Add event listeners for the block factory.
    */
+  // TODO: Move to BlockEditorView or Controller.
   addBlockFactoryEventListeners() {
-    // REFACTORED: Moved in from app_controller.js
+    const controller =
+        this.appController.editorController.blockEditorController;
+    const changeFormat = controller.changeFormat.bind(controller);
+    const updateLanguage = controller.updateLanguage.bind(controller);
+    const updatePreview = controller.updatePreview.bind(controller);
+    const refreshPreviews = controller.refreshPreviews.bind(controller);
+
     // Update code on changes to block being edited.
     this.blockEditorView.editorWorkspace.addChangeListener(
-        this.appController.editorController.updateLanguage);
+        updateLanguage);
 
     // Disable blocks not attached to the factory_base block.
-    this.blockEditorView.editorWorkspace.addChangeListener(Blockly.Events.disableOrphans);
-
-    const controller = this.appController.editorController.blockEditorController;
+    this.blockEditorView.editorWorkspace.addChangeListener(
+        Blockly.Events.disableOrphans);
 
     // Update preview on every change.
     this.blockEditorView.editorWorkspace.addChangeListener(
-        controller.refreshPreviews);
+        refreshPreviews);
 
-    $('#direction').change(controller.updatePreview);
-    $('#languageTA').change(controller.updatePreview);
-    $('#languageTA').keyup(controller.updatePreview);
-    $('#format').change(controller.formatChange);
-    $('#language').change(controller.updatePreview);
+    $('#direction').change(updatePreview);
+    $('#languageTA').change(updatePreview);
+    $('#languageTA').keyup(updatePreview);
+    $('#format').change(changeFormat);
+    $('#language').change(updatePreview);
   }
 
   /**

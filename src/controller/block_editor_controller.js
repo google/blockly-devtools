@@ -142,7 +142,7 @@ class BlockEditorController {
   refreshPreviews() {
     const format = $('#format').val();
     this.updateBlockDefinitionView_(format);
-    this.updatePreview_();
+    this.updatePreview();
     this.updateGenerator_();
   }
 
@@ -164,7 +164,7 @@ class BlockEditorController {
       const code = languagePre.text().trim();
       languageTA.val(code);
       languageTA.focus();
-      this.updatePreview_();
+      this.updatePreview();
     } else {
       mask.hide();
       languageTA.hide();
@@ -177,7 +177,6 @@ class BlockEditorController {
    * Update the block definition code based on constructs made in Blockly.
    */
   updateLanguage() {
-    // TODO: Move in from factory.js
     var rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     if (!rootBlock) {
       return;
@@ -190,7 +189,7 @@ class BlockEditorController {
     var code = FactoryUtils.getBlockDefinition(format,
         this.view.editorWorkspace);
     FactoryUtils.injectCode(code, 'languagePre');
-    this.updatePreview_();
+    this.updatePreview();
   }
 
   /**
@@ -288,9 +287,8 @@ class BlockEditorController {
 
   /**
    * Update the preview display.
-   * @private
    */
-  updatePreview_() {
+  updatePreview() {
     // REFACTORED: Moved in from factory.js:updatePreview()
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
