@@ -149,7 +149,7 @@ class BlockEditorView {
     // LTR <-> RTL
     $('#direction').change(() => {
       this.updateDirection($('#direction').val());
-      controller.updatePreview_();
+      controller.updatePreview();
     });
 
     // JSON <-> JS for Block Definition
@@ -159,10 +159,10 @@ class BlockEditorView {
 
     // Update preview as user manually defines block.
     $('#languageTA').on('input', () => {
-      controller.updatePreview_();
+      controller.updatePreview();
     });
     $('#languageTA').on('keyup', () => {
-      controller.updatePreview_();
+      controller.updatePreview();
     });
 
     // Update code generator
