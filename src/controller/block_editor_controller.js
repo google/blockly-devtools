@@ -99,7 +99,7 @@ class BlockEditorController {
    */
   createNewBlock(inputType, blockTypeName, libraryName, opt_blockStarterText) {
     // Creates new BlockDefinition object.
-    const newBlock = new BlockDefinition(blockTypeName);
+    const newBlock = new BlockDefinition(blockTypeName, 'JSON');
 
     // Sets XML in BlockDefinition model object.
     const starterXml = Blockly.Xml.textToDom(
@@ -143,7 +143,7 @@ class BlockEditorController {
     const format = $('#format').val();
     this.updateBlockDefinitionView_(format);
     this.updatePreview();
-    this.updateGenerator_();
+    this.updateGenerator();
   }
 
   /**
@@ -193,19 +193,18 @@ class BlockEditorController {
   }
 
   /**
-   * Updates blockType and XML of currently open BlockDefinition.
+   * Updates the BlockDefinition with the latest values from the editor.
    */
   updateBlockDefinition() {
-    const currentBlock = this.view.blockDefinition;
-    const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-    // Sets XML field of BlockDefinition object.
-    const blockXml = '<xml>' + Blockly.Xml.domToText(Blockly.Xml.blockToDom(rootBlock)) + '</xml>';
-    currentBlock.setXml(Blockly.Xml.textToDom(blockXml));
-    // Sets JSON field of BlockDefinition object.
     // TODO(#190): Store and generate block definition JSONs more efficiently to
     // avoid repeatedly using JSON.parse().
-    currentBlock.json = FactoryUtils.getBlockDefinition(
+    const blockJson = FactoryUtils.getBlockDefinition(
           'JSON', this.view.editorWorkspace);
+
+    const rootEditorBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+    const blockXml = Blockly.Xml.blockToDom(rootEditorBlock);
+
+    this.view.blockDefinition.update('JSON', blockJson, blockXml);
   }
 
   /**
@@ -249,10 +248,8 @@ class BlockEditorController {
 
   /**
    * Update the generator code.
-   * @private
    */
-  updateGenerator_() {
-    // REFACTORED: Moved in from factory.js:updateGenerator()
+  updateGenerator() {
     const language = $('#language').val();
     const generatorStub = FactoryUtils.getGeneratorStub(
         this.getPreviewBlock_(), language);
@@ -286,7 +283,7 @@ class BlockEditorController {
   }
 
   /**
-   * Update the preview display.
+   * Update the preview workspace with the updated block.
    */
   updatePreview() {
     // REFACTORED: Moved in from factory.js:updatePreview()
@@ -314,7 +311,7 @@ class BlockEditorController {
       this.renderPreviewBlock_(blockType);
     } catch(err) {
       // TODO: Show error on the UI
-      console.log(err);
+      console.error(err);
     } finally {
       Blockly.Blocks = backupBlocks;
       this.view.blockDefinition.undefine();
