@@ -414,7 +414,7 @@ document.onload = function() {
     this.appController.projectController.addBlockLibrary(library);
     for (let blockJson of jsonArray) {
       let xml = Blockly.Xml.textToDom(buddyXml[blockJson.type]);
-      let block = new BlockDefinition(blockJson.type, JSON.stringify(blockJson));
+      let block = new BlockDefinition(blockJson.type, 'JSON', JSON.stringify(blockJson));
       block.setXml(xml);
       block.define();
       this.appController.editorController.blockEditorController.view.show(block);

@@ -167,7 +167,7 @@ class BlockEditorView {
 
     // Update code generator
     $('#language').change(() => {
-      controller.updateGenerator_();
+      controller.updateGenerator();
     });
   }
 
