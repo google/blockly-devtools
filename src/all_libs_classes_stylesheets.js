@@ -34,8 +34,7 @@
   };
 
   appendScript('node_modules/jquery/dist/jquery.min.js');
-  // TODO: Replace with local NPM managed file. https://www.npmjs.com/package/google-code-prettify
-  appendScript('https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js');
+  appendScript('node_modules/code-prettify/src/run_prettify.js');
 
   appendScript('lib/blockly_compressed.js');
   appendScript('msg/js/en.js');
