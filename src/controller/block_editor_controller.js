@@ -59,6 +59,12 @@ class BlockEditorController {
     this.view = new BlockEditorView(null);
 
     /**
+     * Whether the controller is operating in manual mode.
+     * @type {boolean}
+     */
+    this.inManualMode_ = this.view.isInManualMode();
+
+    /**
      * Existing direction ('ltr' vs 'rtl') of preview.
      * @type {string}
      */
@@ -117,20 +123,37 @@ class BlockEditorController {
   }
 
   /**
-   * Handles response to editor workspace change events.
+   * Handles response to block-based block definition editor change events.
    * @param {!Event} event Change event in editor workspace.
    */
-  onChange(event) {
+  onWorkspaceChange(event) {
+    // TODO: BLOCK_CHANGE, BLOCK_CREATE, BLOCK_DELETE, BLOCK_MOVE
+    const isEditEvent =
+        event.type == Blockly.Events.CHANGE ||
+        event.type == Blockly.Events.CREATE ||
+        event.type == Blockly.Events.DELETE ||
+        event.type == Blockly.Events.MOVE;
     const isUiEvent = event.type == Blockly.Events.UI;
-    const isCreateEvent = event.type == Blockly.Events.CREATE;
+
     // Update model only when user creates a new block or somehow interacts
     // with blocks (i.e. create and UI events).
-    if (isUiEvent || isCreateEvent) {
-      this.updateBlockName(!isUiEvent, true);
-      // Save block's changes into BlockDefinition model object.
-      this.updateBlockDefinition();
-      // Update the block editor view.
-      this.refreshPreviews();
+    if (isEditEvent || isUiEvent) {
+      // Only update the name on the nav tree during a UI event, which might
+      // be a focus change away from the name field.
+      this.updateBlockName(
+          /* suppressTreeChange */ !isUiEvent,
+          /* isSelected */ true);
+
+      if (isEditEvent) {
+        // Save block's changes into BlockDefinition model object.
+        this.updateBlockDefinition();
+
+        // In Manual Mode, the Editor Workspace is updated from the preview.
+        if (!this.inManualMode_) {
+          // Update the block editor view.
+          this.refreshPreviews();
+        }
+      }
     }
     // Disable orphans.
     Blockly.Events.disableOrphans(event);
@@ -155,7 +178,10 @@ class BlockEditorController {
     const mask = $('#blocklyMask');
     const languagePre = $('#languagePre');
     const languageTA = $('#languageTA');
-    if ($('#format').val() == BlockEditorController.FORMAT_MANUAL) {
+
+    // TODO(#168): Avoid view reference by passing in inManualMode arugment.
+    this.inManualMode_ = this.view.isInManualMode();
+    if (this.inManualMode_) {
       Blockly.hideChaff();
       mask.show();
       languagePre.hide();
@@ -201,10 +227,14 @@ class BlockEditorController {
     const blockJson = FactoryUtils.getBlockDefinition(
           'JSON', this.view.editorWorkspace);
 
-    const rootEditorBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-    const blockXml = Blockly.Xml.blockToDom(rootEditorBlock);
+    if (blockJson != this.lastBlockJson_) {
+      this.lastBlockJson_ = blockJson;
 
-    this.view.blockDefinition.update('JSON', blockJson, blockXml);
+      const rootEditorBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+      const blockXml = Blockly.Xml.blockToDom(rootEditorBlock);
+
+      this.view.blockDefinition.update('JSON', blockJson, blockXml);
+    }
   }
 
   /**

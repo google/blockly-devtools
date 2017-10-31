@@ -143,7 +143,7 @@ class BlockEditorView {
    */
   init(controller) {
     this.editorWorkspace.addChangeListener((event) => {
-      controller.onChange(event);
+      controller.onWorkspaceChange(event);
     });
 
     // LTR <-> RTL
@@ -169,6 +169,13 @@ class BlockEditorView {
     $('#language').change(() => {
       controller.updateGenerator();
     });
+  }
+
+  /**
+   * Whether the currently selected mode is a manual editing mode.
+   */
+  isInManualMode() {
+    return $('#format').val() == BlockEditorController.FORMAT_MANUAL;
   }
 
   /**
