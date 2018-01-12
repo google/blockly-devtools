@@ -24,7 +24,7 @@
  *   goog.requires(), and app specific local libraries in the browser-like
  *   (but not quite a browser) context.
  */
-
+// TODO: Replace this with the right way for both global references and module imports.
 (function() {
   var appendScript = function(src) {
     document.write(`<script src="${src}"></script>`);

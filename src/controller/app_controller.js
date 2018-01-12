@@ -1,4 +1,4 @@
-/**
+,/**
  * @license
  * Blockly Demos: Block Factory
  *
