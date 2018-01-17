@@ -303,6 +303,12 @@ class BlockEditorController {
     // collide if user creates a 'factory_base' block, for instance.
     const backupBlocks = Blockly.Blocks;
     try {
+      // Make a shallow copy.
+      Blockly.Blocks = Object.create(null);
+      for (var prop in backupBlocks) {
+        Blockly.Blocks[prop] = backupBlocks[prop];
+      }
+
       // Evaluates block definition (temporarily) for preview.
       this.view.blockDefinition.define();
 
