@@ -71,6 +71,31 @@ class BlockEditorView {
     this.deleteButton = $('#removeBlockFromLibraryButton');
 
     /**
+     * Drop down selector to pick the code format.
+     * @type {!JQuery}
+     */
+    this.formatSelector_ = $('#format');
+
+    /**
+     * Pretty-printed &lt;pre&gt; that displays the JSON or JavaScript code for
+     * the block defined in the workspace.
+     * @type {!JQuery}
+     */
+    this.blockDefPre_ = $('#blockDefPre');
+
+    /**
+     * The textarea to edit the block definition in manual mode.
+     * @type {!JQuery}
+     */
+    this.manualBlockDefTA_ = $('#manualBlockDefTA');
+
+    /**
+     * The overlay to show over the editor workspace to prevent interaction.
+     * @type {!JQuery}
+     */
+    this.editorMask_ = $('#blockEditorWorkspaceMask');
+
+    /**
      * Whether user is creating RTL or LTR blocks.
      * @type {boolean}
      */
@@ -80,7 +105,7 @@ class BlockEditorView {
      * Blockly workspace of main block defining workspace.
      * @type {!Blockly.Workspace}
      */
-    this.editorWorkspace = Blockly.inject('blockly',
+    this.editorWorkspace = Blockly.inject('blockEditorWorkspace',
       {
         collapse: false,
         toolbox: DevToolsToolboxes.blockFactory,
@@ -158,10 +183,11 @@ class BlockEditorView {
     });
 
     // Update preview as user manually defines block.
-    $('#languageTA').on('input', () => {
+    let manualBlockDefTA = $('#manualBlockDefTA');
+    manualBlockDefTA.on('input', () => {
       controller.updatePreview();
     });
-    $('#languageTA').on('keyup', () => {
+    manualBlockDefTA.on('keyup', () => {
       controller.updatePreview();
     });
 
@@ -223,13 +249,13 @@ class BlockEditorView {
   updateBlockDefinitionView(blockDefCode, opt_manual) {
     if (opt_manual) {
       // If manual edit.
-      $('#languagePre').hide();
-      $('#languageTA').show();
-      $('#languageTA').val(blockDefCode);
+      this.blockDefPre_.hide();
+      this.manualBlockDefTA_.show();
+      this.manualBlockDefTA_.val(blockDefCode);
     } else {
-      $('#languagePre').show();
-      $('#languageTA').hide();
-      FactoryUtils.injectCode(blockDefCode, 'languagePre');
+      this.blockDefPre_.show();
+      this.manualBlockDefTA_.hide();
+      FactoryUtils.injectCode(blockDefCode, 'blockDefPre');
     }
   }
 
@@ -320,8 +346,8 @@ BlockEditorView.html = `
 <table id="blockEditor">
   <tr height="100%">
     <td id="blocklyWorkspaceContainer">
-      <div id="blockly"></div>
-      <div id="blocklyMask"></div>
+      <div id="blockEditorWorkspace"></div>
+      <div id="blockEditorWorkspaceMask"></div>
     </td>
     <td width="50%">
       <table id="blocklyPreviewContainer">
@@ -353,8 +379,8 @@ BlockEditorView.html = `
         </tr>
         <tr>
           <td height="30%">
-            <pre id="languagePre"></pre>
-            <textarea id="languageTA"></textarea>
+            <pre id="blockDefPre"></pre>
+            <textarea id="manualBlockDefTA"></textarea>
           </td>
         </tr>
         <tr>

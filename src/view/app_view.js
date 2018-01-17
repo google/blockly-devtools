@@ -492,18 +492,20 @@ class AppView {
   /**
    * Add event listeners for the block factory.
    */
-  // TODO(#276): Move to BlockEditorView or Controller.
+  // TODO(#276): Move to BlockEditorView.
   addBlockFactoryEventListeners() {
     const controller =
         this.appController.editorController.blockEditorController;
     const changeFormat = controller.changeFormat.bind(controller);
-    const updateLanguage = controller.updateLanguage.bind(controller);
+    const updateBlockDefPre = controller.updateBlockDefPre.bind(controller);
     const updatePreview = controller.updatePreview.bind(controller);
     const refreshPreviews = controller.refreshPreviews.bind(controller);
 
     // Update code on changes to block being edited.
-    this.blockEditorView.editorWorkspace.addChangeListener(
-        updateLanguage);
+    this.blockEditorView.editorWorkspace.addChangeListener(() => {
+      updateBlockDefPre();
+      updatePreview();
+    });
 
     // Disable blocks not attached to the factory_base block.
     this.blockEditorView.editorWorkspace.addChangeListener(
@@ -514,8 +516,8 @@ class AppView {
         refreshPreviews);
 
     $('#direction').change(updatePreview);
-    $('#languageTA').change(updatePreview);
-    $('#languageTA').keyup(updatePreview);
+    $('#manualBlockDefTA').change(updatePreview);
+    $('#manualBlockDefTA').keyup(updatePreview);
     $('#format').change(changeFormat);
     $('#language').change(updatePreview);
   }
