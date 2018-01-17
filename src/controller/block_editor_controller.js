@@ -232,7 +232,7 @@ class BlockEditorController {
     }
 
     const changedName = currentBlock.name != newName;
-    const warning = this.getWarningText(newName); // Warning text or null
+    const warning = this.getNameWarning_(newName); // Warning text or null
 
     if (!suppressTreeChange && changedName && warning) {
       // Warn user if name is invalid (is 'block_type' or a duplicate).
@@ -405,7 +405,7 @@ class BlockEditorController {
    * @param {string} blockType Name of block type rendered in preview.
    * @private
    */
-  getWarningText(blockType) {
+  getNameWarning_(blockType) {
     // Warn user only if their block type is already exists in Blockly's
     // standard library.
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
@@ -415,10 +415,16 @@ class BlockEditorController {
       // Warn user to let them know they can't save a block under the default
       // name 'block_type'
       return 'You cannot save a block with the default name, "block_type"';
-    } else if (this.projectController.getProject().hasBlockDefinition(blockType)) {
-      return 'There is already a block under this name.';
     } else {
-      return null;
+      let existingBlock =
+          this.projectController.getProject().getBlockDefinition(blockType);
+      if (existingBlock !== this.view.blockDefinition) {
+        // TODO(#286_: Fix false positive error matches here.
+        //     (Low priority, not showing to user, which may be its own bug.)
+        return 'There is already a block under this name.';
+      } else {
+        return null;
+      }
     }
   }
 
