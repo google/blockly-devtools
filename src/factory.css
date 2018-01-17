@@ -77,14 +77,14 @@ input {
   height: 10%;
 }
 
-#blockly {
+#blockEditorWorkspace {
   height: 100%;
   position: relative;
   width: 100%;
   z-index: 10;
 }
 
-#blocklyMask {
+#blockEditorWorkspaceMask {
   background-color: #000;
   bottom: 0;
   cursor: not-allowed;
@@ -103,7 +103,7 @@ input {
 }
 
 pre,
-#languageTA {
+#manualBlockDefTA {
   border: #ddd 1px solid;
   box-sizing: border-box;
   height: 100%;
@@ -112,8 +112,8 @@ pre,
   width:100%;
 }
 
-#languageTA {
-  display: none;
+#manualBlockDefTA {
+  display: none; /* Initial state */
   font: 10pt monospace;
   resize: none;
 }

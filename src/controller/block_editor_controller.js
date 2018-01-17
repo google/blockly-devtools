@@ -163,7 +163,7 @@ class BlockEditorController {
    * Refreshes previews in view and updates model.
    */
   refreshPreviews() {
-    const format = $('#format').val();
+    const format = this.view.formatSelector_.val();
     this.updateBlockDefinitionView_(format);
     this.updatePreview();
     this.updateGenerator();
@@ -175,34 +175,35 @@ class BlockEditorController {
   changeFormat() {
     // From factory.js:formatChange()
     // TODO(#168): Move to view class and fix references.
-    const mask = $('#blocklyMask');
-    const languagePre = $('#languagePre');
-    const languageTA = $('#languageTA');
+    const editorMask = this.view.editorMask_;
+    const blockDefPre = this.view.blockDefPre_;
+    const manualBlockDefTA = this.view.manualBlockDefTA_;
 
     // TODO(#168): Avoid view reference by passing in inManualMode arugment.
     this.inManualMode_ = this.view.isInManualMode();
     if (this.inManualMode_) {
       Blockly.hideChaff();
-      mask.show();
-      languagePre.hide();
+      editorMask.show();
+      blockDefPre.hide();
       // .show() will set this to inline-block, which won't size correctly.
-      languageTA.css('display', 'block');
-      const code = languagePre.text().trim();
-      languageTA.val(code);
-      languageTA.focus();
+      manualBlockDefTA.css('display', 'block');
+      const code = blockDefPre.text().trim();
+      manualBlockDefTA.val(code);
+      manualBlockDefTA.focus();
       this.updatePreview();
     } else {
-      mask.hide();
-      languageTA.hide();
-      languagePre.show();
-      this.updateLanguage();
+      editorMask.hide();
+      manualBlockDefTA.hide();
+      blockDefPre.show();
+      this.updateBlockDefPre();
+      this.updatePreview();
     }
   }
 
   /**
    * Update the block definition code based on constructs made in Blockly.
    */
-  updateLanguage() {
+  updateBlockDefPre() {
     var rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     if (!rootBlock) {
       return;
@@ -214,8 +215,7 @@ class BlockEditorController {
     var format = document.getElementById('format').value;
     var code = FactoryUtils.getBlockDefinition(format,
         this.view.editorWorkspace);
-    FactoryUtils.injectCode(code, 'languagePre');
-    this.updatePreview();
+    FactoryUtils.injectCode(code, 'blockDefPre');
   }
 
   /**
@@ -280,7 +280,7 @@ class BlockEditorController {
    * Update the generator code.
    */
   updateGenerator() {
-    const language = $('#language').val();
+    const language = $('#language').val();  // Output code language
     const generatorStub = FactoryUtils.getGeneratorStub(
         this.getPreviewBlock_(), language);
     this.view.updateGenStub(generatorStub);
@@ -293,7 +293,7 @@ class BlockEditorController {
    */
   updateBlockDefinitionView_(format) {
     if (format == BlockEditorController.FORMAT_MANUAL) {
-      const defCode = $('#languagePre').val();
+      const defCode = this.view.blockDefPre_.val();
       this.view.updateBlockDefinitionView(defCode, /* opt_manual */ true);
     } else {
       const currentBlock = this.view.blockDefinition;
@@ -365,9 +365,9 @@ class BlockEditorController {
     const blockDef = [];
 
     // Fetch the code and determine its format (JSON or JavaScript).
-    let format = $('#format').val();
+    let format = this.view.formatSelector_.val();
     if (format == BlockEditorController.FORMAT_MANUAL) {
-      var code = $('#languageTA').val();
+      var code = this.view.manualBlockDefTA_.val();
       // If the code is JSON, it will parse, otherwise treat as JS.
       try {
         JSON.parse(code);
@@ -376,7 +376,7 @@ class BlockEditorController {
         format = BlockEditorController.FORMAT_JAVASCRIPT;
       }
     } else {
-      var code = $('#languagePre').text();
+      var code = this.view.blockDefPre_.text();
     }
 
     blockDef.push(format);
