@@ -61,50 +61,6 @@ BlockFactory.UNNAMED = 'unnamed';
 BlockFactory.oldDir = null;
 
 /**
- * Change the language code format.
- */
-BlockFactory.formatChange = function() {
-  var mask = document.getElementById('blocklyMask');
-  var languagePre = document.getElementById('languagePre');
-  var languageTA = document.getElementById('languageTA');
-  if (document.getElementById('format').value == 'Manual') {
-    Blockly.hideChaff();
-    mask.style.display = 'block';
-    languagePre.style.display = 'none';
-    languageTA.style.display = 'block';
-    var code = languagePre.textContent.trim();
-    languageTA.value = code;
-    languageTA.focus();
-    BlockFactory.updatePreview();
-  } else {
-    mask.style.display = 'none';
-    languageTA.style.display = 'none';
-    languagePre.style.display = 'block';
-    BlockFactory.updateLanguage();
-  }
-  BlockFactory.disableEnableLink();
-};
-
-/**
- * Update the language code based on constructs made in Blockly.
- */
-BlockFactory.updateLanguage = function() {
-  var rootBlock = FactoryUtils.getRootBlock(BlockFactory.mainWorkspace);
-  if (!rootBlock) {
-    return;
-  }
-  var blockType = rootBlock.getFieldValue('NAME').trim().toLowerCase();
-  if (!blockType) {
-    blockType = BlockFactory.UNNAMED;
-  }
-  var format = document.getElementById('format').value;
-  var code = FactoryUtils.getBlockDefinition(blockType, rootBlock, format,
-      BlockFactory.mainWorkspace);
-  FactoryUtils.injectCode(code, 'languagePre');
-  BlockFactory.updatePreview();
-};
-
-/**
  * Disable link and save buttons if the format is 'Manual', enable otherwise.
  */
 BlockFactory.disableEnableLink = function() {
