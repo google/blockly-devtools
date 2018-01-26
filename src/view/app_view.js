@@ -387,7 +387,6 @@ class AppView {
     this.tabClickHandlers_();
     // Assign general app button click handlers
     this.assignClickHandlers();
-    this.addBlockFactoryEventListeners();
   }
 
   /**
@@ -487,38 +486,5 @@ class AppView {
       this.closeModal_();
       this.appController.createPopup(PopupController.NEW_BLOCK);
     });
-  }
-
-  /**
-   * Add event listeners for the block factory.
-   */
-  // TODO(#276): Move to BlockEditorView.
-  addBlockFactoryEventListeners() {
-    const controller =
-        this.appController.editorController.blockEditorController;
-    const changeFormat = controller.changeFormat.bind(controller);
-    const updateBlockDefPre = controller.updateBlockDefPre.bind(controller);
-    const updatePreview = controller.updatePreview.bind(controller);
-    const refreshPreviews = controller.refreshPreviews.bind(controller);
-
-    // Update code on changes to block being edited.
-    this.blockEditorView.editorWorkspace.addChangeListener(() => {
-      updateBlockDefPre();
-      updatePreview();
-    });
-
-    // Disable blocks not attached to the factory_base block.
-    this.blockEditorView.editorWorkspace.addChangeListener(
-        Blockly.Events.disableOrphans);
-
-    // Update preview on every change.
-    this.blockEditorView.editorWorkspace.addChangeListener(
-        refreshPreviews);
-
-    $('#direction').change(updatePreview);
-    $('#manualBlockDefTA').change(updatePreview);
-    $('#manualBlockDefTA').keyup(updatePreview);
-    $('#format').change(changeFormat);
-    $('#language').change(updatePreview);
   }
 }
