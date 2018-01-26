@@ -316,13 +316,12 @@ class BlockEditorController {
    * Update the preview workspace with the updated block.
    */
   updatePreview() {
-    // REFACTORED: Moved in from factory.js:updatePreview()
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
 
-    const blockDef = this.getDefinitionFormat_();
-    const format = blockDef[0];
-    const code = blockDef[1];
+    const blockFormatCode = this.getBlockFormatCode_();
+    const format = blockFormatCode[0];
+    const code = blockFormatCode[1];
 
     if (!code.trim()) {
       // Nothing to render.  Happens while cloud storage is loading.
@@ -355,13 +354,23 @@ class BlockEditorController {
   }
 
   /**
-   * Determines what format the user-defined block definition is in.
+   * Attempt to update the block definition (model, view, and preview), from a
+   * code string.
+   *
+   * @return {boolean} True if successful. Otherwise false.
+   */
+  attemptUpdateFromManualCode() {
+    // TODO
+    this.updatePreview();
+  }
+
+  /**
+   * Retrieves the current block's format and code.
    * @return {!Array.<string>} Two-element array. First element is format of code,
    *     and second is the block definition code.
    * @private
    */
-  getDefinitionFormat_() {
-    // REFACTORED: Moved in from factory.js:updatePreview()
+  getBlockFormatCode_() {
     const blockDef = [];
 
     // Fetch the code and determine its format (JSON or JavaScript).

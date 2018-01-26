@@ -171,24 +171,40 @@ class BlockEditorView {
       controller.onWorkspaceChange(event);
     });
 
-    // LTR <-> RTL
+    const changeFormat = controller.changeFormat.bind(controller);
+    const updatePreview = controller.updatePreview.bind(controller);
+    const refreshPreviews = controller.refreshPreviews.bind(controller);
+
+    // Update code on changes to block being edited.
+    this.editorWorkspace.addChangeListener(() => {
+      controller.updateBlockDefPre();
+      controller.updatePreview();
+    });
+
+    // Disable blocks not attached to the factory_base block.
+    this.editorWorkspace.addChangeListener(
+        Blockly.Events.disableOrphans);
+
+    // Update preview on every change.
+    this.editorWorkspace.addChangeListener(
+        refreshPreviews);
+
     $('#direction').change(() => {
       this.updateDirection($('#direction').val());
       controller.updatePreview();
     });
 
-    // JSON <-> JS for Block Definition
-    $('#format').change(() => {
-      controller.changeFormat();
+    // Update preview as user manually defines block.
+    this.manualBlockDefTA_.on('input', () => {
+      controller.attemptUpdateFromManualCode();
+    });
+    this.manualBlockDefTA_.on('keyup', () => {
+      controller.attemptUpdateFromManualCode();
     });
 
-    // Update preview as user manually defines block.
-    let manualBlockDefTA = $('#manualBlockDefTA');
-    manualBlockDefTA.on('input', () => {
-      controller.updatePreview();
-    });
-    manualBlockDefTA.on('keyup', () => {
-      controller.updatePreview();
+    // JSON <-> JS for Block Definition
+    this.formatSelector_.change(() => {
+      controller.changeFormat();
     });
 
     // Update code generator
@@ -327,11 +343,11 @@ class BlockEditorView {
       }
       this.rtl = newDir;
       this.previewWorkspace = Blockly.inject('preview',
-        {
-          rtl: this.rtl,
-          media: 'media/',
-          scrollbars: true
-        });
+          {
+            rtl: this.rtl,
+            media: 'media/',
+            scrollbars: true
+          });
     }
     this.previewWorkspace.clear();
   }
