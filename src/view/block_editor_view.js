@@ -169,10 +169,12 @@ class BlockEditorView {
   init(controller) {
     // Update code on changes to block being edited.
     this.editorWorkspace.addChangeListener((event) => {
-      controller.onWorkspaceChange(event);
-
       // Disable blocks not attached to the factory_base block.
+      // Must do first so newly attached blocks are enabled when they
+      // are processed by the controller code.
       Blockly.Events.disableOrphans(event);
+
+      controller.onWorkspaceChange(event);
     });
 
     $('#direction').change(() => {
