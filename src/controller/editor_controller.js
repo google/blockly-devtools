@@ -121,6 +121,8 @@ class EditorController {
       return;
     }
 
+    // TODO(#291): Add base class BaseEditorController and
+    //             BaseEditorController.saveChanges()
     if (this.currentEditor instanceof BlockEditorController) {
       Blockly.WidgetDiv.hide();
       if (Blockly.selected) {

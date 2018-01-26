@@ -167,27 +167,13 @@ class BlockEditorView {
    * @package
    */
   init(controller) {
+    // Update code on changes to block being edited.
     this.editorWorkspace.addChangeListener((event) => {
       controller.onWorkspaceChange(event);
+
+      // Disable blocks not attached to the factory_base block.
+      Blockly.Events.disableOrphans(event);
     });
-
-    const changeFormat = controller.changeFormat.bind(controller);
-    const updatePreview = controller.updatePreview.bind(controller);
-    const refreshPreviews = controller.refreshPreviews.bind(controller);
-
-    // Update code on changes to block being edited.
-    this.editorWorkspace.addChangeListener(() => {
-      controller.updateBlockDefPre();
-      controller.updatePreview();
-    });
-
-    // Disable blocks not attached to the factory_base block.
-    this.editorWorkspace.addChangeListener(
-        Blockly.Events.disableOrphans);
-
-    // Update preview on every change.
-    this.editorWorkspace.addChangeListener(
-        refreshPreviews);
 
     $('#direction').change(() => {
       this.updateDirection($('#direction').val());

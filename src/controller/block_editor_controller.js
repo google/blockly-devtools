@@ -147,6 +147,7 @@ class BlockEditorController {
       if (isEditEvent) {
         // Save block's changes into BlockDefinition model object.
         this.updateBlockDefinition();
+        this.updateBlockDefPre();
 
         // In Manual Mode, the Editor Workspace is updated from the preview.
         if (!this.inManualMode_) {
@@ -155,17 +156,17 @@ class BlockEditorController {
         }
       }
     }
-    // Disable orphans.
-    Blockly.Events.disableOrphans(event);
   }
 
   /**
-   * Refreshes previews in view and updates model.
+   * Refreshes the block preview and the generator stub from the current
+   * definition.
    */
   refreshPreviews() {
     const format = this.view.formatSelector_.val();
-    this.updateBlockDefinitionView_(format);
-    this.updatePreview();
+    const code = this.updateBlockDefinitionViewAndReturnCode_(format);
+    this.updatePreview_(format, code);
+
     this.updateGenerator();
   }
 
@@ -173,13 +174,14 @@ class BlockEditorController {
    * Change the language code format.
    */
   changeFormat() {
-    // From factory.js:formatChange()
-    // TODO(#168): Move to view class and fix references.
+    // TODO(#168): Move these view referencese into the view class.
+    //             Only pass in the updated format and manual mode.
     const editorMask = this.view.editorMask_;
     const blockDefPre = this.view.blockDefPre_;
     const manualBlockDefTA = this.view.manualBlockDefTA_;
 
-    // TODO(#168): Avoid view reference by passing in inManualMode arugment.
+    // TODO(#168): Avoid view reference by passing in isInManualMode as
+    //             arugment.
     this.inManualMode_ = this.view.isInManualMode();
     if (this.inManualMode_) {
       Blockly.hideChaff();
@@ -190,13 +192,11 @@ class BlockEditorController {
       const code = blockDefPre.text().trim();
       manualBlockDefTA.val(code);
       manualBlockDefTA.focus();
-      this.updatePreview();
     } else {
       editorMask.hide();
       manualBlockDefTA.hide();
       blockDefPre.show();
       this.updateBlockDefPre();
-      this.updatePreview();
     }
   }
 
@@ -291,16 +291,19 @@ class BlockEditorController {
    * @param {string} format Format of block definition. Either 'JSON' or 'JavaScript'.
    * @private
    */
-  updateBlockDefinitionView_(format) {
+  // TODO: Split into two methods, explicitly naming the source of the code.
+  updateBlockDefinitionViewAndReturnCode_(format) {
+    let defCode;
     if (format == BlockEditorController.FORMAT_MANUAL) {
-      const defCode = this.view.blockDefPre_.val();
+      defCode = this.view.blockDefPre_.val();
       this.view.updateBlockDefinitionView(defCode, /* opt_manual */ true);
     } else {
       const currentBlock = this.view.blockDefinition;
-      const defCode = FactoryUtils.getBlockDefinition(
+      defCode = FactoryUtils.getBlockDefinition(
           format, this.view.editorWorkspace);
       this.view.updateBlockDefinitionView(defCode);
     }
+    return defCode;
   }
 
   /**
@@ -313,19 +316,33 @@ class BlockEditorController {
   }
 
   /**
-   * Update the preview workspace with the updated block.
+   * Attempt to update the block definition (model, view, and preview), from a
+   * code string.
+   *
+   * @return {boolean} True if successful. Otherwise false.
    */
-  updatePreview() {
+  attemptUpdateFromManualCode() {
+    // Get code and format from text area.
+    const [format, code] = this.getBlockFormatCode_();
+
+    if (this.updatePreview_(format, code)) {
+      // TODO: Update BlockDefinition, editable blocks and generator stub.
+    }
+  }
+
+  /**
+   * Update the preview workspace with the updated block.
+   * @param format {string} Either 'JSON' or 'JS'.
+   * @param code {string} The code for the block definition.
+   * @return True if successful. Otherwise false.
+   */
+  updatePreview_(format, code) {
     const newDir = $('#direction').val();
     this.view.updateDirection(newDir);
 
-    const blockFormatCode = this.getBlockFormatCode_();
-    const format = blockFormatCode[0];
-    const code = blockFormatCode[1];
-
     if (!code.trim()) {
       // Nothing to render.  Happens while cloud storage is loading.
-      return;
+      return false;
     }
 
     // Backup Blockly.Blocks object so that main workspace and preview don't
@@ -347,27 +364,20 @@ class BlockEditorController {
     } catch(err) {
       // TODO: Show error on the UI
       console.error(err);
+      return false;
     } finally {
       Blockly.Blocks = backupBlocks;
       this.view.blockDefinition.undefine();
     }
+    return true;
   }
 
   /**
-   * Attempt to update the block definition (model, view, and preview), from a
-   * code string.
-   *
-   * @return {boolean} True if successful. Otherwise false.
-   */
-  attemptUpdateFromManualCode() {
-    // TODO
-    this.updatePreview();
-  }
-
-  /**
-   * Retrieves the current block's format and code.
-   * @return {!Array.<string>} Two-element array. First element is format of code,
-   *     and second is the block definition code.
+   * Retrieves the current block's format and code, regardless of whether it is
+   * defined via blocks or manual code, whether it is defined in JSON or
+   * JavaScript.
+   * @return {!Array.<string>} Two-element array. First element is format of
+   *                           code, and second is the block definition code.
    * @private
    */
   getBlockFormatCode_() {
