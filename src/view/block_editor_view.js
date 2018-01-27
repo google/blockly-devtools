@@ -167,28 +167,32 @@ class BlockEditorView {
    * @package
    */
   init(controller) {
+    // Update code on changes to block being edited.
     this.editorWorkspace.addChangeListener((event) => {
+      // Disable blocks not attached to the factory_base block.
+      // Must do first so newly attached blocks are enabled when they
+      // are processed by the controller code.
+      Blockly.Events.disableOrphans(event);
+
       controller.onWorkspaceChange(event);
     });
 
-    // LTR <-> RTL
     $('#direction').change(() => {
       this.updateDirection($('#direction').val());
       controller.updatePreview();
     });
 
-    // JSON <-> JS for Block Definition
-    $('#format').change(() => {
-      controller.changeFormat();
+    // Update preview as user manually defines block.
+    this.manualBlockDefTA_.on('input', () => {
+      controller.attemptUpdateFromManualCode();
+    });
+    this.manualBlockDefTA_.on('keyup', () => {
+      controller.attemptUpdateFromManualCode();
     });
 
-    // Update preview as user manually defines block.
-    let manualBlockDefTA = $('#manualBlockDefTA');
-    manualBlockDefTA.on('input', () => {
-      controller.updatePreview();
-    });
-    manualBlockDefTA.on('keyup', () => {
-      controller.updatePreview();
+    // JSON <-> JS for Block Definition
+    this.formatSelector_.change(() => {
+      controller.changeFormat();
     });
 
     // Update code generator
@@ -327,11 +331,11 @@ class BlockEditorView {
       }
       this.rtl = newDir;
       this.previewWorkspace = Blockly.inject('preview',
-        {
-          rtl: this.rtl,
-          media: 'media/',
-          scrollbars: true
-        });
+          {
+            rtl: this.rtl,
+            media: 'media/',
+            scrollbars: true
+          });
     }
     this.previewWorkspace.clear();
   }
