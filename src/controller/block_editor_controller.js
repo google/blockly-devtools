@@ -219,21 +219,30 @@ class BlockEditorController {
   }
 
   /**
-   * Updates the BlockDefinition with the latest values from the editor.
+   * Updates the BlockDefinition with the latest values from the
+   * block-representation editor.
    */
+  // TODO(#291): Make this private after moving call out of EditorController.
   updateBlockDefinition() {
     // TODO(#190): Store and generate block definition JSONs more efficiently to
     // avoid repeatedly using JSON.parse().
-    const blockJson = FactoryUtils.getBlockDefinition(
-          'JSON', this.view.editorWorkspace);
+    let [format, code] = this.getBlockFormatCode_();
+    if (this.inManualMode_) {
+      format = 'JSON';
+      code = FactoryUtils.getBlockDefinition(
+          format, this.view.editorWorkspace);
+    }
 
-    if (blockJson != this.lastBlockJson_) {
-      this.lastBlockJson_ = blockJson;
+    if (code != this.lastBlockJson_) {
+      this.lastBlockJson_ = code;
 
-      const rootEditorBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-      const blockXml = Blockly.Xml.blockToDom(rootEditorBlock);
+      let blockXml = undefined;  // TODO(#87): Remove
+      if (this.inManualMode_) {
+        const rootEditorBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
+        const blockXml = Blockly.Xml.blockToDom(rootEditorBlock);
+      }
 
-      this.view.blockDefinition.update('JSON', blockJson, blockXml);
+      this.view.blockDefinition.update(format, code, blockXml);
     }
   }
 
@@ -322,19 +331,28 @@ class BlockEditorController {
    * @return {boolean} True if successful. Otherwise false.
    */
   attemptUpdateFromManualCode() {
-    // Get code and format from text area.
     const [format, code] = this.getBlockFormatCode_();
-
     if (this.updatePreview_(format, code)) {
-      // TODO: Update BlockDefinition, editable blocks and generator stub.
+      this.updateGenerator();
+      // TODO: Update BlockDefinition and editable blocks.
     }
   }
 
   /**
-   * Update the preview workspace with the updated block.
-   * @param format {string} Either 'JSON' or 'JS'.
+   * Update the preview workspace with the the code in the block definition's
+   * code view.
+   */
+  updatePreview() {
+    const [format, code] = this.getBlockFormatCode_();
+    this.updatePreview_(format, code);
+  }
+
+  /**
+   * Attempt to update the preview workspace with the the provided code.
+   * @param format {string} Either 'JSON' or 'JavaScript'.
    * @param code {string} The code for the block definition.
    * @return True if successful. Otherwise false.
+   * @private
    */
   updatePreview_(format, code) {
     const newDir = $('#direction').val();
@@ -348,6 +366,8 @@ class BlockEditorController {
     // Backup Blockly.Blocks object so that main workspace and preview don't
     // collide if user creates a 'factory_base' block, for instance.
     const backupBlocks = Blockly.Blocks;
+    const tempBlockType =  '____temporary_block_type_name_for_preview';
+    const tempDefinition = new BlockDefinition(tempBlockType, format, code);
     try {
       // Make a shallow copy.
       Blockly.Blocks = Object.create(null);
@@ -355,19 +375,15 @@ class BlockEditorController {
         Blockly.Blocks[prop] = backupBlocks[prop];
       }
 
-      // Evaluates block definition (temporarily) for preview.
-      this.view.blockDefinition.define();
-
-      const blockType = this.view.blockDefinition.type();
-      // Render preview block in preview workspace.
-      this.renderPreviewBlock_(blockType);
+      tempDefinition.define();
+      this.renderPreviewBlock_(tempBlockType);
     } catch(err) {
-      // TODO: Show error on the UI
+      // TODO: Option to show the error in the UI?
       console.error(err);
       return false;
     } finally {
       Blockly.Blocks = backupBlocks;
-      this.view.blockDefinition.undefine();
+      tempDefinition.undefine();
     }
     return true;
   }
@@ -381,8 +397,6 @@ class BlockEditorController {
    * @private
    */
   getBlockFormatCode_() {
-    const blockDef = [];
-
     // Fetch the code and determine its format (JSON or JavaScript).
     let format = this.view.formatSelector_.val();
     if (format == BlockEditorController.FORMAT_MANUAL) {
@@ -398,10 +412,7 @@ class BlockEditorController {
       var code = this.view.blockDefPre_.text();
     }
 
-    blockDef.push(format);
-    blockDef.push(code);
-
-    return blockDef;
+    return [format, code];
   }
 
   /**
@@ -564,22 +575,5 @@ Blockly.Blocks['${blockName}'] = {
       fileContents += '\n';
     }
     return fileContents;
-  }
-
-  /**
-   * Extracts out block type from XML text, the kind that is saved in block
-   * library storage.
-   * @param {string} xmlText A block's XML text.
-   * @return {string} The block type that corresponds to the provided XML text.
-   * @private
-   *
-   * TODO(#87): Replace this function with getting block type from JSON block definition.
-   */
-  getBlockTypeFromXml_(xmlText) {
-    /**
-     * TODO: Move in from app_controller.js
-     */
-
-    throw 'Unimplemented: getBlockTypeFromXml_()';
   }
 }
