@@ -378,7 +378,7 @@ class BlockEditorController {
       tempDefinition.define();
       this.renderPreviewBlock_(tempBlockType);
     } catch(err) {
-      // TODO: Option to show the error in the UI?
+      // TODO(#293): Option to show the error in the UI?
       console.error(err);
       return false;
     } finally {
