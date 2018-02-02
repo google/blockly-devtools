@@ -339,6 +339,23 @@ class BlockEditorView {
     }
     this.previewWorkspace.clear();
   }
+
+  /**
+   * Renders preview block in preview workspace. Assumes block definition has
+   * already been evaluated.
+   * @param {string} blockType Name of block type to render in preview.
+   * @private
+   */
+  renderPreviewBlock(blockType) {
+    // Create the preview block.
+    const previewBlock = this.view.previewWorkspace.newBlock(blockType);
+    previewBlock.initSvg();
+    previewBlock.render();
+    previewBlock.setMovable(false);
+    previewBlock.setDeletable(false);
+    previewBlock.moveBy(15, 10);
+    this.view.previewWorkspace.clearUndo();
+  }
 }
 
 /**
