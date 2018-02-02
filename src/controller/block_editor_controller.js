@@ -351,7 +351,7 @@ class BlockEditorController {
     if (format === BlockDefinition.FORMAT_JAVASCRIPT) {
       // Find line with...
       //    Blockly.Blocks['block_type_name'] = {
-      // captureing the actual block type name.
+      // capturing the actual block type name.
       let regex = /^Blockly\.Blocks\s*\[\s*['"]([^'"]+)['"]\s*\]\s*=\s*\{/g;
 
       let match = regex.exec(code);
