@@ -40,6 +40,7 @@
   appendScript('msg/js/en.js');
   appendScript('lib/blocks_compressed.js');
   appendScript('closure-library/closure/goog/base.js');  // Must be after Blockly
+  appendScript('src/controller/block_definition_extractor.js');
   appendScript('src/factory_utils.js');
   appendScript('src/list_element.js');
   appendScript('res/standard_categories.js');
