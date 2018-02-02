@@ -176,12 +176,7 @@ class BlockEditorController {
       // TODO(#295): Popup warning when first running Manual JavaScript mode.
     }
 
-    // TODO(#168): Move these view referencese into the view class.
-    const editorMask = this.view.editorMask_;
-    const blockDefPre = this.view.blockDefPre_;
-    const manualBlockDefTA = this.view.manualBlockDefTA_;
-
-    // TODO: Allow change format to abort if manual defintion does not parse.
+    // TODO: Prompt to abort if manual defintion does not parse.
     const code = this.getBlockDefinitionCode_(newEditFormat.format);
     this.view.updateBlockDefinitionCodeView(
         code, newEditFormat.isInManualMode);
