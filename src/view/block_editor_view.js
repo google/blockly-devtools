@@ -369,13 +369,13 @@ class BlockEditorView {
    */
   renderPreviewBlock(blockType) {
     // Create the preview block.
-    const previewBlock = this.view.previewWorkspace.newBlock(blockType);
+    const previewBlock = this.previewWorkspace.newBlock(blockType);
     previewBlock.initSvg();
     previewBlock.render();
     previewBlock.setMovable(false);
     previewBlock.setDeletable(false);
     previewBlock.moveBy(15, 10);
-    this.view.previewWorkspace.clearUndo();
+    this.previewWorkspace.clearUndo();
   }
 }
 

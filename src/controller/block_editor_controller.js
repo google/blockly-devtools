@@ -139,7 +139,8 @@ class BlockEditorController {
         // In Manual Mode, the Editor Workspace is updated from the preview.
         if (!this.editFormat_.isInManualMode) {
           // Update the block editor view.
-          const code = this.getBlockDefinitionCode_(this.editFormat_.format);
+          const code = this.getBlockDefinitionCodeFromBlocks_(
+              this.editFormat_.format);
           this.view.updateBlockDefinitionCodeView(code);
           this.refreshPreviews();
         }
@@ -176,24 +177,22 @@ class BlockEditorController {
       // TODO(#295): Popup warning when first running Manual JavaScript mode.
     }
 
-    // TODO: Prompt to abort if manual defintion does not parse.
-    const code = this.getBlockDefinitionCode_(newEditFormat.format);
+    // TODO: Prompt to abort if manual defintion did not previously parse.
+
+    const code = this.getBlockDefinitionCodeFromBlocks_(newEditFormat.format);
     this.view.updateBlockDefinitionCodeView(
         code, newEditFormat.isInManualMode);
     this.editFormat_ = newEditFormat;
   }
 
   /**
-   * Update the block definition code based on constructs made in Blockly.
+   * Get the block definition code based on the blocks-based editor.
+   * @return {string} The definition code.
    * @private
    */
-  getBlockDefinitionCode_(format) {
-    var rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-    if (!rootBlock) {
-      return;
-    }
-    var blockType = rootBlock.getFieldValue('NAME').trim().toLowerCase();
-    if (!blockType) {
+  getBlockDefinitionCodeFromBlocks_(format) {
+    var blockType = this.getBlockTypeName_();
+    if (!blockType || blockType.length === 0) {
       blockType = 'unnamed';
     }
     return FactoryUtils.getBlockDefinition(format, this.view.editorWorkspace);
@@ -239,17 +238,15 @@ class BlockEditorController {
    *     can happen after a user switches views (and thus the selected node may
    *     be a different resource object).
    */
+  // TODO: Refactor negative boolean first param
   updateBlockName(suppressTreeChange, isSelected) {
     const currentBlock = this.view.blockDefinition;
     const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
 
-    const newName = rootBlock.getFieldValue('NAME');
-    let oldName = '';
-    if (isSelected) {
-      oldName = NavigationTree.getName(this.projectController.tree.getSelected());
-    } else {
-      oldName = NavigationTree.getName(this.projectController.tree.getLastSelected());
-    }
+    const newName = this.getBlockTypeName_();
+    let oldName = NavigationTree.getName(isSelected ?
+        this.projectController.tree.getSelected() :
+        this.projectController.tree.getLastSelected());
 
     const changedName = currentBlock.name != newName;
     const warning = this.getNameWarning_(newName); // Warning text or null
@@ -314,8 +311,17 @@ class BlockEditorController {
   attemptUpdateFromManualCode() {
     const [format, code] = this.getBlockFormatCode_();
     if (this.updatePreview_(format, code)) {
+      // Update block-based definition from the preview.
+      const previewBlock = this.view.previewWorkspace.getAllBlocks()[0];
+      const editorWorkspace = this.view.editorWorkspace;
+      editorWorkspace.clear();
+      var xml = BlockDefinitionExtractor.buildBlockFactoryWorkspace(previewBlock);
+      Blockly.Xml.domToWorkspace(xml, editorWorkspace);
+
       this.updateGenerator();
-      // TODO: Update BlockDefinition and editable blocks.
+      this.updateBlockName(
+          /* suppressTreeChange */ false,
+          /* isSelected */ true);
     }
   }
 
@@ -347,32 +353,11 @@ class BlockEditorController {
     // Backup Blockly.Blocks object so that main workspace and preview don't
     // collide if user creates a 'factory_base' block, for instance.
     const backupBlocks = Blockly.Blocks;
-    var tempBlockType =  '____temporary_block_type_name_for_preview';
-    if (format === BlockDefinition.FORMAT_JAVASCRIPT) {
-      // Find line with...
-      //    Blockly.Blocks['block_type_name'] = {
-      // capturing the actual block type name.
-      let regex = /^Blockly\.Blocks\s*\[\s*['"]([^'"]+)['"]\s*\]\s*=\s*\{/g;
-
-      let match = regex.exec(code);
-      if (!match) {
-        // TODO: Maybe show in the UI?
-        console.error(
-            'No Blockly.Blocks assignment found in the code.');
-        return false;
-      }
-      let second = regex.exec(code);  // starts at lastIndex.
-      if (second) {
-        console.warn(
-            'Multiple Blockly.Blocks assignments in the code. Trimming...');
-        code = code.subsring(0, second.index);
-      }
-
-      // Replace the name with the temp name.
-      // TODO: Unescape the JavaScript string.
-      tempBlockType = match[1];
+    const blockTypeName = this.getBlockTypeName_();
+    if (!blockTypeName) {
+      return false;
     }
-    const tempDefinition = new BlockDefinition(tempBlockType, format, code);
+    const tempDefinition = new BlockDefinition(blockTypeName, format, code);
     try {
       // Make a shallow copy.
       Blockly.Blocks = Object.create(null);
@@ -381,7 +366,7 @@ class BlockEditorController {
       }
 
       tempDefinition.define();
-      this.view.renderPreviewBlock(tempBlockType);
+      this.view.renderPreviewBlock(blockTypeName);
     } catch(err) {
       // TODO(#293): Option to show the error in the UI?
       console.error(err);
@@ -476,15 +461,69 @@ class BlockEditorController {
   }
 
   /**
-   * Gets the block type that is currently being edited. Extracts type from
-   * field input in 'factory_base' block.
-   * @return {string} Block type of currently edited block.
-   * @private
+   * Get the 'live' / authorative Block type name from the active editor.
+   * @return {?string} The block type name, or null if not found / defined.
    */
-  getType_() {
-    const rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
-    return rootBlock.getFieldValue('NAME');
+  getBlockTypeName_() {
+    if (!this.editFormat_.isInManualMode) {
+      const rootEditorBlock =
+          FactoryUtils.getRootBlock(this.view.editorWorkspace);
+      return rootEditorBlock.getFieldValue('NAME');
+    } else {
+      switch (this.editFormat_.format) {
+        case BlockDefinition.FORMAT_JSON:
+          return this.getBlockTypeNameFromJson_();
+        case BlockDefinition.FORMAT_JAVASCRIPT:
+          return this.getBlockTypeNameFromJavaScript_();
+        default:
+          throw new Error('Unknown edit format: ' + this.editFormat_.format);
+      }
+    }
   }
+
+  /**
+   * Get the Block type name from manual JSON code.
+   * @return {?string} The block type name, or null if not found / defined.
+   */
+  getBlockTypeNameFromJson_() {
+    const [_, code] = this.getBlockFormatCode_();
+    try {
+      const json = JSON.parse(code);
+      return json['type'];
+    } catch(e) {
+      console.warn('Invalid/incomplete JSON: ' + e);  //  No stack trace.
+    }
+  }
+
+  /**
+   * Get the Block type name from manual JavaScript code.
+   * @return {?string} The block type name, or null if not found / defined.
+   */
+  getBlockTypeNameFromJavaScript_() {
+    const [_, code] = this.getBlockFormatCode_();
+
+    // Find line with...
+    //    Blockly.Blocks['block_type_name'] = {
+    // capturing the actual block type name.
+    let regex = /^Blockly\.Blocks\s*\[\s*['"]([^'"]+)['"]\s*\]\s*=\s*\{/g;
+
+    let match = regex.exec(code);
+    if (!match) {
+      // TODO: Maybe show in the UI?
+      console.error(
+          'No Blockly.Blocks assignment found in the JavaScript.');
+      return false;
+    }
+    let second = regex.exec(code);  // starts at lastIndex.
+    if (second) {
+      console.warn(
+          'Multiple Blockly.Blocks assignments in the code. Trimming...');
+      code = code.subsring(0, second.index);
+    }
+    // TODO: Unescape the JavaScript string.
+    return match[1];
+  }
+
 
   /**
    * Returns whether or not the current block open is the starter block.
