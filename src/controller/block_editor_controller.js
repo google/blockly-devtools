@@ -381,7 +381,7 @@ class BlockEditorController {
       }
 
       tempDefinition.define();
-      this.renderPreviewBlock_(tempBlockType);
+      this.view.renderPreviewBlock(tempBlockType);
     } catch(err) {
       // TODO(#293): Option to show the error in the UI?
       console.error(err);
@@ -442,24 +442,6 @@ class BlockEditorController {
     } else {
       throw 'Unknown format: ' + format;
     }
-  }
-
-  /**
-   * Renders preview block in preview workspace. Assumes block definition has
-   * already been evaluated.
-   * @param {string} blockType Name of block type to render in preview.
-   * @private
-   */
-  renderPreviewBlock_(blockType) {
-    // TODO(#168): Move to view class and fix references.
-    // Create the preview block.
-    const previewBlock = this.view.previewWorkspace.newBlock(blockType);
-    previewBlock.initSvg();
-    previewBlock.render();
-    previewBlock.setMovable(false);
-    previewBlock.setDeletable(false);
-    previewBlock.moveBy(15, 10);
-    this.view.previewWorkspace.clearUndo();
   }
 
   /**
