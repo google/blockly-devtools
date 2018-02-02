@@ -58,11 +58,12 @@ class BlockEditorController {
      */
     this.view = new BlockEditorView(null);
 
+
     /**
-     * Whether the controller is operating in manual mode.
-     * @type {boolean}
+     * The currently selected format for editing the block definition.
+     * @type {format: string, isInManualMode: boolean}
      */
-    this.inManualMode_ = this.view.isInManualMode();
+    this.editFormat_ = this.view.getSelectedEditFormat();
 
     /**
      * Existing direction ('ltr' vs 'rtl') of preview.
@@ -80,19 +81,6 @@ class BlockEditorController {
 
     // Initialize event listeners/handlers specific to block editor.
     this.view.init(this);
-  }
-
-  /**
-   * Static constants for block definition editing modes.
-   */
-  static get FORMAT_JSON() {
-    return 'JSON';
-  }
-  static get FORMAT_JAVASCRIPT() {
-    return 'JavaScript';
-  }
-  static get FORMAT_MANUAL() {
-    return 'Manual';
   }
 
   /**
@@ -147,11 +135,12 @@ class BlockEditorController {
       if (isEditEvent) {
         // Save block's changes into BlockDefinition model object.
         this.updateBlockDefinition();
-        this.updateBlockDefPre();
 
         // In Manual Mode, the Editor Workspace is updated from the preview.
-        if (!this.inManualMode_) {
+        if (!this.editFormat_.isInManualMode) {
           // Update the block editor view.
+          const code = this.getBlockDefinitionCode_(this.editFormat_.format);
+          this.view.updateBlockDefinitionCodeView(code);
           this.refreshPreviews();
         }
       }
@@ -172,38 +161,33 @@ class BlockEditorController {
 
   /**
    * Change the language code format.
+   * @param format {string} FORMAT_JSON or FORMAT_JAVASCRIPT
+   * @param isInManualMode {boolean} True if the user can manually edit the
+   *     definition.
    */
-  changeFormat() {
-    // TODO(#168): Move these view referencese into the view class.
-    //             Only pass in the updated format and manual mode.
-    const editorMask = this.view.editorMask_;
-    const blockDefPre = this.view.blockDefPre_;
-    const manualBlockDefTA = this.view.manualBlockDefTA_;
+  // TODO(#294): Rename as onAttemptChangeFormat(). Async callback. Revert
+  //     view change if manual code cannot be parsed.
+  onChangeFormat() {
+    const oldEditFormat = this.editFormat_;
+    const newEditFormat = this.view.getSelectedEditFormat();
 
-    // TODO(#168): Avoid view reference by passing in isInManualMode as
-    //             arugment.
-    this.inManualMode_ = this.view.isInManualMode();
-    if (this.inManualMode_) {
-      Blockly.hideChaff();
-      editorMask.show();
-      blockDefPre.hide();
-      // .show() will set this to inline-block, which won't size correctly.
-      manualBlockDefTA.css('display', 'block');
-      const code = blockDefPre.text().trim();
-      manualBlockDefTA.val(code);
-      manualBlockDefTA.focus();
-    } else {
-      editorMask.hide();
-      manualBlockDefTA.hide();
-      blockDefPre.show();
-      this.updateBlockDefPre();
+    if (newEditFormat.format === BlockDefinition.FORMAT_JAVASCRIPT
+        && newEditFormat.isInManualMode) {
+      // TODO(#295): Popup warning when first running Manual JavaScript mode.
     }
+
+    // TODO: Prompt to abort if manual defintion does not parse.
+    const code = this.getBlockDefinitionCode_(newEditFormat.format);
+    this.view.updateBlockDefinitionCodeView(
+        code, newEditFormat.isInManualMode);
+    this.editFormat_ = newEditFormat;
   }
 
   /**
    * Update the block definition code based on constructs made in Blockly.
+   * @private
    */
-  updateBlockDefPre() {
+  getBlockDefinitionCode_(format) {
     var rootBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
     if (!rootBlock) {
       return;
@@ -212,10 +196,7 @@ class BlockEditorController {
     if (!blockType) {
       blockType = 'unnamed';
     }
-    var format = document.getElementById('format').value;
-    var code = FactoryUtils.getBlockDefinition(format,
-        this.view.editorWorkspace);
-    FactoryUtils.injectCode(code, 'blockDefPre');
+    return FactoryUtils.getBlockDefinition(format, this.view.editorWorkspace);
   }
 
   /**
@@ -227,7 +208,7 @@ class BlockEditorController {
     // TODO(#190): Store and generate block definition JSONs more efficiently to
     // avoid repeatedly using JSON.parse().
     let [format, code] = this.getBlockFormatCode_();
-    if (this.inManualMode_) {
+    if (this.editFormat_.isInManualMode) {
       format = 'JSON';
       code = FactoryUtils.getBlockDefinition(
           format, this.view.editorWorkspace);
@@ -237,7 +218,7 @@ class BlockEditorController {
       this.lastBlockJson_ = code;
 
       let blockXml = undefined;  // TODO(#87): Remove
-      if (this.inManualMode_) {
+      if (this.editFormat_.isInManualMode) {
         const rootEditorBlock = FactoryUtils.getRootBlock(this.view.editorWorkspace);
         const blockXml = Blockly.Xml.blockToDom(rootEditorBlock);
       }
@@ -303,14 +284,14 @@ class BlockEditorController {
   // TODO: Split into two methods, explicitly naming the source of the code.
   updateBlockDefinitionViewAndReturnCode_(format) {
     let defCode;
-    if (format == BlockEditorController.FORMAT_MANUAL) {
+    if (this.editFormat_.isInManualMode) {
       defCode = this.view.blockDefPre_.val();
       this.view.updateBlockDefinitionView(defCode, /* opt_manual */ true);
     } else {
       const currentBlock = this.view.blockDefinition;
       defCode = FactoryUtils.getBlockDefinition(
           format, this.view.editorWorkspace);
-      this.view.updateBlockDefinitionView(defCode);
+      this.view.updateBlockDefinitionCodeView(defCode);
     }
     return defCode;
   }
@@ -366,7 +347,31 @@ class BlockEditorController {
     // Backup Blockly.Blocks object so that main workspace and preview don't
     // collide if user creates a 'factory_base' block, for instance.
     const backupBlocks = Blockly.Blocks;
-    const tempBlockType =  '____temporary_block_type_name_for_preview';
+    var tempBlockType =  '____temporary_block_type_name_for_preview';
+    if (format === BlockDefinition.FORMAT_JAVASCRIPT) {
+      // Find line with...
+      //    Blockly.Blocks['block_type_name'] = {
+      // capturing the actual block type name.
+      let regex = /^Blockly\.Blocks\s*\[\s*['"]([^'"]+)['"]\s*\]\s*=\s*\{/g;
+
+      let match = regex.exec(code);
+      if (!match) {
+        // TODO: Maybe show in the UI?
+        console.error(
+            'No Blockly.Blocks assignment found in the code.');
+        return false;
+      }
+      let second = regex.exec(code);  // starts at lastIndex.
+      if (second) {
+        console.warn(
+            'Multiple Blockly.Blocks assignments in the code. Trimming...');
+        code = code.subsring(0, second.index);
+      }
+
+      // Replace the name with the temp name.
+      // TODO: Unescape the JavaScript string.
+      tempBlockType = match[1];
+    }
     const tempDefinition = new BlockDefinition(tempBlockType, format, code);
     try {
       // Make a shallow copy.
@@ -398,21 +403,14 @@ class BlockEditorController {
    */
   getBlockFormatCode_() {
     // Fetch the code and determine its format (JSON or JavaScript).
-    let format = this.view.formatSelector_.val();
-    if (format == BlockEditorController.FORMAT_MANUAL) {
-      var code = this.view.manualBlockDefTA_.val();
-      // If the code is JSON, it will parse, otherwise treat as JS.
-      try {
-        JSON.parse(code);
-        format = BlockEditorController.FORMAT_JSON;
-      } catch (e) {
-        format = BlockEditorController.FORMAT_JAVASCRIPT;
-      }
+    let format = this.editFormat_.format;
+    if (this.editFormat_.isInManualMode) {
+      // The UI is the autority for the code.
+      return [format, this.view.getManualBlockDefinition()];
     } else {
-      var code = this.view.blockDefPre_.text();
+      // The model is the authority.
+      return this.view.blockDefinition.getBlockFormatCode();
     }
-
-    return [format, code];
   }
 
   /**
@@ -431,14 +429,14 @@ class BlockEditorController {
       Blockly.Blocks[prop] = backupBlocks[prop];
     }
 
-    if (format == BlockEditorController.FORMAT_JSON) {
+    if (format == BlockDefinition.FORMAT_JSON) {
       var json = JSON.parse(code);
       Blockly.Blocks[json.type || 'unnamed'] = {
         init: function() {
           this.jsonInit(json);
         }
       };
-    } else if (format == BlockEditorController.FORMAT_JAVASCRIPT) {
+    } else if (format == BlockDefinition.FORMAT_JAVASCRIPT) {
       // TODO(#114): Remove use of eval() for security reasons.
       eval(code);
     } else {
