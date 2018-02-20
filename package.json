@@ -6,15 +6,15 @@
     "height": 1000
   },
   "dependencies": {
+    "code-prettify": "git+https://github.com/google/code-prettify.git",
     "component-emitter": "github:component/emitter",
     "graceful-fs": "^4.1.11",
-    "jquery": "^3.2.1",
+    "jquery": "^3.3.1",
     "jstree": "git://github.com/vakata/jstree.git",
-    "path": "^0.12.7",
-    "code-prettify": "https://github.com/google/code-prettify.git"
+    "path": "^0.12.7"
   },
   "devDependencies": {
-    "eslint": "^4.0.0"
+    "eslint": "^4.17.0"
   },
   "presets": [
     "es2015"
