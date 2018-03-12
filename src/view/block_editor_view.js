@@ -214,17 +214,6 @@ class BlockEditorView {
     return {format, isInManualMode};
   }
 
-  /**
-   * Render starter block.
-   * @param {string} starterXml XML string of block editing Blocks to pre-load
-   *     onto Block Editor workspace.
-   */
-  showStarterBlock(starterXml) {
-    this.editorWorkspace.clear();
-    const xml = Blockly.Xml.textToDom(starterXml);
-    Blockly.Xml.domToWorkspace(xml, this.editorWorkspace);
-  }
-
   // TODO: Generalize the following two as getBlockDefinitionCode()?
 
   /**
