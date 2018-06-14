@@ -33,7 +33,6 @@ goog.provide('BlockEditorController');
 goog.require('BlockDefinition');
 goog.require('BlockEditorView');
 goog.require('BlockLibrary');
-goog.require('FactoryUtils');
 goog.require('StandardCategories');
 
 class BlockEditorController {

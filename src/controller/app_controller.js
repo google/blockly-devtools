@@ -32,7 +32,6 @@ goog.provide('PREFIXES');
 
 goog.require('AppView');
 goog.require('EditorController');
-goog.require('FactoryUtils');
 goog.require('NewBlockPopupController');
 goog.require('NewLibraryPopupController');
 goog.require('NewProjectPopupController');

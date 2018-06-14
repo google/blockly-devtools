@@ -32,8 +32,7 @@
 /**
  * Namespace for FactoryUtils.
  */
-goog.provide('FactoryUtils');
-
+const FactoryUtils = Object.create(null);
 
 /**
  * Get block definition code for the current block, given editor workspace.

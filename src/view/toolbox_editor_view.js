@@ -22,7 +22,6 @@
 
 goog.provide('ToolboxEditorView');
 
-goog.require('FactoryUtils');
 goog.require('Toolbox');
 
 /**
