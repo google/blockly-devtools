@@ -32,8 +32,7 @@
 /**
  * Namespace for StandardCategories
  */
-goog.provide('StandardCategories');
-
+const StandardCategories = Object.create(null);
 
 // Map of standard category information necessary to add a standard category
 // to the toolbox.
