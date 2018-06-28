@@ -22,7 +22,6 @@
 
 goog.provide('WorkspaceConfigurationSet');
 
-goog.require('ResourceSet');
 goog.require('WorkspaceConfiguration');
 
 /**

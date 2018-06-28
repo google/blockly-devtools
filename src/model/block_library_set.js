@@ -22,8 +22,6 @@
 
 goog.provide('BlockLibrarySet');
 
-goog.require('ResourceSet');
-
 /**
  * @class BlockLibrarySet is a set of BlockLibrary objects.
  */

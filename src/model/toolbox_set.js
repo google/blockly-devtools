@@ -22,7 +22,6 @@
 
 goog.provide('ToolboxSet');
 
-goog.require('ResourceSet');
 goog.require('Toolbox');
 
 /**
