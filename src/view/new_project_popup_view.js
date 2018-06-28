@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('NewProjectPopupView');
-
 /**
  * @fileoverview NewProjectPopupView deals with the UI for creating new projects.
  *

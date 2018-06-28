@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('NewBlockPopupView');
-
 /**
  * @fileoverview NewBlockPopupView deals with the UI for creating new blocks.
  *
