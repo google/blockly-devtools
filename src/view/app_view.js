@@ -28,8 +28,6 @@
  */
 goog.provide('AppView');
 
-goog.require('NavigationTree');
-
 /**
  * @class AppView manages all UI elements for the DevTools Application.
  */

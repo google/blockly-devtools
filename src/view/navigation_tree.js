@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('NavigationTree');
-
 // TODO: Move PREFIXES out of app_controller to fix dependencies.
 // goog.require('PREFIXES');
 
