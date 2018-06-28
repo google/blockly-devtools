@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('BlockLibrarySet');
-
 /**
  * @class BlockLibrarySet is a set of BlockLibrary objects.
  */
