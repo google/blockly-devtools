@@ -22,7 +22,6 @@
 
 goog.provide('Project');
 
-goog.require('ToolboxSet');
 goog.require('WorkspaceContentsSet');
 goog.require('WorkspaceConfigurationSet');
 

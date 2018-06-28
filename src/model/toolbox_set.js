@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('ToolboxSet');
-
 /**
  * @class ToolboxSet is a set of Toolbox objects.
  */
