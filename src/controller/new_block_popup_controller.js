@@ -22,8 +22,6 @@
 
 goog.provide('NewBlockPopupController');
 
-goog.require('BlockEditorController');
-
 /**
  * @fileoverview NewBlockPopupController manages the UI for creating new blocks and
  * projects.

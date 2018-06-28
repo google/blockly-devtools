@@ -29,7 +29,6 @@
  */
 goog.provide('EditorController');
 
-goog.require('BlockEditorController');
 goog.require('ToolboxController');
 goog.require('WorkspaceController');
 
