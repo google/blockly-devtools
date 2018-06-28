@@ -22,8 +22,6 @@
 
 goog.provide('WorkspaceEditorView');
 
-goog.require('WorkspaceContents');
-
 /**
  * @fileoverview WorkspaceEditorView deals with the view elements of Blockly workspaces
  * that are used to generate block libraries, toolboxes, and preload-workspaces.

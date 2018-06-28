@@ -23,7 +23,6 @@
 goog.provide('ProjectController');
 
 goog.require('Project');
-goog.require('WorkspaceContents');
 
 /**
  * @fileoverview The ProjectController Class controls the management of the
