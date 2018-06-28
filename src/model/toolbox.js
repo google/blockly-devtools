@@ -22,8 +22,6 @@
 
 goog.provide('Toolbox');
 
-goog.require('ListElement');
-
 goog.require('goog.dom');
 
 /**

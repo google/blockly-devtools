@@ -18,8 +18,6 @@
  * limitations under the License.
  */
 
-goog.provide('ListElement');
-
 /**
  * Each list element is an element of the WorkspaceFactoryModel. Either a
  * category, a separator, or a flyout.
