@@ -17,13 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 'use strict';
-
-goog.provide('ReadWriteController');
-
-// Module path required within app_controller.js
-
 
 /**
  * @fileoverview ReadWriteController manages reading and writing all files
