@@ -23,7 +23,6 @@
 goog.provide('ToolboxController');
 
 goog.require('ShadowController');
-goog.require('ToolboxEditorView');
 
 /**
  * @fileoverview ToolboxController manages user interaction with the toolbox

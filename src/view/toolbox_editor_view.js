@@ -20,7 +20,7 @@
 
 'use strict';
 
-goog.provide('ToolboxEditorView');
+// TODO: Replace Closure ColorPicker
 goog.require('goog.ui.PopupColorPicker');
 goog.require('goog.ui.ColorPicker');
 
