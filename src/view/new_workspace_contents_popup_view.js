@@ -22,8 +22,6 @@
 
 goog.provide('NewWorkspaceContentsPopupView');
 
-goog.require('NewResourcePopupView');
-
 /**
  * @fileoverview NewWorkspaceContentsPopupView deals with the UI for creating
  * new workspace contents.

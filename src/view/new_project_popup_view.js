@@ -22,8 +22,6 @@
 
 goog.provide('NewProjectPopupView');
 
-goog.require('NewResourcePopupView');
-
 /**
  * @fileoverview NewProjectPopupView deals with the UI for creating new projects.
  *

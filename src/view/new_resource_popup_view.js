@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('NewResourcePopupView');
-
 /**
  * @fileoverview Top-level class for all new resource popup UIs.
  *

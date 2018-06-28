@@ -20,16 +20,13 @@
 
 'use strict';
 
-  goog.provide('NewConfigView');
-
-  goog.require('NewResourcePopupView');
+goog.provide('NewConfigView');
 
 /**
  * @fileoverview NewConfigView manages the UI for creating new WorkspaceConfigs.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
-
 class NewConfigView extends NewResourcePopupView {
   constructor() {
     super();

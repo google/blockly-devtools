@@ -22,8 +22,6 @@
 
 goog.provide('NewToolboxPopupView');
 
-goog.require('NewResourcePopupView');
-
 /**
  * @fileoverview NewToolboxPopupView deals with the UI for creating new toolboxes.
  *
