@@ -18,16 +18,15 @@
  * limitations under the License.
  */
 
-'use strict';
-
-goog.provide('NewBlockPopupController');
-
 /**
  * @fileoverview NewBlockPopupController manages the UI for creating new blocks and
  * projects.
  *
  * @author celinechoo (Celine Choo)
  */
+
+'use strict';
+
 class NewBlockPopupController extends PopupController {
   /**
    * @constructor

@@ -31,7 +31,6 @@ goog.provide('AppController');
 goog.provide('PREFIXES');
 
 goog.require('EditorController');
-goog.require('NewBlockPopupController');
 goog.require('ProjectController');
 
 goog.require('goog.dom.classlist');
