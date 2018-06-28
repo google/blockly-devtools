@@ -30,10 +30,6 @@ goog.provide('AppView');
 
 goog.require('NavigationTree');
 
-goog.require('goog.dom.classlist');
-goog.require('goog.ui.PopupColorPicker');
-goog.require('goog.ui.ColorPicker');
-
 /**
  * @class AppView manages all UI elements for the DevTools Application.
  */

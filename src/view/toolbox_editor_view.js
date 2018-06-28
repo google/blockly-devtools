@@ -21,6 +21,8 @@
 'use strict';
 
 goog.provide('ToolboxEditorView');
+goog.require('goog.ui.PopupColorPicker');
+goog.require('goog.ui.ColorPicker');
 
 /**
  * @fileoverview ToolboxEditorView manages the visible parts of the application involved

@@ -42,8 +42,6 @@ goog.require('ProjectController');
 
 goog.require('goog.dom.classlist');
 goog.require('goog.dom.xml');
-goog.require('goog.ui.PopupColorPicker');
-goog.require('goog.ui.ColorPicker');
 
 
 'use strict';
