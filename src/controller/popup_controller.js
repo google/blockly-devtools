@@ -46,8 +46,8 @@ class PopupController {
 
     /**
      * Popup view that is currently visible in application. Default is null when
-     * no popup is open. Either null, PreviewView, NewBlockPopupView, or NewConfigView.
-     * @type {?Object}
+     * no popup is open.
+     * @type {?PopupView}
      */
     this.view = null;
 
