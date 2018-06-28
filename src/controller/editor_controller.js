@@ -29,8 +29,6 @@
  */
 goog.provide('EditorController');
 
-goog.require('WorkspaceController');
-
 class EditorController {
   /**
    * @constructor

@@ -18,10 +18,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
-goog.provide('WorkspaceController');
-
 /**
  * @class WorkspaceController manages user interaction with workspace contents
  *     and configurations, which are the blocks pre-loaded onto a developer's
@@ -30,6 +26,9 @@ goog.provide('WorkspaceController');
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
+
+'use strict';
+
 class WorkspaceController extends ShadowController {
   /**
    * @constructor
