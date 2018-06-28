@@ -22,8 +22,6 @@
 
 goog.provide('WorkspaceConfigurationSet');
 
-goog.require('WorkspaceConfiguration');
-
 /**
  * @class WorkspaceConfigurationSet is a set of WorkspaceConfiguration objects.
  */

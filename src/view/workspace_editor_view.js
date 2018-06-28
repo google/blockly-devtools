@@ -23,7 +23,6 @@
 goog.provide('WorkspaceEditorView');
 
 goog.require('WorkspaceContents');
-goog.require('WorkspaceConfiguration');
 
 /**
  * @fileoverview WorkspaceEditorView deals with the view elements of Blockly workspaces
