@@ -22,8 +22,6 @@
 
 goog.provide('WorkspaceController');
 
-goog.require('WorkspaceEditorView');
-
 /**
  * @class WorkspaceController manages user interaction with workspace contents
  *     and configurations, which are the blocks pre-loaded onto a developer's
