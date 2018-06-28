@@ -18,10 +18,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
-goog.provide('ToolboxController');
-
 /**
  * @fileoverview ToolboxController manages user interaction with the toolbox
  * editor, where users group together blocks that were defined within BlockLibrary
@@ -29,6 +25,9 @@ goog.provide('ToolboxController');
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
+
+'use strict';
+
 class ToolboxController extends ShadowController {
   /**
    * Manages toolbox editor.
