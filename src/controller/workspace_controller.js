@@ -65,9 +65,9 @@ class WorkspaceController extends ShadowController {
    * @return {!Element} XML of current workspace contents blocks.
    */
   generateContentsXml() {
-    const xmlDom = goog.dom.createDom('xml');
-    xmlDom.setAttribute('id', this.view.getWorkspaceContents().name);
-    xmlDom.setAttribute('style', 'display: none');
+    const xmlDom = document.createElement('xml');
+    xmlDom.id = this.view.getWorkspaceContents().name;
+    xmlDom.style.display = 'none';
 
     const xml = Blockly.Xml.workspaceToDom(this.view.editorWorkspace);
     this.loadToHiddenWorkspace_(xml);
