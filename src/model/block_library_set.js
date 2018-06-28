@@ -22,7 +22,6 @@
 
 goog.provide('BlockLibrarySet');
 
-goog.require('BlockLibrary');
 goog.require('ResourceSet');
 
 /**

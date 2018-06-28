@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('BlockLibrary');
-
 /**
  * @class BlockLibrary stores one or more block definitions. User
  * interations with the DevTools Application change definitions in the
