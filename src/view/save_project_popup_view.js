@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('SaveProjectPopupView');
-
 /**
  * @fileoverview SaveProjectPopup deals with the UI for saving projects.
  *

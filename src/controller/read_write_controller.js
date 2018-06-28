@@ -24,7 +24,6 @@ goog.provide('ReadWriteController');
 
 goog.require('ImportResourcePopupController');
 goog.require('OpenProjectPopupController');
-goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 
 // Module path required within app_controller.js
