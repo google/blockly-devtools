@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('ImportResourcePopupController');
-
 /**
  * @fileoverview ImportResourcePopupController manages app response to the UI
  * for importing resources from file.
