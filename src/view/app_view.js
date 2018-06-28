@@ -26,7 +26,6 @@
  *
  * @author celinechoo (Celine Choo)
  */
-goog.provide('AppView');
 
 /**
  * @class AppView manages all UI elements for the DevTools Application.

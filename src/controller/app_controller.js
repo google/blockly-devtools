@@ -30,7 +30,6 @@
 goog.provide('AppController');
 goog.provide('PREFIXES');
 
-goog.require('AppView');
 goog.require('EditorController');
 goog.require('NewBlockPopupController');
 goog.require('NewLibraryPopupController');
