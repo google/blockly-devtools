@@ -30,7 +30,6 @@
 
 goog.provide('BlockEditorController');
 
-goog.require('BlockEditorView');
 goog.require('BlockLibrary');
 
 class BlockEditorController {

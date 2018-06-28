@@ -27,8 +27,6 @@
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo)
  */
 
-goog.provide('BlockEditorView');
-
 class BlockEditorView {
   /**
    * @constructor
