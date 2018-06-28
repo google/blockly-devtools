@@ -27,7 +27,6 @@ goog.require('OpenProjectPopupController');
 goog.require('Project');
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
-goog.require('Toolbox');
 goog.require('WorkspaceContents');
 
 // Module path required within app_controller.js

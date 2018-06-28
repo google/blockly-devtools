@@ -22,8 +22,6 @@
 
 goog.provide('ToolboxSet');
 
-goog.require('Toolbox');
-
 /**
  * @class ToolboxSet is a set of Toolbox objects.
  */

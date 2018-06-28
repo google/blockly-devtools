@@ -22,8 +22,6 @@
 
 goog.provide('ToolboxEditorView');
 
-goog.require('Toolbox');
-
 /**
  * @fileoverview ToolboxEditorView manages the visible parts of the application involved
  * in editing toolboxes, creating categories, and populating them with blocks for a
