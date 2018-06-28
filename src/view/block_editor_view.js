@@ -29,8 +29,6 @@
 
 goog.provide('BlockEditorView');
 
-goog.require('BlockDefinition');
-
 class BlockEditorView {
   /**
    * @constructor

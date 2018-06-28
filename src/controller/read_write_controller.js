@@ -22,7 +22,6 @@
 
 goog.provide('ReadWriteController');
 
-goog.require('BlockDefinition');
 goog.require('BlockLibrary');
 goog.require('ImportResourcePopupController');
 goog.require('OpenProjectPopupController');

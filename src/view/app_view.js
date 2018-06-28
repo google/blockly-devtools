@@ -28,7 +28,6 @@
  */
 goog.provide('AppView');
 
-goog.require('BlockDefinition');
 goog.require('NavigationTree');
 
 goog.require('goog.dom.classlist');

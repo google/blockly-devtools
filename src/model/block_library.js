@@ -22,7 +22,6 @@
 
 goog.provide('BlockLibrary');
 
-goog.require('BlockDefinition');
 goog.require('Resource');
 
 /**
