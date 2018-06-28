@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('Project');
-
 //TODO #50: change methods for metadata
 
 /**

@@ -37,7 +37,6 @@ goog.require('NewLibraryPopupController');
 goog.require('NewProjectPopupController');
 goog.require('PopupController');
 goog.require('SaveProjectPopupController');
-goog.require('Project');
 goog.require('ProjectController');
 
 goog.require('goog.dom.classlist');

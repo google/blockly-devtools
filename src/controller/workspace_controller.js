@@ -22,7 +22,6 @@
 
 goog.provide('WorkspaceController');
 
-goog.require('Project');
 goog.require('WorkspaceEditorView');
 
 /**

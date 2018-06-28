@@ -22,8 +22,6 @@
 
 goog.provide('ProjectController');
 
-goog.require('Project');
-
 /**
  * @fileoverview The ProjectController Class controls the management of the
  *   information contained within projects (libraries, toolboxes, workspaces);

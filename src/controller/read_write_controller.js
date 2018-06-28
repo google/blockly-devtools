@@ -24,7 +24,6 @@ goog.provide('ReadWriteController');
 
 goog.require('ImportResourcePopupController');
 goog.require('OpenProjectPopupController');
-goog.require('Project');
 goog.require('SaveProjectPopupView');
 goog.require('SaveProjectPopupController');
 
