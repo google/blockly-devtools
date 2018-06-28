@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('Resource');
-
 /**
  * @class Resource is the top level interface for the parts of a project,
  *     including the project itself

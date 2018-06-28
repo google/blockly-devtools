@@ -23,7 +23,6 @@
 goog.provide('Toolbox');
 
 goog.require('ListElement');
-goog.require('Resource');
 
 goog.require('goog.dom');
 

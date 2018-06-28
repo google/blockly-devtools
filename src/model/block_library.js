@@ -22,8 +22,6 @@
 
 goog.provide('BlockLibrary');
 
-goog.require('Resource');
-
 /**
  * @class BlockLibrary stores one or more block definitions. User
  * interations with the DevTools Application change definitions in the
