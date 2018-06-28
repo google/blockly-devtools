@@ -30,8 +30,6 @@
 goog.provide('AppController');
 goog.provide('PREFIXES');
 
-goog.require('ProjectController');
-
 goog.require('goog.dom.classlist');
 goog.require('goog.dom.xml');
 
