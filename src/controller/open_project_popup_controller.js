@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('OpenProjectPopupController');
-
 /**
  * @fileoverview OpenProjectPopupController manages app response to the UI
  * for opening a project.

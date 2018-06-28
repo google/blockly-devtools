@@ -22,8 +22,6 @@
 
 goog.provide('ReadWriteController');
 
-goog.require('OpenProjectPopupController');
-
 // Module path required within app_controller.js
 
 
