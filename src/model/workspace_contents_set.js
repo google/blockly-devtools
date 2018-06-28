@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('WorkspaceContentsSet');
-
 /**
  * @class WorkspacecontentsSet is a set of WorkspaceContents objects.
  */

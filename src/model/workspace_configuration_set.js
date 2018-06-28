@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('WorkspaceConfigurationSet');
-
 /**
  * @class WorkspaceConfigurationSet is a set of WorkspaceConfiguration objects.
  */

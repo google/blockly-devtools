@@ -22,9 +22,6 @@
 
 goog.provide('Project');
 
-goog.require('WorkspaceContentsSet');
-goog.require('WorkspaceConfigurationSet');
-
 //TODO #50: change methods for metadata
 
 /**
