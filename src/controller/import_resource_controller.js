@@ -22,7 +22,6 @@
 
 goog.provide('ImportResourcePopupController');
 
-goog.require('ImportResourcePopupView');
 goog.require('PopupController');
 
 /**
