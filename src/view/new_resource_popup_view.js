@@ -22,7 +22,6 @@
 
 goog.provide('NewResourcePopupView');
 
-goog.require('PopupView');
 /**
  * @fileoverview Top-level class for all new resource popup UIs.
  *

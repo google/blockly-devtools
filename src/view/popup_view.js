@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('PopupView');
-
 /**
  * @fileoverview PopupView is an abstract interface from which any popups will
  * extend.
