@@ -22,8 +22,6 @@
 
 goog.provide('ToolboxController');
 
-goog.require('ShadowController');
-
 /**
  * @fileoverview ToolboxController manages user interaction with the toolbox
  * editor, where users group together blocks that were defined within BlockLibrary
