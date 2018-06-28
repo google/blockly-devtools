@@ -27,8 +27,6 @@
 
 'use strict';
 
-goog.provide('PopupController');
-
 class PopupController {
   /**
    * @constructor

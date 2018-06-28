@@ -22,8 +22,6 @@
 
 goog.provide('ImportResourcePopupController');
 
-goog.require('PopupController');
-
 /**
  * @fileoverview ImportResourcePopupController manages app response to the UI
  * for importing resources from file.

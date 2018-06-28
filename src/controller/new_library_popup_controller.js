@@ -22,8 +22,6 @@
 
 goog.provide('NewLibraryPopupController');
 
-goog.require('PopupController');
-
 /**
  * @fileoverview NewLibraryPopupController manages the UI for creating new libraries.
  *

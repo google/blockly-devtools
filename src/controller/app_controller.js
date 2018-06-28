@@ -34,7 +34,6 @@ goog.require('EditorController');
 goog.require('NewBlockPopupController');
 goog.require('NewLibraryPopupController');
 goog.require('NewProjectPopupController');
-goog.require('PopupController');
 goog.require('SaveProjectPopupController');
 goog.require('ProjectController');
 

@@ -22,8 +22,6 @@
 
 goog.provide('OpenProjectPopupController');
 
-goog.require('PopupController');
-
 /**
  * @fileoverview OpenProjectPopupController manages app response to the UI
  * for opening a project.
