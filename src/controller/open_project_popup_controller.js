@@ -22,7 +22,6 @@
 
 goog.provide('OpenProjectPopupController');
 
-goog.require('OpenProjectPopupView');
 goog.require('PopupController');
 
 /**
