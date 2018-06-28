@@ -27,14 +27,9 @@
  * @authors sagev@google.com (Sage Vouse), celinechoo (Celine Choo)
  */
 
-goog.provide('AppController');
-goog.provide('PREFIXES');
-
-goog.require('goog.dom.classlist');
-goog.require('goog.dom.xml');
-
-
 'use strict';
+
+goog.require('goog.dom.xml');  // Used to detect Closure
 
 const Emitter = require('component-emitter');
 const fs = require('graceful-fs');
@@ -90,12 +85,11 @@ class AppController {
    * @constructor
    */
   constructor() {
-    // Block Factory has a dependency on bits of Closure that core Blockly
-    // doesn't have. When you run this from file:// without a copy of Closure,
-    // it breaks it non-obvious ways.  Warning about this for now until the
-    // dependency is broken.
-    // TODO: #668.
-    if (!window.goog.dom.xml) {
+    // Block Factory has a dependency on the Closure ColorPicker. When you run
+    // this from file:// without a copy of Closure, it breaks it non-obvious
+    // ways.  Warning about this for now until the dependency is broken.
+    // TODO(#305): Remove Closure. Replace ColorPicker.
+    if (!window['goog']['dom']['xml']) {
       alert('Sorry: Closure dependency not found. We are working on removing ' +
         'this dependency.  In the meantime, you can use our hosted demo\n ' +
         'https://blockly-demo.appspot.com/static/demos/blockfactory/index.html' +
