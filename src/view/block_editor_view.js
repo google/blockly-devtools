@@ -31,9 +31,6 @@ goog.provide('BlockEditorView');
 
 goog.require('BlockDefinition');
 
-goog.require('goog.dom');
-goog.require('goog.dom.classlist');
-
 class BlockEditorView {
   /**
    * @constructor
@@ -280,52 +277,6 @@ class BlockEditorView {
    */
   updateGenStub(genStubCode) {
     FactoryUtils.injectCode(genStubCode, 'generatorPre');
-  }
-
-  /**
-   * Updates save and delete buttons. Includes block type name in button. Changes
-   * color depending on whether already saved or unsaved.
-   * @param {boolean} isInLibrary Whether the block type is in the library.
-   * @param {boolean} savedChanges Whether changes to block have been saved.
-   */
-  updateButtons(isInLibrary, savedChanges) {
-    // REFACTORED: From block_library_view.js:updateButtons(blockType, isInLibrary, savedChanges)
-    const rootBlock = FactoryUtils.getRootBlock(this.editorWorkspace);
-    let blockType = rootBlock.getFieldValue('NAME').trim().toLowerCase();
-
-    if (!isInLibrary) {
-      // Block type has not been saved to library yet. Disable the delete button
-      // and allow user to save.
-      this.saveButton.text('Save "' + blockType + '"');
-      this.saveButton.disabled = false;
-      this.deleteButton.disabled = true;
-    } else {
-      // Block type has already been saved. Disable the save button unless the
-      // there are unsaved changes (checked below).
-      this.saveButton.text('Update "' + blockType + '"');
-      this.saveButton.disabled = true;
-      this.deleteButton.disabled = false;
-    }
-    this.deleteButton.text('Delete "' + blockType + '"');
-
-    // If changes to block have been made and are not saved, make button
-    // green to encourage user to save the block.
-    if (!savedChanges) {
-      var buttonFormatClass = 'button_warn';
-
-      // If block type is the default, 'block_type', make button red to alert
-      // user.
-      if (blockType == 'block_type') {
-        buttonFormatClass = 'button_alert';
-      }
-      goog.dom.classlist.add(this.saveButton.get(0), buttonFormatClass);
-      this.saveButton.disabled = false;
-    } else {
-      // No changes to save.
-      var classesToRemove = ['button_alert', 'button_warn'];
-      goog.dom.classlist.removeAll(this.saveButton.get(0), classesToRemove);
-      this.saveButton.disabled = true;
-    }
   }
 
   /**
