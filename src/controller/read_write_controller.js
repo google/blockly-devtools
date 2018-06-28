@@ -23,7 +23,6 @@
 goog.provide('ReadWriteController');
 
 goog.require('OpenProjectPopupController');
-goog.require('SaveProjectPopupController');
 
 // Module path required within app_controller.js
 

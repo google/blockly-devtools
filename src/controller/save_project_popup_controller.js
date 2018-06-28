@@ -19,8 +19,6 @@
  */
 'use strict';
 
-goog.provide('SaveProjectPopupController');
-
 /**
  * @fileoverview SaveProjectPopup manages app response to the UI for saving projects.
  *
