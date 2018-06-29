@@ -26,15 +26,8 @@
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), fraser (Neil Fraser),
  *     quachtina96 (Tina Quach)
  */
+
 'use strict';
-
-goog.provide('BlockEditorController');
-
-goog.require('BlockDefinition');
-goog.require('BlockEditorView');
-goog.require('BlockLibrary');
-goog.require('FactoryUtils');
-goog.require('StandardCategories');
 
 class BlockEditorController {
   /**

@@ -17,23 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 'use strict';
-
-goog.provide('ReadWriteController');
-
-goog.require('BlockDefinition');
-goog.require('BlockLibrary');
-goog.require('ImportResourcePopupController');
-goog.require('OpenProjectPopupController');
-goog.require('Project');
-goog.require('SaveProjectPopupView');
-goog.require('SaveProjectPopupController');
-goog.require('Toolbox');
-goog.require('WorkspaceContents');
-
-// Module path required within app_controller.js
-
 
 /**
  * @fileoverview ReadWriteController manages reading and writing all files

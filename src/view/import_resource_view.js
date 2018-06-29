@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('ImportResourcePopupView');
-
-goog.require('PopupView');
-
 /**
  * @fileoverview ImportResourcePopupView deals with the UI for importing resources
  * from data files.

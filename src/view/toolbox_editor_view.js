@@ -20,10 +20,9 @@
 
 'use strict';
 
-goog.provide('ToolboxEditorView');
-
-goog.require('FactoryUtils');
-goog.require('Toolbox');
+// TODO: Replace Closure ColorPicker
+goog.require('goog.ui.PopupColorPicker');
+goog.require('goog.ui.ColorPicker');
 
 /**
  * @fileoverview ToolboxEditorView manages the visible parts of the application involved

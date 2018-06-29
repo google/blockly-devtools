@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('BlockDefinition');
-
 /**
  * @class BlockDefinition provides accessors to a block definition for the
  *     purposes of the DevTools Application.

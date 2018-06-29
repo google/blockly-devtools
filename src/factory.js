@@ -34,9 +34,6 @@
  */
 goog.provide('BlockFactory');
 
-goog.require('FactoryUtils');
-goog.require('StandardCategories');
-
 
 /**
  * Workspace for user to build block.

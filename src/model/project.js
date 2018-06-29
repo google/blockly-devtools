@@ -20,14 +20,6 @@
 
 'use strict';
 
-goog.provide('Project');
-
-goog.require('BlockLibrarySet');
-goog.require('Resource');
-goog.require('ToolboxSet');
-goog.require('WorkspaceContentsSet');
-goog.require('WorkspaceConfigurationSet');
-
 //TODO #50: change methods for metadata
 
 /**

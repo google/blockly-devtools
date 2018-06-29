@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('WorkspaceContents');
-
-goog.require('Resource');
-
 /**
  * @class WorkspaceContents contains a set of positioned blocks specified by the
  * developer to load onto a Blockly workspace upon initialization.

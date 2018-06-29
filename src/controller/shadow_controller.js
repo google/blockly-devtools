@@ -20,8 +20,6 @@
 
 'use strict';
 
-goog.provide('ShadowController');
-
 /**
  * @fileoverview ShadowController is an abstract class for any controller that
  * deals with shadow blocks. Children of ShadowController can inherit and share

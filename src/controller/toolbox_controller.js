@@ -18,13 +18,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
-goog.provide('ToolboxController');
-
-goog.require('ShadowController');
-goog.require('ToolboxEditorView');
-
 /**
  * @fileoverview ToolboxController manages user interaction with the toolbox
  * editor, where users group together blocks that were defined within BlockLibrary
@@ -32,6 +25,9 @@ goog.require('ToolboxEditorView');
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
+
+'use strict';
+
 class ToolboxController extends ShadowController {
   /**
    * Manages toolbox editor.
@@ -434,7 +430,7 @@ class ToolboxController extends ShadowController {
    * @return {!Element} XML of current toolbox.
    */
   generateToolboxXml() {
-    const xmlDom = goog.dom.createDom('xml');
+    const xmlDom = document.createElement('xml');
     xmlDom.setAttribute('id', this.view.toolbox.name);
     xmlDom.setAttribute('style', 'display: none;');
 
@@ -456,7 +452,7 @@ class ToolboxController extends ShadowController {
       categories.forEach((element) => {
         if (element.type == ListElement.TYPE_SEPARATOR) {
           // If the next element is a separator.
-          var nextElement = goog.dom.createDom('sep');
+          var nextElement = document.createElement('sep');
         } else if (element.type == ListElement.TYPE_CATEGORY) {
           // If next element is a category.
           var nextElement = this.generateCategoryXml_(element);
@@ -474,7 +470,7 @@ class ToolboxController extends ShadowController {
    * @private
    */
   generateCategoryXml_(category) {
-    const domElement = goog.dom.createDom('category');
+    const domElement = document.createElement('category');
     domElement.setAttribute('name', category.name);
     // Add color attribute if exists.
     if (category.color) {

@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('ResourceSet');
-
-goog.require('Resource');
-
 /**
  * @class ResourceSet is the top level interface for sets of parts of a project,
  *     not including the project itself. Resource sets can only contain one type
@@ -105,15 +101,6 @@ goog.require('Resource');
       resourceSetJson.push(resourceJson);
     }
     return resourceSetJson;
-  }
-
-  /**
-   * Reads the resource set from local storage.
-   */
-  loadFromLocalStorage() {
-    //TODO: validate input.
-    const set = goog.global.localStorage[this.name];
-    this.resources = JSON.parse(set).children;
   }
 
   /**

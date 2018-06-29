@@ -18,15 +18,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
-goog.provide('WorkspaceController');
-
-goog.require('Project');
-goog.require('WorkspaceConfiguration');
-goog.require('WorkspaceContents');
-goog.require('WorkspaceEditorView');
-
 /**
  * @class WorkspaceController manages user interaction with workspace contents
  *     and configurations, which are the blocks pre-loaded onto a developer's
@@ -35,6 +26,9 @@ goog.require('WorkspaceEditorView');
  *
  * @authors sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
+
+'use strict';
+
 class WorkspaceController extends ShadowController {
   /**
    * @constructor
@@ -71,9 +65,9 @@ class WorkspaceController extends ShadowController {
    * @return {!Element} XML of current workspace contents blocks.
    */
   generateContentsXml() {
-    const xmlDom = goog.dom.createDom('xml');
-    xmlDom.setAttribute('id', this.view.getWorkspaceContents().name);
-    xmlDom.setAttribute('style', 'display: none');
+    const xmlDom = document.createElement('xml');
+    xmlDom.id = this.view.getWorkspaceContents().name;
+    xmlDom.style.display = 'none';
 
     const xml = Blockly.Xml.workspaceToDom(this.view.editorWorkspace);
     this.loadToHiddenWorkspace_(xml);

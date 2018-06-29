@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('Resource');
-
-goog.require('goog.global');
-
 /**
  * @class Resource is the top level interface for the parts of a project,
  *     including the project itself
@@ -52,21 +48,6 @@ class Resource {
      * @type {string}
      */
     this.webFilepath = '';
-  }
-
-  /**
-   * Reads the resource from local storage.
-   */
-  loadFromLocalStorage() {
-    localStorage.getItem(this.resourceType + '_' + this.name);
-  }
-
-  /**
-   * Writes the resource to local storage.
-   */
-  saveToLocalStorage() {
-    // Refactored from block_library_storage.js
-    goog.global.localStorage[this.name] = this.getJson();
   }
 
   /**

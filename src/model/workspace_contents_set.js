@@ -20,11 +20,6 @@
 
 'use strict';
 
-goog.provide('WorkspaceContentsSet');
-
-goog.require('ResourceSet');
-goog.require('WorkspaceContentsSet');
-
 /**
  * @class WorkspacecontentsSet is a set of WorkspaceContents objects.
  */

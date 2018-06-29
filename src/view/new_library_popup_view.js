@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('NewLibraryPopupView');
-
-goog.require('NewResourcePopupView');
-
 /**
  * @fileoverview NewLibraryPopupView deals with the UI for creating new libraries.
  *

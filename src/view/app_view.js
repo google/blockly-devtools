@@ -26,15 +26,6 @@
  *
  * @author celinechoo (Celine Choo)
  */
-goog.provide('AppView');
-
-goog.require('BlockDefinition');
-goog.require('NavigationTree');
-goog.require('FactoryUtils');
-
-goog.require('goog.dom.classlist');
-goog.require('goog.ui.PopupColorPicker');
-goog.require('goog.ui.ColorPicker');
 
 /**
  * @class AppView manages all UI elements for the DevTools Application.

@@ -18,16 +18,13 @@
  * limitations under the License.
  */
 
-'use strict';
-
-goog.provide('NewProjectPopupController');
-
-goog.require('PopupController');
-
 /**
  * @fileoverview NewProjectPopupController manages the UI for creating new
  * projects.
  */
+
+'use strict';
+
 class NewProjectPopupController extends PopupController {
   /**
    * Manages popup which allows users to create or open new projects.

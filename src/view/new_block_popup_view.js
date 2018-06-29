@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('NewBlockPopupView');
-
-goog.require('NewResourcePopupView');
-
 /**
  * @fileoverview NewBlockPopupView deals with the UI for creating new blocks.
  *

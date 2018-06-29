@@ -32,8 +32,7 @@
 /**
  * Namespace for FactoryUtils.
  */
-goog.provide('FactoryUtils');
-
+const FactoryUtils = Object.create(null);
 
 /**
  * Get block definition code for the current block, given editor workspace.
@@ -1184,7 +1183,7 @@ FactoryUtils.bindClick = function(element, func) {
  */
 FactoryUtils.generateCategoryXml = function(blocks, categoryName) {
   // Create category DOM element.
-  var categoryElement = goog.dom.createDom('category');
+  var categoryElement = document.createElement('category');
   categoryElement.setAttribute('name', categoryName);
 
   // For each block, add block element to category.

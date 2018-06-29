@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('OpenProjectPopupView');
-
-goog.require('PopupView');
-
 /**
  * @fileoverview OpenProjectPopupView deals with the UI for opening previously
  * saved projects.

@@ -18,13 +18,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
-goog.provide('ProjectController');
-
-goog.require('Project');
-goog.require('WorkspaceContents');
-
 /**
  * @fileoverview The ProjectController Class controls the management of the
  *   information contained within projects (libraries, toolboxes, workspaces);
@@ -32,6 +25,8 @@ goog.require('WorkspaceContents');
  *
  * @author sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
+
+'use strict';
 
 // TODO(#50): Manage project metadata
 class ProjectController {

@@ -20,10 +20,6 @@
 
 'use strict';
 
-goog.provide('WorkspaceConfiguration');
-
-goog.require('Resource');
-
 /**
  * @class WorkspaceConfiguration contains workspace settings,
  *     specified by the developer and used to initialize an app's workspace.

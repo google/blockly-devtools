@@ -18,17 +18,14 @@
  * limitations under the License.
  */
 
-'use strict';
-
-goog.provide('NewLibraryPopupController');
-
-goog.require('PopupController');
-
 /**
  * @fileoverview NewLibraryPopupController manages the UI for creating new libraries.
  *
  * @author celinechoo (Celine Choo), sagev (Sage Vouse)
  */
+
+'use strict';
+
 class NewLibraryPopupController extends PopupController {
   /**
    * Manages popup for creating a new library.

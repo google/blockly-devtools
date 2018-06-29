@@ -18,8 +18,6 @@
  * limitations under the License.
  */
 
-'use strict';
-
 /**
  * @fileoverview EditorController manages user interaction involving changes in
  *     specific components of a project (Toolbox, Workspace (contents or configs),
@@ -27,11 +25,8 @@
  *
  * @author sagev (Sage Vouse), celinechoo (Celine Choo), evd2014 (Emma Dauterman)
  */
-goog.provide('EditorController');
 
-goog.require('BlockEditorController');
-goog.require('ToolboxController');
-goog.require('WorkspaceController');
+'use strict';
 
 class EditorController {
   /**
