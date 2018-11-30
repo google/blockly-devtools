@@ -79,7 +79,7 @@ class ReadWriteController {
           this);
       this.popupController.show();
     } else {
-      this.writeAllFiles();
+      this.saveAllFiles();
     }
   }
 
