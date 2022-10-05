@@ -32,7 +32,7 @@ ListElement = function(type, opt_name) {
   // Name of category. Can be changed by user. Null if separator.
   this.name = opt_name ? opt_name : null;
   // Unique ID of element. Does not change.
-  this.id = Blockly.utils.genUid();
+  this.id = Blockly.utils.idGenerator.genUid();
   // Color of category. Default is no color. Null if separator.
   this.color = null;
   // Stores a custom tag, if necessary. Null if no custom tag or separator.
